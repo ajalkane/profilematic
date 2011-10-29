@@ -1,7 +1,7 @@
 # Add more folders to ship with the application, here
-folder_01.source = qml
-folder_01.target =
-DEPLOYMENTFOLDERS = folder_01
+qml_harmattan.source = qml
+qml_harmattan.target =
+DEPLOYMENTFOLDERS = qml_harmattan
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
@@ -68,37 +68,6 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/compat \
     qtc_packaging/debian_harmattan/changelog
 
-#OTHER_FILES += \
-#    qml/main.qml \
-#    qml/ShowRules.qml \
-#    profilematic.desktop \
-#    profilematic.svg \
-#    profilematic.png \
-#    qtc_packaging/debian_harmattan/rules \
-#    qtc_packaging/debian_harmattan/README \
-#    qtc_packaging/debian_harmattan/copyright \
-#    qtc_packaging/debian_harmattan/control \
-#    qtc_packaging/debian_harmattan/compat \
-#    qtc_packaging/debian_harmattan/changelog \
-#    qml/UIConstants.js \
-#    qml/LabelTitle.qml \
-#    qml/LabelStyleSubtitle.qml \
-#    qml/SectionHeader.qml \
-#    qml/TextFieldWithLabel.qml \
-#    qml/LabelStyleTitle.qml \
-#    qml/CommonDialog.qml \
-#    qml/MySelectionDialog.qml \
-#    qml/MyMultiSelectionDialog.qml \
-#    qml/MyMultiSelectionDialog.js \
-#    qml/dummydata/backendRulesModel.qml \
-#    qml/dummydata/backendDaysModel.qml \
-#    qml/dummydata/backendProfilesModel.qml \
-#    qml/EditRule.qml \
-#    qml/ApplicationHeader.qml
-
-#RESOURCES += \
-#    res.qrc
-
 qtestlib {
     SOURCES -= src/main.cpp
     SOURCES += tests/main.cpp \
@@ -110,17 +79,4 @@ qtestlib {
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
-
-# enable booster
-#CONFIG += qdeclarative-boostable
-#QMAKE_CXXFLAGS += -fPIC -fvisibility=hidden -fvisibility-inlines-hidden
-#QMAKE_LFLAGS += -pie -rdynamic
-
-#contains(MEEGO_EDITION,harmattan) {
-#    icon.files = profilematic.png
-#    icon.path = /usr/share/icons/hicolor/80x80/apps
-#    INSTALLS += icon
-#}
-
-
 
