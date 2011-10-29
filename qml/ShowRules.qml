@@ -100,12 +100,12 @@ Page {
         horizontalAlignment: Text.AlignHCenter
         visible: backendRulesModel.count === 0
         font.pixelSize: UIConstants.FONT_XXXLARGE;
-        color: mouseArea.containsMouse ? (!theme.inverted ? UIConstants.COLOR_FOREGROUND : UIConstants.COLOR_INVERTED_FOREGROUND)
+        color: mouseAreaFirstRule.containsMouse ? (!theme.inverted ? UIConstants.COLOR_FOREGROUND : UIConstants.COLOR_INVERTED_FOREGROUND)
                                  : (!theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND)
         text: "Add your first rule"
 
         MouseArea {
-            id: mouseArea
+            id: mouseAreaFirstRule
             anchors.fill: parent
 
             onClicked: {
@@ -131,8 +131,6 @@ Page {
 
         highlight: Rectangle {
             id: highlightBar
-            anchors.leftMargin: -UIConstants.DEFAULT_MARGIN
-            anchors.rightMargin: -UIConstants.DEFAULT_MARGIN
             color: "#428eff"
             opacity: 0.0
 
@@ -211,7 +209,7 @@ Page {
                         anchors.fill: parent
                         anchors.leftMargin: -parent.anchors.leftMargin - UIConstants.DEFAULT_MARGIN
                         anchors.rightMargin: -parent.anchors.rightMargin - UIConstants.DEFAULT_MARGIN
-                        visible: mouseArea.pressed
+                        visible: mouseAreaRule.pressed
                         source: !theme.inverted ? "image://theme/meegotouch-list-background-pressed-center"
                                                 : "image://theme/meegotouch-list-inverted-background-pressed-center"
                     }
@@ -222,8 +220,10 @@ Page {
                         Label {
                             id: mainText
                             text: model.ruleName
+                            width: parent.width
                             platformStyle: LabelStyleTitle {}
                             font.weight: Font.Bold
+                            elide: Text.ElideRight
                         }
                         Label {
                             width: ruleItem.width
