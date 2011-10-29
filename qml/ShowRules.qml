@@ -172,8 +172,8 @@ Page {
                             anchors.fill: up
                             anchors.margins: -UIConstants.DEFAULT_MARGIN
                             visible: mouseAreaUp.pressed
-                            source: !theme.inverted ? "image://theme/meegotouch-list-background-pressed-center"
-                                                    : "image://theme/meegotouch-list-inverted-background-pressed-center"
+                            source: !theme.inverted ? "image://theme/meegotouch-list-background-pressed"
+                                                    : "image://theme/meegotouch-list-inverted-background-pressed"
                         }
 
                         MouseArea {
@@ -267,8 +267,8 @@ Page {
                             anchors.fill: down
                             anchors.margins: -UIConstants.DEFAULT_MARGIN
                             visible: mouseAreaDown.pressed
-                            source: !theme.inverted ? "image://theme/meegotouch-list-background-pressed-center"
-                                                    : "image://theme/meegotouch-list-inverted-background-pressed-center"
+                            source: !theme.inverted ? "image://theme/meegotouch-list-background-pressed"
+                                                    : "image://theme/meegotouch-list-inverted-background-pressed"
                         }
 
                         MouseArea {
