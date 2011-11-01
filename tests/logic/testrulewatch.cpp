@@ -52,8 +52,6 @@ TestRuleWatch::refreshWatch_basicTests() {
     // Check that if unusable day/time, not used
     RuleItem item1;
     item1.ruleActive = true;
-    item1.daysActive = false;
-    item1.timeStartActive = false;
     rules << item1;
     ruleWatch.refreshWatch();
     QVERIFY(ruleWatch.timer()->isActive() == false);
@@ -61,7 +59,6 @@ TestRuleWatch::refreshWatch_basicTests() {
 
     // Tuesday
     QDateTime now = QDateTime::fromString("27.09.2011 22:00", "dd.MM.yyyy hh:mm");
-    item1.timeStartActive = true;
     item1.rule.setTimeStart(now.addSecs(100).time());
     rules[0] = item1;
     ruleWatch.refreshWatch(now);
@@ -89,8 +86,6 @@ TestRuleWatch::refreshWatch_dayTests() {
     // Check a rule with one day selected, without time
     RuleItem item1;
     item1.ruleActive = true;
-    item1.daysActive = true;
-    item1.timeStartActive = false;
     days << 2; // Wednesday
     item1.rule.setDays(days);
     rules << item1;
@@ -142,8 +137,6 @@ TestRuleWatch::refreshWatch_dayTimeTests() {
     // Check a rule with one day selected, with time 1 minute after now
     RuleItem item1;
     item1.ruleActive = true;
-    item1.daysActive = true;
-    item1.timeStartActive = true;
     days << 1; // Tuesday
     item1.rule.setDays(days);
     item1.rule.setTimeStart(now.time().addSecs(60));
@@ -173,14 +166,11 @@ TestRuleWatch::refreshWatch_multiRuleTests() {
 
     // Check that item1 is not matched, since rule is not active
     item1.ruleActive = false;
-    item1.timeStartActive = true;
     item1.rule.setTimeStart(now.addSecs(60).time());
     // Check that if rules equal, the first one matching (in order) is used
     item2.ruleActive = true;
-    item2.timeStartActive = true;
     item2.rule.setTimeStart(now.addSecs(120).time());
     item3.ruleActive = true;
-    item3.timeStartActive = true;
     item3.rule.setTimeStart(item2.rule.getTimeStart());
 
     rules << item1 << item2 << item3;
@@ -201,7 +191,6 @@ TestRuleWatch::activateRule_signalTest() {
     RuleItem item;
 
     item.ruleActive = true;
-    item.timeStartActive = true;
     item.rule.setTimeStart(now.addSecs(1).time());
 
     rules << item;
