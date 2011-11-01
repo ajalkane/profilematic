@@ -41,8 +41,7 @@
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QScopedPointer<QApplication> app(createApplication(argc, argv));
-    QmlApplicationViewer viewer;
-    // QScopedPointer<QmlApplicationViewer> viewer(QmlApplicationViewer::create());
+    QScopedPointer<QmlApplicationViewer> viewer(QmlApplicationViewer::create());
 
     ProfileClient profileClient;
     Rules rules;
@@ -59,26 +58,17 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QmlRulesModel qmlRulesModel(&rules);
     QmlBackend qmlBackend(&ruleWatch);
 
-    QDeclarativeContext *ctxt = new QDeclarativeContext(viewer.rootContext());
-    if (ctxt->parentContext()) {
-        ctxt = ctxt->parentContext();
-    }
+    QDeclarativeContext *ctxt = viewer->rootContext();
+
     ctxt->setContextProperty("profileClient", &profileClient);
     ctxt->setContextProperty("backend", &qmlBackend);
     ctxt->setContextProperty("backendDaysModel", &qmlDaysModel);
     ctxt->setContextProperty("backendRulesModel", &qmlRulesModel);
     ctxt->setContextProperty("backendProfilesModel", &qmlProfilesModel);
-    // view.setSource(QUrl("qrc:/qml/main.qml"));
 
-    viewer.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
-    viewer.setMainQmlFile(QLatin1String("qml/main.qml"));
-    viewer.showExpanded();
-
-//#ifdef __arm__
-//    view.showFullScreen();
-//#else
-//    view.show();
-//#endif
+    viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
+    viewer->setMainQmlFile(QLatin1String("qml/main.qml"));
+    viewer->showExpanded();
 
     int retVal = app->exec();
     qDebug("Exiting with return value %d", retVal);

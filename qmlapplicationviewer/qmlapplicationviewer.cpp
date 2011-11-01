@@ -125,6 +125,11 @@ QmlApplicationViewer *QmlApplicationViewer::create()
 #endif
 }
 
+QDeclarativeContext *QmlApplicationViewer::rootContext()
+{
+    return d->view->rootContext();
+}
+
 void QmlApplicationViewer::setMainQmlFile(const QString &file)
 {
     d->mainQmlFile = d->adjustPath(file);
