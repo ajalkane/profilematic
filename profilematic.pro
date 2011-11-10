@@ -10,6 +10,6 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/changelog
 
 SUBDIRS += \
-    profilematic
+    profilematicd profilematic
 
 
