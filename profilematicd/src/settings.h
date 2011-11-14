@@ -16,20 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#include "qmlbackend.h"
+#ifndef SETTINGS_H
+#define SETTINGS_H
 
-#include "../settings.h"
+#include <QString>
+#include <QList>
+#include <QSettings>
 
-QmlBackend::QmlBackend()
+#include "model/rule.h"
+
+class Settings
 {
-}
+    static void _writeIntList(QSettings &s, const QString &prefix, const QString &key, const QList<int> &values);
+    static void _readIntList(QSettings &s, const QString &prefix, const QString &key, QList<int> &values);
 
-QmlBackend::~QmlBackend() {
-}
+public:
+    Settings();
 
-void
-QmlBackend::refreshRuleWatch() {
-//    _ruleWatch->refreshWatch();
-    // IMPROVE: this is not good, saving all of the rules like this. Might get slow with lots of rules with current UI.
-//    Settings::write(*(_ruleWatch->rules()));
-}
+    static void write(const QList<Rule> &rules);
+    static void read(QList<Rule> &rules);
+
+
+};
+
+#endif // SETTINGS_H

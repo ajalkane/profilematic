@@ -39,25 +39,29 @@ SOURCES += src/main.cpp \
     src/profileclient.cpp \
     src/qmlbackend/qmlbackend.cpp \
     src/qmlbackend/qmldaysmodel.cpp \
-    src/model/rule.cpp \
-    src/model/rules.cpp \
+    # src/model/rule.cpp \
+    ../profilematicd/src/model/rule.cpp \
+    # src/model/rules.cpp \
     src/qmlbackend/qmlrulesmodel.cpp \
     src/qmlbackend/qmlprofilesmodel.cpp \
-    src/logic/rulewatch.cpp \
-    src/settings.cpp \
-    src/logic/ruleactivator.cpp
+    # src/logic/rulewatch.cpp \
+    # src/settings.cpp \
+    # src/logic/ruleactivator.cpp \
+    src/profilematicclient.cpp
 
 HEADERS += \
     src/profileclient.h \
     src/qmlbackend/qmlbackend.h \
     src/qmlbackend/qmldaysmodel.h \
-    src/model/rule.h \
-    src/model/rules.h \
+    # src/model/rule.h \
+    ../profilematicd/src/model/rule.h \
+    # src/model/rules.h \
     src/qmlbackend/qmlrulesmodel.h \
     src/qmlbackend/qmlprofilesmodel.h \
-    src/logic/rulewatch.h \
-    src/settings.h \
-    src/logic/ruleactivator.h
+    # src/logic/rulewatch.h \
+    # src/settings.h \
+    # src/logic/ruleactivator.h \
+    src/profilematicclient.h
 
 qtestlib {
     SOURCES -= src/main.cpp
@@ -70,4 +74,6 @@ qtestlib {
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
+
+
 

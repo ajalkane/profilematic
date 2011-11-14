@@ -24,7 +24,8 @@
 #include <QVariantList>
 #include <QVariantMap>
 
-#include "../model/rules.h"
+// TODO need common sources or library for this
+#include "../../profilematicd/src/model/rule.h"
 
 class QmlRulesModel: public QAbstractListModel
 {
@@ -35,7 +36,7 @@ class QmlRulesModel: public QAbstractListModel
     // Needed for SelectionDialog
     Q_PROPERTY(int count READ rowCount NOTIFY sizeChanged)
 
-    Rules *_rules;
+    QList<Rule> _rules;
 
     QHash<int, QByteArray> _roleToProperty;
 
@@ -57,7 +58,7 @@ public:
         DaysSummaryRole
     };
 
-    QmlRulesModel(Rules *rules, QObject *parent = 0);
+    QmlRulesModel(const QList<Rule> &rules, QObject *parent = 0);
 
     void newRule(const QString &ruleName, const QTime &timeStart, const QString &profile);
 

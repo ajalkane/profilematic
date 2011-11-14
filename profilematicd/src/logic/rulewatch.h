@@ -16,25 +16,40 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef QMLBACKEND_H
-#define QMLBACKEND_H
+#ifndef RULEWATCH_H
+#define RULEWATCH_H
 
 #include <QObject>
-#include <QList>
+#include <QDateTime>
+#include <QTimer>
 
-//#include "../logic/rulewatch.h"
-#include "qmldaysmodel.h"
+#include "../model/rule.h"
 
-class QmlBackend : public QObject {
+class RuleWatch : public QObject
+{
     Q_OBJECT
 
-    // RuleWatch *_ruleWatch;
+    QTimer _timer;
+    const QList<Rule> *_rules;
+    const Rule *_targetRule;
+
+    QDateTime _nextDateTimeFromRule(const QDateTime &from, const Rule &rule) const;
+    bool _isTargetRuleActivable() const;
 
 public:
-    QmlBackend();
-    virtual ~QmlBackend();
+    RuleWatch(const QList<Rule> *_rules, QObject *parent = 0);
 
-    Q_INVOKABLE void refreshRuleWatch();
+    void refreshWatch(const QDateTime &now);
+    void refreshWatch();
+
+    // These accessor functions are pretty much only needed for unit tests
+    const QTimer *timer() const;
+    const Rule *targetRule() const;
+    const QList<Rule> *rules() const;
+private slots:
+    void _activateAndReschedule();
+signals:
+    void activateRule(const Rule &rule);
 };
 
-#endif // QMLBACKEND_H
+#endif // RULEWATCH_H

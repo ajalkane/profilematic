@@ -16,20 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#include "qmlbackend.h"
+#ifndef RULEACTIVATOR_H
+#define RULEACTIVATOR_H
 
-#include "../settings.h"
+#include <QObject>
 
-QmlBackend::QmlBackend()
+#include "rulewatch.h"
+#include "../profileclient.h"
+
+class RuleActivator : public QObject
 {
-}
+    Q_OBJECT
 
-QmlBackend::~QmlBackend() {
-}
+    ProfileClient *_profileClient;
 
-void
-QmlBackend::refreshRuleWatch() {
-//    _ruleWatch->refreshWatch();
-    // IMPROVE: this is not good, saving all of the rules like this. Might get slow with lots of rules with current UI.
-//    Settings::write(*(_ruleWatch->rules()));
-}
+public:
+    RuleActivator(ProfileClient *profileClient);
+
+public slots:
+    void activateRule(const Rule &rule);
+};
+
+#endif // RULEACTIVATOR_H

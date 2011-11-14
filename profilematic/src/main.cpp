@@ -27,9 +27,10 @@
 #include <QList>
 
 #include "profileclient.h"
-#include "settings.h"
-#include "logic/rulewatch.h"
-#include "logic/ruleactivator.h"
+#include "profilematicclient.h"
+//#include "settings.h"
+//#include "logic/rulewatch.h"
+//#include "logic/ruleactivator.h"
 
 #include "qmlbackend/qmlbackend.h"
 #include "qmlbackend/qmldaysmodel.h"
@@ -43,20 +44,24 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QScopedPointer<QApplication> app(createApplication(argc, argv));
     QScopedPointer<QmlApplicationViewer> viewer(QmlApplicationViewer::create());
 
+    qDBusRegisterMetaType<Rule>();
+    qDBusRegisterMetaType<QList<Rule> >();
+
     ProfileClient profileClient;
-    Rules rules;
-    Settings::read(rules);
-    RuleWatch ruleWatch(&rules);
-    RuleActivator ruleActivator(&profileClient);
+    ProfileMaticClient profileMaticClient;
+    QList<Rule> rules = profileMaticClient.getRules();
+    // Settings::read(rules);
+    // RuleWatch ruleWatch(&rules);
+    // RuleActivator ruleActivator(&profileClient);
 
-    ruleActivator.connect(&ruleWatch, SIGNAL(activateRule(RuleItem)), &ruleActivator, SLOT(activateRule(RuleItem)));
+    //ruleActivator.connect(&ruleWatch, SIGNAL(activateRule(RuleItem)), &ruleActivator, SLOT(activateRule(RuleItem)));
 
-    ruleWatch.refreshWatch();
+    // ruleWatch.refreshWatch();
 
     QmlProfilesModel qmlProfilesModel(&profileClient, QmlProfilesModel::ProfileType);
     QmlDaysModel qmlDaysModel;
-    QmlRulesModel qmlRulesModel(&rules);
-    QmlBackend qmlBackend(&ruleWatch);
+    QmlRulesModel qmlRulesModel(rules);
+    QmlBackend qmlBackend;
 
     QDeclarativeContext *ctxt = viewer->rootContext();
 

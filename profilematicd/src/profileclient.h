@@ -16,20 +16,39 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#include "qmlbackend.h"
+#ifndef PROFILECLIENT_H
+#define PROFILECLIENT_H
 
-#include "../settings.h"
+#include <QtCore/QStringList>
 
-QmlBackend::QmlBackend()
+#include <QtCore/QObject>
+
+class ProfileClient : public QObject
 {
-}
+    Q_OBJECT
 
-QmlBackend::~QmlBackend() {
-}
+public:
+    ProfileClient(QObject *parent = 0);
+    virtual ~ProfileClient();
 
-void
-QmlBackend::refreshRuleWatch() {
-//    _ruleWatch->refreshWatch();
-    // IMPROVE: this is not good, saving all of the rules like this. Might get slow with lots of rules with current UI.
-//    Settings::write(*(_ruleWatch->rules()));
-}
+    QStringList getProfiles() const;
+    bool setProfile(const QString &profileName);
+
+    bool setProfileVolume(const QString &profileName, int volume);
+
+    QString getProfileType(const QString &profile) const;
+    // QStringList profilesWithType() const;
+
+    // Shows only the profile type. This is used in Harmattan.
+    //QStringList profileTypes() const;
+
+
+public slots:
+    // void profileChanged(bool changed, bool active, QString profile);
+
+//    void setProfileType(QString type);
+
+//signals:
+};
+
+#endif // PROFILECLIENT_H
