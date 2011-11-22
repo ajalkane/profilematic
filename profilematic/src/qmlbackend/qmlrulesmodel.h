@@ -24,6 +24,8 @@
 #include <QVariantList>
 #include <QVariantMap>
 
+#include "../profilematicclient.h"
+
 // TODO need common sources or library for this
 #include "../../profilematicd/src/model/rule.h"
 
@@ -37,6 +39,9 @@ class QmlRulesModel: public QAbstractListModel
     Q_PROPERTY(int count READ rowCount NOTIFY sizeChanged)
 
     QList<Rule> _rules;
+    Rule _editRule;
+
+    ProfileMaticClient *_client;
 
     QHash<int, QByteArray> _roleToProperty;
 
@@ -44,6 +49,7 @@ class QmlRulesModel: public QAbstractListModel
 
     void _setProperty(int index, const QString &key, const QVariant &value);
 
+    int _findRuleIndexById(const Rule::IdType &id) const;
 public:
     enum RuleRoles {
         RuleIdRole = Qt::UserRole + 1,
@@ -55,10 +61,12 @@ public:
         DaysRole,
         ProfileRole,
         ProfileVolumeRole,
-        DaysSummaryRole
+        DaysSummaryRole,
+
+        RuleRole
     };
 
-    QmlRulesModel(const QList<Rule> &rules, QObject *parent = 0);
+    QmlRulesModel(ProfileMaticClient *client, QObject *parent = 0);
 
     void newRule(const QString &ruleName, const QTime &timeStart, const QString &profile);
 
@@ -75,6 +83,10 @@ public:
     Q_INVOKABLE void append(const QVariantMap &dict);
     Q_INVOKABLE void remove(int index);
 
+    Q_INVOKABLE void setEditRule(int index);
+    Q_INVOKABLE Rule *getEditRule();
+    Q_INVOKABLE void saveEditRule();
+
     // More complex data access functions that are not easily representable by roles
     Q_INVOKABLE QVariantList getDayIndices(int index) const;
     Q_INVOKABLE void setDayIndices(int index, const QVariantList &dayIndices);
@@ -84,6 +96,8 @@ public:
 
 public slots:
     void emitSizeChanged(const QModelIndex & parent, int start, int end);
+
+    void ruleUpdated(const Rule &);
 signals:
     void sizeChanged();
 };

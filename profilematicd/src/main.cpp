@@ -14,9 +14,6 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    qDBusRegisterMetaType<Rule>();
-    qDBusRegisterMetaType<QList<Rule> >();
-
     ProfileClient profileClient;
     QList<Rule> rules;
     Settings::read(rules);

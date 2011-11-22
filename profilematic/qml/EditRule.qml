@@ -20,6 +20,8 @@ import QtQuick 1.1
 import com.nokia.meego 1.0
 import com.nokia.extras 1.0
 
+import Rule 1.0
+
 import "UIConstants.js" as UIConstants
 
 // IMPROVE: this is too complex for it's own good.
@@ -29,13 +31,14 @@ Page {
     tools: editRuleTools
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
-    property int     ruleIndex: -1
-    property string  ruleId
-    property string  ruleName
-    property variant days
-    property string  timeStart
-    property string  profile
-    property int     profileVolume: -1
+    property Rule    rule;
+    // property int     ruleIndex: -1
+    // property string  ruleId
+    // property string  ruleName
+    // property variant days
+    //property string  timeStart
+    // property string  profile
+    // property int     profileVolume: -1
 
     signal saved
     signal cancelled
@@ -49,7 +52,7 @@ Page {
     }
 
     function isValidRule() {
-        if (days.length === 0 || timeStart === "" || profile === "") {
+        if (rule.days.length === 0 || rule.timeStart === "" || rule.profile === "") {
             return false;
         }
         return true;
@@ -90,7 +93,7 @@ Page {
             }
         }
         ToolIcon {
-            visible: ruleIndex != -1
+            visible: rule.ruleId !== '' //  -1
             iconId: "toolbar-view-menu";
             anchors.right: parent.right
             onClicked: (editRuleMenu.status == DialogStatus.Closed) ? editRuleMenu.open() : editRuleMenu.close()
@@ -123,13 +126,13 @@ Page {
         acceptButtonText: "Ok"
         rejectButtonText: "Cancel"
 
-        onAccepted: timeStart = formatTime(hour, minute)
+        onAccepted: rule.timeStart = formatTime(hour, minute)
         property string targetProperty
     }
 
     // Start time functions
     function timeStartEditHandler() {
-        var time = (timeStart !== "" ? timeStart : "00:00")
+        var time = (rule.timeStart !== "" ? rule.timeStart : "00:00")
         var timeSplits = time.split(":")
 
         console.log("starTimeEditHandler timeSplits", timeSplits[0], timeSplits[1])
@@ -141,10 +144,10 @@ Page {
     }
 
     function timeStartSummary() {
-        if (timeStart === '') {
+        if (rule.timeStart === '') {
             return "Click to set time"
         }
-        return timeStart
+        return rule.timeStart
     }
 
     MyMultiSelectionDialog {
@@ -152,17 +155,17 @@ Page {
          titleText: "Days"
          model: backendDaysModel
          acceptButtonText: "OK"
-         onAccepted: days = selectedIndexes
+         onAccepted: rule.days = selectedIndexes
      }
 
     function daysSummary(doNotCapitalize) {
         console.log("DaysSummary called")
-        return backendRulesModel.getDaysSummaryText(days);
+        return backendRulesModel.getDaysSummaryText(rule.days);
     }
 
     function daysEditHandler() {
 
-        daysDialog.selectedIndexes = days
+        daysDialog.selectedIndexes = rule.days
 
         daysDialog.open();
     }
@@ -175,7 +178,7 @@ Page {
          onSelectedIndexChanged: {
              if (selectedIndex > -1) {
                  var selectedProfile = model.getProfile(selectedIndex)
-                 profile = selectedProfile
+                 rule.profile = selectedProfile
                  volumeVisibility();
              }
          }
@@ -194,12 +197,12 @@ Page {
      }
 
     // Profile functions
-    function profileSummary() {
-        return profile != "" ? backendProfilesModel.getProfileToName(profile) : "Click to set"
+    function profileSummary() {        
+        return rule.profile !== "" ? backendProfilesModel.getProfileToName(rule.profile) : "Click to set"
     }
 
     function profileEditHandler() {
-        profilesDialog.openWithSelection(profile)
+        profilesDialog.openWithSelection(rule.profile)
     }
 
     QueryDialog {
@@ -223,7 +226,7 @@ Page {
         }
 
         onAccepted: {
-            profileVolume = volumeValue
+            rule.profileVolume = volumeValue
         }
 
         function openWithValue(volume) {
@@ -234,23 +237,23 @@ Page {
 
     // Profile volume functions
     function volumeSummary() {
-        console.log("VolumeSummary called", profileVolume)
-        if (profileVolume < 0) {
+        console.log("VolumeSummary called", rule.profileVolume)
+        if (rule.profileVolume < 0) {
             return "Volume has not been selected yet"
         }
 
-        return profileVolume + " %"
+        return rule.profileVolume + " %"
     }
 
     function volumeEditHandler() {
         console.log("volumeEditHandler")
-        dVolume.openWithValue(profileVolume)
+        dVolume.openWithValue(rule.profileVolume)
     }
 
     function volumeVisibility() {
         // IMPROVE this is ugly, enable/disable rule based if profile has volume
         var volumeModel = editRuleModel.get(3)
-        if (backendProfilesModel.profileHasVolume(profile)) {
+        if (backendProfilesModel.profileHasVolume(rule.profile)) {
             volumeModel.ruleVisible = true
         } else {
             volumeModel.ruleVisible = false
@@ -333,10 +336,10 @@ Page {
         header: TextFieldWithLabel {
             labelText: "Rule name"
             placeholderText: "Auto-generated"
-            text: ruleName
+            text: rule.ruleName
             height: UIConstants.LIST_ITEM_HEIGHT_SMALL
             onTextChanged: {
-                ruleName = text
+                rule.ruleName = text
             }
         }
 
@@ -406,8 +409,8 @@ Page {
             color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
             text: {
                 if (isValidRule()) {
-                    return "This rule activates profile " + backendProfilesModel.getProfileToName(profile)
-                            + " when clock reaches " + timeStart
+                    return "This rule activates profile " + backendProfilesModel.getProfileToName(rule.profile)
+                            + " when clock reaches " + rule.timeStart
                             + " on active days"
                 }
                 return ""

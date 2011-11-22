@@ -17,6 +17,7 @@
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
 #include <QSettings>
+#include <QUuid>
 
 #include "settings.h"
 
@@ -63,7 +64,7 @@ Settings::read(QList<Rule> &rules) {
         Rule r;
         // r.ruleActive = s.value("ruleActive").toBool();
 
-        r.setRuleId(s.value("ruleId").toInt());
+        _assignRuleId(r, s.value("ruleId"));
         r.setRuleName(s.value("ruleName").toString());
         QList<int> daysList;
         _readIntList(s, "days", "dayId", daysList);
@@ -81,8 +82,26 @@ Settings::read(QList<Rule> &rules) {
             r.setProfileVolume(profileVolume);
         }
         rules << r;
+        qDebug("Settings: index %d, ruleId: %s, ruleName: %s", i, qPrintable(r.getRuleId()), qPrintable(r.getRuleName()));
     }
     s.endArray();
+}
+
+void
+Settings::_assignRuleId(Rule &r, const QVariant &ruleIdVar) {
+    // First released version did not set ruleIds, and it was assumed to be int.
+    // Now it is changed to be UUID, a string. If the ruleId is a string, create
+    // a new UUID
+    bool ok = true;
+    int oldIntId = ruleIdVar.toInt(&ok);
+    QString ruleId;
+    if (ok) {
+        ruleId = QUuid::createUuid().toString();
+        qDebug("ruleId was in old format (%d), creating UUID %s", oldIntId, qPrintable(ruleId));
+    } else {
+        ruleId = ruleIdVar.toString();
+    }
+    r.setRuleId(ruleId);
 }
 
 void

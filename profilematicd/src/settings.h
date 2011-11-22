@@ -29,7 +29,7 @@ class Settings
 {
     static void _writeIntList(QSettings &s, const QString &prefix, const QString &key, const QList<int> &values);
     static void _readIntList(QSettings &s, const QString &prefix, const QString &key, QList<int> &values);
-
+    static void _assignRuleId(Rule &r, const QVariant &ruleIdVar);
 public:
     Settings();
 

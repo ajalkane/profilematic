@@ -23,9 +23,9 @@
 
 #include "qmlrulesmodel.h"
 
-QmlRulesModel::QmlRulesModel(const QList<Rule> &rules, QObject *parent)
-    : QAbstractListModel(parent), _rules(rules)
-{
+QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QObject *parent)
+    : QAbstractListModel(parent), _client(client)
+{    
     _roleToProperty[RuleIdRole]          = "ruleId";
     _roleToProperty[RuleActiveRole]      = "ruleActive";
     _roleToProperty[RuleNameRole]        = "ruleName";
@@ -34,7 +34,14 @@ QmlRulesModel::QmlRulesModel(const QList<Rule> &rules, QObject *parent)
     _roleToProperty[ProfileRole]         = "profile";
     _roleToProperty[ProfileVolumeRole]   = "profileVolume";
     _roleToProperty[DaysSummaryRole]     = "daysSummary";
+
+    _roleToProperty[RuleRole] = "rule";
+
     setRoleNames(_roleToProperty);
+
+    connect(_client, SIGNAL(ruleUpdated(const Rule &)), this, SLOT(ruleUpdated(const Rule &)));
+
+    _rules = client->getRules();
 
     connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(emitSizeChanged(QModelIndex,int,int)));
     connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(emitSizeChanged(QModelIndex,int,int)));
@@ -61,30 +68,17 @@ QmlRulesModel::data(const QModelIndex & index, int role) const {
 
     const Rule &rule = _rules.at(index.row());
     switch (role) {
+    case RuleRole:
+        qDebug("Returning RuleRole for %s", qPrintable(rule.getRuleName()));
+        return QVariant::fromValue(rule);
     case RuleIdRole:
         return rule.getRuleId();
     case RuleActiveRole:
         // return rule.ruleActive;
     case RuleNameRole:
-        return rule.getRuleName();
+        return rule.getRuleName();        
     case TimeStartRole:
-    {
-        QTime time = rule.getTimeStart();
-        int hour = time.hour();
-        int min  = time.minute();
-        QString timeStr;
-        if (hour < 10) {
-            timeStr += "0";
-        }
-        timeStr += QString::number(hour);
-        timeStr += ":";
-        if (min < 10) {
-            timeStr += "0";
-        }
-        timeStr += QString::number(min);
-        qDebug("QmlRulesModel::timeStartRole returning '%s'", qPrintable(timeStr));
-        return timeStr;
-    }
+        return rule.getTimeStartQml();
     // return rule.getTimeStart();
     case DaysRole:
         qDebug("QmlRulesModel::data role 'days' should not be directly accessed");
@@ -112,13 +106,15 @@ QmlRulesModel::setData(const QModelIndex &index, const QVariant &value, int role
     Rule &rule = _rules[index.row()];
     switch (role) {
     case RuleIdRole:
-        rule.setRuleId(value.toInt());
+        rule.setRuleId(value.toString());
         break;
     case RuleActiveRole:
         // ruleActive = value.toBool();
         break;
     case RuleNameRole:
+        break;
     {
+        // TODO this to daemon code
         QString ruleName = value.toString();
         if (ruleName.trimmed().isEmpty()) {
             // Could be smarter rule, for example basing it on the rest of the data. But then
@@ -127,7 +123,11 @@ QmlRulesModel::setData(const QModelIndex &index, const QVariant &value, int role
             // This will do for now.
             ruleName = QString("Rule #") + QString::number(index.row() + 1);
         }
-        rule.setRuleName(ruleName);
+        // rule.setRuleName(ruleName);
+        Rule updateRule = rule;
+        updateRule.setRuleName(ruleName);
+        qDebug("QmlRulesModel: client->updateRule %s", qPrintable(updateRule.getRuleName()));
+        _client->updateRule(updateRule);
     }
     break;
     case TimeStartRole:
@@ -203,6 +203,35 @@ QmlRulesModel::set(int index, const QVariantMap &dict) {
     for (; i != dict.constEnd(); ++i) {
         _setProperty(index, i.key(), i.value());
     }
+}
+
+void
+QmlRulesModel::ruleUpdated(const Rule &rule) {
+    qDebug("QmlRulesModel: Received rule updated %s %s", qPrintable(rule.getRuleId()), qPrintable(rule.getRuleName()));
+    int targetIndex = _findRuleIndexById(rule.getRuleId());
+    if (targetIndex < 0) {
+        qDebug("QmlRulesModel: no rule found for id %s", qPrintable(rule.getRuleId()));
+        return;
+    }
+
+    _rules[targetIndex] = rule;
+
+    qDebug("QmlRulesModel: Received rule updated, now (%d) %s %s",targetIndex, qPrintable(_rules[targetIndex].getRuleId()), qPrintable(rule.getRuleName()));
+
+    QModelIndex modelIndex = createIndex(targetIndex, 0);
+
+    emit dataChanged(modelIndex, modelIndex);
+}
+
+int
+QmlRulesModel::_findRuleIndexById(const Rule::IdType &id) const {
+    for (int i = 0; i < _rules.size(); ++i) {
+        const Rule &r = _rules.at(i);
+        if (id == r.getRuleId()) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 void
@@ -322,4 +351,44 @@ QmlRulesModel::getDaysSummaryText(const QSet<int> &days) const {
         }
     }
     return daysStr;
+}
+
+
+//Rule *
+//QmlRulesModel::getEditRule(int index) {
+//    qDebug("QmlRulesModel::getEditRule(%d)", index);
+//    if (index < 0 || index >= _rules.count()) {
+//        qDebug("QmlRulesModel::getRule: Invalid index %d", index);
+//        return NULL; // QVariant(); // Rule();
+//    }
+
+//    return &(_rules[index]); // QVariant::fromValue(_rules.at(index));
+//    // return QVariant::fromValue(_rules.at(index));
+//}
+
+void
+QmlRulesModel::setEditRule(int index) {
+    qDebug("QmlRulesModel::setEditRule(%d)", index);
+    if (index < 0 || index >= _rules.count()) {
+        qDebug("QmlRulesModel::setRule: Invalid index %d", index);
+        _editRule = Rule();
+        return;
+    }
+
+    _editRule = _rules[index];
+
+    qDebug("QmlRulesModel::setEditRule client->saveEditRule id %s, name %s", qPrintable(_editRule.getRuleId()), qPrintable(_editRule.getRuleName()));
+}
+
+Rule *
+QmlRulesModel::getEditRule() {
+    return &_editRule;
+}
+
+void
+QmlRulesModel::saveEditRule() {
+    // TODO away debug, at least check indices if nothing else
+    qDebug("QmlRulesModel::saveEditRule client->saveEditRule id %s, name %s", qPrintable(_editRule.getRuleId()), qPrintable(_editRule.getRuleName()));
+    _client->updateRule(_editRule);
+
 }

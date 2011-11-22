@@ -21,6 +21,7 @@ public:
     // Return 0 if success
     int init();
 signals:
+    void ruleUpdated(const Rule &rule);
 
 public slots:
     // Returns id of created rule or empty if error. A new rule is always
@@ -30,6 +31,7 @@ public slots:
     // QStringList getRuleIds();
 
     QList<Rule> getRules() const;
+    void updateRule(const Rule &rule);
 
 //    Rule getRule(const QString &rule);
 
@@ -45,6 +47,8 @@ public slots:
 //    QStringList getRuleIds() const;
 //    QString getRuleName(const QString &id) const;
 //    bool setRuleName(const QString &id, const QString &name) const;
+private:
+    int _findRuleIndexById(const Rule::IdType &id) const;
 };
 
 #endif // PROFILEMATICINTERFACE_H

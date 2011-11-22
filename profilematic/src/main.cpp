@@ -21,7 +21,6 @@
 #include <QtDeclarative>
 
 #include <QtCore/QStringList>
-#include <QtDBus/QtDBus>
 
 #include <QObject>
 #include <QList>
@@ -44,12 +43,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QScopedPointer<QApplication> app(createApplication(argc, argv));
     QScopedPointer<QmlApplicationViewer> viewer(QmlApplicationViewer::create());
 
-    qDBusRegisterMetaType<Rule>();
-    qDBusRegisterMetaType<QList<Rule> >();
-
     ProfileClient profileClient;
     ProfileMaticClient profileMaticClient;
-    QList<Rule> rules = profileMaticClient.getRules();
     // Settings::read(rules);
     // RuleWatch ruleWatch(&rules);
     // RuleActivator ruleActivator(&profileClient);
@@ -60,11 +55,12 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     QmlProfilesModel qmlProfilesModel(&profileClient, QmlProfilesModel::ProfileType);
     QmlDaysModel qmlDaysModel;
-    QmlRulesModel qmlRulesModel(rules);
+    QmlRulesModel qmlRulesModel(&profileMaticClient);
     QmlBackend qmlBackend;
 
     QDeclarativeContext *ctxt = viewer->rootContext();
 
+    qmlRegisterType<Rule>("Rule", 1, 0, "Rule");
     ctxt->setContextProperty("profileClient", &profileClient);
     ctxt->setContextProperty("backend", &qmlBackend);
     ctxt->setContextProperty("backendDaysModel", &qmlDaysModel);

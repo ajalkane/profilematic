@@ -26,10 +26,12 @@
 #include <QMetaType>
 #include <QDBusArgument>
 
-class Rule
+class Rule : public QObject
 {
+    Q_OBJECT
+
     // Conditions
-    int       _ruleId;
+    QString   _ruleId;
     QString   _ruleName;
     QTime     _timeStart;
     QSet<int> _days;
@@ -37,21 +39,49 @@ class Rule
     // Actions
     QString _profile;
     int     _profileVolume;
-public:
-    Rule();
 
-    int getRuleId() const;
-    void setRuleId(int ruleId);
+    // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
+    // class "pure" ?
+    Q_PROPERTY(QString ruleId READ getRuleId NOTIFY ruleIdChanged)
+    Q_PROPERTY(QString ruleName READ getRuleName WRITE setRuleName NOTIFY ruleNameChanged)
+    Q_PROPERTY(QString timeStart READ getTimeStartQml WRITE setTimeStartQml NOTIFY timeStartChanged)
+    Q_PROPERTY(QVariantList days READ getDaysQml WRITE setDaysQml NOTIFY daysChanged)
+    Q_PROPERTY(QString profile READ getProfile WRITE setProfile NOTIFY profileChanged)
+    Q_PROPERTY(int profileVolume READ getProfileVolume WRITE setProfileVolume NOTIFY profileVolumeChanged)
+
+signals:
+    void ruleNameChanged();
+    void ruleIdChanged();
+    void timeStartChanged();
+    void daysChanged();
+    void profileChanged();
+    void profileVolumeChanged();
+public:
+    typedef QString IdType;
+
+    Rule(QObject *parent = 0);
+    Rule(const Rule &o);
+    virtual ~Rule();
+    Rule &operator=(const Rule &o);
+
+    QString getRuleId() const;
+    void setRuleId(const QString &ruleId);
 
     QString getRuleName() const;
     void setRuleName(const QString &ruleName);
 
     QTime getTimeStart() const;
     void setTimeStart(const QTime &timeStart);
+    // For QML
+    QString getTimeStartQml() const;
+    void setTimeStartQml(const QString &timeStart);
 
     // 0 = monday, 6 = sunday
     const QSet<int> &getDays() const;
     void setDays(const QSet<int> &days);
+    // For QML
+    QVariantList getDaysQml() const;
+    void setDaysQml(const QVariantList &days);
 
     QString getProfile() const;
     void setProfile(const QString &profile);

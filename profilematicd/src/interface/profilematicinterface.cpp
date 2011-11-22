@@ -11,12 +11,14 @@
 ProfileMaticInterface::ProfileMaticInterface(QList<Rule> *rules, QObject *parent) :
     QObject(parent), _rules(rules)
 {
+    qDBusRegisterMetaType<Rule>();
+    qDBusRegisterMetaType<QList<Rule> >();
 }
 
 int
 ProfileMaticInterface::init() {
     QDBusConnection bus = QDBusConnection::sessionBus();
-    if (!bus.registerObject(PM_OBJECT_NAME, this, QDBusConnection::ExportAllSlots)) {
+    if (!bus.registerObject(PM_OBJECT_NAME, this, QDBusConnection::ExportAllSlots|QDBusConnection::ExportAllSignals)) {
         fprintf(stderr, "Could not register D-Bus object at %s. Daemon already running?\n", PM_OBJECT_NAME);
         return -1;
     }
@@ -38,6 +40,30 @@ ProfileMaticInterface::~ProfileMaticInterface() {
 QList<Rule>
 ProfileMaticInterface::getRules() const {
     return *_rules;
+}
+
+void
+ProfileMaticInterface::updateRule(const Rule &rule) {
+    qDebug("updateRule received %s", qPrintable(rule.getRuleId()));
+    int index = _findRuleIndexById(rule.getRuleId());
+    if (index < 0) {
+        qDebug("Could not find rule with id %s", qPrintable(rule.getRuleId()));
+        return;
+    }
+
+    (*_rules)[index] = rule; // Rule(rule);
+    emit ruleUpdated(_rules->at(index));
+}
+
+int
+ProfileMaticInterface::_findRuleIndexById(const Rule::IdType &id) const {
+    for (int i = 0; i < _rules->size(); ++i) {
+        const Rule &r = _rules->at(i);
+        if (id == r.getRuleId()) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 //// Returns id of created rule or empty if error. A new rule is always

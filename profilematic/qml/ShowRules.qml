@@ -18,7 +18,7 @@
 **/
 import QtQuick 1.1
 import com.nokia.meego 1.0
-
+import Rule 1.0
 import "UIConstants.js" as UIConstants
 
 Page {
@@ -301,15 +301,18 @@ Page {
                                 return
                             }
 
+                            backendRulesModel.setEditRule(index)
                             var p = {
-                                "ruleName": ruleName,
-                                "timeStart": typeof timeStart != "string" ? Qt.formatTime(timeStart, "hh:mm") : timeStart,
-                                "days": backendRulesModel.getDayIndices(index), // daysArr
-                                "profile": profile,
-                                "profileVolume": profileVolume,
-                                "ruleIndex": index
+                                "rule": backendRulesModel.getEditRule(), // editRuleObject, // backendRulesModel.getRule(index),
+                                // "ruleName": ruleName,
+                                // "timeStart": typeof timeStart != "string" ? Qt.formatTime(timeStart, "hh:mm") : timeStart,
+                                // "days": backendRulesModel.getDayIndices(index), // daysArr
+                                // "profile": profile,
+                                // "profileVolume": profileVolume,
+                                // "ruleIndex": index
                             }
                             console.log("loadEditRule")
+                            console.log("loadEditRule p.rule", p.rule)
                             editRule = loadEditRule(p)
                             console.log("/loadEditRule")
                             console.log("onClicked timeStart", editRule.timeStart)
@@ -367,27 +370,29 @@ Page {
     }
 
     function setRule(index) {
-        console.log("setRule ", index, editRule.ruleName)
-        var ruleDict = {
-            "ruleActive": true, // for now always true
-            "ruleId": editRule.ruleId, // TODO perhaps ruleId is not really needed
-            "ruleName": editRule.ruleName,
-            "timeStart": editRule.timeStart,
-            "days": "[]", // For compatibility with dummymodels, C++ model does not have such role
-            "profile": editRule.profile,
-            "profileVolume": editRule.profileVolume
-        }
+        // console.log("setRule ", index, editRule.ruleName)
+//        console.log("setRule ", index, editRule.rule.ruleName)
+//        var ruleDict = {
+//            "ruleActive": true, // for now always true
+//            "ruleId": editRule.ruleId, // TODO perhaps ruleId is not really needed
+//            // "ruleName": editRule.ruleName,
+//            "timeStart": editRule.timeStart,
+//            // "days": "[]", // For compatibility with dummymodels, C++ model does not have such role
+//            "profile": editRule.profile,
+//            "profileVolume": editRule.profileVolume
+//        }
 
-        if (index < 0) {
-            // Create new rule
-            backendRulesModel.append(ruleDict)
-            index = backendRulesModel.count - 1
-            console.log("setRule appended new index", index)
+//        if (index < 0) {
+//            // Create new rule
+//            backendRulesModel.append(ruleDict)
+//            index = backendRulesModel.count - 1
+//            console.log("setRule appended new index", index)
+//        }
+/*        else*/ {
+            backendRulesModel.saveEditRule()
+            // backendRulesModel.set(index, ruleDict)
         }
-        else {
-            backendRulesModel.set(index, ruleDict)
-        }
-        backendRulesModel.setDayIndices(index, editRule.days);
+        // backendRulesModel.setDayIndices(index, editRule.days);
 
         backend.refreshRuleWatch();
     }
@@ -408,6 +413,7 @@ Page {
     }
 
     function deleteRule(index) {
+        // TODO use ruleId: deleteRule(ruleId)
         if (index >= 0) {
             backendRulesModel.remove(index)
             backend.refreshRuleWatch();
