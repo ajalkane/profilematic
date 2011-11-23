@@ -14,6 +14,7 @@ ProfileMaticClient::ProfileMaticClient(QObject *parent) :
                                     PM_INTERFACE);
 
     connect(dbus_iface, SIGNAL(ruleUpdated(const Rule &)), this, SIGNAL(ruleUpdated(const Rule &)));
+    connect(dbus_iface, SIGNAL(ruleAppended(const Rule &)), this, SIGNAL(ruleAppended(const Rule &)));
 }
 
 ProfileMaticClient::~ProfileMaticClient() {
@@ -44,4 +45,14 @@ ProfileMaticClient::updateRule(const Rule &rule) {
         QDBusError e = reply.error();
         qDebug("updateRule error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());
     }*/
+}
+
+QString
+ProfileMaticClient::appendRule(const Rule &rule) {
+    QDBusReply<QString> reply = dbus_iface->call("appendRule", QVariant::fromValue(rule));
+    if (!reply.isValid()) {
+        QDBusError e = reply.error();
+        qDebug("appendRule error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());
+    }
+    return reply.value();
 }

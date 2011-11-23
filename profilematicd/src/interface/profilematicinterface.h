@@ -22,7 +22,8 @@ public:
     int init();
 signals:
     void ruleUpdated(const Rule &rule);
-
+    // Rule is always created as the last rule
+    void ruleAppended(const Rule &rule);
 public slots:
     // Returns id of created rule or empty if error. A new rule is always
     // added as last rule.
@@ -31,7 +32,11 @@ public slots:
     // QStringList getRuleIds();
 
     QList<Rule> getRules() const;
+
     void updateRule(const Rule &rule);
+    // Creates a new rule. Returns the new ruleId. If the given rule
+    // already has a ruleId, it is not used.
+    QString appendRule(const Rule &rule);
 
 //    Rule getRule(const QString &rule);
 

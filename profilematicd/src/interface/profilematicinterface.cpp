@@ -52,7 +52,19 @@ ProfileMaticInterface::updateRule(const Rule &rule) {
     }
 
     (*_rules)[index] = rule; // Rule(rule);
+    qDebug("updateRule emitting ruleUpdated for %s", qPrintable(rule.getRuleId()));
     emit ruleUpdated(_rules->at(index));
+}
+
+QString
+ProfileMaticInterface::appendRule(const Rule &rule) {
+    Rule newRule = rule;
+    newRule.setRuleId(QUuid::createUuid().toString());
+    qDebug("ProfileMaticInterface::createRule(), created ruleId %s", qPrintable(newRule.getRuleId()));
+
+    _rules->append(newRule);
+    emit ruleAppended(newRule);
+    return newRule.getRuleId();
 }
 
 int

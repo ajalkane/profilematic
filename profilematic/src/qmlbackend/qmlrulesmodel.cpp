@@ -40,6 +40,7 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QObject *parent)
     setRoleNames(_roleToProperty);
 
     connect(_client, SIGNAL(ruleUpdated(const Rule &)), this, SLOT(ruleUpdated(const Rule &)));
+    connect(_client, SIGNAL(ruleAppended(const Rule &)), this, SLOT(ruleAppended(const Rule &)));
 
     _rules = client->getRules();
 
@@ -223,6 +224,15 @@ QmlRulesModel::ruleUpdated(const Rule &rule) {
     emit dataChanged(modelIndex, modelIndex);
 }
 
+void
+QmlRulesModel::ruleAppended(const Rule &rule) {
+    qDebug("QmlRulesModel: Received rule appended %s %s", qPrintable(rule.getRuleId()), qPrintable(rule.getRuleName()));
+
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    _rules << rule;
+    endInsertRows();
+}
+
 int
 QmlRulesModel::_findRuleIndexById(const Rule::IdType &id) const {
     for (int i = 0; i < _rules.size(); ++i) {
@@ -380,6 +390,19 @@ QmlRulesModel::setEditRule(int index) {
     qDebug("QmlRulesModel::setEditRule client->saveEditRule id %s, name %s", qPrintable(_editRule.getRuleId()), qPrintable(_editRule.getRuleName()));
 }
 
+void
+QmlRulesModel::setNewEditRule() {
+    qDebug("QmlRulesModel::setNewEditRule");
+
+    _editRule = Rule();
+    // When creating new rule, automatically select all days
+    QSet<int> days;
+    for (int i = 0; i < 7; i++) {
+        days << i;
+    }
+    _editRule.setDays(days);
+}
+
 Rule *
 QmlRulesModel::getEditRule() {
     return &_editRule;
@@ -389,6 +412,9 @@ void
 QmlRulesModel::saveEditRule() {
     // TODO away debug, at least check indices if nothing else
     qDebug("QmlRulesModel::saveEditRule client->saveEditRule id %s, name %s", qPrintable(_editRule.getRuleId()), qPrintable(_editRule.getRuleName()));
-    _client->updateRule(_editRule);
-
+    if (_editRule.getRuleId().isEmpty()) {
+        _client->appendRule(_editRule);
+    } else {
+        _client->updateRule(_editRule);
+    }
 }

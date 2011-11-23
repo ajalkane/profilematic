@@ -399,13 +399,9 @@ Page {
 
     function openNewRule() {
         console.log("openNewRule")
+        backendRulesModel.setNewEditRule();
         var p = {
-            "ruleName": "",
-            "timeStart": "",
-            "days": [0, 1, 2, 3, 4, 5, 6],
-            "profile": "",
-            "profileVolume": 40,
-            "ruleIndex": -1
+            "rule": backendRulesModel.getEditRule()
         }
         editRuleModelIndex = -1
         editRule = loadEditRule(p)

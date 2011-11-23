@@ -84,6 +84,7 @@ public:
     Q_INVOKABLE void remove(int index);
 
     Q_INVOKABLE void setEditRule(int index);
+    Q_INVOKABLE void setNewEditRule();
     Q_INVOKABLE Rule *getEditRule();
     Q_INVOKABLE void saveEditRule();
 
@@ -98,6 +99,7 @@ public slots:
     void emitSizeChanged(const QModelIndex & parent, int start, int end);
 
     void ruleUpdated(const Rule &);
+    void ruleAppended(const Rule &);
 signals:
     void sizeChanged();
 };

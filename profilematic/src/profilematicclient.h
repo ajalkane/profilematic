@@ -19,8 +19,10 @@ public:
 
     QList<Rule> getRules() const;
     void updateRule(const Rule &rule);
+    QString appendRule(const Rule &rule);
 signals:
     void ruleUpdated(const Rule &rule);
+    void ruleAppended(const Rule &rule);
 
 public slots:
 };
