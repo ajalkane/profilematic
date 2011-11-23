@@ -42,6 +42,7 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QObject *parent)
     connect(_client, SIGNAL(ruleUpdated(const Rule &)), this, SLOT(ruleUpdated(const Rule &)));
     connect(_client, SIGNAL(ruleAppended(const Rule &)), this, SLOT(ruleAppended(const Rule &)));
     connect(_client, SIGNAL(ruleRemoved(const QString &)), this, SLOT(ruleRemoved(const QString &)));
+    connect(_client, SIGNAL(ruleMoved(const QString &, int)), this, SLOT(ruleMoved(const QString &, int)));
 
     _rules = client->getRules();
 
@@ -248,6 +249,30 @@ QmlRulesModel::ruleRemoved(const QString &ruleId) {
     endRemoveRows();;
 }
 
+void
+QmlRulesModel::ruleMoved(const QString &ruleId, int toIndex) {
+    qDebug("QmlRulesModel: Received rule removed %s", qPrintable(ruleId));
+    int index = _findRuleIndexById(ruleId);
+    if (index < 0) {
+        qDebug("QmlRulesModel::ruleMoved no rule found for id %s", qPrintable(ruleId));
+        return;
+    }
+    if (toIndex < 0 || toIndex > _rules.size() - 1) {
+        qDebug("QmlRulesModel::ruleMoved: invalid toIndex: %d, allowed range (0 - %d)", toIndex, _rules.size() - 1);
+        return;
+    }
+
+    // This looks perverse, just see the documentation for QAbstractItemModel.beginMoveColumns to make sense of it
+    int toIndexFinal = (toIndex < index ? toIndex : toIndex + 1);
+    if (beginMoveRows(QModelIndex(), index, index, QModelIndex(), toIndexFinal)) {
+        qDebug("Doing moving %d -> %d", index, toIndex);
+        _rules.move(index, toIndex);
+        endMoveRows();
+    } else {
+        qDebug("Invalid move %d -> %d", index, toIndex);
+    }
+}
+
 int
 QmlRulesModel::_findRuleIndexById(const Rule::IdType &id) const {
     for (int i = 0; i < _rules.size(); ++i) {
@@ -444,4 +469,16 @@ QmlRulesModel::removeRule(int index) {
 
     const Rule &r = _rules.at(index);
     _client->removeRule(r.getRuleId());
+}
+
+void
+QmlRulesModel::moveRule(int index, int toIndex) {
+    qDebug("QmlRulesModel::moveRule(%d, %d)", index, toIndex);
+    if (index < 0 || index >= _rules.count()) {
+        qDebug("QmlRulesModel::moveRule: Invalid index %d", index);
+        return;
+    }
+
+    const Rule &r = _rules.at(index);
+    _client->moveRule(r.getRuleId(), toIndex);
 }

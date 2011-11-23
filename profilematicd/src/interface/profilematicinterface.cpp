@@ -86,6 +86,22 @@ ProfileMaticInterface::removeRule(const QString &ruleId) {
     emit ruleRemoved(ruleId);
 }
 
+void
+ProfileMaticInterface::moveRule(const QString &ruleId, int toIndex) {
+    qDebug("moveRule received %s -> %d", qPrintable(ruleId), toIndex);
+    int index = _findRuleIndexById(ruleId);
+    if (index < 0) {
+        qDebug("moveRule: Could not find rule with id %s", qPrintable(ruleId));
+        return;
+    }
+    if (toIndex < 0 || toIndex > _rules->size() - 1) {
+        qDebug("moveRule: invalid toIndex: %d, allowed range (0 - %d)", toIndex, _rules->size() - 1);
+        return;
+    }
+    _rules->move(index, toIndex);
+    emit ruleMoved(ruleId, toIndex);
+}
+
 int
 ProfileMaticInterface::_findRuleIndexById(const Rule::IdType &id) const {
     for (int i = 0; i < _rules->size(); ++i) {

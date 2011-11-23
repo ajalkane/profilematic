@@ -25,6 +25,7 @@ signals:
     // Rule is always created as the last rule
     void ruleAppended(const Rule &rule);
     void ruleRemoved(const QString &ruleId);
+    void ruleMoved(const QString &ruleId, int toIndex);
 public slots:
     // Returns id of created rule or empty if error. A new rule is always
     // added as last rule.
@@ -39,6 +40,7 @@ public slots:
     // already has a ruleId, it is not used.
     QString appendRule(const Rule &rule);
     void removeRule(const QString &ruleId);
+    void moveRule(const QString &ruleId, int index);
 
 //    Rule getRule(const QString &rule);
 

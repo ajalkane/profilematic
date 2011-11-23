@@ -182,7 +182,7 @@ Page {
 
                             onClicked: {
                                 console.log("Clicked up " + model, index)
-                                backendRulesModel.move(index, index - 1, 1)
+                                backendRulesModel.moveRule(index, index - 1)
                                 backend.refreshRuleWatch();
                             }
                         }
@@ -279,7 +279,7 @@ Page {
                                 console.log("Clicked down " + model, index)
                                 // IMPROVE: animation doesn't seem to be easily doable currently on ListView on move, see
                                 // http://lists.qt.nokia.com/pipermail/qt-qml/2010-March/000035.html
-                                backendRulesModel.move(index, index + 1, 1)
+                                backendRulesModel.moveRule(index, index + 1)
                                 backend.refreshRuleWatch();
                             }
                         }
