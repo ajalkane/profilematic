@@ -52,10 +52,10 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QObject *parent)
     //    newRule("Rule 3", QTime(12, 22), "Silent");
 }
 
-Qt::ItemFlags
-QmlRulesModel::flags(const QModelIndex &index) const {
-    return super::flags(index) | Qt::ItemIsEditable;
-}
+//Qt::ItemFlags
+//QmlRulesModel::flags(const QModelIndex &index) const {
+//    return super::flags(index) | Qt::ItemIsEditable;
+//}
 
 int
 QmlRulesModel::rowCount(const QModelIndex &) const {
@@ -91,120 +91,120 @@ QmlRulesModel::data(const QModelIndex & index, int role) const {
     case DaysSummaryRole:
         return getDaysSummaryText(rule.getDays());
     default:
-        qDebug("Unrecognized role for QmlRulesModel::setData: %d", role);
+        qDebug("Unrecognized role for QmlRulesModel::data: %d", role);
         return QVariant();
     }
 
     return QVariant();
 }
 
-bool
-QmlRulesModel::setData(const QModelIndex &index, const QVariant &value, int role) {
-    if (index.row() < 0 || index.row() >= _rules.count()) {
-        qDebug("QmlRulesModel::setData: Invalid index %d", index.row());
-        return false;
-    }
-    Rule &rule = _rules[index.row()];
-    switch (role) {
-    case RuleIdRole:
-        rule.setRuleId(value.toString());
-        break;
-    case RuleActiveRole:
-        // ruleActive = value.toBool();
-        break;
-    case RuleNameRole:
-        break;
-    {
-        // TODO this to daemon code
-        QString ruleName = value.toString();
-        if (ruleName.trimmed().isEmpty()) {
-            // Could be smarter rule, for example basing it on the rest of the data. But then
-            // this logic would have to be a bit higher in the hierarchy. On the other hand,
-            // if automatic rule name is wanted to be supported, it should be dynamic (in qml)
-            // This will do for now.
-            ruleName = QString("Rule #") + QString::number(index.row() + 1);
-        }
-        // rule.setRuleName(ruleName);
-        Rule updateRule = rule;
-        updateRule.setRuleName(ruleName);
-        qDebug("QmlRulesModel: client->updateRule %s", qPrintable(updateRule.getRuleName()));
-        _client->updateRule(updateRule);
-    }
-    break;
-    case TimeStartRole:
-        rule.setTimeStart(QTime::fromString(value.toString(), "hh:mm"));
-        qDebug("Set startTime to %d:%d", rule.getTimeStart().hour(), rule.getTimeStart().minute());
-        break;
-    case DaysRole:
-        // Skip silently. Only used with dummymodels.
-        return false;
-    case ProfileRole:
-        rule.setProfile(value.toString());
-        break;
-    case ProfileVolumeRole:
-        rule.setProfileVolume(value.toInt());
-        break;
-    default:
-        qDebug("Unrecognized role for QmlRulesModel::setData: %d", role);
-        return false;
-    }
+//bool
+//QmlRulesModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+//    if (index.row() < 0 || index.row() >= _rules.count()) {
+//        qDebug("QmlRulesModel::setData: Invalid index %d", index.row());
+//        return false;
+//    }
+//    Rule &rule = _rules[index.row()];
+//    switch (role) {
+//    case RuleIdRole:
+//        rule.setRuleId(value.toString());
+//        break;
+//    case RuleActiveRole:
+//        // ruleActive = value.toBool();
+//        break;
+//    case RuleNameRole:
+//        break;
+//    {
+//        // TODO this to daemon code
+//        QString ruleName = value.toString();
+//        if (ruleName.trimmed().isEmpty()) {
+//            // Could be smarter rule, for example basing it on the rest of the data. But then
+//            // this logic would have to be a bit higher in the hierarchy. On the other hand,
+//            // if automatic rule name is wanted to be supported, it should be dynamic (in qml)
+//            // This will do for now.
+//            ruleName = QString("Rule #") + QString::number(index.row() + 1);
+//        }
+//        // rule.setRuleName(ruleName);
+//        Rule updateRule = rule;
+//        updateRule.setRuleName(ruleName);
+//        qDebug("QmlRulesModel: client->updateRule %s", qPrintable(updateRule.getRuleName()));
+//        _client->updateRule(updateRule);
+//    }
+//    break;
+//    case TimeStartRole:
+//        rule.setTimeStart(QTime::fromString(value.toString(), "hh:mm"));
+//        qDebug("Set startTime to %d:%d", rule.getTimeStart().hour(), rule.getTimeStart().minute());
+//        break;
+//    case DaysRole:
+//        // Skip silently. Only used with dummymodels.
+//        return false;
+//    case ProfileRole:
+//        rule.setProfile(value.toString());
+//        break;
+//    case ProfileVolumeRole:
+//        rule.setProfileVolume(value.toInt());
+//        break;
+//    default:
+//        qDebug("Unrecognized role for QmlRulesModel::setData: %d", role);
+//        return false;
+//    }
 
-    emit dataChanged(index, index);
-    return true;
-}
+//    emit dataChanged(index, index);
+//    return true;
+//}
 
-void
-QmlRulesModel::move(int sourceIndex, int targetIndex, int size) {
-    // This looks perverse, just see the documentation for QAbstractItemModel.beginMoveColumns to make sense of it
-    int targetIndexFinal = (targetIndex < sourceIndex ? targetIndex + size - 1 : targetIndex + size);
-    if (size == 1 && beginMoveRows(QModelIndex(), sourceIndex, sourceIndex + size - 1, QModelIndex(), targetIndexFinal)) {
-        qDebug("Doing moving %d -> %d size %d", sourceIndex, targetIndex, size);
-        _rules.move(sourceIndex, targetIndex);
-        endMoveRows();
-    } else {
-        qDebug("Invalid move %d -> %d size %d", sourceIndex, targetIndex, size);
-    }
-}
+//void
+//QmlRulesModel::move(int sourceIndex, int targetIndex, int size) {
+//    // This looks perverse, just see the documentation for QAbstractItemModel.beginMoveColumns to make sense of it
+//    int targetIndexFinal = (targetIndex < sourceIndex ? targetIndex + size - 1 : targetIndex + size);
+//    if (size == 1 && beginMoveRows(QModelIndex(), sourceIndex, sourceIndex + size - 1, QModelIndex(), targetIndexFinal)) {
+//        qDebug("Doing moving %d -> %d size %d", sourceIndex, targetIndex, size);
+//        _rules.move(sourceIndex, targetIndex);
+//        endMoveRows();
+//    } else {
+//        qDebug("Invalid move %d -> %d size %d", sourceIndex, targetIndex, size);
+//    }
+//}
 
-int
-QmlRulesModel::_findRole(const QHash<int, QByteArray> &from, const QString &property) {
-    QHash<int, QByteArray>::const_iterator i;
-    for (i = from.constBegin(); i != from.constEnd(); ++i) {
-        if (i.value() == property) {
-            return i.key();
-        }
-    }
-    return -1;
-}
+//int
+//QmlRulesModel::_findRole(const QHash<int, QByteArray> &from, const QString &property) {
+//    QHash<int, QByteArray>::const_iterator i;
+//    for (i = from.constBegin(); i != from.constEnd(); ++i) {
+//        if (i.value() == property) {
+//            return i.key();
+//        }
+//    }
+//    return -1;
+//}
 
-void
-QmlRulesModel::_setProperty(int index, const QString &key, const QVariant &value) {
-    int role = _findRole(_roleToProperty, key);
+//void
+//QmlRulesModel::_setProperty(int index, const QString &key, const QVariant &value) {
+//    int role = _findRole(_roleToProperty, key);
 
-    if (role >= 0) {
-        QModelIndex modelIndex = createIndex(index, 0);
-        setData(modelIndex, value, role);
-    } else {
-        qDebug("Role not found for QML property %s, index %d", key.toLatin1().constData(), index);
-        return;
-    }
-}
+//    if (role >= 0) {
+//        QModelIndex modelIndex = createIndex(index, 0);
+//        setData(modelIndex, value, role);
+//    } else {
+//        qDebug("Role not found for QML property %s, index %d", key.toLatin1().constData(), index);
+//        return;
+//    }
+//}
 
-void
-QmlRulesModel::set(int index, const QVariantMap &dict) {
-    if (index < 0 || index >= _rules.count()) {
-        qDebug("QmlRulesModel::set invalid index %d, size %d", index, _rules.size());
-        return;
-    }
+//void
+//QmlRulesModel::set(int index, const QVariantMap &dict) {
+//    if (index < 0 || index >= _rules.count()) {
+//        qDebug("QmlRulesModel::set invalid index %d, size %d", index, _rules.size());
+//        return;
+//    }
 
-    // IMPROVE: this could probably be made much more efficiently
-    // by having setData_internal function that doesn't emit
-    // dataChanged, and just calling emit dataChanged after for loop
-    QVariantMap::const_iterator i = dict.constBegin();
-    for (; i != dict.constEnd(); ++i) {
-        _setProperty(index, i.key(), i.value());
-    }
-}
+//    // IMPROVE: this could probably be made much more efficiently
+//    // by having setData_internal function that doesn't emit
+//    // dataChanged, and just calling emit dataChanged after for loop
+//    QVariantMap::const_iterator i = dict.constBegin();
+//    for (; i != dict.constEnd(); ++i) {
+//        _setProperty(index, i.key(), i.value());
+//    }
+//}
 
 void
 QmlRulesModel::ruleUpdated(const Rule &rule) {
@@ -244,68 +244,68 @@ QmlRulesModel::_findRuleIndexById(const Rule::IdType &id) const {
     return -1;
 }
 
-void
-QmlRulesModel::append(const QVariantMap &dict) {
-    // IMPROVE: this could probably be made much more efficiently
-    // by having setData_internal function that doesn't emit
-    // dataChanged, and just wrapping it all between begin/endInsertRows.
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    _rules << Rule();
-    endInsertRows();
-    int index = _rules.size() - 1;
-    set(index, dict);    
-}
+//void
+//QmlRulesModel::append(const QVariantMap &dict) {
+//    // IMPROVE: this could probably be made much more efficiently
+//    // by having setData_internal function that doesn't emit
+//    // dataChanged, and just wrapping it all between begin/endInsertRows.
+//    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+//    _rules << Rule();
+//    endInsertRows();
+//    int index = _rules.size() - 1;
+//    set(index, dict);
+//}
 
-void
-QmlRulesModel::remove(int index) {
-    if (index < 0 || index >= _rules.count()) {
-        qDebug("QmlRulesModel::remove: Invalid index %d", index);
-        return;
-    }
-    beginRemoveRows(QModelIndex(), index, index);
-    _rules.removeAt(index);
-    endRemoveRows();
-}
+//void
+//QmlRulesModel::remove(int index) {
+//    if (index < 0 || index >= _rules.count()) {
+//        qDebug("QmlRulesModel::remove: Invalid index %d", index);
+//        return;
+//    }
+//    beginRemoveRows(QModelIndex(), index, index);
+//    _rules.removeAt(index);
+//    endRemoveRows();
+//}
 
-QVariantList
-QmlRulesModel::getDayIndices(int index) const {
-    if (index < 0 || index >= _rules.count()) {
-        qDebug("QmlRulesModel::getDayIndices: Invalid index %d", index);
-        return QVariantList();
-    }
-    const Rule &rule = _rules.at(index);
+//QVariantList
+//QmlRulesModel::getDayIndices(int index) const {
+//    if (index < 0 || index >= _rules.count()) {
+//        qDebug("QmlRulesModel::getDayIndices: Invalid index %d", index);
+//        return QVariantList();
+//    }
+//    const Rule &rule = _rules.at(index);
 
-    QVariantList dayIndices;
-    const QSet<int> &days = rule.getDays();
-    QSet<int>::const_iterator i;
-    for (i = days.constBegin(); i != days.constEnd(); ++i) {
-        int day = *i;
-        dayIndices << QVariant::fromValue(day);
-    }
-    return dayIndices;
-}
+//    QVariantList dayIndices;
+//    const QSet<int> &days = rule.getDays();
+//    QSet<int>::const_iterator i;
+//    for (i = days.constBegin(); i != days.constEnd(); ++i) {
+//        int day = *i;
+//        dayIndices << QVariant::fromValue(day);
+//    }
+//    return dayIndices;
+//}
 
-void
-QmlRulesModel::setDayIndices(int index, const QVariantList &dayIndices) {
-    if (index < 0 || index >= _rules.count()) {
-        qDebug("QmlRulesModel::setDayIndices: Invalid index %d", index);
-        return;
-    }
-    QSet<int> days;
-    QVariantList::const_iterator i;
-    for (i = dayIndices.constBegin(); i != dayIndices.constEnd(); ++i) {
-        QVariant variant = *i;
-        int day = variant.toInt();
-        days << day;
-    }
+//void
+//QmlRulesModel::setDayIndices(int index, const QVariantList &dayIndices) {
+//    if (index < 0 || index >= _rules.count()) {
+//        qDebug("QmlRulesModel::setDayIndices: Invalid index %d", index);
+//        return;
+//    }
+//    QSet<int> days;
+//    QVariantList::const_iterator i;
+//    for (i = dayIndices.constBegin(); i != dayIndices.constEnd(); ++i) {
+//        QVariant variant = *i;
+//        int day = variant.toInt();
+//        days << day;
+//    }
 
-    Rule &rule = _rules[index];
-    rule.setDays(days);
+//    Rule &rule = _rules[index];
+//    rule.setDays(days);
 
-    QModelIndex modelIndex = createIndex(index, 0);
+//    QModelIndex modelIndex = createIndex(index, 0);
 
-    emit dataChanged(modelIndex, modelIndex);
-}
+//    emit dataChanged(modelIndex, modelIndex);
+//}
 
 void
 QmlRulesModel::emitSizeChanged(const QModelIndex &, int, int) {

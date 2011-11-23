@@ -68,20 +68,20 @@ public:
 
     QmlRulesModel(ProfileMaticClient *client, QObject *parent = 0);
 
-    void newRule(const QString &ruleName, const QTime &timeStart, const QString &profile);
+    // void newRule(const QString &ruleName, const QTime &timeStart, const QString &profile);
 
     // QAbstractListModel implementations
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+    // bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
     // bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
-    Qt::ItemFlags flags ( const QModelIndex & index ) const;
+//    Qt::ItemFlags flags ( const QModelIndex & index ) const;
 
     // Functions as in QML's ListModel that are needed
-    Q_INVOKABLE void move(int sourceIndex, int targetIndex, int size);
-    Q_INVOKABLE void set(int index, const QVariantMap &dict);
-    Q_INVOKABLE void append(const QVariantMap &dict);
-    Q_INVOKABLE void remove(int index);
+//    Q_INVOKABLE void move(int sourceIndex, int targetIndex, int size);
+//    Q_INVOKABLE void set(int index, const QVariantMap &dict);
+//    Q_INVOKABLE void append(const QVariantMap &dict);
+//    Q_INVOKABLE void remove(int index);
 
     Q_INVOKABLE void setEditRule(int index);
     Q_INVOKABLE void setNewEditRule();
@@ -89,8 +89,8 @@ public:
     Q_INVOKABLE void saveEditRule();
 
     // More complex data access functions that are not easily representable by roles
-    Q_INVOKABLE QVariantList getDayIndices(int index) const;
-    Q_INVOKABLE void setDayIndices(int index, const QVariantList &dayIndices);
+//    Q_INVOKABLE QVariantList getDayIndices(int index) const;
+//    Q_INVOKABLE void setDayIndices(int index, const QVariantList &dayIndices);
     Q_INVOKABLE QString getDaysSummaryText(const QVariantList &dayIndices) const;
 
     QString getDaysSummaryText(const QSet<int> &days) const;
