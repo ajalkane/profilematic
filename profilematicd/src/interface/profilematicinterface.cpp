@@ -60,11 +60,30 @@ QString
 ProfileMaticInterface::appendRule(const Rule &rule) {
     Rule newRule = rule;
     newRule.setRuleId(QUuid::createUuid().toString());
-    qDebug("ProfileMaticInterface::createRule(), created ruleId %s", qPrintable(newRule.getRuleId()));
+    if (newRule.getRuleName().isEmpty()) {
+        QString ruleName = QString("Rule #") + QString::number(_rules->size() + 1);
+        newRule.setRuleName(ruleName);
+        qDebug("QmlRulesModel: client->appendRule setting name to %s", qPrintable(newRule.getRuleName()));
+
+    }
+    qDebug("ProfileMaticInterface::appendRule(), created ruleId %s", qPrintable(newRule.getRuleId()));
 
     _rules->append(newRule);
     emit ruleAppended(newRule);
     return newRule.getRuleId();
+}
+
+void
+ProfileMaticInterface::removeRule(const QString &ruleId) {
+    qDebug("removeRule received %s", qPrintable(ruleId));
+    int index = _findRuleIndexById(ruleId);
+    if (index < 0) {
+        qDebug("removeRule: Could not find rule with id %s", qPrintable(ruleId));
+        return;
+    }
+
+    _rules->removeAt(index);
+    emit ruleRemoved(ruleId);
 }
 
 int

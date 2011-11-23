@@ -20,9 +20,11 @@ public:
     QList<Rule> getRules() const;
     void updateRule(const Rule &rule);
     QString appendRule(const Rule &rule);
+    void removeRule(const QString &ruleId);
 signals:
     void ruleUpdated(const Rule &rule);
     void ruleAppended(const Rule &rule);
+    void ruleRemoved(const QString &ruleId);
 
 public slots:
 };

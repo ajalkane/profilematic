@@ -411,7 +411,7 @@ Page {
     function deleteRule(index) {
         // TODO use ruleId: deleteRule(ruleId)
         if (index >= 0) {
-            backendRulesModel.remove(index)
+            backendRulesModel.removeRule(index)
             backend.refreshRuleWatch();
         }
     }

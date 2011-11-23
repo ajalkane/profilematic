@@ -41,6 +41,7 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QObject *parent)
 
     connect(_client, SIGNAL(ruleUpdated(const Rule &)), this, SLOT(ruleUpdated(const Rule &)));
     connect(_client, SIGNAL(ruleAppended(const Rule &)), this, SLOT(ruleAppended(const Rule &)));
+    connect(_client, SIGNAL(ruleRemoved(const QString &)), this, SLOT(ruleRemoved(const QString &)));
 
     _rules = client->getRules();
 
@@ -233,6 +234,20 @@ QmlRulesModel::ruleAppended(const Rule &rule) {
     endInsertRows();
 }
 
+void
+QmlRulesModel::ruleRemoved(const QString &ruleId) {
+    qDebug("QmlRulesModel: Received rule removed %s", qPrintable(ruleId));
+    int targetIndex = _findRuleIndexById(ruleId);
+    if (targetIndex < 0) {
+        qDebug("QmlRulesModel::ruleRemoved no rule found for id %s", qPrintable(ruleId));
+        return;
+    }
+
+    beginRemoveRows(QModelIndex(), targetIndex, targetIndex);
+    _rules.removeAt(targetIndex);
+    endRemoveRows();;
+}
+
 int
 QmlRulesModel::_findRuleIndexById(const Rule::IdType &id) const {
     for (int i = 0; i < _rules.size(); ++i) {
@@ -417,4 +432,16 @@ QmlRulesModel::saveEditRule() {
     } else {
         _client->updateRule(_editRule);
     }
+}
+
+void
+QmlRulesModel::removeRule(int index) {
+    qDebug("QmlRulesModel::removeRule(%d)", index);
+    if (index < 0 || index >= _rules.count()) {
+        qDebug("QmlRulesModel::removeRule: Invalid index %d", index);
+        return;
+    }
+
+    const Rule &r = _rules.at(index);
+    _client->removeRule(r.getRuleId());
 }

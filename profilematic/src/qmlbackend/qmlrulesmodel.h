@@ -87,6 +87,7 @@ public:
     Q_INVOKABLE void setNewEditRule();
     Q_INVOKABLE Rule *getEditRule();
     Q_INVOKABLE void saveEditRule();
+    Q_INVOKABLE void removeRule(int index);
 
     // More complex data access functions that are not easily representable by roles
 //    Q_INVOKABLE QVariantList getDayIndices(int index) const;
@@ -100,6 +101,7 @@ public slots:
 
     void ruleUpdated(const Rule &);
     void ruleAppended(const Rule &);
+    void ruleRemoved(const QString &);
 signals:
     void sizeChanged();
 };

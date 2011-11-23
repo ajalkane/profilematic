@@ -15,6 +15,7 @@ ProfileMaticClient::ProfileMaticClient(QObject *parent) :
 
     connect(dbus_iface, SIGNAL(ruleUpdated(const Rule &)), this, SIGNAL(ruleUpdated(const Rule &)));
     connect(dbus_iface, SIGNAL(ruleAppended(const Rule &)), this, SIGNAL(ruleAppended(const Rule &)));
+    connect(dbus_iface, SIGNAL(ruleRemoved(const QString &)), this, SIGNAL(ruleRemoved(const QString &)));
 }
 
 ProfileMaticClient::~ProfileMaticClient() {
@@ -55,4 +56,13 @@ ProfileMaticClient::appendRule(const Rule &rule) {
         qDebug("appendRule error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());
     }
     return reply.value();
+}
+
+void
+ProfileMaticClient::removeRule(const QString &ruleId) {
+    /*QDBusReply<QList<Rule> > reply = */ dbus_iface->call("removeRule", QVariant::fromValue(ruleId));
+    /*if (!reply.isValid()) {
+        QDBusError e = reply.error();
+        qDebug("updateRule error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());
+    }*/
 }
