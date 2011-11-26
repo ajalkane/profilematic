@@ -7,15 +7,20 @@
 #include <QStringList>
 
 #include "../model/rule.h"
-#include "../settings.h"
+#include "../configuration.h"
+#include "../preferences.h"
+#include "../logic/rulewatch.h"
 
 class ProfileMaticInterface : public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.ajalkane.profilematic")
+    RuleWatch   *_ruleWatch;
     QList<Rule> *_rules;
+    Preferences *_preferences;
+
 public:
-    explicit ProfileMaticInterface(QList<Rule> *rules, QObject *parent = 0);
+    explicit ProfileMaticInterface(RuleWatch *ruleWatch, QList<Rule> *rules, Preferences *preferences, QObject *parent = 0);
     virtual ~ProfileMaticInterface();
 
     // Return 0 if success
@@ -26,13 +31,8 @@ signals:
     void ruleAppended(const Rule &rule);
     void ruleRemoved(const QString &ruleId);
     void ruleMoved(const QString &ruleId, int toIndex);
+    void activeChanged(bool isActive);
 public slots:
-    // Returns id of created rule or empty if error. A new rule is always
-    // added as last rule.
-    // QString addRule();
-
-    // QStringList getRuleIds();
-
     QList<Rule> getRules() const;
 
     void updateRule(const Rule &rule);
@@ -42,22 +42,14 @@ public slots:
     void removeRule(const QString &ruleId);
     void moveRule(const QString &ruleId, int index);
 
-//    Rule getRule(const QString &rule);
+    // Returns true if rules are watched
+    bool isActive() const;
+    void setActive(bool active);
 
-//    // Returns true if success
-//    bool deleteRule(const QString &id);
-
-//    // Moves rule to position given by index. The valid
-//    // values are in the range 0 - amount of rules.
-//    // Returns true if success.
-//    int moveRule(const QString &id, int index);
-
-//    // Setters and getters
-//    QStringList getRuleIds() const;
-//    QString getRuleName(const QString &id) const;
-//    bool setRuleName(const QString &id, const QString &name) const;
 private:
     int _findRuleIndexById(const Rule::IdType &id) const;
+    void _rulesChanged();
+    void _preferencesChanged();
 };
 
 #endif // PROFILEMATICINTERFACE_H

@@ -38,8 +38,11 @@ class QmlRulesModel: public QAbstractListModel
     // Needed for SelectionDialog
     Q_PROPERTY(int count READ rowCount NOTIFY sizeChanged)
 
+    Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
+
     QList<Rule> _rules;
     Rule _editRule;
+    bool _isActive;
 
     ProfileMaticClient *_client;
 
@@ -97,6 +100,8 @@ public:
 
     QString getDaysSummaryText(const QSet<int> &days) const;
 
+    bool isActive() const;
+    void setActive(bool isActive);
 public slots:
     void emitSizeChanged(const QModelIndex & parent, int start, int end);
 
@@ -104,8 +109,10 @@ public slots:
     void ruleAppended(const Rule &);
     void ruleRemoved(const QString &);
     void ruleMoved(const QString &, int);
+    void activeChangedBackend(bool isActive);
 signals:
     void sizeChanged();
+    void activeChanged();
 };
 
 #endif // QMLRULESMODEL_H

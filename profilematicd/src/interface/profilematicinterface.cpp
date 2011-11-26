@@ -3,13 +3,14 @@
 #include <stdio.h>
 
 #include "../model/rule.h"
+#include "../configuration.h"
 #include "profilematicinterface.h"
 
 #define PM_OBJECT_NAME "/org/ajalkane/profilematic"
 #define PM_SERVICE_NAME "org.ajalkane.profilematic"
 
-ProfileMaticInterface::ProfileMaticInterface(QList<Rule> *rules, QObject *parent) :
-    QObject(parent), _rules(rules)
+ProfileMaticInterface::ProfileMaticInterface(RuleWatch *ruleWatch, QList<Rule> *rules, Preferences *preferences, QObject *parent) :
+    QObject(parent), _ruleWatch(ruleWatch), _rules(rules), _preferences(preferences)
 {
     qDBusRegisterMetaType<Rule>();
     qDBusRegisterMetaType<QList<Rule> >();
@@ -54,6 +55,7 @@ ProfileMaticInterface::updateRule(const Rule &rule) {
     (*_rules)[index] = rule; // Rule(rule);
     qDebug("updateRule emitting ruleUpdated for %s", qPrintable(rule.getRuleId()));
     emit ruleUpdated(_rules->at(index));
+    _rulesChanged();
 }
 
 QString
@@ -70,6 +72,7 @@ ProfileMaticInterface::appendRule(const Rule &rule) {
 
     _rules->append(newRule);
     emit ruleAppended(newRule);
+    _rulesChanged();
     return newRule.getRuleId();
 }
 
@@ -83,6 +86,7 @@ ProfileMaticInterface::removeRule(const QString &ruleId) {
     }
 
     _rules->removeAt(index);
+    _rulesChanged();
     emit ruleRemoved(ruleId);
 }
 
@@ -99,7 +103,24 @@ ProfileMaticInterface::moveRule(const QString &ruleId, int toIndex) {
         return;
     }
     _rules->move(index, toIndex);
+    _rulesChanged();
     emit ruleMoved(ruleId, toIndex);
+}
+
+bool
+ProfileMaticInterface::isActive() const {
+    return _preferences->isActive;
+}
+
+void
+ProfileMaticInterface::setActive(bool isActive) {
+    if (isActive != _preferences->isActive) {
+        qDebug("Active changed to", isActive);
+          _preferences->isActive = isActive;
+        emit activeChanged(isActive);
+        _ruleWatch->refreshWatch();
+        _preferencesChanged();
+    }
 }
 
 int
@@ -111,6 +132,17 @@ ProfileMaticInterface::_findRuleIndexById(const Rule::IdType &id) const {
         }
     }
     return -1;
+}
+
+void
+ProfileMaticInterface::_rulesChanged() {
+    _ruleWatch->refreshWatch();
+    Configuration::writeRules(*_rules);
+}
+
+void
+ProfileMaticInterface::_preferencesChanged() {
+    Configuration::writePreferences(*_preferences);
 }
 
 //// Returns id of created rule or empty if error. A new rule is always

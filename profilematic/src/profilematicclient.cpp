@@ -17,6 +17,7 @@ ProfileMaticClient::ProfileMaticClient(QObject *parent) :
     connect(dbus_iface, SIGNAL(ruleAppended(const Rule &)), this, SIGNAL(ruleAppended(const Rule &)));
     connect(dbus_iface, SIGNAL(ruleRemoved(const QString &)), this, SIGNAL(ruleRemoved(const QString &)));
     connect(dbus_iface, SIGNAL(ruleMoved(const QString &, int)), this, SIGNAL(ruleMoved(const QString &, int)));
+    connect(dbus_iface, SIGNAL(activeChanged(bool)), this, SIGNAL(activeChanged(bool)));
 }
 
 ProfileMaticClient::~ProfileMaticClient() {
@@ -76,3 +77,24 @@ ProfileMaticClient::moveRule(const QString &ruleId, int toIndex) {
         qDebug("updateRule error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());
     }*/
 }
+
+bool
+ProfileMaticClient::isActive() const {
+    QDBusReply<bool> reply = dbus_iface->call("isActive");
+    if (!reply.isValid()) {
+        QDBusError e = reply.error();
+        qDebug("isActive error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());
+    }
+    return reply.value();
+}
+
+
+void
+ProfileMaticClient::setActive(bool isActive) {
+    /*QDBusReply<QList<Rule> > reply = */ dbus_iface->call("setActive", QVariant::fromValue(isActive));
+    /*if (!reply.isValid()) {
+        QDBusError e = reply.error();
+        qDebug("updateRule error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());
+    }*/
+}
+

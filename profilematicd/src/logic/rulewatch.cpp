@@ -21,8 +21,8 @@
 
 #include "rulewatch.h"
 
-RuleWatch::RuleWatch(const QList<Rule> *rules, QObject *parent)
-    : QObject(parent), _rules(rules), _targetRule(NULL)
+RuleWatch::RuleWatch(const QList<Rule> *rules, const Preferences *preferences, QObject *parent)
+    : QObject(parent), _rules(rules), _preferences(preferences), _targetRule(NULL)
 {
     _timer.setSingleShot(true);
 
@@ -40,6 +40,11 @@ RuleWatch::refreshWatch(const QDateTime &now) {
     qDebug("RuleWatch::refreshWatch(%s)", qPrintable(now.toString()));
 
     _timer.stop();
+
+    if (!_preferences->isActive) {
+        qDebug("RuleWatch::refreshWatch(%s), ProfileMatic not active", qPrintable(now.toString()));
+        return;
+    }
 
     QDateTime nextNearestDateTime;
 

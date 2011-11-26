@@ -2,7 +2,8 @@
 #include <QDBusMetaType>
 
 #include "profileclient.h"
-#include "settings.h"
+#include "configuration.h"
+#include "preferences.h"
 #include "model/rule.h"
 #include "logic/rulewatch.h"
 #include "logic/ruleactivator.h"
@@ -15,11 +16,15 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 
     ProfileClient profileClient;
+    Preferences preferences;
     QList<Rule> rules;
-    Settings::read(rules);
-    RuleWatch ruleWatch(&rules);
+
+    Configuration::readRules(rules);
+    Configuration::readPreferences(preferences);
+    RuleWatch ruleWatch(&rules, &preferences);
     RuleActivator ruleActivator(&profileClient);
-    ProfileMaticInterface interface(&rules);
+    ProfileMaticInterface interface(&ruleWatch, &rules, &preferences);
+
     if (interface.init()) {
         fprintf(stderr, "Exiting\n");
         return -1;

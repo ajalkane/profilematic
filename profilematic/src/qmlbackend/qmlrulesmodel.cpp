@@ -24,7 +24,7 @@
 #include "qmlrulesmodel.h"
 
 QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QObject *parent)
-    : QAbstractListModel(parent), _client(client)
+    : QAbstractListModel(parent), _isActive(false), _client(client)
 {    
     _roleToProperty[RuleIdRole]          = "ruleId";
     _roleToProperty[RuleActiveRole]      = "ruleActive";
@@ -43,8 +43,10 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QObject *parent)
     connect(_client, SIGNAL(ruleAppended(const Rule &)), this, SLOT(ruleAppended(const Rule &)));
     connect(_client, SIGNAL(ruleRemoved(const QString &)), this, SLOT(ruleRemoved(const QString &)));
     connect(_client, SIGNAL(ruleMoved(const QString &, int)), this, SLOT(ruleMoved(const QString &, int)));
+    connect(_client, SIGNAL(activeChanged(bool)), this, SLOT(activeChangedBackend(bool)));
 
     _rules = client->getRules();
+    _isActive = client->isActive();
 
     connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(emitSizeChanged(QModelIndex,int,int)));
     connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(emitSizeChanged(QModelIndex,int,int)));
@@ -481,4 +483,22 @@ QmlRulesModel::moveRule(int index, int toIndex) {
 
     const Rule &r = _rules.at(index);
     _client->moveRule(r.getRuleId(), toIndex);
+}
+
+bool
+QmlRulesModel::isActive() const {
+    return _isActive;
+}
+
+void
+QmlRulesModel::setActive(bool isActive) {
+    _client->setActive(isActive);
+}
+
+void
+QmlRulesModel::activeChangedBackend(bool isActive) {
+    if (isActive != _isActive) {
+        _isActive = isActive;
+        emit activeChanged();
+    }
 }

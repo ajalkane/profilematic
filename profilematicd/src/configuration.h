@@ -16,27 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#ifndef CONFIGURATION_H
+#define CONFIGURATION_H
 
 #include <QString>
 #include <QList>
 #include <QSettings>
 
 #include "model/rule.h"
+#include "preferences.h"
 
-class Settings
+class Configuration
 {
     static void _writeIntList(QSettings &s, const QString &prefix, const QString &key, const QList<int> &values);
     static void _readIntList(QSettings &s, const QString &prefix, const QString &key, QList<int> &values);
     static void _assignRuleId(Rule &r, const QVariant &ruleIdVar);
 public:
-    Settings();
+    Configuration();
 
-    static void write(const QList<Rule> &rules);
-    static void read(QList<Rule> &rules);
+    static void writeRules(const QList<Rule> &rules);
+    static void readRules(QList<Rule> &rules);
 
+    static void writePreferences(const Preferences &preferences);
+    static void readPreferences(Preferences &preferences);
 
 };
 
-#endif // SETTINGS_H
+#endif // CONFIGURATION_H

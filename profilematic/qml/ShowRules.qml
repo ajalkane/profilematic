@@ -77,6 +77,13 @@ Page {
     Menu {
         id: mainMenu
         MenuLayout {
+            MenuItem {
+                text: backendRulesModel.active ? "Stop watching rules" : "Start watching rules"
+                onClicked: {
+                    console.log("Switching rule watching to", !backendRulesModel.active)
+                    backendRulesModel.active = !backendRulesModel.active
+                }
+            }
             MenuItem { text: "About"; onClicked: loadAboutDialog().open() }
         }
     }
@@ -146,6 +153,18 @@ Page {
                     duration: _editRuleDelay
                 }
 
+            }
+        }
+
+        header: Item {
+            visible: !backendRulesModel.active
+            height: !backendRulesModel.active ? childrenRect.height : 0
+            Text {
+                    wrapMode: Text.WordWrap
+                    width: parent.width
+                    font.pixelSize: UIConstants.FONT_LARGE;
+                    color: "red"
+                    text: "Warning: Rules are not active! Activate from menu."
             }
         }
 
@@ -342,7 +361,7 @@ Page {
                 visible: backendRulesModel.count > 0
                 font.pixelSize: UIConstants.FONT_SMALL;
                 color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                text: "Profile" + (backendRulesModel.count > 1 ? "s are" : " is") + " changed only when application is open."
+                text: backendRulesModel.active ? "Rules are activated even if application is closed or device is rebooted" : ""
             }
         }
     }

@@ -17,19 +17,21 @@ TEMPLATE = app
 
 SOURCES += src/main.cpp \
     src/profileclient.cpp \
-    src/settings.cpp \
+    src/configuration.cpp \
     src/model/rule.cpp \
     src/logic/rulewatch.cpp \
     src/logic/ruleactivator.cpp \
-    src/interface/profilematicinterface.cpp
+    src/interface/profilematicinterface.cpp \
+    src/preferences.cpp
 
 HEADERS += \
     src/profileclient.h \
-    src/settings.h \
+    src/configuration.h \
     src/model/rule.h \
     src/logic/rulewatch.h \
     src/logic/ruleactivator.h \
-    src/interface/profilematicinterface.h
+    src/interface/profilematicinterface.h \
+    src/preferences.h
 
 #!isEmpty(MEEGO_VERSION_MAJOR) {
     target.path = /opt/profilematic/bin
@@ -40,6 +42,8 @@ daemonconf.path = /etc/init/apps
 daemonconf.files = profilematicd.conf
 
 INSTALLS += daemonconf
+
+
 
 
 

@@ -19,15 +19,15 @@
 #include <QSettings>
 #include <QUuid>
 
-#include "settings.h"
+#include "configuration.h"
 
-Settings::Settings()
+Configuration::Configuration()
 {
 }
 
 void
-Settings::write(const QList<Rule> &rules) {
-    qDebug("Settings::write()");
+Configuration::writeRules(const QList<Rule> &rules) {
+    qDebug("Configuration::write()");
 
     // IMPROVE constants.h
     // So wrong by the API specifications, but so right by the end results (no, I don't like doing it this way)
@@ -52,7 +52,7 @@ Settings::write(const QList<Rule> &rules) {
 }
 
 void
-Settings::read(QList<Rule> &rules) {
+Configuration::readRules(QList<Rule> &rules) {
     // IMPROVE constants.h
     // So wrong by the API specifications, but so right by the end results (no, I don't like doing it this way)
     QSettings s("ProfileMatic", "rules");
@@ -82,13 +82,32 @@ Settings::read(QList<Rule> &rules) {
             r.setProfileVolume(profileVolume);
         }
         rules << r;
-        qDebug("Settings: index %d, ruleId: %s, ruleName: %s", i, qPrintable(r.getRuleId()), qPrintable(r.getRuleName()));
+        qDebug("Configuration: index %d, ruleId: %s, ruleName: %s", i, qPrintable(r.getRuleId()), qPrintable(r.getRuleName()));
     }
     s.endArray();
 }
 
 void
-Settings::_assignRuleId(Rule &r, const QVariant &ruleIdVar) {
+Configuration::writePreferences(const Preferences &p) {
+    qDebug("Configuration::writePreferences()");
+
+    // IMPROVE constants.h
+    // So wrong by the API specifications, but so right by the end results (no, I don't like doing it this way)
+    QSettings s("ProfileMatic", "preferences");
+    s.clear();
+    s.setValue("isActive", p.isActive);
+}
+
+void
+Configuration::readPreferences(Preferences &p) {
+    // IMPROVE constants.h
+    // So wrong by the API specifications, but so right by the end results (no, I don't like doing it this way)
+    QSettings s("ProfileMatic", "rules");
+    p.isActive = s.value("isActive", true).toBool();
+}
+
+void
+Configuration::_assignRuleId(Rule &r, const QVariant &ruleIdVar) {
     // First released version did not set ruleIds, and it was assumed to be int.
     // Now it is changed to be UUID, a string. If the ruleId is a string, create
     // a new UUID
@@ -105,7 +124,7 @@ Settings::_assignRuleId(Rule &r, const QVariant &ruleIdVar) {
 }
 
 void
-Settings::_writeIntList(QSettings &s, const QString &prefix, const QString &key, const QList<int> &values) {
+Configuration::_writeIntList(QSettings &s, const QString &prefix, const QString &key, const QList<int> &values) {
     qDebug("QSettings:__writeIntList prefix %s, key %s, size %d", qPrintable(prefix), qPrintable(key), values.size());
     s.beginWriteArray(prefix, values.size());
     for (int i = 0; i < values.size(); ++i) {
@@ -117,7 +136,7 @@ Settings::_writeIntList(QSettings &s, const QString &prefix, const QString &key,
 }
 
 void
-Settings::_readIntList(QSettings &s, const QString &prefix, const QString &key, QList<int> &values) {
+Configuration::_readIntList(QSettings &s, const QString &prefix, const QString &key, QList<int> &values) {
     int size = s.beginReadArray(prefix);
     for (int i = 0; i < size; ++i) {
         s.setArrayIndex(i);
@@ -127,7 +146,7 @@ Settings::_readIntList(QSettings &s, const QString &prefix, const QString &key, 
         if (ok) {
             values << value;
         } else {
-            qDebug("Settings: invalid setting (not an int) at %s/%d/%s: %s",
+            qDebug("Configuration: invalid setting (not an int) at %s/%d/%s: %s",
                    qPrintable(prefix), i, qPrintable(key), qPrintable(valueStr));
         }
     }

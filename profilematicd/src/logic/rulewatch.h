@@ -24,6 +24,7 @@
 #include <QTimer>
 
 #include "../model/rule.h"
+#include "../preferences.h"
 
 class RuleWatch : public QObject
 {
@@ -31,13 +32,14 @@ class RuleWatch : public QObject
 
     QTimer _timer;
     const QList<Rule> *_rules;
+    const Preferences *_preferences;
     const Rule *_targetRule;
 
     QDateTime _nextDateTimeFromRule(const QDateTime &from, const Rule &rule) const;
     bool _isTargetRuleActivable() const;
 
 public:
-    RuleWatch(const QList<Rule> *_rules, QObject *parent = 0);
+    RuleWatch(const QList<Rule> *_rules, const Preferences *preferences, QObject *parent = 0);
 
     void refreshWatch(const QDateTime &now);
     void refreshWatch();
