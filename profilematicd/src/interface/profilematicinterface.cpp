@@ -115,7 +115,7 @@ ProfileMaticInterface::isActive() const {
 void
 ProfileMaticInterface::setActive(bool isActive) {
     if (isActive != _preferences->isActive) {
-        qDebug("Active changed to", isActive);
+        qDebug("Active changed to %d", isActive);
           _preferences->isActive = isActive;
         emit activeChanged(isActive);
         _ruleWatch->refreshWatch();
