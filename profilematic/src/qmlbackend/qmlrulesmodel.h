@@ -39,10 +39,12 @@ class QmlRulesModel: public QAbstractListModel
     Q_PROPERTY(int count READ rowCount NOTIFY sizeChanged)
 
     Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
+    Q_PROPERTY(bool backendError READ backendError NOTIFY backendErrorChanged)
 
     QList<Rule> _rules;
     Rule _editRule;
     bool _isActive;
+    bool _backendError;
 
     ProfileMaticClient *_client;
 
@@ -102,6 +104,7 @@ public:
 
     bool isActive() const;
     void setActive(bool isActive);
+    bool backendError() const;
 public slots:
     void emitSizeChanged(const QModelIndex & parent, int start, int end);
 
@@ -113,6 +116,7 @@ public slots:
 signals:
     void sizeChanged();
     void activeChanged();
+    void backendErrorChanged();
 };
 
 #endif // QMLRULESMODEL_H

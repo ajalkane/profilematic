@@ -24,6 +24,11 @@ ProfileMaticClient::~ProfileMaticClient() {
     delete dbus_iface;
 }
 
+int
+ProfileMaticClient::lastError() const {
+    return dbus_iface->lastError().type();
+}
+
 QList<Rule>
 ProfileMaticClient::getRules() const {
     QDBusReply<QList<Rule> > reply = dbus_iface->call("getRules");

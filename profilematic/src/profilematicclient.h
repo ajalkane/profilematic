@@ -25,6 +25,9 @@ public:
 
     bool isActive() const;
     void setActive(bool isActive);
+
+    // Returns QDBusError::ErrorType of last call. 0 is no error.
+    int lastError() const;
 signals:
     void ruleUpdated(const Rule &rule);
     void ruleAppended(const Rule &rule);

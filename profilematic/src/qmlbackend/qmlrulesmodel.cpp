@@ -24,7 +24,7 @@
 #include "qmlrulesmodel.h"
 
 QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QObject *parent)
-    : QAbstractListModel(parent), _isActive(false), _client(client)
+    : QAbstractListModel(parent), _isActive(false), _backendError(false), _client(client)
 {    
     _roleToProperty[RuleIdRole]          = "ruleId";
     _roleToProperty[RuleActiveRole]      = "ruleActive";
@@ -45,8 +45,14 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QObject *parent)
     connect(_client, SIGNAL(ruleMoved(const QString &, int)), this, SLOT(ruleMoved(const QString &, int)));
     connect(_client, SIGNAL(activeChanged(bool)), this, SLOT(activeChangedBackend(bool)));
 
-    _rules = client->getRules();
-    _isActive = client->isActive();
+    _rules = _client->getRules();
+    // This should be fairly uncommon occurence, meaning profilematic daemon
+    // is not running. At least for now only check it on first call.
+    if (_client->lastError() != 0) {
+        qDebug("QmlRulesModel::QmlRulesModel: getRules resulted in DBus error type %d", _client->lastError());
+        _backendError = true;
+    }
+    _isActive = _client->isActive();
 
     connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(emitSizeChanged(QModelIndex,int,int)));
     connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(emitSizeChanged(QModelIndex,int,int)));
@@ -501,4 +507,9 @@ QmlRulesModel::activeChangedBackend(bool isActive) {
         _isActive = isActive;
         emit activeChanged();
     }
+}
+
+bool
+QmlRulesModel::backendError() const {
+    return _backendError;
 }

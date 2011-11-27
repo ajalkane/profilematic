@@ -23,7 +23,7 @@ import "UIConstants.js" as UIConstants
 
 Page {
     id: showRules
-    tools: showRuleTools
+    tools: !backendRulesModel.backendError ? showRuleTools : null
     anchors.margins: UIConstants.DEFAULT_MARGIN // UiConstants.DefaultMargin
 
     property Item editRule
@@ -59,6 +59,7 @@ Page {
 
     ToolBarLayout {
         id: showRuleTools
+        visible: !backendRulesModel.backendError
 
         ToolIcon {
             iconId: "toolbar-add"
@@ -105,7 +106,7 @@ Page {
         anchors.centerIn: parent
         width: parent.width
         horizontalAlignment: Text.AlignHCenter
-        visible: backendRulesModel.count === 0
+        visible: !backendRulesModel.backendError && backendRulesModel.count === 0
         font.pixelSize: UIConstants.FONT_XXXLARGE;
         color: mouseAreaFirstRule.containsMouse ? (!theme.inverted ? UIConstants.COLOR_FOREGROUND : UIConstants.COLOR_INVERTED_FOREGROUND)
                                  : (!theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND)
@@ -120,6 +121,18 @@ Page {
                 openNewRule()
             }
         }
+    }
+
+    Text {
+        wrapMode: Text.WordWrap
+        anchors.top: appHeader.bottom
+        anchors.centerIn: parent
+        width: parent.width
+        horizontalAlignment: Text.AlignHCenter
+        visible: backendRulesModel.backendError
+        font.pixelSize: UIConstants.FONT_XXXLARGE;
+        color: "red"
+        text: "Malfunction. Try reinstalling ProfileMatic or rebooting device."
     }
 
     ListView {
@@ -159,6 +172,7 @@ Page {
         header: Item {
             visible: !backendRulesModel.active
             height: !backendRulesModel.active ? childrenRect.height : 0
+            width: parent.width
             Text {
                     wrapMode: Text.WordWrap
                     width: parent.width
