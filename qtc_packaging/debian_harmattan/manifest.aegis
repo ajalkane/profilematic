@@ -1,0 +1,8 @@
+<aegis>
+  <request>
+    <credential name="UID::user" />
+    <credential name="GID::users" />
+    <for path="/opt/profilematic/bin/profilematicd"/>
+  </request>
+</aegis>
+
