@@ -40,6 +40,7 @@ RuleWatch::refreshWatch(const QDateTime &now) {
     qDebug("RuleWatch::refreshWatch(%s)", qPrintable(now.toString()));
 
     _timer.stop();
+    _targetRule = NULL;
 
     if (!_preferences->isActive) {
         qDebug("RuleWatch::refreshWatch(%s), ProfileMatic not active", qPrintable(now.toString()));
@@ -69,7 +70,6 @@ RuleWatch::refreshWatch(const QDateTime &now) {
         qDebug("Scheduling a timer to %s, interval %dms", qPrintable(nextNearestDateTime.toString()), (int)interval);
         _timer.start(interval);
     } else {
-        _targetRule = NULL;
         qDebug("No nearest time based rule found");
     }
 }
@@ -169,7 +169,7 @@ RuleWatch::_activateAndReschedule() {
 
 bool
 RuleWatch::_isTargetRuleActivable() const {
-    if (_targetRule /* && !_targetRule->ruleActive */) {
+    if (_targetRule == NULL /* && !_targetRule->ruleActive */) {
         return false;
     }
 

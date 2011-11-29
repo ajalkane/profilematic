@@ -79,7 +79,7 @@ Page {
         id: mainMenu
         MenuLayout {
             MenuItem {
-                text: backendRulesModel.active ? "Stop watching rules" : "Start watching rules"
+                text: backendRulesModel.active ? "Stop following rules" : "Start following rules"
                 onClicked: {
                     console.log("Switching rule watching to", !backendRulesModel.active)
                     backendRulesModel.active = !backendRulesModel.active
@@ -130,9 +130,9 @@ Page {
         width: parent.width
         horizontalAlignment: Text.AlignHCenter
         visible: backendRulesModel.backendError
-        font.pixelSize: UIConstants.FONT_XXXLARGE;
+        font.pixelSize: UIConstants.FONT_XLARGE;
         color: "red"
-        text: "Malfunction. Try reinstalling ProfileMatic or rebooting device."
+        text: "Oops. Still starting my engines. I'll be up and running soon, close me and come back in 2 minutes. If problem persists, reboot the phone or reinstall ProfileMatic."
     }
 
     ListView {
@@ -178,7 +178,7 @@ Page {
                     width: parent.width
                     font.pixelSize: UIConstants.FONT_LARGE;
                     color: "red"
-                    text: "Warning: Rules are not active! Activate from menu."
+                    text: "Warning: Rules are not followed! Activate from menu."
             }
         }
 
@@ -375,7 +375,7 @@ Page {
                 visible: backendRulesModel.count > 0
                 font.pixelSize: UIConstants.FONT_SMALL;
                 color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                text: backendRulesModel.active ? "Rules are activated even if application is closed or device is rebooted" : ""
+                text: backendRulesModel.active ? "Rules are followed even if application is closed or device is rebooted" : ""
             }
         }
     }
