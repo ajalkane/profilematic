@@ -23,7 +23,7 @@
 #include <QList>
 #include <QtDBus/QtDBus>
 
-// TODO need common sources or library for this
+// IMPROVE need to have the Rule object in common sources or library.
 #include "../../profilematicd/src/model/rule.h"
 
 class ProfileMaticClient : public QObject

@@ -26,10 +26,3 @@ QmlBackend::QmlBackend()
 
 QmlBackend::~QmlBackend() {
 }
-
-void
-QmlBackend::refreshRuleWatch() {
-//    _ruleWatch->refreshWatch();
-    // IMPROVE: this is not good, saving all of the rules like this. Might get slow with lots of rules with current UI.
-//    Settings::write(*(_ruleWatch->rules()));
-}

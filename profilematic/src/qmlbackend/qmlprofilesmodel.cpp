@@ -44,7 +44,6 @@ QmlProfilesModel::_init(Role nameRole) {
             QString profileType = _profileClient->getProfileType(profile);
             if (!_nameToProfile.contains(profileType)) {
                 _nameToProfile[profileType] = profile;
-                // TODO skip Outdoors profile
                 _profileToName[profile] = profileType;
                 _names.append(profileType);
             }

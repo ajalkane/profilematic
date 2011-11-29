@@ -41,7 +41,7 @@ class Rule : public QObject
     int     _profileVolume;
 
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
-    // class "pure" ?
+    // class "pure" plain Qt object?
     Q_PROPERTY(QString ruleId READ getRuleId NOTIFY ruleIdChanged)
     Q_PROPERTY(QString ruleName READ getRuleName WRITE setRuleName NOTIFY ruleNameChanged)
     Q_PROPERTY(QString timeStart READ getTimeStartQml WRITE setTimeStartQml NOTIFY timeStartChanged)

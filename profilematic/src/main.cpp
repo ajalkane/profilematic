@@ -27,9 +27,6 @@
 
 #include "profileclient.h"
 #include "profilematicclient.h"
-//#include "settings.h"
-//#include "logic/rulewatch.h"
-//#include "logic/ruleactivator.h"
 
 #include "qmlbackend/qmlbackend.h"
 #include "qmlbackend/qmldaysmodel.h"
@@ -45,13 +42,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     ProfileClient profileClient;
     ProfileMaticClient profileMaticClient;
-    // Settings::read(rules);
-    // RuleWatch ruleWatch(&rules);
-    // RuleActivator ruleActivator(&profileClient);
-
-    //ruleActivator.connect(&ruleWatch, SIGNAL(activateRule(RuleItem)), &ruleActivator, SLOT(activateRule(RuleItem)));
-
-    // ruleWatch.refreshWatch();
 
     QmlProfilesModel qmlProfilesModel(&profileClient, QmlProfilesModel::ProfileType);
     QmlDaysModel qmlDaysModel;

@@ -32,13 +32,6 @@ Page {
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
     property Rule    rule;
-    // property int     ruleIndex: -1
-    // property string  ruleId
-    // property string  ruleName
-    // property variant days
-    //property string  timeStart
-    // property string  profile
-    // property int     profileVolume: -1
 
     signal saved
     signal cancelled

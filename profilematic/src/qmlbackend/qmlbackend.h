@@ -22,19 +22,15 @@
 #include <QObject>
 #include <QList>
 
-//#include "../logic/rulewatch.h"
 #include "qmldaysmodel.h"
 
+// This class is just a placeholder for now.
 class QmlBackend : public QObject {
     Q_OBJECT
-
-    // RuleWatch *_ruleWatch;
 
 public:
     QmlBackend();
     virtual ~QmlBackend();
-
-    Q_INVOKABLE void refreshRuleWatch();
 };
 
 #endif // QMLBACKEND_H

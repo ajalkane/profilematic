@@ -216,7 +216,6 @@ Page {
                             onClicked: {
                                 console.log("Clicked up " + model, index)
                                 backendRulesModel.moveRule(index, index - 1)
-                                backend.refreshRuleWatch();
                             }
                         }
 
@@ -313,7 +312,6 @@ Page {
                                 // IMPROVE: animation doesn't seem to be easily doable currently on ListView on move, see
                                 // http://lists.qt.nokia.com/pipermail/qt-qml/2010-March/000035.html
                                 backendRulesModel.moveRule(index, index + 1)
-                                backend.refreshRuleWatch();
                             }
                         }
 
@@ -336,13 +334,7 @@ Page {
 
                             backendRulesModel.setEditRule(index)
                             var p = {
-                                "rule": backendRulesModel.getEditRule(), // editRuleObject, // backendRulesModel.getRule(index),
-                                // "ruleName": ruleName,
-                                // "timeStart": typeof timeStart != "string" ? Qt.formatTime(timeStart, "hh:mm") : timeStart,
-                                // "days": backendRulesModel.getDayIndices(index), // daysArr
-                                // "profile": profile,
-                                // "profileVolume": profileVolume,
-                                // "ruleIndex": index
+                                "rule": backendRulesModel.getEditRule()
                             }
                             console.log("loadEditRule")
                             console.log("loadEditRule p.rule", p.rule)
@@ -403,31 +395,7 @@ Page {
     }
 
     function setRule(index) {
-        // console.log("setRule ", index, editRule.ruleName)
-//        console.log("setRule ", index, editRule.rule.ruleName)
-//        var ruleDict = {
-//            "ruleActive": true, // for now always true
-//            "ruleId": editRule.ruleId, // TODO perhaps ruleId is not really needed
-//            // "ruleName": editRule.ruleName,
-//            "timeStart": editRule.timeStart,
-//            // "days": "[]", // For compatibility with dummymodels, C++ model does not have such role
-//            "profile": editRule.profile,
-//            "profileVolume": editRule.profileVolume
-//        }
-
-//        if (index < 0) {
-//            // Create new rule
-//            backendRulesModel.append(ruleDict)
-//            index = backendRulesModel.count - 1
-//            console.log("setRule appended new index", index)
-//        }
-/*        else*/ {
-            backendRulesModel.saveEditRule()
-            // backendRulesModel.set(index, ruleDict)
-        }
-        // backendRulesModel.setDayIndices(index, editRule.days);
-
-        backend.refreshRuleWatch();
+        backendRulesModel.saveEditRule()
     }
 
     function openNewRule() {
@@ -442,10 +410,9 @@ Page {
     }
 
     function deleteRule(index) {
-        // TODO use ruleId: deleteRule(ruleId)
+        // IMPROVE use ruleId: deleteRule(ruleId)
         if (index >= 0) {
             backendRulesModel.removeRule(index)
-            backend.refreshRuleWatch();
         }
     }
 
