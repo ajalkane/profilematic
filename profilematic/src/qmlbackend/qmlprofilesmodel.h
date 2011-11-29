@@ -1,9 +1,3 @@
-#ifndef QMLPROFILESMODEL_H
-#define QMLPROFILESMODEL_H
-
-#include <QObject>
-#include <QList>
-#include <QStringList>
 /**********************************************************************
  * Copyright 2011 Arto Jalkanen
  *
@@ -22,6 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
+#ifndef QMLPROFILESMODEL_H
+#define QMLPROFILESMODEL_H
+
+#include <QObject>
+#include <QList>
+#include <QStringList>
 #include <QMap>
 #include <QAbstractListModel>
 
