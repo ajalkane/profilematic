@@ -66,7 +66,7 @@ Page {
         ToolButton {
             anchors.left: parent.left
             anchors.leftMargin: UIConstants.PADDING_XLARGE
-            text: "Accept"
+            text: "Save"
             onClicked: {
                 if (isValidRule()) {
                     editRuleMenu.close();
@@ -115,7 +115,7 @@ Page {
         id: timeStartDialog
         fields: DateTime.Hours | DateTime.Minutes
         hourMode: DateTime.TwentyFourHours
-        titleText: "Time"
+        titleText: "Actived at"
         acceptButtonText: "Ok"
         rejectButtonText: "Cancel"
 
@@ -145,7 +145,7 @@ Page {
 
     MyMultiSelectionDialog {
          id: daysDialog
-         titleText: "Days"
+         titleText: "Active days"
          model: backendDaysModel
          acceptButtonText: "OK"
          onAccepted: rule.days = selectedIndexes

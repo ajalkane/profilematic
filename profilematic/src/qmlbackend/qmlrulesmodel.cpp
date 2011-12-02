@@ -203,6 +203,11 @@ QmlRulesModel::getDaysSummaryText(const QSet<int> &days) const {
     if (days.size() == 0) {
         return "No days";
     }
+    // If only one day selected, display full name
+    if (days.size() == 1) {
+        int dayId = *(days.constBegin());
+        return QDate::longDayName(dayId + 1, QDate::StandaloneFormat);
+    }
 
     int rangeStart = -1;
 
