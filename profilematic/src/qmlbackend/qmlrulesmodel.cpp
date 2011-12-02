@@ -34,6 +34,7 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QObject *parent)
     _roleToProperty[ProfileRole]         = "profile";
     _roleToProperty[ProfileVolumeRole]   = "profileVolume";
     _roleToProperty[DaysSummaryRole]     = "daysSummary";
+    _roleToProperty[FlightModeRole]      = "flightMode";
 
     setRoleNames(_roleToProperty);
 
@@ -98,6 +99,8 @@ QmlRulesModel::data(const QModelIndex & index, int role) const {
         return rule.getProfileVolume();
     case DaysSummaryRole:
         return getDaysSummaryText(rule.getDays());
+    case FlightModeRole:
+        return rule.getFlightMode();
     default:
         qDebug("Unrecognized role for QmlRulesModel::data: %d", role);
         return QVariant();

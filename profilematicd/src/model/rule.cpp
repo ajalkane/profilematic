@@ -19,7 +19,7 @@
 #include "rule.h"
 
 Rule::Rule(QObject *parent)
-    : QObject(parent),  _profileVolume(-1)
+    : QObject(parent),  _profileVolume(-1), _flightMode(-1)
 {
 }
 
@@ -30,7 +30,8 @@ Rule::Rule(const Rule &o)
       _timeStart(o._timeStart),
       _days(o._days),
       _profile(o._profile),
-      _profileVolume(o._profileVolume)
+      _profileVolume(o._profileVolume),
+      _flightMode(o._flightMode)
 {
 }
 
@@ -44,6 +45,7 @@ Rule::operator=(const Rule &o) {
     _days = o._days;
     _profile = o._profile;
     _profileVolume = o._profileVolume;
+    _flightMode = o._flightMode;
     return *this;
 }
 
@@ -168,6 +170,19 @@ Rule::setProfileVolume(int volume) {
     }
 }
 
+int
+Rule::getFlightMode() const {
+    return _flightMode;
+}
+
+void
+Rule::setFlightMode(int flightMode) {
+    if (_flightMode != flightMode) {
+        _flightMode = flightMode;
+        emit flightModeChanged();
+    }
+}
+
 QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
 {
     argument.beginStructure();
@@ -177,6 +192,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
     argument << rule.getDays();
     argument << rule.getProfile();
     argument << rule.getProfileVolume();
+    argument << rule.getFlightMode();
     argument.endStructure();
     return argument;
 }
@@ -191,6 +207,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
 
     QString profile = rule.getProfile();
     int     profileVolume = rule.getProfileVolume();
+    int     flightMode = rule.getFlightMode();
 
     argument.beginStructure();
     argument >> ruleId;
@@ -199,6 +216,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     argument >> days;
     argument >> profile;
     argument >> profileVolume;
+    argument >> flightMode;
     argument.endStructure();
 
     rule.setRuleId(ruleId);
@@ -207,6 +225,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     rule.setDays(QSet<int>::fromList(days));
     rule.setProfile(profile);
     rule.setProfileVolume(profileVolume);
+    rule.setFlightMode(flightMode);
 
     return argument;
 }

@@ -47,6 +47,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("timeStart", r.getTimeStart().toString());
         s.setValue("profile", r.getProfile());
         s.setValue("profileVolume", r.getProfileVolume());
+        s.setValue("flightMode", r.getFlightMode());
     }
     s.endArray();
 }
@@ -80,6 +81,11 @@ Configuration::readRules(QList<Rule> &rules) {
         int profileVolume = s.value("profileVolume").toInt(&profileVolumeOk);
         if (profileVolumeOk) {
             r.setProfileVolume(profileVolume);
+        }
+        bool flightModeOk = false;
+        int flightMode = s.value("flightMode").toInt(&flightModeOk);
+        if (flightModeOk) {
+            r.setFlightMode(flightMode);
         }
         rules << r;
         qDebug("Configuration: index %d, ruleId: %s, ruleName: %s", i, qPrintable(r.getRuleId()), qPrintable(r.getRuleName()));

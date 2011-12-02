@@ -11,6 +11,7 @@ QT       -= gui
 TARGET = profilematicd
 CONFIG   += console
 CONFIG   -= app_bundle
+CONFIG   += qmsystem2
 
 TEMPLATE = app
 
@@ -22,7 +23,8 @@ SOURCES += src/main.cpp \
     src/logic/rulewatch.cpp \
     src/logic/ruleactivator.cpp \
     src/interface/profilematicinterface.cpp \
-    src/preferences.cpp
+    src/preferences.cpp \
+    src/platform/platformutil.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -31,7 +33,13 @@ HEADERS += \
     src/logic/rulewatch.h \
     src/logic/ruleactivator.h \
     src/interface/profilematicinterface.h \
-    src/preferences.h
+    src/preferences.h \
+    src/platform/platformutil.h \
+
+!isEmpty(MEEGO_VERSION_MAJOR) {
+    SOURCES += src/platform/harmattan/harmattan_platformutil.cpp
+    HEADERS += src/platform/harmattan/harmattan_platformutil.h
+}
 
 #!isEmpty(MEEGO_VERSION_MAJOR) {
     target.path = /opt/profilematic/bin
@@ -42,6 +50,18 @@ daemonconf.path = /etc/init/apps
 daemonconf.files = profilematicd.conf
 
 INSTALLS += daemonconf
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
