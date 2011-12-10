@@ -1,3 +1,14 @@
+profilematic (1.1.1) unstable; urgency=low
+  * Small UX improvements:
+  * Edit rule: Save instead of accept
+  * Accept days: same header in selection
+  * Activate at: same header in selection
+  * Set profile: same header in selection
+  * Selection color blue as in header
+  * If only one active day selected, display tho full name (eg. Wednesday instead of Wed)
+
+ -- Arto Jalkanen <ajalkane@gmail.com>  Thu, 28 Nov 2011 13:44:30 +0300
+
 profilematic (1.1.0) unstable; urgency=low
   * Background task for switching profiles even if application is closed.
 

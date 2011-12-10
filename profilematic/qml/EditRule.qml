@@ -118,7 +118,6 @@ Page {
         titleText: "Actived at"
         acceptButtonText: "Ok"
         rejectButtonText: "Cancel"
-
         onAccepted: rule.timeStart = formatTime(hour, minute)
         property string targetProperty
     }
@@ -146,6 +145,9 @@ Page {
     MyMultiSelectionDialog {
          id: daysDialog
          titleText: "Active days"
+         platformStyle: SelectionDialogStyle {
+            itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
+         }
          model: backendDaysModel
          acceptButtonText: "OK"
          onAccepted: rule.days = selectedIndexes
@@ -165,7 +167,10 @@ Page {
 
     MySelectionDialog {
          id: profilesDialog
-         titleText: "Select profile"
+         titleText: "Set profile"
+         platformStyle: SelectionDialogStyle {
+            itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
+         }
          model: backendProfilesModel
 
          onSelectedIndexChanged: {
@@ -355,13 +360,12 @@ Page {
                     width: listItem.width
                     height: ruleVisible ? ruleColumn.height : 0
 
-                    BorderImage {
+                    Rectangle {
                         id: background
                         anchors.fill:  ruleItem
                         anchors.margins: -UIConstants.DEFAULT_MARGIN
                         visible: mouseArea.pressed
-                        source: !theme.inverted ? "image://theme/meegotouch-list-background-pressed-center"
-                                                : "image://theme/meegotouch-list-inverted-background-pressed-center"
+                        color: UIConstants.COLOR_SELECT
                     }
 
                     Column {

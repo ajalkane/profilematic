@@ -93,7 +93,7 @@ Page {
         id: appHeader
         title: "ProfileMatic"
         // This is the same color as in Harmattan pulldown Profile background color
-        backgroundColor: "#428eff"
+        backgroundColor: UIConstants.COLOR_APP_HEADER
         titleColor: "white"
         anchors.leftMargin: -UIConstants.DEFAULT_MARGIN
         anchors.rightMargin: -UIConstants.DEFAULT_MARGIN
@@ -151,7 +151,7 @@ Page {
 
         highlight: Rectangle {
             id: highlightBar
-            color: "#428eff"
+            color: UIConstants.COLOR_SELECT
             opacity: 0.0
 
             states: State {
@@ -200,13 +200,12 @@ Page {
                         width: childrenRect.width
                         height:  parent.height
                         visible: index > 0
-                        BorderImage {
+                        Rectangle {
                             id: backgroundUp
                             anchors.fill: up
                             anchors.margins: -UIConstants.DEFAULT_MARGIN
                             visible: mouseAreaUp.pressed
-                            source: !theme.inverted ? "image://theme/meegotouch-list-background-pressed"
-                                                    : "image://theme/meegotouch-list-inverted-background-pressed"
+                            color: UIConstants.COLOR_SELECT
                         }
 
                         MouseArea {
@@ -236,14 +235,13 @@ Page {
                     width: listItem.width - (upColumn.width + parent.spacing) - (downColumn.width + parent.spacing) // childrenRect.width
                     height:  parent.height
 
-                    BorderImage {
+                    Rectangle {
                         id: background
                         anchors.fill: parent
                         anchors.leftMargin: -parent.anchors.leftMargin - UIConstants.DEFAULT_MARGIN
                         anchors.rightMargin: -parent.anchors.rightMargin - UIConstants.DEFAULT_MARGIN
                         visible: mouseAreaRule.pressed
-                        source: !theme.inverted ? "image://theme/meegotouch-list-background-pressed-center"
-                                                : "image://theme/meegotouch-list-inverted-background-pressed-center"
+                        color: UIConstants.COLOR_SELECT
                     }
                     Column {
                         id: rule
@@ -294,13 +292,12 @@ Page {
                         height:  parent.height
                         visible: index < listView.count - 1
 
-                        BorderImage {
+                        Rectangle {
                             id: backgroundDown
                             anchors.fill: down
                             anchors.margins: -UIConstants.DEFAULT_MARGIN
                             visible: mouseAreaDown.pressed
-                            source: !theme.inverted ? "image://theme/meegotouch-list-background-pressed"
-                                                    : "image://theme/meegotouch-list-inverted-background-pressed"
+                            color: UIConstants.COLOR_SELECT
                         }
 
                         MouseArea {

@@ -40,6 +40,9 @@
 
 .pragma library
 // My additions
+// This is the same color as in Harmattan pulldown Profile background color
+var COLOR_APP_HEADER = "#428eff"
+var COLOR_SELECT = "#428eff"; //Selected item background, blue as in title
 var TITLE_COLOR = "#000000"
 var TITLE_INVERTED_COLOR = "#FFFFFF" // TODO, what's the correct value?
 var TITLE_FONT_SIZE = 26
@@ -74,7 +77,7 @@ var COLOR_FOREGROUND = "#191919"; // Text color
 var COLOR_SECONDARY_FOREGROUND = "#a6a8ab"; // Secondary text
 // var COLOR_BACKGROUND = "#E0E1E2"; // Background
 var COLOR_BACKGROUND = "#E0E1E2"; // Background
-var COLOR_SELECT = "#4591ff"; //Selected item background
+// var COLOR_SELECT = "#4591ff"; //Selected item background
 
 var COLOR_INVERTED_FOREGROUND = "#ffffff"; // Text color
 var COLOR_INVERTED_SECONDARY_FOREGROUND = "#8c8c8c"; // Secondary text
