@@ -6,8 +6,9 @@ profilematic (1.1.1) unstable; urgency=low
   * Set profile: same header in selection
   * Selection color blue as in header
   * If only one active day selected, display tho full name (eg. Wednesday instead of Wed)
+  * When creating new rules, no days are selected by default
 
- -- Arto Jalkanen <ajalkane@gmail.com>  Thu, 28 Nov 2011 13:44:30 +0300
+ -- Arto Jalkanen <ajalkane@gmail.com>  Sat, 10 Dec 2011 22:29:30 +0300
 
 profilematic (1.1.0) unstable; urgency=low
   * Background task for switching profiles even if application is closed.
