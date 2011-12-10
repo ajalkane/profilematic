@@ -262,12 +262,13 @@ QmlRulesModel::setNewEditRule() {
     qDebug("QmlRulesModel::setNewEditRule");
 
     _editRule = Rule();
-    // When creating new rule, automatically select all days
-    QSet<int> days;
-    for (int i = 0; i < 7; i++) {
-        days << i;
-    }
-    _editRule.setDays(days);
+    // Accorsding to user input, this might be confusing, so do not set all days. Empty selection.
+//    // When creating new rule, automatically select all days
+//    QSet<int> days;
+//    for (int i = 0; i < 7; i++) {
+//        days << i;
+//    }
+//    _editRule.setDays(days);
 }
 
 void
