@@ -382,7 +382,9 @@ Page {
             ruleType: "Set flight mode"
             ruleSummaryJS: "flightModeSummary()"
             clickHandler: "flightModeEditHandler"
-            ruleVisible: true
+            // Flight mode needs open kernel. Needs a bit more work until proper support can
+            // be given.
+            ruleVisible: false
         }
     }
 
