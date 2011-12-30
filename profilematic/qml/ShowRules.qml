@@ -259,7 +259,15 @@ Page {
                             width: ruleItem.width
                             text: {
                                 console.log("Called summary label for index", index)
-                                return backendProfilesModel.getProfileToName(profile) + ". " + daysSummary + ". Starts at " + timeStart
+                                var summary = backendProfilesModel.getProfileToName(profile) + ". ";
+                                var fm = flightMode
+                                switch (fm) {
+                                case 0: summary += "Flight mode off. "; break;
+                                case 1: summary += "Flight mode on. "; break;
+                                }
+
+                                summary += daysSummary + ". Starts at " + timeStart
+                                return summary;
                             }
                             platformStyle: LabelStyleSubtitle {}
                             wrapMode: Text.WordWrap
@@ -337,7 +345,6 @@ Page {
                             console.log("loadEditRule p.rule", p.rule)
                             editRule = loadEditRule(p)
                             console.log("/loadEditRule")
-                            console.log("onClicked timeStart", editRule.timeStart)
                             pageStack.push(editRule)
                             listView.currentIndex = -1
                         }

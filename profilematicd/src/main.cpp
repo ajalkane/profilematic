@@ -26,21 +26,30 @@
 #include "logic/rulewatch.h"
 #include "logic/ruleactivator.h"
 #include "interface/profilematicinterface.h"
+#include "platform/platformutil.h"
 
 #include <stdio.h>
+
+//#include <qmdevicemode.h>
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
+  //  MeeGo::QmDeviceMode deviceMode;
+
+//    qDebug("DeviceMode: %d", deviceMode.getMode());
+
     ProfileClient profileClient;
     Preferences preferences;
+    PlatformUtil *platformUtil = PlatformUtil::create();
+
     QList<Rule> rules;
 
     Configuration::readRules(rules);
     Configuration::readPreferences(preferences);
     RuleWatch ruleWatch(&rules, &preferences);
-    RuleActivator ruleActivator(&profileClient);
+    RuleActivator ruleActivator(&profileClient, platformUtil);
     ProfileMaticInterface interface(&ruleWatch, &rules, &preferences);
 
     if (interface.init()) {
@@ -55,5 +64,6 @@ int main(int argc, char *argv[])
     printf("Starting\n");
     int ret = a.exec();
     printf("Exiting\n");
+    delete platformUtil;
     return ret;
 }

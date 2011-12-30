@@ -67,6 +67,7 @@ public:
         ProfileRole,
         ProfileVolumeRole,
         DaysSummaryRole,
+        FlightModeRole
     };
 
     QmlRulesModel(ProfileMaticClient *client, QObject *parent = 0);

@@ -258,6 +258,64 @@ Page {
         }
     }
 
+    // Flight mode
+    ListModel {
+        id: flightModel;
+
+        ListElement{
+            mode: 0
+            name: "Set flight mode off"
+        }
+        ListElement {
+            mode: 1
+            name: "Set flight mode on"
+        }
+        // flightModelSummary dpeends on "Don't change" to be be index 2.
+        ListElement {
+            mode: -1
+            name: "Don't change"
+        }
+    }
+
+    MySelectionDialog {
+         id: flightModeDialog
+         titleText: "Set flight mode"
+         model: flightModel
+
+         onSelectedIndexChanged: {
+             if (selectedIndex > -1) {
+                 var selectedFlightMode = model.get(selectedIndex).mode
+                 rule.flightMode = selectedFlightMode
+             }
+         }
+
+
+         function openWithSelection(selectedFlightMode) {
+             for (var i = 0; i < flightModel.count; i++) {
+                 var flightMode = flightModel.get(i).mode
+                 if (selectedFlightMode == flightMode) {
+                     selectedIndex = i
+                 }
+             }
+             open()
+         }
+
+     }
+
+    function flightModeSummary() {
+        switch (rule.flightMode) {
+        case 0:
+        case 1:
+            return flightModel.get(rule.flightMode).name;
+        }
+        return flightModel.get(2).name;
+    }
+
+    function flightModeEditHandler() {
+        flightModeDialog.openWithSelection(rule.flightMode)
+    }
+
+
     // Misc
     function confirmDelete() {
         dConfirmDelete.open()
@@ -316,6 +374,14 @@ Page {
             ruleType: "Set volume"
             ruleSummaryJS: "volumeSummary()"
             clickHandler: "volumeEditHandler"
+            ruleVisible: true
+        }
+
+        ListElement {
+            section: "Action"
+            ruleType: "Set flight mode"
+            ruleSummaryJS: "flightModeSummary()"
+            clickHandler: "flightModeEditHandler"
             ruleVisible: true
         }
     }

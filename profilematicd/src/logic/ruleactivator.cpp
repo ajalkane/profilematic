@@ -18,8 +18,9 @@
 **/
 #include "ruleactivator.h"
 
-RuleActivator::RuleActivator(ProfileClient *profileClient)
-    : _profileClient(profileClient)
+RuleActivator::RuleActivator(ProfileClient *profileClient,
+                             PlatformUtil *platformUtil)
+    : _profileClient(profileClient), _platformUtil(platformUtil)
 {    
 }
 
@@ -27,6 +28,7 @@ void
 RuleActivator::activateRule(const Rule &rule) {
     QString profile = rule.getProfile();
     int profileVolume = rule.getProfileVolume();
+    int flightMode = rule.getFlightMode();
 
     qDebug("RuleActivator::activateRule for rule %s, profile %s, volume %d",
            qPrintable(rule.getRuleName()),
@@ -40,6 +42,12 @@ RuleActivator::activateRule(const Rule &rule) {
     // move to profileclient.cpp
     if (profile.toLower() == "general" && profileVolume > -1 && profileVolume <= 100) {
         _profileClient->setProfileVolume(profile, profileVolume);
+    }
+    if (flightMode == 0 || flightMode == 1) {
+        qDebug("Setting flight mode %d", flightMode);
+        _platformUtil->setFlightMode(flightMode);
+    } else {
+        qDebug("Not setting flight mode %d", flightMode);
     }
 }
 

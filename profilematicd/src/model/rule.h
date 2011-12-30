@@ -39,6 +39,7 @@ class Rule : public QObject
     // Actions
     QString _profile;
     int     _profileVolume;
+    int     _flightMode;
 
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
@@ -48,6 +49,7 @@ class Rule : public QObject
     Q_PROPERTY(QVariantList days READ getDaysQml WRITE setDaysQml NOTIFY daysChanged)
     Q_PROPERTY(QString profile READ getProfile WRITE setProfile NOTIFY profileChanged)
     Q_PROPERTY(int profileVolume READ getProfileVolume WRITE setProfileVolume NOTIFY profileVolumeChanged)
+    Q_PROPERTY(int flightMode READ getFlightMode WRITE setFlightMode NOTIFY flightModeChanged)
 
 signals:
     void ruleNameChanged();
@@ -56,6 +58,7 @@ signals:
     void daysChanged();
     void profileChanged();
     void profileVolumeChanged();
+    void flightModeChanged();
 public:
     typedef QString IdType;
 
@@ -86,6 +89,10 @@ public:
     QString getProfile() const;
     void setProfile(const QString &profile);
 
+    // -1 don't set, 0, set no flight mode, 1 set flight mode
+    int getFlightMode() const;
+    void setFlightMode(int mode);
+
     // Returns -1 if the profile volume is not to be set
     int getProfileVolume() const;
     // Use -1 if the profile volume is not to be set, otherwise value between 0 to 100
@@ -97,7 +104,8 @@ public:
             && this->_timeStart == o._timeStart
             && this->_days      == o._days
             && this->_profile   == o._profile
-            && this->_profileVolume == o._profileVolume;
+            && this->_profileVolume == o._profileVolume
+            && this->_flightMode == o._flightMode;
     }    
 
 

@@ -23,15 +23,17 @@
 
 #include "rulewatch.h"
 #include "../profileclient.h"
+#include "../platform/platformutil.h"
 
 class RuleActivator : public QObject
 {
     Q_OBJECT
 
     ProfileClient *_profileClient;
-
+    PlatformUtil *_platformUtil;
 public:
-    RuleActivator(ProfileClient *profileClient);
+    RuleActivator(ProfileClient *profileClient,
+                  PlatformUtil *platformUtil);
 
 public slots:
     void activateRule(const Rule &rule);
