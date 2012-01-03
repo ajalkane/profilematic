@@ -24,9 +24,7 @@ import Rule 1.0
 
 import "UIConstants.js" as UIConstants
 
-// IMPROVE: this is too complex for it's own good.
-// Probably would work better without trying to force into ListView.
-Page {
+Page {    
     id: editRule
     tools: editRuleTools
     anchors.margins: UIConstants.DEFAULT_MARGIN
@@ -40,7 +38,7 @@ Page {
     onStatusChanged: {
         // console.log("Status changed ", status)
         if (status == 1) {
-            volumeVisibility();
+            // volumeVisibility();
         }
     }
 
@@ -58,6 +56,31 @@ Page {
             pageStack.push(component);
         else
             console.log("Error loading component:", component.errorString());
+    }
+
+    function confirmDelete() {
+        dConfirmDelete.open()
+    }
+
+    QueryDialog {
+        id: dInvalidRule
+
+        titleText: "This rule can not be used"
+        message: "A rule must have days and time set, and profile selected"
+        acceptButtonText: "Ok"
+    }
+
+    QueryDialog {
+        id: dConfirmDelete
+
+        titleText: "Delete this rule?"
+        acceptButtonText: "Delete"
+        rejectButtonText: "Cancel"
+
+        onAccepted: {
+            deleted()
+            pageStack.pop()
+        }
     }
 
     ToolBarLayout {
@@ -107,6 +130,103 @@ Page {
         }
     }
 
+    Flickable {
+        anchors.fill: parent // editRule
+        pressDelay: 140
+        clip: true
+        contentWidth: parent.width
+        contentHeight: container.height // contentItem.childrenRect.height
+
+        Column {
+            id: container
+            spacing: UIConstants.DEFAULT_MARGIN
+            // anchors.fill: parent
+            anchors.verticalCenter: parent.verticalCenter
+
+            width: parent.width
+            height: childrenRect.height
+
+            TextFieldWithLabel {
+                labelText: "Rule name"
+                placeholderText: "Auto-generated"
+                text: rule.ruleName
+                height: UIConstants.LIST_ITEM_HEIGHT_SMALL
+                onTextChanged: {
+                    rule.ruleName = text
+                }
+            }
+
+            SectionHeader {
+                section: "Condition"
+            }
+
+            RuleTopicSummary {
+                topic: "Active days"
+                summary: daysSummary()
+                onTopicClicked: daysEditHandler()
+            }
+
+            RuleTopicSummary {
+                topic: "Activated at"
+                summary: timeStartSummary()
+                onTopicClicked: timeStartEditHandler()
+            }
+
+            SectionHeader {
+                section: "Action"
+            }
+
+            RuleTopicSummary {
+                topic: "Set profile"
+                summary: profileSummary();
+                onTopicClicked: profileEditHandler()
+            }
+
+            Item {
+                width: parent.width
+                height: volume.visible ? volume.height : 0
+                clip: true
+
+                Behavior on height {
+                    NumberAnimation { duration: 300 }
+                }
+
+                RuleTopicSummary {
+                    id: volume
+                    topic: "Set volume"
+                    summary: volumeSummary();
+                    visible: isVolumeVisible();
+                    onTopicClicked: volumeEditHandler()
+                }
+            }
+
+            RuleTopicSummary {
+                topic: "Set flight mode"
+                summary: flightModeSummary();
+                onTopicClicked: flightModeEditHandler()
+                // Flight mode needs open kernel. Needs a bit more work until proper support can
+                // be given.
+                visible: false
+            }
+
+            Text {
+                wrapMode: Text.WordWrap
+                width: parent.width
+                // visible: isValidRule()
+                font.pixelSize: UIConstants.FONT_SMALL;
+                color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
+                text: {
+                    if (isValidRule()) {
+                        return "This rule activates profile " + backendProfilesModel.getProfileToName(rule.profile)
+                                + " when clock reaches " + rule.timeStart
+                                + " on active days"
+                    }
+                    return ""
+                }
+            }
+        } // Column
+    } // Flickable
+
     function formatTime(hour, minute) {
         return (hour < 10 ? "0" : "") + hour + ":" + (minute < 10 ? "0" : "") + minute
     }
@@ -142,6 +262,7 @@ Page {
         return rule.timeStart
     }
 
+
     MyMultiSelectionDialog {
          id: daysDialog
          titleText: "Active days"
@@ -153,15 +274,13 @@ Page {
          onAccepted: rule.days = selectedIndexes
      }
 
-    function daysSummary(doNotCapitalize) {
+    function daysSummary() {
         console.log("DaysSummary called")
         return backendRulesModel.getDaysSummaryText(rule.days);
     }
 
     function daysEditHandler() {
-
         daysDialog.selectedIndexes = rule.days
-
         daysDialog.open();
     }
 
@@ -177,7 +296,6 @@ Page {
              if (selectedIndex > -1) {
                  var selectedProfile = model.getProfile(selectedIndex)
                  rule.profile = selectedProfile
-                 volumeVisibility();
              }
          }
 
@@ -195,7 +313,7 @@ Page {
      }
 
     // Profile functions
-    function profileSummary() {        
+    function profileSummary() {
         return rule.profile !== "" ? backendProfilesModel.getProfileToName(rule.profile) : "Click to set"
     }
 
@@ -248,239 +366,26 @@ Page {
         dVolume.openWithValue(rule.profileVolume)
     }
 
-    function volumeVisibility() {
-        // IMPROVE this is ugly, enable/disable rule based if profile has volume
-        var volumeModel = editRuleModel.get(3)
-        if (backendProfilesModel.profileHasVolume(rule.profile)) {
-            volumeModel.ruleVisible = true
-        } else {
-            volumeModel.ruleVisible = false
-        }
+    function isVolumeVisible() {
+        return backendProfilesModel.profileHasVolume(rule.profile);
     }
+
 
     // Flight mode
-    ListModel {
-        id: flightModel;
+    FlightModeDialog {
+        id: dFlightMode
 
-        ListElement{
-            mode: 0
-            name: "Set flight mode off"
-        }
-        ListElement {
-            mode: 1
-            name: "Set flight mode on"
-        }
-        // flightModelSummary dpeends on "Don't change" to be be index 2.
-        ListElement {
-            mode: -1
-            name: "Don't change"
+        onFlightModeSelected: {
+            rule.flightMode = selectedFlightMode
         }
     }
 
-    MySelectionDialog {
-         id: flightModeDialog
-         titleText: "Set flight mode"
-         model: flightModel
-
-         onSelectedIndexChanged: {
-             if (selectedIndex > -1) {
-                 var selectedFlightMode = model.get(selectedIndex).mode
-                 rule.flightMode = selectedFlightMode
-             }
-         }
-
-
-         function openWithSelection(selectedFlightMode) {
-             for (var i = 0; i < flightModel.count; i++) {
-                 var flightMode = flightModel.get(i).mode
-                 if (selectedFlightMode == flightMode) {
-                     selectedIndex = i
-                 }
-             }
-             open()
-         }
-
-     }
-
     function flightModeSummary() {
-        switch (rule.flightMode) {
-        case 0:
-        case 1:
-            return flightModel.get(rule.flightMode).name;
-        }
-        return flightModel.get(2).name;
+        return dFlightMode.flightModeToText(rule.flightMode)
     }
 
     function flightModeEditHandler() {
-        flightModeDialog.openWithSelection(rule.flightMode)
-    }
-
-
-    // Misc
-    function confirmDelete() {
-        dConfirmDelete.open()
-    }
-
-    QueryDialog {
-        id: dConfirmDelete
-
-        titleText: "Delete this rule?"
-        acceptButtonText: "Delete"
-        rejectButtonText: "Cancel"
-
-        onAccepted: {
-            deleted()
-            pageStack.pop()
-        }
-    }
-
-    QueryDialog {
-        id: dInvalidRule
-
-        titleText: "This rule can not be used"
-        message: "A rule must have days and time set, and profile selected"
-        acceptButtonText: "Ok"
-    }
-
-    ListModel {
-        id: editRuleModel
-
-        ListElement {
-            section: "Condition"
-            ruleType: "Active days"
-            ruleSummaryJS: "daysSummary()"
-            clickHandler: "daysEditHandler"
-            ruleVisible: true
-        }
-
-        ListElement {
-            section: "Condition"
-            ruleType: "Activated at"
-            ruleSummaryJS: "timeStartSummary()"
-            clickHandler: "timeStartEditHandler"
-            ruleVisible: true
-        }
-
-        ListElement {
-            section: "Action"
-            ruleType: "Set profile"
-            ruleSummaryJS: "profileSummary()"
-            clickHandler: "profileEditHandler"
-            ruleVisible: true
-        }
-
-        ListElement {
-            section: "Action"
-            ruleType: "Set volume"
-            ruleSummaryJS: "volumeSummary()"
-            clickHandler: "volumeEditHandler"
-            ruleVisible: true
-        }
-
-        ListElement {
-            section: "Action"
-            ruleType: "Set flight mode"
-            ruleSummaryJS: "flightModeSummary()"
-            clickHandler: "flightModeEditHandler"
-            // Flight mode needs open kernel. Needs a bit more work until proper support can
-            // be given.
-            ruleVisible: false
-        }
-    }
-
-    ListView {
-        id: listView
-
-        anchors.fill: parent
-        pressDelay: 140
-        model: editRuleModel
-
-        section.property: "section"
-        section.criteria: ViewSection.FullString
-        section.delegate: SectionHeader {} // sectionHeading
-
-        header: TextFieldWithLabel {
-            labelText: "Rule name"
-            placeholderText: "Auto-generated"
-            text: rule.ruleName
-            height: UIConstants.LIST_ITEM_HEIGHT_SMALL
-            onTextChanged: {
-                rule.ruleName = text
-            }
-        }
-
-        delegate:  Item {
-            id: listItem
-            height: ruleVisible ? UIConstants.LIST_ITEM_HEIGHT_WITH_SUBTITLE : 0
-            width: parent.width
-            visible: ruleVisible
-
-            Behavior on height {
-                NumberAnimation { duration: 300 }
-            }
-
-            Row {
-                spacing: UIConstants.DEFAULT_MARGIN
-                anchors.verticalCenter: parent.verticalCenter
-
-                Item {
-                    id: ruleItem
-                    width: listItem.width
-                    height: ruleVisible ? ruleColumn.height : 0
-
-                    Rectangle {
-                        id: background
-                        anchors.fill:  ruleItem
-                        anchors.margins: -UIConstants.DEFAULT_MARGIN
-                        visible: mouseArea.pressed
-                        color: UIConstants.COLOR_SELECT
-                    }
-
-                    Column {
-                        id: ruleColumn
-                        width: parent.width
-                        anchors.verticalCenter: parent.verticalCenter
-
-                        Label {
-                            text: ruleType
-                            platformStyle: LabelStyleTitle {}
-                            font.weight: Font.Bold
-                            // font: UiConstants.TitleFont
-                        }
-                        Label {
-                            width: parent.width
-                            text: ruleSummaryJS !== "" ? eval(ruleSummaryJS) : ""
-                            platformStyle: LabelStyleSubtitle {}
-                        }
-                    }
-
-                    MouseArea {
-                        id: mouseArea
-                        anchors.fill: background
-
-                        onClicked: {
-                            var functionCall = eval(clickHandler)
-                            functionCall()
-                        }
-                    }
-                }
-            }            
-        }
-        footer: Text {
-            wrapMode: Text.WordWrap
-            width: parent.width
-            visible: isValidRule()
-            font.pixelSize: UIConstants.FONT_SMALL;
-            color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-            text: {
-                if (isValidRule()) {
-                    return "This rule activates profile " + backendProfilesModel.getProfileToName(rule.profile)
-                            + " when clock reaches " + rule.timeStart
-                            + " on active days"
-                }
-                return ""
-            }
-        }
-
+        dFlightMode.selectedFlightMode = rule.flightMode
+        dFlightMode.open();
     }
 }

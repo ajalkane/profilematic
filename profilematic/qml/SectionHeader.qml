@@ -29,13 +29,14 @@ import "UIConstants.js" as UIConstants
 Item {
     width: parent.width
     height: 40 // TODO UIConstants
+    property alias section: headerLabel.text
+
     Text {
         id: headerLabel
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.rightMargin: 8 // IMPROVE UIConstants
         anchors.bottomMargin: 2 // IMPROVE UIConstants
-        text: section
         font.bold: true
         font.pointSize: 14 // 18 // IMPROVE UIConstants
 
