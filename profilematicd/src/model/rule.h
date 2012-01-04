@@ -34,6 +34,7 @@ class Rule : public QObject
     QString   _ruleId;
     QString   _ruleName;
     QTime     _timeStart;
+    QTime     _timeEnd;
     QSet<int> _days;
 
     // Actions
@@ -46,15 +47,23 @@ class Rule : public QObject
     Q_PROPERTY(QString ruleId READ getRuleId NOTIFY ruleIdChanged)
     Q_PROPERTY(QString ruleName READ getRuleName WRITE setRuleName NOTIFY ruleNameChanged)
     Q_PROPERTY(QString timeStart READ getTimeStartQml WRITE setTimeStartQml NOTIFY timeStartChanged)
+    Q_PROPERTY(QString timeEnd READ getTimeEndQml WRITE setTimeEndQml NOTIFY timeEndChanged)
     Q_PROPERTY(QVariantList days READ getDaysQml WRITE setDaysQml NOTIFY daysChanged)
     Q_PROPERTY(QString profile READ getProfile WRITE setProfile NOTIFY profileChanged)
     Q_PROPERTY(int profileVolume READ getProfileVolume WRITE setProfileVolume NOTIFY profileVolumeChanged)
     Q_PROPERTY(int flightMode READ getFlightMode WRITE setFlightMode NOTIFY flightModeChanged)
 
+    QString _getTimeQml(const QTime &time) const;
+
+    inline QTime _timeWithSecs(const QTime time, int secs) const {
+        return QTime(time.hour(), time.minute(), secs);
+    }
+
 signals:
     void ruleNameChanged();
     void ruleIdChanged();
     void timeStartChanged();
+    void timeEndChanged();
     void daysChanged();
     void profileChanged();
     void profileVolumeChanged();
@@ -77,7 +86,12 @@ public:
     void setTimeStart(const QTime &timeStart);
     // For QML
     QString getTimeStartQml() const;
-    void setTimeStartQml(const QString &timeStart);
+    void setTimeStartQml(const QString &timeEnd);
+    QTime getTimeEnd() const;
+    void setTimeEnd(const QTime &timeEnd);
+    // For QML
+    QString getTimeEndQml() const;
+    void setTimeEndQml(const QString &timeEnd);
 
     // 0 = monday, 6 = sunday
     const QSet<int> &getDays() const;
@@ -102,6 +116,7 @@ public:
         return this->_ruleId    == o._ruleId
             && this->_ruleName  == o._ruleName
             && this->_timeStart == o._timeStart
+            && this->_timeEnd   == o._timeEnd
             && this->_days      == o._days
             && this->_profile   == o._profile
             && this->_profileVolume == o._profileVolume

@@ -28,6 +28,7 @@ Rule::Rule(const Rule &o)
       _ruleId(o._ruleId),
       _ruleName(o._ruleName),
       _timeStart(o._timeStart),
+      _timeEnd(o._timeEnd),
       _days(o._days),
       _profile(o._profile),
       _profileVolume(o._profileVolume),
@@ -42,6 +43,7 @@ Rule::operator=(const Rule &o) {
     _ruleId = o._ruleId;
     _ruleName = o._ruleName;
     _timeStart = o._timeStart;
+    _timeEnd = o._timeEnd;
     _days = o._days;
     _profile = o._profile;
     _profileVolume = o._profileVolume;
@@ -75,22 +77,8 @@ Rule::setRuleName(const QString &ruleName) {
     }
 }
 
-QTime
-Rule::getTimeStart() const {
-    return _timeStart;
-}
-
-void
-Rule::setTimeStart(const QTime &timeStart) {
-    if (_timeStart != timeStart) {
-        _timeStart = timeStart;
-        emit timeStartChanged();
-    }
-}
-
 QString
-Rule::getTimeStartQml() const {
-    QTime time = getTimeStart();
+Rule::_getTimeQml(const QTime &time) const {
     int hour = time.hour();
     int min  = time.minute();
     QString timeStr;
@@ -103,13 +91,59 @@ Rule::getTimeStartQml() const {
         timeStr += "0";
     }
     timeStr += QString::number(min);
-    qDebug("Rule::timeStartQml returning '%s'", qPrintable(timeStr));
+    qDebug("Rule::_getTimeQml returning '%s'", qPrintable(timeStr));
     return timeStr;
+}
+
+QTime
+Rule::getTimeStart() const {
+    return _timeStart;
+}
+
+void
+Rule::setTimeStart(const QTime &timeStart) {
+    // Normalize to always have 00 seconds
+    QTime useTime = _timeWithSecs(timeStart, 0);
+    if (_timeStart != useTime) {
+        _timeStart = useTime;
+        emit timeStartChanged();
+    }
+}
+
+QString
+Rule::getTimeStartQml() const {
+    return _getTimeQml(getTimeStart());
 }
 
 void
 Rule::setTimeStartQml(const QString &timeStart) {
     setTimeStart(QTime::fromString(timeStart, "hh:mm"));
+}
+
+QTime
+Rule::getTimeEnd() const {
+    return _timeEnd;
+}
+
+void
+Rule::setTimeEnd(const QTime &timeEnd) {
+    // Normalize to always have 59 seconds. This way even if timeStart and timeEnd have
+    // been set as same, there is a window of 59 seconds for changes to be applied.
+    QTime useTime = _timeWithSecs(timeEnd, 59);
+    if (_timeEnd != useTime) {
+        _timeEnd = useTime;
+        emit timeEndChanged();
+    }
+}
+
+QString
+Rule::getTimeEndQml() const {
+    return _getTimeQml(getTimeEnd());
+}
+
+void
+Rule::setTimeEndQml(const QString &timeEnd) {
+    setTimeEnd(QTime::fromString(timeEnd, "hh:mm"));
 }
 
 const QSet<int> &

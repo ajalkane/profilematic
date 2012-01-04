@@ -61,6 +61,7 @@ public:
         RuleActiveRole,
         RuleNameRole,
         TimeStartRole,
+        TimeEndRole,
         // This is a dummy role and can not be accessed/set using data/setData.
         // Instead getDayIndices/setDayIndices must be used.
         DaysRole,

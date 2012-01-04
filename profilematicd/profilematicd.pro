@@ -34,7 +34,7 @@ HEADERS += \
     src/logic/ruleactivator.h \
     src/interface/profilematicinterface.h \
     src/preferences.h \
-    src/platform/platformutil.h \
+    src/platform/platformutil.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp
@@ -50,6 +50,10 @@ daemonconf.path = /etc/init/apps
 daemonconf.files = profilematicd.conf
 
 INSTALLS += daemonconf
+
+
+
+
 
 
 

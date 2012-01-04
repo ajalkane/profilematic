@@ -30,6 +30,7 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QObject *parent)
     _roleToProperty[RuleActiveRole]      = "ruleActive";
     _roleToProperty[RuleNameRole]        = "ruleName";
     _roleToProperty[TimeStartRole]       = "timeStart";
+    _roleToProperty[TimeEndRole]         = "timeEnd";
     _roleToProperty[DaysRole]            = "daysRole";
     _roleToProperty[ProfileRole]         = "profile";
     _roleToProperty[ProfileVolumeRole]   = "profileVolume";
@@ -89,6 +90,8 @@ QmlRulesModel::data(const QModelIndex & index, int role) const {
         return rule.getRuleName();        
     case TimeStartRole:
         return rule.getTimeStartQml();
+    case TimeEndRole:
+        return rule.getTimeEndQml();
     // return rule.getTimeStart();
     case DaysRole:
         qDebug("QmlRulesModel::data role 'days' should not be directly accessed");
