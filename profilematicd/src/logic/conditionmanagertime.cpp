@@ -22,7 +22,7 @@ ConditionManagerTime::refresh(const QList<Rule> &rules) {
             QDateTime nearestFromRule = p.first;
             bool matching = p.second;
             if (matching) {
-                _matchingRules.append(rule);
+                _matchingRules.append(item);
             }
             if (!nearestFromRule.isNull() && (nextNearestDateTime.isNull() || nearestFromRule < nextNearestDateTime)) {
                 qDebug("Setting nearest to %s, was %s",
@@ -55,7 +55,7 @@ ConditionManagerTime::_nextDateTimeFromRule(const QDateTime &from, const Rule &r
         bool matching = (!isTimeStartUsable && !isTimeEndUsable);
         qDebug("QRuleWatch::time(rule %s) Day or time is not usable, returning null date time (matching %d)",
                qPrintable(rule.getRuleName()), matching);
-        return QPair(QDateTime(), matching);
+        return qMakePair(QDateTime(), matching);
     }
 
     // rule.daysActive = true and days not empty always if gets this far
@@ -83,12 +83,12 @@ ConditionManagerTime::_nextDateTimeFromRule(const QDateTime &from, const Rule &r
                 qDebug("QRuleWatch::time(rule %s), matching next timeStart returning %s",
                        qPrintable(rule.getRuleName()),
                        qPrintable(nextStart.toString()));
-                return QPair(nextStart, false);
+                return qMakePair(nextStart, false);
             } else if (nextEnd > from) {
                 qDebug("QRuleWatch::time(rule %s), matching next timeEnd returning %s",
                        qPrintable(rule.getRuleName()),
                        qPrintable(nextEnd.toString()));
-                return QPair(nextEnd, true);
+                return qMakePair(nextEnd, true);
             }
 
         }
@@ -96,7 +96,7 @@ ConditionManagerTime::_nextDateTimeFromRule(const QDateTime &from, const Rule &r
     qDebug("QRuleWatch::time(rule %s), returning null QDateTime",
            qPrintable(rule.getRuleName()));
     // Means no time based rules
-    return QPair(QDateTime(), true);
+    return qMakePair(QDateTime(), true);
 }
 
 QDateTime
