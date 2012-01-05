@@ -127,6 +127,9 @@ public:
     inline bool isTimeStartRuleUsable() const {
         return getTimeStart().isValid();
     }
+    inline bool isTimeEndRuleUsable() const {
+        return getTimeEnd().isValid();
+    }
     inline bool isDaysRuleUsable() const {
         return !getDays().isEmpty();
     }
