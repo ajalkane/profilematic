@@ -19,6 +19,12 @@ public:
     ConditionManagerTime();
 
     virtual void refresh(const QList<Rule> &rules);
+
+    // These functions only needed for unit tests
+    const QTimer *timer() const {
+        return &_timer;
+    }
+    void refresh(const QList<Rule> &rules, const QDateTime &dateTime);
 };
 
 #endif // CONDITIONMANAGERTIME_H

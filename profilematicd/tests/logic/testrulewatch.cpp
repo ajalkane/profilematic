@@ -208,9 +208,8 @@ TestRuleWatch::activateRule_signalTest() {
     QCOMPARE(ruleWatch.timer()->interval(), 1 * 1000);
 
     // Wait for 2 seconds, the sginal should be fired by then.
-    do {
-        QTest::qWait(2 * 1000);
-    } while (QTime::currentTime() < now.addSecs(1).time());
+    qDebug("Waiting 2 * 1000");
+    QTest::qWait(2 * 1000);
 
     QCOMPARE(signalTarget.ruleActivated, &(rules[0]));
     QCOMPARE(signalTarget.numRuleActivated, 1);

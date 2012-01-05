@@ -19,6 +19,7 @@
 #include <QtCore/QCoreApplication>
 
 #include "logic/testrulewatch.h"
+#include "logic/testconditionmanagertime.h"
 
 int main(int argc, char *argv[])
 {
@@ -27,6 +28,8 @@ int main(int argc, char *argv[])
     int retval(0);
 
     retval += QTest::qExec(&TestRuleWatch(), argc, argv);
+    retval += QTest::qExec(&TestConditionManagerTime(), argc, argv);
 
+    qDebug("Tests exiting with return value %d", retval);
     return (retval ? 1 : 0);
 }

@@ -17,7 +17,7 @@ CONFIG   += qmsystem2
 #  - If UnitTests fail, no deployment/running of the executable
 #  - UnitTest code must not be included in the final executable.
 # Uncomment if just unit tests are to be ran:
-# CONFIG += qtestlib
+CONFIG += qtestlib
 
 TEMPLATE = app
 
@@ -66,8 +66,12 @@ HEADERS += \
 qtestlib {
     SOURCES -= src/main.cpp
     SOURCES += tests/main.cpp \
-        tests/logic/testrulewatch.cpp
-    HEADERS += tests/logic/testrulewatch.h
+        tests/logic/testrulewatch.cpp \
+        tests/logic/testconditionmanagertime.cpp
+
+    HEADERS += tests/logic/testrulewatch.h \
+        tests/logic/testconditionmanagertime.h
+
 
 }
 
@@ -80,4 +84,6 @@ daemonconf.path = /etc/init/apps
 daemonconf.files = profilematicd.conf
 
 INSTALLS += daemonconf
+
+
 

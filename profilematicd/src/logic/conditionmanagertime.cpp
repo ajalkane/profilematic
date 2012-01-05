@@ -10,6 +10,11 @@ ConditionManagerTime::ConditionManagerTime()
 void
 ConditionManagerTime::refresh(const QList<Rule> &rules) {
     QDateTime now = QDateTime::currentDateTime();
+    refresh(rules, now);
+}
+
+void
+ConditionManagerTime::refresh(const QList<Rule> &rules, const QDateTime &now) {
     QDateTime nextNearestDateTime;
 
     _timer.stop();
@@ -23,6 +28,7 @@ ConditionManagerTime::refresh(const QList<Rule> &rules) {
             bool matching = p.second;
             if (matching) {
                 _matchingRules.append(item);
+                qDebug("ConditionManagerTime::refresh adding to matching, size now %d", _matchingRules.size());
             }
             if (!nearestFromRule.isNull() && (nextNearestDateTime.isNull() || nearestFromRule < nextNearestDateTime)) {
                 qDebug("Setting nearest to %s, was %s",
@@ -53,7 +59,7 @@ ConditionManagerTime::_nextDateTimeFromRule(const QDateTime &from, const Rule &r
     if (!isDaysUsable || !isTimeStartUsable || !isTimeEndUsable) {
         // Return as time matching if time start and time end not set
         bool matching = (!isTimeStartUsable && !isTimeEndUsable);
-        qDebug("QRuleWatch::time(rule %s) Day or time is not usable, returning null date time (matching %d)",
+        qDebug("ConditionManagerTime::time(rule %s) Day or time is not usable, returning null date time (matching %d)",
                qPrintable(rule.getRuleName()), matching);
         return qMakePair(QDateTime(), matching);
     }
@@ -66,26 +72,30 @@ ConditionManagerTime::_nextDateTimeFromRule(const QDateTime &from, const Rule &r
         int dayId = (dayOfWeek - 1 + i) % 7;
         bool considerDay = selectedDays.contains(dayId);
 
-        qDebug("QRuleWatch::time(rule %s), considering dayId %d (%d)", qPrintable(rule.getRuleName()), dayId, considerDay);
+        qDebug("ConditionManagerTime::time(rule %s), considering dayId %d (%d)", qPrintable(rule.getRuleName()), dayId, considerDay);
 
         if (considerDay) {
             QDateTime nextStart = from;
             nextStart = nextStart.addDays(i);
             nextStart.setTime(rule.getTimeStart());
             QDateTime nextEnd = _calculateNextEnd(nextStart, rule.getTimeStart(), rule.getTimeEnd());
+            qDebug("ConditionManagerTime::from(%s), nextStart(%s), nextEnd(%s)",
+                   qPrintable(from.toString()),
+                   qPrintable(nextStart.toString()),
+                   qPrintable(nextEnd.toString()));
 
             // Guards against a rule when:
             // - Some days, including current day, are set
             // - No time has been set
             // In other words, a rule that is based on weekdays. In these cases
             // the current day can not be considered as an edge case, but the next day.
-            if (nextStart >= from) {
-                qDebug("QRuleWatch::time(rule %s), matching next timeStart returning %s",
+            if (nextStart > from) {
+                qDebug("ConditionManagerTime::time(rule %s), matching next timeStart returning %s",
                        qPrintable(rule.getRuleName()),
                        qPrintable(nextStart.toString()));
                 return qMakePair(nextStart, false);
             } else if (nextEnd > from) {
-                qDebug("QRuleWatch::time(rule %s), matching next timeEnd returning %s",
+                qDebug("ConditionManagerTime::time(rule %s), matching next timeEnd returning %s",
                        qPrintable(rule.getRuleName()),
                        qPrintable(nextEnd.toString()));
                 return qMakePair(nextEnd, true);
@@ -93,7 +103,7 @@ ConditionManagerTime::_nextDateTimeFromRule(const QDateTime &from, const Rule &r
 
         }
     }
-    qDebug("QRuleWatch::time(rule %s), returning null QDateTime",
+    qDebug("ConditionManagerTime::time(rule %s), returning null QDateTime",
            qPrintable(rule.getRuleName()));
     // Means no time based rules
     return qMakePair(QDateTime(), true);
@@ -104,7 +114,7 @@ ConditionManagerTime::_calculateNextEnd(const QDateTime &dateTimeStart, const QT
     QDateTime nextEnd(dateTimeStart);
     nextEnd.setTime(timeEnd);
     if (timeEnd < timeStart) {
-        nextEnd.addDays(1);
+        nextEnd = nextEnd.addDays(1);
     }
     return nextEnd;
 }
