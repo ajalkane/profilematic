@@ -21,19 +21,19 @@
 
 #include <QtTest/QtTest>
 
-#include "../../src/model/rules.h"
+#include "../../src/model/rule.h"
 
 class RuleWatchSignalTarget : public QObject {
     Q_OBJECT
 
 public:
     int numRuleActivated;
-    const RuleItem *ruleActivated;
+    const Rule *ruleActivated;
 
     RuleWatchSignalTarget();
 
 public slots:
-    void onRuleActivated(const RuleItem &ruleItem);
+    void onRuleActivated(const Rule &ruleItem);
 };
 
 class TestRuleWatch : public QObject

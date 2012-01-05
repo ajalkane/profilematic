@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#include <QApplication>
+#include <QtCore/QCoreApplication>
 
 #include "logic/testrulewatch.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    QCoreApplication app(argc, argv);
 
     int retval(0);
 

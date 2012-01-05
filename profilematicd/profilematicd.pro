@@ -12,6 +12,12 @@ TARGET = profilematicd
 CONFIG   += console
 CONFIG   -= app_bundle
 CONFIG   += qmsystem2
+# IMPROVE: Correct behaviour should be:
+#  - UnitTests ran before deploying/running of the executable
+#  - If UnitTests fail, no deployment/running of the executable
+#  - UnitTest code must not be included in the final executable.
+# Uncomment if just unit tests are to be ran:
+# CONFIG += qtestlib
 
 TEMPLATE = app
 
@@ -57,6 +63,14 @@ HEADERS += \
     HEADERS += src/platform/harmattan/harmattan_platformutil.h
 }
 
+qtestlib {
+    SOURCES -= src/main.cpp
+    SOURCES += tests/main.cpp \
+        tests/logic/testrulewatch.cpp
+    HEADERS += tests/logic/testrulewatch.h
+
+}
+
 #!isEmpty(MEEGO_VERSION_MAJOR) {
     target.path = /opt/profilematic/bin
     INSTALLS += target
@@ -66,45 +80,4 @@ daemonconf.path = /etc/init/apps
 daemonconf.files = profilematicd.conf
 
 INSTALLS += daemonconf
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

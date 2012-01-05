@@ -6,13 +6,6 @@ DEPLOYMENTFOLDERS = qml_harmattan
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
 
-# IMPROVE: Correct behaviour should be:
-#  - UnitTests ran before deploying/running of the executable
-#  - If UnitTests fail, no deployment/running of the executable
-#  - UnitTest code must not be included in the final executable.
-# Uncomment if just unit tests are to be ran:
-# CONFIG += qtestlib
-
 QT+= declarative dbus
 symbian:TARGET.UID3 = 0xEEDCE602
 
@@ -62,14 +55,6 @@ HEADERS += \
     # src/settings.h \
     # src/logic/ruleactivator.h \
     src/profilematicclient.h
-
-qtestlib {
-    SOURCES -= src/main.cpp
-    SOURCES += tests/main.cpp \
-        tests/logic/testrulewatch.cpp
-    HEADERS += tests/logic/testrulewatch.h
-
-}
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
