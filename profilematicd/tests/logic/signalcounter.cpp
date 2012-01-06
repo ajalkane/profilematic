@@ -16,33 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef TESTCONDITIONMANAGERTIME_H
-#define TESTCONDITIONMANAGERTIME_H
+#include "signalcounter.h"
 
-#include <QList>
-#include <QSet>
-#include <QtTest/QtTest>
-
-#include "../../src/logic/conditionmanagertime.h"
-#include "../../src/model/rule.h"
-
-class TestConditionManagerTime : public QObject
+SignalCounter::SignalCounter(QObject *parent) :
+    QObject(parent), numSignal(0)
 {
-    Q_OBJECT
-
-    QList<Rule> _refresh(ConditionManagerTime &cm, const QList<Rule> &rules);
-    QList<Rule> _refresh(ConditionManagerTime &cm, const QList<Rule> &rules, const QDateTime &now);
-
-    QSet<int> _allDays;
-public:
-    TestConditionManagerTime();
-private slots:
-    void refresh_basicTestsTimer();
-    void refresh_basicTestsMatching();
-    void refresh_dayTimeTests();
-    void refresh_multiRuleTests();
-    void refresh_multiRuleTestsMatching();
-    void refreshNeeded_signalTest();
-};
-
-#endif // TESTCONDITIONMANAGERTIME_H
+}

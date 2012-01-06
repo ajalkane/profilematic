@@ -19,18 +19,7 @@
 
 #include <QtTest/QTest>
 #include "testconditionmanagertime.h"
-
-ConditionManagerSignalTarget::ConditionManagerSignalTarget()
-    : numRefreshNeeded(0)
-{
-
-}
-
-void
-ConditionManagerSignalTarget::onRefreshNeeded()
-{
-    numRefreshNeeded++;
-}
+#include "signalcounter.h"
 
 TestConditionManagerTime::TestConditionManagerTime()
 {
@@ -282,7 +271,7 @@ TestConditionManagerTime::refreshNeeded_signalTest() {
     QList<Rule> matches;
     QList<Rule> expect;
     Rule rule;
-    ConditionManagerSignalTarget signalTarget;
+    SignalCounter signalTarget;
 
     // Tuesday
     QDateTime now = QDateTime::fromString("27.09.2011 09:59:59", "dd.MM.yyyy hh:mm:ss");
@@ -294,14 +283,14 @@ TestConditionManagerTime::refreshNeeded_signalTest() {
 
     rules << rule;
 
-    QCOMPARE(signalTarget.numRefreshNeeded, 0);
+    QCOMPARE(signalTarget.numSignal, 0);
     QVERIFY(cm.timer()->isActive() == false);
 
-    connect(&cm, SIGNAL(refreshNeeded()), &signalTarget, SLOT(onRefreshNeeded()));
+    connect(&cm, SIGNAL(refreshNeeded()), &signalTarget, SLOT(onSignal()));
 
     matches = _refresh(cm, rules, now);
 
-    QCOMPARE(signalTarget.numRefreshNeeded, 0);
+    QCOMPARE(signalTarget.numSignal, 0);
     QCOMPARE(expect, matches);
     QCOMPARE(cm.timer()->isActive(), true);
     QCOMPARE(cm.timer()->interval(), 1 * 1000);
@@ -310,7 +299,7 @@ TestConditionManagerTime::refreshNeeded_signalTest() {
     qDebug("Waiting 2 * 1000");
     QTest::qWait(2 * 1000);
 
-    QCOMPARE(signalTarget.numRefreshNeeded, 1);
+    QCOMPARE(signalTarget.numSignal, 1);
 
 //    ruleWatch.refreshWatch(now);
 //    QVERIFY(ruleWatch.timer()->isActive() == true);

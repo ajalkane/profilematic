@@ -39,7 +39,6 @@ SOURCES += src/main.cpp \
     src/logic/actionflightmode.cpp \
     src/logic/actionchain.cpp \
     src/logic/conditionmanagerchain.cpp \
-    tests/logic/testconditionmanagerchain.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -58,7 +57,6 @@ HEADERS += \
     src/logic/actionflightmode.h \
     src/logic/actionchain.h \
     src/logic/conditionmanagerchain.h \
-    tests/logic/testconditionmanagerchain.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp
@@ -69,12 +67,14 @@ qtestlib {
     SOURCES -= src/main.cpp
     SOURCES += tests/main.cpp \
         tests/logic/testrulewatch.cpp \
-        tests/logic/testconditionmanagertime.cpp
+        tests/logic/testconditionmanagerchain.cpp \
+        tests/logic/testconditionmanagertime.cpp \
+        tests/logic/signalcounter.cpp
 
     HEADERS += tests/logic/testrulewatch.h \
-        tests/logic/testconditionmanagertime.h
-
-
+        tests/logic/testconditionmanagerchain.h \
+        tests/logic/testconditionmanagertime.h \
+        tests/logic/signalcounter.h
 }
 
 #!isEmpty(MEEGO_VERSION_MAJOR) {
@@ -86,6 +86,8 @@ daemonconf.path = /etc/init/apps
 daemonconf.files = profilematicd.conf
 
 INSTALLS += daemonconf
+
+
 
 
 
