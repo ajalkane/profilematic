@@ -10,6 +10,7 @@
 
 class ConditionManagerTime : public ConditionManager
 {
+    typedef ConditionManager super;
     QTimer _timer;
 
     QDateTime _calculateNextEnd(const QDateTime &dateTimeStart, const QTime &timeStart, const QTime &timeEnd) const;
@@ -18,6 +19,7 @@ class ConditionManagerTime : public ConditionManager
 public:
     ConditionManagerTime();
 
+    virtual void startRefresh();
     virtual void refresh(const QList<Rule> &rules);
 
     // These functions only needed for unit tests

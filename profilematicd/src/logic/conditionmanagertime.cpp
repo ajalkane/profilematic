@@ -8,6 +8,12 @@ ConditionManagerTime::ConditionManagerTime()
 }
 
 void
+ConditionManagerTime::startRefresh() {
+    super::startRefresh();
+    _timer.stop();
+}
+
+void
 ConditionManagerTime::refresh(const QList<Rule> &rules) {
     QDateTime now = QDateTime::currentDateTime();
     refresh(rules, now);
@@ -16,8 +22,6 @@ ConditionManagerTime::refresh(const QList<Rule> &rules) {
 void
 ConditionManagerTime::refresh(const QList<Rule> &rules, const QDateTime &now) {
     QDateTime nextNearestDateTime;
-
-    _timer.stop();
 
     qDebug("ConditionManagerTime::refresh size of rules: %d", rules.size());
     for (QList<Rule>::const_iterator i = rules.constBegin(); i != rules.constEnd(); ++i) {

@@ -38,7 +38,8 @@ SOURCES += src/main.cpp \
     src/logic/actionprofile.cpp \
     src/logic/actionflightmode.cpp \
     src/logic/actionchain.cpp \
-    src/logic/conditionmanagerchain.cpp
+    src/logic/conditionmanagerchain.cpp \
+    tests/logic/testconditionmanagerchain.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -56,7 +57,8 @@ HEADERS += \
     src/logic/actionprofile.h \
     src/logic/actionflightmode.h \
     src/logic/actionchain.h \
-    src/logic/conditionmanagerchain.h
+    src/logic/conditionmanagerchain.h \
+    tests/logic/testconditionmanagerchain.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp
@@ -84,6 +86,8 @@ daemonconf.path = /etc/init/apps
 daemonconf.files = profilematicd.conf
 
 INSTALLS += daemonconf
+
+
 
 
 

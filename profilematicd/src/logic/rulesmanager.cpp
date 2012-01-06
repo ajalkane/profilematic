@@ -33,21 +33,20 @@ RulesManager::RulesManager(const QList<Rule> *rules,
 
 void
 RulesManager::refresh() {
-    if (!_preferences->isActive) {
-        qDebug("RulesManager::refresh(), ProfileMatic not active");
-        return;
-    }
-
     _conditionManager->startRefresh();
-    _conditionManager->refresh(*_rules);
-    QList<Rule> matchingRules = _conditionManager->matchingRules();
-    _conditionManager->endRefresh();
+    if (!_preferences->isActive) {
+        _conditionManager->refresh(*_rules);
+        const QList<Rule> &matchingRules = _conditionManager->matchingRules();
 
-    qDebug("RulesManager::refresh: %d matching rules", matchingRules.size());
-    if (!matchingRules.isEmpty()) {
-        Rule firstMatchingRule = matchingRules.first();
-        _activateRule(firstMatchingRule);
+        qDebug("RulesManager::refresh: %d matching rules", matchingRules.size());
+        if (!matchingRules.isEmpty()) {
+            Rule firstMatchingRule = matchingRules.first();
+            _activateRule(firstMatchingRule);
+        }
+    } else {
+        qDebug("RulesManager::refresh(), ProfileMatic not active");
     }
+    _conditionManager->endRefresh();
 }
 
 void
