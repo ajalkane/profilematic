@@ -54,7 +54,7 @@ QPair<QDateTime, bool>
 ConditionManagerTime::_nextDateTimeFromRule(const QDateTime &from, const Rule &rule) const {
     bool isDaysUsable = rule.isDaysRuleUsable();
     bool isTimeStartUsable = rule.isTimeStartRuleUsable();
-    bool isTimeEndUsable = rule.isTimeStartRuleUsable();
+    bool isTimeEndUsable = rule.isTimeEndRuleUsable();
 
     if (!isDaysUsable || !isTimeStartUsable || !isTimeEndUsable) {
         // Return as time matching if time start and time end not set

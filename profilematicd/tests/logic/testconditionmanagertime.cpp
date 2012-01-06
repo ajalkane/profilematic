@@ -20,6 +20,18 @@
 #include <QtTest/QTest>
 #include "testconditionmanagertime.h"
 
+ConditionManagerSignalTarget::ConditionManagerSignalTarget()
+    : numRefreshNeeded(0)
+{
+
+}
+
+void
+ConditionManagerSignalTarget::onRefreshNeeded()
+{
+    numRefreshNeeded++;
+}
+
 TestConditionManagerTime::TestConditionManagerTime()
 {
     for (int i = 0; i < 7; ++i) {
@@ -262,6 +274,48 @@ TestConditionManagerTime::refresh_multiRuleTestsMatching() {
     expect << rule1 << rule2;
     QCOMPARE(expect, matches);
     QCOMPARE(cm.timer()->interval(), (60 + 59) * 1000);
+}
+
+void
+TestConditionManagerTime::refreshNeeded_signalTest() {
+    QList<Rule> rules;
+    QList<Rule> matches;
+    QList<Rule> expect;
+    Rule rule;
+    ConditionManagerSignalTarget signalTarget;
+
+    // Tuesday
+    QDateTime now = QDateTime::fromString("27.09.2011 09:59:59", "dd.MM.yyyy hh:mm:ss");
+    ConditionManagerTime cm;
+
+    rule.setDays(_allDays);
+    rule.setTimeStart(now.addSecs(1).time());
+    rule.setTimeEnd(now.addSecs(1).time());
+
+    rules << rule;
+
+    QCOMPARE(signalTarget.numRefreshNeeded, 0);
+    QVERIFY(cm.timer()->isActive() == false);
+
+    connect(&cm, SIGNAL(refreshNeeded()), &signalTarget, SLOT(onRefreshNeeded()));
+
+    matches = _refresh(cm, rules, now);
+
+    QCOMPARE(signalTarget.numRefreshNeeded, 0);
+    QCOMPARE(expect, matches);
+    QCOMPARE(cm.timer()->isActive(), true);
+    QCOMPARE(cm.timer()->interval(), 1 * 1000);
+
+    // Wait for 2 seconds, the sginal should be fired by then.
+    qDebug("Waiting 2 * 1000");
+    QTest::qWait(2 * 1000);
+
+    QCOMPARE(signalTarget.numRefreshNeeded, 1);
+
+//    ruleWatch.refreshWatch(now);
+//    QVERIFY(ruleWatch.timer()->isActive() == true);
+//    QCOMPARE(ruleWatch.timer()->interval(), 120 * 1000);
+//    QCOMPARE(ruleWatch.targetRule(), item2);
 }
 
 // IMPROVE: exceptional cases, no days, no startTime, no endTime

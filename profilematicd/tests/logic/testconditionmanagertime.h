@@ -26,6 +26,18 @@
 #include "../../src/logic/conditionmanagertime.h"
 #include "../../src/model/rule.h"
 
+class ConditionManagerSignalTarget : public QObject {
+    Q_OBJECT
+
+public:
+    int numRefreshNeeded;
+
+    ConditionManagerSignalTarget();
+
+public slots:
+    void onRefreshNeeded();
+};
+
 class TestConditionManagerTime : public QObject
 {
     Q_OBJECT
@@ -42,6 +54,7 @@ private slots:
     void refresh_dayTimeTests();
     void refresh_multiRuleTests();
     void refresh_multiRuleTestsMatching();
+    void refreshNeeded_signalTest();
 };
 
 #endif // TESTCONDITIONMANAGERTIME_H

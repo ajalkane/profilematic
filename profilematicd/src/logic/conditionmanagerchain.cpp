@@ -46,4 +46,5 @@ ConditionManagerChain::endRefresh() {
 void
 ConditionManagerChain::add(ConditionManager *conditionManager) {
     _conditionManagers.append(conditionManager);
+    connect(conditionManager, SIGNAL(refreshNeeded()), this, SIGNAL(refreshNeeded()));
 }
