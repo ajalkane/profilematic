@@ -33,7 +33,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
     // So wrong by the API specifications, but so right by the end results (no, I don't like doing it this way)
     QSettings s("ProfileMatic", "rules");
     s.clear();
-
+    s.setValue("rulesVersion", RULES_VERSION);
     s.beginWriteArray("rules", rules.size());
     for (int i = 0; i < rules.size(); ++i) {
         s.setArrayIndex(i);
@@ -45,6 +45,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("ruleName", r.getRuleName());
         _writeIntList(s, "days", "dayId", r.getDays().toList());
         s.setValue("timeStart", r.getTimeStart().toString());
+        s.setValue("timeEnd", r.getTimeEnd().toString());
         s.setValue("profile", r.getProfile());
         s.setValue("profileVolume", r.getProfileVolume());
         s.setValue("flightMode", r.getFlightMode());
@@ -53,11 +54,15 @@ Configuration::writeRules(const QList<Rule> &rules) {
 }
 
 void
-Configuration::readRules(QList<Rule> &rules) {
+Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
     // IMPROVE constants.h
     // So wrong by the API specifications, but so right by the end results (no, I don't like doing it this way)
     QSettings s("ProfileMatic", "rules");
     // QSettings s("ajalkane", "ProfileMatic");
+    int rules_version = s.value("rulesVersion", 0).toInt();
+    if (rules_version_return != 0) {
+        *rules_version_return = rules_version;
+    }
     int size = s.beginReadArray("rules");
     for (int i = 0; i < size; ++i) {
         s.setArrayIndex(i);
@@ -70,11 +75,11 @@ Configuration::readRules(QList<Rule> &rules) {
         QList<int> daysList;
         _readIntList(s, "days", "dayId", daysList);
         r.setDays(QSet<int>::fromList(daysList));
+
         QString timeStartStr = s.value("timeStart").toString();
-        if (!timeStartStr.isEmpty()) {
-            QTime time = QTime::fromString(timeStartStr);
-            r.setTimeStart(time);
-        }
+        QString timeEndStr = s.value("timeEnd").toString();
+        r.setTimeStart(QTime::fromString(timeStartStr));
+        r.setTimeEnd(QTime::fromString(rules_version == 0 ? timeStartStr : timeEndStr));
         r.setProfile(s.value("profile").toString());
 
         bool profileVolumeOk = false;
@@ -91,6 +96,12 @@ Configuration::readRules(QList<Rule> &rules) {
         qDebug("Configuration: index %d, ruleId: %s, ruleName: %s", i, qPrintable(r.getRuleId()), qPrintable(r.getRuleName()));
     }
     s.endArray();
+
+    // Write rules to finalize conversion
+    if (rules_version == 0) {
+        qDebug("Writing rules after conversion");
+        writeRules(rules);
+    }
 }
 
 void

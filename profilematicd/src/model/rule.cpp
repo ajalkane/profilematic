@@ -223,6 +223,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
     argument << rule.getRuleId();
     argument << rule.getRuleName();
     argument << rule.getTimeStart();
+    argument << rule.getTimeEnd();
     argument << rule.getDays();
     argument << rule.getProfile();
     argument << rule.getProfileVolume();
@@ -237,6 +238,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     QString   ruleId = rule.getRuleId();
     QString   ruleName = rule.getRuleName();
     QTime     timeStart = rule.getTimeStart();
+    QTime     timeEnd = rule.getTimeEnd();
     QList<int> days = rule.getDays().toList();
 
     QString profile = rule.getProfile();
@@ -247,6 +249,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     argument >> ruleId;
     argument >> ruleName;
     argument >> timeStart;
+    argument >> timeEnd;
     argument >> days;
     argument >> profile;
     argument >> profileVolume;
@@ -256,6 +259,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     rule.setRuleId(ruleId);
     rule.setRuleName(ruleName);
     rule.setTimeStart(timeStart);
+    rule.setTimeEnd(timeEnd);
     rule.setDays(QSet<int>::fromList(days));
     rule.setProfile(profile);
     rule.setProfileVolume(profileVolume);

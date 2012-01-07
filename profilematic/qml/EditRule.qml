@@ -167,9 +167,15 @@ Page {
             }
 
             RuleTopicSummary {
-                topic: "Activated at"
+                topic: "Start time"
                 summary: timeStartSummary()
                 onTopicClicked: timeStartEditHandler()
+            }
+
+            RuleTopicSummary {
+                topic: "End time"
+                summary: timeEndSummary()
+                onTopicClicked: timeEndEditHandler()
             }
 
             SectionHeader {
@@ -231,15 +237,10 @@ Page {
         return (hour < 10 ? "0" : "") + hour + ":" + (minute < 10 ? "0" : "") + minute
     }
 
-    TimePickerDialog {
+    TimeDialog {
         id: timeStartDialog
-        fields: DateTime.Hours | DateTime.Minutes
-        hourMode: DateTime.TwentyFourHours
-        titleText: "Actived at"
-        acceptButtonText: "Ok"
-        rejectButtonText: "Cancel"
+        titleText: "Start time"
         onAccepted: rule.timeStart = formatTime(hour, minute)
-        property string targetProperty
     }
 
     // Start time functions
@@ -260,6 +261,32 @@ Page {
             return "Click to set time"
         }
         return rule.timeStart
+    }
+
+    TimeDialog {
+        id: timeEndDialog
+        titleText: "End time"
+        onAccepted: rule.timeEnd = formatTime(hour, minute)
+    }
+
+    // Start time functions
+    function timeEndEditHandler() {
+        var time = (rule.timeEnd !== "" ? rule.timeEnd : "00:00")
+        var timeSplits = time.split(":")
+
+        console.log("starTimeEditHandler timeSplits", timeSplits[0], timeSplits[1])
+
+        timeEndDialog.hour = timeSplits[0]
+        timeEndDialog.minute = timeSplits[1]
+
+        timeEndDialog.open();
+    }
+
+    function timeEndSummary() {
+        if (rule.timeEnd=== '') {
+            return "Click to set time"
+        }
+        return rule.timeEnd
     }
 
 

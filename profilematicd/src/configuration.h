@@ -26,6 +26,12 @@
 #include "model/rule.h"
 #include "preferences.h"
 
+/**
+  * 0 <= 1.1.1, before timeEnd
+  * 1 = 1.2.0, endTime, default rule, cell tower based location
+  */
+#define RULES_VERSION 1
+
 class Configuration
 {
     static void _writeIntList(QSettings &s, const QString &prefix, const QString &key, const QList<int> &values);
@@ -35,7 +41,7 @@ public:
     Configuration();
 
     static void writeRules(const QList<Rule> &rules);
-    static void readRules(QList<Rule> &rules);
+    static void readRules(QList<Rule> &rules, int *rules_version = 0);
 
     static void writePreferences(const Preferences &preferences);
     static void readPreferences(Preferences &preferences);

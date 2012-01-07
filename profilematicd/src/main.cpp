@@ -18,6 +18,7 @@
 **/
 #include <QtCore/QCoreApplication>
 #include <QDBusMetaType>
+#include <QProcess>
 
 #include "profileclient.h"
 #include "configuration.h"
@@ -31,6 +32,7 @@
 #include <stdio.h>
 
 //#include <qmdevicemode.h>
+#define CONVERSION_WARNING_CMDLINE "/opt/profilematic/bin/profilematic -conversionWarning"
 
 int main(int argc, char *argv[])
 {
@@ -42,14 +44,14 @@ int main(int argc, char *argv[])
 
     ProfileClient profileClient;
     Preferences preferences;
-    PlatformUtil *platformUtil = PlatformUtil::create();
+    QScopedPointer<PlatformUtil> platformUtil(PlatformUtil::create());
 
+    int rules_version = -1;
     QList<Rule> rules;
-
-    Configuration::readRules(rules);
+    Configuration::readRules(rules, &rules_version);
     Configuration::readPreferences(preferences);
     RuleWatch ruleWatch(&rules, &preferences);
-    RuleActivator ruleActivator(&profileClient, platformUtil);
+    RuleActivator ruleActivator(&profileClient, platformUtil.data());
     ProfileMaticInterface interface(&ruleWatch, &rules, &preferences);
 
     if (interface.init()) {
@@ -60,10 +62,16 @@ int main(int argc, char *argv[])
 
     ruleWatch.refreshWatch();
 
+    // LATER: this code can be removed a couple of versions down the road I think.
+    qDebug("rules_version: %d", rules_version);
+    if (rules_version == 0 && !rules.isEmpty()) {
+        qDebug("Launching conversion warning");
+        QProcess::execute(CONVERSION_WARNING_CMDLINE);
+    }
+
     qDebug("Starting");
     printf("Starting\n");
     int ret = a.exec();
     printf("Exiting\n");
-    delete platformUtil;
     return ret;
 }

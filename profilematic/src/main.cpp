@@ -22,6 +22,7 @@
 
 #include <QtCore/QStringList>
 
+#include <QString>
 #include <QObject>
 #include <QList>
 
@@ -49,6 +50,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QmlBackend qmlBackend;
 
     QDeclarativeContext *ctxt = viewer->rootContext();
+    QDeclarativeEngine *engine = ctxt->engine();
+    engine->connect(engine, SIGNAL(quit()), app.data(), SLOT(quit()));
 
     qmlRegisterType<Rule>("Rule", 1, 0, "Rule");
     ctxt->setContextProperty("profileClient", &profileClient);
@@ -57,6 +60,11 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     ctxt->setContextProperty("backendRulesModel", &qmlRulesModel);
     ctxt->setContextProperty("backendProfilesModel", &qmlProfilesModel);
 
+    QString mainQmlFile(QLatin1String("qml/main.qml"));
+    if (argc >= 2 && QLatin1String("-conversionWarning") == argv[1]) {
+        qDebug("Displaying conversion warning");
+        mainQmlFile = QLatin1String("qml/mainConversionWarning.qml");
+    }
     viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer->setMainQmlFile(QLatin1String("qml/main.qml"));
     viewer->showExpanded();
