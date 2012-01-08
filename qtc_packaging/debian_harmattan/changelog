@@ -1,3 +1,9 @@
+profilematic (1.2.0) unstable; urgency=low
+  * New backend
+  * End time condition
+
+ -- Arto Jalkanen <ajalkane@gmail.com>  Sun, 08 Jan 2012 01:36:30 +0300
+
 profilematic (1.1.1) unstable; urgency=low
   * Small UX improvements:
   * Edit rule: Save instead of accept

@@ -29,12 +29,13 @@ RulesManager::RulesManager(const QList<Rule> *rules,
       _action(action),
       _preferences(preferences)
 {
+    connect(_conditionManager, SIGNAL(refreshNeeded()), this, SLOT(refresh()));
 }
 
 void
 RulesManager::refresh() {
     _conditionManager->startRefresh();
-    if (!_preferences->isActive) {
+    if (_preferences->isActive) {
         _conditionManager->refresh(*_rules);
         const QList<Rule> &matchingRules = _conditionManager->matchingRules();
 

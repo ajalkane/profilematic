@@ -27,18 +27,18 @@
 #include "../model/rule.h"
 #include "../configuration.h"
 #include "../preferences.h"
-#include "../logic/rulewatch.h"
+#include "../logic/rulesmanager.h"
 
 class ProfileMaticInterface : public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.ajalkane.profilematic")
-    RuleWatch   *_ruleWatch;
+    RulesManager   *_rulesManager;
     QList<Rule> *_rules;
     Preferences *_preferences;
 
 public:
-    explicit ProfileMaticInterface(RuleWatch *ruleWatch, QList<Rule> *rules, Preferences *preferences, QObject *parent = 0);
+    explicit ProfileMaticInterface(RulesManager *rulesManager, QList<Rule> *rules, Preferences *preferences, QObject *parent = 0);
     virtual ~ProfileMaticInterface();
 
     // Return 0 if success

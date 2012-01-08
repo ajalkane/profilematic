@@ -27,8 +27,8 @@
 #define PM_OBJECT_NAME "/org/ajalkane/profilematic"
 #define PM_SERVICE_NAME "org.ajalkane.profilematic"
 
-ProfileMaticInterface::ProfileMaticInterface(RuleWatch *ruleWatch, QList<Rule> *rules, Preferences *preferences, QObject *parent) :
-    QObject(parent), _ruleWatch(ruleWatch), _rules(rules), _preferences(preferences)
+ProfileMaticInterface::ProfileMaticInterface(RulesManager *rulesManager, QList<Rule> *rules, Preferences *preferences, QObject *parent) :
+    QObject(parent), _rulesManager(rulesManager), _rules(rules), _preferences(preferences)
 {
     qDBusRegisterMetaType<Rule>();
     qDBusRegisterMetaType<QList<Rule> >();
@@ -136,7 +136,7 @@ ProfileMaticInterface::setActive(bool isActive) {
         qDebug("Active changed to %d", isActive);
           _preferences->isActive = isActive;
         emit activeChanged(isActive);
-        _ruleWatch->refreshWatch();
+        _rulesManager->refresh();
         _preferencesChanged();
     }
 }
@@ -154,7 +154,7 @@ ProfileMaticInterface::_findRuleIndexById(const Rule::IdType &id) const {
 
 void
 ProfileMaticInterface::_rulesChanged() {
-    _ruleWatch->refreshWatch();
+    _rulesManager->refresh();
     Configuration::writeRules(*_rules);
 }
 

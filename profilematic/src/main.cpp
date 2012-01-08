@@ -66,7 +66,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
         mainQmlFile = QLatin1String("qml/mainConversionWarning.qml");
     }
     viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
-    viewer->setMainQmlFile(QLatin1String("qml/main.qml"));
+    viewer->setMainQmlFile(mainQmlFile);
     viewer->showExpanded();
 
     int retVal = app->exec();
