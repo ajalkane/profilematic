@@ -30,8 +30,8 @@ class TestConditionManagerTime : public QObject
 {
     Q_OBJECT
 
-    QList<Rule> _refresh(ConditionManagerTime &cm, const QList<Rule> &rules);
-    QList<Rule> _refresh(ConditionManagerTime &cm, const QList<Rule> &rules, const QDateTime &now);
+    const Rule * _refresh(ConditionManagerTime &cm, const QList<Rule> &rules);
+    const Rule * _refresh(ConditionManagerTime &cm, const QList<Rule> &rules, const QDateTime &now);
 
     QSet<int> _allDays;
 public:

@@ -35,7 +35,7 @@ class RulesManager : public QObject
     Action           *_action;
     const Preferences *_preferences;
 
-    void _activateRule(Rule &rule);
+    void _activateRule(const Rule &rule);
 public:
     RulesManager(const QList<Rule> *rules,
                  ConditionManager *conditionManager,

@@ -22,16 +22,16 @@ ConditionManagerChain::startRefresh() {
     }
 }
 
-void
-ConditionManagerChain::refresh(const QList<Rule> &rules) {
-    _matchingRules = rules;
-
+bool
+ConditionManagerChain::refresh(const Rule &rule) {
     QList<ConditionManager *>::const_iterator i = _conditionManagers.constBegin();
     for (; i != _conditionManagers.constEnd(); ++i) {
         ConditionManager *cm = *i;
-        cm->refresh(_matchingRules);
-        _matchingRules = cm->matchingRules();
+        if (!cm->refresh(rule)) {
+            return false;
+        }
     }
+    return true;
 }
 
 void

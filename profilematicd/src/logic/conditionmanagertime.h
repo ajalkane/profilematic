@@ -12,21 +12,25 @@ class ConditionManagerTime : public ConditionManager
 {
     typedef ConditionManager super;
     QTimer _timer;
+    QDateTime _nextNearestDateTime;
+    QDateTime _refreshTime;
 
     QDateTime _calculateNextEnd(const QDateTime &dateTimeStart, const QTime &timeStart, const QTime &timeEnd) const;
     QPair<QDateTime, bool> _nextDateTimeFromRule(const QDateTime &from, const Rule &rule) const;
+    bool _refresh(const Rule &rule, const QDateTime &now);
 
 public:
     ConditionManagerTime();
 
     virtual void startRefresh();
-    virtual void refresh(const QList<Rule> &rules);
+    virtual bool refresh(const Rule &rule);
+    virtual void endRefresh();
 
     // These functions only needed for unit tests
     const QTimer *timer() const {
         return &_timer;
     }
-    void refresh(const QList<Rule> &rules, const QDateTime &dateTime);
+    void startRefresh(const QDateTime &now);
 };
 
 #endif // CONDITIONMANAGERTIME_H

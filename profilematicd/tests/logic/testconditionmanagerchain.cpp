@@ -22,20 +22,37 @@
 namespace {
     class DummyConditionManager : public ConditionManager {
     public:
-        QList<Rule> matchingRules;
+        QList<Rule> matchingRules;        
         QList<Rule> refreshCalledWithRules;
         bool refreshCalled;
         bool emitRefreshNeeded;
 
-        virtual void refresh(const QList<Rule> &rules) {
-            refreshCalledWithRules = rules;
-            _matchingRules = matchingRules;
-            refreshCalled = true;
+        virtual void startRefresh() {
             if (emitRefreshNeeded) {
                 emit refreshNeeded();
             }
         }
-    };
+
+        virtual bool refresh(const Rule &rule) {
+            refreshCalledWithRules << rule;
+            refreshCalled = true;
+            return matchingRules.contains(rule);
+        }
+    };    
+}
+
+const Rule *
+refresh(ConditionManager &cm, const QList<Rule> &rules) {
+    cm.startRefresh();
+    QList<Rule>::const_iterator firstMatchingRule = rules.constBegin();
+    for (; firstMatchingRule != rules.constEnd(); ++firstMatchingRule) {
+        bool isMatching = cm.refresh(*firstMatchingRule);
+        if (isMatching) {
+            break;
+        }
+    }
+    cm.endRefresh();
+    return firstMatchingRule != rules.constEnd() ? &(*firstMatchingRule) : 0;
 }
 
 TestConditionManagerChain::TestConditionManagerChain() {
@@ -73,9 +90,7 @@ TestConditionManagerChain::refresh_withNoMatches() {
     cmc.add(cm3);
     cmc.add(cm4);
 
-    cmc.refresh(expectCalled1);
-    QList<Rule> matches = cmc.matchingRules();
-    QList<Rule> expect;
+    const Rule *match = refresh(cmc, expectCalled1);
 
     QCOMPARE(cm1->refreshCalled, true);
     QCOMPARE(cm1->refreshCalledWithRules, expectCalled1);
@@ -86,10 +101,10 @@ TestConditionManagerChain::refresh_withNoMatches() {
     QCOMPARE(cm3->refreshCalled, true);
     QCOMPARE(cm3->refreshCalledWithRules, expectCalled3);
 
-    QCOMPARE(cm4->refreshCalled, true);
+    QCOMPARE(cm4->refreshCalled, false);
     QCOMPARE(cm4->refreshCalledWithRules, expectCalled4);
 
-    QCOMPARE(expect, matches);
+    QVERIFY(match == 0);
 }
 
 void
@@ -106,20 +121,17 @@ TestConditionManagerChain::refresh_withMatches() {
     QList<Rule> expectCalled1;
     QList<Rule> expectCalled2;
 
-    expectCalled1 << rule1 << rule2 << rule3;
-    expectCalled2 << rule1 << rule2;
+    cm1->matchingRules << rule1 << rule2 << rule3;
+    cm2->matchingRules << rule2;
 
-    cm1->matchingRules = expectCalled2;
-    cm2->matchingRules = expectCalled2;
+    expectCalled1 << rule1 << rule2;
+    expectCalled2 << rule1 << rule2;
 
     ConditionManagerChain cmc;
     cmc.add(cm1);
     cmc.add(cm2);
 
-    cmc.refresh(expectCalled1);
-    QList<Rule> matches = cmc.matchingRules();
-    QList<Rule> expect;
-    expect << rule1 << rule2;
+    const Rule *match = refresh(cmc, expectCalled1);
 
     QCOMPARE(cm1->refreshCalled, true);
     QCOMPARE(cm1->refreshCalledWithRules, expectCalled1);
@@ -127,9 +139,8 @@ TestConditionManagerChain::refresh_withMatches() {
     QCOMPARE(cm2->refreshCalled, true);
     QCOMPARE(cm2->refreshCalledWithRules, expectCalled2);
 
-    QCOMPARE(expect, matches);
+    QVERIFY(*match == rule2);
 }
-
 
 void
 TestConditionManagerChain::refreshNeeded_signalTest() {
@@ -139,13 +150,14 @@ TestConditionManagerChain::refreshNeeded_signalTest() {
     ConditionManagerChain cmc;
     QList<Rule> rules;
 
+    cm1->emitRefreshNeeded = true;
+    cm2->emitRefreshNeeded = true;
+
     cmc.add(cm1);
     cmc.add(cm2);
     connect(&cmc, SIGNAL(refreshNeeded()), &signalTarget, SLOT(onSignal()));
 
     QCOMPARE(signalTarget.numSignal, 0);
-    cm1->emitRefreshNeeded = true;
-    cm2->emitRefreshNeeded = true;
-    cmc.refresh(rules);
+    refresh(cmc, rules);
     QCOMPARE(signalTarget.numSignal, 2);
 }

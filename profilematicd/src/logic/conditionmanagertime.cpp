@@ -8,50 +8,52 @@ ConditionManagerTime::ConditionManagerTime()
 }
 
 void
-ConditionManagerTime::startRefresh() {
-    super::startRefresh();
+ConditionManagerTime::startRefresh(const QDateTime &now) {
     _timer.stop();
+    _nextNearestDateTime = QDateTime();
+    _refreshTime = now;
 }
 
 void
-ConditionManagerTime::refresh(const QList<Rule> &rules) {
-    QDateTime now = QDateTime::currentDateTime();
-    refresh(rules, now);
+ConditionManagerTime::startRefresh() {
+    startRefresh(QDateTime::currentDateTime());
 }
 
 void
-ConditionManagerTime::refresh(const QList<Rule> &rules, const QDateTime &now) {
-    QDateTime nextNearestDateTime;
-
-    qDebug("ConditionManagerTime::refresh size of rules: %d", rules.size());
-    for (QList<Rule>::const_iterator i = rules.constBegin(); i != rules.constEnd(); ++i) {
-        const Rule &item = *i;
-        // if (item.ruleActive) {
-            QPair<QDateTime, bool> p = _nextDateTimeFromRule(now, item);
-            QDateTime nearestFromRule = p.first;
-            bool matching = p.second;
-            if (matching) {
-                _matchingRules.append(item);
-                qDebug("ConditionManagerTime::refresh adding to matching, size now %d", _matchingRules.size());
-            }
-            if (!nearestFromRule.isNull() && (nextNearestDateTime.isNull() || nearestFromRule < nextNearestDateTime)) {
-                qDebug("Setting nearest to %s, was %s",
-                       qPrintable(nearestFromRule.toString()),
-                       qPrintable(nextNearestDateTime.toString()));
-                nextNearestDateTime = nearestFromRule;
-            }
-        // }
-    }
-
-    if (!nextNearestDateTime.isNull()) {
-        quint64 interval = now.msecsTo(nextNearestDateTime);
-        qDebug("Now %s", qPrintable(now.toString()));
-        qDebug("Scheduling a timer to %s, interval %dms", qPrintable(nextNearestDateTime.toString()), (int)interval);
+ConditionManagerTime::endRefresh() {
+    if (!_nextNearestDateTime.isNull()) {
+        quint64 interval = _refreshTime.msecsTo(_nextNearestDateTime);
+        qDebug("Now %s", qPrintable(_refreshTime.toString()));
+        qDebug("Scheduling a timer to %s, interval %dms", qPrintable(_nextNearestDateTime.toString()), (int)interval);
         _timer.start(interval);
     } else {
         qDebug("No nearest time based rule found");
     }
+}
 
+bool
+ConditionManagerTime::refresh(const Rule &rule) {
+    return _refresh(rule, _refreshTime);
+}
+
+bool
+ConditionManagerTime::_refresh(const Rule &rule, const QDateTime &now) {
+    QPair<QDateTime, bool> p = _nextDateTimeFromRule(now, rule);
+    QDateTime nearestFromRule = p.first;
+    bool matching = p.second;
+
+    qDebug("ConditionManagerTime::refresh rule %s/%s match %d",
+           qPrintable(rule.getRuleId()),
+           qPrintable(rule.getRuleName()),
+           matching);
+
+    if (!nearestFromRule.isNull() && (_nextNearestDateTime.isNull() || nearestFromRule < _nextNearestDateTime)) {
+        qDebug("Setting nearest to %s, was %s",
+               qPrintable(nearestFromRule.toString()),
+               qPrintable(_nextNearestDateTime.toString()));
+        _nextNearestDateTime = nearestFromRule;
+    }
+    return matching;
 }
 
 QPair<QDateTime, bool>

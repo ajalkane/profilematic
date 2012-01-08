@@ -28,23 +28,14 @@ class ConditionManager : public QObject
 {
     Q_OBJECT
 
-protected:
-    QList<Rule> _matchingRules;
-
 public:
     ConditionManager();
     virtual ~ConditionManager();
 
     virtual void startRefresh();
-    virtual void refresh(const QList<Rule> &rules) = 0;
+    // Returns true if rule matches current conditions
+    virtual bool refresh(const Rule &rule) = 0;
     virtual void endRefresh();
-
-    // Cleared when endRefresh() is called.
-    // IMPROVE: keeping a copy of each matching rule for all
-    // conditions uses unnecessarily memory.
-    inline const QList<Rule> &matchingRules() {
-        return _matchingRules;
-    }
 
 signals:
     // Signal sent when condition needs refreshing. When emitting this,

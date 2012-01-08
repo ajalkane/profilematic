@@ -75,6 +75,18 @@ public:
     Rule(const Rule &o);
     virtual ~Rule();
     Rule &operator=(const Rule &o);
+    inline Rule &conditionsFrom(const Rule &o) {
+        _timeStart = o._timeStart;
+        _timeEnd = o._timeEnd;
+        _days = o._days;
+        return *this;
+    }
+    inline Rule &actionsFrom(const Rule &o) {
+        _profile = o._profile;
+        _profileVolume = o._profileVolume;
+        _flightMode = o._flightMode;
+        return *this;
+    }
 
     QString getRuleId() const;
     void setRuleId(const QString &ruleId);

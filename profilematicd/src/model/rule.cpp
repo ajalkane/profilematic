@@ -42,12 +42,8 @@ Rule &
 Rule::operator=(const Rule &o) {
     _ruleId = o._ruleId;
     _ruleName = o._ruleName;
-    _timeStart = o._timeStart;
-    _timeEnd = o._timeEnd;
-    _days = o._days;
-    _profile = o._profile;
-    _profileVolume = o._profileVolume;
-    _flightMode = o._flightMode;
+    conditionsFrom(o);
+    actionsFrom(o);
     return *this;
 }
 

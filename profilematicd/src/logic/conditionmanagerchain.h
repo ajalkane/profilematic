@@ -31,7 +31,7 @@ public:
     virtual ~ConditionManagerChain();
 
     virtual void startRefresh();
-    virtual void refresh(const QList<Rule> &rules);
+    virtual bool refresh(const Rule &rule);
     virtual void endRefresh();
 
     void add(ConditionManager *conditionManager);
