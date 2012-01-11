@@ -59,6 +59,7 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
     // So wrong by the API specifications, but so right by the end results (no, I don't like doing it this way)
     QSettings s("ProfileMatic", "rules");
     // QSettings s("ajalkane", "ProfileMatic");
+    Rule defaultRule = Rule::createDefaultRule();
     int rules_version = s.value("rulesVersion", 0).toInt();
     if (rules_version_return != 0) {
         *rules_version_return = rules_version;
@@ -92,9 +93,15 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         if (flightModeOk) {
             r.setFlightMode(flightMode);
         }
-        rules << r;
+        // Make sure default rule is always last, and is created if it does not exist
+        if (!r.isDefaultRule()) {
+            rules << r;
+        } else {
+            defaultRule.actionsFrom(r);
+        }
         qDebug("Configuration: index %d, ruleId: %s, ruleName: %s", i, qPrintable(r.getRuleId()), qPrintable(r.getRuleName()));
     }
+    rules << defaultRule;
     s.endArray();
 
     // Write rules to finalize conversion

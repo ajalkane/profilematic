@@ -36,6 +36,14 @@ Rule::Rule(const Rule &o)
 {
 }
 
+Rule
+Rule::createDefaultRule() {
+    Rule r = Rule();
+    r.setRuleId(DEFAULT_RULE_ID);
+    r.setRuleName("Default rule");
+    return r;
+}
+
 Rule::~Rule() {}
 
 Rule &
@@ -45,6 +53,27 @@ Rule::operator=(const Rule &o) {
     conditionsFrom(o);
     actionsFrom(o);
     return *this;
+}
+
+Rule &
+Rule::conditionsFrom(const Rule &o) {
+    _timeStart = o._timeStart;
+    _timeEnd = o._timeEnd;
+    _days = o._days;
+    return *this;
+}
+
+Rule &
+Rule::actionsFrom(const Rule &o) {
+    _profile = o._profile;
+    _profileVolume = o._profileVolume;
+    _flightMode = o._flightMode;
+    return *this;
+}
+
+bool
+Rule::isDefaultRule() const {
+    return QLatin1String("defaultRule") == _ruleId;
 }
 
 QString
@@ -75,6 +104,10 @@ Rule::setRuleName(const QString &ruleName) {
 
 QString
 Rule::_getTimeQml(const QTime &time) const {
+    if (time.isNull()) {
+        qDebug("Rule::_getTimeQml is null, returning empty string");
+        return "";
+    }
     int hour = time.hour();
     int min  = time.minute();
     QString timeStr;

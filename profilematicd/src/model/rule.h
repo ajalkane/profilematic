@@ -26,6 +26,8 @@
 #include <QMetaType>
 #include <QDBusArgument>
 
+#define DEFAULT_RULE_ID "defaultRule"
+
 class Rule : public QObject
 {
     Q_OBJECT
@@ -45,6 +47,7 @@ class Rule : public QObject
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
     Q_PROPERTY(QString ruleId READ getRuleId NOTIFY ruleIdChanged)
+    Q_PROPERTY(bool isDefaultRule READ isDefaultRule NOTIFY ruleIdChanged STORED false)
     Q_PROPERTY(QString ruleName READ getRuleName WRITE setRuleName NOTIFY ruleNameChanged)
     Q_PROPERTY(QString timeStart READ getTimeStartQml WRITE setTimeStartQml NOTIFY timeStartChanged)
     Q_PROPERTY(QString timeEnd READ getTimeEndQml WRITE setTimeEndQml NOTIFY timeEndChanged)
@@ -73,20 +76,13 @@ public:
 
     Rule(QObject *parent = 0);
     Rule(const Rule &o);
+    static Rule createDefaultRule();
+
     virtual ~Rule();
     Rule &operator=(const Rule &o);
-    inline Rule &conditionsFrom(const Rule &o) {
-        _timeStart = o._timeStart;
-        _timeEnd = o._timeEnd;
-        _days = o._days;
-        return *this;
-    }
-    inline Rule &actionsFrom(const Rule &o) {
-        _profile = o._profile;
-        _profileVolume = o._profileVolume;
-        _flightMode = o._flightMode;
-        return *this;
-    }
+    Rule &conditionsFrom(const Rule &o);
+    Rule &actionsFrom(const Rule &o);
+    bool isDefaultRule() const;
 
     QString getRuleId() const;
     void setRuleId(const QString &ruleId);

@@ -45,7 +45,8 @@ public:
     int init();
 signals:
     void ruleUpdated(const Rule &rule);
-    // Rule is always created as the last rule
+    // Rule is always created as the last rule befor defaultRule. Clients must take
+    // that into account, defaultRule is always the last one.
     void ruleAppended(const Rule &rule);
     void ruleRemoved(const QString &ruleId);
     void ruleMoved(const QString &ruleId, int toIndex);

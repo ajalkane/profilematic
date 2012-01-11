@@ -34,6 +34,10 @@ void
 QmlProfilesModel::_init(Role nameRole) {
     Q_ASSERT_X(nameRole == ProfileType, "QmlProfileModel", "Only ProfileType role supported at the moment");
 
+    _nameToProfile["Don't change"] = "";
+    _profileToName[""] = "";
+    _names.append("Don't change");
+
     QStringList profiles = _profileClient->getProfiles();
     QString profile;
     foreach (profile, profiles) {
@@ -87,15 +91,20 @@ QmlProfilesModel::getProfileType(int index) const {
 
 QString
 QmlProfilesModel::getProfileToName(const QString &profile) const {
+    qDebug("QmlProfilesModel::getProfileToName(%s)", qPrintable(profile));
     if (_profileToName.contains(profile)) {
+        qDebug("QmlProfilesModel::getProfileToName returning from _profileToName");
         return _profileToName[profile];
     }
+    qDebug("QmlProfilesModel::getProfileToName returning unrecognized");
     return "Unrecognized " + profile;
 }
 
 bool
 QmlProfilesModel::profileHasVolume(const QString &profile) const {
+    qDebug("QmlProfilesModel::profileHasVolume(%s)", qPrintable(profile));
     // Hard-coded to be the Ringing profile type for now, maybe there could be a more dynamic way?
     QString profileType = getProfileToName(profile);
+    qDebug("QmlProfilesModel::profileHasVolume: profileType %s", qPrintable(profileType));
     return profileType.toLower() == "ringing";
 }

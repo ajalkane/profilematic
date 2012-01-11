@@ -43,13 +43,13 @@ Page {
 
     function instantiateComponent(file, properties) {
         console.log("createComponent", file)
-        var component = Qt.createComponent(file)
+        var component = Qt.createComponent(file)        
         console.log("/createComponent", file)
 
         if (component.status == Component.Ready) {
             console.log("createObject", file)
             var comp = component.createObject(showRules, properties)
-            console.log("/createObject", file)
+            console.log("/createObject", file, comp)
             return comp
         }
         else
@@ -106,7 +106,8 @@ Page {
         anchors.centerIn: parent
         width: parent.width
         horizontalAlignment: Text.AlignHCenter
-        visible: !backendRulesModel.backendError && backendRulesModel.count === 0
+        // There's always default rule, so display when count <= 1
+        visible: !backendRulesModel.backendError && backendRulesModel.count <= 1
         font.pixelSize: UIConstants.FONT_XXXLARGE;
         color: mouseAreaFirstRule.containsMouse ? (!theme.inverted ? UIConstants.COLOR_FOREGROUND : UIConstants.COLOR_INVERTED_FOREGROUND)
                                  : (!theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND)
@@ -137,7 +138,8 @@ Page {
 
     ListView {
         id: listView
-        visible: backendRulesModel.count > 0
+        // There's always default rule, so display when count > 1
+        visible: backendRulesModel.count > 1
         anchors {
             top: appHeader.bottom
             left: parent.left
@@ -199,7 +201,8 @@ Page {
                     Item {
                         width: childrenRect.width
                         height:  parent.height
-                        visible: index > 0
+                        // Do not show up arrow for first or defaultRule
+                        visible: index > 0 && index < listView.count - 1
                         Rectangle {
                             id: backgroundUp
                             anchors.fill: up
@@ -259,15 +262,24 @@ Page {
                             width: ruleItem.width
                             text: {
                                 console.log("Called summary label for index", index)
-                                var summary = backendProfilesModel.getProfileToName(profile) + ". ";
-                                var fm = flightMode
-                                switch (fm) {
-                                case 0: summary += "Flight mode off. "; break;
-                                case 1: summary += "Flight mode on. "; break;
+                                var summary = []
+                                if (profile !== '') {
+                                    summary.push(backendProfilesModel.getProfileToName(profile))
+                                }
+                                switch (flightMode) {
+                                case 0: summary.push("Flight mode off"); break;
+                                case 1: summary.push("Flight mode on"); break;
                                 }
 
-                                summary += daysSummary + ". Starts at " + timeStart
-                                return summary;
+                                if (model.isDefaultRule) {
+                                    summary.push("Activated when other rules don't apply")
+                                } else {
+                                    var timeRange = (timeStart === timeEnd
+                                                     ? " at " + timeStart
+                                                     : " between " + timeStart + " - " + timeEnd)
+                                    summary.push(daysSummary + timeRange)
+                                }
+                                return summary.join(". ");
                             }
                             platformStyle: LabelStyleSubtitle {}
                             wrapMode: Text.WordWrap
@@ -298,7 +310,8 @@ Page {
                         anchors.verticalCenter: parent.verticalCenter
                         width: childrenRect.width
                         height:  parent.height
-                        visible: index < listView.count - 1
+                        // Do not show down arrow for rule preceding defaultRule, which is always the last item
+                        visible: index < listView.count - 2
 
                         Rectangle {
                             id: backgroundDown
@@ -368,7 +381,8 @@ Page {
             Text {
                 wrapMode: Text.WordWrap
                 width: parent.width
-                visible: backendRulesModel.count > 0
+                // No rules are displayed when only default rule (without user specified rules)
+                visible: backendRulesModel.count > 1
                 font.pixelSize: UIConstants.FONT_SMALL;
                 color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
                 text: backendRulesModel.active ? "Rules are followed even if application is closed or device is rebooted" : ""
@@ -378,7 +392,7 @@ Page {
 
     Connections {
         target: editRule
-        onSaved: setRule(editRuleModelIndex)
+        onSaved: setRule()
         onDeleted: deleteRule(editRuleModelIndex)
     }
 
@@ -398,18 +412,20 @@ Page {
         }
     }
 
-    function setRule(index) {
+    function setRule() {
         backendRulesModel.saveEditRule()
     }
 
     function openNewRule() {
         console.log("openNewRule")
+
         backendRulesModel.setNewEditRule();
         var p = {
             "rule": backendRulesModel.getEditRule()
         }
         editRuleModelIndex = -1
         editRule = loadEditRule(p)
+        console.log("openNewRule", editRule)
         pageStack.push(editRule)
     }
 
@@ -423,4 +439,8 @@ Page {
     ScrollDecorator {
         flickableItem: listView
     }
+
+//    TextFieldWithLabel {
+
+//    }
 }

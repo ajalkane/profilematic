@@ -31,6 +31,7 @@ ActionProfile::activate(const Rule &rule) {
     if (profile.trimmed().isEmpty()) {
         qDebug("ActionProfile::activate profile not set rule %s",
                qPrintable(rule.getRuleName()));
+        return;
     }
 
     qDebug("ActionProfile::activateRule for rule %s, profile %s, volume %d",

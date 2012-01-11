@@ -58,6 +58,7 @@ class QmlRulesModel: public QAbstractListModel
 public:
     enum RuleRoles {
         RuleIdRole = Qt::UserRole + 1,
+        IsDefaultRuleRole,
         RuleActiveRole,
         RuleNameRole,
         TimeStartRole,

@@ -23,16 +23,15 @@ import "UIConstants.js" as UIConstants
 
 Column {
     property alias labelText: label.text
-    property alias placeholderText: field.placeholderText
-    property alias text:  field.text
-    width: parent.width
+    property alias placeholderText: labelField.placeholderText
+    property alias text: labelField.text
 
     Label {
         id: label
         color: UIConstants.COLOR_SECONDARY_FOREGROUND
     }
     TextField {
-        id: field
+        id: labelField
         width: parent.width
     }
 }

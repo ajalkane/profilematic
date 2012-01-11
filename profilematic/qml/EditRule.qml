@@ -35,18 +35,35 @@ Page {
     signal cancelled
     signal deleted
 
-    onStatusChanged: {
-        // console.log("Status changed ", status)
-        if (status == 1) {
-            // volumeVisibility();
-        }
-    }
+//    onStatusChanged: {
+//        console.log("Status changed ", status)
+//        if (status == 1) {
+//            // volumeVisibility();
+//        }
+//    }
 
     function isValidRule() {
-        if (rule.days.length === 0 || rule.timeStart === "" || rule.profile === "") {
-            return false;
+        if (rule.isDefaultRule) {
+            return true;
         }
-        return true;
+
+        var isConditionsValid = false
+        var isActionsValid = false
+
+        var isTimeValid = false
+        if (rule.days.length !== 0 && rule.timeStart !== "" && rule.timeEnd !== "") {
+            isTimeValid = true
+        }
+
+        if (isTimeValid) {
+            isConditionsValid = true
+        }
+
+        if (rule.profile !== "") {
+            isActionsValid = true
+        }
+        console.log("conditionsValid, actionsValid", isConditionsValid, isActionsValid)
+        return isConditionsValid && isActionsValid
     }
 
     function openFile(file) {
@@ -66,7 +83,7 @@ Page {
         id: dInvalidRule
 
         titleText: "This rule can not be used"
-        message: "A rule must have days and time set, and profile selected"
+        message: "A rule must have at least one condition, and one action selected"
         acceptButtonText: "Ok"
     }
 
@@ -146,11 +163,20 @@ Page {
             width: parent.width
             height: childrenRect.height
 
+            Label {
+                id: label
+                color: UIConstants.COLOR_SECONDARY_FOREGROUND
+                text: rule.ruleName
+                visible: rule.isDefaultRule
+            }
+
             TextFieldWithLabel {
                 labelText: "Rule name"
                 placeholderText: "Auto-generated"
                 text: rule.ruleName
                 height: UIConstants.LIST_ITEM_HEIGHT_SMALL
+                width: parent.width
+                visible: !rule.isDefaultRule
                 onTextChanged: {
                     rule.ruleName = text
                 }
@@ -158,24 +184,28 @@ Page {
 
             SectionHeader {
                 section: "Condition"
+                visible: !rule.isDefaultRule
             }
 
             RuleTopicSummary {
                 topic: "Active days"
                 summary: daysSummary()
                 onTopicClicked: daysEditHandler()
+                visible: !rule.isDefaultRule
             }
 
             RuleTopicSummary {
-                topic: "Start time"
+                topic: "Active start time"
                 summary: timeStartSummary()
                 onTopicClicked: timeStartEditHandler()
+                visible: !rule.isDefaultRule
             }
 
             RuleTopicSummary {
-                topic: "End time"
+                topic: "Active end time"
                 summary: timeEndSummary()
                 onTopicClicked: timeEndEditHandler()
+                visible: !rule.isDefaultRule
             }
 
             SectionHeader {
@@ -223,9 +253,17 @@ Page {
                 color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
                 text: {
                     if (isValidRule()) {
-                        return "This rule activates profile " + backendProfilesModel.getProfileToName(rule.profile)
-                                + " when clock reaches " + rule.timeStart
-                                + " on active days"
+                        var help = "This rule activates profile " + backendProfilesModel.getProfileToName(rule.profile)
+                        if (rule.isDefaultRule) {
+                            help += " when other rules don't apply";
+                        } else {
+                            help += " when clock is "
+                                    + (rule.timeStart === rule.timeEnd
+                                       ? rule.timeStart
+                                       : "between " + rule.timeStart + " - " + rule.timeEnd)
+                            help += " on active days"
+                        }
+                        return help
                     }
                     return ""
                 }
@@ -239,7 +277,7 @@ Page {
 
     TimeDialog {
         id: timeStartDialog
-        titleText: "Start time"
+        titleText: "Active start time"
         onAccepted: rule.timeStart = formatTime(hour, minute)
     }
 
@@ -257,6 +295,7 @@ Page {
     }
 
     function timeStartSummary() {
+        console.log("timeStart summary")
         if (rule.timeStart === '') {
             return "Click to set time"
         }
@@ -265,7 +304,7 @@ Page {
 
     TimeDialog {
         id: timeEndDialog
-        titleText: "End time"
+        titleText: "Active end time"
         onAccepted: rule.timeEnd = formatTime(hour, minute)
     }
 
@@ -274,7 +313,7 @@ Page {
         var time = (rule.timeEnd !== "" ? rule.timeEnd : "00:00")
         var timeSplits = time.split(":")
 
-        console.log("starTimeEditHandler timeSplits", timeSplits[0], timeSplits[1])
+        console.log("timeEndEditHandler timeSplits", timeSplits[0], timeSplits[1])
 
         timeEndDialog.hour = timeSplits[0]
         timeEndDialog.minute = timeSplits[1]
@@ -283,6 +322,7 @@ Page {
     }
 
     function timeEndSummary() {
+        console.log("timeEnd summary")
         if (rule.timeEnd=== '') {
             return "Click to set time"
         }
@@ -291,15 +331,15 @@ Page {
 
 
     MyMultiSelectionDialog {
-         id: daysDialog
-         titleText: "Active days"
-         platformStyle: SelectionDialogStyle {
+        id: daysDialog
+        titleText: "Active days"
+        platformStyle: SelectionDialogStyle {
             itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
-         }
-         model: backendDaysModel
-         acceptButtonText: "OK"
-         onAccepted: rule.days = selectedIndexes
-     }
+        }
+        model: backendDaysModel
+        acceptButtonText: "OK"
+        onAccepted: rule.days = selectedIndexes
+    }
 
     function daysSummary() {
         console.log("DaysSummary called")
@@ -312,32 +352,32 @@ Page {
     }
 
     MySelectionDialog {
-         id: profilesDialog
-         titleText: "Set profile"
-         platformStyle: SelectionDialogStyle {
+        id: profilesDialog
+        titleText: "Set profile"
+        platformStyle: SelectionDialogStyle {
             itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
-         }
-         model: backendProfilesModel
+        }
+        model: backendProfilesModel
 
-         onSelectedIndexChanged: {
-             if (selectedIndex > -1) {
-                 var selectedProfile = model.getProfile(selectedIndex)
-                 rule.profile = selectedProfile
-             }
-         }
+        onSelectedIndexChanged: {
+            if (selectedIndex > -1) {
+                var selectedProfile = model.getProfile(selectedIndex)
+                rule.profile = selectedProfile
+            }
+        }
 
 
-         function openWithSelection(selectedProfile) {
-             for (var i = 0; i < backendProfilesModel.count; i++) {
-                 var profile = backendProfilesModel.getProfile(i)
-                 if (selectedProfile == profile) {
-                     selectedIndex = i
-                 }
-             }
-             open()
-         }
+        function openWithSelection(selectedProfile) {
+            for (var i = 0; i < backendProfilesModel.count; i++) {
+                var profile = backendProfilesModel.getProfile(i)
+                if (selectedProfile == profile) {
+                    selectedIndex = i
+                }
+            }
+            open()
+        }
 
-     }
+    }
 
     // Profile functions
     function profileSummary() {
@@ -408,7 +448,10 @@ Page {
     }
 
     function flightModeSummary() {
-        return dFlightMode.flightModeToText(rule.flightMode)
+        console.debug("flightModeSummary")
+        var flightModeText = dFlightMode.flightModeToText(rule.flightMode)
+        console.debug("flightModeSummary as text", flightModeText)
+        return flightModeText
     }
 
     function flightModeEditHandler() {

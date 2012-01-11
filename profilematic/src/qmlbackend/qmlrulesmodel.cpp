@@ -27,6 +27,7 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QObject *parent)
     : QAbstractListModel(parent), _isActive(false), _backendError(false), _client(client)
 {    
     _roleToProperty[RuleIdRole]          = "ruleId";
+    _roleToProperty[IsDefaultRuleRole]   = "isDefaultRule";
     _roleToProperty[RuleActiveRole]      = "ruleActive";
     _roleToProperty[RuleNameRole]        = "ruleName";
     _roleToProperty[TimeStartRole]       = "timeStart";
@@ -84,6 +85,8 @@ QmlRulesModel::data(const QModelIndex & index, int role) const {
     switch (role) {
     case RuleIdRole:
         return rule.getRuleId();
+    case IsDefaultRuleRole:
+        return rule.isDefaultRule();
     // case RuleActiveRole:
         // return rule.ruleActive;
     case RuleNameRole:
@@ -134,8 +137,9 @@ void
 QmlRulesModel::ruleAppended(const Rule &rule) {
     qDebug("QmlRulesModel: Received rule appended %s %s", qPrintable(rule.getRuleId()), qPrintable(rule.getRuleName()));
 
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    _rules << rule;
+    // Assume default rule is always last, and can not be removed.
+    beginInsertRows(QModelIndex(), rowCount() - 1, rowCount() - 1);
+    _rules.insert(_rules.size() - 1, rule);
     endInsertRows();
 }
 
@@ -268,7 +272,7 @@ QmlRulesModel::setNewEditRule() {
     qDebug("QmlRulesModel::setNewEditRule");
 
     _editRule = Rule();
-    // Accorsding to user input, this might be confusing, so do not set all days. Empty selection.
+    // According to user input, this might be confusing, so do not set all days. Empty selection.
 //    // When creating new rule, automatically select all days
 //    QSet<int> days;
 //    for (int i = 0; i < 7; i++) {
