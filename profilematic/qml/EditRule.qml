@@ -188,24 +188,18 @@ Page {
             }
 
             RuleTopicSummary {
-                topic: "Active days"
-                summary: daysSummary()
-                onTopicClicked: daysEditHandler()
+                id: timeRule
+                topic: "Time"
+                summary: timeSummary() // TODO
+                onTopicClicked: timeEditHandler()
                 visible: !rule.isDefaultRule
-            }
+                Connections {
+                    target: rule
+                    onDaysChanged:      timeRule.summary = timeSummary()
+                    onTimeStartChanged: timeRule.summary = timeSummary()
+                    onTimeEndChanged:   timeRule.summary = timeSummary()
+                }
 
-            RuleTopicSummary {
-                topic: "Active start time"
-                summary: timeStartSummary()
-                onTopicClicked: timeStartEditHandler()
-                visible: !rule.isDefaultRule
-            }
-
-            RuleTopicSummary {
-                topic: "Active end time"
-                summary: timeEndSummary()
-                onTopicClicked: timeEndEditHandler()
-                visible: !rule.isDefaultRule
             }
 
             SectionHeader {
@@ -271,84 +265,20 @@ Page {
         } // Column
     } // Flickable
 
-    function formatTime(hour, minute) {
-        return (hour < 10 ? "0" : "") + hour + ":" + (minute < 10 ? "0" : "") + minute
+    // Time functions
+    ConditionTime {
+        id: conditionTime
+        rule: editRule.rule
     }
 
-    TimeDialog {
-        id: timeStartDialog
-        titleText: "Active start time"
-        onAccepted: rule.timeStart = formatTime(hour, minute)
+    // Profile functions
+    function timeSummary() {
+        console.log("timeSummary")
+        return backendRulesModel.getTimeSummaryText(rule, "Not in use");
     }
 
-    // Start time functions
-    function timeStartEditHandler() {
-        var time = (rule.timeStart !== "" ? rule.timeStart : "00:00")
-        var timeSplits = time.split(":")
-
-        console.log("starTimeEditHandler timeSplits", timeSplits[0], timeSplits[1])
-
-        timeStartDialog.hour = timeSplits[0]
-        timeStartDialog.minute = timeSplits[1]
-
-        timeStartDialog.open();
-    }
-
-    function timeStartSummary() {
-        console.log("timeStart summary")
-        if (rule.timeStart === '') {
-            return "Click to set time"
-        }
-        return rule.timeStart
-    }
-
-    TimeDialog {
-        id: timeEndDialog
-        titleText: "Active end time"
-        onAccepted: rule.timeEnd = formatTime(hour, minute)
-    }
-
-    // Start time functions
-    function timeEndEditHandler() {
-        var time = (rule.timeEnd !== "" ? rule.timeEnd : "00:00")
-        var timeSplits = time.split(":")
-
-        console.log("timeEndEditHandler timeSplits", timeSplits[0], timeSplits[1])
-
-        timeEndDialog.hour = timeSplits[0]
-        timeEndDialog.minute = timeSplits[1]
-
-        timeEndDialog.open();
-    }
-
-    function timeEndSummary() {
-        console.log("timeEnd summary")
-        if (rule.timeEnd=== '') {
-            return "Click to set time"
-        }
-        return rule.timeEnd
-    }
-
-
-    MyMultiSelectionDialog {
-        id: daysDialog
-        titleText: "Active days"
-        platformStyle: SelectionDialogStyle {
-            itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
-        }
-        model: backendDaysModel
-        acceptButtonText: "OK"
-        onAccepted: rule.days = selectedIndexes
-    }
-
-    function daysSummary() {
-        console.log("DaysSummary called")
-        return backendRulesModel.getDaysSummaryText(rule.days);
-    }
-
-    function daysEditHandler() {
-        daysDialog.selectedIndexes = rule.days
-        daysDialog.open();
+    function timeEditHandler() {
+        pageStack.push(conditionTime)
     }
 
     MySelectionDialog {

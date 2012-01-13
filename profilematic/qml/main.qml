@@ -30,21 +30,7 @@ PageStackWindow {
         ToolIcon {
             iconId: "toolbar-back"
             visible: pageStack.depth > 1
-            onClicked: { myMenu.close(); pageStack.pop(); }
-        }
-        ToolIcon {
-            iconId: "toolbar-view-menu";
-            // TODO parent === undefined should not be needed
-            anchors.right: parent===undefined ? undefined : parent.right
-            onClicked: (myMenu.status == DialogStatus.Closed) ? myMenu.open() : myMenu.close()
-        }
-    }
-
-    Menu {
-        id: myMenu
-        visualParent: pageStack
-        MenuLayout {
-            MenuItem { text: "Show rules" }
+            onClicked: { pageStack.pop(); }
         }
     }
 

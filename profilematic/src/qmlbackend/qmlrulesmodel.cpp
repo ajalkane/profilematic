@@ -248,6 +248,37 @@ QmlRulesModel::getDaysSummaryText(const QSet<int> &days) const {
     return daysStr;
 }
 
+QString
+QmlRulesModel::getTimeSummaryText(Rule *rule, const QString &nonUsableTimeString) const {
+    qDebug("QmlRulesModel::getTimeSummaryText()");
+    // Rule rule = ruleVariant.value<Rule>();
+    if (rule->getDays().isEmpty()
+            || !rule->getTimeStart().isValid()
+            || !rule->getTimeEnd().isValid()) {
+        qDebug("QmlRulesModel::getTimeSummaryText(): nonUsable, getDays.isEmpty/!validTimeStart/!validTimeEnd %d, %d, %d",
+               rule->getDays().isEmpty(), !rule->getTimeStart().isValid(), !rule->getTimeEnd().isValid());
+        return nonUsableTimeString;
+    }
+
+    QString summary = getDaysSummaryText(rule->getDays());
+    summary += " ";
+    summary += rule->getTimeStartQml();
+    summary += " - ";
+    summary += rule->getTimeEndQml();
+    summary += " (";
+    QTime duration = rule->getTimeDuration();
+    if (duration.hour() != 0) {
+        summary += QString::number(duration.hour());
+        summary += "h";
+    }
+    if (duration.minute() != 0) {
+        summary += QString::number(duration.minute());
+        summary += "min";
+    }
+    summary += ")";
+    return summary;
+}
+
 Rule *
 QmlRulesModel::getEditRule() {
     return &_editRule;

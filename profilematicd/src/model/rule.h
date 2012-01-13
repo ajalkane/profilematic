@@ -100,7 +100,13 @@ public:
     // For QML
     QString getTimeEndQml() const;
     void setTimeEndQml(const QString &timeEnd);
-
+    inline QTime getTimeDuration() const {
+        int secsToEnd = _timeStart.secsTo(_timeEnd);
+        if (secsToEnd <= 0) {
+            secsToEnd += 24 * 60 * 60;
+        }
+        return QTime().addSecs(secsToEnd);
+    }
     // 0 = monday, 6 = sunday
     const QSet<int> &getDays() const;
     void setDays(const QSet<int> &days);

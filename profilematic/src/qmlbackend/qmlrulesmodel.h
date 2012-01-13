@@ -86,6 +86,7 @@ public:
     QString getDaysSummaryText(const QSet<int> &days) const;
     // For QML
     Q_INVOKABLE QString getDaysSummaryText(const QVariantList &dayIndices) const;
+    Q_INVOKABLE QString getTimeSummaryText(Rule *rule, const QString &nonUsableTimeString) const;
 
     bool isActive() const;
     void setActive(bool isActive);
