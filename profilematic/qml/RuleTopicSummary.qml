@@ -29,6 +29,7 @@ Item {
     property bool ruleVisible: true
     property alias topic: topic.text
     property alias summary: summary.text
+    property bool showDrillDown: false
 
     signal topicClicked
 
@@ -45,7 +46,7 @@ Item {
 
     Column {
         id: content
-        width: parent.width
+        width: parent.width - (parent.showDrillDown ? 64 : 0)
         anchors.verticalCenter: parent.verticalCenter
 
         Label {
@@ -59,6 +60,13 @@ Item {
             width: parent.width
             platformStyle: LabelStyleSubtitle {}
         }
+    }
+
+    Image {
+        source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "")
+        anchors.right: parent.right;
+        anchors.verticalCenter: parent.verticalCenter
+        visible: parent.showDrillDown
     }
 
     MouseArea {

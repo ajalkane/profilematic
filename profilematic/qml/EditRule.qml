@@ -190,7 +190,8 @@ Page {
             RuleTopicSummary {
                 id: timeRule
                 topic: "Time"
-                summary: timeSummary() // TODO
+                summary: timeSummary()
+                showDrillDown: true
                 onTopicClicked: timeEditHandler()
                 visible: !rule.isDefaultRule
                 Connections {
