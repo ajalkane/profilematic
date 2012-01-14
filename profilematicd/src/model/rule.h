@@ -38,6 +38,7 @@ class Rule : public QObject
     QTime     _timeStart;
     QTime     _timeEnd;
     QSet<int> _days;
+    QList<int> _locationCells;
 
     // Actions
     QString _profile;
@@ -52,6 +53,7 @@ class Rule : public QObject
     Q_PROPERTY(QString timeStart READ getTimeStartQml WRITE setTimeStartQml NOTIFY timeStartChanged)
     Q_PROPERTY(QString timeEnd READ getTimeEndQml WRITE setTimeEndQml NOTIFY timeEndChanged)
     Q_PROPERTY(QVariantList days READ getDaysQml WRITE setDaysQml NOTIFY daysChanged)
+    Q_PROPERTY(QVariantList locationCells READ getLocationCellsQml WRITE setLocationCellsQml NOTIFY locationCellsChanged)
     Q_PROPERTY(QString profile READ getProfile WRITE setProfile NOTIFY profileChanged)
     Q_PROPERTY(int profileVolume READ getProfileVolume WRITE setProfileVolume NOTIFY profileVolumeChanged)
     Q_PROPERTY(int flightMode READ getFlightMode WRITE setFlightMode NOTIFY flightModeChanged)
@@ -68,6 +70,7 @@ signals:
     void timeStartChanged();
     void timeEndChanged();
     void daysChanged();
+    void locationCellsChanged();
     void profileChanged();
     void profileVolumeChanged();
     void flightModeChanged();
@@ -115,6 +118,12 @@ public:
     QVariantList getDaysQml() const;
     void setDaysQml(const QVariantList &days);
 
+    const QList<int> &getLocationCells() const;
+    void setLocationCells(const QList<int> &cells);
+    // For QML
+    QVariantList getLocationCellsQml() const;
+    void setLocationCellsQml(const QVariantList &cells);
+
     QString getProfile() const;
     void setProfile(const QString &profile);
 
@@ -133,6 +142,7 @@ public:
             && this->_timeStart == o._timeStart
             && this->_timeEnd   == o._timeEnd
             && this->_days      == o._days
+            && this->_locationCells == o._locationCells
             && this->_profile   == o._profile
             && this->_profileVolume == o._profileVolume
             && this->_flightMode == o._flightMode;
@@ -147,6 +157,9 @@ public:
     }
     inline bool isDaysRuleUsable() const {
         return !getDays().isEmpty();
+    }
+    inline bool isLocationCellsRuleUsable() const {
+        return !getLocationCells().isEmpty();
     }
 };
 

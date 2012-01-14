@@ -188,7 +188,7 @@ Page {
             }
 
             RuleTopicSummary {
-                id: timeRule
+                id: timeCondition
                 topic: "Time"
                 summary: timeSummary()
                 showDrillDown: true
@@ -196,12 +196,28 @@ Page {
                 visible: !rule.isDefaultRule
                 Connections {
                     target: rule
-                    onDaysChanged:      timeRule.summary = timeSummary()
-                    onTimeStartChanged: timeRule.summary = timeSummary()
-                    onTimeEndChanged:   timeRule.summary = timeSummary()
+                    onDaysChanged:      timeCondition.summary = timeSummary()
+                    onTimeStartChanged: timeCondition.summary = timeSummary()
+                    onTimeEndChanged:   timeCondition.summary = timeSummary()
                 }
+            }
+
+            RuleTopicSummary {
+                id: locationCondition
+                topic: "Location"
+                summary: locationSummary()
+                showDrillDown: true
+                onTopicClicked: locationEditHandler()
+                visible: !rule.isDefaultRule
+//                Connections {
+//                    target: rule
+//                    onDaysChanged:      locationCondition.summary = timeSummary()
+//                    onTimeStartChanged: locationCondition.summary = timeSummary()
+//                    onTimeEndChanged:   locationCondition.summary = timeSummary()
+//                }
 
             }
+
 
             SectionHeader {
                 section: "Action"
@@ -272,7 +288,6 @@ Page {
         rule: editRule.rule
     }
 
-    // Profile functions
     function timeSummary() {
         console.log("timeSummary")
         return backendRulesModel.getTimeSummaryText(rule, "Not in use");
@@ -280,6 +295,22 @@ Page {
 
     function timeEditHandler() {
         pageStack.push(conditionTime)
+    }
+
+    // Location functions
+    ConditionLocation {
+        id: conditionLocation
+        rule: editRule.rule
+    }
+
+    function locationSummary() {
+        console.log("locationSummary")
+        return "not implemented"
+        // return backendRulesModel.getTimeSummaryText(rule, "Not in use");
+    }
+
+    function locationEditHandler() {
+        pageStack.push(conditionLocation)
     }
 
     MySelectionDialog {

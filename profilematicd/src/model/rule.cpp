@@ -30,6 +30,7 @@ Rule::Rule(const Rule &o)
       _timeStart(o._timeStart),
       _timeEnd(o._timeEnd),
       _days(o._days),
+      _locationCells(o._locationCells),
       _profile(o._profile),
       _profileVolume(o._profileVolume),
       _flightMode(o._flightMode)
@@ -60,6 +61,7 @@ Rule::conditionsFrom(const Rule &o) {
     _timeStart = o._timeStart;
     _timeEnd = o._timeEnd;
     _days = o._days;
+    _locationCells = o._locationCells;
     return *this;
 }
 
@@ -209,6 +211,38 @@ Rule::setDaysQml(const QVariantList &days) {
     setDays(daysSet);
 }
 
+const QList<int> &
+Rule::getLocationCells() const {
+    return _locationCells;
+}
+
+void
+Rule::setLocationCells(const QList<int> &cells) {
+    if (_locationCells != cells) {
+        _locationCells = cells;
+        emit locationCellsChanged();
+    }
+}
+
+QVariantList
+Rule::getLocationCellsQml() const {
+    QVariantList cells;
+    for (QList<int>::const_iterator i = _locationCells.constBegin(); i != _locationCells.constEnd(); ++i) {
+        cells << QVariant::fromValue(*i);
+    }
+
+    return cells;
+
+}
+void
+Rule::setLocationCellsQml(const QVariantList &cells) {
+    QList<int> cellsList;
+    for (QVariantList::const_iterator i = cells.constBegin(); i != cells.constEnd(); ++i) {
+        cellsList << i->toInt();
+    }
+    setLocationCells(cellsList);
+}
+
 QString
 Rule::getProfile() const {
     return _profile;
@@ -256,6 +290,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
     argument << rule.getTimeStart();
     argument << rule.getTimeEnd();
     argument << rule.getDays();
+    argument << rule.getLocationCells();
     argument << rule.getProfile();
     argument << rule.getProfileVolume();
     argument << rule.getFlightMode();
@@ -271,6 +306,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     QTime     timeStart = rule.getTimeStart();
     QTime     timeEnd = rule.getTimeEnd();
     QList<int> days = rule.getDays().toList();
+    QList<int> cells = rule.getLocationCells();
 
     QString profile = rule.getProfile();
     int     profileVolume = rule.getProfileVolume();
@@ -282,6 +318,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     argument >> timeStart;
     argument >> timeEnd;
     argument >> days;
+    argument >> cells;
     argument >> profile;
     argument >> profileVolume;
     argument >> flightMode;
@@ -292,6 +329,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     rule.setTimeStart(timeStart);
     rule.setTimeEnd(timeEnd);
     rule.setDays(QSet<int>::fromList(days));
+    rule.setLocationCells(cells);
     rule.setProfile(profile);
     rule.setProfileVolume(profileVolume);
     rule.setFlightMode(flightMode);
