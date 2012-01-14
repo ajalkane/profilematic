@@ -130,7 +130,7 @@ Rule::getTimeStart() const {
 }
 
 void
-Rule::setTimeStart(const QTime &timeStart) {
+Rule::setTimeStart(const QTime &timeStart) {    
     // Normalize to always have 00 seconds
     QTime useTime = _timeWithSecs(timeStart, 0);
     if (_timeStart != useTime) {
@@ -146,7 +146,11 @@ Rule::getTimeStartQml() const {
 
 void
 Rule::setTimeStartQml(const QString &timeStart) {
-    setTimeStart(QTime::fromString(timeStart, "hh:mm"));
+    if (timeStart.isEmpty()) {
+        setTimeStart(QTime());
+    } else {
+        setTimeStart(QTime::fromString(timeStart, "hh:mm"));
+    }
 }
 
 QTime

@@ -86,6 +86,25 @@ Page {
                 }
             }
 
+            Button {
+                text: "Clear time rules"
+                onClicked: dConfirmDelete.open()
+            }
+        }
+    }
+
+    QueryDialog {
+        id: dConfirmDelete
+
+        titleText: "Clear time rules"
+        message: "Are you sure you want to clear time rules?"
+        acceptButtonText: "Yes"
+        rejectButtonText: "Cancel"
+
+        onAccepted: {
+            rule.timeStart = ""
+            rule.timeEnd = ""
+            rule.days = []
         }
     }
 

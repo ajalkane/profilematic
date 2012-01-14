@@ -59,7 +59,7 @@ class Rule : public QObject
     QString _getTimeQml(const QTime &time) const;
 
     inline QTime _timeWithSecs(const QTime time, int secs) const {
-        return QTime(time.hour(), time.minute(), secs);
+        return time.isNull() ? time : QTime(time.hour(), time.minute(), secs);
     }
 
 signals:
