@@ -68,7 +68,7 @@ public:
         DaysRole,
         ProfileRole,
         ProfileVolumeRole,
-        DaysSummaryRole,
+        TimeSummaryRole,
         FlightModeRole
     };
 
@@ -86,6 +86,7 @@ public:
     QString getDaysSummaryText(const QSet<int> &days) const;
     // For QML
     Q_INVOKABLE QString getDaysSummaryText(const QVariantList &dayIndices) const;
+    Q_INVOKABLE QString getTimeSummaryText(const Rule *rule, const QString &nonUsableTimeString) const;
     Q_INVOKABLE QString getTimeSummaryText(Rule *rule, const QString &nonUsableTimeString) const;
 
     bool isActive() const;

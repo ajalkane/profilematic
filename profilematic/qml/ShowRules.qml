@@ -274,10 +274,7 @@ Page {
                                 if (model.isDefaultRule) {
                                     summary.push("Activated when other rules don't apply")
                                 } else {
-                                    var timeRange = (timeStart === timeEnd
-                                                     ? " at " + timeStart
-                                                     : " between " + timeStart + " - " + timeEnd)
-                                    summary.push(daysSummary + timeRange)
+                                    summary.push(timeSummary)
                                 }
                                 return summary.join(". ");
                             }

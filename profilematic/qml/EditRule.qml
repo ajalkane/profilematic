@@ -251,7 +251,7 @@ Page {
                         var help = "This rule activates profile " + backendProfilesModel.getProfileToName(rule.profile)
                         if (rule.isDefaultRule) {
                             help += " when other rules don't apply";
-                        } else {
+                        } else {                            
                             help += " when clock is "
                                     + (rule.timeStart === rule.timeEnd
                                        ? rule.timeStart
