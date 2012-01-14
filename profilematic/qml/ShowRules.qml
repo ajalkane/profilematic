@@ -281,7 +281,9 @@ Page {
                                 }
                                 return summary.join(". ");
                             }
-                            platformStyle: LabelStyleSubtitle {}
+                            platformStyle: LabelStyleSubtitle {
+                                fontPixelSize: UIConstants.FONT_XXSMALL
+                            }
                             wrapMode: Text.WordWrap
                         }
                     }

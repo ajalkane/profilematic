@@ -22,7 +22,7 @@ import Rule 1.0
 import "UIConstants.js" as UIConstants
 
 Page {
-    id: editRule
+    id: root
     tools: commonTools
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
@@ -69,7 +69,30 @@ Page {
                 onTopicClicked: timeEndEditHandler()
                 visible: !rule.isDefaultRule
             }
+
+            Text {
+                id: timeSummary
+                wrapMode: Text.WordWrap
+                width: parent.width
+                // visible: isValidRule()
+                font.pixelSize: UIConstants.FONT_SMALL;
+                color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
+                text: root.timeSummary()
+                Connections {
+                    target: rule
+                    onDaysChanged:      timeSummary.text = root.timeSummary()
+                    onTimeStartChanged: timeSummary.text = root.timeSummary()
+                    onTimeEndChanged:   timeSummary.text = root.timeSummary()
+                }
+            }
+
         }
+    }
+
+    // Profile functions
+    function timeSummary() {
+        console.log("timeSummary")
+        return backendRulesModel.getTimeSummaryText(rule, "");
     }
 
     function formatTime(hour, minute) {

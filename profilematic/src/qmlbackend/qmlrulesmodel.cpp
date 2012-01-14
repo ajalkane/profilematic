@@ -252,6 +252,10 @@ QString
 QmlRulesModel::getTimeSummaryText(Rule *rule, const QString &nonUsableTimeString) const {
     qDebug("QmlRulesModel::getTimeSummaryText()");
     // Rule rule = ruleVariant.value<Rule>();
+    if (rule == 0) {
+        qDebug("QmlRulesModel::getTimeSummaryText() null rule");
+        return nonUsableTimeString;
+    }
     if (rule->getDays().isEmpty()
             || !rule->getTimeStart().isValid()
             || !rule->getTimeEnd().isValid()) {
@@ -260,22 +264,34 @@ QmlRulesModel::getTimeSummaryText(Rule *rule, const QString &nonUsableTimeString
         return nonUsableTimeString;
     }
 
-    QString summary = getDaysSummaryText(rule->getDays());
-    summary += " ";
+    qDebug("QmlRulesModel::getTimeSummaryText() 2");
+    QString summary;
     summary += rule->getTimeStartQml();
     summary += " - ";
     summary += rule->getTimeEndQml();
     summary += " (";
-    QTime duration = rule->getTimeDuration();
-    if (duration.hour() != 0) {
-        summary += QString::number(duration.hour());
-        summary += "h";
-    }
-    if (duration.minute() != 0) {
-        summary += QString::number(duration.minute());
-        summary += "min";
+    if (rule->getTimeStart() == rule->getTimeEnd()) {
+        summary += "24h";
+    } else {
+        QTime duration = rule->getTimeDuration();
+        qDebug("QmlRulesModel::getTimeSummaryText() 3" );
+        if (duration.hour() != 0) {
+            summary += QString::number(duration.hour());
+            summary += "h";
+        }
+        qDebug("QmlRulesModel::getTimeSummaryText() 3");
+        if (duration.minute() != 0) {
+            summary += QString::number(duration.minute());
+            summary += "min";
+        }
     }
     summary += ")";
+
+    summary += " ";
+    summary += getDaysSummaryText(rule->getDays());
+
+    qDebug("QmlRulesModel::getTimeSummaryText()");
+
     return summary;
 }
 

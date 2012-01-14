@@ -100,7 +100,7 @@ ConditionManagerTime::_nextDateTimeFromRule(const QDateTime &from, const Rule &r
                        qPrintable(rule.getRuleName()),
                        qPrintable(nextStart.toString()));
                 return qMakePair(nextStart, false);
-            } else if (nextEnd > from) {
+            } else if (nextEnd >= from) {
                 qDebug("ConditionManagerTime::time(rule %s), matching next timeEnd returning %s",
                        qPrintable(rule.getRuleName()),
                        qPrintable(nextEnd.toString()));
@@ -119,7 +119,7 @@ QDateTime
 ConditionManagerTime::_calculateNextEnd(const QDateTime &dateTimeStart, const QTime &timeStart, const QTime &timeEnd) const {
     QDateTime nextEnd(dateTimeStart);
     nextEnd.setTime(timeEnd);
-    if (timeEnd < timeStart) {
+    if (timeEnd <= timeStart) {
         nextEnd = nextEnd.addDays(1);
     }
     return nextEnd;

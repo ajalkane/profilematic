@@ -80,7 +80,9 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         QString timeStartStr = s.value("timeStart").toString();
         QString timeEndStr = s.value("timeEnd").toString();
         r.setTimeStart(QTime::fromString(timeStartStr));
-        r.setTimeEnd(QTime::fromString(rules_version == 0 ? timeStartStr : timeEndStr));
+        r.setTimeEnd(rules_version == 0
+                     ? r.getTimeEnd().addSecs(60)
+                     : QTime::fromString(timeEndStr));
         r.setProfile(s.value("profile").toString());
 
         bool profileVolumeOk = false;

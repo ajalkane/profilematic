@@ -156,9 +156,7 @@ Rule::getTimeEnd() const {
 
 void
 Rule::setTimeEnd(const QTime &timeEnd) {
-    // Normalize to always have 59 seconds. This way even if timeStart and timeEnd have
-    // been set as same, there is a window of 59 seconds for changes to be applied.
-    QTime useTime = _timeWithSecs(timeEnd, 59);
+    QTime useTime = _timeWithSecs(timeEnd, 0);
     if (_timeEnd != useTime) {
         _timeEnd = useTime;
         emit timeEndChanged();
