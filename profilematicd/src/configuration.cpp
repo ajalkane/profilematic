@@ -81,7 +81,7 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         QString timeEndStr = s.value("timeEnd").toString();
         r.setTimeStart(QTime::fromString(timeStartStr));
         r.setTimeEnd(rules_version == 0
-                     ? r.getTimeEnd().addSecs(60)
+                     ? r.getTimeStart().addSecs(60)
                      : QTime::fromString(timeEndStr));
         r.setProfile(s.value("profile").toString());
 

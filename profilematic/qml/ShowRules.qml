@@ -279,7 +279,7 @@ Page {
                                 return summary.join(". ");
                             }
                             platformStyle: LabelStyleSubtitle {
-                                fontPixelSize: UIConstants.FONT_XXSMALL
+                                fontPixelSize: UIConstants.FONT_SMALL
                             }
                             wrapMode: Text.WordWrap
                         }

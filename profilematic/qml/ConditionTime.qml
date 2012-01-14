@@ -43,7 +43,7 @@ Page {
 
         Column {
             id: container
-            spacing: UIConstants.DEFAULT_MARGIN
+            spacing: UIConstants.PADDING_XXLARGE
             anchors.verticalCenter: parent.verticalCenter
 
             width: parent.width
