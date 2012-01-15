@@ -33,6 +33,7 @@
 #include "qmlbackend/qmldaysmodel.h"
 #include "qmlbackend/qmlrulesmodel.h"
 #include "qmlbackend/qmlprofilesmodel.h"
+#include "qmlbackend/qmllocation.h"
 
 #include "qmlapplicationviewer.h"
 
@@ -48,6 +49,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QmlDaysModel qmlDaysModel;
     QmlRulesModel qmlRulesModel(&profileMaticClient);
     QmlBackend qmlBackend;
+    QScopedPointer<QmlLocation> qmlLocation(QmlLocation::create());
 
     QDeclarativeContext *ctxt = viewer->rootContext();
     QDeclarativeEngine *engine = ctxt->engine();
@@ -59,6 +61,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     ctxt->setContextProperty("backendDaysModel", &qmlDaysModel);
     ctxt->setContextProperty("backendRulesModel", &qmlRulesModel);
     ctxt->setContextProperty("backendProfilesModel", &qmlProfilesModel);
+    ctxt->setContextProperty("backendLocation", qmlLocation.data());
 
     QString mainQmlFile(QLatin1String("qml/main.qml"));
     if (argc >= 2 && QLatin1String("-conversionWarning") == argv[1]) {

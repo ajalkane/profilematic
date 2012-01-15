@@ -32,17 +32,24 @@ Page {
     Column {
         id: header
         height: childrenRect.height
+        spacing: UIConstants.PADDING_XXLARGE
 
         Button {
             id: addCellButton
-            text: "Add current cell"
+            text: enabled ? "Add current cell" : maxCells + " cells supported"
             enabled: rule.locationCells.length < maxCells
             onClicked: {
                 console.log("Add current cell clicked")
                 var cells = rule.locationCells
-                cells.push(rule.locationCells.length)
+                cells.push(backendLocation.currentCell)
                 rule.locationCells = cells
             }
+        }
+        Label {
+            id: summary
+            text: "Current cell id " + backendLocation.currentCell
+            width: parent.width
+            platformStyle: LabelStyleSubtitle {}
         }
 
         SectionHeader {
@@ -74,7 +81,7 @@ Page {
                     height: childrenRect.height
 
                     Label {
-                        id: summary
+                        id: cellId
                         text: "Cell id " + rule.locationCells[index]
                         width: parent.width - removeButton.width
                         visible: rule.locationCells.length > index
@@ -90,7 +97,8 @@ Page {
                         id: removeButton
                         text: "Remove"
                         anchors.right: parent.right
-                        visible: summary.visible
+                        visible: cellId.visible
+                        width: 256
                         onClicked: {
                             console.log("Cell location Remove clicked")
                             var cells = rule.locationCells

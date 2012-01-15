@@ -80,7 +80,7 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
 
         QList<int> locationCells;
         _readIntList(s, "locationCells", "cellId", locationCells);
-        r.setlocationCells(locationCells);
+        r.setLocationCells(locationCells);
 
         QString timeStartStr = s.value("timeStart").toString();
         QString timeEndStr = s.value("timeEnd").toString();

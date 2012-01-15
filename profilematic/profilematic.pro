@@ -21,44 +21,48 @@ symbian:TARGET.CAPABILITY += NetworkServices
 
 # Speed up launching on MeeGo/Harmattan when using applauncherd daemon
 CONFIG += qdeclarative-boostable
-
-# If your application uses the Qt Mobility libraries, uncomment the following
-# lines and add the respective components to the MOBILITY variable.
-# CONFIG += mobility
-# MOBILITY +=
+CONFIG += mobility
+MOBILITY += systeminfo
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += src/main.cpp \
     src/profileclient.cpp \
     src/qmlbackend/qmlbackend.cpp \
     src/qmlbackend/qmldaysmodel.cpp \
-    # src/model/rule.cpp \
     ../profilematicd/src/model/rule.cpp \
-    # src/model/rules.cpp \
     src/qmlbackend/qmlrulesmodel.cpp \
     src/qmlbackend/qmlprofilesmodel.cpp \
-    # src/logic/rulewatch.cpp \
-    # src/settings.cpp \
-    # src/logic/ruleactivator.cpp \
-    src/profilematicclient.cpp
+    src/profilematicclient.cpp \
+    src/qmlbackend/qmllocation.cpp
 
 HEADERS += \
     src/profileclient.h \
     src/qmlbackend/qmlbackend.h \
     src/qmlbackend/qmldaysmodel.h \
-    # src/model/rule.h \
     ../profilematicd/src/model/rule.h \
-    # src/model/rules.h \
     src/qmlbackend/qmlrulesmodel.h \
     src/qmlbackend/qmlprofilesmodel.h \
-    # src/logic/rulewatch.h \
-    # src/settings.h \
-    # src/logic/ruleactivator.h \
-    src/profilematicclient.h
+    src/profilematicclient.h \
+    src/qmlbackend/qmllocation.h
+
+!isEmpty(MEEGO_VERSION_MAJOR) {
+    SOURCES += src/qmlbackend/platform/qmllocationmobility.cpp
+    HEADERS += src/qmlbackend/platform/qmllocationmobility.h
+} else {
+    # For testing, practically on Desktop
+    SOURCES += src/qmlbackend/platform/qmllocationrandom.cpp
+    HEADERS += src/qmlbackend/platform/qmllocationrandom.h
+}
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
+
+
+
+
+
+
 
 
 
