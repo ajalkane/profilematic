@@ -20,7 +20,7 @@ class ConditionManagerTime : public ConditionManager
     bool _refresh(const Rule &rule, const QDateTime &now);
 
 public:
-    ConditionManagerTime();
+    ConditionManagerTime(QObject *parent = 0);
 
     virtual void startRefresh();
     virtual bool refresh(const Rule &rule);

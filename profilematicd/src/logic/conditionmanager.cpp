@@ -1,6 +1,7 @@
 #include "conditionmanager.h"
 
-ConditionManager::ConditionManager()
+ConditionManager::ConditionManager(QObject *parent)
+    : QObject(parent)
 {
 }
 

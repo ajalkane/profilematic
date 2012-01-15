@@ -29,7 +29,7 @@ class ConditionManager : public QObject
     Q_OBJECT
 
 public:
-    ConditionManager();
+    ConditionManager(QObject *parent = 0);
     virtual ~ConditionManager();
 
     virtual void startRefresh();

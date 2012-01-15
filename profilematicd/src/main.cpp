@@ -29,6 +29,7 @@
 #include "logic/rulesmanager.h"
 #include "logic/conditionmanagerchain.h"
 #include "logic/conditionmanagertime.h"
+#include "logic/conditionmanagerlocationcell.h"
 #include "logic/actionchain.h"
 #include "logic/actionflightmode.h"
 #include "logic/actionprofile.h"
@@ -41,9 +42,10 @@
 #define CONVERSION_WARNING_CMDLINE "/opt/profilematic/bin/profilematic -conversionWarning"
 
 ConditionManager *
-buildConditionManager() {
+buildConditionManager(PlatformUtil *platformUtil) {
     ConditionManagerChain *cm = new ConditionManagerChain();
     cm->add(new ConditionManagerTime());
+    cm->add(new ConditionManagerLocationCell(platformUtil));
     return cm;
 }
 
@@ -72,7 +74,7 @@ int main(int argc, char *argv[])
     Configuration::readPreferences(preferences);
 //    RuleWatch ruleWatch(&rules, &preferences);
 //    RuleActivator ruleActivator(&profileClient, platformUtil.data());
-    QScopedPointer<ConditionManager> conditionManager(buildConditionManager());
+    QScopedPointer<ConditionManager> conditionManager(buildConditionManager(platformUtil.data()));
     QScopedPointer<Action> action(buildAction(&profileClient, platformUtil.data()));
     RulesManager rulesManager(&rules, conditionManager.data(), action.data(), &preferences);
     ProfileMaticInterface interface(&rulesManager, &rules, &preferences);

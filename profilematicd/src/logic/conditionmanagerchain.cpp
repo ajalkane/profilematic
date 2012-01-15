@@ -1,6 +1,7 @@
 #include "conditionmanagerchain.h"
 
-ConditionManagerChain::ConditionManagerChain()
+ConditionManagerChain::ConditionManagerChain(QObject *parent)
+    : ConditionManager(parent)
 {
 }
 

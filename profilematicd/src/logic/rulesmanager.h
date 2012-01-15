@@ -31,6 +31,7 @@ class RulesManager : public QObject
     Q_OBJECT
 
     const QList<Rule> *_rules;
+    Rule::IdType _currentRuleId;
     ConditionManager *_conditionManager;
     Action           *_action;
     const Preferences *_preferences;

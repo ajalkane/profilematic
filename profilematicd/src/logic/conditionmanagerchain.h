@@ -27,7 +27,7 @@ class ConditionManagerChain: public ConditionManager
     QList<ConditionManager *> _conditionManagers;
 
 public:
-    ConditionManagerChain();
+    ConditionManagerChain(QObject *parent = 0);
     virtual ~ConditionManagerChain();
 
     virtual void startRefresh();

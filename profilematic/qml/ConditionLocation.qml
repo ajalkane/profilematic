@@ -27,10 +27,11 @@ Page {
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
     property Rule    rule;
-    property int maxCells: 3
+    property int maxCells: 10
 
     Column {
         id: header
+        width: parent.width
         height: childrenRect.height
         spacing: UIConstants.PADDING_XXLARGE
 
@@ -53,6 +54,7 @@ Page {
         }
 
         SectionHeader {
+            width: parent.width
             section: "Location conditions"
         }
     }

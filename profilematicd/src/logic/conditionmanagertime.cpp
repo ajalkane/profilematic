@@ -1,6 +1,7 @@
 #include "conditionmanagertime.h"
 
-ConditionManagerTime::ConditionManagerTime()
+ConditionManagerTime::ConditionManagerTime(QObject *parent)
+    : ConditionManager(parent)
 {
     _timer.setSingleShot(true);
 

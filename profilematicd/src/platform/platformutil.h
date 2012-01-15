@@ -1,15 +1,25 @@
 #ifndef PLATFORMUTIL_H
 #define PLATFORMUTIL_H
 
-class PlatformUtil
+#include <QObject>
+
+class PlatformUtil : public QObject
 {
+    Q_OBJECT
 protected:
-    PlatformUtil();
+    PlatformUtil(QObject *parent = 0);
 public:
     static PlatformUtil *create();
     virtual ~PlatformUtil();
 
     virtual void setFlightMode(int flightMode);
+
+    virtual int cellId();
+
+    virtual void monitorCellId(bool monitor);
+
+signals:
+    void cellIdChanged(int);
 };
 
 #endif // PLATFORMUTIL_H

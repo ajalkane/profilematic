@@ -2,8 +2,26 @@
 
 #include <qmdevicemode.h>
 
-HarmattanPlatformUtil::HarmattanPlatformUtil()
+HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
+    : PlatformUtil(parent)
 {
+}
+
+HarmattanPlatformUtil::~HarmattanPlatformUtil() {}
+
+int
+HarmattanPlatformUtil::cellId() {
+    return _networkInfo.cellId();
+}
+
+void
+HarmattanPlatformUtil::monitorCellId(bool monitor) {
+    qDebug("HarmattanPlatformUtil::monitorCellId(%d)", monitor);
+    if (monitor) {
+        connect(&_networkInfo, SIGNAL(cellIdChanged(int)), this, SIGNAL(cellIdChanged(int)), Qt::UniqueConnection);
+    } else {
+        disconnect(&_networkInfo, SIGNAL(cellIdChanged(int)), this, SIGNAL(cellIdChanged(int)));
+    }
 }
 
 void

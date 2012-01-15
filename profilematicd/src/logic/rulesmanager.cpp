@@ -46,8 +46,12 @@ RulesManager::refresh() {
                 }
             }
 
-            if (firstMatchingRule != _rules->constEnd()) {
+            qDebug("RulesManager::refresh matching rule found %d, is same as current %d",
+                   firstMatchingRule != _rules->constEnd(), firstMatchingRule->getRuleId() == _currentRuleId);
+
+            if (firstMatchingRule != _rules->constEnd() && firstMatchingRule->getRuleId() != _currentRuleId) {
                 _activateRule(*firstMatchingRule);
+                _currentRuleId = firstMatchingRule->getRuleId();
             }
         } else {
             qDebug("RulesManager::refresh(), only default rule exists, refresh not done");

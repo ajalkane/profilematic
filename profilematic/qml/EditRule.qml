@@ -54,12 +54,16 @@ Page {
         if (rule.days.length !== 0 && rule.timeStart !== "" && rule.timeEnd !== "") {
             isTimeValid = true
         }
+        var isLocationValid = false
+        if (rule.locationCells.length !== 0) {
+            isLocationValid = true
+        }
 
-        if (isTimeValid) {
+        if (isTimeValid || isLocationValid) {
             isConditionsValid = true
         }
 
-        if (rule.profile !== "") {
+        if (rule.profile !== "" || rule.flightMode !== -1) {
             isActionsValid = true
         }
         console.log("conditionsValid, actionsValid", isConditionsValid, isActionsValid)
@@ -209,12 +213,10 @@ Page {
                 showDrillDown: true
                 onTopicClicked: locationEditHandler()
                 visible: !rule.isDefaultRule
-//                Connections {
-//                    target: rule
-//                    onDaysChanged:      locationCondition.summary = timeSummary()
-//                    onTimeStartChanged: locationCondition.summary = timeSummary()
-//                    onTimeEndChanged:   locationCondition.summary = timeSummary()
-//                }
+                Connections {
+                    target: rule
+                    onLocationCellsChanged: locationCondition.summary = locationSummary()
+                }
 
             }
 
@@ -303,10 +305,9 @@ Page {
         rule: editRule.rule
     }
 
-    function locationSummary() {
-        console.log("locationSummary")
-        return "not implemented"
-        // return backendRulesModel.getTimeSummaryText(rule, "Not in use");
+    function locationSummary() {        
+        var numCellIds = rule.locationCells.length
+        return numCellIds == 0 ? "Click to set" : "By cell base station ids"
     }
 
     function locationEditHandler() {
