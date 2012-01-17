@@ -35,13 +35,3 @@ void
 PlatformUtil::setFlightMode(int flightMode) {
     qDebug("PlatformUtil::setFlightMode default, doing nothing for value %d", flightMode);
 }
-
-int
-PlatformUtil::cellId() {
-    return -1;
-}
-
-void
-PlatformUtil::monitorCellId(bool monitor) {
-    qDebug("PlatformUtil::monitorCellId default, doing nothing for value %d", monitor);
-}

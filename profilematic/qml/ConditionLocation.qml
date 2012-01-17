@@ -27,7 +27,7 @@ Page {
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
     property Rule    rule;
-    property int maxCells: 10
+    property int maxCells: 50
 
     Column {
         id: header
@@ -76,10 +76,11 @@ Page {
             height: childrenRect.height
 
             Repeater {
-                model: maxCells
+                model: rule.locationCells.length // maxCells
+                // width: parent.width
 
                 Item {
-                    width: parent.width
+                    width: root.width
                     height: childrenRect.height
 
                     Label {

@@ -42,10 +42,10 @@
 #define CONVERSION_WARNING_CMDLINE "/opt/profilematic/bin/profilematic -conversionWarning"
 
 ConditionManager *
-buildConditionManager(PlatformUtil *platformUtil) {
+buildConditionManager() {
     ConditionManagerChain *cm = new ConditionManagerChain();
     cm->add(new ConditionManagerTime());
-    cm->add(new ConditionManagerLocationCell(platformUtil));
+    cm->add(new ConditionManagerLocationCell());
     return cm;
 }
 
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
     Configuration::readPreferences(preferences);
 //    RuleWatch ruleWatch(&rules, &preferences);
 //    RuleActivator ruleActivator(&profileClient, platformUtil.data());
-    QScopedPointer<ConditionManager> conditionManager(buildConditionManager(platformUtil.data()));
+    QScopedPointer<ConditionManager> conditionManager(buildConditionManager());
     QScopedPointer<Action> action(buildAction(&profileClient, platformUtil.data()));
     RulesManager rulesManager(&rules, conditionManager.data(), action.data(), &preferences);
     ProfileMaticInterface interface(&rulesManager, &rules, &preferences);

@@ -1,11 +1,13 @@
 #include "conditionmanagerlocationcell.h"
 
-ConditionManagerLocationCell::ConditionManagerLocationCell(PlatformUtil *platformUtil, QObject *parent)
-    : ConditionManager(parent), _platformUtil(platformUtil), _currentCellId(-1)
+ConditionManagerLocationCell::ConditionManagerLocationCell(QObject *parent)
+    : ConditionManager(parent), _currentCellId(-1)
 {
 }
 
-ConditionManagerLocationCell::~ConditionManagerLocationCell() {}
+ConditionManagerLocationCell::~ConditionManagerLocationCell() {
+    monitorCellId(false);
+}
 
 void
 ConditionManagerLocationCell::startRefresh() {
@@ -15,22 +17,19 @@ ConditionManagerLocationCell::startRefresh() {
 
 bool
 ConditionManagerLocationCell::refresh(const Rule &rule) {
-    const QList<int> &cellIds = rule.getLocationCells();
+    const QSet<int> &cellIds = rule.getLocationCells();
     if (cellIds.isEmpty()) {
         qDebug("ConditionManagerLocationCell::refresh cellIds is empty, matches");
         return true;
     }
 
     if (_currentCellId == -1) {
-        _currentCellId = _platformUtil->cellId();
+        _currentCellId = _networkInfo.cellId();
     }
     qDebug("ConditionManagerLocationCell::refresh rule %s, currentCellId %d",
            qPrintable(rule.getRuleName()), _currentCellId);
 
-    QList<int>::const_iterator cellIds_i = cellIds.constBegin();
-    for (; cellIds_i != cellIds.constEnd(); ++cellIds_i) {
-        _watchedCellIds << *cellIds_i;
-    }
+    _watchedCellIds.unite(cellIds);
 
     if (cellIds.contains(_currentCellId)) {
         qDebug("ConditionManagerLocationCell::refresh contains currentCellId");
@@ -43,11 +42,9 @@ ConditionManagerLocationCell::refresh(const Rule &rule) {
 void
 ConditionManagerLocationCell::endRefresh() {
     if (!_watchedCellIds.isEmpty()) {
-        connect(_platformUtil, SIGNAL(cellIdChanged(int)), this, SLOT(cellIdChanged(int)), Qt::UniqueConnection);
-        _platformUtil->monitorCellId(true);
+        monitorCellId(true);
     } else {
-        _platformUtil->monitorCellId(false);
-        disconnect(_platformUtil, SIGNAL(cellIdChanged(int)), this, SLOT(cellIdChanged(int)));        
+        monitorCellId(false);
     }
 }
 
@@ -57,5 +54,15 @@ ConditionManagerLocationCell::cellIdChanged(int cellId) {
     if (_watchedCellIds.contains(cellId)) {
         qDebug("ConditionManagerLocationCell::cellIdChanged watched contains, requesting refresh");
         emit refreshNeeded();
+    }
+}
+
+void
+ConditionManagerLocationCell::monitorCellId(bool monitor) {
+    qDebug("ConditionManagerLocationCell::monitorCellId(%d)", monitor);
+    if (monitor) {
+        connect(&_networkInfo, SIGNAL(cellIdChanged(int)), this, SIGNAL(cellIdChanged(int)), Qt::UniqueConnection);
+    } else {
+        disconnect(&_networkInfo, SIGNAL(cellIdChanged(int)), this, SIGNAL(cellIdChanged(int)));
     }
 }

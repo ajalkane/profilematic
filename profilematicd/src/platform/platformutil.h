@@ -13,13 +13,6 @@ public:
     virtual ~PlatformUtil();
 
     virtual void setFlightMode(int flightMode);
-
-    virtual int cellId();
-
-    virtual void monitorCellId(bool monitor);
-
-signals:
-    void cellIdChanged(int);
 };
 
 #endif // PLATFORMUTIL_H

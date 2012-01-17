@@ -44,7 +44,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("ruleId", r.getRuleId());
         s.setValue("ruleName", r.getRuleName());
         _writeIntList(s, "days", "dayId", r.getDays().toList());
-        _writeIntList(s, "locationCells", "cellId", r.getLocationCells());
+        _writeIntList(s, "locationCells", "cellId", r.getLocationCells().toList());
         s.setValue("timeStart", r.getTimeStart().toString());
         s.setValue("timeEnd", r.getTimeEnd().toString());
         s.setValue("profile", r.getProfile());
@@ -80,7 +80,7 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
 
         QList<int> locationCells;
         _readIntList(s, "locationCells", "cellId", locationCells);
-        r.setLocationCells(locationCells);
+        r.setLocationCells(QSet<int>::fromList(locationCells));
 
         QString timeStartStr = s.value("timeStart").toString();
         QString timeEndStr = s.value("timeEnd").toString();

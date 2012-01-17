@@ -38,7 +38,7 @@ class Rule : public QObject
     QTime     _timeStart;
     QTime     _timeEnd;
     QSet<int> _days;
-    QList<int> _locationCells;
+    QSet<int> _locationCells;
 
     // Actions
     QString _profile;
@@ -118,8 +118,8 @@ public:
     QVariantList getDaysQml() const;
     void setDaysQml(const QVariantList &days);
 
-    const QList<int> &getLocationCells() const;
-    void setLocationCells(const QList<int> &cells);
+    const QSet<int> &getLocationCells() const;
+    void setLocationCells(const QSet<int> &cells);
     // For QML
     QVariantList getLocationCellsQml() const;
     void setLocationCellsQml(const QVariantList &cells);

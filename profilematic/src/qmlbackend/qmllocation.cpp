@@ -1,12 +1,9 @@
 #include "qmllocation.h"
 
-// MEEGO_VERSION_MAJOR seems to be defined only for qmake, not for the compilation.
-// So for now use __arm__ as ugly workaround.
-// #ifdef MEEGO_VERSION_MAJOR
-#ifdef __arm__
-#include "platform/qmllocationmobility.h"
+#ifndef PROFILEMATIC_SIMULATED_CELLID
+#include "location/qmllocationmobility.h"
 #else
-#include "platform/qmllocationrandom.h"
+#include "location/qmllocationrandom.h"
 #endif
 
 QmlLocation::QmlLocation(QObject *parent)
@@ -16,13 +13,9 @@ QmlLocation::QmlLocation(QObject *parent)
 
 QmlLocation *
 QmlLocation::create() {
-    // MEEGO_VERSION_MAJOR seems to be defined only for qmake, not for the compilation.
-    // So for now use __arm__ as ugly workaround.
-    // #ifdef MEEGO_VERSION_MAJOR
-#ifdef __arm__
+#ifndef PROFILEMATIC_SIMULATED_CELLID
     return new QmlLocationMobility;
 #else
-    // TODO compile target specific classes
     return new QmlLocationRandom;
 #endif
 }

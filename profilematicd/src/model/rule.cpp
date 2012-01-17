@@ -211,36 +211,41 @@ Rule::setDaysQml(const QVariantList &days) {
     setDays(daysSet);
 }
 
-const QList<int> &
+const QSet<int> &
 Rule::getLocationCells() const {
     return _locationCells;
 }
 
 void
-Rule::setLocationCells(const QList<int> &cells) {
+Rule::setLocationCells(const QSet<int> &cells) {
     if (_locationCells != cells) {
         _locationCells = cells;
         emit locationCellsChanged();
     }
 }
 
+bool variantIntLessThan(const QVariant &s1, const QVariant &s2)
+{
+    return s1.toInt() < s2.toInt();
+}
+
 QVariantList
 Rule::getLocationCellsQml() const {
     QVariantList cells;
-    for (QList<int>::const_iterator i = _locationCells.constBegin(); i != _locationCells.constEnd(); ++i) {
+    for (QSet<int>::const_iterator i = _locationCells.constBegin(); i != _locationCells.constEnd(); ++i) {
         cells << QVariant::fromValue(*i);
     }
-
+    qSort(cells.begin(), cells.end(), variantIntLessThan);
     return cells;
 
 }
 void
 Rule::setLocationCellsQml(const QVariantList &cells) {
-    QList<int> cellsList;
+    QSet<int> cellsSet;
     for (QVariantList::const_iterator i = cells.constBegin(); i != cells.constEnd(); ++i) {
-        cellsList << i->toInt();
+        cellsSet << i->toInt();
     }
-    setLocationCells(cellsList);
+    setLocationCells(cellsSet);
 }
 
 QString
@@ -306,7 +311,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     QTime     timeStart = rule.getTimeStart();
     QTime     timeEnd = rule.getTimeEnd();
     QList<int> days = rule.getDays().toList();
-    QList<int> cells = rule.getLocationCells();
+    QList<int> cells = rule.getLocationCells().toList();
 
     QString profile = rule.getProfile();
     int     profileVolume = rule.getProfileVolume();
@@ -329,7 +334,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     rule.setTimeStart(timeStart);
     rule.setTimeEnd(timeEnd);
     rule.setDays(QSet<int>::fromList(days));
-    rule.setLocationCells(cells);
+    rule.setLocationCells(QSet<int>::fromList(cells));
     rule.setProfile(profile);
     rule.setProfileVolume(profileVolume);
     rule.setFlightMode(flightMode);
