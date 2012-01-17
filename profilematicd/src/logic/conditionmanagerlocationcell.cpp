@@ -12,7 +12,7 @@ ConditionManagerLocationCell::~ConditionManagerLocationCell() {
 void
 ConditionManagerLocationCell::startRefresh() {
     _watchedCellIds.clear();
-    _currentCellId = -1;
+    _currentCellId = -2;
     _ruleMayMatch = false;
 }
 
@@ -24,7 +24,7 @@ ConditionManagerLocationCell::refresh(const Rule &rule) {
         return true;
     }
 
-    if (_currentCellId == -1) {
+    if (_currentCellId == -2) {
         _currentCellId = _networkInfo.cellId();
     }
     qDebug("ConditionManagerLocationCell::refresh rule %s, currentCellId %d",
