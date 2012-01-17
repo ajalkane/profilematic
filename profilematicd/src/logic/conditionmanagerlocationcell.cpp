@@ -13,6 +13,7 @@ void
 ConditionManagerLocationCell::startRefresh() {
     _watchedCellIds.clear();
     _currentCellId = -1;
+    _ruleMayMatch = false;
 }
 
 bool
@@ -33,6 +34,7 @@ ConditionManagerLocationCell::refresh(const Rule &rule) {
 
     if (cellIds.contains(_currentCellId)) {
         qDebug("ConditionManagerLocationCell::refresh contains currentCellId");
+        _ruleMayMatch = true;
         return true;
     }
 
@@ -53,6 +55,9 @@ ConditionManagerLocationCell::cellIdChanged(int cellId) {
     qDebug("ConditionManagerLocationCell::cellIdChanged to %d", cellId);
     if (_watchedCellIds.contains(cellId)) {
         qDebug("ConditionManagerLocationCell::cellIdChanged watched contains, requesting refresh");
+        emit refreshNeeded();
+    } else if (_ruleMayMatch) {
+        qDebug("ConditionManagerLocationCell::cellIdChanged not in watchedCellIds, but ruleMayMatch true so refresh");
         emit refreshNeeded();
     }
 }

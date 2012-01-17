@@ -17,6 +17,8 @@ class ConditionManagerLocationCell : public ConditionManager {
 
     QSet<int> _watchedCellIds;
     int _currentCellId;
+    bool _ruleMayMatch;
+
 public:
     ConditionManagerLocationCell(QObject *parent = 0);
     virtual ~ConditionManagerLocationCell();
