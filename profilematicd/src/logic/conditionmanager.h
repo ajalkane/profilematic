@@ -35,6 +35,11 @@ public:
     virtual void startRefresh();
     // Returns true if rule matches current conditions
     virtual bool refresh(const Rule &rule) = 0;
+    // Called after all rules have been processed, with the Rule that matched all conditions.
+    // Called with tthe active rule if:
+    //  - The matching Rule is different than the active rule in previous startRefresh/endRefrech cycle
+    //  - ProfileMatic is not stopped
+    virtual void matchedRule(const Rule &rule);
     virtual void endRefresh();
 
 signals:

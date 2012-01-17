@@ -1,5 +1,6 @@
 #include "conditionmanagerlocationcell.h"
 
+// TODO: this class need UnitTest
 ConditionManagerLocationCell::ConditionManagerLocationCell(QObject *parent)
     : ConditionManager(parent), _currentCellId(-1)
 {
@@ -12,8 +13,9 @@ ConditionManagerLocationCell::~ConditionManagerLocationCell() {
 void
 ConditionManagerLocationCell::startRefresh() {
     _watchedCellIds.clear();
+    // Use -2 as the unset current cell id, since -1 is used by the framework for
+    // not being able to get cell id.
     _currentCellId = -2;
-    _ruleMayMatch = false;
 }
 
 bool
@@ -34,7 +36,6 @@ ConditionManagerLocationCell::refresh(const Rule &rule) {
 
     if (cellIds.contains(_currentCellId)) {
         qDebug("ConditionManagerLocationCell::refresh contains currentCellId");
-        _ruleMayMatch = true;
         return true;
     }
 
@@ -42,23 +43,31 @@ ConditionManagerLocationCell::refresh(const Rule &rule) {
 }
 
 void
-ConditionManagerLocationCell::endRefresh() {
+ConditionManagerLocationCell::matchedRule(const Rule &rule) {
+    _currentRuleCellIds = rule.getLocationCells();
+}
+
+void
+ConditionManagerLocationCell::endRefresh() {    
     if (!_watchedCellIds.isEmpty()) {
         monitorCellId(true);
     } else {
         monitorCellId(false);
+        _currentRuleCellIds.clear();
     }
 }
 
 void
 ConditionManagerLocationCell::cellIdChanged(int cellId) {
     qDebug("ConditionManagerLocationCell::cellIdChanged to %d", cellId);
-    if (_watchedCellIds.contains(cellId)) {
-        qDebug("ConditionManagerLocationCell::cellIdChanged watched contains, requesting refresh");
+    if (_currentRuleCellIds.contains(cellId)) {
+        qDebug("ConditionManagerLocationCell::cellIdChanged current rule has this cellId");
+    }
+    else if (_watchedCellIds.contains(cellId)) {
+        qDebug("ConditionManagerLocationCell::cellIdChanged watched contains and is not in current Rule's cellIds, requesting refresh");
         emit refreshNeeded();
-    } else if (_ruleMayMatch) {
-        qDebug("ConditionManagerLocationCell::cellIdChanged not in watchedCellIds, but ruleMayMatch true so refresh");
-        emit refreshNeeded();
+    } else {
+        qDebug("ConditionManagerLocationCell::cellIdChanged but not in active cellIds, no refresh");
     }
 }
 
@@ -66,8 +75,8 @@ void
 ConditionManagerLocationCell::monitorCellId(bool monitor) {
     qDebug("ConditionManagerLocationCell::monitorCellId(%d)", monitor);
     if (monitor) {
-        connect(&_networkInfo, SIGNAL(cellIdChanged(int)), this, SIGNAL(cellIdChanged(int)), Qt::UniqueConnection);
+        connect(&_networkInfo, SIGNAL(cellIdChanged(int)), this, SLOT(cellIdChanged(int)), Qt::UniqueConnection);
     } else {
-        disconnect(&_networkInfo, SIGNAL(cellIdChanged(int)), this, SIGNAL(cellIdChanged(int)));
+        disconnect(&_networkInfo, SIGNAL(cellIdChanged(int)), this, SLOT(cellIdChanged(int)));
     }
 }

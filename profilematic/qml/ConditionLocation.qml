@@ -45,17 +45,33 @@ Page {
                 cells.push(backendLocation.currentCell)
                 rule.locationCells = cells
             }
+            Connections {
+                target: backendLocation
+                onCurrentCellChanged: {
+                    console.log("Current cell changed")
+                    if (collectingButton.checked) {
+                        console.log("Auto adding")
+                        addCellButton.clicked()
+                    }
+                }
+            }
+        }
+        Button {
+            id: collectingButton
+            checkable: true
+            checked: false
+            text: checked ? "Stop collecting" : "Start collecting"
         }
         Label {
             id: summary
-            text: "Current cell id " + backendLocation.currentCell
+            text: "Current cell id " + backendLocation.currentCell + ". " + rule.locationCells.length + " included"
             width: parent.width
             platformStyle: LabelStyleSubtitle {}
         }
 
         SectionHeader {
             width: parent.width
-            section: "Location conditions"
+            section: "Cell ids"
         }
     }
 

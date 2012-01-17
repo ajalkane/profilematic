@@ -36,25 +36,23 @@ void
 RulesManager::refresh() {
     _conditionManager->startRefresh();
     if (_preferences->isActive) {
-        if (_rules->size() != 1) {
-            QList<Rule>::const_iterator firstMatchingRule = _rules->constBegin();
-            for (; firstMatchingRule != _rules->constEnd(); ++firstMatchingRule) {
-                const Rule &rule = *firstMatchingRule;
-                bool isMatching = rule.isDefaultRule() || _conditionManager->refresh(*firstMatchingRule);
-                if (isMatching) {
-                    break;
-                }
+        QList<Rule>::const_iterator firstMatchingRule = _rules->constBegin();
+        for (; firstMatchingRule != _rules->constEnd(); ++firstMatchingRule) {
+            const Rule &rule = *firstMatchingRule;
+            bool isMatching = rule.isDefaultRule() || _conditionManager->refresh(*firstMatchingRule);
+            if (isMatching) {
+                break;
             }
+        }
 
-            qDebug("RulesManager::refresh matching rule found %d, is same as current %d",
-                   firstMatchingRule != _rules->constEnd(), firstMatchingRule->getRuleId() == _currentRuleId);
+        qDebug("RulesManager::refresh matching rule found %d, is same as current %d",
+               firstMatchingRule != _rules->constEnd(), firstMatchingRule->getRuleId() == _currentRuleId);
 
-            if (firstMatchingRule != _rules->constEnd() && firstMatchingRule->getRuleId() != _currentRuleId) {
-                _activateRule(*firstMatchingRule);
-                _currentRuleId = firstMatchingRule->getRuleId();
-            }
-        } else {
-            qDebug("RulesManager::refresh(), only default rule exists, refresh not done");
+        if (firstMatchingRule != _rules->constEnd() && firstMatchingRule->getRuleId() != _currentRuleId) {
+            const Rule &matchedRule = *firstMatchingRule;
+            _conditionManager->matchedRule(matchedRule);
+            _activateRule(matchedRule);
+            _currentRuleId = matchedRule.getRuleId();
         }
     } else {
         qDebug("RulesManager::refresh(), ProfileMatic not active");

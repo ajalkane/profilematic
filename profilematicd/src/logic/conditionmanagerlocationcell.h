@@ -16,8 +16,8 @@ class ConditionManagerLocationCell : public ConditionManager {
     QSystemNetworkInfo _networkInfo;
 
     QSet<int> _watchedCellIds;
+    QSet<int> _currentRuleCellIds;
     int _currentCellId;
-    bool _ruleMayMatch;
 
 public:
     ConditionManagerLocationCell(QObject *parent = 0);
@@ -25,6 +25,7 @@ public:
 
     virtual void startRefresh();
     virtual bool refresh(const Rule &rule);
+    virtual void matchedRule(const Rule &rule);
     virtual void endRefresh();
 
     void monitorCellId(bool monitor);

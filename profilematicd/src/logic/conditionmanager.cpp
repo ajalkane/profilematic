@@ -15,6 +15,11 @@ ConditionManager::startRefresh()
 }
 
 void
+ConditionManager::matchedRule(const Rule &rule)
+{
+}
+
+void
 ConditionManager::endRefresh()
 {
 }
