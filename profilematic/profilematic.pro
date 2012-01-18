@@ -25,7 +25,7 @@ CONFIG += mobility
 MOBILITY += systeminfo
 
 # Uncomment to simulate changing cell id in UI
-# CONFIG += profilematic_simulated_cellid
+CONFIG += profilematic_simulated_cellid
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += src/main.cpp \

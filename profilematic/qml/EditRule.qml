@@ -307,7 +307,7 @@ Page {
 
     function locationSummary() {        
         var numCellIds = rule.locationCells.length
-        return numCellIds == 0 ? "Click to set" : "By cell base station ids"
+        return numCellIds === 0 ? "Click to set" : "Cell ids set"
     }
 
     function locationEditHandler() {

@@ -27,7 +27,25 @@ Page {
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
     property Rule    rule;
-    property int maxCells: 50
+    property int maxCells: 3
+
+    function addCurrentCell() {
+        var cells = rule.locationCells
+        var currentCell = backendLocation.currentCell
+        if (currentCell >= 0) {
+            if (cells.length < maxCells) {
+                var xPos = cellIdsFlickable.contentX
+                var yPos = cellIdsFlickable.contentY
+                cells.push(currentCell)
+                rule.locationCells = cells
+                cellIdsFlickable.contentX = xPos
+                cellIdsFlickable.contentY = yPos
+                if (rule.locationCells.length >= maxCells) {
+                    collectingButton.checked = false
+                }
+            }
+        }
+    }
 
     Column {
         id: header
@@ -35,49 +53,18 @@ Page {
         height: childrenRect.height
         spacing: UIConstants.PADDING_XXLARGE
 
-        Button {
-            id: addCellButton
-            text: enabled ? "Add current cell" : maxCells + " cells supported"
-            enabled: rule.locationCells.length < maxCells
-            onClicked: {
-                console.log("Add current cell clicked")
-                var cells = rule.locationCells
-                cells.push(backendLocation.currentCell)
-                rule.locationCells = cells
-            }
-            Connections {
-                target: backendLocation
-                onCurrentCellChanged: {
-                    console.log("Current cell changed")
-                    if (collectingButton.checked) {
-                        console.log("Auto adding")
-                        addCellButton.clicked()
-                    }
-                }
-            }
-        }
-        Button {
-            id: collectingButton
-            checkable: true
-            checked: false
-            text: checked ? "Stop collecting" : "Start collecting"
-        }
-        Label {
-            id: summary
-            text: "Current cell id " + backendLocation.currentCell + ". " + rule.locationCells.length + " included"
-            width: parent.width
-            platformStyle: LabelStyleSubtitle {}
-        }
-
         SectionHeader {
             width: parent.width
-            section: "Cell ids"
+            height: 20
+            section: "Location by mobile cell identifiers"
         }
     }
 
     Flickable {
+        id: cellIdsFlickable
         anchors.fill: parent
-        anchors.topMargin: header.height
+        anchors.topMargin: header.height + UIConstants.PADDING_XXLARGE
+
         pressDelay: 140
         clip: true
         contentWidth: parent.width
@@ -91,6 +78,48 @@ Page {
             width: parent.width
             height: childrenRect.height
 
+            Button {
+                id: collectingButton
+                checkable: rule.locationCells.length < maxCells
+                checked: false
+                // enabled: backendLocation.currentCell >= 0 && rule.locationCells.length < root.maxCells
+                text: (checked ? "Stop collecting"
+                               : (rule.locationCells.length < root.maxCells
+                                  ? "Start collecting"
+                                  : "Max " + root.maxCells + " cells reached"))
+                onClicked: {
+                    if (checked) {
+                        addCurrentCell()
+                    }
+                }
+
+                Connections {
+                    target: root.status == PageStatus.Active ? backendLocation : null
+                    onCurrentCellChanged: {
+                        console.log("Current cell changed")
+                        if (collectingButton.checked) {
+                            addCurrentCell()
+                        }
+                    }
+                }
+            } // Button
+
+            Label {
+                id: summary
+                text: backendLocation.currentCell >= 0 ? "Current cell id " + backendLocation.currentCell + ". " + rule.locationCells.length + " included."
+                                                       : "Mobile network unreachable"
+                width: parent.width
+
+                platformStyle: LabelStyleSubtitle {}
+            }
+
+            SectionHeader {
+                width: parent.width
+                height: 20
+                section: "Cell ids"
+
+            }
+
             Repeater {
                 model: rule.locationCells.length // maxCells
                 // width: parent.width
@@ -101,7 +130,7 @@ Page {
 
                     Label {
                         id: cellId
-                        text: "Cell id " + rule.locationCells[index]
+                        text: rule.locationCells[index]
                         width: parent.width - removeButton.width
                         visible: rule.locationCells.length > index
                         platformStyle: LabelStyleSubtitle {}
@@ -126,22 +155,7 @@ Page {
                         }
                     }
                 }
-            }
-
-//            RuleTopicSummary {
-//                topic: "Cell id " + rule.locationCells[0]
-//                visible: rule.locationCells.length > 0 // isDefaultRule
-//            }
-
-//            RuleTopicSummary {
-//                topic: "Cell id " + rule.locationCells[1]
-//                visible: rule.locationCells.length > 1 // isDefaultRule
-//            }
-
-//            RuleTopicSummary {
-//                topic: "Cell id " + rule.locationCells[2]
-//                visible: rule.locationCells.length > 2 // isDefaultRule
-//            }
-        }
-    }
+            } // Repeater
+        } // Column
+    } // Flickable
 }

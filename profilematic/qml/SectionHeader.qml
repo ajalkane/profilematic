@@ -29,6 +29,7 @@ import "UIConstants.js" as UIConstants
 Item {
     width: parent.width
     height: 40 // TODO UIConstants
+
     property alias section: headerLabel.text
 
     Text {
