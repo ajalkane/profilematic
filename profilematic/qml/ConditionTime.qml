@@ -111,7 +111,7 @@ Page {
     // Profile functions
     function timeSummary() {
         console.log("timeSummary")
-        return backendRulesModel.getTimeSummaryText(rule, "");
+        return backendRulesModel.getTimeSummaryText(rule, "All time and day fields must be set. This condition is not yet usable.");
     }
 
     function formatTime(hour, minute) {
