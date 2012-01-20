@@ -32,6 +32,7 @@ public:
 
     virtual void startRefresh();
     virtual bool refresh(const Rule &rule);
+    virtual void matchedRule(const Rule &rule);
     virtual void endRefresh();
 
     void add(ConditionManager *conditionManager);

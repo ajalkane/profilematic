@@ -39,6 +39,12 @@
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
+    QString mainQmlFile(QLatin1String("qml/main.qml"));
+    if (argc >= 2 && QLatin1String("-conversionWarning") == argv[1]) {
+        qDebug("Displaying conversion warning");
+        mainQmlFile = QLatin1String("qml/mainConversionWarning.qml");
+    }
+
     QScopedPointer<QApplication> app(createApplication(argc, argv));
     QScopedPointer<QmlApplicationViewer> viewer(QmlApplicationViewer::create());
 
@@ -63,11 +69,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     ctxt->setContextProperty("backendProfilesModel", &qmlProfilesModel);
     ctxt->setContextProperty("backendLocation", qmlLocation.data());
 
-    QString mainQmlFile(QLatin1String("qml/main.qml"));
-    if (argc >= 2 && QLatin1String("-conversionWarning") == argv[1]) {
-        qDebug("Displaying conversion warning");
-        mainQmlFile = QLatin1String("qml/mainConversionWarning.qml");
-    }
     viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer->setMainQmlFile(mainQmlFile);
     viewer->showExpanded();

@@ -60,13 +60,22 @@ ConditionManagerLocationCell::endRefresh() {
 void
 ConditionManagerLocationCell::cellIdChanged(int cellId) {
     qDebug("ConditionManagerLocationCell::cellIdChanged to %d", cellId);
-    if (_currentRuleCellIds.contains(cellId)) {
+    // 0 comes when no mobile network connection
+    if (cellId <= 0) {
+        qDebug("ConditionManagerLocationCell::cellIdChanged ignoring <= 0 cellId");
+    }
+    else if (_currentRuleCellIds.contains(cellId)) {
         qDebug("ConditionManagerLocationCell::cellIdChanged current rule has this cellId");
     }
     else if (_watchedCellIds.contains(cellId)) {
         qDebug("ConditionManagerLocationCell::cellIdChanged watched contains and is not in current Rule's cellIds, requesting refresh");
         emit refreshNeeded();
-    } else {
+    }
+    else if (!_currentRuleCellIds.isEmpty()) {
+        qDebug("ConditionManagerLocationCell::cellIdChanged, not anymore in current rule's cells, requesting refresh");
+        emit refreshNeeded();
+    }
+    else {
         qDebug("ConditionManagerLocationCell::cellIdChanged but not in active cellIds, no refresh");
     }
 }

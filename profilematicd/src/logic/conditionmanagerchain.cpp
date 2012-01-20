@@ -36,6 +36,15 @@ ConditionManagerChain::refresh(const Rule &rule) {
 }
 
 void
+ConditionManagerChain::matchedRule(const Rule &rule) {
+    QList<ConditionManager *>::const_iterator i = _conditionManagers.constBegin();
+    for (; i != _conditionManagers.constEnd(); ++i) {
+        ConditionManager *cm = *i;
+        cm->matchedRule(rule);
+    }
+}
+
+void
 ConditionManagerChain::endRefresh() {
     QList<ConditionManager *>::const_iterator i = _conditionManagers.constBegin();
     for (; i != _conditionManagers.constEnd(); ++i) {

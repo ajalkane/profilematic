@@ -1,7 +1,7 @@
 #include "conditionmanagertime.h"
 
 ConditionManagerTime::ConditionManagerTime(QObject *parent)
-    : ConditionManager(parent)
+    : ConditionManager(parent), _timerIntervalMaxAddition(58)
 {
     _timer.setSingleShot(true);
 
@@ -23,10 +23,10 @@ ConditionManagerTime::startRefresh() {
 void
 ConditionManagerTime::endRefresh() {
     if (!_nextNearestDateTime.isNull()) {
-        quint64 interval = _refreshTime.msecsTo(_nextNearestDateTime);
+        int interval = _refreshTime.secsTo(_nextNearestDateTime);
         qDebug("Now %s", qPrintable(_refreshTime.toString()));
-        qDebug("Scheduling a timer to %s, interval %dms", qPrintable(_nextNearestDateTime.toString()), (int)interval);
-        _timer.start(interval);
+        qDebug("Scheduling a timer to %s, interval %ds", qPrintable(_nextNearestDateTime.toString()), (int)interval);
+        _timer.start(interval, interval + _timerIntervalMaxAddition);
     } else {
         qDebug("No nearest time based rule found");
     }
@@ -75,8 +75,11 @@ ConditionManagerTime::_nextDateTimeFromRule(const QDateTime &from, const Rule &r
     const QSet<int> &selectedDays = rule.getDays();
     int dayOfWeek = from.date().dayOfWeek();
     // i goes up to 7, so that next week's current day is considered also.
-    for (int i = 0; i < 8; ++i) {
-        int dayId = (dayOfWeek - 1 + i) % 7;
+    // i starts from -1, to start from previous day, so that matches endTime for example
+    // in a case when startTime = 22:00, endTime = 06:00 and now = 02:00
+    for (int i = -1; i < 8; ++i) {
+        // Adding 7 to i so that dayId can never be negative
+        int dayId = (dayOfWeek - 1 + i + 7) % 7;
         bool considerDay = selectedDays.contains(dayId);
 
         qDebug("ConditionManagerTime::time(rule %s), considering dayId %d (%d)", qPrintable(rule.getRuleName()), dayId, considerDay);

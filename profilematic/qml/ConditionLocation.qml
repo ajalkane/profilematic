@@ -27,7 +27,7 @@ Page {
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
     property Rule    rule;
-    property int maxCells: 3
+    property int maxCells: 50
 
     function addCurrentCell() {
         var cells = rule.locationCells
@@ -156,6 +156,33 @@ Page {
                     }
                 }
             } // Repeater
+
+            Label {
+                id: help
+                text: "Location by mobile cell ids doesn't drain batter, unlike using GPS. "
+                      + "The downside is that it can not be used for exact location. Typical "
+                      + "use case is for recognizing when you're near your home, office, "
+                      + "a certain movie theater or similar bounded area."
+                      + "\n\n"
+                      + "In order to create a rule that matches the area, activate "
+                      + "'Start collecting' button. Keep this view open while you're inside "
+                      + "the area, and all the cell tower ids your phone connects to will be "
+                      + "added. It is good idea to let it collect the cell ids for a while, "
+                      + "since in any one place there can be more than one cell id your phone "
+                      + "can connect to. You can then save the rule and ProfileMatic will remember "
+                      + "to activate the rule when your phone connects to one of the cells."
+                      + "\n\n"
+                      + "Note: the cell id depends on the network your phone uses. For example, "
+                      + "if you use GSM and 3G, you should collect the cell ids using "
+                      + "both mobile network modes."
+                width: parent.width
+                platformStyle: LabelStyleSubtitle {
+                    fontPixelSize: UIConstants.FONT_SMALL
+                    // textColor: "#8c8c8c"
+                    textColor: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
+                }
+            }
+
         } // Column
     } // Flickable
 }

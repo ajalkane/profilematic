@@ -22,13 +22,14 @@ import com.nokia.meego 1.0
 import "UIConstants.js" as UIConstants
 
 Column {
-    property alias labelText: label.text
+    property alias labelText: label.section
     property alias placeholderText: labelField.placeholderText
     property alias text: labelField.text
+    height: childrenRect.height
 
-    Label {
+    SectionHeader {
         id: label
-        color: UIConstants.COLOR_SECONDARY_FOREGROUND
+        visible: !rule.isDefaultRule
     }
     TextField {
         id: labelField

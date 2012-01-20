@@ -178,7 +178,7 @@ Page {
                 labelText: "Rule name"
                 placeholderText: "Auto-generated"
                 text: rule.ruleName
-                height: UIConstants.LIST_ITEM_HEIGHT_SMALL
+                // height: UIConstants.LIST_ITEM_HEIGHT_SMALL
                 width: parent.width
                 visible: !rule.isDefaultRule
                 onTextChanged: {

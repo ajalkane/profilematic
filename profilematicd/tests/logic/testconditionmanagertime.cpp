@@ -98,10 +98,11 @@ TestConditionManagerTime::refresh_basicTestsTimer() {
     rule1.setTimeEnd(now.addSecs(200).time());
     rules[0] = rule1;
     match = _refresh(cm, rules, now);
+    QCOMPARE((int)cm.timer()->lastError(), 0);
     QVERIFY(cm.timer()->isActive() == true);
     QVERIFY(match == 0);
     // 100 = 1min40secs, start time is actually minute after
-    QCOMPARE(cm.timer()->interval(), 60 * 1000);
+    QCOMPARE(cm.minimumIntervalMsec(), 60 * 1000);
 
     // Match to next day
     rule1.setDays(_allDays);
@@ -112,7 +113,7 @@ TestConditionManagerTime::refresh_basicTestsTimer() {
     QVERIFY(cm.timer()->isActive() == true);
     QVERIFY(match == 0);
     // 100 = 1min40secs, start time is actually 2 minutes before
-    QCOMPARE(cm.timer()->interval(), (24 * 60 * 60 - 120) * 1000);
+    QCOMPARE(cm.minimumIntervalMsec(), (24 * 60 * 60 - 120) * 1000);
 }
 
 void
@@ -134,7 +135,7 @@ TestConditionManagerTime::refresh_basicTestsMatching() {
     QCOMPARE(cm.timer()->isActive(), true);
     QVERIFY(*match == rule1);
     // 100 = 1min40secs, end time is actually 1min after
-    QCOMPARE(cm.timer()->interval(), 60 * 1000);
+    QCOMPARE(cm.minimumIntervalMsec(), 60 * 1000);
 
     // Match to next day, when start time is current time, and end time is current time - minute (21:59:59), even as only tuesday selected
     // Tuesday
@@ -152,7 +153,25 @@ TestConditionManagerTime::refresh_basicTestsMatching() {
     QCOMPARE(cm.timer()->isActive(), true);
     QVERIFY(*match == rule1);
     // 24h - 60 seconds
-    QCOMPARE(cm.timer()->interval(), (24 * 60 * 60 - 60) * 1000);
+    QCOMPARE(cm.minimumIntervalMsec(), (24 * 60 * 60 - 60) * 1000);
+
+
+    // Match to endTime, when startTime is in the previous day
+    // Wednesday, but startTime is in tuesday
+    now = QDateTime::fromString("28.09.2011 06:00", "dd.MM.yyyy hh:mm");
+    days.clear();
+    rules.clear();
+    days.insert(1);
+    rule1.setDays(days);
+    // startTime is on tuesday, 22:00
+    rule1.setTimeStart(now.addSecs(-8 * 60 * 60).time());
+    rule1.setTimeEnd(now.addSecs(60).time());
+    rules << rule1;
+    match = _refresh(cm, rules, now);
+    QCOMPARE((int)cm.timer()->lastError(), 0);
+    QVERIFY(cm.timer()->isActive() == true);
+    QVERIFY(*match == rule1);
+    QCOMPARE(cm.minimumIntervalMsec(), 60 * 1000);
 
     // Match to next day when startTime = endTime and now = startTime
     // Tuesday
@@ -171,7 +190,7 @@ TestConditionManagerTime::refresh_basicTestsMatching() {
     QVERIFY(match != 0);
     QVERIFY(*match == rule1);
     // 24h
-    QCOMPARE(cm.timer()->interval(), 24 * 60 * 60 * 1000);
+    QCOMPARE(cm.minimumIntervalMsec(), 24 * 60 * 60 * 1000);
 }
 
 void
@@ -195,14 +214,14 @@ TestConditionManagerTime::refresh_dayTimeTests() {
     match = _refresh(cm, rules, now);
     QVERIFY(cm.timer()->isActive() == true);
     QVERIFY(match == 0);
-    QCOMPARE(cm.timer()->interval(), 60 * 1000);
+    QCOMPARE(cm.minimumIntervalMsec(), 60 * 1000);
 
     // Then try with a time that is a 2 minute before. In that case wakeup should go to next week.
     rules.first().setTimeStart(now.time().addSecs(-120));
     rules.first().setTimeEnd(now.time().addSecs(-60));
     match = _refresh(cm, rules, now);
     QVERIFY(match == 0);
-    QCOMPARE(cm.timer()->interval(), (7 * 24 * 60 * 60 - 2*60) * 1000);
+    QCOMPARE(cm.minimumIntervalMsec(), (7 * 24 * 60 * 60 - 2*60) * 1000);
 }
 
 void
@@ -229,7 +248,7 @@ TestConditionManagerTime::refresh_multiRuleTests() {
     match = _refresh(cm, rules, now);
     QVERIFY(cm.timer()->isActive() == true);
     QVERIFY(match == 0);
-    QCOMPARE(cm.timer()->interval(), 120 * 1000);
+    QCOMPARE(cm.minimumIntervalMsec(), 120 * 1000);
 }
 
 void
@@ -257,7 +276,7 @@ TestConditionManagerTime::refresh_multiRuleTestsMatching() {
     match = _refresh(cm, rules, now);
     QCOMPARE(cm.timer()->isActive(), true);
     QVERIFY(*match == rule1);
-    QCOMPARE(cm.timer()->interval(), 60 * 1000);
+    QCOMPARE(cm.minimumIntervalMsec(), 60 * 1000);
 }
 
 void
@@ -266,12 +285,14 @@ TestConditionManagerTime::refreshNeeded_signalTest() {
     const Rule *match;
     Rule rule;
     SignalCounter signalTarget;
+    QSet<int> days;
 
     // Tuesday
     QDateTime now = QDateTime::fromString("27.09.2011 09:59:59", "dd.MM.yyyy hh:mm:ss");
     ConditionManagerTime cm;
 
-    rule.setDays(_allDays);
+    days << 1;
+    rule.setDays(days);
     rule.setTimeStart(now.addSecs(1).time());
     rule.setTimeEnd(now.addSecs(1).time());
 
@@ -282,12 +303,13 @@ TestConditionManagerTime::refreshNeeded_signalTest() {
 
     connect(&cm, SIGNAL(refreshNeeded()), &signalTarget, SLOT(onSignal()));
 
+    cm.setTimerMaxIntervalAddition(1);
     match = _refresh(cm, rules, now);
 
     QCOMPARE(signalTarget.numSignal, 0);
     QVERIFY(match == 0);
     QCOMPARE(cm.timer()->isActive(), true);
-    QCOMPARE(cm.timer()->interval(), 1 * 1000);
+    QCOMPARE(cm.minimumIntervalMsec(), 1 * 1000);
 
     // Wait for 2 seconds, the sginal should be fired by then.
     qDebug("Waiting 2 * 1000");
@@ -297,7 +319,7 @@ TestConditionManagerTime::refreshNeeded_signalTest() {
 
 //    ruleWatch.refreshWatch(now);
 //    QVERIFY(ruleWatch.timer()->isActive() == true);
-//    QCOMPARE(ruleWatch.timer()->interval(), 120 * 1000);
+//    QCOMPARE(ruleWatch.minimumIntervalMsec(), 120 * 1000);
 //    QCOMPARE(ruleWatch.targetRule(), item2);
 }
 
