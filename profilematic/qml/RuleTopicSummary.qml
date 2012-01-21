@@ -30,7 +30,7 @@ Item {
     property alias topic: topic.text
     property alias summary: summary.text
     property bool showDrillDown: false
-
+    property bool showComboBox: false
     signal topicClicked
 
     width: parent.width
@@ -67,6 +67,13 @@ Item {
         anchors.right: parent.right;
         anchors.verticalCenter: parent.verticalCenter
         visible: parent.showDrillDown
+    }
+
+    Image {
+        source: "image://theme/meegotouch-combobox-indicator" + (theme.inverted ? "-inverted" : "")
+        anchors.right: parent.right;
+        anchors.verticalCenter: parent.verticalCenter
+        visible: parent.showComboBox
     }
 
     MouseArea {

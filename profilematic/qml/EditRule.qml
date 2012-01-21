@@ -205,7 +205,8 @@ Page {
             RuleTopicSummary {
                 topic: "Set profile"
                 summary: profileSummary();
-                onTopicClicked: profileEditHandler()
+                showComboBox: true
+                onTopicClicked: profileEditHandler()                
             }
 
             Item {
@@ -219,7 +220,7 @@ Page {
 
                 RuleTopicSummary {
                     id: volume
-                    topic: "Set volume"
+                    topic: "Set ringing volume"
                     summary: volumeSummary();
                     visible: isVolumeVisible();
                     onTopicClicked: volumeEditHandler()
@@ -229,6 +230,7 @@ Page {
             RuleTopicSummary {
                 topic: "Set flight mode"
                 summary: flightModeSummary();
+                showComboBox: true
                 onTopicClicked: flightModeEditHandler()
                 // Flight mode needs open kernel. Needs a bit more work until proper support can
                 // be given.

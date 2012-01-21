@@ -30,7 +30,7 @@ Page {
 
     SectionHeader {
         id: header
-        section: "Time and day condition"
+        section: "Choose time and weekdays"
     }
 
     Flickable {
@@ -50,22 +50,25 @@ Page {
             height: childrenRect.height
 
             RuleTopicSummary {
-                topic: "Active days"
+                topic: "Weekdays"
                 summary: daysSummary()
+                showComboBox: true
                 onTopicClicked: daysEditHandler()
                 visible: !rule.isDefaultRule
             }
 
             RuleTopicSummary {
-                topic: "Active start time"
+                topic: "Start time"
                 summary: timeStartSummary()
+                showComboBox: true
                 onTopicClicked: timeStartEditHandler()
                 visible: !rule.isDefaultRule
             }
 
             RuleTopicSummary {
-                topic: "Active end time"
+                topic: "End time"
                 summary: timeEndSummary()
+                showComboBox: true
                 onTopicClicked: timeEndEditHandler()
                 visible: !rule.isDefaultRule
             }
@@ -87,7 +90,7 @@ Page {
             }
 
             Button {
-                text: "Clear time rules"
+                text: "Clear"
                 onClicked: dConfirmDelete.open()
             }
         }

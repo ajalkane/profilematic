@@ -197,7 +197,7 @@ Page {
 
             Label {
                 id: help
-                text: "Location by mobile cell ids doesn't drain batter, unlike using GPS. "
+                text: "Location by mobile cell ids doesn't drain battery, unlike using GPS. "
                       + "The downside is that it can not be used for exact location. Typical "
                       + "use case is for recognizing when you're near your home, office, "
                       + "a certain movie theater or similar bounded area."
