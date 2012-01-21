@@ -312,12 +312,12 @@ QmlRulesModel::getTimeSummaryText(const Rule *rule, const QString &nonUsableTime
 
 // IMPROVE: this function is ugly, so say we all.
 QString
-QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableTimeString) const {
+QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRuleString) const {
     qDebug("QmlRulesModel::getRuleSummaryText()");
     // Rule rule = ruleVariant.value<Rule>();
     if (rule == 0) {
         qDebug("QmlRulesModel::getTimeSummaryText() null rule");
-        return nonUsableTimeString;
+        return nonUsableRuleString;
     }
     QString action;
     QString condition;
@@ -354,6 +354,10 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableTime
             condition.append(timeCondition);
             ++numCondition;
         }
+    }
+
+    if ((numAction == 0 || numCondition == 0) && !rule->isDefaultRule()) {
+        return nonUsableRuleString;
     }
 
     QString summary;

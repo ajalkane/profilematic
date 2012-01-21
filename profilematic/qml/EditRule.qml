@@ -25,7 +25,7 @@ import Rule 1.0
 import "UIConstants.js" as UIConstants
 
 Page {    
-    id: editRule
+    id: root
     tools: editRuleTools
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
@@ -43,31 +43,8 @@ Page {
 //    }
 
     function isValidRule() {
-        if (rule.isDefaultRule) {
-            return true;
-        }
-
-        var isConditionsValid = false
-        var isActionsValid = false
-
-        var isTimeValid = false
-        if (rule.days.length !== 0 && rule.timeStart !== "" && rule.timeEnd !== "") {
-            isTimeValid = true
-        }
-        var isLocationValid = false
-        if (rule.locationCells.length !== 0) {
-            isLocationValid = true
-        }
-
-        if (isTimeValid || isLocationValid) {
-            isConditionsValid = true
-        }
-
-        if (rule.profile !== "" || rule.flightMode !== -1) {
-            isActionsValid = true
-        }
-        console.log("conditionsValid, actionsValid", isConditionsValid, isActionsValid)
-        return isConditionsValid && isActionsValid
+        var emptyStringIfInvalid = backendRulesModel.getRuleSummaryText(rule, "")
+        return emptyStringIfInvalid !== ""
     }
 
     function openFile(file) {
@@ -259,35 +236,33 @@ Page {
             }
 
             Text {
+                id: ruleSummary
                 wrapMode: Text.WordWrap
                 width: parent.width
-                // visible: isValidRule()
                 font.pixelSize: UIConstants.FONT_SMALL;
                 color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                text: {
-                    if (isValidRule()) {
-                        var help = "This rule activates profile " + backendProfilesModel.getProfileToName(rule.profile)
-                        if (rule.isDefaultRule) {
-                            help += " when other rules don't apply";
-                        } else {                            
-                            help += " when clock is "
-                                    + (rule.timeStart === rule.timeEnd
-                                       ? rule.timeStart
-                                       : "between " + rule.timeStart + " - " + rule.timeEnd)
-                            help += " on active days"
-                        }
-                        return help
-                    }
-                    return ""
+                text: root.ruleSummary()
+                Connections {
+                    target: rule
+                    onDaysChanged:          ruleSummary.text = root.ruleSummary()
+                    onTimeStartChanged:     ruleSummary.text = root.ruleSummary()
+                    onTimeEndChanged:       ruleSummary.text = root.ruleSummary()
+                    onLocationCellsChanged: ruleSummary.text = root.ruleSummary()
+                    onProfileChanged:       ruleSummary.text = root.ruleSummary()
                 }
             }
         } // Column
     } // Flickable
 
+    function ruleSummary() {
+        console.log("ruleSummary")
+        return backendRulesModel.getRuleSummaryText(rule, "Can't be used as a rule yet. Specify at least one condition, and an action.");
+    }
+
     // Time functions
     ConditionTime {
         id: conditionTime
-        rule: editRule.rule
+        rule: root.rule
     }
 
     function timeSummary() {
@@ -302,7 +277,7 @@ Page {
     // Location functions
     ConditionLocation {
         id: conditionLocation
-        rule: editRule.rule
+        rule: root.rule
     }
 
     function locationSummary() {        
