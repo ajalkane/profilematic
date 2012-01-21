@@ -184,191 +184,166 @@ Page {
             }
         }
 
-        delegate: /* Item {
+        delegate: Row {
             id: listItem
-            // height: UIConstants.LIST_ITEM_HEIGHT_WITH_SUBTITLE
             width: parent.width
-*/
-            Row {
-                id: listItem
-                // anchors.fill: parent
-                width: parent.width
-                //height:  childrenRect.height // parent.height
+            Item {
+                id: upColumn
+                anchors.verticalCenter: parent.verticalCenter
+                width: childrenRect.width
+                height:  childrenRect.height
+                // z-order is 1, so that rule selection highlight does not cover up arrow
+                z: 1
+
                 Item {
-                    id: upColumn
-                    anchors.verticalCenter: parent.verticalCenter
                     width: childrenRect.width
-                    height:  childrenRect.height // parent.height
-                    z: 1
-
-                    Item {
-                        width: childrenRect.width
-                        height: up.height // childrenRect.height //  parent.height
-                        // Do not show up arrow for first or defaultRule
-                        visible: index > 0 && index < listView.count - 1
-                        Rectangle {
-                            id: backgroundUp
-                            anchors.fill: up
-                            anchors.margins: -UIConstants.DEFAULT_MARGIN
-                            visible: mouseAreaUp.pressed
-                            color: UIConstants.COLOR_SELECT
-                        }
-
-                        MouseArea {
-                            id: mouseAreaUp
-                            anchors.fill: up // backgroundUp
-
-                            onClicked: {
-                                console.log("Clicked up " + model, index)
-                                backendRulesModel.moveRule(index, index - 1)
-                            }
-                        }
-
-                        Image {
-                            id: up
-                            source: "image://theme/icon-m-toolbar-up" + (theme.inverted ? "-white" : "")
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-                    }
-                } // Item upColumn
-
-                Item {
-                    id: ruleItem
-
-                    anchors.leftMargin: upColumn.width + parent.spacing
-                    anchors.rightMargin: downColumn.width + parent.spacing
-                    width: listItem.width - (upColumn.width + parent.spacing) - (downColumn.width + parent.spacing) // childrenRect.width
-                    height:  rule.height // parent.height
-                    // height:  parent.height
-
+                    height: up.height
+                    // Do not show up arrow for first or defaultRule
+                    visible: index > 0 && index < listView.count - 1
                     Rectangle {
-                        id: background
-                        anchors.fill: parent
-                        anchors.leftMargin: -parent.anchors.leftMargin - UIConstants.DEFAULT_MARGIN
-                        anchors.rightMargin: -parent.anchors.rightMargin - UIConstants.DEFAULT_MARGIN
-                        visible: mouseAreaRule.pressed
+                        id: backgroundUp
+                        anchors.fill: up
+                        anchors.margins: -UIConstants.DEFAULT_MARGIN
+                        visible: mouseAreaUp.pressed
                         color: UIConstants.COLOR_SELECT
-                    }
-                    Column {
-                        id: rule
-                        anchors.verticalCenter: parent.verticalCenter
-
-                        Label {
-                            id: mainText
-                            text: model.ruleName
-                            width: parent.width
-                            platformStyle: LabelStyleTitle {}
-                            font.weight: Font.Bold
-                            elide: Text.ElideRight
-                        }
-                        Label {
-                            width: ruleItem.width
-                            text: {
-                                console.log("Called summary label for index", index)
-                                return ruleSummary
-//                                var summary = []
-//                                if (profile !== '') {
-//                                    summary.push(backendProfilesModel.getProfileToName(profile))
-//                                }
-//                                switch (flightMode) {
-//                                case 0: summary.push("Flight mode off"); break;
-//                                case 1: summary.push("Flight mode on"); break;
-//                                }
-
-//                                if (model.isDefaultRule) {
-//                                    summary.push("Activated when other rules don't apply")
-//                                } else {
-//                                    summary.push(timeSummary)
-//                                }
-//                                return summary.join(". ");
-                            }
-                            platformStyle: LabelStyleSubtitle {
-                                fontPixelSize: UIConstants.FONT_SMALL
-                            }
-                            wrapMode: Text.WordWrap
-                        }
                     }
 
                     MouseArea {
-                        id: mouseAreaRule
-                        anchors.fill: rule // background
+                        id: mouseAreaUp
+                        anchors.fill: up
 
                         onClicked: {
-                            if (editRuleModelIndex > -1) {
-                                console.log("Already opening rule for editing, overriding click")
-                            }
-                            editRuleModelIndex = index
-                            console.log("onClicked parent.state", parent.state)
-                            loadEditRuleTimer.start()
-                            listView.currentIndex = index
-                        }
-                        onPressAndHold: {
-                            contextMenu.openForIndex(index)
+                            console.log("Clicked up " + model, index)
+                            backendRulesModel.moveRule(index, index - 1)
                         }
                     }
 
-                    Item {
-                        id: downColumn
-                        anchors.left:  parent.right
+                    Image {
+                        id: up
+                        source: "image://theme/icon-m-toolbar-up" + (theme.inverted ? "-white" : "")
                         anchors.verticalCenter: parent.verticalCenter
-                        width: childrenRect.width
-                        height: down.height // childrenRect.height
-                        // Do not show down arrow for rule preceding defaultRule, which is always the last item
-                        visible: index < listView.count - 2
+                    }
+                }
+            } // Item upColumn
 
-                        Rectangle {
-                            id: backgroundDown
-                            anchors.fill: down
-                            anchors.margins: -UIConstants.DEFAULT_MARGIN
-                            visible: mouseAreaDown.pressed
-                            color: UIConstants.COLOR_SELECT
+            Item {
+                id: ruleItem
+
+                anchors.leftMargin: upColumn.width + parent.spacing
+                anchors.rightMargin: downColumn.width + parent.spacing
+                width: listItem.width - (upColumn.width + parent.spacing) - (downColumn.width + parent.spacing)
+                height:  rule.height
+
+                Rectangle {
+                    id: background
+                    anchors.fill: parent
+                    anchors.leftMargin: -parent.anchors.leftMargin - UIConstants.DEFAULT_MARGIN
+                    anchors.rightMargin: -parent.anchors.rightMargin - UIConstants.DEFAULT_MARGIN
+                    visible: mouseAreaRule.pressed
+                    color: UIConstants.COLOR_SELECT
+                }
+                Column {
+                    id: rule
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    Label {
+                        id: mainText
+                        text: model.ruleName
+                        width: parent.width
+                        platformStyle: LabelStyleTitle {}
+                        font.weight: Font.Bold
+                        elide: Text.ElideRight
+                    }
+                    Label {
+                        width: ruleItem.width
+                        text: ruleSummary
+                        platformStyle: LabelStyleSubtitle {
+                            fontPixelSize: UIConstants.FONT_SMALL
                         }
+                        wrapMode: Text.WordWrap
+                    }
+                }
 
-                        MouseArea {
-                            id: mouseAreaDown
-                            anchors.fill: backgroundDown
+                MouseArea {
+                    id: mouseAreaRule
+                    anchors.fill: rule
 
-                            onClicked: {
-                                console.log("Clicked down " + model, index)
-                                // IMPROVE: animation doesn't seem to be easily doable currently on ListView on move, see
-                                // http://lists.qt.nokia.com/pipermail/qt-qml/2010-March/000035.html
-                                backendRulesModel.moveRule(index, index + 1)
-                            }
+                    onClicked: {
+                        if (editRuleModelIndex > -1) {
+                            console.log("Already opening rule for editing, overriding click")
                         }
+                        editRuleModelIndex = index
+                        console.log("onClicked parent.state", parent.state)
+                        loadEditRuleTimer.start()
+                        listView.currentIndex = index
+                    }
+                    onPressAndHold: {
+                        contextMenu.openForIndex(index)
+                    }
+                }
 
-                        Image {
-                            id: down
-                            source: "image://theme/icon-m-toolbar-down" + (theme.inverted ? "-white" : "")
-                            anchors.verticalCenter: parent.bottom // parent.verticalCenter
+                Item {
+                    id: downColumn
+                    anchors.left:  parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: childrenRect.width
+                    height: down.height
+                    // Do not show down arrow for rule preceding defaultRule, which is always the last item
+                    visible: index < listView.count - 2
+
+                    Rectangle {
+                        id: backgroundDown
+                        anchors.fill: down
+                        anchors.margins: -UIConstants.DEFAULT_MARGIN
+                        visible: mouseAreaDown.pressed
+                        color: UIConstants.COLOR_SELECT
+                    }
+
+                    MouseArea {
+                        id: mouseAreaDown
+                        anchors.fill: backgroundDown
+
+                        onClicked: {
+                            console.log("Clicked down " + model, index)
+                            // IMPROVE: animation doesn't seem to be easily doable currently on ListView on move, see
+                            // http://lists.qt.nokia.com/pipermail/qt-qml/2010-March/000035.html
+                            backendRulesModel.moveRule(index, index + 1)
                         }
                     }
 
-                    Timer {
-                        id: loadEditRuleTimer
-                        interval: _editRuleDelay
-                        onTriggered: {
-                            if (editRuleModelIndex !== index) {
-                                console.log("Already opening another editRule, canceling this one. Opening/this",
-                                            editRuleModelIndex, index)
-                                return
-                            }
+                    Image {
+                        id: down
+                        source: "image://theme/icon-m-toolbar-down" + (theme.inverted ? "-white" : "")
+                        // Down arrow is positioned at bottom, so that long rule names have more space for them
+                        anchors.verticalCenter: parent.bottom
+                    }
+                }
 
-                            backendRulesModel.setEditRule(index)
-                            var p = {
-                                "rule": backendRulesModel.getEditRule()
-                            }
-                            console.log("loadEditRule")
-                            console.log("loadEditRule p.rule", p.rule)
-                            editRule = loadEditRule(p)
-                            console.log("/loadEditRule")
-                            pageStack.push(editRule)
-                            listView.currentIndex = -1
+                Timer {
+                    id: loadEditRuleTimer
+                    interval: _editRuleDelay
+                    onTriggered: {
+                        if (editRuleModelIndex !== index) {
+                            console.log("Already opening another editRule, canceling this one. Opening/this",
+                                        editRuleModelIndex, index)
+                            return
                         }
 
+                        backendRulesModel.setEditRule(index)
+                        var p = {
+                            "rule": backendRulesModel.getEditRule()
+                        }
+                        console.log("loadEditRule")
+                        console.log("loadEditRule p.rule", p.rule)
+                        editRule = loadEditRule(p)
+                        console.log("/loadEditRule")
+                        pageStack.push(editRule)
+                        listView.currentIndex = -1
                     }
                 }
             }
-  //      }
+        }
+
         footer: Column {
             width: parent.width
             spacing: UIConstants.PADDING_SMALL
@@ -443,7 +418,4 @@ Page {
         flickableItem: listView
     }
 
-//    TextFieldWithLabel {
-
-//    }
 }
