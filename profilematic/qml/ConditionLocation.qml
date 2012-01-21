@@ -185,4 +185,9 @@ Page {
 
         } // Column
     } // Flickable
+
+    ScrollDecorator {
+        flickableItem: cellIdsFlickable
+    }
+
 }
