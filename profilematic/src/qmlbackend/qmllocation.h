@@ -35,6 +35,7 @@ public:
 
 public slots:
     virtual int getCurrentCell() const = 0;
+    virtual void monitorCellIdChange(bool monitor) = 0;
 signals:
     void cellIdChanged(int cellId);
 };

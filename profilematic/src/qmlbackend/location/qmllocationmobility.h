@@ -18,6 +18,9 @@ public:
     ~QmlLocationMobility();
 
     virtual int getCurrentCell() const;
+
+public slots:
+    void monitorCellIdChange(bool monitor);
 };
 
 #endif // QMLLOCATIONMOBILITY_H

@@ -24,8 +24,9 @@ CONFIG += qdeclarative-boostable
 CONFIG += mobility
 MOBILITY += systeminfo
 
-# Uncomment to simulate changing cell id in UI
-# CONFIG += profilematic_simulated_cellid
+# Uncomment to simulate changing cell id in UI. Is not used if MEEGO_MAJOR_VERSION is
+# set for build to avoid accidental usage on real device.
+CONFIG += profilematic_simulated_cellid
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += src/main.cpp \
@@ -48,7 +49,8 @@ HEADERS += \
     src/profilematicclient.h \
     src/qmlbackend/qmllocation.h
 
-!profilematic_simulated_cellid {
+# To avoid mistakes, do not use the simulated cellId on a device build.
+!profilematic_simulated_cellid|!isEmpty(MEEGO_VERSION_MAJOR) {
     message(Building with mobility cellId)
     SOURCES += src/qmlbackend/location/qmllocationmobility.cpp
     HEADERS += src/qmlbackend/location/qmllocationmobility.h

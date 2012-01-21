@@ -29,6 +29,16 @@ Page {
     property Rule    rule;
     property int maxCells: 50
 
+    onStatusChanged: {
+        console.log("Status changed ", status)
+        if (status == PageStatus.Activating) {
+            collectingButton.checked = false
+            backendLocation.monitorCellIdChange(true)
+        } else if (status == PageStatus.Deactivating) {
+            backendLocation.monitorCellIdChange(false)
+        }
+    }
+
     function addCurrentCell() {
         var cells = rule.locationCells
         var currentCell = backendLocation.currentCell
@@ -106,7 +116,7 @@ Page {
 
             Label {
                 id: summary
-                text: backendLocation.currentCell >= 0 ? "Current cell id " + backendLocation.currentCell + ". " + rule.locationCells.length + " included."
+                text: backendLocation.currentCell >= 0 ? "Current cell id " + backendLocation.currentCell + "."
                                                        : "Mobile network unreachable"
                 width: parent.width
 
@@ -116,7 +126,7 @@ Page {
             SectionHeader {
                 width: parent.width
                 height: 20
-                section: "Cell ids"
+                section: "Cell ids (" + rule.locationCells.length + ")"
 
             }
 
@@ -148,8 +158,6 @@ Page {
                         Rectangle {
                             id: removeBackground
                             anchors.fill: parent
-//                            anchors.leftMargin: -parent.anchors.leftMargin - UIConstants.DEFAULT_MARGIN
-//                            anchors.rightMargin: -parent.anchors.rightMargin - UIConstants.DEFAULT_MARGIN
                             visible: removeMouseArea.pressed
                             color: UIConstants.COLOR_SELECT
                         }
@@ -174,25 +182,6 @@ Page {
                         }
 
                     }
-
-                    // IMPROVE: use icon
-                    // /usr/share/themes/blanco/meegotouch/icons/icon-m-toolbar-delete.png
-                    // for inverted:
-                    // /usr/share/themes/blanco/meegotouch/icons/icon-m-toolbar-delete-white.png
-//                    Button {
-//                        id: removeButton
-//                        text: "Remove"
-//                        anchors.right: parent.right
-//                        visible: cellId.visible
-//                        width: 256
-//                        onClicked: {
-//                            console.log("Cell location Remove clicked")
-//                            var cells = rule.locationCells
-//                            cells.splice(index, 1)
-//                            rule.locationCells = cells
-//                        }
-//                    }
-                }
             } // Repeater
 
             Label {
@@ -211,9 +200,9 @@ Page {
                       + "<p>"
                       + "<b>Several different settings at the same location?</b>"
                       + "<p>"
-                      + "Create a new rule by copying an existing one from the main menu, "
-                      + "so the location info will be copied as well. Then choose "
-                      + "new time/day and you are all set."
+                      + "Create a new rule by copying an existing one from the main menu (long press on a rule), "
+                      + "so the location info will be copied as well. Then change rest "
+                      + "of the conditions and actions as you want, and Bob's your uncle."
                       + "<p>"
 
                       + "<b>Please note:</b>"
@@ -226,23 +215,6 @@ Page {
                       +"<li>Cell id technology can't be used for a very exact location."
                       + "</ul>"
 
-
-//                    "Location by mobile cell ids doesn't drain battery, unlike using GPS. "
-//                      + "The downside is that it can not be used for exact location. Typical "
-//                      + "use case is for recognizing when you're near your home, office, "
-//                      + "a certain movie theater or similar bounded area."
-//                      + "\n\n"
-//                      + "In order to create a rule that matches the area, activate "
-//                      + "'Start collecting' button. Keep this view open while you're inside "
-//                      + "the area, and all the cell tower ids your phone connects to will be "
-//                      + "added. It is good idea to let it collect the cell ids for a while, "
-//                      + "since in any one place there can be more than one cell id your phone "
-//                      + "can connect to. You can then save the rule and ProfileMatic will remember "
-//                      + "to activate the rule when your phone connects to one of the cells."
-//                      + "\n\n"
-//                      + "Note: the cell id depends on the network your phone uses. For example, "
-//                      + "if you use GSM and 3G, you should collect the cell ids using "
-//                      + "both mobile network modes."
                 width: parent.width
                 platformStyle: LabelStyleSubtitle {
                     fontPixelSize: UIConstants.FONT_SMALL

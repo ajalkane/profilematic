@@ -18,6 +18,7 @@ public:
     virtual int getCurrentCell() const;
 public slots:
     void updateCurrentCell();
+    void monitorCellIdChange(bool monitor);
 };
 
 #endif // QMLLOCATIONRANDOM_H
