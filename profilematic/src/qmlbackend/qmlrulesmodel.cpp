@@ -376,7 +376,7 @@ void
 QmlRulesModel::setEditRule(int index) {
     qDebug("QmlRulesModel::setEditRule(%d)", index);
     if (index < 0 || index >= _rules.count()) {
-        qDebug("QmlRulesModel::setRule: Invalid index %d", index);
+        qDebug("QmlRulesModel::setEditRule: Invalid index %d", index);
         _editRule = Rule();
         return;
     }
@@ -398,6 +398,22 @@ QmlRulesModel::setNewEditRule() {
 //        days << i;
 //    }
 //    _editRule.setDays(days);
+}
+
+void
+QmlRulesModel::setNewEditRuleFrom(int index) {
+    qDebug("QmlRulesModel::setNewEditRuleFrom(%d)", index);
+    if (index < 0 || index >= _rules.count()) {
+        qDebug("QmlRulesModel::setNewEditRuleFrom: Invalid index %d", index);
+        _editRule = Rule();
+        return;
+    }
+
+    _editRule = _rules[index];
+    _editRule.setRuleId("");
+    _editRule.setRuleName("");
+
+    qDebug("QmlRulesModel::setEditRule client->saveEditRule id %s, name %s", qPrintable(_editRule.getRuleId()), qPrintable(_editRule.getRuleName()));
 }
 
 void

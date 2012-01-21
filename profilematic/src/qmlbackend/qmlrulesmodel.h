@@ -81,6 +81,7 @@ public:
 
     Q_INVOKABLE void setEditRule(int index);
     Q_INVOKABLE void setNewEditRule();
+    Q_INVOKABLE void setNewEditRuleFrom(int index);
     Q_INVOKABLE Rule *getEditRule();
     Q_INVOKABLE void saveEditRule();
     Q_INVOKABLE void removeRule(int index);

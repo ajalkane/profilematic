@@ -278,7 +278,7 @@ Page {
                         listView.currentIndex = index
                     }
                     onPressAndHold: {
-                        contextMenu.openForIndex(index)
+                        contextMenu.openForIndex(index, index === listView.count - 1)
                     }
                 }
 
@@ -374,18 +374,37 @@ Page {
         onDeleted: deleteRule(editRuleModelIndex)
     }
 
+    QueryDialog {
+        id: dConfirmDelete
+
+        titleText: "Delete this rule?"
+        acceptButtonText: "Delete"
+        rejectButtonText: "Cancel"
+
+        onAccepted: {
+            deleteRule(contextMenu.selectedRuleIndex)
+        }
+    }
+
     ContextMenu {
         id: contextMenu
-        property int deleteIndex
+        property int selectedRuleIndex
+        property int isDefaultRule
 
         MenuLayout {
             MenuItem {
+                text: "Copy as new"
+                onClicked: copyAsNewRule(contextMenu.selectedRuleIndex)
+            }
+            MenuItem {
                 text: "Delete"
-                onClicked: deleteRule(contextMenu.deleteIndex)
+                onClicked: dConfirmDelete.open()
+                enabled: !contextMenu.isDefaultRule
             }
         }
-        function openForIndex(index) {
-            deleteIndex = index
+        function openForIndex(index, isDefaultRule) {
+            selectedRuleIndex = index
+            contextMenu.isDefaultRule = isDefaultRule
             open()
         }
     }
@@ -394,17 +413,27 @@ Page {
         backendRulesModel.saveEditRule()
     }
 
-    function openNewRule() {
-        console.log("openNewRule")
-
-        backendRulesModel.setNewEditRule();
+    function __openNewRule() {
         var p = {
             "rule": backendRulesModel.getEditRule()
         }
         editRuleModelIndex = -1
         editRule = loadEditRule(p)
-        console.log("openNewRule", editRule)
         pageStack.push(editRule)
+    }
+
+    function openNewRule() {
+        console.log("openNewRule")
+
+        backendRulesModel.setNewEditRule()
+        __openNewRule()
+    }
+
+    function copyAsNewRule(index) {
+        console.log("openNewRule")
+
+        backendRulesModel.setNewEditRuleFrom(index)
+        __openNewRule()
     }
 
     function deleteRule(index) {
