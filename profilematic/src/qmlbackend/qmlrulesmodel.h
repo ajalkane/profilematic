@@ -24,6 +24,7 @@
 #include <QVariantList>
 #include <QVariantMap>
 
+#include "qmlprofilesmodel.h"
 #include "../profilematicclient.h"
 
 // IMPROVE need to have the Rule object in common sources or library.
@@ -47,6 +48,7 @@ class QmlRulesModel: public QAbstractListModel
     bool _backendError;
 
     ProfileMaticClient *_client;
+    QmlProfilesModel *_profilesModel;
 
     QHash<int, QByteArray> _roleToProperty;
 
@@ -69,10 +71,11 @@ public:
         ProfileRole,
         ProfileVolumeRole,
         TimeSummaryRole,
+        RuleSummaryRole,
         FlightModeRole
     };
 
-    QmlRulesModel(ProfileMaticClient *client, QObject *parent = 0);
+    QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profilesModel, QObject *parent = 0);
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
@@ -88,6 +91,8 @@ public:
     Q_INVOKABLE QString getDaysSummaryText(const QVariantList &dayIndices) const;
     Q_INVOKABLE QString getTimeSummaryText(const Rule *rule, const QString &nonUsableTimeString) const;
     Q_INVOKABLE QString getTimeSummaryText(Rule *rule, const QString &nonUsableTimeString) const;
+    Q_INVOKABLE QString getRuleSummaryText(const Rule *rule, const QString &nonUsableTimeString) const;
+    Q_INVOKABLE QString getRuleSummaryText(Rule *rule, const QString &nonUsableTimeString) const;
 
     bool isActive() const;
     void setActive(bool isActive);

@@ -53,7 +53,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     QmlProfilesModel qmlProfilesModel(&profileClient, QmlProfilesModel::ProfileType);
     QmlDaysModel qmlDaysModel;
-    QmlRulesModel qmlRulesModel(&profileMaticClient);
+    QmlRulesModel qmlRulesModel(&profileMaticClient, &qmlProfilesModel);
     QmlBackend qmlBackend;
     QScopedPointer<QmlLocation> qmlLocation(QmlLocation::create());
 

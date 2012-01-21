@@ -23,8 +23,8 @@
 
 #include "qmlrulesmodel.h"
 
-QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QObject *parent)
-    : QAbstractListModel(parent), _isActive(false), _backendError(false), _client(client)
+QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profilesModel, QObject *parent)
+    : QAbstractListModel(parent), _isActive(false), _backendError(false), _client(client), _profilesModel(profilesModel)
 {    
     _roleToProperty[RuleIdRole]          = "ruleId";
     _roleToProperty[IsDefaultRuleRole]   = "isDefaultRule";
@@ -36,6 +36,7 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QObject *parent)
     _roleToProperty[ProfileRole]         = "profile";
     _roleToProperty[ProfileVolumeRole]   = "profileVolume";
     _roleToProperty[TimeSummaryRole]     = "timeSummary";
+    _roleToProperty[RuleSummaryRole]     = "ruleSummary";
     _roleToProperty[FlightModeRole]      = "flightMode";
 
     setRoleNames(_roleToProperty);
@@ -105,6 +106,8 @@ QmlRulesModel::data(const QModelIndex & index, int role) const {
         return rule.getProfileVolume();
     case TimeSummaryRole:
         return getTimeSummaryText(&rule, "");
+    case RuleSummaryRole:
+        return getRuleSummaryText(&rule, "");
     case FlightModeRole:
         return rule.getFlightMode();
     default:
@@ -254,6 +257,11 @@ QmlRulesModel::getTimeSummaryText(Rule *rule, const QString &nonUsableTimeString
 }
 
 QString
+QmlRulesModel::getRuleSummaryText(Rule *rule, const QString &nonUsableTimeString) const {
+    return getRuleSummaryText(const_cast<const Rule *>(rule), nonUsableTimeString);
+}
+
+QString
 QmlRulesModel::getTimeSummaryText(const Rule *rule, const QString &nonUsableTimeString) const {
     qDebug("QmlRulesModel::getTimeSummaryText()");
     // Rule rule = ruleVariant.value<Rule>();
@@ -299,6 +307,63 @@ QmlRulesModel::getTimeSummaryText(const Rule *rule, const QString &nonUsableTime
 
     qDebug("QmlRulesModel::getTimeSummaryText()");
 
+    return summary;
+}
+
+// IMPROVE: this function is ugly, so say we all.
+QString
+QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableTimeString) const {
+    qDebug("QmlRulesModel::getRuleSummaryText()");
+    // Rule rule = ruleVariant.value<Rule>();
+    if (rule == 0) {
+        qDebug("QmlRulesModel::getTimeSummaryText() null rule");
+        return nonUsableTimeString;
+    }
+    QString action;
+    QString condition;
+    int numAction = 0;
+    int numCondition = 0;
+
+    if (!rule->getProfile().isEmpty()) {
+        action.append(_profilesModel->getProfileToName(rule->getProfile()));
+        ++numAction;
+    }
+    if (rule->getFlightMode() > -1) {
+        if (numAction > 0) action.append(", ");
+        switch (rule->getFlightMode()) {
+        case 0:
+            action += "Flight mode off"; break;
+        case 1:
+            action += "Flight mode on"; break;
+        }
+        ++numAction;
+    }
+
+    if (rule->isDefaultRule()) {
+        condition += "other rules don't apply";
+        ++numCondition;
+    } else {
+        if (!rule->getLocationCells().isEmpty()) {
+            if (numCondition > 0) condition.append(" and ");
+            condition.append("on location");
+            ++numCondition;
+        }
+        QString timeCondition = getTimeSummaryText(rule, "");
+        if (!timeCondition.isEmpty()) {
+            if (numCondition > 0) condition.append(" and ");
+            condition.append(timeCondition);
+            ++numCondition;
+        }
+    }
+
+    QString summary;
+    if (numAction > 0) {
+        summary.append(action);
+    }
+    if (numCondition > 0) {
+        summary.append(numAction > 0 ? " when " : "When ");
+        summary.append(condition);
+    }
     return summary;
 }
 

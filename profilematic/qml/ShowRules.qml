@@ -146,7 +146,7 @@ Page {
             right: parent.right
             bottom: parent.bottom
         }
-
+        spacing: UIConstants.PADDING_XLARGE
         model: backendRulesModel
         pressDelay: 140
         currentIndex: -1
@@ -184,23 +184,26 @@ Page {
             }
         }
 
-        delegate:  Item {
+        delegate: /* Item {
             id: listItem
-            height: UIConstants.LIST_ITEM_HEIGHT_WITH_SUBTITLE
+            // height: UIConstants.LIST_ITEM_HEIGHT_WITH_SUBTITLE
             width: parent.width
-
+*/
             Row {
-                anchors.fill: parent
-
+                id: listItem
+                // anchors.fill: parent
+                width: parent.width
+                //height:  childrenRect.height // parent.height
                 Item {
                     id: upColumn
                     anchors.verticalCenter: parent.verticalCenter
                     width: childrenRect.width
-                    height:  parent.height
+                    height:  childrenRect.height // parent.height
+                    z: 1
 
                     Item {
                         width: childrenRect.width
-                        height:  parent.height
+                        height: up.height // childrenRect.height //  parent.height
                         // Do not show up arrow for first or defaultRule
                         visible: index > 0 && index < listView.count - 1
                         Rectangle {
@@ -213,7 +216,7 @@ Page {
 
                         MouseArea {
                             id: mouseAreaUp
-                            anchors.fill: backgroundUp
+                            anchors.fill: up // backgroundUp
 
                             onClicked: {
                                 console.log("Clicked up " + model, index)
@@ -225,7 +228,6 @@ Page {
                             id: up
                             source: "image://theme/icon-m-toolbar-up" + (theme.inverted ? "-white" : "")
                             anchors.verticalCenter: parent.verticalCenter
-
                         }
                     }
                 } // Item upColumn
@@ -236,7 +238,8 @@ Page {
                     anchors.leftMargin: upColumn.width + parent.spacing
                     anchors.rightMargin: downColumn.width + parent.spacing
                     width: listItem.width - (upColumn.width + parent.spacing) - (downColumn.width + parent.spacing) // childrenRect.width
-                    height:  parent.height
+                    height:  rule.height // parent.height
+                    // height:  parent.height
 
                     Rectangle {
                         id: background
@@ -262,21 +265,22 @@ Page {
                             width: ruleItem.width
                             text: {
                                 console.log("Called summary label for index", index)
-                                var summary = []
-                                if (profile !== '') {
-                                    summary.push(backendProfilesModel.getProfileToName(profile))
-                                }
-                                switch (flightMode) {
-                                case 0: summary.push("Flight mode off"); break;
-                                case 1: summary.push("Flight mode on"); break;
-                                }
+                                return ruleSummary
+//                                var summary = []
+//                                if (profile !== '') {
+//                                    summary.push(backendProfilesModel.getProfileToName(profile))
+//                                }
+//                                switch (flightMode) {
+//                                case 0: summary.push("Flight mode off"); break;
+//                                case 1: summary.push("Flight mode on"); break;
+//                                }
 
-                                if (model.isDefaultRule) {
-                                    summary.push("Activated when other rules don't apply")
-                                } else {
-                                    summary.push(timeSummary)
-                                }
-                                return summary.join(". ");
+//                                if (model.isDefaultRule) {
+//                                    summary.push("Activated when other rules don't apply")
+//                                } else {
+//                                    summary.push(timeSummary)
+//                                }
+//                                return summary.join(". ");
                             }
                             platformStyle: LabelStyleSubtitle {
                                 fontPixelSize: UIConstants.FONT_SMALL
@@ -287,7 +291,7 @@ Page {
 
                     MouseArea {
                         id: mouseAreaRule
-                        anchors.fill: parent // background
+                        anchors.fill: rule // background
 
                         onClicked: {
                             if (editRuleModelIndex > -1) {
@@ -308,7 +312,7 @@ Page {
                         anchors.left:  parent.right
                         anchors.verticalCenter: parent.verticalCenter
                         width: childrenRect.width
-                        height:  parent.height
+                        height: down.height // childrenRect.height
                         // Do not show down arrow for rule preceding defaultRule, which is always the last item
                         visible: index < listView.count - 2
 
@@ -335,7 +339,7 @@ Page {
                         Image {
                             id: down
                             source: "image://theme/icon-m-toolbar-down" + (theme.inverted ? "-white" : "")
-                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.verticalCenter: parent.bottom // parent.verticalCenter
                         }
                     }
 
@@ -364,7 +368,7 @@ Page {
                     }
                 }
             }
-        }
+  //      }
         footer: Column {
             width: parent.width
             spacing: UIConstants.PADDING_SMALL
