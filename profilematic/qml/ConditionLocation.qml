@@ -126,34 +126,72 @@ Page {
 
                 Item {
                     width: root.width
-                    height: childrenRect.height
+                    height: Math.max(removeArea.height, cellId.height) // childrenRect.height // cellId.height // childrenRect.height
 
                     Label {
                         id: cellId
                         text: rule.locationCells[index]
-                        width: parent.width - removeButton.width
+                        width: parent.width //  - removeButton.width
                         visible: rule.locationCells.length > index
                         platformStyle: LabelStyleSubtitle {}
-                        anchors.verticalCenter: removeButton.verticalCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    Item {
+                        id: removeArea
+                        anchors.right: parent.right
+                        visible: cellId.visible
+                        height: removeImage.height + UIConstants.PADDING_XXLARGE // Math.min(cellId.height, removeImage.height)
+                        width: height
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        Rectangle {
+                            id: removeBackground
+                            anchors.fill: parent
+//                            anchors.leftMargin: -parent.anchors.leftMargin - UIConstants.DEFAULT_MARGIN
+//                            anchors.rightMargin: -parent.anchors.rightMargin - UIConstants.DEFAULT_MARGIN
+                            visible: removeMouseArea.pressed
+                            color: UIConstants.COLOR_SELECT
+                        }
+
+                        MouseArea {
+                            id: removeMouseArea
+                            anchors.fill: parent
+
+                            onClicked: {
+                                console.log("Cell location Remove clicked")
+                                var cells = rule.locationCells
+                                cells.splice(index, 1)
+                                rule.locationCells = cells
+                            }
+                        }
+
+                        Image {
+                            id: removeImage
+                            source: "image://theme/icon-m-toolbar-delete" + (theme.inverted ? "-white" : "")
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+
                     }
 
                     // IMPROVE: use icon
                     // /usr/share/themes/blanco/meegotouch/icons/icon-m-toolbar-delete.png
                     // for inverted:
                     // /usr/share/themes/blanco/meegotouch/icons/icon-m-toolbar-delete-white.png
-                    Button {
-                        id: removeButton
-                        text: "Remove"
-                        anchors.right: parent.right
-                        visible: cellId.visible
-                        width: 256
-                        onClicked: {
-                            console.log("Cell location Remove clicked")
-                            var cells = rule.locationCells
-                            cells.splice(index, 1)
-                            rule.locationCells = cells
-                        }
-                    }
+//                    Button {
+//                        id: removeButton
+//                        text: "Remove"
+//                        anchors.right: parent.right
+//                        visible: cellId.visible
+//                        width: 256
+//                        onClicked: {
+//                            console.log("Cell location Remove clicked")
+//                            var cells = rule.locationCells
+//                            cells.splice(index, 1)
+//                            rule.locationCells = cells
+//                        }
+//                    }
                 }
             } // Repeater
 

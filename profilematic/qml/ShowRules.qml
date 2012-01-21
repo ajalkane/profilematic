@@ -145,6 +145,7 @@ Page {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
+            topMargin: UIConstants.PADDING_XLARGE
         }
         spacing: UIConstants.PADDING_XLARGE
         model: backendRulesModel
