@@ -61,10 +61,6 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-  //  MeeGo::QmDeviceMode deviceMode;
-
-//    qDebug("DeviceMode: %d", deviceMode.getMode());
-
     ProfileClient profileClient;
     Preferences preferences;
     QScopedPointer<PlatformUtil> platformUtil(PlatformUtil::create());
@@ -72,8 +68,6 @@ int main(int argc, char *argv[])
     QList<Rule> rules;
     Configuration::readRules(rules, &rules_version);
     Configuration::readPreferences(preferences);
-//    RuleWatch ruleWatch(&rules, &preferences);
-//    RuleActivator ruleActivator(&profileClient, platformUtil.data());
     QScopedPointer<ConditionManager> conditionManager(buildConditionManager());
     QScopedPointer<Action> action(buildAction(&profileClient, platformUtil.data()));
     RulesManager rulesManager(&rules, conditionManager.data(), action.data(), &preferences);
@@ -84,9 +78,6 @@ int main(int argc, char *argv[])
         return -1;
     }
     rulesManager.refresh();
-//    ruleActivator.connect(&ruleWatch, SIGNAL(activateRule(Rule)), &ruleActivator, SLOT(activateRule(Rule)));
-
-//    ruleWatch.refreshWatch();
 
     // LATER: this code can be removed a couple of versions down the road I think.
     qDebug("rules_version: %d", rules_version);
@@ -97,8 +88,7 @@ int main(int argc, char *argv[])
     }
 
     qDebug("Starting");
-    printf("Starting\n");
     int ret = a.exec();
-    printf("Exiting\n");
+    qDebug("Exiting\n");
     return ret;
 }
