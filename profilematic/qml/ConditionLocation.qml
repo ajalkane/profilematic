@@ -182,21 +182,25 @@ Page {
                         }
 
                     }
+                } // Item
             } // Repeater
 
             Label {
                 id: help
-                text: "<b>How does it work?</b>"
+                text: "<b>Did you know?</b>"
+                      + "<p>"
+                      + "Location by mobile cell ids comes free from your operator and "
+                      + "does not drain battery, unlike GPS."
+                      + "<p>"
+                      + "<b>How does it work?</b>"
                       + "<p>"
                       + "Let's say you want to silence your phone in - and near - your "
                       + "office. First, go to the office and press 'start collecting'. "
                       + "If it's a larger area, walk around the office a bit. Five minutes or so should do it. "
                       + "Press 'Stop collecting'. Now we have the desired location. "
                       + "<p>"
-                      + "<b>Will the location be saved and stored?<b>"
-                      + "<p>"
-                      + "Only if you save the rule. "
-                      + "If you delete the rule, all the location info in the rule will be deleted. "
+                      + "The program saves and stores the location only if you save the rule. "
+                      + "If you delete the rule or press 'Cancel', all the location info will be discarded."
                       + "<p>"
                       + "<b>Several different settings at the same location?</b>"
                       + "<p>"
@@ -204,11 +208,9 @@ Page {
                       + "so the location info will be copied as well. Then change rest "
                       + "of the conditions and actions as you want, and Bob's your uncle."
                       + "<p>"
-
                       + "<b>Please note:</b>"
                       + "<ul>"
-
-                      + "<li> The cell id depends on the network your phone uses. For example, you "
+                      + "<li> The cell id depends on the network your phone uses. For example, if you "
                       + "use both GSM and 3G,"
                       + "you should collect the cell ids using both mobile network modes. "
                       + "When 'collecting' is on, switch between the networks or select a dual mode. "

@@ -73,6 +73,11 @@ Page {
                 visible: !rule.isDefaultRule
             }
 
+            Button {
+                text: "Clear"
+                onClicked: dConfirmDelete.open()
+            }
+
             Text {
                 id: timeSummary
                 wrapMode: Text.WordWrap
@@ -89,10 +94,17 @@ Page {
                 }
             }
 
-            Button {
-                text: "Clear"
-                onClicked: dConfirmDelete.open()
+            Text {
+                wrapMode: Text.WordWrap
+                width: parent.width
+                font.pixelSize: UIConstants.FONT_SMALL;
+                color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
+                text: "NOTE: End time does not mean that profile will be set back to what it was before this rule. "
+                      + "It can be used to limit the amount of time the rule is valid, for example in conjuction with "
+                      + "location based rules. However, you can use 'Default rule' to set a base profile that will be "
+                      + "used when other rules are not valid. "
             }
+
         }
     }
 
