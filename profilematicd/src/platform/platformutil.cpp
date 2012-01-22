@@ -45,7 +45,6 @@ PlatformUtil::create()
 #ifdef __arm__
     return new HarmattanPlatformUtil;
 #endif
-    // TODO compile target specific classes
     return new PlatformUtil;
 }
 

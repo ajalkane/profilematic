@@ -25,8 +25,6 @@ import "UIConstants.js" as UIConstants
 
 Item {
     id: root
-    // TODO temporary
-    property bool ruleVisible: true
     property alias topic: topic.text
     property alias summary: summary.text
     property bool showDrillDown: false
