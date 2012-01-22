@@ -1,8 +1,11 @@
 profilematic (1.2.0) unstable; urgency=low
   * New backend
   * End time condition
+  * Default rule
+  * Cell tower id based location rules
+  * UI tweaks
 
- -- Arto Jalkanen <ajalkane@gmail.com>  Sun, 08 Jan 2012 01:36:30 +0300
+ -- Arto Jalkanen <ajalkane@gmail.com>  Sun, 22 Jan 2012 07:00:30 +0300
 
 profilematic (1.1.1) unstable; urgency=low
   * Small UX improvements:

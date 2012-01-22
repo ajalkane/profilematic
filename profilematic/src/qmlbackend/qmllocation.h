@@ -1,5 +1,5 @@
 /**********************************************************************
- * Copyright 2011 Arto Jalkanen
+ * Copyright 2011-2012 Arto Jalkanen
  *
  * This file is part of ProfileMatic.
  *
