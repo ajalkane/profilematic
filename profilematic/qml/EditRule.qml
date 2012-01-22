@@ -222,6 +222,7 @@ Page {
                     id: volume
                     topic: "Set ringing volume"
                     summary: volumeSummary();
+                    showComboBox: true
                     visible: isVolumeVisible();
                     onTopicClicked: volumeEditHandler()
                 }
