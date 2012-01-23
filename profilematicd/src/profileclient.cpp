@@ -25,6 +25,7 @@
 #define PROFILED_PATH "/com/nokia/profiled"
 #define PROFILED_INTERFACE "com.nokia.profiled"
 #define PROFILED_GET_PROFILES "get_profiles"
+#define PROFILED_GET_PROFILE "get_profile"
 #define PROFILED_SET_PROFILE "set_profile"
 #define PROFILED_GET_VALUE "get_value"
 #define PROFILED_SET_VALUE "set_value"
@@ -73,6 +74,22 @@ ProfileClient::getProfiles() const
     return profiles;
 }
 
+QString
+ProfileClient::getProfile() const {
+    QDBusInterface dbus_iface(PROFILED_SERVICE, PROFILED_PATH,
+                              PROFILED_INTERFACE);
+
+    QDBusReply<QString> reply = dbus_iface.call(PROFILED_GET_PROFILE);
+
+    if (reply.isValid()) {
+        return reply.value();
+    } else {
+        qDebug("ProfileClient::getProfile returned invalid reply");
+    }
+
+    return QString();
+}
+
 bool
 ProfileClient::setProfile(const QString &profileName)
 {
@@ -89,6 +106,22 @@ ProfileClient::setProfile(const QString &profileName)
         qDebug("ProfileClient::getProfileType returned invalid reply for profile %s", qPrintable(profileName));
     }
     return false;
+}
+
+int
+ProfileClient::getProfileVolume(const QString &profile) const {
+    QDBusInterface dbus_iface(PROFILED_SERVICE, PROFILED_PATH,
+                              PROFILED_INTERFACE);
+
+    QDBusReply<int> reply = dbus_iface.call(PROFILED_GET_VALUE, profile, PROFILED_VOLUME_VALUE);
+
+    if (reply.isValid()) {
+        return reply.value();
+    } else {
+        qDebug("ProfileClient::getProfileVolume returned invalid reply for profile %s", qPrintable(profile));
+    }
+
+    return -1;
 }
 
 bool

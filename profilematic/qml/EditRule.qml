@@ -197,7 +197,6 @@ Page {
 
             }
 
-
             SectionHeader {
                 section: "Action"
             }
@@ -205,27 +204,8 @@ Page {
             RuleTopicSummary {
                 topic: "Set profile"
                 summary: profileSummary();
-                showComboBox: true
+                showDrillDown: true
                 onTopicClicked: profileEditHandler()                
-            }
-
-            Item {
-                width: parent.width
-                height: volume.visible ? volume.height : 0
-                clip: true
-
-                Behavior on height {
-                    NumberAnimation { duration: 300 }
-                }
-
-                RuleTopicSummary {
-                    id: volume
-                    topic: "Set ringing volume"
-                    summary: volumeSummary();
-                    showComboBox: true
-                    visible: isVolumeVisible();
-                    onTopicClicked: volumeEditHandler()
-                }
             }
 
             RuleTopicSummary {
@@ -262,6 +242,32 @@ Page {
         return backendRulesModel.getRuleSummaryText(rule, "Can't be used as a rule yet. Specify at least one condition, and an action.");
     }
 
+    // Profile functions
+    ActionProfile {
+        id: actionProfile
+        rule: root.rule
+    }
+
+    function profileSummary() {
+        if (rule.profile !== "") {
+            var profile = backendProfilesModel.getProfileToName(rule.profile)
+            var summary = profile
+
+            if (backendProfilesModel.profileHasVolume(rule.profile) && rule.profileVolume > -1) {
+                summary += " (" + rule.profileVolume + "%)"
+            }
+            if (rule.restoreProfile) {
+                summary += ". Restores previous profile."
+            }
+            return summary
+        }
+        return "Click to set"
+    }
+
+    function profileEditHandler() {
+        pageStack.push(actionProfile)
+    }
+
     // Time functions
     ConditionTime {
         id: conditionTime
@@ -285,99 +291,12 @@ Page {
 
     function locationSummary() {        
         var numCellIds = rule.locationCells.length
-        return numCellIds === 0 ? "Click to set" : "Cell ids set"
+        return numCellIds === 0 ? "Not in use" : "Cell ids set"
     }
 
     function locationEditHandler() {
         pageStack.push(conditionLocation)
     }
-
-    MySelectionDialog {
-        id: profilesDialog
-        titleText: "Set profile"
-        platformStyle: SelectionDialogStyle {
-            itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
-        }
-        model: backendProfilesModel
-
-        onSelectedIndexChanged: {
-            if (selectedIndex > -1) {
-                var selectedProfile = model.getProfile(selectedIndex)
-                rule.profile = selectedProfile
-            }
-        }
-
-
-        function openWithSelection(selectedProfile) {
-            for (var i = 0; i < backendProfilesModel.count; i++) {
-                var profile = backendProfilesModel.getProfile(i)
-                if (selectedProfile == profile) {
-                    selectedIndex = i
-                }
-            }
-            open()
-        }
-
-    }
-
-    // Profile functions
-    function profileSummary() {
-        return rule.profile !== "" ? backendProfilesModel.getProfileToName(rule.profile) : "Click to set"
-    }
-
-    function profileEditHandler() {
-        profilesDialog.openWithSelection(rule.profile)
-    }
-
-    QueryDialog {
-        id: dVolume
-
-        titleText: "Choose ringing volume"
-        acceptButtonText: "OK"
-        rejectButtonText: "Cancel"
-        property alias volumeValue: volumeSlider.value
-
-        content: Item {
-            Slider {
-                id: volumeSlider
-                // IMPROVE it might be cleaner to ask these from backend instead of hard-coding here
-                minimumValue: 40;
-                maximumValue: 100;
-                stepSize: 20
-                valueIndicatorVisible: false
-                width: dVolume.width
-            }
-        }
-
-        onAccepted: {
-            rule.profileVolume = volumeValue
-        }
-
-        function openWithValue(volume) {
-            volumeValue = volume
-            open()
-        }
-    }
-
-    // Profile volume functions
-    function volumeSummary() {
-        console.log("VolumeSummary called", rule.profileVolume)
-        if (rule.profileVolume < 0) {
-            return "Volume has not been selected yet"
-        }
-
-        return rule.profileVolume + " %"
-    }
-
-    function volumeEditHandler() {
-        console.log("volumeEditHandler")
-        dVolume.openWithValue(rule.profileVolume)
-    }
-
-    function isVolumeVisible() {
-        return backendProfilesModel.profileHasVolume(rule.profile);
-    }
-
 
     // Flight mode
     FlightModeDialog {

@@ -42,6 +42,7 @@ class Rule : public QObject
 
     // Actions
     QString _profile;
+    bool    _restoreProfile;
     int     _profileVolume;
     int     _flightMode;
 
@@ -55,6 +56,7 @@ class Rule : public QObject
     Q_PROPERTY(QVariantList days READ getDaysQml WRITE setDaysQml NOTIFY daysChanged)
     Q_PROPERTY(QVariantList locationCells READ getLocationCellsQml WRITE setLocationCellsQml NOTIFY locationCellsChanged)
     Q_PROPERTY(QString profile READ getProfile WRITE setProfile NOTIFY profileChanged)
+    Q_PROPERTY(int restoreProfile READ getRestoreProfile WRITE setRestoreProfile NOTIFY restoreProfileChanged)
     Q_PROPERTY(int profileVolume READ getProfileVolume WRITE setProfileVolume NOTIFY profileVolumeChanged)
     Q_PROPERTY(int flightMode READ getFlightMode WRITE setFlightMode NOTIFY flightModeChanged)
 
@@ -72,6 +74,7 @@ signals:
     void daysChanged();
     void locationCellsChanged();
     void profileChanged();
+    void restoreProfileChanged();
     void profileVolumeChanged();
     void flightModeChanged();
 public:
@@ -127,6 +130,9 @@ public:
     QString getProfile() const;
     void setProfile(const QString &profile);
 
+    bool getRestoreProfile() const;
+    void setRestoreProfile(bool restore);
+
     // -1 don't set, 0, set no flight mode, 1 set flight mode
     int getFlightMode() const;
     void setFlightMode(int mode);
@@ -144,6 +150,7 @@ public:
             && this->_days      == o._days
             && this->_locationCells == o._locationCells
             && this->_profile   == o._profile
+            && this->_restoreProfile == o._restoreProfile
             && this->_profileVolume == o._profileVolume
             && this->_flightMode == o._flightMode;
     }    

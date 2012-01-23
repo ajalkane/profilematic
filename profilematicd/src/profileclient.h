@@ -32,8 +32,11 @@ public:
     virtual ~ProfileClient();
 
     QStringList getProfiles() const;
+
+    QString getProfile() const;
     bool setProfile(const QString &profileName);
 
+    int getProfileVolume(const QString &profileName) const;
     bool setProfileVolume(const QString &profileName, int volume);
 
     QString getProfileType(const QString &profile) const;

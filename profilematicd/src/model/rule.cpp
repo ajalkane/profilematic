@@ -19,7 +19,7 @@
 #include "rule.h"
 
 Rule::Rule(QObject *parent)
-    : QObject(parent),  _profileVolume(-1), _flightMode(-1)
+    : QObject(parent),  _restoreProfile(false), _profileVolume(-1), _flightMode(-1)
 {
 }
 
@@ -32,6 +32,7 @@ Rule::Rule(const Rule &o)
       _days(o._days),
       _locationCells(o._locationCells),
       _profile(o._profile),
+      _restoreProfile(o._restoreProfile),
       _profileVolume(o._profileVolume),
       _flightMode(o._flightMode)
 {
@@ -68,6 +69,7 @@ Rule::conditionsFrom(const Rule &o) {
 Rule &
 Rule::actionsFrom(const Rule &o) {
     _profile = o._profile;
+    _restoreProfile = o._restoreProfile;
     _profileVolume = o._profileVolume;
     _flightMode = o._flightMode;
     return *this;
@@ -261,6 +263,19 @@ Rule::setProfile(const QString &profile) {
     }
 }
 
+bool
+Rule::getRestoreProfile() const {
+    return _restoreProfile;
+}
+
+void
+Rule::setRestoreProfile(bool restore) {
+    if (_restoreProfile != restore) {
+        _restoreProfile = restore;
+        emit restoreProfileChanged();
+    }
+}
+
 int
 Rule::getProfileVolume() const {
     return _profileVolume;
@@ -297,6 +312,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
     argument << rule.getDays();
     argument << rule.getLocationCells();
     argument << rule.getProfile();
+    argument << rule.getRestoreProfile();
     argument << rule.getProfileVolume();
     argument << rule.getFlightMode();
     argument.endStructure();
@@ -314,6 +330,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     QList<int> cells = rule.getLocationCells().toList();
 
     QString profile = rule.getProfile();
+    bool    restoreProfile = rule.getRestoreProfile();
     int     profileVolume = rule.getProfileVolume();
     int     flightMode = rule.getFlightMode();
 
@@ -325,6 +342,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     argument >> days;
     argument >> cells;
     argument >> profile;
+    argument >> restoreProfile;
     argument >> profileVolume;
     argument >> flightMode;
     argument.endStructure();
@@ -336,6 +354,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     rule.setDays(QSet<int>::fromList(days));
     rule.setLocationCells(QSet<int>::fromList(cells));
     rule.setProfile(profile);
+    rule.setRestoreProfile(restoreProfile);
     rule.setProfileVolume(profileVolume);
     rule.setFlightMode(flightMode);
 

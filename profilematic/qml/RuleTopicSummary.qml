@@ -27,6 +27,7 @@ Item {
     id: root
     property alias topic: topic.text
     property alias summary: summary.text
+    property alias topicHeight: topic.height
     property bool showDrillDown: false
     property bool showComboBox: false
     signal topicClicked

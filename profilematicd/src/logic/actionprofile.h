@@ -25,6 +25,8 @@
 class ActionProfile: public Action
 {
     ProfileClient *_profileClient;
+    QString _previousProfile;
+    int _previousVolume;
 public:
     ActionProfile(ProfileClient *profileClient);
 
