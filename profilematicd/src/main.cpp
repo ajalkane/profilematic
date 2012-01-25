@@ -30,6 +30,7 @@
 #include "logic/conditionmanagerchain.h"
 #include "logic/conditionmanagertime.h"
 #include "logic/conditionmanagerlocationcell.h"
+#include "logic/conditionmanagerwifi.h"
 #include "logic/actionchain.h"
 #include "logic/actionflightmode.h"
 #include "logic/actionprofile.h"
@@ -46,6 +47,7 @@ buildConditionManager() {
     ConditionManagerChain *cm = new ConditionManagerChain();
     cm->add(new ConditionManagerTime());
     cm->add(new ConditionManagerLocationCell());
+    cm->add(new ConditionManagerWifi());
     return cm;
 }
 
