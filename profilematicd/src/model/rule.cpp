@@ -31,6 +31,7 @@ Rule::Rule(const Rule &o)
       _timeEnd(o._timeEnd),
       _days(o._days),
       _locationCells(o._locationCells),
+      _wlan(o._wlan),
       _profile(o._profile),
       _restoreProfile(o._restoreProfile),
       _profileVolume(o._profileVolume),
@@ -63,6 +64,7 @@ Rule::conditionsFrom(const Rule &o) {
     _timeEnd = o._timeEnd;
     _days = o._days;
     _locationCells = o._locationCells;
+    _wlan = o._wlan;
     return *this;
 }
 
@@ -250,6 +252,43 @@ Rule::setLocationCellsQml(const QVariantList &cells) {
     setLocationCells(cellsSet);
 }
 
+const QSet<QString> &
+Rule::getWlan() const {
+    return _wlan;
+}
+
+void
+Rule::setWlan(const QSet<QString> &wlan) {
+    if (_wlan != wlan) {
+        _wlan = wlan;
+        emit wlanChanged();
+    }
+}
+
+bool variantQStringLessThan(const QVariant &s1, const QVariant &s2)
+{
+    return s1.toString() < s2.toString();
+}
+
+QVariantList
+Rule::getWlanQml() const {
+    QVariantList wlan;
+    for (QSet<QString>::const_iterator i = _wlan.constBegin(); i != _wlan.constEnd(); ++i) {
+        wlan << QVariant::fromValue(*i);
+    }
+    qSort(wlan.begin(), wlan.end(), variantIntLessThan);
+    return wlan;
+
+}
+void
+Rule::setWlanQml(const QVariantList &wlan) {
+    QSet<QString> wlanSet;
+    for (QVariantList::const_iterator i = wlan.constBegin(); i != wlan.constEnd(); ++i) {
+        wlanSet << i->toString();
+    }
+    setWlan(wlanSet);
+}
+
 QString
 Rule::getProfile() const {
     return _profile;
@@ -311,6 +350,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
     argument << rule.getTimeEnd();
     argument << rule.getDays();
     argument << rule.getLocationCells();
+    argument << rule.getWlan();
     argument << rule.getProfile();
     argument << rule.getRestoreProfile();
     argument << rule.getProfileVolume();
@@ -328,6 +368,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     QTime     timeEnd = rule.getTimeEnd();
     QList<int> days = rule.getDays().toList();
     QList<int> cells = rule.getLocationCells().toList();
+    QList<QString> wlan = rule.getWlan().toList();
 
     QString profile = rule.getProfile();
     bool    restoreProfile = rule.getRestoreProfile();
@@ -341,6 +382,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     argument >> timeEnd;
     argument >> days;
     argument >> cells;
+    argument >> wlan;
     argument >> profile;
     argument >> restoreProfile;
     argument >> profileVolume;
@@ -353,6 +395,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     rule.setTimeEnd(timeEnd);
     rule.setDays(QSet<int>::fromList(days));
     rule.setLocationCells(QSet<int>::fromList(cells));
+    rule.setWlan(QSet<QString>::fromList(wlan));
     rule.setProfile(profile);
     rule.setRestoreProfile(restoreProfile);
     rule.setProfileVolume(profileVolume);

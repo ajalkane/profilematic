@@ -16,26 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef CONDITIONMANAGERWIFI_H
-#define CONDITIONMANAGERWIFI_H
+#ifndef CONDITIONMANAGERWLAN_H
+#define CONDITIONMANAGERWLAN_H
 
 #include <QObject>
 #include <QSet>
 #include <QNetworkConfigurationManager>
+#include <QSystemNetworkInfo>
+
+QTM_USE_NAMESPACE
 
 #include "conditionmanager.h"
 #include "../platform/platformutil.h"
 
-class ConditionManagerWifi : public ConditionManager {
+class ConditionManagerWlan : public ConditionManager {
     Q_OBJECT
 
     QNetworkConfigurationManager *_networkConfigurationManager;
+    QSystemNetworkInfo *_networkInfo;
 
     void _logConfiguration(const QNetworkConfiguration &config) const;
 
 public:
-    ConditionManagerWifi(QObject *parent = 0);
-    virtual ~ConditionManagerWifi();
+    ConditionManagerWlan(QObject *parent = 0);
+    virtual ~ConditionManagerWlan();
 
     virtual void startRefresh();
     virtual bool refresh(const Rule &rule);
@@ -48,6 +52,8 @@ public slots:
     void onConfigurationAdded(const QNetworkConfiguration   &config);
     void onConfigurationChanged(const QNetworkConfiguration &config);
     void onConfigurationRemoved(const QNetworkConfiguration &config);
+
+    void onNetworkNameChanged(QSystemNetworkInfo::NetworkMode mode, const QString & name);
 };
 
-#endif // CONDITIONMANAGERWIFI_H
+#endif // CONDITIONMANAGERWLAN_H

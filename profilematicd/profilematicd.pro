@@ -43,7 +43,7 @@ SOURCES += src/main.cpp \
     src/logic/actionchain.cpp \
     src/logic/conditionmanagerchain.cpp \
     src/logic/conditionmanagerlocationcell.cpp \
-    src/logic/conditionmanagerwifi.cpp
+    src/logic/conditionmanagerwlan.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -63,8 +63,7 @@ HEADERS += \
     src/logic/actionchain.h \
     src/logic/conditionmanagerchain.h \
     src/logic/conditionmanagerlocationcell.h \
-    src/conditionmanagerwifi.h \
-    src/logic/conditionmanagerwifi.h
+    src/logic/conditionmanagerwlan.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp
@@ -94,6 +93,11 @@ daemonconf.path = /etc/init/apps
 daemonconf.files = profilematicd.conf
 
 INSTALLS += daemonconf
+
+
+
+
+
 
 
 

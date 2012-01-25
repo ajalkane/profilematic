@@ -39,6 +39,7 @@ class Rule : public QObject
     QTime     _timeEnd;
     QSet<int> _days;
     QSet<int> _locationCells;
+    QSet<QString> _wlan;
 
     // Actions
     QString _profile;
@@ -55,6 +56,7 @@ class Rule : public QObject
     Q_PROPERTY(QString timeEnd READ getTimeEndQml WRITE setTimeEndQml NOTIFY timeEndChanged)
     Q_PROPERTY(QVariantList days READ getDaysQml WRITE setDaysQml NOTIFY daysChanged)
     Q_PROPERTY(QVariantList locationCells READ getLocationCellsQml WRITE setLocationCellsQml NOTIFY locationCellsChanged)
+    Q_PROPERTY(QVariantList wlan READ getWlanQml WRITE setWlanQml NOTIFY wlanChanged)
     Q_PROPERTY(QString profile READ getProfile WRITE setProfile NOTIFY profileChanged)
     Q_PROPERTY(int restoreProfile READ getRestoreProfile WRITE setRestoreProfile NOTIFY restoreProfileChanged)
     Q_PROPERTY(int profileVolume READ getProfileVolume WRITE setProfileVolume NOTIFY profileVolumeChanged)
@@ -73,6 +75,7 @@ signals:
     void timeEndChanged();
     void daysChanged();
     void locationCellsChanged();
+    void wlanChanged();
     void profileChanged();
     void restoreProfileChanged();
     void profileVolumeChanged();
@@ -127,6 +130,12 @@ public:
     QVariantList getLocationCellsQml() const;
     void setLocationCellsQml(const QVariantList &cells);
 
+    const QSet<QString> &getWlan() const;
+    void setWlan(const QSet<QString> &wlan);
+    // For QML
+    QVariantList getWlanQml() const;
+    void setWlanQml(const QVariantList &wlan);
+
     QString getProfile() const;
     void setProfile(const QString &profile);
 
@@ -149,6 +158,7 @@ public:
             && this->_timeEnd   == o._timeEnd
             && this->_days      == o._days
             && this->_locationCells == o._locationCells
+            && this->_wlan      == o._wlan
             && this->_profile   == o._profile
             && this->_restoreProfile == o._restoreProfile
             && this->_profileVolume == o._profileVolume
