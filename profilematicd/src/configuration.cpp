@@ -45,6 +45,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("ruleName", r.getRuleName());
         _writeIntList(s, "days", "dayId", r.getDays().toList());
         _writeIntList(s, "locationCells", "cellId", r.getLocationCells().toList());
+        _writeStringList(s, "wlans", "wlanName", r.getWlan().toList());
         s.setValue("timeStart", r.getTimeStart().toString());
         s.setValue("timeEnd", r.getTimeEnd().toString());
         s.setValue("profile", r.getProfile());
@@ -82,6 +83,10 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         QList<int> locationCells;
         _readIntList(s, "locationCells", "cellId", locationCells);
         r.setLocationCells(QSet<int>::fromList(locationCells));
+
+        QList<QString> wlans;
+        _readStringList(s, "wlans", "wlanName", wlans);
+        r.setLocationCells(QSet<QString>::fromList(wlans));
 
         QString timeStartStr = s.value("timeStart").toString();
         QString timeEndStr = s.value("timeEnd").toString();
@@ -181,6 +186,29 @@ Configuration::_readIntList(QSettings &s, const QString &prefix, const QString &
             qDebug("Configuration: invalid setting (not an int) at %s/%d/%s: %s",
                    qPrintable(prefix), i, qPrintable(key), qPrintable(valueStr));
         }
+    }
+    s.endArray();
+}
+
+void
+Configuration::_writeStringList(QSettings &s, const QString &prefix, const QString &key, const QList<QString> &values) {
+    qDebug("QSettings:__writeStringList prefix %s, key %s, size %d", qPrintable(prefix), qPrintable(key), values.size());
+    s.beginWriteArray(prefix, values.size());
+    for (int i = 0; i < values.size(); ++i) {
+        qDebug("Writing prefix %s, key %s for index %d, size %d", qPrintable(prefix), qPrintable(key), i, values.size());
+        s.setArrayIndex(i);
+        s.setValue(key, values.at(i));
+    }
+    s.endArray();
+}
+
+void
+Configuration::_readStringList(QSettings &s, const QString &prefix, const QString &key, QList<QString> &values) {
+    int size = s.beginReadArray(prefix);
+    for (int i = 0; i < size; ++i) {
+        s.setArrayIndex(i);
+        QString valueStr = s.value(key).toString();
+        values << valueStr;
     }
     s.endArray();
 }

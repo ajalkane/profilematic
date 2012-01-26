@@ -348,6 +348,11 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
             condition.append("on location");
             ++numCondition;
         }
+        if (!rule->getWlan().isEmpty()) {
+            if (numCondition > 0) condition.append(" and ");
+            condition.append("on Wlan");
+            ++numCondition;
+        }
         QString timeCondition = getTimeSummaryText(rule, "");
         if (!timeCondition.isEmpty()) {
             if (numCondition > 0) condition.append(" and ");

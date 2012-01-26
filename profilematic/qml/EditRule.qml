@@ -194,6 +194,19 @@ Page {
                     target: rule
                     onLocationCellsChanged: locationCondition.summary = locationSummary()
                 }
+            }
+
+            RuleTopicSummary {
+                id: wlanCondition
+                topic: "Wlan"
+                summary: wlanSummary()
+                showDrillDown: true
+                onTopicClicked: wlanEditHandler()
+                visible: !rule.isDefaultRule
+                Connections {
+                    target: rule
+                    onWlanChanged: wlanCondition.summary = wlanSummary()
+                }
 
             }
 
@@ -296,6 +309,21 @@ Page {
 
     function locationEditHandler() {
         pageStack.push(conditionLocation)
+    }
+
+    // Wlan functions
+    ConditionWlan {
+        id: conditionWlan
+        rule: root.rule
+    }
+
+    function wlanSummary() {
+        var numWlans = rule.wlan.length
+        return numWlans === 0 ? "Not in use" : "Wlan access points"
+    }
+
+    function wlanEditHandler() {
+        pageStack.push(conditionWlan)
     }
 
     // Flight mode
