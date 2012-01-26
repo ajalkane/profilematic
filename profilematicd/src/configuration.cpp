@@ -86,7 +86,7 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
 
         QList<QString> wlans;
         _readStringList(s, "wlans", "wlanName", wlans);
-        r.setLocationCells(QSet<QString>::fromList(wlans));
+        r.setWlan(QSet<QString>::fromList(wlans));
 
         QString timeStartStr = s.value("timeStart").toString();
         QString timeEndStr = s.value("timeEnd").toString();
