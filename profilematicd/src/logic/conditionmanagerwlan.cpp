@@ -1,13 +1,13 @@
 #include "conditionmanagerwlan.h"
 
+namespace {
+    QString WLAN_NAME_NEEDS_REFRESH("|DrFrsh|");
+}
+
 ConditionManagerWlan::ConditionManagerWlan(QObject *parent)
-    : ConditionManager(parent), _requestRefreshEnabled(false)
+    : ConditionManager(parent), _currentWlanName(WLAN_NAME_NEEDS_REFRESH), _monitoring(false)
 {
     _networkConfigurationManager = new QNetworkConfigurationManager(this);
-//    _networkInfo = new QSystemNetworkInfo(this);
-
-    _determineCurrentWlanName();
-    monitorConfiguration(true);        
 }
 
 ConditionManagerWlan::~ConditionManagerWlan() {
@@ -26,6 +26,9 @@ ConditionManagerWlan::_setCurrentWlanName(const QNetworkConfiguration &nc, bool 
     } else if (nc.state() == QNetworkConfiguration::Active) {
         qDebug("This active, deselecting currentWlanName '%s'", qPrintable(_currentWlanName));
         _currentWlanName.clear();
+    } else if (nc.state() != QNetworkConfiguration::Active && nc.name() == _currentWlanName) {
+        qDebug("Was current WlanName, but not active anymore, clearing '%s'", qPrintable(_currentWlanName));
+        _currentWlanName.clear();
     }
 
     qDebug("ConditionManagerWlan::_setCurrentWlanName: requestRefreshIfNeeded %d, previousWlanName %s, _currentWlanName %s",
@@ -33,7 +36,7 @@ ConditionManagerWlan::_setCurrentWlanName(const QNetworkConfiguration &nc, bool 
 
     if (requestRefreshIfChanged
             && previousWlanName != _currentWlanName
-            && !_currentRuleWlanNames.contains(_currentRuleWlanNames)
+            && !_currentRuleWlanNames.contains(_currentWlanName)
             && (_watchedWlanNames.contains(previousWlanName)
                 || _watchedWlanNames.contains(_currentWlanName))) {
         qDebug("ConditionManagerWlan::_setCurrentWlanName: requesting refresh");
@@ -42,14 +45,15 @@ ConditionManagerWlan::_setCurrentWlanName(const QNetworkConfiguration &nc, bool 
 }
 
 void
-ConditionManagerWlan::_determineCurrentWlanName() {
-    QList<QNetworkConfiguration> confs = _networkConfigurationManager->allConfigurations();
+ConditionManagerWlan::_determineCurrentWlanName(bool requestRefreshIfChanged) {
+    // On Harmattan, platform updates the configuration on the background so no need to request updates manually
+    QList<QNetworkConfiguration> confs = _networkConfigurationManager->allConfigurations(QNetworkConfiguration::Active);
     QList<QNetworkConfiguration>::const_iterator i = confs.constBegin();
-    qDebug("All Network configurations");
+    qDebug("Active Network configurations");
     for (; i != confs.constEnd(); ++i) {
         const QNetworkConfiguration &nc = *i;
         _logConfiguration(nc);
-        _setCurrentWlanName(nc, false);
+        _setCurrentWlanName(nc, requestRefreshIfChanged);
     }
 }
 
@@ -78,6 +82,10 @@ ConditionManagerWlan::refresh(const Rule &rule) {
     qDebug("ConditionManagerWlan::refresh rule %s, currentWlanName '%s'",
            qPrintable(rule.getRuleName()), qPrintable(_currentWlanName));
 
+    if (_currentWlanName == WLAN_NAME_NEEDS_REFRESH) {
+        _determineCurrentWlanName(false);
+    }
+
     _watchedWlanNames.unite(wlanNames);
 
     if (wlanNames.contains(_currentWlanName)) {
@@ -96,16 +104,18 @@ ConditionManagerWlan::matchedRule(const Rule &rule) {
 void
 ConditionManagerWlan::endRefresh() {
     if (!_watchedWlanNames.isEmpty()) {
-        _requestRefreshEnabled = true;
+        monitorConfiguration(true);
     } else {
-        _requestRefreshEnabled = false;
+        monitorConfiguration(false);
         _currentRuleWlanNames.clear();
+        // If not monitoring the configuration, we can't be certain the current Wlan name is known
+        _currentWlanName = WLAN_NAME_NEEDS_REFRESH;
     }
 }
 
 void
 ConditionManagerWlan::monitorConfiguration(bool monitor) {
-    if (monitor) {
+    if (monitor && !_monitoring) {
         connect(_networkConfigurationManager,
                 SIGNAL(configurationAdded(const QNetworkConfiguration &)),
                 this, SLOT(onConfigurationAdded(const QNetworkConfiguration &)));
@@ -115,38 +125,42 @@ ConditionManagerWlan::monitorConfiguration(bool monitor) {
         connect(_networkConfigurationManager,
                 SIGNAL(configurationRemoved(const QNetworkConfiguration &)),
                 this, SLOT(onConfigurationRemoved(const QNetworkConfiguration &)));
-//        connect(_networkConfigurationManager,
-//                SIGNAL(configurationAdded(QNetworkConfiguration)),
-//                this, SLOT(onConfigurationAdded(QNetworkConfiguration)));
-//        connect(_networkConfigurationManager,
-//                SIGNAL(configurationChanged(QNetworkConfiguration)),
-//                this, SLOT(onConfigurationChanged(QNetworkConfiguration)));
-//        connect(_networkConfigurationManager,
-//                SIGNAL(configurationRemoved(QNetworkConfiguration)),
-//                this, SLOT(onConfigurationRemoved(QNetworkConfiguration)));
-
-//        connect(_networkInfo, SIGNAL(networkNameChanged(QSystemNetworkInfo::NetworkMode,QString)),
-//                this, SLOT(onNetworkNameChanged(QSystemNetworkInfo::NetworkMode,QString)));
+    } else if (!monitor && _monitoring) {
+        disconnect(_networkConfigurationManager,
+                SIGNAL(configurationAdded(const QNetworkConfiguration &)),
+                this, SLOT(onConfigurationAdded(const QNetworkConfiguration &)));
+        disconnect(_networkConfigurationManager,
+                SIGNAL(configurationChanged(const QNetworkConfiguration &)),
+                this, SLOT(onConfigurationChanged(const QNetworkConfiguration &)));
+        disconnect(_networkConfigurationManager,
+                SIGNAL(configurationRemoved(const QNetworkConfiguration &)),
+                this, SLOT(onConfigurationRemoved(const QNetworkConfiguration &)));
     }
+
+    _monitoring = monitor;
 }
 
 void
 ConditionManagerWlan::onConfigurationAdded(const QNetworkConfiguration   &config) {
     qDebug("Network configuration added");
     _logConfiguration(config);
-    _setCurrentWlanName(config, _requestRefreshEnabled);
+    _setCurrentWlanName(config, true);
 }
 
 void
 ConditionManagerWlan::onConfigurationChanged(const QNetworkConfiguration &config) {
     qDebug("Network configuration changed");
     _logConfiguration(config);
-    _setCurrentWlanName(config, _requestRefreshEnabled);
+    _setCurrentWlanName(config, true);
 }
 
 void
 ConditionManagerWlan::onConfigurationRemoved(const QNetworkConfiguration &config) {
     qDebug("Network configuration removed");
     _logConfiguration(config);
-    _setCurrentWlanName(config, _requestRefreshEnabled);
+    if (config.name() == _currentWlanName) {
+        _currentWlanName = WLAN_NAME_NEEDS_REFRESH;
+        _determineCurrentWlanName(true);
+    }
+    // _setCurrentWlanName(config, true);
 }

@@ -1,3 +1,8 @@
+profilematic (1.3.0) unstable; urgency=low
+  * Wifi condition
+
+ -- Arto Jalkanen <ajalkane@gmail.com>  Sun, 26 Jan 2012 22:24:00 +0300
+
 profilematic (1.2.0) unstable; urgency=low
   * New backend
   * End time condition

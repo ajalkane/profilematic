@@ -34,9 +34,10 @@ class ConditionManagerWlan : public ConditionManager {
     QSet<QString> _watchedWlanNames;
     QSet<QString> _currentRuleWlanNames;
     QString _currentWlanName;
+    bool _monitoring;
     bool _requestRefreshEnabled;
     void _logConfiguration(const QNetworkConfiguration &config) const;
-    void _determineCurrentWlanName();
+    void _determineCurrentWlanName(bool requestRefreshIfChanged);
     void _setCurrentWlanName(const QNetworkConfiguration &config, bool requestRefreshIfChanged);
 
 public:
