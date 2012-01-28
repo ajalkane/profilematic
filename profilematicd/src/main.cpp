@@ -34,6 +34,7 @@
 #include "logic/actionchain.h"
 #include "logic/actionflightmode.h"
 #include "logic/actionprofile.h"
+#include "logic/actionbluetooth.h"
 #include "interface/profilematicinterface.h"
 #include "platform/platformutil.h"
 
@@ -56,6 +57,7 @@ buildAction(ProfileClient *profileClient, PlatformUtil *platformUtil) {
     ActionChain *ac = new ActionChain();
     ac->add(new ActionProfile(profileClient));
     ac->add(new ActionFlightMode(platformUtil));
+    ac->add(new ActionBlueTooth());
     return ac;
 }
 

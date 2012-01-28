@@ -19,7 +19,8 @@
 #include "rule.h"
 
 Rule::Rule(QObject *parent)
-    : QObject(parent),  _restoreProfile(false), _profileVolume(-1), _flightMode(-1)
+    : QObject(parent),  _restoreProfile(false), _profileVolume(-1),
+      _flightMode(-1), _blueToothMode(-1)
 {
 }
 
@@ -35,7 +36,8 @@ Rule::Rule(const Rule &o)
       _profile(o._profile),
       _restoreProfile(o._restoreProfile),
       _profileVolume(o._profileVolume),
-      _flightMode(o._flightMode)
+      _flightMode(o._flightMode),
+      _blueToothMode(o._blueToothMode)
 {
 }
 
@@ -74,6 +76,7 @@ Rule::actionsFrom(const Rule &o) {
     _restoreProfile = o._restoreProfile;
     _profileVolume = o._profileVolume;
     _flightMode = o._flightMode;
+    _blueToothMode = o._blueToothMode;
     return *this;
 }
 
@@ -341,6 +344,21 @@ Rule::setFlightMode(int flightMode) {
     }
 }
 
+int
+Rule::getBlueToothMode() const {
+    return _blueToothMode;
+}
+
+void
+Rule::setBlueToothMode(int blueToothMode) {
+    qDebug("Rule::setBlueToothMode %d, current %d", blueToothMode, _blueToothMode);
+    if (_blueToothMode != blueToothMode) {
+        _blueToothMode = blueToothMode;
+        qDebug("Rule::setBlueToothMode emitting signal");
+        emit blueToothModeChanged();
+    }
+}
+
 QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
 {
     argument.beginStructure();
@@ -355,6 +373,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
     argument << rule.getRestoreProfile();
     argument << rule.getProfileVolume();
     argument << rule.getFlightMode();
+    argument << rule.getBlueToothMode();
     argument.endStructure();
     return argument;
 }
@@ -374,6 +393,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     bool    restoreProfile = rule.getRestoreProfile();
     int     profileVolume = rule.getProfileVolume();
     int     flightMode = rule.getFlightMode();
+    int     blueToothMode = rule.getBlueToothMode();
 
     argument.beginStructure();
     argument >> ruleId;
@@ -387,6 +407,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     argument >> restoreProfile;
     argument >> profileVolume;
     argument >> flightMode;
+    argument >> blueToothMode;
     argument.endStructure();
 
     rule.setRuleId(ruleId);
@@ -400,6 +421,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     rule.setRestoreProfile(restoreProfile);
     rule.setProfileVolume(profileVolume);
     rule.setFlightMode(flightMode);
+    rule.setBlueToothMode(blueToothMode);
 
     return argument;
 }

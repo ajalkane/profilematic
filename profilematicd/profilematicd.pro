@@ -14,6 +14,9 @@ CONFIG -= app_bundle
 CONFIG += qmsystem2
 CONFIG += mobility
 MOBILITY += systeminfo
+!isEmpty(MEEGO_VERSION_MAJOR) {
+    MOBILITY += connectivity
+}
 
 # IMPROVE: Correct behaviour should be:
 #  - UnitTests ran before deploying/running of the executable
@@ -43,7 +46,8 @@ SOURCES += src/main.cpp \
     src/logic/actionchain.cpp \
     src/logic/conditionmanagerchain.cpp \
     src/logic/conditionmanagerlocationcell.cpp \
-    src/logic/conditionmanagerwlan.cpp
+    src/logic/conditionmanagerwlan.cpp \
+    src/logic/actionbluetooth.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -63,7 +67,8 @@ HEADERS += \
     src/logic/actionchain.h \
     src/logic/conditionmanagerchain.h \
     src/logic/conditionmanagerlocationcell.h \
-    src/logic/conditionmanagerwlan.h
+    src/logic/conditionmanagerwlan.h \
+    src/logic/actionbluetooth.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp
@@ -93,6 +98,8 @@ daemonconf.path = /etc/init/apps
 daemonconf.files = profilematicd.conf
 
 INSTALLS += daemonconf
+
+
 
 
 

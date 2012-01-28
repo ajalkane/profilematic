@@ -231,6 +231,14 @@ Page {
                 visible: false
             }
 
+            RuleTopicSummary {
+                id: blueToothAction
+                topic: "Set BlueTooth"
+                summary: blueToothModeSummary();
+                showComboBox: true
+                onTopicClicked: blueToothModeEditHandler()
+            }
+
             Text {
                 id: ruleSummary
                 wrapMode: Text.WordWrap
@@ -346,4 +354,27 @@ Page {
         dFlightMode.selectedFlightMode = rule.flightMode
         dFlightMode.open();
     }
+
+    // BlueTooth mode
+    BlueToothModeDialog {
+        id: dBlueToothMode
+
+        onBlueToothModeSelected: {
+            console.log("on b lue tooth mode selected ", selectedBlueToothMode)
+            rule.blueToothMode = selectedBlueToothMode
+        }
+    }
+
+    function blueToothModeSummary() {
+        console.debug("blueToothModeSummary")
+        var blueToothModeText = dBlueToothMode.blueToothModeToText(rule.blueToothMode)
+        console.debug("blueToothModeSummary as text", blueToothModeText)
+        return blueToothModeText
+    }
+
+    function blueToothModeEditHandler() {
+        dBlueToothMode.selectedBlueToothMode = rule.blueToothMode
+        dBlueToothMode.open();
+    }
+
 }

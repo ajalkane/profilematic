@@ -52,6 +52,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("restoreProfile", r.getRestoreProfile());
         s.setValue("profileVolume", r.getProfileVolume());
         s.setValue("flightMode", r.getFlightMode());
+        s.setValue("blueToothMode", r.getBlueToothMode());
     }
     s.endArray();
 }
@@ -105,6 +106,11 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         int flightMode = s.value("flightMode").toInt(&flightModeOk);
         if (flightModeOk) {
             r.setFlightMode(flightMode);
+        }
+        bool blueToothModeOk = false;
+        int blueToothMode = s.value("blueToothMode").toInt(&blueToothModeOk);
+        if (blueToothModeOk) {
+            r.setBlueToothMode(blueToothMode);
         }
         // Make sure default rule is always last, and is created if it does not exist
         if (!r.isDefaultRule()) {

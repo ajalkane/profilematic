@@ -46,6 +46,7 @@ class Rule : public QObject
     bool    _restoreProfile;
     int     _profileVolume;
     int     _flightMode;
+    int     _blueToothMode;
 
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
@@ -61,6 +62,7 @@ class Rule : public QObject
     Q_PROPERTY(int restoreProfile READ getRestoreProfile WRITE setRestoreProfile NOTIFY restoreProfileChanged)
     Q_PROPERTY(int profileVolume READ getProfileVolume WRITE setProfileVolume NOTIFY profileVolumeChanged)
     Q_PROPERTY(int flightMode READ getFlightMode WRITE setFlightMode NOTIFY flightModeChanged)
+    Q_PROPERTY(int blueToothMode READ getBlueToothMode WRITE setBlueToothMode NOTIFY blueToothModeChanged)
 
     QString _getTimeQml(const QTime &time) const;
 
@@ -80,6 +82,7 @@ signals:
     void restoreProfileChanged();
     void profileVolumeChanged();
     void flightModeChanged();
+    void blueToothModeChanged();
 public:
     typedef QString IdType;
 
@@ -146,6 +149,10 @@ public:
     int getFlightMode() const;
     void setFlightMode(int mode);
 
+    // -1 don't set, 0 set BlueTooth off, 1 set BlueTooth on, 2 set BlueTooth on and visible
+    int getBlueToothMode() const;
+    void setBlueToothMode(int mode);
+
     // Returns -1 if the profile volume is not to be set
     int getProfileVolume() const;
     // Use -1 if the profile volume is not to be set, otherwise value between 0 to 100
@@ -162,8 +169,9 @@ public:
             && this->_profile   == o._profile
             && this->_restoreProfile == o._restoreProfile
             && this->_profileVolume == o._profileVolume
-            && this->_flightMode == o._flightMode;
-    }    
+            && this->_flightMode == o._flightMode
+            && this->_blueToothMode == o._blueToothMode;
+    }
 
 
     inline bool isTimeStartRuleUsable() const {

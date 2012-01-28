@@ -338,6 +338,17 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
         }
         ++numAction;
     }
+    if (rule->getBlueToothMode() > -1) {
+        if (numAction > 0) action.append(", ");
+        switch (rule->getBlueToothMode()) {
+        case 0:
+            action += "BlueTooth off"; break;
+        case 1:
+        case 2:
+            action += "BlueTooth on"; break;
+        }
+        ++numAction;
+    }
 
     if (rule->isDefaultRule()) {
         condition += "other rules don't apply";
