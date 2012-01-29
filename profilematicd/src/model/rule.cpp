@@ -19,7 +19,7 @@
 #include "rule.h"
 
 Rule::Rule(QObject *parent)
-    : QObject(parent),  _restoreProfile(false), _profileVolume(-1),
+    : QObject(parent), _wlanTimeout(0),  _restoreProfile(false), _profileVolume(-1),
       _flightMode(-1), _blueToothMode(-1)
 {
 }
@@ -33,6 +33,7 @@ Rule::Rule(const Rule &o)
       _days(o._days),
       _locationCells(o._locationCells),
       _wlan(o._wlan),
+      _wlanTimeout(o._wlanTimeout),
       _profile(o._profile),
       _restoreProfile(o._restoreProfile),
       _profileVolume(o._profileVolume),
@@ -67,6 +68,7 @@ Rule::conditionsFrom(const Rule &o) {
     _days = o._days;
     _locationCells = o._locationCells;
     _wlan = o._wlan;
+    _wlanTimeout = o._wlanTimeout;
     return *this;
 }
 
@@ -292,6 +294,19 @@ Rule::setWlanQml(const QVariantList &wlan) {
     setWlan(wlanSet);
 }
 
+int
+Rule::getWlanTimeout() const {
+    return _wlanTimeout;
+}
+
+void
+Rule::setWlanTimeout(int timeoutSecs) {
+    if (_wlanTimeout != timeoutSecs) {
+        _wlanTimeout = timeoutSecs;
+        emit wlanTimeoutChanged();
+    }
+}
+
 QString
 Rule::getProfile() const {
     return _profile;
@@ -369,6 +384,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
     argument << rule.getDays();
     argument << rule.getLocationCells();
     argument << rule.getWlan();
+    argument << rule.getWlanTimeout();
     argument << rule.getProfile();
     argument << rule.getRestoreProfile();
     argument << rule.getProfileVolume();
@@ -388,6 +404,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     QList<int> days = rule.getDays().toList();
     QList<int> cells = rule.getLocationCells().toList();
     QList<QString> wlan = rule.getWlan().toList();
+    int     wlanTimeout = rule.getWlanTimeout();
 
     QString profile = rule.getProfile();
     bool    restoreProfile = rule.getRestoreProfile();
@@ -403,6 +420,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     argument >> days;
     argument >> cells;
     argument >> wlan;
+    argument >> wlanTimeout;
     argument >> profile;
     argument >> restoreProfile;
     argument >> profileVolume;
@@ -417,6 +435,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     rule.setDays(QSet<int>::fromList(days));
     rule.setLocationCells(QSet<int>::fromList(cells));
     rule.setWlan(QSet<QString>::fromList(wlan));
+    rule.setWlanTimeout(wlanTimeout);
     rule.setProfile(profile);
     rule.setRestoreProfile(restoreProfile);
     rule.setProfileVolume(profileVolume);

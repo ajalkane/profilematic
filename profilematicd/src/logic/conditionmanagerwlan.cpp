@@ -5,13 +5,45 @@ namespace {
 }
 
 ConditionManagerWlan::ConditionManagerWlan(QObject *parent)
-    : ConditionManager(parent), _currentWlanName(WLAN_NAME_NEEDS_REFRESH), _monitoring(false)
+    : ConditionManager(parent),
+      _currentWlanName(WLAN_NAME_NEEDS_REFRESH),
+      _currentRuleWlanTimeoutSecs(0),
+      _monitoring(false)
 {
     _networkConfigurationManager = new QNetworkConfigurationManager(this);
+    _wlanTimeout.setSingleShot(true);
+    connect(&_wlanTimeout, SIGNAL(timeout()), this, SLOT(onWlanTimeout()));
+    // TODO testing
+    _currentRuleWlanTimeoutSecs = 15;
 }
 
 ConditionManagerWlan::~ConditionManagerWlan() {
     monitorConfiguration(false);
+}
+
+void
+ConditionManagerWlan::_wlanNotActive() {
+    qDebug("ConditionManagerWlan: _wlanNotActive, timeout %d secs", _currentRuleWlanTimeoutSecs);
+    if (_currentRuleWlanTimeoutSecs <= 0) {
+        _currentWlanName.clear();
+    } else if (_currentRuleWlanNames.contains(_currentWlanName)) {
+        qDebug("ConditionManagerWlan: starting WLAN timeout timer");
+        _wlanTimeout.start(_currentRuleWlanTimeoutSecs, _currentRuleWlanTimeoutSecs + 1);
+    }
+}
+
+void
+ConditionManagerWlan::_wlanActive(const QString &name) {
+    qDebug("ConditionManagerWlan::_wlanActive %s", qPrintable(name));
+    _currentWlanName = name;
+    _wlanTimeout.stop();
+}
+
+void
+ConditionManagerWlan::onWlanTimeout() {
+    qDebug("ConditionManagerWlan: WLAN timeout reached, refreshing");
+    _currentWlanName.clear();
+    emit refreshNeeded();
 }
 
 void
@@ -21,14 +53,16 @@ ConditionManagerWlan::_setCurrentWlanName(const QNetworkConfiguration &nc, bool 
     if (nc.bearerType() == QNetworkConfiguration::BearerWLAN &&
         nc.state() == QNetworkConfiguration::Active)
     {
-        _currentWlanName = nc.name();
+        _wlanActive(nc.name());
         qDebug("Selected %s as current Wlan name", qPrintable(_currentWlanName));
     } else if (nc.state() == QNetworkConfiguration::Active) {
+        _wlanNotActive();
         qDebug("This active, deselecting currentWlanName '%s'", qPrintable(_currentWlanName));
-        _currentWlanName.clear();
+        // _currentWlanName.clear();
     } else if (nc.state() != QNetworkConfiguration::Active && nc.name() == _currentWlanName) {
+        _wlanNotActive();
         qDebug("Was current WlanName, but not active anymore, clearing '%s'", qPrintable(_currentWlanName));
-        _currentWlanName.clear();
+        // _currentWlanName.clear();
     }
 
     qDebug("ConditionManagerWlan::_setCurrentWlanName: requestRefreshIfNeeded %d, previousWlanName %s, _currentWlanName %s",
@@ -99,6 +133,7 @@ ConditionManagerWlan::refresh(const Rule &rule) {
 void
 ConditionManagerWlan::matchedRule(const Rule &rule) {
     _currentRuleWlanNames = rule.getWlan();
+
 }
 
 void
@@ -106,10 +141,12 @@ ConditionManagerWlan::endRefresh() {
     if (!_watchedWlanNames.isEmpty()) {
         monitorConfiguration(true);
     } else {
+        qDebug("ConditionManagerWlan::endRefresh, stopping monitoring");
         monitorConfiguration(false);
         _currentRuleWlanNames.clear();
         // If not monitoring the configuration, we can't be certain the current Wlan name is known
         _currentWlanName = WLAN_NAME_NEEDS_REFRESH;
+        _wlanTimeout.stop();
     }
 }
 
@@ -162,5 +199,4 @@ ConditionManagerWlan::onConfigurationRemoved(const QNetworkConfiguration &config
         _currentWlanName = WLAN_NAME_NEEDS_REFRESH;
         _determineCurrentWlanName(true);
     }
-    // _setCurrentWlanName(config, true);
 }

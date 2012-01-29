@@ -40,6 +40,7 @@ class Rule : public QObject
     QSet<int> _days;
     QSet<int> _locationCells;
     QSet<QString> _wlan;
+    int       _wlanTimeout;
 
     // Actions
     QString _profile;
@@ -58,6 +59,7 @@ class Rule : public QObject
     Q_PROPERTY(QVariantList days READ getDaysQml WRITE setDaysQml NOTIFY daysChanged)
     Q_PROPERTY(QVariantList locationCells READ getLocationCellsQml WRITE setLocationCellsQml NOTIFY locationCellsChanged)
     Q_PROPERTY(QVariantList wlan READ getWlanQml WRITE setWlanQml NOTIFY wlanChanged)
+    Q_PROPERTY(int wlanTimeout READ getWlanTimeout WRITE setWlanTimeout NOTIFY wlanTimeoutChanged)
     Q_PROPERTY(QString profile READ getProfile WRITE setProfile NOTIFY profileChanged)
     Q_PROPERTY(int restoreProfile READ getRestoreProfile WRITE setRestoreProfile NOTIFY restoreProfileChanged)
     Q_PROPERTY(int profileVolume READ getProfileVolume WRITE setProfileVolume NOTIFY profileVolumeChanged)
@@ -78,6 +80,7 @@ signals:
     void daysChanged();
     void locationCellsChanged();
     void wlanChanged();
+    void wlanTimeoutChanged();
     void profileChanged();
     void restoreProfileChanged();
     void profileVolumeChanged();
@@ -138,6 +141,9 @@ public:
     // For QML
     QVariantList getWlanQml() const;
     void setWlanQml(const QVariantList &wlan);
+
+    int getWlanTimeout() const;
+    void setWlanTimeout(int timeoutSecs);
 
     QString getProfile() const;
     void setProfile(const QString &profile);

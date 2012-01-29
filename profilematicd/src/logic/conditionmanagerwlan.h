@@ -20,8 +20,12 @@
 #define CONDITIONMANAGERWLAN_H
 
 #include <QObject>
+#include <QString>
 #include <QSet>
 #include <QNetworkConfigurationManager>
+#include <QSystemAlignedTimer>
+
+QTM_USE_NAMESPACE
 
 #include "conditionmanager.h"
 #include "../platform/platformutil.h"
@@ -34,8 +38,13 @@ class ConditionManagerWlan : public ConditionManager {
     QSet<QString> _watchedWlanNames;
     QSet<QString> _currentRuleWlanNames;
     QString _currentWlanName;
+    QSystemAlignedTimer _wlanTimeout;
+    int _currentRuleWlanTimeoutSecs;
+
     bool _monitoring;
     bool _requestRefreshEnabled;
+    void _wlanNotActive();
+    void _wlanActive(const QString &name);
     void _logConfiguration(const QNetworkConfiguration &config) const;
     void _determineCurrentWlanName(bool requestRefreshIfChanged);
     void _setCurrentWlanName(const QNetworkConfiguration &config, bool requestRefreshIfChanged);
@@ -55,6 +64,7 @@ public slots:
     void onConfigurationAdded(const QNetworkConfiguration   &config);
     void onConfigurationChanged(const QNetworkConfiguration &config);
     void onConfigurationRemoved(const QNetworkConfiguration &config);
+    void onWlanTimeout();
 };
 
 #endif // CONDITIONMANAGERWLAN_H
