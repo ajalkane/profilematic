@@ -44,10 +44,6 @@ Page {
            id: wlaninfo
            mode: NetworkInfo.WlanMode
 
-//           monitorNameChanges: true
-//           monitorModeChanges: true
-//           monitorStatusChanges: true
-
            property string nameIfUsable
 
            function monitor(doMonitor) {
@@ -126,31 +122,18 @@ Page {
                 id: collectingButton
                 enabled: rule.wlan.length < maxWlans && wlaninfo.nameIfUsable !== ""
                 // enabled: backendLocation.currentCell >= 0 && rule.locationCells.length < root.maxCells
-                text: (enabled ? "Add current Wlan"
+                text: (enabled ? "Add current WLAN"
                                : (rule.wlan.length < root.maxWlans
-                                  ? "No Wlan"
-                                  : "Max " + root.maxWlans + " Wlans added"))
+                                  ? "No WLAN"
+                                  : "Max " + root.maxWlans + " WLANs added"))
                 onClicked: {
                     addCurrentWlan()
                 }
-
-                // TODO
-//                Connections {
-//                    target: root.status == PageStatus.Active ? backendLocation : null
-//                    onCurrentCellChanged: {
-//                        console.log("Current cell changed")
-//                        if (collectingButton.checked) {
-//                            addCurrentCell()
-//                        }
-//                    }
-//                }
             } // Button
 
             Label {
                 id: summary
-                text: wlaninfo.nameIfUsable !== "" ? "Current Wlan '" + wlaninfo.nameIfUsable + "'": "Not connected to Wlan"
-//                text: backendLocation.currentCell >= 0 ? "Current cell id " + backendLocation.currentCell + "."
-//                                                       : "Mobile network unreachable"
+                text: wlaninfo.nameIfUsable !== "" ? "Current WLAN '" + wlaninfo.nameIfUsable + "'": "Not connected to WLAN"
                 width: parent.width
 
                 platformStyle: LabelStyleSubtitle {}
@@ -218,7 +201,7 @@ Page {
 
             Label {
                 id: help
-                text: "<b>TODO help text</b>"
+                text: "This condition can be used to activate a rule when connected to WLAN. Add the desired WLAN when connected to it."
 
                 width: parent.width
                 platformStyle: LabelStyleSubtitle {

@@ -198,7 +198,7 @@ Page {
 
             RuleTopicSummary {
                 id: wlanCondition
-                topic: "Wlan"
+                topic: "WLAN"
                 summary: wlanSummary()
                 showDrillDown: true
                 onTopicClicked: wlanEditHandler()
@@ -327,7 +327,7 @@ Page {
 
     function wlanSummary() {
         var numWlans = rule.wlan.length
-        return numWlans === 0 ? "Not in use" : "Wlan access points"
+        return numWlans === 0 ? "Not in use" : "WLAN access points added"
     }
 
     function wlanEditHandler() {

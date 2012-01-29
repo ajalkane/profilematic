@@ -361,7 +361,7 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
         }
         if (!rule->getWlan().isEmpty()) {
             if (numCondition > 0) condition.append(" and ");
-            condition.append("on Wlan");
+            condition.append("on WLAN");
             ++numCondition;
         }
         QString timeCondition = getTimeSummaryText(rule, "");
