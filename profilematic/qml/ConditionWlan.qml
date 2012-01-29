@@ -212,6 +212,8 @@ Page {
                 labelText: "WLAN timeout in seconds"
                 placeholderText: "No timeout"
                 text: rule.wlanTimeout !== 0 ? rule.wlanTimeout : ""
+                inputMethodHints: Qt.ImhDigitsOnly
+                inputMask: "000"
                 width: parent.width
                 onTextChanged: {
                     rule.wlanTimeout = parseInt(text)
@@ -219,7 +221,7 @@ Page {
             }
             Label {
                 text: "Use WLAN timeout if your connection to the WLAN is weak. When timeout is set, "
-                    + "WLAN is considered active for as many seconds as specified even if disconnected momentarily."
+                      + "WLAN is considered active after losing connection for as many seconds as specified. "
 
                 width: parent.width
                 platformStyle: LabelStyleSubtitle {

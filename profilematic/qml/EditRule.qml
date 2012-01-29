@@ -206,6 +206,7 @@ Page {
                 Connections {
                     target: rule
                     onWlanChanged: wlanCondition.summary = wlanSummary()
+                    onWlanTimeoutChanged: wlanCondition.summary = wlanSummary()
                 }
 
             }
@@ -252,6 +253,7 @@ Page {
                     onTimeStartChanged:     ruleSummary.text = root.ruleSummary()
                     onTimeEndChanged:       ruleSummary.text = root.ruleSummary()
                     onLocationCellsChanged: ruleSummary.text = root.ruleSummary()
+                    onWlanChanged:          ruleSummary.text = root.ruleSummary()
                     onProfileChanged:       ruleSummary.text = root.ruleSummary()
                 }
             }
@@ -327,7 +329,10 @@ Page {
 
     function wlanSummary() {
         var numWlans = rule.wlan.length
-        return numWlans === 0 ? "Not in use" : "WLAN access points added"
+        return numWlans === 0 ? "Not in use"
+                              : "WLAN access points added"
+                                + (rule.wlanTimeout > 0 ? " (" + rule.wlanTimeout + "s timeout)"
+                                                        : "")
     }
 
     function wlanEditHandler() {

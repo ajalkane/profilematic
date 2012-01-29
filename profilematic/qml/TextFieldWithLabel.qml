@@ -25,6 +25,9 @@ Column {
     property alias labelText: label.section
     property alias placeholderText: labelField.placeholderText
     property alias text: labelField.text
+    property alias inputMask: labelField.inputMask
+    property alias inputMethodHints: labelField.inputMethodHints
+
     height: childrenRect.height
 
     SectionHeader {
@@ -34,5 +37,10 @@ Column {
     TextField {
         id: labelField
         width: parent.width
+        Keys.onReturnPressed: {
+            platformCloseSoftwareInputPanel()
+            dummy.focus = true
+        }
     }
+    Item { id: dummy }
 }
