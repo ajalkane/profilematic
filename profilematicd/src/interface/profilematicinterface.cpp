@@ -160,7 +160,7 @@ ProfileMaticInterface::setActive(bool isActive) {
         qDebug("Active changed to %d", isActive);
           _preferences->isActive = isActive;
         emit activeChanged(isActive);
-        _rulesManager->refresh();
+        _rulesManager->refreshRules();
         _preferencesChanged();
     }
 }
@@ -178,7 +178,7 @@ ProfileMaticInterface::_findRuleIndexById(const Rule::IdType &id) const {
 
 void
 ProfileMaticInterface::_rulesChanged() {
-    _rulesManager->refresh();
+    _rulesManager->refreshRules();
     Configuration::writeRules(*_rules);
 }
 

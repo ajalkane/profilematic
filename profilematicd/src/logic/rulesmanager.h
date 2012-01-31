@@ -37,6 +37,7 @@ class RulesManager : public QObject
     const Preferences *_preferences;
 
     void _activateRule(const Rule &rule);
+    void _refresh(bool forceActivate);
 public:
     RulesManager(const QList<Rule> *rules,
                  ConditionManager *conditionManager,
@@ -44,6 +45,8 @@ public:
                  const Preferences *preferences,
                  QObject *parent = 0);
 
+    // Called when rules have changed
+    void refreshRules();
 signals:
 
 public slots:

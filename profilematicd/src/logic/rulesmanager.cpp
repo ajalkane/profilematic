@@ -33,7 +33,17 @@ RulesManager::RulesManager(const QList<Rule> *rules,
 }
 
 void
+RulesManager::refreshRules() {
+    _refresh(true);
+}
+
+void
 RulesManager::refresh() {
+    _refresh(false);
+}
+
+void
+RulesManager::_refresh(bool forceActivate) {
     _conditionManager->startRefresh();
     if (_preferences->isActive) {
         QList<Rule>::const_iterator firstMatchingRule = _rules->constBegin();
@@ -45,10 +55,12 @@ RulesManager::refresh() {
             }
         }
 
-        qDebug("RulesManager::refresh matching rule found %d, is same as current %d",
-               firstMatchingRule != _rules->constEnd(), firstMatchingRule->getRuleId() == _currentRuleId);
+        qDebug("RulesManager::refresh matching rule found %d, is same as current %d, is forceActivate %d",
+               firstMatchingRule != _rules->constEnd(),
+               firstMatchingRule->getRuleId() == _currentRuleId,
+               forceActivate);
 
-        if (firstMatchingRule != _rules->constEnd() && firstMatchingRule->getRuleId() != _currentRuleId) {
+        if (firstMatchingRule != _rules->constEnd() && (forceActivate || firstMatchingRule->getRuleId() != _currentRuleId)) {
             const Rule &matchedRule = *firstMatchingRule;
             _conditionManager->matchedRule(matchedRule);
             _activateRule(matchedRule);
