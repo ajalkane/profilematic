@@ -57,7 +57,7 @@ var GROUP_HEADER_FONT_SIZE = 18
 
 var LIST_ITEM_HEIGHT_WITH_SUBTITLE = 88;
 
-var FONT_XXXLARGE  = 64;
+var FONT_XXXLARGE  = 48
 
 // Original values, copied from qt-components:
 var FONT_FAMILY = "Nokia Pure Text";

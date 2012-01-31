@@ -112,7 +112,7 @@ Page {
                 color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
                 text: "If you activate restore previous profile, ProfileMatic will set back the profile "
                       + "that was selected before this rule was activated. If you don't activate "
-                      + "restore previosu profile, the latest profile will run. "
+                      + "restore previous profile, the latest profile will run. "
                       + "E.g. phone set to silent byt this rule will remain silent until you decide to make "
                       + "changes or another rule that sets profile becomes valid."
                       + "\n\n"

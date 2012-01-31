@@ -30,6 +30,8 @@ Column {
 
     height: childrenRect.height
 
+    signal accepted
+
     SectionHeader {
         id: label
         visible: !rule.isDefaultRule
@@ -43,4 +45,6 @@ Column {
         }
     }
     Item { id: dummy }
+
+    Component.onCompleted: labelField.accepted.connect(accepted)
 }

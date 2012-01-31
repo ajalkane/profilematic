@@ -79,7 +79,7 @@ Page {
         id: mainMenu
         MenuLayout {
             MenuItem {
-                text: backendRulesModel.active ? "Stop following rules" : "Start following rules"
+                text: backendRulesModel.active ? "Deactivate rules" : "Activate rules"
                 onClicked: {
                     console.log("Switching rule watching to", !backendRulesModel.active)
                     backendRulesModel.active = !backendRulesModel.active
@@ -111,7 +111,7 @@ Page {
         font.pixelSize: UIConstants.FONT_XXXLARGE;
         color: mouseAreaFirstRule.containsMouse ? (!theme.inverted ? UIConstants.COLOR_FOREGROUND : UIConstants.COLOR_INVERTED_FOREGROUND)
                                  : (!theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND)
-        text: "Add your first rule"
+        text: "Start using automatic profiles by creating the first rule"
 
         MouseArea {
             id: mouseAreaFirstRule
@@ -147,7 +147,6 @@ Page {
             bottom: parent.bottom
             topMargin: UIConstants.PADDING_XLARGE
         }
-        spacing: UIConstants.PADDING_XLARGE
         model: backendRulesModel
         pressDelay: 140
         currentIndex: -1
@@ -233,7 +232,7 @@ Page {
                 anchors.leftMargin: upColumn.width + parent.spacing
                 anchors.rightMargin: downColumn.width + parent.spacing
                 width: listItem.width - (upColumn.width + parent.spacing) - (downColumn.width + parent.spacing)
-                height:  rule.height
+                height:  rule.height + UIConstants.PADDING_XLARGE
 
                 Rectangle {
                     id: background
@@ -355,7 +354,7 @@ Page {
                 visible: backendRulesModel.count > 1
                 font.pixelSize: UIConstants.FONT_SMALL;
                 color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                text: "Use arrows to change the order of the rules. The first rule that matches is used to set the profile.";
+                text: "Use arrows to change the order of the rules. The first rule that matches is used.";
             }
             Text {
                 wrapMode: Text.WordWrap

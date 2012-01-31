@@ -330,7 +330,7 @@ Page {
     function wlanSummary() {
         var numWlans = rule.wlan.length
         return numWlans === 0 ? "Not in use"
-                              : "WLAN access points added"
+                              : "In use"
                                 + (rule.wlanTimeout > 0 ? " (" + rule.wlanTimeout + "s timeout)"
                                                         : "")
     }
