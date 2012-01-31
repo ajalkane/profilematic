@@ -255,6 +255,7 @@ Page {
                     onLocationCellsChanged: ruleSummary.text = root.ruleSummary()
                     onWlanChanged:          ruleSummary.text = root.ruleSummary()
                     onProfileChanged:       ruleSummary.text = root.ruleSummary()
+                    onBlueToothModeChanged: ruleSummary.text = root.ruleSummary()
                 }
             }
         } // Column
