@@ -55,7 +55,8 @@ RulesManager::_refresh(bool forceActivate) {
             }
         }
 
-        qDebug("RulesManager::refresh matching rule found %d, is same as current %d, is forceActivate %d",
+        qDebug("%s RulesManager::refresh matching rule found %d, is same as current %d, is forceActivate %d",
+               qPrintable(QDateTime::currentDateTime().toString()),
                firstMatchingRule != _rules->constEnd(),
                firstMatchingRule->getRuleId() == _currentRuleId,
                forceActivate);

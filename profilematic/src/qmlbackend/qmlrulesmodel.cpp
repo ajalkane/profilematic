@@ -120,7 +120,7 @@ QmlRulesModel::data(const QModelIndex & index, int role) const {
 
 void
 QmlRulesModel::ruleUpdated(const Rule &rule) {
-    qDebug("QmlRulesModel: Received rule updated %s %s", qPrintable(rule.getRuleId()), qPrintable(rule.getRuleName()));
+    // qDebug("QmlRulesModel: Received rule updated %s %s", qPrintable(rule.getRuleId()), qPrintable(rule.getRuleName()));
     int targetIndex = _findRuleIndexById(rule.getRuleId());
     if (targetIndex < 0) {
         qDebug("QmlRulesModel: no rule found for id %s", qPrintable(rule.getRuleId()));
@@ -129,7 +129,7 @@ QmlRulesModel::ruleUpdated(const Rule &rule) {
 
     _rules[targetIndex] = rule;
 
-    qDebug("QmlRulesModel: Received rule updated, now (%d) %s %s",targetIndex, qPrintable(_rules[targetIndex].getRuleId()), qPrintable(rule.getRuleName()));
+    // qDebug("QmlRulesModel: Received rule updated, now (%d) %s %s",targetIndex, qPrintable(_rules[targetIndex].getRuleId()), qPrintable(rule.getRuleName()));
 
     QModelIndex modelIndex = createIndex(targetIndex, 0);
 
@@ -138,7 +138,7 @@ QmlRulesModel::ruleUpdated(const Rule &rule) {
 
 void
 QmlRulesModel::ruleAppended(const Rule &rule) {
-    qDebug("QmlRulesModel: Received rule appended %s %s", qPrintable(rule.getRuleId()), qPrintable(rule.getRuleName()));
+    // qDebug("QmlRulesModel: Received rule appended %s %s", qPrintable(rule.getRuleId()), qPrintable(rule.getRuleName()));
 
     // Assume default rule is always last, and can not be removed.
     beginInsertRows(QModelIndex(), rowCount() - 1, rowCount() - 1);
@@ -148,7 +148,7 @@ QmlRulesModel::ruleAppended(const Rule &rule) {
 
 void
 QmlRulesModel::ruleRemoved(const QString &ruleId) {
-    qDebug("QmlRulesModel: Received rule removed %s", qPrintable(ruleId));
+    // qDebug("QmlRulesModel: Received rule removed %s", qPrintable(ruleId));
     int targetIndex = _findRuleIndexById(ruleId);
     if (targetIndex < 0) {
         qDebug("QmlRulesModel::ruleRemoved no rule found for id %s", qPrintable(ruleId));
@@ -162,7 +162,7 @@ QmlRulesModel::ruleRemoved(const QString &ruleId) {
 
 void
 QmlRulesModel::ruleMoved(const QString &ruleId, int toIndex) {
-    qDebug("QmlRulesModel: Received rule removed %s", qPrintable(ruleId));
+    // qDebug("QmlRulesModel: Received rule removed %s", qPrintable(ruleId));
     int index = _findRuleIndexById(ruleId);
     if (index < 0) {
         qDebug("QmlRulesModel::ruleMoved no rule found for id %s", qPrintable(ruleId));
@@ -176,11 +176,11 @@ QmlRulesModel::ruleMoved(const QString &ruleId, int toIndex) {
     // This looks perverse, just see the documentation for QAbstractItemModel.beginMoveColumns to make sense of it
     int toIndexFinal = (toIndex < index ? toIndex : toIndex + 1);
     if (beginMoveRows(QModelIndex(), index, index, QModelIndex(), toIndexFinal)) {
-        qDebug("Doing moving %d -> %d", index, toIndex);
+        // qDebug("Doing moving %d -> %d", index, toIndex);
         _rules.move(index, toIndex);
         endMoveRows();
     } else {
-        qDebug("Invalid move %d -> %d", index, toIndex);
+        // qDebug("Invalid move %d -> %d", index, toIndex);
     }
 }
 
@@ -208,7 +208,7 @@ QmlRulesModel::getDaysSummaryText(const QVariantList &dayIndices) const {
 
 QString
 QmlRulesModel::getDaysSummaryText(const QSet<int> &days) const {
-    qDebug("QmlRulesModel::getDaysSummaryText(), days size %d", days.size());
+    // qDebug("QmlRulesModel::getDaysSummaryText(), days size %d", days.size());
 
     if (days.size() == 7) {
         return "All days";
@@ -263,21 +263,20 @@ QmlRulesModel::getRuleSummaryText(Rule *rule, const QString &nonUsableTimeString
 
 QString
 QmlRulesModel::getTimeSummaryText(const Rule *rule, const QString &nonUsableTimeString) const {
-    qDebug("QmlRulesModel::getTimeSummaryText()");
+    // qDebug("QmlRulesModel::getTimeSummaryText()");
     // Rule rule = ruleVariant.value<Rule>();
     if (rule == 0) {
-        qDebug("QmlRulesModel::getTimeSummaryText() null rule");
+        // qDebug("QmlRulesModel::getTimeSummaryText() null rule");
         return nonUsableTimeString;
     }
     if (rule->getDays().isEmpty()
             || !rule->getTimeStart().isValid()
             || !rule->getTimeEnd().isValid()) {
-        qDebug("QmlRulesModel::getTimeSummaryText(): nonUsable, getDays.isEmpty/!validTimeStart/!validTimeEnd %d, %d, %d",
-               rule->getDays().isEmpty(), !rule->getTimeStart().isValid(), !rule->getTimeEnd().isValid());
+        // qDebug("QmlRulesModel::getTimeSummaryText(): nonUsable, getDays.isEmpty/!validTimeStart/!validTimeEnd %d, %d, %d",
+        //       rule->getDays().isEmpty(), !rule->getTimeStart().isValid(), !rule->getTimeEnd().isValid());
         return nonUsableTimeString;
     }
 
-    qDebug("QmlRulesModel::getTimeSummaryText() 2");
     QString summary;
     summary += rule->getTimeStartQml();
     summary += " - ";
@@ -305,18 +304,16 @@ QmlRulesModel::getTimeSummaryText(const Rule *rule, const QString &nonUsableTime
     summary += " ";
     summary += getDaysSummaryText(rule->getDays());
 
-    qDebug("QmlRulesModel::getTimeSummaryText()");
-
     return summary;
 }
 
 // IMPROVE: this function is ugly, so say we all.
 QString
 QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRuleString) const {
-    qDebug("QmlRulesModel::getRuleSummaryText()");
+    // qDebug("QmlRulesModel::getRuleSummaryText()");
     // Rule rule = ruleVariant.value<Rule>();
     if (rule == 0) {
-        qDebug("QmlRulesModel::getTimeSummaryText() null rule");
+        // qDebug("QmlRulesModel::getTimeSummaryText() null rule");
         return nonUsableRuleString;
     }
     QString action;
@@ -394,7 +391,7 @@ QmlRulesModel::getEditRule() {
 
 void
 QmlRulesModel::setEditRule(int index) {
-    qDebug("QmlRulesModel::setEditRule(%d)", index);
+    // qDebug("QmlRulesModel::setEditRule(%d)", index);
     if (index < 0 || index >= _rules.count()) {
         qDebug("QmlRulesModel::setEditRule: Invalid index %d", index);
         _editRule = Rule();
@@ -403,12 +400,12 @@ QmlRulesModel::setEditRule(int index) {
 
     _editRule = _rules[index];
 
-    qDebug("QmlRulesModel::setEditRule client->saveEditRule id %s, name %s", qPrintable(_editRule.getRuleId()), qPrintable(_editRule.getRuleName()));
+    // qDebug("QmlRulesModel::setEditRule client->saveEditRule id %s, name %s", qPrintable(_editRule.getRuleId()), qPrintable(_editRule.getRuleName()));
 }
 
 void
 QmlRulesModel::setNewEditRule() {
-    qDebug("QmlRulesModel::setNewEditRule");
+    // qDebug("QmlRulesModel::setNewEditRule");
 
     _editRule = Rule();
     // According to user input, this might be confusing, so do not set all days. Empty selection.
@@ -422,7 +419,7 @@ QmlRulesModel::setNewEditRule() {
 
 void
 QmlRulesModel::setNewEditRuleFrom(int index) {
-    qDebug("QmlRulesModel::setNewEditRuleFrom(%d)", index);
+    // qDebug("QmlRulesModel::setNewEditRuleFrom(%d)", index);
     if (index < 0 || index >= _rules.count()) {
         qDebug("QmlRulesModel::setNewEditRuleFrom: Invalid index %d", index);
         _editRule = Rule();
@@ -433,7 +430,7 @@ QmlRulesModel::setNewEditRuleFrom(int index) {
     _editRule.setRuleId("");
     _editRule.setRuleName("");
 
-    qDebug("QmlRulesModel::setEditRule client->saveEditRule id %s, name %s", qPrintable(_editRule.getRuleId()), qPrintable(_editRule.getRuleName()));
+    // qDebug("QmlRulesModel::setEditRule client->saveEditRule id %s, name %s", qPrintable(_editRule.getRuleId()), qPrintable(_editRule.getRuleName()));
 }
 
 void
@@ -459,7 +456,7 @@ QmlRulesModel::removeRule(int index) {
 
 void
 QmlRulesModel::moveRule(int index, int toIndex) {
-    qDebug("QmlRulesModel::moveRule(%d, %d)", index, toIndex);
+    // qDebug("QmlRulesModel::moveRule(%d, %d)", index, toIndex);
     if (index < 0 || index >= _rules.count()) {
         qDebug("QmlRulesModel::moveRule: Invalid index %d", index);
         return;

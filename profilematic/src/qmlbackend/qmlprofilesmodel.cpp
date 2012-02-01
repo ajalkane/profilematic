@@ -91,20 +91,20 @@ QmlProfilesModel::getProfileType(int index) const {
 
 QString
 QmlProfilesModel::getProfileToName(const QString &profile) const {
-    qDebug("QmlProfilesModel::getProfileToName(%s)", qPrintable(profile));
+    // qDebug("QmlProfilesModel::getProfileToName(%s)", qPrintable(profile));
     if (_profileToName.contains(profile)) {
-        qDebug("QmlProfilesModel::getProfileToName returning from _profileToName");
+        // qDebug("QmlProfilesModel::getProfileToName returning from _profileToName");
         return _profileToName[profile];
     }
-    qDebug("QmlProfilesModel::getProfileToName returning unrecognized");
+    // qDebug("QmlProfilesModel::getProfileToName returning unrecognized");
     return "Unrecognized " + profile;
 }
 
 bool
 QmlProfilesModel::profileHasVolume(const QString &profile) const {
-    qDebug("QmlProfilesModel::profileHasVolume(%s)", qPrintable(profile));
+    // qDebug("QmlProfilesModel::profileHasVolume(%s)", qPrintable(profile));
     // Hard-coded to be the Ringing profile type for now, maybe there could be a more dynamic way?
     QString profileType = getProfileToName(profile);
-    qDebug("QmlProfilesModel::profileHasVolume: profileType %s", qPrintable(profileType));
+    // qDebug("QmlProfilesModel::profileHasVolume: profileType %s", qPrintable(profileType));
     return profileType.toLower() == "ringing";
 }

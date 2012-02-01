@@ -32,14 +32,14 @@ ConditionManagerWlan::_wlanNotActive() {
 
 void
 ConditionManagerWlan::_wlanActive(const QString &name) {
-    qDebug("ConditionManagerWlan::_wlanActive %s", qPrintable(name));
+    qDebug("%s ConditionManagerWlan::_wlanActive %s", qPrintable(QDateTime::currentDateTime().toString()), qPrintable(name));
     _currentWlanName = name;
     _wlanTimeout.stop();
 }
 
 void
 ConditionManagerWlan::onWlanTimeout() {
-    qDebug("ConditionManagerWlan: WLAN timeout reached, refreshing");
+    qDebug("%s ConditionManagerWlan: WLAN timeout reached, refreshing", qPrintable(QDateTime::currentDateTime().toString()));
     _currentWlanName.clear();
     emit refreshNeeded();
 }
@@ -174,21 +174,21 @@ ConditionManagerWlan::monitorConfiguration(bool monitor) {
 
 void
 ConditionManagerWlan::onConfigurationAdded(const QNetworkConfiguration   &config) {
-    qDebug("Network configuration added");
+    qDebug("%s Network configuration added", qPrintable(QDateTime::currentDateTime().toString()));
     _logConfiguration(config);
     _setCurrentWlanName(config, true);
 }
 
 void
 ConditionManagerWlan::onConfigurationChanged(const QNetworkConfiguration &config) {
-    qDebug("Network configuration changed");
+    qDebug("%s Network configuration changed", qPrintable(QDateTime::currentDateTime().toString()));
     _logConfiguration(config);
     _setCurrentWlanName(config, true);
 }
 
 void
 ConditionManagerWlan::onConfigurationRemoved(const QNetworkConfiguration &config) {
-    qDebug("Network configuration removed");
+    qDebug("%s Network configuration removed", qPrintable(QDateTime::currentDateTime().toString()));
     _logConfiguration(config);
     if (config.name() == _currentWlanName) {
         _currentWlanName = WLAN_NAME_NEEDS_REFRESH;

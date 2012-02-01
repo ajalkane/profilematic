@@ -116,7 +116,6 @@ Rule::setRuleName(const QString &ruleName) {
 QString
 Rule::_getTimeQml(const QTime &time) const {
     if (time.isNull()) {
-        qDebug("Rule::_getTimeQml is null, returning empty string");
         return "";
     }
     int hour = time.hour();
@@ -131,7 +130,6 @@ Rule::_getTimeQml(const QTime &time) const {
         timeStr += "0";
     }
     timeStr += QString::number(min);
-    qDebug("Rule::_getTimeQml returning '%s'", qPrintable(timeStr));
     return timeStr;
 }
 
@@ -366,10 +364,8 @@ Rule::getBlueToothMode() const {
 
 void
 Rule::setBlueToothMode(int blueToothMode) {
-    qDebug("Rule::setBlueToothMode %d, current %d", blueToothMode, _blueToothMode);
     if (_blueToothMode != blueToothMode) {
         _blueToothMode = blueToothMode;
-        qDebug("Rule::setBlueToothMode emitting signal");
         emit blueToothModeChanged();
     }
 }
