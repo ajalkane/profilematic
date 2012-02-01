@@ -1,0 +1,15 @@
+Building ProfileMatic
+=====================
+
+Following QtMobility modules are needed:
+ - systeminfo
+ - connectivity
+
+Following MeeGo/Harmattan libraries are needed:
+ - qmsystem2
+
+Other requirements:
+ - Qt version 4.7.4
+ - qt-components installed in runtime
+
+
