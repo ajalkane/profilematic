@@ -23,10 +23,19 @@ import "UIConstants.js" as UIConstants
 
 Page {
     id: root
-    tools: commonTools
+    tools: timeTools
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
     property Rule    rule;
+
+    ToolBarLayout {
+        id: timeTools
+        visible: false
+        ToolIcon {
+            iconId: "toolbar-back"
+            onClicked: isValidTimeRule() ? pageStack.pop() : dInvalidRule.open()
+        }
+    }
 
     SectionHeader {
         id: header
@@ -96,6 +105,14 @@ Page {
         }
     }
 
+    function isValidTimeRule() {
+        if (rule.timeStart === "" && rule.timeEnd === "" && rule.days.length === 0)
+            return true
+        if (rule.timeStart !== "" && rule.timeEnd !== "" && rule.days.length > 0)
+            return true
+        return false
+    }
+
     QueryDialog {
         id: dConfirmDelete
 
@@ -109,6 +126,18 @@ Page {
             rule.timeEnd = ""
             rule.days = []
         }
+    }
+
+    QueryDialog {
+        id: dInvalidRule
+
+        titleText: "Invalid time rule"
+        message: "Either set all time and day fields, or clear them.\n\n"
+                 + "Missing:\n\n"
+                 + (rule.timeStart   === '' ? "Start time\n" : "")
+                 + (rule.timeEnd     === '' ? "End time\n"   : "")
+                 + (rule.days.length === 0  ? "Weekdays"     : "")
+        acceptButtonText: "Ok"
     }
 
     // Profile functions
