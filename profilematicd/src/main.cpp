@@ -85,7 +85,8 @@ int main(int argc, char *argv[])
 
     // LATER: this code can be removed a couple of versions down the road I think.
     qDebug("rules_version: %d", rules_version);
-    if (rules_version == 0 && !rules.isEmpty()) {
+    // rules.size > 1 because default rule always exists
+    if (rules_version == 0 && rules.size() > 1) {
         qDebug("Launching conversion warning");
         QProcess::startDetached(CONVERSION_WARNING_CMDLINE);
         qDebug("Conversion warning launched");
