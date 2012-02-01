@@ -18,7 +18,6 @@
 **/
 #include <QtCore/QCoreApplication>
 
-#include "logic/testrulewatch.h"
 #include "logic/testconditionmanagertime.h"
 #include "logic/testconditionmanagerchain.h"
 
@@ -28,7 +27,6 @@ int main(int argc, char *argv[])
 
     int retval(0);
 
-    retval += QTest::qExec(&TestRuleWatch(), argc, argv);
     retval += QTest::qExec(&TestConditionManagerTime(), argc, argv);
     retval += QTest::qExec(&TestConditionManagerChain(), argc, argv);
 

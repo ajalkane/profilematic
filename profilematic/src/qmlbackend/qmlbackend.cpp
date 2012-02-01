@@ -18,8 +18,6 @@
 **/
 #include "qmlbackend.h"
 
-#include "../settings.h"
-
 QmlBackend::QmlBackend()
 {
 }

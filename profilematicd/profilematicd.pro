@@ -32,8 +32,6 @@ SOURCES += src/main.cpp \
     src/profileclient.cpp \
     src/configuration.cpp \
     src/model/rule.cpp \
-    src/logic/rulewatch.cpp \
-    src/logic/ruleactivator.cpp \
     src/interface/profilematicinterface.cpp \
     src/preferences.cpp \
     src/platform/platformutil.cpp \
@@ -53,8 +51,6 @@ HEADERS += \
     src/profileclient.h \
     src/configuration.h \
     src/model/rule.h \
-    src/logic/rulewatch.h \
-    src/logic/ruleactivator.h \
     src/interface/profilematicinterface.h \
     src/preferences.h \
     src/platform/platformutil.h \
@@ -78,13 +74,11 @@ HEADERS += \
 qtestlib {
     SOURCES -= src/main.cpp
     SOURCES += tests/main.cpp \
-        tests/logic/testrulewatch.cpp \
         tests/logic/testconditionmanagerchain.cpp \
         tests/logic/testconditionmanagertime.cpp \
         tests/logic/signalcounter.cpp
 
-    HEADERS += tests/logic/testrulewatch.h \
-        tests/logic/testconditionmanagerchain.h \
+    HEADERS += tests/logic/testconditionmanagerchain.h \
         tests/logic/testconditionmanagertime.h \
         tests/logic/signalcounter.h
 }
