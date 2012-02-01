@@ -142,7 +142,6 @@ Page {
 
     // Profile functions
     function timeSummary() {
-        console.log("timeSummary")
         return backendRulesModel.getTimeSummaryText(rule, "") === "" ? "All time and day fields must be set. This condition is not yet usable." : "";
     }
 
@@ -161,8 +160,6 @@ Page {
         var time = (rule.timeStart !== "" ? rule.timeStart : "00:00")
         var timeSplits = time.split(":")
 
-        console.log("starTimeEditHandler timeSplits", timeSplits[0], timeSplits[1])
-
         timeStartDialog.hour = timeSplits[0]
         timeStartDialog.minute = timeSplits[1]
 
@@ -170,7 +167,6 @@ Page {
     }
 
     function timeStartSummary() {
-        console.log("timeStart summary")
         if (rule.timeStart === '') {
             return "Click to set time"
         }
@@ -188,8 +184,6 @@ Page {
         var time = (rule.timeEnd !== "" ? rule.timeEnd : "00:00")
         var timeSplits = time.split(":")
 
-        console.log("timeEndEditHandler timeSplits", timeSplits[0], timeSplits[1])
-
         timeEndDialog.hour = timeSplits[0]
         timeEndDialog.minute = timeSplits[1]
 
@@ -197,7 +191,6 @@ Page {
     }
 
     function timeEndSummary() {
-        console.log("timeEnd summary")
         if (rule.timeEnd=== '') {
             return "Click to set time"
         }
@@ -217,7 +210,6 @@ Page {
     }
 
     function daysSummary() {
-        console.log("DaysSummary called")
         return backendRulesModel.getDaysSummaryText(rule.days);
     }
 

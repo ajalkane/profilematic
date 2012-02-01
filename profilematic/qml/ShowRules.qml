@@ -49,7 +49,7 @@ Page {
         if (component.status == Component.Ready) {
             console.log("createObject", file)
             var comp = component.createObject(showRules, properties)
-            console.log("/createObject", file, comp)
+            console.log("/createObject")
             return comp
         }
         else
@@ -333,10 +333,7 @@ Page {
                         var p = {
                             "rule": backendRulesModel.getEditRule()
                         }
-                        console.log("loadEditRule")
-                        console.log("loadEditRule p.rule", p.rule)
                         editRule = loadEditRule(p)
-                        console.log("/loadEditRule")
                         pageStack.push(editRule)
                         listView.currentIndex = -1
                     }
@@ -430,7 +427,7 @@ Page {
     }
 
     function copyAsNewRule(index) {
-        console.log("openNewRule")
+        console.log("copyAsNewRule")
 
         backendRulesModel.setNewEditRuleFrom(index)
         __openNewRule()

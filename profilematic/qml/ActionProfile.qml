@@ -192,7 +192,6 @@ Page {
 
     // Profile volume functions
     function volumeSummary() {
-        console.log("VolumeSummary called", rule.profileVolume)
         if (rule.profileVolume < 0) {
             return "Volume has not been selected yet"
         }
@@ -201,7 +200,6 @@ Page {
     }
 
     function volumeEditHandler() {
-        console.log("volumeEditHandler")
         dVolume.openWithValue(rule.profileVolume)
     }
 

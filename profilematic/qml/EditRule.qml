@@ -47,15 +47,6 @@ Page {
         return emptyStringIfInvalid !== ""
     }
 
-    function openFile(file) {
-        var component = Qt.createComponent(file)
-
-        if (component.status == Component.Ready)
-            pageStack.push(component);
-        else
-            console.log("Error loading component:", component.errorString());
-    }
-
     function confirmDelete() {
         dConfirmDelete.open()
     }
@@ -262,7 +253,6 @@ Page {
     } // Flickable
 
     function ruleSummary() {
-        console.log("ruleSummary")
         return backendRulesModel.getRuleSummaryText(rule, "Can't be used as a rule yet. Specify at least one condition, and an action.");
     }
 
@@ -299,7 +289,6 @@ Page {
     }
 
     function timeSummary() {
-        console.log("timeSummary")
         return backendRulesModel.getTimeSummaryText(rule, "Not in use");
     }
 
@@ -350,9 +339,7 @@ Page {
     }
 
     function flightModeSummary() {
-        console.debug("flightModeSummary")
         var flightModeText = dFlightMode.flightModeToText(rule.flightMode)
-        console.debug("flightModeSummary as text", flightModeText)
         return flightModeText
     }
 
@@ -366,16 +353,12 @@ Page {
         id: dBlueToothMode
 
         onBlueToothModeSelected: {
-            console.log("on b lue tooth mode selected ", selectedBlueToothMode)
             rule.blueToothMode = selectedBlueToothMode
         }
     }
 
     function blueToothModeSummary() {
-        console.debug("blueToothModeSummary")
-        var blueToothModeText = dBlueToothMode.blueToothModeToText(rule.blueToothMode)
-        console.debug("blueToothModeSummary as text", blueToothModeText)
-        return blueToothModeText
+        return dBlueToothMode.blueToothModeToText(rule.blueToothMode)
     }
 
     function blueToothModeEditHandler() {
