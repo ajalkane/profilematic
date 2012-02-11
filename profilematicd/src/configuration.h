@@ -39,6 +39,8 @@ class Configuration
     static void _readIntList(QSettings &s, const QString &prefix, const QString &key, QList<int> &values);
     static void _readStringList(QSettings &s, const QString &prefix, const QString &key, QList<QString> &values);
     static void _assignRuleId(Rule &r, const QVariant &ruleIdVar);
+    static void _writePresenceRuleList(QSettings &s, const QList<PresenceRule *> &rules);
+    static void _readPresenceRuleList(QSettings &s, QList<PresenceRule *> &rules);
 public:
     Configuration();
 

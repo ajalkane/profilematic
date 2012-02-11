@@ -231,6 +231,14 @@ Page {
                 onTopicClicked: blueToothModeEditHandler()
             }
 
+            RuleTopicSummary {
+                id: presenceAction
+                topic: "Set account presence"
+                summary: presenceSummary()
+                showDrillDown: true
+                onTopicClicked: presenceEditHandler()
+            }
+
             Text {
                 id: ruleSummary
                 wrapMode: Text.WordWrap
@@ -247,6 +255,7 @@ Page {
                     onWlanChanged:          ruleSummary.text = root.ruleSummary()
                     onProfileChanged:       ruleSummary.text = root.ruleSummary()
                     onBlueToothModeChanged: ruleSummary.text = root.ruleSummary()
+                    onPresenceRulesChanged: ruleSummary.text = root.ruleSummary()
                 }
             }
         } // Column
@@ -364,6 +373,17 @@ Page {
     function blueToothModeEditHandler() {
         dBlueToothMode.selectedBlueToothMode = rule.blueToothMode
         dBlueToothMode.open();
+    }
+
+    function presenceSummary() {
+        if (rule.presenceRules.length)
+            return "At least one change";
+        else
+            return "Don't change"
+    }
+
+    function presenceEditHandler() {
+        root.pageStack.push(Qt.resolvedUrl("ActionPresence.qml"), { 'rule': rule });
     }
 
 }

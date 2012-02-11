@@ -26,6 +26,8 @@
 #include <QMetaType>
 #include <QDBusArgument>
 
+#include "presencerule.h"
+
 #define DEFAULT_RULE_ID "defaultRule"
 
 class Rule : public QObject
@@ -48,6 +50,7 @@ class Rule : public QObject
     int     _profileVolume;
     int     _flightMode;
     int     _blueToothMode;
+    QHash<Accounts::AccountId, PresenceRule *> _presenceRules;
 
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
@@ -65,6 +68,14 @@ class Rule : public QObject
     Q_PROPERTY(int profileVolume READ getProfileVolume WRITE setProfileVolume NOTIFY profileVolumeChanged)
     Q_PROPERTY(int flightMode READ getFlightMode WRITE setFlightMode NOTIFY flightModeChanged)
     Q_PROPERTY(int blueToothMode READ getBlueToothMode WRITE setBlueToothMode NOTIFY blueToothModeChanged)
+    /**
+      * This property gives access to the presence rules associated with this
+      * rule.
+      *
+      * \note The setter copies the individual rule instances and binds them
+      *       to the Rule instance.
+      */
+    Q_PROPERTY(QList<QObject *> presenceRules READ presenceRulesQml WRITE setPresenceRulesQml NOTIFY presenceRulesChanged)
 
     QString _getTimeQml(const QTime &time) const;
 
@@ -86,6 +97,7 @@ signals:
     void profileVolumeChanged();
     void flightModeChanged();
     void blueToothModeChanged();
+    void presenceRulesChanged();
 public:
     typedef QString IdType;
 
@@ -163,6 +175,14 @@ public:
     int getProfileVolume() const;
     // Use -1 if the profile volume is not to be set, otherwise value between 0 to 100
     void setProfileVolume(int volume);
+
+    QList<QObject *> presenceRulesQml() const;
+    void setPresenceRulesQml(QList<QObject *> presenceRules);
+
+    QList<PresenceRule *> presenceRules() const;
+    void setPresenceRules(QList<PresenceRule *> presenceRules);
+
+    PresenceRule *presenceRule(const Accounts::AccountId &id) const;
 
     inline bool operator==(const Rule &o) const {
         return this->_ruleId    == o._ruleId

@@ -18,8 +18,10 @@
 **/
 #include <QSettings>
 #include <QUuid>
+#include <QDebug>
 
 #include "configuration.h"
+#include "model/presencerule.h"
 
 Configuration::Configuration()
 {
@@ -54,6 +56,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("profileVolume", r.getProfileVolume());
         s.setValue("flightMode", r.getFlightMode());
         s.setValue("blueToothMode", r.getBlueToothMode());
+        _writePresenceRuleList(s, r.presenceRules());
     }
     s.endArray();
 }
@@ -119,6 +122,14 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         if (blueToothModeOk) {
             r.setBlueToothMode(blueToothMode);
         }
+
+        QList<PresenceRule *> presenceRules;
+        _readPresenceRuleList(s, presenceRules);
+        r.setPresenceRules(presenceRules);
+
+        qDeleteAll(presenceRules);
+        presenceRules.clear();
+
         // Make sure default rule is always last, and is created if it does not exist
         if (!r.isDefaultRule()) {
             rules << r;
@@ -171,6 +182,43 @@ Configuration::_assignRuleId(Rule &r, const QVariant &ruleIdVar) {
         ruleId = ruleIdVar.toString();
     }
     r.setRuleId(ruleId);
+}
+
+void Configuration::_writePresenceRuleList(QSettings &s, const QList<PresenceRule *> &rules)
+{
+    s.beginWriteArray("presenceRules");
+    for (int row = 0; row < rules.length(); row++) {
+        const PresenceRule *rule = rules[row];
+        s.setArrayIndex(row);
+        s.setValue("accountId", QVariant::fromValue(rule->accountId()));
+        s.setValue("serviceName", rule->serviceName());
+        s.setValue("action", int(rule->action()));
+    }
+    s.endArray();
+}
+
+void Configuration::_readPresenceRuleList(QSettings &s, QList<PresenceRule *> &rules)
+{
+    int size = s.beginReadArray("presenceRules");
+    for (int row = 0; row < size; row++) {
+        s.setArrayIndex(row);
+
+        if (!s.value("accountId").canConvert<Accounts::AccountId>()
+                || !s.value("action").canConvert<int>()) {
+            qWarning() << "Skipping invalid configuration entry.";
+            continue;
+        }
+
+        Accounts::AccountId accountId
+                = s.value("accountId").value<Accounts::AccountId>();
+        QString serviceName
+                = s.value("serviceName").toString();
+        PresenceRule::Action action
+                = (PresenceRule::Action) s.value("action").toInt();
+
+        rules.append(new PresenceRule(accountId, serviceName, action));
+    }
+    s.endArray();
 }
 
 void

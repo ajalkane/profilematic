@@ -346,6 +346,11 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
         }
         ++numAction;
     }
+    if (!rule->presenceRules().isEmpty()) {
+        if (numAction > 0) action.append(", ");
+        action += "Presence change";
+         ++numAction;
+    }
 
     if (rule->isDefaultRule()) {
         condition += "other rules don't apply";

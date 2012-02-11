@@ -25,6 +25,8 @@
 // #ifdef MEEGO_VERSION_MAJOR
 #ifdef __arm__
 #include "harmattan/harmattan_platformutil.h"
+#else
+#include "../logic/presence/actionpresencestub.h"
 #endif
 
 PlatformUtil::PlatformUtil(QObject *parent)
@@ -51,4 +53,13 @@ PlatformUtil::create()
 void
 PlatformUtil::setFlightMode(int flightMode) {
     qDebug("PlatformUtil::setFlightMode default, doing nothing for value %d", flightMode);
+}
+
+ActionPresence *PlatformUtil::createActionPresence()
+{
+#ifndef __arm__
+    return new ActionPresenceStub();
+#else
+    return NULL;
+#endif
 }

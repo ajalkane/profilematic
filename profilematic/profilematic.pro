@@ -34,20 +34,24 @@ SOURCES += src/main.cpp \
     src/qmlbackend/qmlbackend.cpp \
     src/qmlbackend/qmldaysmodel.cpp \
     ../profilematicd/src/model/rule.cpp \
+    ../profilematicd/src/model/presencerule.cpp \
     src/qmlbackend/qmlrulesmodel.cpp \
     src/qmlbackend/qmlprofilesmodel.cpp \
     src/profilematicclient.cpp \
-    src/qmlbackend/qmllocation.cpp
+    src/qmlbackend/qmllocation.cpp \
+    src/qmlbackend/presence/qmlpresencemodel.cpp
 
 HEADERS += \
     src/profileclient.h \
     src/qmlbackend/qmlbackend.h \
     src/qmlbackend/qmldaysmodel.h \
     ../profilematicd/src/model/rule.h \
+    ../profilematicd/src/model/presencerule.h \
     src/qmlbackend/qmlrulesmodel.h \
     src/qmlbackend/qmlprofilesmodel.h \
     src/profilematicclient.h \
-    src/qmlbackend/qmllocation.h
+    src/qmlbackend/qmllocation.h \
+    src/qmlbackend/presence/qmlpresencemodel.h
 
 # To avoid mistakes, do not use the simulated cellId on a device build.
 !profilematic_simulated_cellid|!isEmpty(MEEGO_VERSION_MAJOR) {
@@ -61,9 +65,24 @@ HEADERS += \
     HEADERS += src/qmlbackend/location/qmllocationrandom.h
 }
 
+!isEmpty(MEEGO_VERSION_MAJOR) {
+    message(Building with libaccounts-qt)
+    # CONFIG += link_pkgconfig is already provided by qdeclarative-boostable.prf
+    # and setting it again leads to build failures.
+    PKGCONFIG += accounts-qt
+
+    SOURCES += src/qmlbackend/presence/qmlpresencemodelimpl.cpp
+    HEADERS += src/qmlbackend/presence/qmlpresencemodelimpl.h
+} else {
+    SOURCES += src/qmlbackend/presence/qmlpresencemodelstub.cpp
+    HEADERS += src/qmlbackend/presence/qmlpresencemodelstub.h
+}
+
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
+
+OTHER_FILES +=
 
 
 

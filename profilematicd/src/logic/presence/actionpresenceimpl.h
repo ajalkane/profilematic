@@ -1,5 +1,5 @@
 /**********************************************************************
- * Copyright 2011-2012 Arto Jalkanen
+ * Copyright 2011-2012 Philip Lorenz
  *
  * This file is part of ProfileMatic.
  *
@@ -16,22 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef HARMATTAN_PLATFORMUTIL_H
-#define HARMATTAN_PLATFORMUTIL_H
 
-#include "../platformutil.h"
+#ifndef ACTIONPRESENCEIMPL_H
+#define ACTIONPRESENCEIMPL_H
 
-class HarmattanPlatformUtil : public PlatformUtil
+#include "actionpresence.h"
+
+#include <TelepathyQt4/AccountManager>
+
+namespace Accounts {
+class Manager;
+}
+
+class ActionPresenceImpl : public QObject, public ActionPresence
 {
     Q_OBJECT
-
 public:
-    HarmattanPlatformUtil(QObject *parent = 0);
-    virtual ~HarmattanPlatformUtil();
+    ActionPresenceImpl();
 
-    virtual void setFlightMode(int flightMode);
+    void activate(const Rule &rule);
+private slots:
+    void onPresenceChangeFinished(Tp::PendingOperation *op);
+    void onAccountManagerReady(Tp::PendingOperation *op);
+private:
+    Tp::AccountManagerPtr _accountManager;
+    Accounts::Manager *_manager;
 
-    ActionPresence *createActionPresence();
+    Rule *_pendingRule;
 };
 
-#endif // PLATFORMUTIL_H
+#endif // ACTIONPRESENCEIMPL_H
