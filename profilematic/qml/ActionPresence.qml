@@ -41,7 +41,7 @@ Page {
 
     SectionHeader {
         id: header
-        section: "Set presence"
+        section: "Set availability"
     }
 
     ListView {
@@ -131,7 +131,7 @@ Page {
 
         property PresenceRule rule
 
-        titleText: "Presence changed to"
+        titleText: "Availability changed to"
         model: ListModel {
             ListElement { name: "Online"; value: PresenceRule.SetOnline }
             ListElement { name: "Offline"; value: PresenceRule.SetOffline }

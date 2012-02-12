@@ -233,7 +233,7 @@ Page {
 
             RuleTopicSummary {
                 id: presenceAction
-                topic: "Set account presence"
+                topic: "Set account availability"
                 summary: presenceSummary()
                 showDrillDown: true
                 onTopicClicked: presenceEditHandler()

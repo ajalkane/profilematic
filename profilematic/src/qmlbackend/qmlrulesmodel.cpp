@@ -348,7 +348,7 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
     }
     if (!rule->presenceRules().isEmpty()) {
         if (numAction > 0) action.append(", ");
-        action += "Presence change";
+        action += "Availability change";
          ++numAction;
     }
 
