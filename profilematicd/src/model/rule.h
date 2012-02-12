@@ -52,6 +52,7 @@ class Rule : public QObject
     int     _blueToothMode;
     QHash<Accounts::AccountId, PresenceRule *> _presenceRules;
     QString _presenceStatusMessage;
+    bool _restorePresence;
 
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
@@ -84,6 +85,7 @@ class Rule : public QObject
       * PresenceRule instance.
       */
     Q_PROPERTY(QString presenceStatusMessage READ getPresenceStatusMessage WRITE setPresenceStatusMessage NOTIFY presenceStatusMessageChanged)
+    Q_PROPERTY(bool restorePresence READ getRestorePresence WRITE setRestorePresence NOTIFY restorePresenceChanged)
 
     QString _getTimeQml(const QTime &time) const;
 
@@ -107,6 +109,7 @@ signals:
     void blueToothModeChanged();
     void presenceRulesChanged();
     void presenceStatusMessageChanged();
+    void restorePresenceChanged();
 public:
     typedef QString IdType;
 
@@ -196,6 +199,9 @@ public:
     const QString &getPresenceStatusMessage() const;
     void setPresenceStatusMessage(const QString &pressenceStatusMessage);
 
+    bool getRestorePresence() const;
+    void setRestorePresence(bool restorePresence);
+
     inline bool operator==(const Rule &o) const {
         return this->_ruleId    == o._ruleId
             && this->_ruleName  == o._ruleName
@@ -209,7 +215,8 @@ public:
             && this->_profileVolume == o._profileVolume
             && this->_flightMode == o._flightMode
             && this->_blueToothMode == o._blueToothMode
-            && this->_presenceStatusMessage == o._presenceStatusMessage;
+            && this->_presenceStatusMessage == o._presenceStatusMessage
+            && this->_restorePresence == o._restorePresence;
     }
 
 

@@ -58,6 +58,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("blueToothMode", r.getBlueToothMode());
         _writePresenceRuleList(s, r.presenceRules());
         s.setValue("presenceStatusMessage", r.getPresenceStatusMessage());
+        s.setValue("restorePresence", r.getRestorePresence());
     }
     s.endArray();
 }
@@ -132,6 +133,7 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         presenceRules.clear();
 
         r.setPresenceStatusMessage(s.value("presenceStatusMessage").toString());
+        r.setRestorePresence(s.value("restorePresence", r.getRestorePresence()).toBool());
 
         // Make sure default rule is always last, and is created if it does not exist
         if (!r.isDefaultRule()) {

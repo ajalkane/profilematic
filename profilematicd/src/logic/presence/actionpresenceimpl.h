@@ -39,10 +39,18 @@ private slots:
     void onPresenceChangeFinished(Tp::PendingOperation *op);
     void onAccountManagerReady(Tp::PendingOperation *op);
 private:
+    struct AccountPresence {
+        AccountPresence(const Tp::AccountPtr &account);
+        QString objectPath;
+        Tp::Presence presence;
+    };
+private:
     Tp::AccountManagerPtr _accountManager;
     Accounts::Manager *_manager;
 
     Rule *_pendingRule;
+
+    QList<AccountPresence> _previousPresences;
 };
 
 #endif // ACTIONPRESENCEIMPL_H

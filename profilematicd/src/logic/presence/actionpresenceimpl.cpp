@@ -48,6 +48,27 @@ void ActionPresenceImpl::activate(const Rule &rule)
         return;
     }
 
+    // Restore previous presences if requested by the previous rule
+    foreach (const AccountPresence &previousPresence, _previousPresences) {
+        Tp::AccountPtr tpAccount
+                = _accountManager->accountForPath(previousPresence.objectPath);
+
+        if (!tpAccount)
+            continue;
+
+        Tp::PendingOperation *op
+                = tpAccount->setRequestedPresence(previousPresence.presence);
+        connect(op,
+                SIGNAL(finished(Tp::PendingOperation*)),
+                SLOT(onPresenceChangeFinished(Tp::PendingOperation*)));
+    }
+
+    _previousPresences.clear();
+    if (rule.getRestorePresence()) {
+        foreach(const Tp::AccountPtr &account, _accountManager->allAccounts())
+            _previousPresences.append(AccountPresence(account));
+    }
+
     foreach(const PresenceRule *presenceRule, rule.presenceRules()) {
         Accounts::Account *account
                 = _manager->account(presenceRule->accountId());
@@ -125,4 +146,10 @@ void ActionPresenceImpl::onAccountManagerReady(Tp::PendingOperation *op)
 
     delete _pendingRule;
     _pendingRule = NULL;
+}
+
+ActionPresenceImpl::AccountPresence::AccountPresence(const Tp::AccountPtr &account) :
+    objectPath(account->objectPath()),
+    presence(account->requestedPresence())
+{
 }

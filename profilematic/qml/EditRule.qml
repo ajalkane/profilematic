@@ -376,10 +376,17 @@ Page {
     }
 
     function presenceSummary() {
+        var summary = "";
+
         if (rule.presenceRules.length)
-            return "At least one change";
+            summary = "At least one change";
         else
-            return "Don't change"
+            summary = "Don't change"
+
+        if (rule.restorePresence)
+            summary += ". Restores previous availability";
+
+        return summary;
     }
 
     function presenceEditHandler() {

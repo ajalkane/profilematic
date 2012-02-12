@@ -117,7 +117,7 @@ Page {
         id: listView
 
         clip: true
-        anchors { top: buttonBar.bottom; right: parent.right; bottom: parent.bottom; left: parent.left; topMargin: UIConstants.DEFAULT_MARGIN }
+        anchors { top: buttonBar.bottom; right: parent.right; bottom: restorePresences.bottom; left: parent.left; topMargin: UIConstants.DEFAULT_MARGIN }
         model: AccountsModel {
             presenceRules: root.rule.presenceRules
         }
@@ -193,6 +193,34 @@ Page {
                 fontPixelSize: UIConstants.FONT_XLARGE
             }
         }
+    }
+
+    RuleTopicSummary {
+        id: restorePresences
+
+        anchors { right: parent.right; bottom: parent.bottom; left: parent.left }
+        height: visible ? implicitHeight : 0
+        visible: {
+            for (var row = 0; row < listView.model.presenceRules.length; row++) {
+                if (listView.model.presenceRules[row].action != PresenceRule.Retain)
+                    return true;
+            }
+
+            return false;
+        }
+        topic: "Restore previous availability"
+        topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
+        summary: restoreSwitch.checked ? "Previous availability will be restored."
+                                       : "Previous availability will not be restored."
+        onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
+        Switch {
+            id: restoreSwitch
+            checked: rule.restorePresence
+            anchors { top: parent.top; right: parent.right; verticalCenter: parent.top }
+            onCheckedChanged: rule.restorePresence = checked
+        }
+
+        Behavior on height { NumberAnimation { duration: 250 } }
     }
 
     SelectionDialog {

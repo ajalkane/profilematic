@@ -28,12 +28,14 @@ Item {
     property alias topic: topic.text
     property alias summary: summary.text
     property alias topicHeight: topic.height
+    property alias topicImplicitHeight: topic.implicitHeight
     property bool showDrillDown: false
     property bool showComboBox: false
     signal topicClicked
 
     width: parent.width
     height: content.height
+    implicitHeight: topic.height + summary.height + content.spacing
 
     Rectangle {
         id: background
