@@ -39,6 +39,9 @@ void ActionPresenceImpl::activate(const Rule &rule)
     if (!_accountManager->isReady(Tp::AccountManager::FeatureCore)) {
         qDebug() << "Rule was activated while Telepathy Account Manager was not ready - will retry as soon as it is ready.";
 
+        if (_pendingRule)
+            delete _pendingRule;
+
         _pendingRule = new Rule(rule);
         _pendingRule->setParent(this);
 
