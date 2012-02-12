@@ -44,11 +44,37 @@ Page {
         section: "Set availability"
     }
 
+    Row {
+        id: buttonBar
+
+        function __changeAllActions(to) {
+            for (var row = 0; row < listView.model.presenceRules.length; row++) {
+                listView.model.presenceRules[row].action = to;
+            }
+        }
+
+        spacing: UIConstants.PADDING_SMALL
+        anchors { top: header.bottom; right: parent.right; left: parent.left; margins: UIConstants.PADDING_MEDIUM }
+        visible: listView.count > 0
+
+        Button {
+            text: "All online"
+            width: (parent.width - parent.spacing) / 2
+            onClicked: buttonBar.__changeAllActions(PresenceRule.SetOnline)
+        }
+
+        Button {
+            text: "All offline"
+            width: (parent.width - parent.spacing) / 2
+            onClicked: buttonBar.__changeAllActions(PresenceRule.SetOffline)
+        }
+    }
+
     ListView {
         id: listView
 
         clip: true
-        anchors { top: header.bottom; right: parent.right; bottom: parent.bottom; left: parent.left  }
+        anchors { top: buttonBar.bottom; right: parent.right; bottom: parent.bottom; left: parent.left; topMargin: buttonBar.anchors.bottomMargin  }
         model: AccountsModel {
             presenceRules: root.rule.presenceRules
         }
