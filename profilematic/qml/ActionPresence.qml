@@ -44,6 +44,49 @@ Page {
         section: "Set availability"
     }
 
+    TextField {
+        id: statusMessage
+
+        anchors { top: header.bottom; left: parent.left; right: parent.right; topMargin: UIConstants.DEFAULT_MARGIN }
+        height: visible ? statusMessage.implicitHeight : 0
+        visible: {
+            for (var row = 0; row < listView.model.presenceRules.length; row++) {
+                if (listView.model.presenceRules[row].action == PresenceRule.SetOnline)
+                    return true;
+            }
+
+            return false;
+        }
+        style: TextFieldStyle {
+            paddingRight: clearButton.width
+        }
+
+        placeholderText: "Status message"
+        text: rule.presenceStatusMessage
+
+        Image {
+            id: clearButton
+
+            anchors.right: parent.right
+            width: parent.height; height: parent.height
+
+            source: "image://theme/icon-m-input-clear"
+        }
+
+        MouseArea {
+            // Force ourself to have a higher Z-Index than the TextField's MouseArea
+            z: 99
+            anchors.right: statusMessage.right
+            width: clearButton.width; height: clearButton.height
+
+            onClicked: statusMessage.text = ""
+        }
+
+        Behavior on height { NumberAnimation { duration: 250 } }
+
+        onTextChanged: rule.presenceStatusMessage = text
+    }
+
     Row {
         id: buttonBar
 
@@ -54,7 +97,7 @@ Page {
         }
 
         spacing: UIConstants.PADDING_SMALL
-        anchors { top: header.bottom; right: parent.right; left: parent.left; margins: UIConstants.PADDING_MEDIUM }
+        anchors { top: statusMessage.bottom; right: parent.right; left: parent.left; topMargin: UIConstants.DEFAULT_MARGIN }
         visible: listView.count > 0
 
         Button {
@@ -74,7 +117,7 @@ Page {
         id: listView
 
         clip: true
-        anchors { top: buttonBar.bottom; right: parent.right; bottom: parent.bottom; left: parent.left; topMargin: buttonBar.anchors.bottomMargin  }
+        anchors { top: buttonBar.bottom; right: parent.right; bottom: parent.bottom; left: parent.left; topMargin: UIConstants.DEFAULT_MARGIN }
         model: AccountsModel {
             presenceRules: root.rule.presenceRules
         }

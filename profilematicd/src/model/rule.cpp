@@ -38,7 +38,8 @@ Rule::Rule(const Rule &o)
       _restoreProfile(o._restoreProfile),
       _profileVolume(o._profileVolume),
       _flightMode(o._flightMode),
-      _blueToothMode(o._blueToothMode)
+      _blueToothMode(o._blueToothMode),
+      _presenceStatusMessage(o._presenceStatusMessage)
 {
     // Copy the account rules
     setPresenceRules(o.presenceRules());
@@ -81,6 +82,7 @@ Rule::actionsFrom(const Rule &o) {
     _profileVolume = o._profileVolume;
     _flightMode = o._flightMode;
     _blueToothMode = o._blueToothMode;
+    _presenceStatusMessage = o._presenceStatusMessage;
     setPresenceRules(o.presenceRules());
     return *this;
 }
@@ -381,6 +383,21 @@ PresenceRule *Rule::presenceRule(const Accounts::AccountId &id) const
     return _presenceRules[id];
 }
 
+const QString &Rule::getPresenceStatusMessage() const
+{
+    return _presenceStatusMessage;
+}
+
+void Rule::setPresenceStatusMessage(const QString &pressenceStatusMessage)
+{
+    if (_presenceStatusMessage == pressenceStatusMessage)
+        return;
+
+    _presenceStatusMessage = pressenceStatusMessage;
+
+    emit presenceStatusMessageChanged();
+}
+
 QList<PresenceRule *> Rule::presenceRules() const
 {
     return _presenceRules.values();
@@ -449,6 +466,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
     foreach(PresenceRule *presenceRule, rule.presenceRules())
         presenceRules.append(*presenceRule);
     argument << presenceRules;
+    argument << rule.getPresenceStatusMessage();
     argument.endStructure();
     return argument;
 }
@@ -471,6 +489,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     int     flightMode = rule.getFlightMode();
     int     blueToothMode = rule.getBlueToothMode();
     QList<PresenceRule> presenceRules;
+    QString presenceStatusMessage;
 
     argument.beginStructure();
     argument >> ruleId;
@@ -487,6 +506,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     argument >> flightMode;
     argument >> blueToothMode;
     argument >> presenceRules;
+    argument >> presenceStatusMessage;
     argument.endStructure();
 
     rule.setRuleId(ruleId);
@@ -509,6 +529,8 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
 
     qDeleteAll(dstPresenceRules);
     dstPresenceRules.clear();
+
+    rule.setPresenceStatusMessage(presenceStatusMessage);
 
     return argument;
 }

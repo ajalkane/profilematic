@@ -57,6 +57,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("flightMode", r.getFlightMode());
         s.setValue("blueToothMode", r.getBlueToothMode());
         _writePresenceRuleList(s, r.presenceRules());
+        s.setValue("presenceStatusMessage", r.getPresenceStatusMessage());
     }
     s.endArray();
 }
@@ -130,6 +131,8 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         qDeleteAll(presenceRules);
         presenceRules.clear();
 
+        r.setPresenceStatusMessage(s.value("presenceStatusMessage").toString());
+
         // Make sure default rule is always last, and is created if it does not exist
         if (!r.isDefaultRule()) {
             rules << r;
@@ -193,6 +196,7 @@ void Configuration::_writePresenceRuleList(QSettings &s, const QList<PresenceRul
         s.setValue("accountId", QVariant::fromValue(rule->accountId()));
         s.setValue("serviceName", rule->serviceName());
         s.setValue("action", int(rule->action()));
+        s.setValue("statusMessage", rule->statusMessage());
     }
     s.endArray();
 }
@@ -215,8 +219,10 @@ void Configuration::_readPresenceRuleList(QSettings &s, QList<PresenceRule *> &r
                 = s.value("serviceName").toString();
         PresenceRule::Action action
                 = (PresenceRule::Action) s.value("action").toInt();
+        QString statusMessage
+                = s.value("statusMessage").toString();
 
-        rules.append(new PresenceRule(accountId, serviceName, action));
+        rules.append(new PresenceRule(accountId, serviceName, action, statusMessage));
     }
     s.endArray();
 }

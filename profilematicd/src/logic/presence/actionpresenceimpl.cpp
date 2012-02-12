@@ -82,12 +82,14 @@ void ActionPresenceImpl::activate(const Rule &rule)
         }
 
         Tp::Presence presence;
+        QString statusMessage = presenceRule->statusMessage();
+
+        if (statusMessage.isEmpty())
+            statusMessage = rule.getPresenceStatusMessage();
 
         switch (presenceRule->action()) {
         case PresenceRule::SetOnline:
-            if (tpAccount->isOnline())
-                return;
-            presence = Tp::Presence::available();
+            presence = Tp::Presence::available(statusMessage);
             break;
         case PresenceRule::SetOffline:
             presence = Tp::Presence::offline();

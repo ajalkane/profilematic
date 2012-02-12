@@ -23,7 +23,8 @@ PresenceRule::PresenceRule(const PresenceRule &presenceRule, QObject *parent) :
     QObject(parent),
     _id(presenceRule._id),
     _serviceName(presenceRule._serviceName),
-    _action(presenceRule._action)
+    _action(presenceRule._action),
+    _statusMessage(presenceRule._statusMessage)
 {
 }
 
@@ -33,13 +34,15 @@ PresenceRule::PresenceRule(QObject *parent) :
 }
 
 PresenceRule::PresenceRule(const Accounts::AccountId &accountId,
-                         const QString &serviceName,
-                         PresenceRule::Action action,
-                         QObject *parent) :
+                           const QString &serviceName,
+                           PresenceRule::Action action,
+                           const QString &statusMessage,
+                           QObject *parent) :
     QObject(parent),
     _id(accountId),
     _serviceName(serviceName),
-    _action(action)
+    _action(action),
+    _statusMessage(statusMessage)
 {
 }
 
@@ -68,11 +71,27 @@ void PresenceRule::setAction(const PresenceRule::Action action)
     emit actionChanged();
 }
 
+const QString &PresenceRule::statusMessage() const
+{
+    return _statusMessage;
+}
+
+void PresenceRule::setStatusMessage(const QString &statusMessage)
+{
+    if (_statusMessage == statusMessage)
+        return;
+
+    _statusMessage = statusMessage;
+
+    emit statusMessageChanged();
+}
+
 PresenceRule &PresenceRule::operator =(const PresenceRule &other)
 {
     _id = other._id;
     _serviceName = other._serviceName;
     _action = other._action;
+    _statusMessage = other._statusMessage;
 
     return *this;
 }
@@ -82,6 +101,7 @@ QDBusArgument &operator <<(QDBusArgument &dbusArgument, const PresenceRule &obj)
     dbusArgument << obj.accountId();
     dbusArgument << obj.serviceName();
     dbusArgument << int(obj.action());
+    dbusArgument << obj.statusMessage();
     dbusArgument.endStructure();
 
     return dbusArgument;
@@ -94,6 +114,7 @@ const QDBusArgument &operator >>(const QDBusArgument &dbusArgument, PresenceRule
     dbusArgument >> obj._id;
     dbusArgument >> obj._serviceName;
     dbusArgument >> action;
+    dbusArgument >> obj._statusMessage;
     dbusArgument.endStructure();
 
     obj._action = (PresenceRule::Action) action;

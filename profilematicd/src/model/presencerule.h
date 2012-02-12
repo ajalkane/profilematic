@@ -42,6 +42,7 @@ class PresenceRule : public QObject
     Q_PROPERTY(Accounts::AccountId accountId READ accountId)
     Q_PROPERTY(QString serviceName READ serviceName)
     Q_PROPERTY(enum Action action READ action WRITE setAction NOTIFY actionChanged)
+    Q_PROPERTY(QString statusMessage READ statusMessage WRITE setStatusMessage NOTIFY statusMessageChanged)
 public:
     enum Action {
         SetOnline,
@@ -52,9 +53,10 @@ public:
     explicit PresenceRule(const PresenceRule &presenceRule, QObject *parent = 0);
     explicit PresenceRule(QObject *parent = 0);
     explicit PresenceRule(const Accounts::AccountId &accountId,
-                         const QString &serviceName,
-                         Action action,
-                         QObject *parent = 0);
+                          const QString &serviceName,
+                          Action action,
+                          const QString &statusMessage = QString(),
+                          QObject *parent = 0);
 
     Accounts::AccountId accountId() const;
 
@@ -63,15 +65,20 @@ public:
     Action action() const;
     void setAction(const Action action);
 
+    const QString &statusMessage() const;
+    void setStatusMessage(const QString &statusMessage);
+
     PresenceRule &operator=(const PresenceRule &other);
 signals:
     void actionChanged();
+    void statusMessageChanged();
 private:
     friend const QDBusArgument &operator >>(const QDBusArgument &dbusArgument, PresenceRule &obj);
 
     Accounts::AccountId _id;
     QString _serviceName;
     Action _action;
+    QString _statusMessage;
 };
 
 Q_DECLARE_METATYPE(PresenceRule *)

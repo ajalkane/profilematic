@@ -51,6 +51,7 @@ class Rule : public QObject
     int     _flightMode;
     int     _blueToothMode;
     QHash<Accounts::AccountId, PresenceRule *> _presenceRules;
+    QString _presenceStatusMessage;
 
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
@@ -76,6 +77,13 @@ class Rule : public QObject
       *       to the Rule instance.
       */
     Q_PROPERTY(QList<QObject *> presenceRules READ presenceRulesQml WRITE setPresenceRulesQml NOTIFY presenceRulesChanged)
+    /**
+      * This property represents the global status message set for all accounts
+      * whose presence is changed to online by this rule. Specific online
+      * status messages for each account can be specified in the corresponding
+      * PresenceRule instance.
+      */
+    Q_PROPERTY(QString presenceStatusMessage READ getPresenceStatusMessage WRITE setPresenceStatusMessage NOTIFY presenceStatusMessageChanged)
 
     QString _getTimeQml(const QTime &time) const;
 
@@ -98,6 +106,7 @@ signals:
     void flightModeChanged();
     void blueToothModeChanged();
     void presenceRulesChanged();
+    void presenceStatusMessageChanged();
 public:
     typedef QString IdType;
 
@@ -184,6 +193,9 @@ public:
 
     PresenceRule *presenceRule(const Accounts::AccountId &id) const;
 
+    const QString &getPresenceStatusMessage() const;
+    void setPresenceStatusMessage(const QString &pressenceStatusMessage);
+
     inline bool operator==(const Rule &o) const {
         return this->_ruleId    == o._ruleId
             && this->_ruleName  == o._ruleName
@@ -196,7 +208,8 @@ public:
             && this->_restoreProfile == o._restoreProfile
             && this->_profileVolume == o._profileVolume
             && this->_flightMode == o._flightMode
-            && this->_blueToothMode == o._blueToothMode;
+            && this->_blueToothMode == o._blueToothMode
+            && this->_presenceStatusMessage == o._presenceStatusMessage;
     }
 
 

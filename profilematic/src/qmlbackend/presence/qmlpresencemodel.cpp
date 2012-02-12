@@ -47,10 +47,10 @@ int QmlPresenceModel::rowCount(const QModelIndex &parent) const
 }
 
 PresenceRule *QmlPresenceModel::createPresenceRule(const Accounts::AccountId &accountId,
-                                                 const QString &serviceName)
+                                                   const QString &serviceName)
 {
     PresenceRule *presenceRule
-            = new PresenceRule(accountId, serviceName, PresenceRule::Retain, this);
+            = new PresenceRule(accountId, serviceName, PresenceRule::Retain, QString(), this);
     connect(presenceRule, SIGNAL(actionChanged()), SLOT(onActionChanged()));
     return presenceRule;
 }
