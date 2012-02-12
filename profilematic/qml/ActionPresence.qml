@@ -170,5 +170,18 @@ Page {
         onSelectedIndexChanged: {
             rule.action = model.get(selectedIndex).value
         }
+
+        onRuleChanged: {
+            if (!rule)
+                return;
+
+            for (var row = 0; row < model.count; row++) {
+                if (model.get(row).value !== rule.action)
+                    continue;
+
+                presenceSelectionDialog.selectedIndex = row
+                break;
+            }
+        }
     }
 }
