@@ -137,6 +137,9 @@ Page {
             ListElement { name: "Offline"; value: PresenceRule.SetOffline }
             ListElement { name: "Do not change"; value: PresenceRule.Retain }
         }
+        platformStyle: SelectionDialogStyle {
+           itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
+        }
 
         onSelectedIndexChanged: {
             rule.action = model.get(selectedIndex).value
