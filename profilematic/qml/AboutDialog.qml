@@ -20,10 +20,16 @@ import QtQuick 1.1
 import com.nokia.meego 1.0
 
 QueryDialog {
-    titleText: "ProfileMatic v1.3.0"
+    titleText: "ProfileMatic v1.4.0"
     message: "(c) Arto Jalkanen 2011-2012\n"
              + "UX design by Dina & Arto Jalkanen\n"
              + "\n"
+             + "Contributors:"
+             + "\n"
+             + "Philip Lorenz (Availability)"
+             + "\n"
+             + "\n"
              + "This application is free sofware licenced under the GNU Public License version 3"
+             + "\n"
     acceptButtonText: "Close"
 }
