@@ -21,8 +21,7 @@
 
 PresenceRule::PresenceRule(const PresenceRule &presenceRule, QObject *parent) :
     QObject(parent),
-    _id(presenceRule._id),
-    _serviceName(presenceRule._serviceName),
+    _key(presenceRule._key),
     _action(presenceRule._action),
     _statusMessage(presenceRule._statusMessage)
 {
@@ -39,8 +38,7 @@ PresenceRule::PresenceRule(const Accounts::AccountId &accountId,
                            const QString &statusMessage,
                            QObject *parent) :
     QObject(parent),
-    _id(accountId),
-    _serviceName(serviceName),
+    _key(accountId, serviceName),
     _action(action),
     _statusMessage(statusMessage)
 {
@@ -48,12 +46,12 @@ PresenceRule::PresenceRule(const Accounts::AccountId &accountId,
 
 Accounts::AccountId PresenceRule::accountId() const
 {
-    return _id;
+    return _key.accountId;
 }
 
 const QString &PresenceRule::serviceName() const
 {
-    return _serviceName;
+    return _key.serviceName;
 }
 
 PresenceRule::Action PresenceRule::action() const
@@ -86,10 +84,14 @@ void PresenceRule::setStatusMessage(const QString &statusMessage)
     emit statusMessageChanged();
 }
 
+const PresenceRule::Key &PresenceRule::key() const
+{
+    return _key;
+}
+
 PresenceRule &PresenceRule::operator =(const PresenceRule &other)
 {
-    _id = other._id;
-    _serviceName = other._serviceName;
+    _key = other._key;
     _action = other._action;
     _statusMessage = other._statusMessage;
 
@@ -111,8 +113,8 @@ const QDBusArgument &operator >>(const QDBusArgument &dbusArgument, PresenceRule
     int action;
 
     dbusArgument.beginStructure();
-    dbusArgument >> obj._id;
-    dbusArgument >> obj._serviceName;
+    dbusArgument >> obj._key.accountId;
+    dbusArgument >> obj._key.serviceName;
     dbusArgument >> action;
     dbusArgument >> obj._statusMessage;
     dbusArgument.endStructure();
@@ -120,4 +122,20 @@ const QDBusArgument &operator >>(const QDBusArgument &dbusArgument, PresenceRule
     obj._action = (PresenceRule::Action) action;
 
     return dbusArgument;
+}
+
+PresenceRule::Key::Key()
+{
+}
+
+PresenceRule::Key::Key(const Accounts::AccountId &accountId,
+                       const QString &serviceName) :
+    accountId(accountId),
+    serviceName(serviceName)
+{
+}
+
+bool PresenceRule::Key::operator ==(const PresenceRule::Key &other) const
+{
+    return accountId == other.accountId && serviceName == other.serviceName;
 }

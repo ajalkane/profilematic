@@ -42,7 +42,10 @@ private:
         QString icon;
         bool enabled;
     };
-
+private slots:
+    void onRuleChanged();
+    void addRandom();
+    void removeRandom();
 private:
     void appendRow(int id,
                    QString name,

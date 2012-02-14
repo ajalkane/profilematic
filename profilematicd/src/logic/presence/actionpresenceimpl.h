@@ -45,6 +45,10 @@ private:
         Tp::Presence presence;
     };
 private:
+    void changeAccountPresence(Tp::AccountPtr account, const Tp::Presence &presence);
+    void changeAllAccounts(const Rule &rule);
+    void changeSelectedAccounts(const Rule &rule);
+private:
     Tp::AccountManagerPtr _accountManager;
     Accounts::Manager *_manager;
 

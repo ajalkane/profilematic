@@ -27,15 +27,7 @@ Page {
     id: root
     property Rule rule;
 
-    tools: ToolBarLayout {
-        ToolIcon {
-            iconId: "toolbar-back"
-            onClicked: {
-                rule.presenceRules = listView.model.presenceRules
-                pageStack.pop();
-            }
-        }
-    }
+    tools: commonTools
 
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
@@ -50,8 +42,8 @@ Page {
         anchors { top: header.bottom; left: parent.left; right: parent.right; topMargin: UIConstants.DEFAULT_MARGIN }
         height: visible ? statusMessage.implicitHeight : 0
         visible: {
-            for (var row = 0; row < listView.model.presenceRules.length; row++) {
-                if (listView.model.presenceRules[row].action == PresenceRule.SetOnline)
+            for (var row = 0; row < rule.presenceRules.length; row++) {
+                if (rule.presenceRules[row].action === PresenceRule.SetOnline)
                     return true;
             }
 
@@ -101,15 +93,39 @@ Page {
         visible: listView.count > 0
 
         Button {
+            id: allOnlineButton
+
+            property bool shouldBeChecked: root.rule.presenceChangeType === Rule.AllOnlinePresenceType
+
             text: "All online"
             width: (parent.width - parent.spacing) / 2
-            onClicked: buttonBar.__changeAllActions(PresenceRule.SetOnline)
+            checkable: true
+            checked: shouldBeChecked
+
+            onClicked: root.rule.presenceChangeType = (checked ? Rule.AllOnlinePresenceType :  Rule.CustomPresenceType)
+
+            Connections {
+                target: root.rule
+                onPresenceChangeTypeChanged: allOnlineButton.checked = allOnlineButton.shouldBeChecked
+            }
         }
 
         Button {
+            id: allOfflineButton
+
+            property bool shouldBeChecked: root.rule.presenceChangeType === Rule.AllOfflinePresenceType
+
             text: "All offline"
             width: (parent.width - parent.spacing) / 2
-            onClicked: buttonBar.__changeAllActions(PresenceRule.SetOffline)
+            checkable: true
+            checked: shouldBeChecked
+
+            onClicked: root.rule.presenceChangeType = (checked ? Rule.AllOfflinePresenceType : Rule.CustomPresenceType)
+
+            Connections {
+                target: root.rule
+                onPresenceChangeTypeChanged: allOfflineButton.checked = allOfflineButton.shouldBeChecked
+            }
         }
     }
 
@@ -117,9 +133,9 @@ Page {
         id: listView
 
         clip: true
-        anchors { top: buttonBar.bottom; right: parent.right; bottom: restorePresences.bottom; left: parent.left; topMargin: UIConstants.DEFAULT_MARGIN }
+        anchors { top: buttonBar.bottom; right: parent.right; bottom: restorePresences.top; left: parent.left; topMargin: UIConstants.DEFAULT_MARGIN }
         model: AccountsModel {
-            presenceRules: root.rule.presenceRules
+            rule: root.rule
         }
 
         delegate: Rectangle {
@@ -201,8 +217,8 @@ Page {
         anchors { right: parent.right; bottom: parent.bottom; left: parent.left }
         height: visible ? implicitHeight : 0
         visible: {
-            for (var row = 0; row < listView.model.presenceRules.length; row++) {
-                if (listView.model.presenceRules[row].action != PresenceRule.Retain)
+            for (var row = 0; row < rule.presenceRules.length; row++) {
+                if (rule.presenceRules[row].action !== PresenceRule.Retain)
                     return true;
             }
 

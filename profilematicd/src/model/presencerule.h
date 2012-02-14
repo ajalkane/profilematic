@@ -49,6 +49,16 @@ public:
         SetOffline,
         Retain
     };
+
+    struct Key {
+        Key();
+        Key(const Accounts::AccountId &accountId, const QString &serviceName);
+
+        bool operator ==(const Key &other) const;
+
+        Accounts::AccountId accountId;
+        QString serviceName;
+    };
 public:
     explicit PresenceRule(const PresenceRule &presenceRule, QObject *parent = 0);
     explicit PresenceRule(QObject *parent = 0);
@@ -68,6 +78,8 @@ public:
     const QString &statusMessage() const;
     void setStatusMessage(const QString &statusMessage);
 
+    const Key &key() const;
+
     PresenceRule &operator=(const PresenceRule &other);
 signals:
     void actionChanged();
@@ -75,8 +87,7 @@ signals:
 private:
     friend const QDBusArgument &operator >>(const QDBusArgument &dbusArgument, PresenceRule &obj);
 
-    Accounts::AccountId _id;
-    QString _serviceName;
+    Key _key;
     Action _action;
     QString _statusMessage;
 };

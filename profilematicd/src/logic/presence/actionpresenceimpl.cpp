@@ -56,11 +56,7 @@ void ActionPresenceImpl::activate(const Rule &rule)
         if (!tpAccount)
             continue;
 
-        Tp::PendingOperation *op
-                = tpAccount->setRequestedPresence(previousPresence.presence);
-        connect(op,
-                SIGNAL(finished(Tp::PendingOperation*)),
-                SLOT(onPresenceChangeFinished(Tp::PendingOperation*)));
+        changeAccountPresence(tpAccount, previousPresence.presence);
     }
 
     _previousPresences.clear();
@@ -69,6 +65,59 @@ void ActionPresenceImpl::activate(const Rule &rule)
             _previousPresences.append(AccountPresence(account));
     }
 
+    // Handle the special cases of all online or all offline
+    switch(rule.getPresenceChangeType()) {
+    case Rule::AllOfflinePresenceType:
+    case Rule::AllOnlinePresenceType:
+        changeAllAccounts(rule);
+        break;
+    case Rule::CustomPresenceType:
+        changeSelectedAccounts(rule);
+        break;
+    }
+}
+
+void ActionPresenceImpl::onPresenceChangeFinished(Tp::PendingOperation *op)
+{
+    if (op->isError())
+        qWarning() << "Failed to change presence:" << op->errorMessage();
+}
+
+void ActionPresenceImpl::onAccountManagerReady(Tp::PendingOperation *op)
+{
+    if (op->isError()) {
+        qWarning() << "Failed to instantiate account manager.";
+        return;
+    }
+
+    if (!_pendingRule)
+        return;
+
+    activate(*_pendingRule);
+
+    delete _pendingRule;
+    _pendingRule = NULL;
+}
+
+void ActionPresenceImpl::changeAccountPresence(Tp::AccountPtr account, const Tp::Presence &presence)
+{
+    Tp::PendingOperation *op = account->setRequestedPresence(presence);
+    connect(op,
+            SIGNAL(finished(Tp::PendingOperation*)),
+            SLOT(onPresenceChangeFinished(Tp::PendingOperation*)));
+}
+
+void ActionPresenceImpl::changeAllAccounts(const Rule &rule)
+{
+    Tp::Presence presence
+            = rule.getPresenceChangeType() == Rule::AllOfflinePresenceType ? Tp::Presence::offline() : Tp::Presence::available(rule.getPresenceStatusMessage());
+    foreach(const Tp::AccountPtr &account, _accountManager->allAccounts()) {
+        changeAccountPresence(account, presence);
+    }
+}
+
+void ActionPresenceImpl::changeSelectedAccounts(const Rule &rule)
+{
     foreach(const PresenceRule *presenceRule, rule.presenceRules()) {
         Accounts::Account *account
                 = _manager->account(presenceRule->accountId());
@@ -119,33 +168,8 @@ void ActionPresenceImpl::activate(const Rule &rule)
             continue;
         }
 
-        Tp::PendingOperation *op = tpAccount->setRequestedPresence(presence);
-        connect(op,
-                SIGNAL(finished(Tp::PendingOperation*)),
-                SLOT(onPresenceChangeFinished(Tp::PendingOperation*)));
+        changeAccountPresence(tpAccount, presence);
     }
-}
-
-void ActionPresenceImpl::onPresenceChangeFinished(Tp::PendingOperation *op)
-{
-    if (op->isError())
-        qWarning() << "Failed to change presence:" << op->errorMessage();
-}
-
-void ActionPresenceImpl::onAccountManagerReady(Tp::PendingOperation *op)
-{
-    if (op->isError()) {
-        qWarning() << "Failed to instantiate account manager.";
-        return;
-    }
-
-    if (!_pendingRule)
-        return;
-
-    activate(*_pendingRule);
-
-    delete _pendingRule;
-    _pendingRule = NULL;
 }
 
 ActionPresenceImpl::AccountPresence::AccountPresence(const Tp::AccountPtr &account) :

@@ -32,6 +32,13 @@
 
 class Rule : public QObject
 {
+public:
+    enum PresenceChangeType {
+        CustomPresenceType,
+        AllOnlinePresenceType,
+        AllOfflinePresenceType
+    };
+private:
     Q_OBJECT
 
     // Conditions
@@ -50,10 +57,12 @@ class Rule : public QObject
     int     _profileVolume;
     int     _flightMode;
     int     _blueToothMode;
-    QHash<Accounts::AccountId, PresenceRule *> _presenceRules;
+    QList<PresenceRule *> _presenceRules;
     QString _presenceStatusMessage;
     bool _restorePresence;
+    PresenceChangeType _presenceChangeType;
 
+    Q_ENUMS(PresenceChangeType)
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
     Q_PROPERTY(QString ruleId READ getRuleId NOTIFY ruleIdChanged)
@@ -77,7 +86,7 @@ class Rule : public QObject
       * \note The setter copies the individual rule instances and binds them
       *       to the Rule instance.
       */
-    Q_PROPERTY(QList<QObject *> presenceRules READ presenceRulesQml WRITE setPresenceRulesQml NOTIFY presenceRulesChanged)
+    Q_PROPERTY(QList<QObject *> presenceRules READ presenceRulesQml NOTIFY presenceRulesChanged)
     /**
       * This property represents the global status message set for all accounts
       * whose presence is changed to online by this rule. Specific online
@@ -86,6 +95,7 @@ class Rule : public QObject
       */
     Q_PROPERTY(QString presenceStatusMessage READ getPresenceStatusMessage WRITE setPresenceStatusMessage NOTIFY presenceStatusMessageChanged)
     Q_PROPERTY(bool restorePresence READ getRestorePresence WRITE setRestorePresence NOTIFY restorePresenceChanged)
+    Q_PROPERTY(PresenceChangeType presenceChangeType READ getPresenceChangeType WRITE setPresenceChangeType NOTIFY presenceChangeTypeChanged)
 
     QString _getTimeQml(const QTime &time) const;
 
@@ -110,6 +120,9 @@ signals:
     void presenceRulesChanged();
     void presenceStatusMessageChanged();
     void restorePresenceChanged();
+    void presenceChangeTypeChanged();
+private slots:
+    void onPresenceRuleActionChanged();
 public:
     typedef QString IdType;
 
@@ -189,18 +202,22 @@ public:
     void setProfileVolume(int volume);
 
     QList<QObject *> presenceRulesQml() const;
-    void setPresenceRulesQml(QList<QObject *> presenceRules);
 
     QList<PresenceRule *> presenceRules() const;
     void setPresenceRules(QList<PresenceRule *> presenceRules);
 
-    PresenceRule *presenceRule(const Accounts::AccountId &id) const;
+    bool addPresenceRule(PresenceRule *presenceRule);
+    bool removePresenceRule(PresenceRule *presenceRule);
+    PresenceRule *presenceRule(const PresenceRule::Key &key);
 
     const QString &getPresenceStatusMessage() const;
     void setPresenceStatusMessage(const QString &pressenceStatusMessage);
 
     bool getRestorePresence() const;
     void setRestorePresence(bool restorePresence);
+
+    PresenceChangeType getPresenceChangeType() const;
+    void setPresenceChangeType(PresenceChangeType presenceChangeType);
 
     inline bool operator==(const Rule &o) const {
         return this->_ruleId    == o._ruleId

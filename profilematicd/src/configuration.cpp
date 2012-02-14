@@ -59,6 +59,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         _writePresenceRuleList(s, r.presenceRules());
         s.setValue("presenceStatusMessage", r.getPresenceStatusMessage());
         s.setValue("restorePresence", r.getRestorePresence());
+        s.setValue("presenceChangeType", int(r.getPresenceChangeType()));
     }
     s.endArray();
 }
@@ -134,6 +135,7 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
 
         r.setPresenceStatusMessage(s.value("presenceStatusMessage").toString());
         r.setRestorePresence(s.value("restorePresence", r.getRestorePresence()).toBool());
+        r.setPresenceChangeType((Rule::PresenceChangeType) s.value("presenceChangeType", (int) Rule::CustomPresenceType).toInt());
 
         // Make sure default rule is always last, and is created if it does not exist
         if (!r.isDefaultRule()) {

@@ -20,6 +20,8 @@
 #ifndef QMLACCOUNTSMODEL_H
 #define QMLACCOUNTSMODEL_H
 
+#include "../../profilematicd/src/model/rule.h"
+
 #include <QAbstractListModel>
 #include <QDeclarativeListProperty>
 
@@ -31,19 +33,13 @@ typedef quint32 AccountId;
 }
 #endif
 
-class Rule;
 class PresenceRule;
 
 class QmlPresenceModel : public QAbstractListModel
 {
     Q_OBJECT
-    /**
-      * This property holds the presence rules of this model.
-      *
-      * \note Each rule is owned by the model and must be copied if you require
-      *       access after the model has been destructed.
-      */
-    Q_PROPERTY(QList<QObject *> presenceRules READ presenceRules WRITE setPresenceRules NOTIFY presenceRulesChanged)
+
+    Q_PROPERTY(Rule * rule READ rule WRITE setRule NOTIFY ruleChanged)
 public:
     enum Role {
         AccountNameRole = Qt::UserRole + 1,
@@ -58,10 +54,10 @@ public:
 
     int rowCount(const QModelIndex &parent) const;
 
-    QList<QObject *> presenceRules() const;
-    void setPresenceRules(QList<QObject *> presenceRules);
+    Rule *rule() const;
+    void setRule(Rule *rule);
 signals:
-    void presenceRulesChanged();
+    void ruleChanged();
 protected:
     PresenceRule *createPresenceRule(const Accounts::AccountId &accountId,
                                      const QString &serviceName);
@@ -75,6 +71,12 @@ protected:
     QList<AccountEntry *> _rows;
 private slots:
     void onActionChanged();
+    void onRowsAboutToBeRemoved(const QModelIndex &parent, int start, int end);
+    void onRowsInserted(const QModelIndex &parent, int start, int end);
+private:
+    void updatePresenceRules();
+private:
+    Rule *_rule;
 };
 
 #endif // QMLACCOUNTSMODEL_H

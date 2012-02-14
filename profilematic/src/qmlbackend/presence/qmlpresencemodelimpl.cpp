@@ -69,7 +69,7 @@ void QmlPresenceModelImpl::onAccountCreated(Accounts::AccountId id)
         if (!supportedService(account, service))
             continue;
 
-        beginInsertRows(QModelIndex(), _rows.count() - 1, _rows.count() - 1);
+        beginInsertRows(QModelIndex(), _rows.count(), _rows.count());
         _rows.append(new AccountsQtEntry(account,
                                          service,
                                          createPresenceRule(id, service->name())));
@@ -80,17 +80,15 @@ void QmlPresenceModelImpl::onAccountCreated(Accounts::AccountId id)
 void QmlPresenceModelImpl::onAccountRemoved(Accounts::AccountId id)
 {
     QMutableListIterator<AccountEntry *> it(_rows);
-    int row = 0;
-    while (it.hasNext()) {
-        if ((it.value()->rule)->accountId() == id) {
-            beginRemoveRows(QModelIndex(), row, row);
-            it.remove();
-            endRemoveRows();
-            return;
-        }
+    for (int row = 0; row < _rows.count(); row++) {
+        if (_rows[row]->rule->accountId() != id)
+            continue;
 
-        row++;
-        it.next();
+        beginRemoveRows(QModelIndex(), row, row);
+        _rows.removeAt(row);
+        endRemoveRows();
+
+        row--;
     }
 }
 

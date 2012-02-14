@@ -21,11 +21,19 @@
 #include "../../profilematicd/src/model/rule.h"
 #include "../../profilematicd/src/model/presencerule.h"
 
+#include <QDebug>
+
 QmlPresenceModelStub::QmlPresenceModelStub(QObject *parent) :
     QmlPresenceModel(parent)
 {
     appendRow(1, "SIP");
     appendRow(2, "Google Talk");
+    appendRow(3, "Change to remove random");
+    appendRow(4, "Change to add random");
+
+    onRuleChanged();
+
+    connect(this, SIGNAL(ruleChanged()), SLOT(onRuleChanged()));
 }
 
 QVariant QmlPresenceModelStub::data(const QModelIndex &index, int role) const
@@ -49,6 +57,33 @@ QVariant QmlPresenceModelStub::data(const QModelIndex &index, int role) const
     default:
         return QVariant();
     }
+}
+
+void QmlPresenceModelStub::onRuleChanged() {
+    connect(_rows[2]->rule, SIGNAL(actionChanged()), SLOT(removeRandom()));
+    connect(_rows[3]->rule, SIGNAL(actionChanged()), SLOT(addRandom()));
+}
+
+void QmlPresenceModelStub::addRandom()
+{
+    qDebug() << "Adding random entry";
+    beginInsertRows(QModelIndex(), _rows.count(), _rows.count());
+    appendRow(qrand() + 10, QString::number(qrand()));
+    endInsertRows();
+}
+
+void QmlPresenceModelStub::removeRandom() {
+    int row = qrand() % _rows.count();
+
+    while (_rows[row]->rule->accountId() == 3 || _rows[row]->rule->accountId() == 4)
+        row = qrand() % _rows.count();
+
+    qDebug() << "Removing entry at row" << row;
+
+    beginRemoveRows(QModelIndex(), row, row);
+    delete _rows[row];
+    _rows.removeAt(row);
+    endRemoveRows();
 }
 
 void QmlPresenceModelStub::appendRow(int id,
