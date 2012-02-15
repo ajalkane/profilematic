@@ -48,6 +48,8 @@ void ActionPresenceImpl::activate(const Rule &rule)
         return;
     }
 
+    bool hadPreviousPresences = !_previousPresences.isEmpty();
+
     // Restore previous presences if requested by the previous rule
     foreach (const AccountPresence &previousPresence, _previousPresences) {
         Tp::AccountPtr tpAccount
@@ -60,10 +62,18 @@ void ActionPresenceImpl::activate(const Rule &rule)
     }
 
     _previousPresences.clear();
+
     if (rule.getRestorePresence()) {
         foreach(const Tp::AccountPtr &account, _accountManager->allAccounts())
             _previousPresences.append(AccountPresence(account));
     }
+
+    // In case we switch back to the default rule and previous availability
+    // information was restored - account availabilities set by the default
+    // rule should be ignored.
+    if (rule.isDefaultRule() && hadPreviousPresences)
+        return;
+
 
     // Handle the special cases of all online or all offline
     switch(rule.getPresenceChangeType()) {
