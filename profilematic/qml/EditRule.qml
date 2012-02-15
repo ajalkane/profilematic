@@ -21,6 +21,7 @@ import com.nokia.meego 1.0
 import com.nokia.extras 1.0
 
 import Rule 1.0
+import profilematic 1.0
 
 import "UIConstants.js" as UIConstants
 
@@ -377,8 +378,16 @@ Page {
 
     function presenceSummary() {
         var summary = "";
+        var atLeastOneChange = false;
 
-        if (rule.presenceRules.length)
+        for (var row = 0; row < rule.presenceRules.length; row++) {
+            if (rule.presenceRules[row].action !== PresenceRule.Retain) {
+                atLeastOneChange = true;
+                break;
+            }
+        }
+
+        if (atLeastOneChange)
             summary = "At least one change";
         else
             summary = "Don't change"
