@@ -21,6 +21,8 @@
 
 #include <QObject>
 
+class ActionPresence;
+
 class PlatformUtil : public QObject
 {
     Q_OBJECT
@@ -31,6 +33,7 @@ public:
     virtual ~PlatformUtil();
 
     virtual void setFlightMode(int flightMode);
+    virtual ActionPresence *createActionPresence();
 };
 
 #endif // PLATFORMUTIL_H

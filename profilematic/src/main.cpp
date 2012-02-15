@@ -37,6 +37,13 @@
 
 #include "qmlapplicationviewer.h"
 
+#include <qplatformdefs.h>
+#ifdef MEEGO_EDITION_HARMATTAN
+#include "qmlbackend/presence/qmlpresencemodelimpl.h"
+#else
+#include "qmlbackend/presence/qmlpresencemodelstub.h"
+#endif
+
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QString mainQmlFile(QLatin1String("qml/main.qml"));
@@ -62,6 +69,12 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     engine->connect(engine, SIGNAL(quit()), app.data(), SLOT(quit()));
 
     qmlRegisterType<Rule>("Rule", 1, 0, "Rule");
+    qmlRegisterType<PresenceRule>("profilematic", 1, 0, "PresenceRule");
+#ifdef MEEGO_EDITION_HARMATTAN
+    qmlRegisterType<QmlPresenceModelImpl>("profilematic", 1, 0, "AccountsModel");
+#else
+    qmlRegisterType<QmlPresenceModelStub>("profilematic", 1, 0, "AccountsModel");
+#endif
     ctxt->setContextProperty("profileClient", &profileClient);
     ctxt->setContextProperty("backend", &qmlBackend);
     ctxt->setContextProperty("backendDaysModel", &qmlDaysModel);

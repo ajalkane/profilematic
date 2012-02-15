@@ -35,6 +35,7 @@
 #include "logic/actionflightmode.h"
 #include "logic/actionprofile.h"
 #include "logic/actionbluetooth.h"
+#include "logic/presence/actionpresence.h"
 #include "interface/profilematicinterface.h"
 #include "platform/platformutil.h"
 
@@ -58,6 +59,7 @@ buildAction(ProfileClient *profileClient, PlatformUtil *platformUtil) {
     ac->add(new ActionProfile(profileClient));
     ac->add(new ActionFlightMode(platformUtil));
     ac->add(new ActionBlueTooth());
+    ac->add(platformUtil->createActionPresence());
     return ac;
 }
 

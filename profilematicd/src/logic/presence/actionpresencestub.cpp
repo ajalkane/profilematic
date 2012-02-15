@@ -1,5 +1,5 @@
 /**********************************************************************
- * Copyright 2011-2012 Arto Jalkanen
+ * Copyright 2011-2012 Philip Lorenz
  *
  * This file is part of ProfileMatic.
  *
@@ -16,22 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef HARMATTAN_PLATFORMUTIL_H
-#define HARMATTAN_PLATFORMUTIL_H
 
-#include "../platformutil.h"
+#include "actionpresencestub.h"
 
-class HarmattanPlatformUtil : public PlatformUtil
+#include <QDebug>
+
+ActionPresenceStub::ActionPresenceStub()
 {
-    Q_OBJECT
+}
 
-public:
-    HarmattanPlatformUtil(QObject *parent = 0);
-    virtual ~HarmattanPlatformUtil();
+void ActionPresenceStub::activate(const Rule &rule)
+{
+    Q_UNUSED(rule)
 
-    virtual void setFlightMode(int flightMode);
-
-    ActionPresence *createActionPresence();
-};
-
-#endif // PLATFORMUTIL_H
+    qDebug() << "Would activate accounts rule here.";
+}

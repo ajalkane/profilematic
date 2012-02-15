@@ -21,6 +21,7 @@
 #include <stdio.h>
 
 #include "../model/rule.h"
+#include "../model/presencerule.h"
 #include "../configuration.h"
 #include "profilematicinterface.h"
 
@@ -32,6 +33,7 @@ ProfileMaticInterface::ProfileMaticInterface(RulesManager *rulesManager, QList<R
 {
     qDBusRegisterMetaType<Rule>();
     qDBusRegisterMetaType<QList<Rule> >();
+    qDBusRegisterMetaType<PresenceRule>();
 }
 
 int

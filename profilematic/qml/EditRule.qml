@@ -21,6 +21,7 @@ import com.nokia.meego 1.0
 import com.nokia.extras 1.0
 
 import Rule 1.0
+import profilematic 1.0
 
 import "UIConstants.js" as UIConstants
 
@@ -231,6 +232,14 @@ Page {
                 onTopicClicked: blueToothModeEditHandler()
             }
 
+            RuleTopicSummary {
+                id: presenceAction
+                topic: "Set account availability"
+                summary: presenceSummary()
+                showDrillDown: true
+                onTopicClicked: presenceEditHandler()
+            }
+
             Text {
                 id: ruleSummary
                 wrapMode: Text.WordWrap
@@ -247,6 +256,7 @@ Page {
                     onWlanChanged:          ruleSummary.text = root.ruleSummary()
                     onProfileChanged:       ruleSummary.text = root.ruleSummary()
                     onBlueToothModeChanged: ruleSummary.text = root.ruleSummary()
+                    onPresenceRulesChanged: ruleSummary.text = root.ruleSummary()
                 }
             }
         } // Column
@@ -364,6 +374,32 @@ Page {
     function blueToothModeEditHandler() {
         dBlueToothMode.selectedBlueToothMode = rule.blueToothMode
         dBlueToothMode.open();
+    }
+
+    function presenceSummary() {
+        var summary = "";
+        var atLeastOneChange = false;
+
+        for (var row = 0; row < rule.presenceRules.length; row++) {
+            if (rule.presenceRules[row].action !== PresenceRule.Retain) {
+                atLeastOneChange = true;
+                break;
+            }
+        }
+
+        if (atLeastOneChange)
+            summary = "At least one change";
+        else
+            summary = "Don't change"
+
+        if (rule.restorePresence)
+            summary += ". Restores previous availability";
+
+        return summary;
+    }
+
+    function presenceEditHandler() {
+        root.pageStack.push(Qt.resolvedUrl("ActionPresence.qml"), { 'rule': rule });
     }
 
 }

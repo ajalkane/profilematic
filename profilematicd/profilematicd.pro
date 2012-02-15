@@ -32,6 +32,7 @@ SOURCES += src/main.cpp \
     src/profileclient.cpp \
     src/configuration.cpp \
     src/model/rule.cpp \
+    src/model/presencerule.cpp \
     src/interface/profilematicinterface.cpp \
     src/preferences.cpp \
     src/platform/platformutil.cpp \
@@ -51,6 +52,7 @@ HEADERS += \
     src/profileclient.h \
     src/configuration.h \
     src/model/rule.h \
+    src/model/presencerule.h \
     src/interface/profilematicinterface.h \
     src/preferences.h \
     src/platform/platformutil.h \
@@ -64,11 +66,25 @@ HEADERS += \
     src/logic/conditionmanagerchain.h \
     src/logic/conditionmanagerlocationcell.h \
     src/logic/conditionmanagerwlan.h \
-    src/logic/actionbluetooth.h
+    src/logic/actionbluetooth.h \
+    src/logic/presence/actionpresence.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp
     HEADERS += src/platform/harmattan/harmattan_platformutil.h
+}
+
+!isEmpty(MEEGO_VERSION_MAJOR) {
+    message(Building with libaccounts-qt)
+    CONFIG += link_pkgconfig
+    PKGCONFIG += accounts-qt
+    PKGCONFIG += TelepathyQt4
+
+    SOURCES += src/logic/presence/actionpresenceimpl.cpp
+    HEADERS += src/logic/presence/actionpresenceimpl.h
+} else {
+    SOURCES += src/logic/presence/actionpresencestub.cpp
+    HEADERS += src/logic/presence/actionpresencestub.h
 }
 
 qtestlib {

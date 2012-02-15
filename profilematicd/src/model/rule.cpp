@@ -20,7 +20,8 @@
 
 Rule::Rule(QObject *parent)
     : QObject(parent), _wlanTimeout(0),  _restoreProfile(false), _profileVolume(-1),
-      _flightMode(-1), _blueToothMode(-1)
+      _flightMode(-1), _blueToothMode(-1), _restorePresence(false),
+      _presenceChangeType(CustomPresenceType)
 {
 }
 
@@ -38,8 +39,13 @@ Rule::Rule(const Rule &o)
       _restoreProfile(o._restoreProfile),
       _profileVolume(o._profileVolume),
       _flightMode(o._flightMode),
-      _blueToothMode(o._blueToothMode)
+      _blueToothMode(o._blueToothMode),
+      _presenceStatusMessage(o._presenceStatusMessage),
+      _restorePresence(o._restorePresence),
+      _presenceChangeType(o._presenceChangeType)
 {
+    // Copy the account rules
+    setPresenceRules(o.presenceRules());
 }
 
 Rule
@@ -79,6 +85,10 @@ Rule::actionsFrom(const Rule &o) {
     _profileVolume = o._profileVolume;
     _flightMode = o._flightMode;
     _blueToothMode = o._blueToothMode;
+    _presenceStatusMessage = o._presenceStatusMessage;
+    _restorePresence = o._restorePresence;
+    _presenceChangeType = o._presenceChangeType;
+    setPresenceRules(o.presenceRules());
     return *this;
 }
 
@@ -344,6 +354,143 @@ Rule::setProfileVolume(int volume) {
     }
 }
 
+QList<QObject *> Rule::presenceRulesQml() const
+{
+    QList<QObject *> result;
+    foreach (PresenceRule *presenceRule, _presenceRules)
+        result.append(presenceRule);
+    return result;
+}
+
+bool Rule::addPresenceRule(PresenceRule *presenceRule)
+{
+    foreach (PresenceRule *existingPresenceRule, _presenceRules) {
+        if (existingPresenceRule->key() == presenceRule->key())
+            return false;
+    }
+
+    connect(presenceRule, SIGNAL(actionChanged()), SLOT(onPresenceRuleActionChanged()));
+
+    presenceRule->setParent(this);
+    _presenceRules.append(presenceRule);
+
+    if ((presenceRule->action() == PresenceRule::SetOnline
+            && _presenceChangeType == Rule::AllOfflinePresenceType)
+        || (presenceRule->action() == PresenceRule::SetOffline
+            && _presenceChangeType == Rule::AllOnlinePresenceType))
+        setPresenceChangeType(Rule::CustomPresenceType);
+
+    emit presenceRulesChanged();
+
+    return true;
+}
+
+bool Rule::removePresenceRule(PresenceRule *presenceRule)
+{
+    bool success = _presenceRules.removeOne(presenceRule);
+
+    if (success)
+        presenceRule->deleteLater();
+
+    return success;
+}
+
+PresenceRule *Rule::presenceRule(const PresenceRule::Key &key)
+{
+    foreach (PresenceRule *presenceRule, _presenceRules)
+        if (presenceRule->key() == key)
+            return presenceRule;
+
+    return NULL;
+}
+
+const QString &Rule::getPresenceStatusMessage() const
+{
+    return _presenceStatusMessage;
+}
+
+void Rule::setPresenceStatusMessage(const QString &pressenceStatusMessage)
+{
+    if (_presenceStatusMessage == pressenceStatusMessage)
+        return;
+
+    _presenceStatusMessage = pressenceStatusMessage;
+
+    emit presenceStatusMessageChanged();
+}
+
+bool Rule::getRestorePresence() const
+{
+    return _restorePresence;
+}
+
+void Rule::setRestorePresence(bool restorePresence)
+{
+    if (_restorePresence == restorePresence)
+        return;
+
+    _restorePresence = restorePresence;
+
+    emit restorePresenceChanged();
+}
+
+Rule::PresenceChangeType Rule::getPresenceChangeType() const
+{
+    return _presenceChangeType;
+}
+
+void Rule::setPresenceChangeType(Rule::PresenceChangeType presenceChangeType)
+{
+    if (presenceChangeType == _presenceChangeType)
+        return;
+
+    _presenceChangeType = presenceChangeType;
+
+    foreach (PresenceRule *presenceRule, _presenceRules) {
+        switch (_presenceChangeType) {
+        case AllOnlinePresenceType:
+            presenceRule->setAction(PresenceRule::SetOnline);
+            break;
+        case AllOfflinePresenceType:
+            presenceRule->setAction(PresenceRule::SetOffline);
+            break;
+        default:
+            break;
+        }
+    }
+
+    emit presenceChangeTypeChanged();
+}
+
+QList<PresenceRule *> Rule::presenceRules() const
+{
+    return _presenceRules;
+}
+
+void Rule::setPresenceRules(QList<PresenceRule *> presenceRules)
+{
+    bool noPresenceChanges = true;
+    qDeleteAll(_presenceRules);
+    _presenceRules.clear();
+
+    blockSignals(true);
+
+    foreach (PresenceRule *presenceRule, presenceRules) {
+        // Skip rules which enforce the default action
+        if (presenceRule->action() != PresenceRule::Retain)
+            noPresenceChanges = false;
+
+        addPresenceRule(new PresenceRule(*presenceRule, this));
+    }
+
+    blockSignals(false);
+
+    if (noPresenceChanges)
+        setRestoreProfile(false);
+
+    emit presenceRulesChanged();
+}
+
 int
 Rule::getFlightMode() const {
     return _flightMode;
@@ -386,6 +533,13 @@ QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
     argument << rule.getProfileVolume();
     argument << rule.getFlightMode();
     argument << rule.getBlueToothMode();
+    QList<PresenceRule> presenceRules;
+    foreach(PresenceRule *presenceRule, rule.presenceRules())
+        presenceRules.append(*presenceRule);
+    argument << presenceRules;
+    argument << rule.getPresenceStatusMessage();
+    argument << rule.getRestorePresence();
+    argument << int(rule.getPresenceChangeType());
     argument.endStructure();
     return argument;
 }
@@ -407,6 +561,10 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     int     profileVolume = rule.getProfileVolume();
     int     flightMode = rule.getFlightMode();
     int     blueToothMode = rule.getBlueToothMode();
+    QList<PresenceRule> presenceRules;
+    QString presenceStatusMessage;
+    bool restorePresence;
+    int presenceChangeType;
 
     argument.beginStructure();
     argument >> ruleId;
@@ -422,6 +580,10 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     argument >> profileVolume;
     argument >> flightMode;
     argument >> blueToothMode;
+    argument >> presenceRules;
+    argument >> presenceStatusMessage;
+    argument >> restorePresence;
+    argument >> presenceChangeType;
     argument.endStructure();
 
     rule.setRuleId(ruleId);
@@ -437,6 +599,32 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     rule.setProfileVolume(profileVolume);
     rule.setFlightMode(flightMode);
     rule.setBlueToothMode(blueToothMode);
+    QList<PresenceRule *> dstPresenceRules;
+    foreach(const PresenceRule &presenceRule, presenceRules)
+        dstPresenceRules.append(new PresenceRule(presenceRule));
+    rule.setPresenceRules(dstPresenceRules);
+
+    qDeleteAll(dstPresenceRules);
+    dstPresenceRules.clear();
+
+    rule.setPresenceStatusMessage(presenceStatusMessage);
+    rule.setRestorePresence(restorePresence);
+    rule.setPresenceChangeType((Rule::PresenceChangeType) presenceChangeType);
 
     return argument;
+}
+
+void Rule::onPresenceRuleActionChanged()
+{
+    PresenceRule *presenceRule = qobject_cast<PresenceRule *>(sender());
+
+    if (!presenceRule)
+        return;
+
+    if (_presenceChangeType == CustomPresenceType)
+        return;
+
+    if ((_presenceChangeType == AllOfflinePresenceType && presenceRule->action() != PresenceRule::SetOffline)
+            || (_presenceChangeType == AllOnlinePresenceType && presenceRule->action() != PresenceRule::SetOnline))
+        setPresenceChangeType(CustomPresenceType);
 }

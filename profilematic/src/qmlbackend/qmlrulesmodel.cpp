@@ -347,6 +347,19 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
         ++numAction;
     }
 
+    bool atLeastOnePresenceChange = false;
+    foreach (PresenceRule *presenceRule, rule->presenceRules())
+        if (presenceRule->action() != PresenceRule::Retain) {
+            atLeastOnePresenceChange = true;
+            break;
+        }
+
+    if (atLeastOnePresenceChange) {
+        if (numAction > 0) action.append(", ");
+        action += "Availability change";
+         ++numAction;
+    }
+
     if (rule->isDefaultRule()) {
         condition += "other rules don't apply";
         ++numCondition;

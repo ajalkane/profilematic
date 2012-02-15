@@ -27,6 +27,7 @@ ProfileMaticClient::ProfileMaticClient(QObject *parent) :
 {
     qDBusRegisterMetaType<Rule>();
     qDBusRegisterMetaType<QList<Rule> >();
+    qDBusRegisterMetaType<PresenceRule>();
 
     dbus_iface = new QDBusInterface(PM_SERVICE, PM_PATH,
                                     PM_INTERFACE);

@@ -26,10 +26,19 @@
 #include <QMetaType>
 #include <QDBusArgument>
 
+#include "presencerule.h"
+
 #define DEFAULT_RULE_ID "defaultRule"
 
 class Rule : public QObject
 {
+public:
+    enum PresenceChangeType {
+        CustomPresenceType,
+        AllOnlinePresenceType,
+        AllOfflinePresenceType
+    };
+private:
     Q_OBJECT
 
     // Conditions
@@ -48,7 +57,12 @@ class Rule : public QObject
     int     _profileVolume;
     int     _flightMode;
     int     _blueToothMode;
+    QList<PresenceRule *> _presenceRules;
+    QString _presenceStatusMessage;
+    bool _restorePresence;
+    PresenceChangeType _presenceChangeType;
 
+    Q_ENUMS(PresenceChangeType)
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
     Q_PROPERTY(QString ruleId READ getRuleId NOTIFY ruleIdChanged)
@@ -65,6 +79,23 @@ class Rule : public QObject
     Q_PROPERTY(int profileVolume READ getProfileVolume WRITE setProfileVolume NOTIFY profileVolumeChanged)
     Q_PROPERTY(int flightMode READ getFlightMode WRITE setFlightMode NOTIFY flightModeChanged)
     Q_PROPERTY(int blueToothMode READ getBlueToothMode WRITE setBlueToothMode NOTIFY blueToothModeChanged)
+    /**
+      * This property gives access to the presence rules associated with this
+      * rule.
+      *
+      * \note The setter copies the individual rule instances and binds them
+      *       to the Rule instance.
+      */
+    Q_PROPERTY(QList<QObject *> presenceRules READ presenceRulesQml NOTIFY presenceRulesChanged)
+    /**
+      * This property represents the global status message set for all accounts
+      * whose presence is changed to online by this rule. Specific online
+      * status messages for each account can be specified in the corresponding
+      * PresenceRule instance.
+      */
+    Q_PROPERTY(QString presenceStatusMessage READ getPresenceStatusMessage WRITE setPresenceStatusMessage NOTIFY presenceStatusMessageChanged)
+    Q_PROPERTY(bool restorePresence READ getRestorePresence WRITE setRestorePresence NOTIFY restorePresenceChanged)
+    Q_PROPERTY(PresenceChangeType presenceChangeType READ getPresenceChangeType WRITE setPresenceChangeType NOTIFY presenceChangeTypeChanged)
 
     QString _getTimeQml(const QTime &time) const;
 
@@ -86,6 +117,12 @@ signals:
     void profileVolumeChanged();
     void flightModeChanged();
     void blueToothModeChanged();
+    void presenceRulesChanged();
+    void presenceStatusMessageChanged();
+    void restorePresenceChanged();
+    void presenceChangeTypeChanged();
+private slots:
+    void onPresenceRuleActionChanged();
 public:
     typedef QString IdType;
 
@@ -164,6 +201,24 @@ public:
     // Use -1 if the profile volume is not to be set, otherwise value between 0 to 100
     void setProfileVolume(int volume);
 
+    QList<QObject *> presenceRulesQml() const;
+
+    QList<PresenceRule *> presenceRules() const;
+    void setPresenceRules(QList<PresenceRule *> presenceRules);
+
+    bool addPresenceRule(PresenceRule *presenceRule);
+    bool removePresenceRule(PresenceRule *presenceRule);
+    PresenceRule *presenceRule(const PresenceRule::Key &key);
+
+    const QString &getPresenceStatusMessage() const;
+    void setPresenceStatusMessage(const QString &pressenceStatusMessage);
+
+    bool getRestorePresence() const;
+    void setRestorePresence(bool restorePresence);
+
+    PresenceChangeType getPresenceChangeType() const;
+    void setPresenceChangeType(PresenceChangeType presenceChangeType);
+
     inline bool operator==(const Rule &o) const {
         return this->_ruleId    == o._ruleId
             && this->_ruleName  == o._ruleName
@@ -176,7 +231,9 @@ public:
             && this->_restoreProfile == o._restoreProfile
             && this->_profileVolume == o._profileVolume
             && this->_flightMode == o._flightMode
-            && this->_blueToothMode == o._blueToothMode;
+            && this->_blueToothMode == o._blueToothMode
+            && this->_presenceStatusMessage == o._presenceStatusMessage
+            && this->_restorePresence == o._restorePresence;
     }
 
 

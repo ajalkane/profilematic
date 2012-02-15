@@ -17,7 +17,7 @@
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
 #include "harmattan_platformutil.h"
-
+#include "../../logic/presence/actionpresenceimpl.h"
 #include <qmdevicemode.h>
 
 HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
@@ -39,4 +39,9 @@ HarmattanPlatformUtil::setFlightMode(int flightMode) {
 
       qDebug("HarmattanPlatformUtil::Setting flightMode success %d", success);
   }
+}
+
+ActionPresence *HarmattanPlatformUtil::createActionPresence()
+{
+    return new ActionPresenceImpl();
 }
