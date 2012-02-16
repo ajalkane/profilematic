@@ -26,9 +26,11 @@ import "UIConstants.js" as UIConstants
 Item {
     id: root
     property alias topic: topic.text
-    property alias summary: summary.text
-    property alias topicHeight: topic.height
+    property alias summary: summary.text    
+    property alias topicImplicitWidth: topic.implicitWidth
     property alias topicImplicitHeight: topic.implicitHeight
+    property alias topicWidth: topic.width
+    property alias topicHeight: topic.height
     property bool showDrillDown: false
     property bool showComboBox: false
     signal topicClicked
@@ -47,12 +49,13 @@ Item {
 
     Column {
         id: content
-        width: parent.width - (parent.showDrillDown ? 64 : 0)
-        anchors.verticalCenter: parent.verticalCenter
+        width: parent.width - ((parent.showDrillDown || parent.showComboBox) ? 64 : 0)
+        // anchors.verticalCenter: parent.verticalCenter
 
         Label {
             id: topic
             platformStyle: LabelStyleTitle {}
+            width: parent.width
             font.weight: Font.Bold
             // font: UiConstants.TitleFont
         }

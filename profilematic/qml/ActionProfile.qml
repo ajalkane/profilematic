@@ -57,8 +57,9 @@ Page {
             }
 
             Item {
+                id: restoreProfileContainer
                 width: parent.width
-                height: restoreProfile.visible ? restoreProfile.height : 0
+                height: rule.profile !== '' ? restoreProfile.height : 0
                 clip: true
 
                 Behavior on height {
@@ -67,20 +68,21 @@ Page {
                 RuleTopicSummary {
                     id: restoreProfile
                     topic: "Restore previous profile"
-                    topicHeight: Math.max(topicHeight, restoreSwitch.height)
+                    topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
+                    topicWidth: parent.width - restoreSwitch.width
                     summary: restoreSwitch.checked ? "The previous profile will be restored."
                                                    : "Previous profile will not be restored."
-                    visible: rule.profile !== ''
+                    // visible: rule.profile !== ''
                     onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
-                    Switch {
-                        id: restoreSwitch
-                        checked: rule.restoreProfile
-                        anchors.right: parent.right // container.right
-                        anchors.top: parent.top
-                        anchors.verticalCenter: parent.top
-                        onCheckedChanged: {
-                            rule.restoreProfile = checked
-                        }
+                }
+                Switch {
+                    id: restoreSwitch
+                    checked: rule.restoreProfile
+                    anchors.right: restoreProfileContainer.right // container.right
+                    anchors.top: parent.top
+                    anchors.verticalCenter: parent.top
+                    onCheckedChanged: {
+                        rule.restoreProfile = checked
                     }
                 }
             }

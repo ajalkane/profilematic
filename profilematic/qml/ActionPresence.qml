@@ -133,7 +133,7 @@ Page {
         id: listView
 
         clip: true
-        anchors { top: buttonBar.bottom; right: parent.right; bottom: restorePresences.top; left: parent.left; topMargin: UIConstants.DEFAULT_MARGIN }
+        anchors { top: buttonBar.bottom; right: parent.right; bottom: restorePresencesContainer.top; left: parent.left; topMargin: UIConstants.DEFAULT_MARGIN }
         model: AccountsModel {
             rule: root.rule
         }
@@ -211,12 +211,13 @@ Page {
         }
     }
 
-    RuleTopicSummary {
-        id: restorePresences
-
+    Item {
+        id: restorePresencesContainer
         anchors { right: parent.right; bottom: parent.bottom; left: parent.left }
-        height: visible ? implicitHeight : 0
-        visible: {
+        height: isVisible() ? restorePresences.height : 0
+        clip: true
+
+        function isVisible() {
             for (var row = 0; row < rule.presenceRules.length; row++) {
                 if (rule.presenceRules[row].action !== PresenceRule.Retain)
                     return true;
@@ -224,19 +225,26 @@ Page {
 
             return false;
         }
-        topic: "Restore previous availability"
-        topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
-        summary: restoreSwitch.checked ? "Previous availability will be restored."
-                                       : "Previous availability will not be restored."
-        onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
+
+        Behavior on height { NumberAnimation { duration: 250 } }
+
+        RuleTopicSummary {
+            id: restorePresences
+
+            topic: "Restore previous availability"
+            topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
+            topicWidth: parent.width - restoreSwitch.width
+            summary: restoreSwitch.checked ? "Previous availability will be restored."
+                                           : "Previous availability will not be restored."
+            onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
+        }
+
         Switch {
             id: restoreSwitch
             checked: rule.restorePresence
             anchors { top: parent.top; right: parent.right; verticalCenter: parent.top }
             onCheckedChanged: rule.restorePresence = checked
         }
-
-        Behavior on height { NumberAnimation { duration: 250 } }
     }
 
     SelectionDialog {
