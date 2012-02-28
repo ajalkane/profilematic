@@ -217,11 +217,9 @@ Page {
             RuleTopicSummary {
                 topic: "Set flight mode"
                 summary: flightModeSummary();
-                showComboBox: true
+                showDrillDown: true
                 onTopicClicked: flightModeEditHandler()
-                // Flight mode needs open kernel. Needs a bit more work until proper support can
-                // be given.
-                visible: false
+                visible: true
             }
 
             RuleTopicSummary {
@@ -339,23 +337,27 @@ Page {
         pageStack.push(conditionWlan)
     }
 
-    // Flight mode
-    FlightModeDialog {
-        id: dFlightMode
-
-        onFlightModeSelected: {
-            rule.flightMode = selectedFlightMode
-        }
+    // Flight mode functions
+    ActionFlightMode {
+        id: actionFlightMode
+        rule: root.rule
     }
 
     function flightModeSummary() {
-        var flightModeText = dFlightMode.flightModeToText(rule.flightMode)
-        return flightModeText
+        if (rule.flightMode >= 0) {
+            var summary = actionFlightMode.flightModeSummary()
+
+            if (rule.restoreFlightMode) {
+                summary += ". Restores previous flight mode."
+            }
+            return summary
+        }
+        return "Click to set"
     }
 
+
     function flightModeEditHandler() {
-        dFlightMode.selectedFlightMode = rule.flightMode
-        dFlightMode.open();
+        pageStack.push(actionFlightMode)
     }
 
     // BlueTooth mode

@@ -30,6 +30,7 @@
 
 #define DEFAULT_RULE_ID "defaultRule"
 
+// IMPROVE: conditions and actions to separate classes
 class Rule : public QObject
 {
 public:
@@ -56,6 +57,7 @@ private:
     bool    _restoreProfile;
     int     _profileVolume;
     int     _flightMode;
+    bool    _restoreFlightMode;
     int     _blueToothMode;
     QList<PresenceRule *> _presenceRules;
     QString _presenceStatusMessage;
@@ -75,9 +77,10 @@ private:
     Q_PROPERTY(QVariantList wlan READ getWlanQml WRITE setWlanQml NOTIFY wlanChanged)
     Q_PROPERTY(int wlanTimeout READ getWlanTimeout WRITE setWlanTimeout NOTIFY wlanTimeoutChanged)
     Q_PROPERTY(QString profile READ getProfile WRITE setProfile NOTIFY profileChanged)
-    Q_PROPERTY(int restoreProfile READ getRestoreProfile WRITE setRestoreProfile NOTIFY restoreProfileChanged)
+    Q_PROPERTY(bool restoreProfile READ getRestoreProfile WRITE setRestoreProfile NOTIFY restoreProfileChanged)
     Q_PROPERTY(int profileVolume READ getProfileVolume WRITE setProfileVolume NOTIFY profileVolumeChanged)
     Q_PROPERTY(int flightMode READ getFlightMode WRITE setFlightMode NOTIFY flightModeChanged)
+    Q_PROPERTY(bool restoreFlightMode READ getRestoreFlightMode WRITE setRestoreFlightMode NOTIFY restoreFlightModeChanged)
     Q_PROPERTY(int blueToothMode READ getBlueToothMode WRITE setBlueToothMode NOTIFY blueToothModeChanged)
     /**
       * This property gives access to the presence rules associated with this
@@ -116,6 +119,7 @@ signals:
     void restoreProfileChanged();
     void profileVolumeChanged();
     void flightModeChanged();
+    void restoreFlightModeChanged();
     void blueToothModeChanged();
     void presenceRulesChanged();
     void presenceStatusMessageChanged();
@@ -191,6 +195,8 @@ public:
     // -1 don't set, 0, set no flight mode, 1 set flight mode
     int getFlightMode() const;
     void setFlightMode(int mode);
+    bool getRestoreFlightMode() const;
+    void setRestoreFlightMode(bool restore);
 
     // -1 don't set, 0 set BlueTooth off, 1 set BlueTooth on, 2 set BlueTooth on and visible
     int getBlueToothMode() const;
@@ -231,6 +237,7 @@ public:
             && this->_restoreProfile == o._restoreProfile
             && this->_profileVolume == o._profileVolume
             && this->_flightMode == o._flightMode
+            && this->_restoreFlightMode == o._restoreFlightMode
             && this->_blueToothMode == o._blueToothMode
             && this->_presenceStatusMessage == o._presenceStatusMessage
             && this->_restorePresence == o._restorePresence;

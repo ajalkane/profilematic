@@ -50,6 +50,12 @@ PlatformUtil::create()
     return new PlatformUtil;
 }
 
+int
+PlatformUtil::flightMode() const {
+    qDebug("PlatformUtil::flightMode default, returning -1");
+    return -1;
+}
+
 void
 PlatformUtil::setFlightMode(int flightMode) {
     qDebug("PlatformUtil::setFlightMode default, doing nothing for value %d", flightMode);

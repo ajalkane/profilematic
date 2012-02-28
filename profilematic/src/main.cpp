@@ -86,6 +86,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     viewer->setMainQmlFile(mainQmlFile);
     viewer->showExpanded();
 
+//    MeeGo::QmDeviceMode device;
+//    qDebug("main: setting flight mode on");
+//    device.setMode(MeeGo::QmDeviceMode::Flight);
+
     int retVal = app->exec();
     qDebug("Exiting with return value %d", retVal);
     return retVal;

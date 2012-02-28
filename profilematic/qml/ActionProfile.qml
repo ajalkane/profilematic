@@ -115,7 +115,7 @@ Page {
                 text: "If you activate restore previous profile, ProfileMatic will set back the profile "
                       + "that was selected before this rule was activated. If you don't activate "
                       + "restore previous profile, the latest profile will run. "
-                      + "E.g. phone set to silent byt this rule will remain silent until you decide to make "
+                      + "E.g. phone set to silent by this rule will remain silent until you decide to make "
                       + "changes or another rule that sets profile becomes valid."
                       + "\n\n"
                       + "Note: Restore profile will override profile set in Default rule. E.g if you "

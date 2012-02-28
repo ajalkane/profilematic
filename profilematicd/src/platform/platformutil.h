@@ -32,6 +32,7 @@ public:
     static PlatformUtil *create();
     virtual ~PlatformUtil();
 
+    virtual int flightMode() const;
     virtual void setFlightMode(int flightMode);
     virtual ActionPresence *createActionPresence();
 };

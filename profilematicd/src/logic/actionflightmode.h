@@ -25,6 +25,7 @@
 class ActionFlightMode: public Action
 {
     PlatformUtil *_platformUtil;
+    int _previousFlightMode;
 
 public:
     ActionFlightMode(PlatformUtil *platformUtil);

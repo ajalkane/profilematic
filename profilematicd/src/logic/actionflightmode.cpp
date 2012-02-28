@@ -19,7 +19,7 @@
 #include "actionflightmode.h"
 
 ActionFlightMode::ActionFlightMode(PlatformUtil *platformUtil)
-    : _platformUtil(platformUtil)
+    : _platformUtil(platformUtil), _previousFlightMode(-1)
 {
 
 }
@@ -28,11 +28,25 @@ void
 ActionFlightMode::activate(const Rule &rule) {
     int flightMode = rule.getFlightMode();
 
-    if (flightMode == 0 || flightMode == 1) {
-        qDebug("Setting flight mode %d", flightMode);
-        _platformUtil->setFlightMode(flightMode);
+    if ((flightMode < 0 || rule.isDefaultRule()) && !_previousFlightMode >= 0) {
+        qDebug("ActionFlightMode::activate restore, flightMode not set or is default rule for rule %s",
+               qPrintable(rule.getRuleName()));
+        qDebug("ActionFlightMode::activate previous rule had restore flightMode, restoring flightMode %d",
+               _previousFlightMode);
+        flightMode = _previousFlightMode;
+        _previousFlightMode = -1;
+    }
+    else if (flightMode < 0) {
+        qDebug("ActionFlightMode::activate not setting flight mode for rule %s",
+               qPrintable(rule.getRuleName()));
+        return;
+    }
+    if (rule.getRestoreFlightMode()) {
+        _previousFlightMode = _platformUtil->flightMode();
     } else {
-        qDebug("Not setting flight mode %d", flightMode);
+        _previousFlightMode = -1;
     }
 
+    qDebug("Setting flight mode %d", flightMode);
+    _platformUtil->setFlightMode(flightMode);
 }

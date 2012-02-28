@@ -83,6 +83,7 @@ int main(int argc, char *argv[])
         fprintf(stderr, "Exiting\n");
         return -1;
     }
+
     rulesManager.refresh();
 
     // LATER: this code can be removed a couple of versions down the road I think.

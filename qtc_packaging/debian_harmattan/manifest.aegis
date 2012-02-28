@@ -1,9 +1,10 @@
 <aegis>
   <request>
-    <!-- Needed for changing flight mode. Doesn't work without open mode kernel. -->
-    <!-- <credential name="mce::DeviceModeControl" /> -->
     <credential name="UID::user" />
     <credential name="GID::users" />
+    <credential name="GRP::users" />
+    <credential name="mce::DeviceModeControl" />
+    <for path="applauncherd-launcher::/usr/bin/applauncherd.bin" id="" />
     <for path="/opt/profilematic/bin/profilematicd"/>
   </request>
 </aegis>

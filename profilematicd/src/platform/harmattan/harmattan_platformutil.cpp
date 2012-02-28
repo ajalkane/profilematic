@@ -27,18 +27,36 @@ HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
 
 HarmattanPlatformUtil::~HarmattanPlatformUtil() {}
 
+int
+HarmattanPlatformUtil::flightMode() const {
+    MeeGo::QmDeviceMode deviceMode;
+    MeeGo::QmDeviceMode::DeviceMode mode = deviceMode.getMode();
+    int flightMode = -1;
+    switch (mode) {
+    case MeeGo::QmDeviceMode::Flight:
+        flightMode = 1; break;
+    case MeeGo::QmDeviceMode::Normal:
+        flightMode = 0; break;
+    default:
+        qDebug("HarmattanPlatformUtil::flightMode warning unrecognized deviceMode %d", mode);
+    }
+
+    qDebug("HarmattanPlatformUtil::flightMode current deviceMode %d", flightMode);
+    return flightMode;
+}
+
 void
 HarmattanPlatformUtil::setFlightMode(int flightMode) {
-  MeeGo::QmDeviceMode deviceMode;
+    MeeGo::QmDeviceMode deviceMode;
 
-  qDebug("HarmattanPlatformUtil::Setting flightMode to %d", flightMode);
-  if (flightMode == 0 || flightMode == 1) {
-      bool success = deviceMode.setMode(flightMode == 1
-                         ? MeeGo::QmDeviceMode::Flight
-                         : MeeGo::QmDeviceMode::Normal);
+    qDebug("HarmattanPlatformUtil::Setting flightMode to %d", flightMode);
+    if (flightMode == 0 || flightMode == 1) {
+        bool success = deviceMode.setMode(flightMode == 1
+                                          ? MeeGo::QmDeviceMode::Flight
+                                          : MeeGo::QmDeviceMode::Normal);
 
-      qDebug("HarmattanPlatformUtil::Setting flightMode success %d", success);
-  }
+        qDebug("HarmattanPlatformUtil::Setting flightMode success %d", success);
+    }
 }
 
 ActionPresence *HarmattanPlatformUtil::createActionPresence()

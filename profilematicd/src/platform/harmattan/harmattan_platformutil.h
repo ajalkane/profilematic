@@ -29,6 +29,7 @@ public:
     HarmattanPlatformUtil(QObject *parent = 0);
     virtual ~HarmattanPlatformUtil();
 
+    virtual int flightMode() const;
     virtual void setFlightMode(int flightMode);
 
     ActionPresence *createActionPresence();

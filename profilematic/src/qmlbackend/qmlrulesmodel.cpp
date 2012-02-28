@@ -226,7 +226,7 @@ QmlRulesModel::getDaysSummaryText(const QSet<int> &days) const {
 
     QString daysStr = "";
     // The loop goes up-to 7 so that Sunday is considered as last in range.
-    // Days.contains for 7 should alway contain false as days are in range of 0-6.
+    // Days.contains for 7 should always contain false as days are in range of 0-6.
     for (int i = 0; i < 8; ++i) {
         if (days.contains(i)) {
             if (rangeStart < 0) {
