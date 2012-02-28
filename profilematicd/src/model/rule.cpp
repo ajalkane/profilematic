@@ -488,7 +488,7 @@ void Rule::setPresenceRules(QList<PresenceRule *> presenceRules)
     blockSignals(false);
 
     if (noPresenceChanges)
-        setRestoreProfile(false);
+        setRestorePresence(false);
 
     emit presenceRulesChanged();
 }
