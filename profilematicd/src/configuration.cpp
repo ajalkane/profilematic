@@ -110,7 +110,7 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
                      ? r.getTimeStart().addSecs(60)
                      : QTime::fromString(timeEndStr));
         r.setProfile(s.value("profile").toString());
-        r.setRestoreProfile(s.value("restoreProfile").toBool());
+        r.setRestoreProfile(s.value("restoreProfile", false).toBool());
         bool profileVolumeOk = false;
         int profileVolume = s.value("profileVolume").toInt(&profileVolumeOk);
         if (profileVolumeOk) {
@@ -122,7 +122,7 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         if (flightModeOk) {
             r.setFlightMode(flightMode);
         }
-        r.setRestoreFlightMode(s.value("restoreFlightMode").toBool());
+        r.setRestoreFlightMode(s.value("restoreFlightMode", false).toBool());
 
         bool blueToothModeOk = false;
         int blueToothMode = s.value("blueToothMode").toInt(&blueToothModeOk);
