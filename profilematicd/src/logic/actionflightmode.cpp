@@ -28,7 +28,7 @@ void
 ActionFlightMode::activate(const Rule &rule) {
     int flightMode = rule.getFlightMode();
 
-    if ((flightMode < 0 || rule.isDefaultRule()) && !_previousFlightMode >= 0) {
+    if ((flightMode < 0 || rule.isDefaultRule()) && _previousFlightMode >= 0) {
         qDebug("ActionFlightMode::activate restore, flightMode not set or is default rule for rule %s",
                qPrintable(rule.getRuleName()));
         qDebug("ActionFlightMode::activate previous rule had restore flightMode, restoring flightMode %d",
