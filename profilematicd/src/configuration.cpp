@@ -56,6 +56,8 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("profileVolume", r.getProfileVolume());
         s.setValue("flightMode", r.getFlightMode());
         s.setValue("restoreFlightMode", r.getRestoreFlightMode());
+        s.setValue("powerSavingMode", r.getPowerSavingMode());
+        s.setValue("restorePowerSavingMode", r.getRestorePowerSavingMode());
         s.setValue("blueToothMode", r.getBlueToothMode());
         _writePresenceRuleList(s, r.presenceRules());
         s.setValue("presenceStatusMessage", r.getPresenceStatusMessage());
@@ -123,6 +125,13 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
             r.setFlightMode(flightMode);
         }
         r.setRestoreFlightMode(s.value("restoreFlightMode", false).toBool());
+
+        bool powerSavingModeOk = false;
+        int powerSavingMode = s.value("powerSavingMode").toInt(&powerSavingModeOk);
+        if (powerSavingModeOk) {
+            r.setPowerSavingMode(powerSavingMode);
+        }
+        r.setRestorePowerSavingMode(s.value("restorePowerSavingMode", false).toBool());
 
         bool blueToothModeOk = false;
         int blueToothMode = s.value("blueToothMode").toInt(&blueToothModeOk);

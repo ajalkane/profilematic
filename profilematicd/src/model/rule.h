@@ -58,6 +58,8 @@ private:
     int     _profileVolume;
     int     _flightMode;
     bool    _restoreFlightMode;
+    int     _powerSavingMode;
+    bool    _restorePowerSavingMode;
     int     _blueToothMode;
     QList<PresenceRule *> _presenceRules;
     QString _presenceStatusMessage;
@@ -81,6 +83,8 @@ private:
     Q_PROPERTY(int profileVolume READ getProfileVolume WRITE setProfileVolume NOTIFY profileVolumeChanged)
     Q_PROPERTY(int flightMode READ getFlightMode WRITE setFlightMode NOTIFY flightModeChanged)
     Q_PROPERTY(bool restoreFlightMode READ getRestoreFlightMode WRITE setRestoreFlightMode NOTIFY restoreFlightModeChanged)
+    Q_PROPERTY(int powerSavingMode READ getPowerSavingMode WRITE setPowerSavingMode NOTIFY powerSavingModeChanged)
+    Q_PROPERTY(bool restorePowerSavingMode READ getRestorePowerSavingMode WRITE setRestorePowerSavingMode NOTIFY restorePowerSavingModeChanged)
     Q_PROPERTY(int blueToothMode READ getBlueToothMode WRITE setBlueToothMode NOTIFY blueToothModeChanged)
     /**
       * This property gives access to the presence rules associated with this
@@ -120,6 +124,8 @@ signals:
     void profileVolumeChanged();
     void flightModeChanged();
     void restoreFlightModeChanged();
+    void powerSavingModeChanged();
+    void restorePowerSavingModeChanged();
     void blueToothModeChanged();
     void presenceRulesChanged();
     void presenceStatusMessageChanged();
@@ -198,6 +204,12 @@ public:
     bool getRestoreFlightMode() const;
     void setRestoreFlightMode(bool restore);
 
+    // -1 don't set, 0, set no power saving mode, 1 set power saving mode
+    int getPowerSavingMode() const;
+    void setPowerSavingMode(int state);
+    bool getRestorePowerSavingMode() const;
+    void setRestorePowerSavingMode(bool restore);
+
     // -1 don't set, 0 set BlueTooth off, 1 set BlueTooth on, 2 set BlueTooth on and visible
     int getBlueToothMode() const;
     void setBlueToothMode(int mode);
@@ -238,6 +250,8 @@ public:
             && this->_profileVolume == o._profileVolume
             && this->_flightMode == o._flightMode
             && this->_restoreFlightMode == o._restoreFlightMode
+            && this->_powerSavingMode == o._powerSavingMode
+            && this->_restorePowerSavingMode == o._restorePowerSavingMode
             && this->_blueToothMode == o._blueToothMode
             && this->_presenceStatusMessage == o._presenceStatusMessage
             && this->_restorePresence == o._restorePresence;

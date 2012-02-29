@@ -51,11 +51,43 @@ HarmattanPlatformUtil::setFlightMode(int flightMode) {
 
     qDebug("HarmattanPlatformUtil::Setting flightMode to %d", flightMode);
     if (flightMode == 0 || flightMode == 1) {
-        bool success = deviceMode.setMode(flightMode == 1
+        bool return_value = deviceMode.setMode(flightMode == 1
                                           ? MeeGo::QmDeviceMode::Flight
                                           : MeeGo::QmDeviceMode::Normal);
 
-        qDebug("HarmattanPlatformUtil::Setting flightMode success %d", success);
+        qDebug("HarmattanPlatformUtil::Setting flightMode return_value %d", return_value);
+    }
+}
+
+int
+HarmattanPlatformUtil::powerSavingMode() const {
+    MeeGo::QmDeviceMode deviceMode;
+    MeeGo::QmDeviceMode::PSMState state = deviceMode.getPSMState();
+    int psmState = -1;
+    switch (state) {
+    case MeeGo::QmDeviceMode::PSMStateOn:
+        psmState = 1; break;
+    case MeeGo::QmDeviceMode::PSMStateOff:
+        psmState = 0; break;
+    default:
+        qDebug("HarmattanPlatformUtil::psmState warning unrecognized psmState %d", state);
+    }
+
+    qDebug("HarmattanPlatformUtil::psmState current Power Saving State %d", psmState);
+    return psmState;
+}
+
+void
+HarmattanPlatformUtil::setPowerSavingMode(int state) {
+    MeeGo::QmDeviceMode deviceMode;
+
+    qDebug("HarmattanPlatformUtil::Setting Power Saving State to %d", state);
+    if (state == 0 || state == 1) {
+        bool return_value = deviceMode.setPSMState(state == 1
+                                          ? MeeGo::QmDeviceMode::PSMStateOn
+                                          : MeeGo::QmDeviceMode::PSMStateOff);
+
+        qDebug("HarmattanPlatformUtil::Setting Power Saving State, return value %d", return_value);
     }
 }
 

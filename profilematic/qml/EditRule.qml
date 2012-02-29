@@ -215,10 +215,26 @@ Page {
             }
 
             RuleTopicSummary {
+                id: presenceAction
+                topic: "Set account availability"
+                summary: presenceSummary()
+                showDrillDown: true
+                onTopicClicked: presenceEditHandler()
+            }
+
+            RuleTopicSummary {
                 topic: "Set flight mode"
                 summary: flightModeSummary();
                 showDrillDown: true
                 onTopicClicked: flightModeEditHandler()
+                visible: true
+            }
+
+            RuleTopicSummary {
+                topic: "Set power saving mode"
+                summary: powerSavingModeSummary();
+                showDrillDown: true
+                onTopicClicked: powerSavingModeEditHandler()
                 visible: true
             }
 
@@ -228,14 +244,6 @@ Page {
                 summary: blueToothModeSummary();
                 showComboBox: true
                 onTopicClicked: blueToothModeEditHandler()
-            }
-
-            RuleTopicSummary {
-                id: presenceAction
-                topic: "Set account availability"
-                summary: presenceSummary()
-                showDrillDown: true
-                onTopicClicked: presenceEditHandler()
             }
 
             Text {
@@ -355,9 +363,32 @@ Page {
         return "Click to set"
     }
 
-
     function flightModeEditHandler() {
         pageStack.push(actionFlightMode)
+    }
+
+    // Power Saving mode functions
+    ActionPowerSavingMode {
+        id: actionPowerSavingMode
+        rule: root.rule
+    }
+
+    function powerSavingModeSummary() {
+        console.log("powerSavingModeSummary ", rule.powerSavingMode)
+        if (rule.powerSavingMode >= 0) {
+            var summary = actionPowerSavingMode.powerSavingModeSummary()
+
+            if (rule.restorePowerSavingMode) {
+                summary += ". Restores previous power saving mode."
+            }
+            return summary
+        }
+        return "Click to set"
+    }
+
+
+    function powerSavingModeEditHandler() {
+        pageStack.push(actionPowerSavingMode)
     }
 
     // BlueTooth mode

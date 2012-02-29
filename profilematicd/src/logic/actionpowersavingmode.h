@@ -1,5 +1,5 @@
 /**********************************************************************
- * Copyright 2011-2012 Arto Jalkanen
+ * Copyright 2012 Arto Jalkanen
  *
  * This file is part of ProfileMatic.
  *
@@ -16,30 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef PLATFORMUTIL_H
-#define PLATFORMUTIL_H
+#ifndef ACTIONPOWERSAVINGMODE_H
+#define ACTIONPOWERSAVINGMODE_H
 
-#include <QObject>
+#include "action.h"
+#include "../platform/platformutil.h"
 
-class ActionPresence;
-
-class PlatformUtil : public QObject
+class ActionPowerSavingMode: public Action
 {
-    Q_OBJECT
-protected:
-    PlatformUtil(QObject *parent = 0);
+    PlatformUtil *_platformUtil;
+    int _previousPsmState;
+
 public:
-    static PlatformUtil *create();
-    virtual ~PlatformUtil();
+    ActionPowerSavingMode(PlatformUtil *platformUtil);
 
-    virtual int flightMode() const;
-    // 0: flight mode off, 1: flight mode on
-    virtual void setFlightMode(int flightMode);
-    // 0: Power Saving Mode off, 1: Power Saving mode on
-    virtual int powerSavingMode() const;
-    virtual void setPowerSavingMode(int state);
-
-    virtual ActionPresence *createActionPresence();
+    virtual void activate(const Rule &rule);
 };
 
-#endif // PLATFORMUTIL_H
+#endif // ACTIONPOWERSAVINGMODE_H

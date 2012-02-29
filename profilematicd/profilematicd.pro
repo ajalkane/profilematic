@@ -46,7 +46,8 @@ SOURCES += src/main.cpp \
     src/logic/conditionmanagerchain.cpp \
     src/logic/conditionmanagerlocationcell.cpp \
     src/logic/conditionmanagerwlan.cpp \
-    src/logic/actionbluetooth.cpp
+    src/logic/actionbluetooth.cpp \
+    src/logic/actionpowersavingmode.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -67,7 +68,8 @@ HEADERS += \
     src/logic/conditionmanagerlocationcell.h \
     src/logic/conditionmanagerwlan.h \
     src/logic/actionbluetooth.h \
-    src/logic/presence/actionpresence.h
+    src/logic/presence/actionpresence.h \
+    src/logic/actionpowersavingmode.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp
@@ -108,6 +110,16 @@ daemonconf.path = /etc/init/apps
 daemonconf.files = profilematicd.conf
 
 INSTALLS += daemonconf
+
+
+
+
+
+
+
+
+
+
 
 
 

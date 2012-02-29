@@ -335,6 +335,16 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
         }
         ++numAction;
     }
+    if (rule->getPowerSavingMode() > -1) {
+        if (numAction > 0) action.append(", ");
+        switch (rule->getPowerSavingMode()) {
+        case 0:
+            action += "Power saving off"; break;
+        case 1:
+            action += "Power saving on"; break;
+        }
+        ++numAction;
+    }
     if (rule->getBlueToothMode() > -1) {
         if (numAction > 0) action.append(", ");
         switch (rule->getBlueToothMode()) {
@@ -421,6 +431,7 @@ QmlRulesModel::setNewEditRule() {
     // qDebug("QmlRulesModel::setNewEditRule");
 
     _editRule = Rule();
+    qDebug("QmlRulesModel::setNewEditRule powerSavingMode %d", _editRule.getPowerSavingMode());
     // According to user input, this might be confusing, so do not set all days. Empty selection.
 //    // When creating new rule, automatically select all days
 //    QSet<int> days;

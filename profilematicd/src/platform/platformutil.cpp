@@ -61,6 +61,17 @@ PlatformUtil::setFlightMode(int flightMode) {
     qDebug("PlatformUtil::setFlightMode default, doing nothing for value %d", flightMode);
 }
 
+int
+PlatformUtil::powerSavingMode() const {
+    qDebug("PlatformUtil::psmState default, returning -1");
+    return -1;
+}
+
+void
+PlatformUtil::setPowerSavingMode(int state) {
+    qDebug("PlatformUtil::setPsmState default, doing nothing for value %d", state);
+}
+
 ActionPresence *PlatformUtil::createActionPresence()
 {
 #ifndef __arm__

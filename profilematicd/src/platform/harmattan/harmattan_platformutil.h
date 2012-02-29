@@ -31,6 +31,8 @@ public:
 
     virtual int flightMode() const;
     virtual void setFlightMode(int flightMode);
+    virtual int powerSavingMode() const;
+    virtual void setPowerSavingMode(int state);
 
     ActionPresence *createActionPresence();
 };

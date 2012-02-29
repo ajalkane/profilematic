@@ -20,7 +20,8 @@
 
 Rule::Rule(QObject *parent)
     : QObject(parent), _wlanTimeout(0),  _restoreProfile(false), _profileVolume(-1),
-      _flightMode(-1), _restoreFlightMode(false), _blueToothMode(-1), _restorePresence(false),
+      _flightMode(-1), _restoreFlightMode(false), _powerSavingMode(-1), _restorePowerSavingMode(false),
+      _blueToothMode(-1), _restorePresence(false),
       _presenceChangeType(CustomPresenceType)
 {
 }
@@ -40,6 +41,8 @@ Rule::Rule(const Rule &o)
       _profileVolume(o._profileVolume),
       _flightMode(o._flightMode),
       _restoreFlightMode(o._restoreFlightMode),
+      _powerSavingMode(o._powerSavingMode),
+      _restorePowerSavingMode(o._restorePowerSavingMode),
       _blueToothMode(o._blueToothMode),
       _presenceStatusMessage(o._presenceStatusMessage),
       _restorePresence(o._restorePresence),
@@ -86,6 +89,8 @@ Rule::actionsFrom(const Rule &o) {
     _profileVolume = o._profileVolume;
     _flightMode = o._flightMode;
     _restoreFlightMode = o._restoreFlightMode;
+    _powerSavingMode = o._powerSavingMode;
+    _restorePowerSavingMode = o._restorePowerSavingMode;
     _blueToothMode = o._blueToothMode;
     _presenceStatusMessage = o._presenceStatusMessage;
     _restorePresence = o._restorePresence;
@@ -520,6 +525,32 @@ Rule::setRestoreFlightMode(bool restore) {
 }
 
 int
+Rule::getPowerSavingMode() const {
+    return _powerSavingMode;
+}
+
+void
+Rule::setPowerSavingMode(int state) {
+    if (_powerSavingMode != state) {
+        _powerSavingMode = state;
+        emit powerSavingModeChanged();
+    }
+}
+
+bool
+Rule::getRestorePowerSavingMode() const {
+    return _restorePowerSavingMode;
+}
+
+void
+Rule::setRestorePowerSavingMode(bool restore) {
+    if (_restorePowerSavingMode != restore) {
+        _restorePowerSavingMode = restore;
+        emit restorePowerSavingModeChanged();
+    }
+}
+
+int
 Rule::getBlueToothMode() const {
     return _blueToothMode;
 }
@@ -548,6 +579,8 @@ QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
     argument << rule.getProfileVolume();
     argument << rule.getFlightMode();
     argument << rule.getRestoreFlightMode();
+    argument << rule.getPowerSavingMode();
+    argument << rule.getRestorePowerSavingMode();
     argument << rule.getBlueToothMode();
     QList<PresenceRule> presenceRules;
     foreach(PresenceRule *presenceRule, rule.presenceRules())
@@ -577,6 +610,8 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     int     profileVolume = rule.getProfileVolume();
     int     flightMode = rule.getFlightMode();
     bool    restoreFlightMode = rule.getRestoreFlightMode();
+    int     psmState = rule.getPowerSavingMode();
+    bool    restorePsmState = rule.getRestorePowerSavingMode();
     int     blueToothMode = rule.getBlueToothMode();
     QList<PresenceRule> presenceRules;
     QString presenceStatusMessage;
@@ -597,6 +632,8 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     argument >> profileVolume;
     argument >> flightMode;
     argument >> restoreFlightMode;
+    argument >> psmState;
+    argument >> restorePsmState;
     argument >> blueToothMode;
     argument >> presenceRules;
     argument >> presenceStatusMessage;
@@ -617,6 +654,8 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     rule.setProfileVolume(profileVolume);
     rule.setFlightMode(flightMode);
     rule.setRestoreFlightMode(restoreFlightMode);
+    rule.setPowerSavingMode(psmState);
+    rule.setRestorePowerSavingMode(restorePsmState);
     rule.setBlueToothMode(blueToothMode);
     QList<PresenceRule *> dstPresenceRules;
     foreach(const PresenceRule &presenceRule, presenceRules)
