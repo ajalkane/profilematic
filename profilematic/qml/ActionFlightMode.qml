@@ -92,15 +92,8 @@ Page {
                 width: parent.width
                 font.pixelSize: UIConstants.FONT_SMALL;
                 color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                text: "If you activate restore previous flight mode, ProfileMatic will set back the flight mode setting "
-                      + "that was selected before this rule was activated. If you don't activate "
-                      + "restore previous flight mode, the latest setting will continue. "
-                      + "E.g. phone set to 'flight mode on' by this rule will remain on flight mode until you decide to make "
-                      + "changes or another rule that sets flight mode becomes valid."
-                      + "\n\n"
-                      + "Note: Restore flight mode will override flight mode setting in Default rule. E.g if you "
-                      + "have Default rule to set 'flight mode on', but deactivating current rule wants to restore "
-                      + "'Flight mode off', then 'Flight mode off' will be selected."
+                text: "Warning: in Flight mode connections are not used. Therefore using conditions that rely on WLAN "
+                      + "or location can not work to switch flight mode off. Instead, use time based conditions."
             }
 
         }

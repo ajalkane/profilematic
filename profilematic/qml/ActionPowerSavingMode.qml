@@ -92,15 +92,9 @@ Page {
                 width: parent.width
                 font.pixelSize: UIConstants.FONT_SMALL;
                 color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                text: "If you activate restore previous power saving mode, ProfileMatic will set back the power saving mode setting "
-                      + "that was selected before this rule was activated. If you don't activate "
-                      + "restore previous power saving mode, the latest setting will continue. "
-                      + "E.g. phone set to 'power saving mode on' by this rule will remain on power saving mode until you decide to make "
-                      + "changes or another rule that sets power saving mode becomes valid."
-                      + "\n\n"
-                      + "Note: Restore power saving mode will override power saving mode setting in Default rule. E.g if you "
-                      + "have Default rule to set 'power saving mode on', but deactivating current rule wants to restore "
-                      + "'power saving mode off', then 'power saving mode off' will be selected."
+                text: "Warning: in power saving mode WLAN connections are not used. Therefore using conditions that rely on "
+                      + "being connected to WLAN can not be used to turn off power saving mode. Instead use time or cell id based "
+                      + "location rules."
             }
 
         }
