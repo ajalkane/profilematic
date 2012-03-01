@@ -50,6 +50,10 @@ void ActionPresenceImpl::activate(const Rule &rule)
 
     bool hadPreviousPresences = !_previousPresences.isEmpty();
 
+    if (hadPreviousPresences) {
+        qDebug() << "Restoring previous presences";
+    }
+
     // Restore previous presences if requested by the previous rule
     foreach (const AccountPresence &previousPresence, _previousPresences) {
         Tp::AccountPtr tpAccount
@@ -71,17 +75,20 @@ void ActionPresenceImpl::activate(const Rule &rule)
     // In case we switch back to the default rule and previous availability
     // information was restored - account availabilities set by the default
     // rule should be ignored.
-    if (rule.isDefaultRule() && hadPreviousPresences)
+    if (rule.isDefaultRule() && hadPreviousPresences) {
+        qDebug() << "Restored previous preferences. Current rule is default rule - overriding its settings";
         return;
-
+    }
 
     // Handle the special cases of all online or all offline
     switch(rule.getPresenceChangeType()) {
     case Rule::AllOfflinePresenceType:
     case Rule::AllOnlinePresenceType:
+        qDebug() << "Setting presence of all accounts online or offline";
         changeAllAccounts(rule);
         break;
     case Rule::CustomPresenceType:
+        qDebug() << "Setting presence of selected accounts";
         changeSelectedAccounts(rule);
         break;
     }
