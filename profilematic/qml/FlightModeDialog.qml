@@ -62,16 +62,19 @@ MySelectionDialog {
 
         ListElement{
             mode: 0
-            name: "Set flight mode off"
+            name: "Off"
+            description: "Set flight mode off"
         }
         ListElement {
             mode: 1
-            name: "Set flight mode on"
+            name: "On"
+            description: "Set flight mode on"
         }
-        // flightModelSummary dpeends on "Don't change" to be be index 2.
+        // flightModelSummary depends on "Don't change" to be be index 2.
         ListElement {
             mode: -1
             name: "Don't change"
+            description: "Don't change"
         }
     }
 
@@ -79,8 +82,8 @@ MySelectionDialog {
         switch (flightMode) {
         case 0:
         case 1:
-            return flightModel.get(flightMode).name;
+            return flightModel.get(flightMode).description;
         }
-        return flightModel.get(2).name;
+        return flightModel.get(2).description;
     }
 }

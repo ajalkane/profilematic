@@ -63,20 +63,24 @@ MySelectionDialog {
 
         ListElement{
             mode: 0
-            name: "BlueTooth off"
+            name: "Off"
+            description: "BlueTooth off"
         }
         ListElement {
             mode: 1
-            name: "BlueTooth on"
+            name: "On"
+            description: "BlueTooth on"
         }
         ListElement {
             mode: 2
-            name: "BlueTooth on and visible"
+            name: "On and visible"
+            description: "BlueTooth on and visible"
         }
-        // BlueToothModelSummary dpeends on "Don't change" to be be index 3.
+        // BlueToothModelSummary depends on "Don't change" to be be index 3.
         ListElement {
             mode: -1
             name: "Don't change"
+            description: "Don't change"
         }
     }
 
@@ -85,8 +89,8 @@ MySelectionDialog {
         case 0:
         case 1:
         case 2:
-            return blueToothModel.get(mode).name;
+            return blueToothModel.get(mode).description;
         }
-        return blueToothModel.get(3).name;
+        return blueToothModel.get(3).description;
     }
 }

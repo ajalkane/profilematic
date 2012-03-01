@@ -431,7 +431,6 @@ QmlRulesModel::setNewEditRule() {
     // qDebug("QmlRulesModel::setNewEditRule");
 
     _editRule = Rule();
-    qDebug("QmlRulesModel::setNewEditRule powerSavingMode %d", _editRule.getPowerSavingMode());
     // According to user input, this might be confusing, so do not set all days. Empty selection.
 //    // When creating new rule, automatically select all days
 //    QSet<int> days;

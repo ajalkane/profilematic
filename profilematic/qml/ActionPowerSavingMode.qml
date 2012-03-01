@@ -30,7 +30,7 @@ Page {
 
     SectionHeader {
         id: header
-        section: "Set power saving mode"
+        section: "Power saving mode"
     }
 
     Flickable {

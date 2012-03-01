@@ -151,7 +151,7 @@ Page {
 
     TimeDialog {
         id: timeStartDialog
-        titleText: "Active start time"
+        titleText: "Start time"
         onAccepted: rule.timeStart = formatTime(hour, minute)
     }
 
@@ -175,7 +175,7 @@ Page {
 
     TimeDialog {
         id: timeEndDialog
-        titleText: "Active end time"
+        titleText: "End time"
         onAccepted: rule.timeEnd = formatTime(hour, minute)
     }
 
@@ -200,7 +200,7 @@ Page {
 
     MyMultiSelectionDialog {
         id: daysDialog
-        titleText: "Active days"
+        titleText: "Weekdays"
         platformStyle: SelectionDialogStyle {
             itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
         }

@@ -30,7 +30,7 @@ Page {
 
     SectionHeader {
         id: header
-        section: "Set profile"
+        section: "Profile"
     }
 
     Flickable {

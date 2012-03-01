@@ -30,7 +30,7 @@ Page {
 
     SectionHeader {
         id: header
-        section: "Set flight mode"
+        section: "Flight mode"
     }
 
     Flickable {

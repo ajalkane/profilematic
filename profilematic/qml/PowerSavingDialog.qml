@@ -61,16 +61,19 @@ MySelectionDialog {
 
         ListElement{
             mode: 0
-            name: "Set power saving off"
+            name: "Off"
+            description: "Set power saving off"
         }
         ListElement {
             mode: 1
-            name: "Set power saving on"
+            name: "On"
+            description: "Set power saving on"
         }
         // powerSavingModelSummary depends on "Don't change" to be be index 2.
         ListElement {
             mode: -1
             name: "Don't change"
+            description: "Don't change"
         }
     }
 
@@ -78,8 +81,8 @@ MySelectionDialog {
         switch (mode) {
         case 0:
         case 1:
-            return powerSavingModel.get(mode).name;
+            return powerSavingModel.get(mode).description;
         }
-        return powerSavingModel.get(2).name;
+        return powerSavingModel.get(2).description;
     }
 }

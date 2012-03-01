@@ -66,7 +66,7 @@ Page {
         SectionHeader {
             width: parent.width
             height: 20
-            section: "Location by mobile cell identifiers"
+            section: "Cell id location"
         }
     }
 

@@ -33,7 +33,7 @@ Page {
 
     SectionHeader {
         id: header
-        section: "Set availability"
+        section: "Account availability"
     }
 
     TextField {

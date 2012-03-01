@@ -177,7 +177,7 @@ Page {
 
             RuleTopicSummary {
                 id: locationCondition
-                topic: "Location"
+                topic: "Cell id location"
                 summary: locationSummary()
                 showDrillDown: true
                 onTopicClicked: locationEditHandler()
@@ -208,7 +208,7 @@ Page {
             }
 
             RuleTopicSummary {
-                topic: "Set profile"
+                topic: "Profile"
                 summary: profileSummary();
                 showDrillDown: true
                 onTopicClicked: profileEditHandler()                
@@ -216,14 +216,14 @@ Page {
 
             RuleTopicSummary {
                 id: presenceAction
-                topic: "Set account availability"
+                topic: "Account availability"
                 summary: presenceSummary()
                 showDrillDown: true
                 onTopicClicked: presenceEditHandler()
             }
 
             RuleTopicSummary {
-                topic: "Set flight mode"
+                topic: "Flight mode"
                 summary: flightModeSummary();
                 showDrillDown: true
                 onTopicClicked: flightModeEditHandler()
@@ -231,7 +231,7 @@ Page {
             }
 
             RuleTopicSummary {
-                topic: "Set power saving mode"
+                topic: "Power saving mode"
                 summary: powerSavingModeSummary();
                 showDrillDown: true
                 onTopicClicked: powerSavingModeEditHandler()
@@ -240,7 +240,7 @@ Page {
 
             RuleTopicSummary {
                 id: blueToothAction
-                topic: "Set BlueTooth"
+                topic: "BlueTooth"
                 summary: blueToothModeSummary();
                 showComboBox: true
                 onTopicClicked: blueToothModeEditHandler()
@@ -374,7 +374,6 @@ Page {
     }
 
     function powerSavingModeSummary() {
-        console.log("powerSavingModeSummary ", rule.powerSavingMode)
         if (rule.powerSavingMode >= 0) {
             var summary = actionPowerSavingMode.powerSavingModeSummary()
 
