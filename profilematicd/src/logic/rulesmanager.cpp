@@ -46,6 +46,7 @@ void
 RulesManager::_refresh(bool forceActivate) {
     _conditionManager->startRefresh();
     if (_preferences->isActive) {
+        qDebug("%s RulesManager::refresh()", qPrintable(QDateTime::currentDateTime().toString()));
         QList<Rule>::const_iterator firstMatchingRule = _rules->constBegin();
         for (; firstMatchingRule != _rules->constEnd(); ++firstMatchingRule) {
             const Rule &rule = *firstMatchingRule;
@@ -68,7 +69,7 @@ RulesManager::_refresh(bool forceActivate) {
             _currentRuleId = matchedRule.getRuleId();
         }
     } else {
-        qDebug("RulesManager::refresh(), ProfileMatic not active");
+        qDebug("%s RulesManager::refresh(), ProfileMatic not active", qPrintable(QDateTime::currentDateTime().toString()));
     }
     _conditionManager->endRefresh();
 }

@@ -37,7 +37,7 @@ ActionPresenceImpl::ActionPresenceImpl() :
 void ActionPresenceImpl::activate(const Rule &rule)
 {
     if (!_accountManager->isReady(Tp::AccountManager::FeatureCore)) {
-        qDebug() << "Rule was activated while Telepathy Account Manager was not ready - will retry as soon as it is ready.";
+        qDebug() << "ActionPresence::activate Rule was activated while Telepathy Account Manager was not ready - will retry as soon as it is ready.";
 
         if (_pendingRule)
             delete _pendingRule;
@@ -51,7 +51,7 @@ void ActionPresenceImpl::activate(const Rule &rule)
     bool hadPreviousPresences = !_previousPresences.isEmpty();
 
     if (hadPreviousPresences) {
-        qDebug() << "Restoring previous presences";
+        qDebug() << "ActionPresence::activate restoring previous presences";
     }
 
     // Restore previous presences if requested by the previous rule
@@ -76,7 +76,7 @@ void ActionPresenceImpl::activate(const Rule &rule)
     // information was restored - account availabilities set by the default
     // rule should be ignored.
     if (rule.isDefaultRule() && hadPreviousPresences) {
-        qDebug() << "Restored previous preferences. Current rule is default rule - overriding its settings";
+        qDebug() << "ActionPresence::activate restored previous preferences. Current rule is default rule - overriding its settings";
         return;
     }
 
@@ -84,11 +84,11 @@ void ActionPresenceImpl::activate(const Rule &rule)
     switch(rule.getPresenceChangeType()) {
     case Rule::AllOfflinePresenceType:
     case Rule::AllOnlinePresenceType:
-        qDebug() << "Setting presence of all accounts online or offline";
+        qDebug() << "ActionPresence::activate setting presence of all accounts online or offline";
         changeAllAccounts(rule);
         break;
     case Rule::CustomPresenceType:
-        qDebug() << "Setting presence of selected accounts";
+        qDebug() << "ActionPresence::activate setting selected accounts if any";
         changeSelectedAccounts(rule);
         break;
     }
@@ -97,18 +97,22 @@ void ActionPresenceImpl::activate(const Rule &rule)
 void ActionPresenceImpl::onPresenceChangeFinished(Tp::PendingOperation *op)
 {
     if (op->isError())
-        qWarning() << "Failed to change presence:" << op->errorMessage();
+        qWarning() << "ActionPresence::onPresenceChangeFinished failed to change presence:" << op->errorMessage();
 }
 
 void ActionPresenceImpl::onAccountManagerReady(Tp::PendingOperation *op)
 {
+    qDebug("%s ActionPresence::onAccountManagerReady()", qPrintable(QDateTime::currentDateTime().toString()));
+
     if (op->isError()) {
-        qWarning() << "Failed to instantiate account manager.";
+        qWarning() << "ActionPresence::onAccountManagerReady failed to instantiate account manager.";
         return;
     }
 
-    if (!_pendingRule)
+    if (!_pendingRule) {
+        qDebug("%s ActionPresence::onAccountManagerReady() no pending rule", qPrintable(QDateTime::currentDateTime().toString()));
         return;
+    }
 
     activate(*_pendingRule);
 
@@ -148,7 +152,7 @@ void ActionPresenceImpl::changeSelectedAccounts(const Rule &rule)
         }
 
         if (!selectedService) {
-            qWarning() << "Could not find service" << presenceRule->serviceName();
+            qWarning() << "ActionPresence::changeSelectedAccounts could not find service" << presenceRule->serviceName();
             continue;
         }
 
@@ -156,7 +160,7 @@ void ActionPresenceImpl::changeSelectedAccounts(const Rule &rule)
 
         QString uid = account->valueAsString("tmc-uid");
         if (uid.isEmpty()) {
-            qWarning() << "Failed to retrieve tmc-uid for account" << presenceRule->accountId();
+            qWarning() << "ActionPresence::changeSelectedAccounts failed to retrieve tmc-uid for account" << presenceRule->accountId();
             continue;
         }
 
@@ -164,7 +168,7 @@ void ActionPresenceImpl::changeSelectedAccounts(const Rule &rule)
                 _accountManager->accountForPath(QString("/org/freedesktop/Telepathy/Account/%1").arg(uid));
 
         if (!tpAccount) {
-            qWarning() << "Failed to retrieve Telepathy account for" << presenceRule->accountId() << uid;
+            qWarning() << "ActionPresence::changeSelectedAccounts failed to retrieve Telepathy account for" << presenceRule->accountId() << uid;
             continue;
         }
 
@@ -176,9 +180,11 @@ void ActionPresenceImpl::changeSelectedAccounts(const Rule &rule)
 
         switch (presenceRule->action()) {
         case PresenceRule::SetOnline:
+            qDebug() << "ActionPresence::changeSelectedAccounts setting account online" << presenceRule->serviceName();
             presence = Tp::Presence::available(statusMessage);
             break;
         case PresenceRule::SetOffline:
+            qDebug() << "ActionPresence::changeSelectedAccounts setting account offline" << presenceRule->serviceName();
             presence = Tp::Presence::offline();
             break;
         default:
