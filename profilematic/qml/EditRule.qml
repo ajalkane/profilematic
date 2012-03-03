@@ -269,9 +269,11 @@ Page {
                     onLocationCellsChanged: ruleSummary.text = root.ruleSummary()
                     onWlanChanged:          ruleSummary.text = root.ruleSummary()
                     onProfileChanged:       ruleSummary.text = root.ruleSummary()
+                    onPresenceRulesChanged: ruleSummary.text = root.ruleSummary()
+                    onFlightModeChanged:    ruleSummary.text = root.ruleSummary()
+                    onPowerSavingModeChanged: ruleSummary.text = root.ruleSummary()
                     onBlueToothModeChanged: ruleSummary.text = root.ruleSummary()
                     onCellularModeChanged:  ruleSummary.text = root.ruleSummary()
-                    onPresenceRulesChanged: ruleSummary.text = root.ruleSummary()
                 }
             }
         } // Column
