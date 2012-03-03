@@ -246,6 +246,14 @@ Page {
                 onTopicClicked: blueToothModeEditHandler()
             }
 
+            RuleTopicSummary {
+                id: cellularAction
+                topic: "Mobile network mode"
+                summary: cellularModeSummary();
+                showComboBox: true
+                onTopicClicked: cellularModeEditHandler()
+            }
+
             Text {
                 id: ruleSummary
                 wrapMode: Text.WordWrap
@@ -262,6 +270,7 @@ Page {
                     onWlanChanged:          ruleSummary.text = root.ruleSummary()
                     onProfileChanged:       ruleSummary.text = root.ruleSummary()
                     onBlueToothModeChanged: ruleSummary.text = root.ruleSummary()
+                    onCellularModeChanged:  ruleSummary.text = root.ruleSummary()
                     onPresenceRulesChanged: ruleSummary.text = root.ruleSummary()
                 }
             }
@@ -408,6 +417,25 @@ Page {
         dBlueToothMode.open();
     }
 
+    // BlueTooth mode
+    CellularModeDialog {
+        id: dCellularMode
+
+        onCellularModeSelected: {
+            rule.cellularMode = selectedCellularMode
+        }
+    }
+
+    function cellularModeSummary() {
+        return dCellularMode.cellularModeToText(rule.cellularMode)
+    }
+
+    function cellularModeEditHandler() {
+        dCellularMode.selectedCellularMode = rule.cellularMode
+        dCellularMode.open();
+    }
+
+    // Presence
     function presenceSummary() {
         var summary = "";
         var atLeastOneChange = false;

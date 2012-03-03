@@ -357,6 +357,19 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
         ++numAction;
     }
 
+    if (rule->getCellularMode() > -1) {
+        if (numAction > 0) action.append(", ");
+        switch (rule->getCellularMode()) {
+        case 0:
+            action += "Dual GSM/3G"; break;
+        case 1:
+            action += "GSM"; break;
+        case 2:
+            action += "3G"; break;
+        }
+        ++numAction;
+    }
+
     bool atLeastOnePresenceChange = false;
     foreach (PresenceRule *presenceRule, rule->presenceRules())
         if (presenceRule->action() != PresenceRule::Retain) {
