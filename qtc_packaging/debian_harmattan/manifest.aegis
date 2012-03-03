@@ -4,6 +4,7 @@
     <credential name="GID::users" />
     <credential name="GRP::users" />
     <credential name="mce::DeviceModeControl" />
+    <credential name="Cellular" />
     <for path="applauncherd-launcher::/usr/bin/applauncherd.bin" id="" />
     <for path="/opt/profilematic/bin/profilematicd"/>
   </request>

@@ -13,6 +13,9 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG += qmsystem2
 CONFIG += mobility
+# For switching Dual/2g/3g
+CONFIG += cellular-qt
+
 MOBILITY += systeminfo
 !isEmpty(MEEGO_VERSION_MAJOR) {
     MOBILITY += connectivity
@@ -47,7 +50,8 @@ SOURCES += src/main.cpp \
     src/logic/conditionmanagerlocationcell.cpp \
     src/logic/conditionmanagerwlan.cpp \
     src/logic/actionbluetooth.cpp \
-    src/logic/actionpowersavingmode.cpp
+    src/logic/actionpowersavingmode.cpp \
+    src/logic/actioncellularmode.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -69,7 +73,8 @@ HEADERS += \
     src/logic/conditionmanagerwlan.h \
     src/logic/actionbluetooth.h \
     src/logic/presence/actionpresence.h \
-    src/logic/actionpowersavingmode.h
+    src/logic/actionpowersavingmode.h \
+    src/logic/actioncellularmode.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp
@@ -110,6 +115,8 @@ daemonconf.path = /etc/init/apps
 daemonconf.files = profilematicd.conf
 
 INSTALLS += daemonconf
+
+
 
 
 

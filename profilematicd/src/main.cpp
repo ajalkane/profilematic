@@ -32,6 +32,7 @@
 #include "logic/conditionmanagerlocationcell.h"
 #include "logic/conditionmanagerwlan.h"
 #include "logic/actionchain.h"
+#include "logic/actioncellularmode.h"
 #include "logic/actionflightmode.h"
 #include "logic/actionpowersavingmode.h"
 #include "logic/actionprofile.h"
@@ -61,6 +62,7 @@ buildAction(ProfileClient *profileClient, PlatformUtil *platformUtil) {
     ac->add(new ActionFlightMode(platformUtil));
     ac->add(new ActionPowerSavingMode(platformUtil));
     ac->add(new ActionBlueTooth());
+    ac->add(new ActionCellularMode(platformUtil));
     ac->add(platformUtil->createActionPresence());
     return ac;
 }

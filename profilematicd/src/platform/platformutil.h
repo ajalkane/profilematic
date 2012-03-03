@@ -38,6 +38,9 @@ public:
     // 0: Power Saving Mode off, 1: Power Saving mode on
     virtual int powerSavingMode() const;
     virtual void setPowerSavingMode(int state);
+    // 0: Dual mode, 1: 2G only, 2: 3G only
+    virtual int cellularMode() const;
+    virtual void setCellularMode(int state);
 
     virtual ActionPresence *createActionPresence();
 };

@@ -63,13 +63,24 @@ PlatformUtil::setFlightMode(int flightMode) {
 
 int
 PlatformUtil::powerSavingMode() const {
-    qDebug("PlatformUtil::psmState default, returning -1");
+    qDebug("PlatformUtil::powerSavingMode default, returning -1");
     return -1;
 }
 
 void
 PlatformUtil::setPowerSavingMode(int state) {
-    qDebug("PlatformUtil::setPsmState default, doing nothing for value %d", state);
+    qDebug("PlatformUtil::setPowerSavingMode default, doing nothing for value %d", state);
+}
+
+int
+PlatformUtil::cellularMode() const {
+    qDebug("PlatformUtil::cellularMode default, returning -1");
+    return -1;
+}
+
+void
+PlatformUtil::setCellularMode(int state) {
+    qDebug("PlatformUtil::setCellularMode default, doing nothing for value %d", state);
 }
 
 ActionPresence *PlatformUtil::createActionPresence()

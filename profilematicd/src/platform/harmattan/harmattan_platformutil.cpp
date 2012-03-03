@@ -19,6 +19,7 @@
 #include "harmattan_platformutil.h"
 #include "../../logic/presence/actionpresenceimpl.h"
 #include <qmdevicemode.h>
+#include <RadioAccess>
 
 HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
     : PlatformUtil(parent)
@@ -88,6 +89,54 @@ HarmattanPlatformUtil::setPowerSavingMode(int state) {
                                           : MeeGo::QmDeviceMode::PSMStateOff);
 
         qDebug("HarmattanPlatformUtil::Setting Power Saving State, return value %d", return_value);
+    }
+}
+
+int
+HarmattanPlatformUtil::cellularMode() const {
+    Cellular::RadioAccess radioAccess;
+    Cellular::RadioAccess::Mode mode = radioAccess.mode();
+    int cellularMode = -1;
+    switch (mode) {
+    case Cellular::RadioAccess::DualMode:
+        cellularMode = 0; break;
+    case Cellular::RadioAccess::OnlyTwoG:
+        cellularMode = 1; break;
+    case Cellular::RadioAccess::OnlyThreeG:
+        cellularMode = 2; break;
+    default:
+        qDebug("HarmattanPlatformUtil::cellularMode warning unrecognized RadioAccess mode %d", cellularMode);
+    }
+
+    qDebug("HarmattanPlatformUtil::cellularMode current cellular mode %d", cellularMode);
+    return cellularMode;
+}
+
+void
+HarmattanPlatformUtil::setCellularMode(int cellularMode) {
+    qDebug("HarmattanPlatformUtil::setCellularMode setting cellular mode %d", cellularMode);
+
+    Cellular::RadioAccess radioAccess;
+    Cellular::RadioAccess::Mode mode = Cellular::RadioAccess::Unknown;
+    switch (cellularMode) {
+    case 0:
+        qDebug("HarmattanPlatformUtil::setCellularMode setting Dual Mode");
+        mode = Cellular::RadioAccess::DualMode;
+        break;
+    case 1:
+        qDebug("HarmattanPlatformUtil::setCellularMode setting 2G Mode");
+        mode = Cellular::RadioAccess::OnlyTwoG;
+        break;
+    case 2:
+        qDebug("HarmattanPlatformUtil::setCellularMode setting 3G Mode");
+        mode = Cellular::RadioAccess::OnlyThreeG;
+        break;
+    default:
+        qDebug("HarmattanPlatformUtil::setCellularMode warning unrecognized mode %d", cellularMode);
+    }
+
+    if (mode != Cellular::RadioAccess::Unknown) {
+        radioAccess.setMode(mode);
     }
 }
 
