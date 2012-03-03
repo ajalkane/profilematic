@@ -1,5 +1,5 @@
 /**********************************************************************
- * Copyright 2011-2012 Arto Jalkanen
+ * Copyright 2012 Arto Jalkanen
  *
  * This file is part of ProfileMatic.
  *
@@ -16,27 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef HARMATTAN_PLATFORMUTIL_H
-#define HARMATTAN_PLATFORMUTIL_H
+#ifndef ACTIONCELLULARMODE_H
+#define ACTIONCELLULARMODE_H
 
-#include "../platformutil.h"
+#include "action.h"
+#include "../platform/platformutil.h"
 
-class HarmattanPlatformUtil : public PlatformUtil
+class ActionCellularMode: public Action
 {
-    Q_OBJECT
+    PlatformUtil *_platformUtil;
 
 public:
-    HarmattanPlatformUtil(QObject *parent = 0);
-    virtual ~HarmattanPlatformUtil();
+    ActionCellularMode(PlatformUtil *platformUtil);
 
-    virtual int flightMode() const;
-    virtual void setFlightMode(int flightMode);
-    virtual int powerSavingMode() const;
-    virtual void setPowerSavingMode(int state);
-    virtual int cellularMode() const;
-    virtual void setCellularMode(int state);
-
-    ActionPresence *createActionPresence();
+    virtual void activate(const Rule &rule);
 };
 
-#endif // PLATFORMUTIL_H
+#endif // ACTIONCELLULARMODE_H

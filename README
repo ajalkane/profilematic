@@ -11,5 +11,14 @@ Following MeeGo/Harmattan libraries are needed:
 Other requirements:
  - Qt version 4.7.4
  - qt-components installed in runtime
+ - libcellular-qt1
 
+libcellular-qt1 is not installed by default for use in QtCreator. You must get 
+the package first and then install it. For example:
+./mad-admin -t harmattan-nokia-meego-api xdpkg -i libcellular-qt-dev_0.10.10+0m6_armel.deb
+First you must get the package. This was obtained from this URL:
+
+harmattan-dev.nokia.com/pool/harmattan-beta3/nokia-binaries/41667a5bd857be02f487c2ce806fbf85/nokia-binaries/libc/libcellular-qt/libcellular-qt-dev_0.10.10+0m6_armel.deb
+
+Obtaining the location of the packages is not easy without using scratchbox. Thanks to itsnotabigtruck for help here.
 

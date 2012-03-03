@@ -4,6 +4,8 @@
     <credential match="UID::user" />
     <credential match="GRP::group" />
     <credential name="mce::DeviceModeControl" />
+    <!-- Mobile network mode action (Dual/GSM/3G) -->
+    <credential name="Cellular" />
     <for path="/opt/profilematic/bin/profilematicd"/>
     <for path="applauncherd-launcher::/usr/bin/applauncherd.bin"/>
   </request>
