@@ -41,7 +41,6 @@ public:
     // 0: Dual mode, 1: 2G only, 2: 3G only
     virtual int cellularMode() const;
     virtual void setCellularMode(int state);
-
     virtual void publishNotification(const QString &message);
 
     virtual ActionPresence *createActionPresence();

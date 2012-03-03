@@ -16,7 +16,7 @@ CONFIG += mobility
 # For switching Dual/2g/3g
 CONFIG += cellular-qt
 # For notifications
-CONFIG += meegotouch
+# CONFIG += meegotouch
 
 MOBILITY += systeminfo
 !isEmpty(MEEGO_VERSION_MAJOR) {
@@ -119,38 +119,3 @@ daemonconf.path = /etc/init/apps
 daemonconf.files = profilematicd.conf
 
 INSTALLS += daemonconf
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
