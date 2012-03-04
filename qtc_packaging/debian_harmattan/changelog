@@ -1,3 +1,9 @@
+profilematic (1.5.0) unstable; urgency=low
+  * Mobile network mode action (Dual/2G/3G)
+  * Custom action (running shell script)
+
+ -- Arto Jalkanen <ajalkane@gmail.com>  Tue, 14 Mar 2012 23:45:00 +0300
+
 profilematic (1.4.1) unstable; urgency=low
   * Fixes to installation/startup/rule savings
 

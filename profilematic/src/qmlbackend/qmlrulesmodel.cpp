@@ -370,6 +370,12 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
         ++numAction;
     }
 
+    if (!rule->getCommandLine().trimmed().isEmpty()) {
+        if (numAction > 0) action.append(", ");
+        action.append("Custom action");
+        ++numAction;
+    }
+
     bool atLeastOnePresenceChange = false;
     foreach (PresenceRule *presenceRule, rule->presenceRules())
         if (presenceRule->action() != PresenceRule::Retain) {
