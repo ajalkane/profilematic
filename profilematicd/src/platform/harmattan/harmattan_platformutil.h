@@ -37,6 +37,8 @@ public:
     virtual void setCellularMode(int state);
     virtual void publishNotification(const QString &message);
 
+    virtual void publishNotification(const QString &message);
+
     ActionPresence *createActionPresence();
 };
 
