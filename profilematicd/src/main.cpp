@@ -24,8 +24,6 @@
 #include "configuration.h"
 #include "preferences.h"
 #include "model/rule.h"
-//#include "logic/rulewatch.h"
-//#include "logic/ruleactivator.h"
 #include "logic/rulesmanager.h"
 #include "logic/conditionmanagerchain.h"
 #include "logic/conditionmanagertime.h"
@@ -33,6 +31,7 @@
 #include "logic/conditionmanagerwlan.h"
 #include "logic/actionchain.h"
 #include "logic/actioncellularmode.h"
+#include "logic/actioncommandline.h"
 #include "logic/actionflightmode.h"
 #include "logic/actionpowersavingmode.h"
 #include "logic/actionprofile.h"
@@ -43,7 +42,6 @@
 
 #include <stdio.h>
 
-//#include <qmdevicemode.h>
 #define CONVERSION_WARNING_CMDLINE "/opt/profilematic/bin/profilematic -conversionWarning"
 
 ConditionManager *
@@ -57,12 +55,15 @@ buildConditionManager() {
 
 Action *
 buildAction(ProfileClient *profileClient, PlatformUtil *platformUtil) {
+    // IMPROVE: platformUtil is needed in most classes. It's idiotic
+    // to reserve memory for a pointer all of them, instead should be a singleton.
     ActionChain *ac = new ActionChain();
     ac->add(new ActionProfile(profileClient));
     ac->add(new ActionFlightMode(platformUtil));
     ac->add(new ActionPowerSavingMode(platformUtil));
     ac->add(new ActionBlueTooth());
     ac->add(new ActionCellularMode(platformUtil));
+    ac->add(new ActionCommandLine(platformUtil));
     ac->add(platformUtil->createActionPresence());
     return ac;
 }

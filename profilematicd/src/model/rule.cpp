@@ -46,6 +46,7 @@ Rule::Rule(const Rule &o)
       _restorePowerSavingMode(o._restorePowerSavingMode),
       _blueToothMode(o._blueToothMode),
       _cellularMode(o._cellularMode),
+      _commandLine(o._commandLine),
       _presenceStatusMessage(o._presenceStatusMessage),
       _restorePresence(o._restorePresence),
       _presenceChangeType(o._presenceChangeType)
@@ -95,6 +96,7 @@ Rule::actionsFrom(const Rule &o) {
     _restorePowerSavingMode = o._restorePowerSavingMode;
     _blueToothMode = o._blueToothMode;
     _cellularMode = o._cellularMode;
+    _commandLine = o._commandLine;
     _presenceStatusMessage = o._presenceStatusMessage;
     _restorePresence = o._restorePresence;
     _presenceChangeType = o._presenceChangeType;
@@ -364,6 +366,22 @@ Rule::setProfileVolume(int volume) {
     }
 }
 
+QString
+Rule::getCommandLine() const {
+    return _commandLine;
+}
+
+void
+Rule::setCommandLine(const QString &commandLine) {    
+    if (_commandLine != commandLine) {
+        _commandLine = commandLine;
+        if (_commandLine.trimmed().isEmpty()) {
+            _commandLine.clear();
+        }
+        emit commandLineChanged();
+    }
+}
+
 QList<QObject *> Rule::presenceRulesQml() const
 {
     QList<QObject *> result;
@@ -599,6 +617,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
     argument << rule.getRestorePowerSavingMode();
     argument << rule.getBlueToothMode();
     argument << rule.getCellularMode();
+    argument << rule.getCommandLine();
     QList<PresenceRule> presenceRules;
     foreach(PresenceRule *presenceRule, rule.presenceRules())
         presenceRules.append(*presenceRule);
@@ -631,6 +650,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     bool    restorePsmState = rule.getRestorePowerSavingMode();
     int     blueToothMode = rule.getBlueToothMode();
     int     cellularMode = rule.getCellularMode();
+    QString commandLine = rule.getCommandLine();
     QList<PresenceRule> presenceRules;
     QString presenceStatusMessage;
     bool restorePresence;
@@ -654,6 +674,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     argument >> restorePsmState;
     argument >> blueToothMode;
     argument >> cellularMode;
+    argument >> commandLine;
     argument >> presenceRules;
     argument >> presenceStatusMessage;
     argument >> restorePresence;
@@ -677,6 +698,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     rule.setRestorePowerSavingMode(restorePsmState);
     rule.setBlueToothMode(blueToothMode);
     rule.setCellularMode(cellularMode);
+    rule.setCommandLine(commandLine);
     QList<PresenceRule *> dstPresenceRules;
     foreach(const PresenceRule &presenceRule, presenceRules)
         dstPresenceRules.append(new PresenceRule(presenceRule));

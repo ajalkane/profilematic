@@ -1,5 +1,5 @@
 /**********************************************************************
- * Copyright 2011 Arto Jalkanen
+ * Copyright 2012 Arto Jalkanen
  *
  * This file is part of ProfileMatic.
  *
@@ -16,20 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-import QtQuick 1.1
-import com.nokia.meego 1.0
+#ifndef ACTIONCOMMANDLINE_H
+#define ACTIONCOMMANDLINE_H
 
-QueryDialog {
-    titleText: "ProfileMatic v1.5.0"
-    message: "(c) Arto Jalkanen 2011-2012\n"
-             + "UX design by Dina & Arto Jalkanen\n"
-             + "\n"
-             + "Contributors:"
-             + "\n"
-             + "Philip Lorenz (Availability)"
-             + "\n"
-             + "\n"
-             + "This application is free sofware licenced under the GNU Public License version 3"
-             + "\n"
-    acceptButtonText: "Close"
-}
+#include "action.h"
+#include "../platform/platformutil.h"
+
+class ActionCommandLine: public Action
+{
+    PlatformUtil *_platformUtil;
+
+public:
+    ActionCommandLine(PlatformUtil *platformUtil);
+
+    virtual void activate(const Rule &rule);
+};
+
+#endif // ACTIONCOMMANDLINE_H

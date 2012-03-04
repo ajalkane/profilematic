@@ -254,6 +254,14 @@ Page {
                 onTopicClicked: cellularModeEditHandler()
             }
 
+            RuleTopicSummary {
+                id: commandLineAction
+                topic: "Custom action"
+                summary: commandLineSummary();
+                showComboBox: true
+                onTopicClicked: commandLineEditHandler()
+            }
+
             Text {
                 id: ruleSummary
                 wrapMode: Text.WordWrap
@@ -435,6 +443,23 @@ Page {
     function cellularModeEditHandler() {
         dCellularMode.selectedCellularMode = rule.cellularMode
         dCellularMode.open();
+    }
+
+    // CommandLine
+    ActionCommandLine {
+        id: actionCommandLine
+        rule: root.rule
+    }
+
+    function commandLineSummary() {
+        if (rule.commandLine !== "") {
+            return "Custom action has been set"
+        }
+        return "Click to set"
+    }
+
+    function commandLineEditHandler() {
+        pageStack.push(actionCommandLine)
     }
 
     // Presence

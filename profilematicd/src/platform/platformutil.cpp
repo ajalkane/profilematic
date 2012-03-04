@@ -83,6 +83,11 @@ PlatformUtil::setCellularMode(int state) {
     qDebug("PlatformUtil::setCellularMode default, doing nothing for value %d", state);
 }
 
+void
+PlatformUtil::publishNotification(const QString &message) {
+    qDebug("PlatformUtil::publishNotification default, doing nothing for value %s", qPrintable(message));
+}
+
 ActionPresence *PlatformUtil::createActionPresence()
 {
 #ifndef __arm__

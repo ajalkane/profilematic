@@ -1,9 +1,15 @@
+profilematic (1.5.0) unstable; urgency=low
+  * Mobile network mode action (Dual/2G/3G)
+  * Custom action (running shell script)
+
+ -- Arto Jalkanen <ajalkane@gmail.com>  Tue, 05 Mar 2012 23:45:00 +0300
+
 profilematic (1.4.0) unstable; urgency=low
   * Availability action (contributed by Philip Lorenz)
   * Flight Mode action
   * Power saving mode action
 
- -- Arto Jalkanen <ajalkane@gmail.com>  Tue, 01 Feb 2012 23:45:00 +0300
+ -- Arto Jalkanen <ajalkane@gmail.com>  Tue, 01 Mar 2012 23:45:00 +0300
 
 profilematic (1.3.0) unstable; urgency=low
   * Wifi condition

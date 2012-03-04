@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
+// #include <MNotification>
+
 #include "harmattan_platformutil.h"
 #include "../../logic/presence/actionpresenceimpl.h"
 #include <qmdevicemode.h>
@@ -140,7 +142,19 @@ HarmattanPlatformUtil::setCellularMode(int cellularMode) {
     }
 }
 
-ActionPresence *HarmattanPlatformUtil::createActionPresence()
+void
+HarmattanPlatformUtil::publishNotification(const QString &) {
+// Forget about this for now... requires libraries that I'm not sure I want to link into for daemon.
+// At least as long as it's only used for "Custom action" which is intended for "advanced usage".
+//    qDebug("HarmattanPlatformUtil::publishNotification publishing notification '%s'", qPrintable(message));
+//    MNotification notification(MNotification::DeviceEvent);
+//    notification.setImage("/usr/share/icons/hicolor/80x80/apps/profilematic80.png");
+//    notification.setBody("message");
+//    notification.publish();
+}
+
+ActionPresence *
+HarmattanPlatformUtil::createActionPresence()
 {
     return new ActionPresenceImpl();
 }

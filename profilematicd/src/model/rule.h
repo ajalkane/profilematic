@@ -62,7 +62,9 @@ private:
     int     _powerSavingMode;
     bool    _restorePowerSavingMode;
     int     _blueToothMode;
-    int _cellularMode;
+    int     _cellularMode;
+    QString _commandLine;
+
     QList<PresenceRule *> _presenceRules;
     QString _presenceStatusMessage;
     bool    _restorePresence;
@@ -89,6 +91,8 @@ private:
     Q_PROPERTY(bool restorePowerSavingMode READ getRestorePowerSavingMode WRITE setRestorePowerSavingMode NOTIFY restorePowerSavingModeChanged)
     Q_PROPERTY(int blueToothMode READ getBlueToothMode WRITE setBlueToothMode NOTIFY blueToothModeChanged)
     Q_PROPERTY(int cellularMode READ getCellularMode WRITE setCellularMode NOTIFY cellularModeChanged)
+    Q_PROPERTY(QString commandLine READ getCommandLine WRITE setCommandLine NOTIFY commandLineChanged)
+
     /**
       * This property gives access to the presence rules associated with this
       * rule.
@@ -131,6 +135,7 @@ signals:
     void restorePowerSavingModeChanged();
     void blueToothModeChanged();
     void cellularModeChanged();
+    void commandLineChanged();
     void presenceRulesChanged();
     void presenceStatusMessageChanged();
     void restorePresenceChanged();
@@ -202,6 +207,11 @@ public:
     bool getRestoreProfile() const;
     void setRestoreProfile(bool restore);
 
+    // Returns -1 if the profile volume is not to be set
+    int getProfileVolume() const;
+    // Use -1 if the profile volume is not to be set, otherwise value between 0 to 100
+    void setProfileVolume(int volume);
+
     // -1 don't set, 0, set no flight mode, 1 set flight mode
     int getFlightMode() const;
     void setFlightMode(int mode);
@@ -222,10 +232,8 @@ public:
     int getCellularMode() const;
     void setCellularMode(int mode);
 
-    // Returns -1 if the profile volume is not to be set
-    int getProfileVolume() const;
-    // Use -1 if the profile volume is not to be set, otherwise value between 0 to 100
-    void setProfileVolume(int volume);
+    QString getCommandLine() const;
+    void setCommandLine(const QString &commandLine);
 
     QList<QObject *> presenceRulesQml() const;
 
@@ -262,6 +270,7 @@ public:
             && this->_restorePowerSavingMode == o._restorePowerSavingMode
             && this->_blueToothMode == o._blueToothMode
             && this->_cellularMode == o._cellularMode
+            && this->_commandLine == o._commandLine
             && this->_presenceStatusMessage == o._presenceStatusMessage
             && this->_restorePresence == o._restorePresence;
     }
