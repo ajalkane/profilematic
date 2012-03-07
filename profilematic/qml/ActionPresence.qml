@@ -82,12 +82,6 @@ Page {
     Row {
         id: buttonBar
 
-        function __changeAllActions(to) {
-            for (var row = 0; row < listView.model.presenceRules.length; row++) {
-                listView.model.presenceRules[row].action = to;
-            }
-        }
-
         spacing: UIConstants.PADDING_SMALL
         anchors { top: statusMessage.bottom; right: parent.right; left: parent.left; topMargin: UIConstants.DEFAULT_MARGIN }
         visible: listView.count > 0
