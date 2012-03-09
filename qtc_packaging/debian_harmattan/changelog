@@ -4,6 +4,11 @@ profilematic (1.5.0) unstable; urgency=low
 
  -- Arto Jalkanen <ajalkane@gmail.com>  Tue, 05 Mar 2012 23:45:00 +0300
 
+profilematic (1.4.1) unstable; urgency=low
+  * Fixes to installation/startup/rule savings
+
+ -- Arto Jalkanen <ajalkane@gmail.com>  Tue, 09 Mar 2012 23:45:00 +0300
+
 profilematic (1.4.0) unstable; urgency=low
   * Availability action (contributed by Philip Lorenz)
   * Flight Mode action

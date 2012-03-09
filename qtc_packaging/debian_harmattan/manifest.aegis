@@ -1,12 +1,11 @@
 <aegis>
   <request>
-    <credential name="UID::user" />
-    <credential name="GID::users" />
-    <credential name="GRP::users" />
+    <credential match="GID::users" />
+    <credential match="UID::user" />
     <credential name="mce::DeviceModeControl" />
     <credential name="Cellular" />
-    <for path="applauncherd-launcher::/usr/bin/applauncherd.bin" id="" />
     <for path="/opt/profilematic/bin/profilematicd"/>
+    <for path="applauncherd-launcher::/usr/bin/applauncherd.bin"/>
   </request>
 </aegis>
 
