@@ -3,6 +3,8 @@ set -e
 
 case "$1" in
     configure)
+	# 1.4.0 had installation bug that could leave configuration files to user 'nobody'. Try to fix it:
+	chown -R user:users /home/user/.config/ProfileMatic
 
     echo "Starting profilematicd ..."
     [[ -e /etc/init/apps/profilematicd.conf ]] && initctl start apps/profilematicd
