@@ -166,6 +166,16 @@ Page {
                                     return "Set to offline";
                                 case PresenceRule.SetOnline:
                                     return "Set to online";
+                                case PresenceRule.SetAway:
+                                    return "Set to away";
+                                case PresenceRule.SetBrb:
+                                    return "Set to be right back";
+                                case PresenceRule.SetBusy:
+                                    return "Set to busy";
+                                case PresenceRule.SetHidden:
+                                    return "Set to hidden";
+                                case PresenceRule.SetXa:
+                                    return "Set to extended away";
                                 case PresenceRule.Retain:
                                     return "Do not change";
                                 }
@@ -251,6 +261,11 @@ Page {
             ListElement { name: "Online"; value: PresenceRule.SetOnline }
             ListElement { name: "Offline"; value: PresenceRule.SetOffline }
             ListElement { name: "Do not change"; value: PresenceRule.Retain }
+            ListElement { name: "Be right back"; value: PresenceRule.SetBrb }
+            ListElement { name: "Away"; value: PresenceRule.SetAway }
+            ListElement { name: "Extended away"; value: PresenceRule.SetXa }
+            ListElement { name: "Busy"; value: PresenceRule.SetBusy }
+            ListElement { name: "Hidden"; value: PresenceRule.SetHidden }
         }
         platformStyle: SelectionDialogStyle {
            itemSelectedBackgroundColor: UIConstants.COLOR_SELECT

@@ -80,18 +80,7 @@ void ActionPresenceImpl::activate(const Rule &rule)
         return;
     }
 
-    // Handle the special cases of all online or all offline
-    switch(rule.getPresenceChangeType()) {
-    case Rule::AllOfflinePresenceType:
-    case Rule::AllOnlinePresenceType:
-        qDebug() << "ActionPresence::activate setting presence of all accounts online or offline";
-        changeAllAccounts(rule);
-        break;
-    case Rule::CustomPresenceType:
-        qDebug() << "ActionPresence::activate setting selected accounts if any";
-        changeSelectedAccounts(rule);
-        break;
-    }
+    changeAccountPresences(rule);
 }
 
 void ActionPresenceImpl::onPresenceChangeFinished(Tp::PendingOperation *op)
@@ -122,27 +111,57 @@ void ActionPresenceImpl::onAccountManagerReady(Tp::PendingOperation *op)
 
 void ActionPresenceImpl::changeAccountPresence(Tp::AccountPtr account, const Tp::Presence &presence)
 {
+    qDebug() << "ActionPresenceImpl::changeAccountPresence: Changing account presence to" << presence.status() << "for" << account->uniqueIdentifier();
     Tp::PendingOperation *op = account->setRequestedPresence(presence);
     connect(op,
             SIGNAL(finished(Tp::PendingOperation*)),
             SLOT(onPresenceChangeFinished(Tp::PendingOperation*)));
 }
 
-void ActionPresenceImpl::changeAllAccounts(const Rule &rule)
+void ActionPresenceImpl::changeAccountPresences(const Rule &rule)
 {
-    Tp::Presence presence
-            = rule.getPresenceChangeType() == Rule::AllOfflinePresenceType ? Tp::Presence::offline() : Tp::Presence::available(rule.getPresenceStatusMessage());
+    Tp::Presence defaultPresence;
+    switch (rule.getPresenceChangeType()) {
+    case Rule::AllOfflinePresenceType:
+        defaultPresence = Tp::Presence::offline();
+        break;
+    case Rule::AllOnlinePresenceType:
+        defaultPresence = Tp::Presence::available(rule.getPresenceStatusMessage());
+        break;
+    default:
+        break;
+    }
+
     foreach(const Tp::AccountPtr &account, _accountManager->allAccounts()) {
+        Tp::Presence presence = defaultPresence;
+
+        switch (rule.getPresenceChangeType()) {
+        case Rule::AllOnlinePresenceType:
+        case Rule::CustomPresenceType:
+            presence = accountPresence(account, rule, defaultPresence);
+            break;
+        default:
+            break;
+        }
+
+        if (!presence.isValid())
+            continue;
+
         changeAccountPresence(account, presence);
     }
 }
 
-void ActionPresenceImpl::changeSelectedAccounts(const Rule &rule)
+Tp::Presence ActionPresenceImpl::accountPresence(const Tp::AccountPtr &targetAccount,
+                                                 const Rule &rule,
+                                                 const Tp::Presence &defaultPresence) const
 {
     foreach(const PresenceRule *presenceRule, rule.presenceRules()) {
         Accounts::Account *account
                 = _manager->account(presenceRule->accountId());
         Accounts::Service *selectedService = NULL;
+
+        if (account == NULL)
+            continue;
 
         foreach (Accounts::Service *service, account->services()) {
             if (service->name() == presenceRule->serviceName()) {
@@ -164,6 +183,9 @@ void ActionPresenceImpl::changeSelectedAccounts(const Rule &rule)
             continue;
         }
 
+        // Look-up the account using the path - Tp::Account only has uniqueId()
+        // which only guarantees that the id is unique based on the current
+        // D-Bus connection and therefore it must not necessarily match tmc-id.
         Tp::AccountPtr tpAccount =
                 _accountManager->accountForPath(QString("/org/freedesktop/Telepathy/Account/%1").arg(uid));
 
@@ -171,6 +193,9 @@ void ActionPresenceImpl::changeSelectedAccounts(const Rule &rule)
             qWarning() << "ActionPresence::changeSelectedAccounts failed to retrieve Telepathy account for" << presenceRule->accountId() << uid;
             continue;
         }
+
+        if (tpAccount->uniqueIdentifier() != targetAccount->uniqueIdentifier())
+            continue;
 
         Tp::Presence presence;
         QString statusMessage = presenceRule->statusMessage();
@@ -180,19 +205,35 @@ void ActionPresenceImpl::changeSelectedAccounts(const Rule &rule)
 
         switch (presenceRule->action()) {
         case PresenceRule::SetOnline:
-            qDebug() << "ActionPresence::changeSelectedAccounts setting account online" << presenceRule->serviceName();
             presence = Tp::Presence::available(statusMessage);
             break;
         case PresenceRule::SetOffline:
-            qDebug() << "ActionPresence::changeSelectedAccounts setting account offline" << presenceRule->serviceName();
             presence = Tp::Presence::offline();
             break;
-        default:
-            continue;
+        case PresenceRule::SetAway:
+            presence = Tp::Presence::away(statusMessage);
+            break;
+        case PresenceRule::SetBrb:
+            presence = Tp::Presence::brb(statusMessage);
+            break;
+        case PresenceRule::SetBusy:
+            presence = Tp::Presence::busy(statusMessage);
+            break;
+        case PresenceRule::SetXa:
+            presence = Tp::Presence::xa(statusMessage);
+            break;
+        case PresenceRule::SetHidden:
+            presence = Tp::Presence::hidden(statusMessage);
+            break;
+        case PresenceRule::Retain:
+            // Return invalid Tp::Presence
+            break;
         }
 
-        changeAccountPresence(tpAccount, presence);
+        return presence;
     }
+
+    return defaultPresence;
 }
 
 ActionPresenceImpl::AccountPresence::AccountPresence(const Tp::AccountPtr &account) :

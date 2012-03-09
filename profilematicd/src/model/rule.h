@@ -246,6 +246,7 @@ public:
 
     const QString &getPresenceStatusMessage() const;
     void setPresenceStatusMessage(const QString &pressenceStatusMessage);
+    void updatePresenceChangeType(const PresenceRule *presenceRule);
 
     bool getRestorePresence() const;
     void setRestorePresence(bool restorePresence);
