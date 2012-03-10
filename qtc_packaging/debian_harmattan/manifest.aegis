@@ -1,12 +1,22 @@
 <aegis>
   <request>
-    <credential name="UID::user" />
-    <credential name="GID::users" />
-    <credential name="GRP::users" />
+    <credential match="GID::users" />
+    <credential match="UID::user" />
+    <credential match="GRP::group" />
     <credential name="mce::DeviceModeControl" />
+<<<<<<< HEAD
     <credential name="Cellular" />
     <for path="applauncherd-launcher::/usr/bin/applauncherd.bin" id="" />
+=======
+    <!-- Mobile network mode action (Dual/GSM/3G) -->
+    <credential name="Cellular" />
+>>>>>>> develImport
     <for path="/opt/profilematic/bin/profilematicd"/>
+    <for path="applauncherd-launcher::/usr/bin/applauncherd.bin"/>
+  </request>
+  <request context="INSTALL">
+    <!-- This is needed to reown configuration file to user from 1.4.0 bug -->
+    <credential name="CAP::chown" />
   </request>
 </aegis>
 
