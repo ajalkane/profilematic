@@ -2,9 +2,14 @@
   <request>
     <credential match="GID::users" />
     <credential match="UID::user" />
+    <credential match="GRP::group" />
     <credential name="mce::DeviceModeControl" />
     <for path="/opt/profilematic/bin/profilematicd"/>
     <for path="applauncherd-launcher::/usr/bin/applauncherd.bin"/>
+  </request>
+  <request context="INSTALL">
+    <!-- This is needed to reown configuration file to user from 1.4.0 bug -->
+    <credential name="CAP::chown" />
   </request>
 </aegis>
 
