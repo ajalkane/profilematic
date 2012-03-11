@@ -160,8 +160,10 @@ Tp::Presence ActionPresenceImpl::accountPresence(const Tp::AccountPtr &targetAcc
                 = _manager->account(presenceRule->accountId());
         Accounts::Service *selectedService = NULL;
 
-        if (account == NULL)
+        if (account == NULL) {
+            qWarning() << "ActionPresence::changeSelectedAccounts could not find accountId" << presenceRule->accountId();
             continue;
+        }
 
         foreach (Accounts::Service *service, account->services()) {
             if (service->name() == presenceRule->serviceName()) {
