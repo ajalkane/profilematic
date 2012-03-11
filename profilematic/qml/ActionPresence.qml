@@ -265,12 +265,12 @@ Page {
         model: ListModel {
             ListElement { name: "Online"; value: PresenceRule.SetOnline }
             ListElement { name: "Offline"; value: PresenceRule.SetOffline }
-            ListElement { name: "Do not change"; value: PresenceRule.Retain }
             ListElement { name: "Be right back"; value: PresenceRule.SetBrb }
             ListElement { name: "Away"; value: PresenceRule.SetAway }
             ListElement { name: "Extended away"; value: PresenceRule.SetXa }
             ListElement { name: "Busy"; value: PresenceRule.SetBusy }
-            ListElement { name: "Hidden"; value: PresenceRule.SetHidden }
+            ListElement { name: "Invisible"; value: PresenceRule.SetHidden }
+            ListElement { name: "Do not change"; value: PresenceRule.Retain }
         }
         platformStyle: SelectionDialogStyle {
            itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
