@@ -43,8 +43,13 @@ Page {
         height: visible ? statusMessage.implicitHeight : 0
         visible: {
             for (var row = 0; row < rule.presenceRules.length; row++) {
-                if (rule.presenceRules[row].action === PresenceRule.SetOnline)
+                switch (rule.presenceRules[row].action) {
+                case PresenceRule.SetOffline:
+                case PresenceRule.Retain:
+                    continue;
+                default:
                     return true;
+                }
             }
 
             return false;
