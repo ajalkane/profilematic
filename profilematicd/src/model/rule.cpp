@@ -702,6 +702,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     argument >> psmState;
     argument >> restorePsmState;
     argument >> blueToothMode;
+    argument >> restoreBlueToothMode;
     argument >> cellularMode;
     argument >> commandLine;
     argument >> presenceRules;

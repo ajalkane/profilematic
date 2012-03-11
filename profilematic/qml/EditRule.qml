@@ -242,7 +242,7 @@ Page {
                 id: blueToothAction
                 topic: "BlueTooth"
                 summary: blueToothModeSummary();
-                showComboBox: true
+                showDrillDown: true
                 onTopicClicked: blueToothModeEditHandler()
             }
 
@@ -375,7 +375,7 @@ Page {
             var summary = actionFlightMode.flightModeSummary()
 
             if (rule.restoreFlightMode) {
-                summary += ". Restores previous flight mode."
+                summary += ". Restores previous mode."
             }
             return summary
         }
@@ -397,7 +397,7 @@ Page {
             var summary = actionPowerSavingMode.powerSavingModeSummary()
 
             if (rule.restorePowerSavingMode) {
-                summary += ". Restores previous power saving mode."
+                summary += ". Restores previous mode."
             }
             return summary
         }
@@ -410,21 +410,25 @@ Page {
     }
 
     // BlueTooth mode
-    BlueToothModeDialog {
-        id: dBlueToothMode
-
-        onBlueToothModeSelected: {
-            rule.blueToothMode = selectedBlueToothMode
-        }
+    ActionBlueToothMode {
+        id: actionBlueToothMode
+        rule: root.rule
     }
 
     function blueToothModeSummary() {
-        return dBlueToothMode.blueToothModeToText(rule.blueToothMode)
+        if (rule.blueToothMode >= 0) {
+            var summary = actionBlueToothMode.blueToothModeSummary()
+
+            if (rule.restoreBlueToothMode) {
+                summary += ". Restores previous mode."
+            }
+            return summary
+        }
+        return "Click to set"
     }
 
     function blueToothModeEditHandler() {
-        dBlueToothMode.selectedBlueToothMode = rule.blueToothMode
-        dBlueToothMode.open();
+        pageStack.push(actionBlueToothMode)
     }
 
     // BlueTooth mode
