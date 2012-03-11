@@ -258,7 +258,7 @@ Page {
                 id: commandLineAction
                 topic: "Custom action"
                 summary: commandLineSummary();
-                showComboBox: true
+                showDrillDown: true
                 onTopicClicked: commandLineEditHandler()
             }
 
