@@ -176,7 +176,7 @@ Page {
                                 case PresenceRule.SetBusy:
                                     return "Set to busy";
                                 case PresenceRule.SetHidden:
-                                    return "Set to hidden";
+                                    return "Set to invisible";
                                 case PresenceRule.SetXa:
                                     return "Set to extended away";
                                 case PresenceRule.Retain:
