@@ -35,6 +35,8 @@ class ActionBlueTooth : public Action
     QBluetoothLocalDevice _bt;
 #endif
 
+    int _previousMode;
+
 public:
     ActionBlueTooth();
 

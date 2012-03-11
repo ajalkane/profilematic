@@ -5,6 +5,9 @@
     <credential match="GRP::group" />
     <credential name="mce::DeviceModeControl" />
     <credential name="Cellular" />
+    <!-- These credentials should be used according to documentation for Presence (Availability) -->
+    <credential name="TrackerReadAccess" />
+    <credential name="TrackerWriteAccess" />
     <for path="/opt/profilematic/bin/profilematicd"/>
     <for path="applauncherd-launcher::/usr/bin/applauncherd.bin"/>
   </request>
