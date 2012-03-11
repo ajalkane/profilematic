@@ -43,7 +43,7 @@ ActionBlueTooth::activate(const Rule &rule) {
         _previousMode = -1;
     }
 
-    switch (rule.getBlueToothMode()) {
+    switch (blueToothMode) {
     case 0: _bt.setHostMode(QBluetoothLocalDevice::HostPoweredOff); break;
     case 1: _bt.setHostMode(QBluetoothLocalDevice::HostConnectable); break;
     case 2: _bt.setHostMode(QBluetoothLocalDevice::HostDiscoverable); break;
