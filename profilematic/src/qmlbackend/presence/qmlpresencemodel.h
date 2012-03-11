@@ -46,7 +46,8 @@ public:
         AccountIdRole,
         AccountEnabledRole,
         PresenceRuleRole,
-        AccountIconRole
+        AccountIconRole,
+        SupportedPresencesRole
     };
 public:
     explicit QmlPresenceModel(QObject *parent = 0);

@@ -62,6 +62,7 @@ private:
     int     _powerSavingMode;
     bool    _restorePowerSavingMode;
     int     _blueToothMode;
+    bool    _restoreBlueToothMode;
     int     _cellularMode;
     QString _commandLine;
 
@@ -90,6 +91,7 @@ private:
     Q_PROPERTY(int powerSavingMode READ getPowerSavingMode WRITE setPowerSavingMode NOTIFY powerSavingModeChanged)
     Q_PROPERTY(bool restorePowerSavingMode READ getRestorePowerSavingMode WRITE setRestorePowerSavingMode NOTIFY restorePowerSavingModeChanged)
     Q_PROPERTY(int blueToothMode READ getBlueToothMode WRITE setBlueToothMode NOTIFY blueToothModeChanged)
+    Q_PROPERTY(bool restoreBlueToothMode READ getRestoreBlueToothMode WRITE setRestoreBlueToothMode NOTIFY restoreBlueToothModeChanged)
     Q_PROPERTY(int cellularMode READ getCellularMode WRITE setCellularMode NOTIFY cellularModeChanged)
     Q_PROPERTY(QString commandLine READ getCommandLine WRITE setCommandLine NOTIFY commandLineChanged)
 
@@ -134,6 +136,7 @@ signals:
     void powerSavingModeChanged();
     void restorePowerSavingModeChanged();
     void blueToothModeChanged();
+    void restoreBlueToothModeChanged();
     void cellularModeChanged();
     void commandLineChanged();
     void presenceRulesChanged();
@@ -227,6 +230,8 @@ public:
     // -1 don't set, 0 set BlueTooth off, 1 set BlueTooth on, 2 set BlueTooth on and visible
     int getBlueToothMode() const;
     void setBlueToothMode(int mode);
+    bool getRestoreBlueToothMode() const;
+    void setRestoreBlueToothMode(bool restore);
 
     // -1 don't set, 0 set Dual, 1 set 2G, 2 set 3G
     int getCellularMode() const;
@@ -246,6 +251,7 @@ public:
 
     const QString &getPresenceStatusMessage() const;
     void setPresenceStatusMessage(const QString &pressenceStatusMessage);
+    void updatePresenceChangeType(const PresenceRule *presenceRule);
 
     bool getRestorePresence() const;
     void setRestorePresence(bool restorePresence);
@@ -269,6 +275,7 @@ public:
             && this->_powerSavingMode == o._powerSavingMode
             && this->_restorePowerSavingMode == o._restorePowerSavingMode
             && this->_blueToothMode == o._blueToothMode
+            && this->_restoreBlueToothMode == o._restoreBlueToothMode
             && this->_cellularMode == o._cellularMode
             && this->_commandLine == o._commandLine
             && this->_presenceStatusMessage == o._presenceStatusMessage

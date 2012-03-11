@@ -40,6 +40,7 @@ protected:
                         PresenceRule *presenceRule);
         Accounts::Account *account;
         Accounts::Service *service;
+        QList<PresenceRule::Action> supportedPresences;
     };
 
 private slots:

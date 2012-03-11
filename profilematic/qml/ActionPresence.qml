@@ -43,8 +43,13 @@ Page {
         height: visible ? statusMessage.implicitHeight : 0
         visible: {
             for (var row = 0; row < rule.presenceRules.length; row++) {
-                if (rule.presenceRules[row].action === PresenceRule.SetOnline)
+                switch (rule.presenceRules[row].action) {
+                case PresenceRule.SetOffline:
+                case PresenceRule.Retain:
+                    continue;
+                default:
                     return true;
+                }
             }
 
             return false;
@@ -81,12 +86,6 @@ Page {
 
     Row {
         id: buttonBar
-
-        function __changeAllActions(to) {
-            for (var row = 0; row < listView.model.presenceRules.length; row++) {
-                listView.model.presenceRules[row].action = to;
-            }
-        }
 
         spacing: UIConstants.PADDING_SMALL
         anchors { top: statusMessage.bottom; right: parent.right; left: parent.left; topMargin: UIConstants.DEFAULT_MARGIN }
@@ -172,6 +171,14 @@ Page {
                                     return "Set to offline";
                                 case PresenceRule.SetOnline:
                                     return "Set to online";
+                                case PresenceRule.SetAway:
+                                    return "Set to away";
+                                case PresenceRule.SetBusy:
+                                    return "Set to busy";
+                                case PresenceRule.SetHidden:
+                                    return "Set to hidden";
+                                case PresenceRule.SetXa:
+                                    return "Set to extended away";
                                 case PresenceRule.Retain:
                                     return "Do not change";
                                 }
@@ -182,8 +189,10 @@ Page {
                 }
 
                 onClicked: {
+                    presenceSelectionDialog.supportedPresences = supportedPresences
                     presenceSelectionDialog.rule = presenceRule
-                    presenceSelectionDialog.open();
+                    presenceSelectionDialog.open()
+
                 }
             }
 
@@ -251,22 +260,19 @@ Page {
         id: presenceSelectionDialog
 
         property PresenceRule rule
-
-        titleText: "Availability changed to"
-        model: ListModel {
+        property variant supportedPresences
+        property variant __presenceModelList: ListModel {
             ListElement { name: "Online"; value: PresenceRule.SetOnline }
             ListElement { name: "Offline"; value: PresenceRule.SetOffline }
-            ListElement { name: "Do not change"; value: PresenceRule.Retain }
-        }
-        platformStyle: SelectionDialogStyle {
-           itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
-        }
-
-        onSelectedIndexChanged: {
-            rule.action = model.get(selectedIndex).value
+            ListElement { name: "Away"; value: PresenceRule.SetAway }
+            ListElement { name: "Extended away"; value: PresenceRule.SetXa }
+            ListElement { name: "Busy"; value: PresenceRule.SetBusy }
+            ListElement { name: "Invisible"; value: PresenceRule.SetHidden }
         }
 
-        onRuleChanged: {
+        function __updateSelectedIndex() {
+            presenceSelectionDialog.selectedIndex = -1
+
             if (!rule)
                 return;
 
@@ -277,6 +283,42 @@ Page {
                 presenceSelectionDialog.selectedIndex = row
                 break;
             }
+        }
+
+        model: ListModel {}
+        titleText: "Availability changed to"
+        platformStyle: SelectionDialogStyle {
+           itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
+        }
+
+        onSelectedIndexChanged: {
+            if (selectedIndex >= 0)
+                rule.action = model.get(selectedIndex).value
+        }
+
+        onSupportedPresencesChanged: {
+            // Create a new model rather than clearing the existing one:
+            // There are some redraw issues if the current model is cleared
+            // and filled with new values.
+            var model = Qt.createQmlObject("import QtQuick 1.1; ListModel {}", presenceSelectionDialog)
+            for (var i = 0; i < __presenceModelList.count; i++) {
+                for (var j = 0; j < supportedPresences.length; j++) {
+                    var entry = __presenceModelList.get(i)
+                    if (entry.value === supportedPresences[j])
+                        model.append(entry)
+                }
+            }
+
+            model.append({ name: "Do not change", value: PresenceRule.Retain })
+
+            presenceSelectionDialog.selectedIndex = -1
+            presenceSelectionDialog.model = model
+        }
+
+        onRuleChanged: __updateSelectedIndex()
+        Connections {
+            target: presenceSelectionDialog.rule
+            onActionChanged: presenceSelectionDialog.__updateSelectedIndex()
         }
     }
 }

@@ -35,6 +35,7 @@ public:
     virtual void setPowerSavingMode(int state);
     virtual int cellularMode() const;
     virtual void setCellularMode(int state);
+    virtual void publishNotification(const QString &message);
 
     virtual void publishNotification(const QString &message);
 
