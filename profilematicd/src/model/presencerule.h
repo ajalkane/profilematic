@@ -49,7 +49,6 @@ public:
         SetOffline,
         Retain,
         SetAway,
-        SetBrb,
         SetBusy,
         SetXa,
         SetHidden

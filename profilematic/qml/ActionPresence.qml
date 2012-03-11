@@ -173,8 +173,6 @@ Page {
                                     return "Set to online";
                                 case PresenceRule.SetAway:
                                     return "Set to away";
-                                case PresenceRule.SetBrb:
-                                    return "Set to be right back";
                                 case PresenceRule.SetBusy:
                                     return "Set to busy";
                                 case PresenceRule.SetHidden:
@@ -191,8 +189,10 @@ Page {
                 }
 
                 onClicked: {
+                    presenceSelectionDialog.supportedPresences = supportedPresences
                     presenceSelectionDialog.rule = presenceRule
-                    presenceSelectionDialog.open();
+                    presenceSelectionDialog.open()
+
                 }
             }
 
@@ -260,27 +260,19 @@ Page {
         id: presenceSelectionDialog
 
         property PresenceRule rule
-
-        titleText: "Availability changed to"
-        model: ListModel {
+        property variant supportedPresences
+        property variant __presenceModelList: ListModel {
             ListElement { name: "Online"; value: PresenceRule.SetOnline }
             ListElement { name: "Offline"; value: PresenceRule.SetOffline }
-            ListElement { name: "Be right back"; value: PresenceRule.SetBrb }
             ListElement { name: "Away"; value: PresenceRule.SetAway }
             ListElement { name: "Extended away"; value: PresenceRule.SetXa }
             ListElement { name: "Busy"; value: PresenceRule.SetBusy }
             ListElement { name: "Invisible"; value: PresenceRule.SetHidden }
-            ListElement { name: "Do not change"; value: PresenceRule.Retain }
-        }
-        platformStyle: SelectionDialogStyle {
-           itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
         }
 
-        onSelectedIndexChanged: {
-            rule.action = model.get(selectedIndex).value
-        }
+        function __updateSelectedIndex() {
+            presenceSelectionDialog.selectedIndex = -1
 
-        onRuleChanged: {
             if (!rule)
                 return;
 
@@ -291,6 +283,42 @@ Page {
                 presenceSelectionDialog.selectedIndex = row
                 break;
             }
+        }
+
+        model: ListModel {}
+        titleText: "Availability changed to"
+        platformStyle: SelectionDialogStyle {
+           itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
+        }
+
+        onSelectedIndexChanged: {
+            if (selectedIndex >= 0)
+                rule.action = model.get(selectedIndex).value
+        }
+
+        onSupportedPresencesChanged: {
+            // Create a new model rather than clearing the existing one:
+            // There are some redraw issues if the current model is cleared
+            // and filled with new values.
+            var model = Qt.createQmlObject("import QtQuick 1.1; ListModel {}", presenceSelectionDialog)
+            for (var i = 0; i < __presenceModelList.count; i++) {
+                for (var j = 0; j < supportedPresences.length; j++) {
+                    var entry = __presenceModelList.get(i)
+                    if (entry.value === supportedPresences[j])
+                        model.append(entry)
+                }
+            }
+
+            model.append({ name: "Do not change", value: PresenceRule.Retain })
+
+            presenceSelectionDialog.selectedIndex = -1
+            presenceSelectionDialog.model = model
+        }
+
+        onRuleChanged: __updateSelectedIndex()
+        Connections {
+            target: presenceSelectionDialog.rule
+            onActionChanged: presenceSelectionDialog.__updateSelectedIndex()
         }
     }
 }

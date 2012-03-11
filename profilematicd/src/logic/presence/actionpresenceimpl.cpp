@@ -213,9 +213,6 @@ Tp::Presence ActionPresenceImpl::accountPresence(const Tp::AccountPtr &targetAcc
         case PresenceRule::SetAway:
             presence = Tp::Presence::away(statusMessage);
             break;
-        case PresenceRule::SetBrb:
-            presence = Tp::Presence::brb(statusMessage);
-            break;
         case PresenceRule::SetBusy:
             presence = Tp::Presence::busy(statusMessage);
             break;
