@@ -21,6 +21,8 @@
 #include "../../profilematicd/src/model/rule.h"
 #include "../../profilematicd/src/model/presencerule.h"
 
+#include <QDomDocument>
+
 QmlPresenceModelImpl::QmlPresenceModelImpl(QObject *parent) :
     QmlPresenceModel(parent)
 {
@@ -56,6 +58,12 @@ QVariant QmlPresenceModelImpl::data(const QModelIndex &index, int role) const
         return QVariant::fromValue(entry->rule);
     case AccountIconRole:
         return entry->service->iconName();
+    case SupportedPresencesRole: {
+        QList<QVariant> supportedPresences;
+        foreach (PresenceRule::Action presence, entry->supportedPresences)
+            supportedPresences << int(presence);
+        return supportedPresences;
+    }
     default:
         return QVariant();
     }
@@ -117,6 +125,8 @@ bool QmlPresenceModelImpl::supportedService(Accounts::Account *account,
     return !account->valueAsString("tmc-uid").isEmpty();
 }
 
+#include <QDebug>
+
 QmlPresenceModelImpl::AccountsQtEntry::AccountsQtEntry(Accounts::Account *account,
                                                        Accounts::Service *service,
                                                        PresenceRule *presenceRule) :
@@ -124,4 +134,32 @@ QmlPresenceModelImpl::AccountsQtEntry::AccountsQtEntry(Accounts::Account *accoun
     account(account),
     service(service)
 {
+    QDomDocument dom = service->domDocument();
+    QDomElement root = dom.documentElement();
+    QDomElement typeData = root.firstChildElement("type-data");
+    if (typeData.isNull())
+        return;
+    QDomElement servicePresentList = typeData.firstChildElement("service-presences-list");
+    if (servicePresentList.isNull())
+        return;
+    QDomElement presence = servicePresentList.firstChildElement("presence");
+    while (!presence.isNull()) {
+        QString type = presence.attribute("type");
+
+        if (type == "Offline")
+            supportedPresences.append(PresenceRule::SetOffline);
+        else if (type == "Available")
+            supportedPresences.append(PresenceRule::SetOnline);
+        else if (type == "Away")
+            supportedPresences.append(PresenceRule::SetAway);
+        else if (type == "Extended_Away")
+            supportedPresences.append(PresenceRule::SetXa);
+        else if (type == "Hidden")
+            supportedPresences.append(PresenceRule::SetHidden);
+        else if (type == "Busy")
+            supportedPresences.append(PresenceRule::SetBusy);
+
+        presence = presence.nextSiblingElement("presence");
+    }
+
 }

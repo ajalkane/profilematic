@@ -47,7 +47,11 @@ public:
     enum Action {
         SetOnline,
         SetOffline,
-        Retain
+        Retain,
+        SetAway,
+        SetBusy,
+        SetXa,
+        SetHidden
     };
 
     struct Key {

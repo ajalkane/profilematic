@@ -54,6 +54,11 @@ QVariant QmlPresenceModelStub::data(const QModelIndex &index, int role) const
         return QVariant::fromValue(entry->rule);
     case AccountIconRole:
         return entry->icon;
+    case SupportedPresencesRole:
+        return (QList<QVariant>()
+                << int(PresenceRule::SetOnline)
+                << int(PresenceRule::SetOffline)
+                << int(PresenceRule::SetBusy));
     default:
         return QVariant();
     }

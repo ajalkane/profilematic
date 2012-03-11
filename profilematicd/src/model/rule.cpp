@@ -402,11 +402,7 @@ bool Rule::addPresenceRule(PresenceRule *presenceRule)
     presenceRule->setParent(this);
     _presenceRules.append(presenceRule);
 
-    if ((presenceRule->action() == PresenceRule::SetOnline
-            && _presenceChangeType == Rule::AllOfflinePresenceType)
-        || (presenceRule->action() == PresenceRule::SetOffline
-            && _presenceChangeType == Rule::AllOnlinePresenceType))
-        setPresenceChangeType(Rule::CustomPresenceType);
+    updatePresenceChangeType(presenceRule);
 
     emit presenceRulesChanged();
 
@@ -447,6 +443,15 @@ void Rule::setPresenceStatusMessage(const QString &pressenceStatusMessage)
     emit presenceStatusMessageChanged();
 }
 
+
+void Rule::updatePresenceChangeType(const PresenceRule *presenceRule) {
+    if ((presenceRule->action() != PresenceRule::SetOffline
+            && _presenceChangeType == Rule::AllOfflinePresenceType)
+        || ((presenceRule->action() == PresenceRule::SetOffline || presenceRule->action() == PresenceRule::Retain)
+            && _presenceChangeType == Rule::AllOnlinePresenceType))
+        setPresenceChangeType(Rule::CustomPresenceType);
+}
+
 bool Rule::getRestorePresence() const
 {
     return _restorePresence;
@@ -477,7 +482,14 @@ void Rule::setPresenceChangeType(Rule::PresenceChangeType presenceChangeType)
     foreach (PresenceRule *presenceRule, _presenceRules) {
         switch (_presenceChangeType) {
         case AllOnlinePresenceType:
-            presenceRule->setAction(PresenceRule::SetOnline);
+            switch (presenceRule->action()) {
+            case PresenceRule::SetOffline:
+            case PresenceRule::Retain:
+                presenceRule->setAction(PresenceRule::SetOnline);
+                break;
+            default:
+                break;
+            }
             break;
         case AllOfflinePresenceType:
             presenceRule->setAction(PresenceRule::SetOffline);
@@ -724,7 +736,5 @@ void Rule::onPresenceRuleActionChanged()
     if (_presenceChangeType == CustomPresenceType)
         return;
 
-    if ((_presenceChangeType == AllOfflinePresenceType && presenceRule->action() != PresenceRule::SetOffline)
-            || (_presenceChangeType == AllOnlinePresenceType && presenceRule->action() != PresenceRule::SetOnline))
-        setPresenceChangeType(CustomPresenceType);
+    updatePresenceChangeType(presenceRule);
 }

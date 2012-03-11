@@ -29,6 +29,7 @@ QmlPresenceModel::QmlPresenceModel(QObject *parent) :
     roleMap[AccountEnabledRole] = "accountEnabled";
     roleMap[PresenceRuleRole] = "presenceRule";
     roleMap[AccountIconRole] = "accountIcon";
+    roleMap[SupportedPresencesRole] = "supportedPresences";
     setRoleNames(roleMap);
 
     connect(this,
