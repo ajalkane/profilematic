@@ -3,6 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>ProfileMatic</title>
+	<style type="text/css">
+	img.qrcode {
+		width: 160px;
+		height: 160px;
+	}
+	</style>
 </head>
 <body>
 	<h2>ProfileMatic</h2>
@@ -28,6 +34,53 @@ If you find ProfileMatic useful, please consider donating whatever you find (un)
 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </form>
+
+<h2>Custom action tips</h2>
+
+If you have more useful custom action tips to share, please post them to <a href="http://talk.maemo.org/showthread.php?t=79642">ProfileMatic's support thread at TMO</a>.
+<p>
+<table border="1" cellspacing="0" cellpadding="10">
+	<tr>
+		<th>Explanation and custom action</th>
+		<th>QR code (use MeeScan to copy and paste)</th>
+	</tr>
+	<tr>
+		<td>
+			Stand-by screen off:
+			<pre>gconftool-2 -s --type boolean /system/osso/dsm/display/use_low_power_mode false</pre>
+		</td>
+		<td>
+<img class="qrcode" src="http://qrcode.kaywa.com/img.php?s=5&d=gconftool-2%20-s%20--type%20boolean%20%2Fsystem%2Fosso%2Fdsm%2Fdisplay%2Fuse_low_power_mode%20false" alt="qrcode"  />
+	 	</td>
+	</tr>
+	<tr>
+		<td>
+			Stand-by screen on:
+			<pre>gconftool-2 -s --type boolean /system/osso/dsm/display/use_low_power_mode true</pre>
+		</td>
+		<td>
+<img class="qrcode"  src="http://qrcode.kaywa.com/img.php?s=5&d=gconftool-2%20-s%20--type%20boolean%20%2Fsystem%2Fosso%2Fdsm%2Fdisplay%2Fuse_low_power_mode%20true" alt="qrcode"  />
+	 	</td>
+	</tr>
+	<tr>
+		<td>
+			Allow background connections off:
+			<pre>gconftool-2 -s --type boolean /system/osso/connectivity/network_type/restricted_mode false</pre>
+		</td>
+		<td>
+<img class="qrcode" src="http://qrcode.kaywa.com/img.php?s=5&d=gconftool-2%20-s%20--type%20boolean%20%2Fsystem%2Fosso%2Fconnectivity%2Fnetwork_type%2Frestricted_mode%20false" alt="qrcode"  />
+	 	</td>
+	</tr>
+	<tr>
+		<td>
+			Allow background connections on:
+			<pre>gconftool-2 -s --type boolean /system/osso/connectivity/network_type/restricted_mode true</pre>
+		</td>
+		<td>
+<img class="qrcode" src="http://qrcode.kaywa.com/img.php?s=5&d=gconftool-2%20-s%20--type%20boolean%20%2Fsystem%2Fosso%2Fconnectivity%2Fnetwork_type%2Frestricted_mode%20true" alt="qrcode"  />
+	 	</td>
+	</tr>
+</table>
 
 </body>
 
