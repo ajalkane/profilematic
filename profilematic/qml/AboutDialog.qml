@@ -19,17 +19,21 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
 
-QueryDialog {
+MyQueryDialog {
     titleText: "ProfileMatic v1.5.0"
-    message: "(c) Arto Jalkanen 2011-2012\n"
-             + "UX design by Dina & Arto Jalkanen\n"
-             + "\n"
+    message: "<b>(c) Arto Jalkanen 2011-2012</b><br>"
+             + "UX design by Dina & Arto Jalkanen<br>"
+             + "<br>"
              + "Contributors:"
-             + "\n"
+             + "<br>"
              + "Philip Lorenz (Availability)"
-             + "\n"
-             + "\n"
-             + "This application is free sofware licenced under the GNU Public License version 3"
-             + "\n"
+             + "<br>"
+             + "<br>"
+             + "See <a href=\"http://www.kolumbus.fi/~ks2877/profilematic/\">homepage</a> for more tips, sources, donation information, and more."
+             + "<br>"
+             + "<br>"
+             + "<small>This application is free sofware licenced under the GNU Public License version 3</small>"
+             + "<br>"
     acceptButtonText: "Close"
+    onLinkActivated: Qt.openUrlExternally(link)
 }
