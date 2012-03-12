@@ -18,6 +18,8 @@ CONFIG += cellular-qt
 # For notifications
 # CONFIG += meegotouch
 
+PKGCONFIG += gq-gconf
+
 MOBILITY += systeminfo
 !isEmpty(MEEGO_VERSION_MAJOR) {
     MOBILITY += connectivity
@@ -54,7 +56,8 @@ SOURCES += src/main.cpp \
     src/logic/actionbluetooth.cpp \
     src/logic/actionpowersavingmode.cpp \
     src/logic/actioncellularmode.cpp \
-    src/logic/actioncommandline.cpp
+    src/logic/actioncommandline.cpp \
+    src/logic/actionstandbyscreenmode.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -78,7 +81,8 @@ HEADERS += \
     src/logic/presence/actionpresence.h \
     src/logic/actionpowersavingmode.h \
     src/logic/actioncellularmode.h \
-    src/logic/actioncommandline.h
+    src/logic/actioncommandline.h \
+    src/logic/actionstandbyscreenmode.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp

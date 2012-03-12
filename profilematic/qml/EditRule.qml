@@ -324,6 +324,7 @@ Page {
                     onPowerSavingModeChanged: ruleSummary.text = root.ruleSummary()
                     onBlueToothModeChanged: ruleSummary.text = root.ruleSummary()
                     onCellularModeChanged:  ruleSummary.text = root.ruleSummary()
+                    onStandByScreenModeChanged: ruleSummary.text = root.ruleSummary()
                 }
             }
         } // Column
@@ -473,7 +474,7 @@ Page {
         pageStack.push(actionBlueToothMode)
     }
 
-    // BlueTooth mode
+    // Cellular mode
     CellularModeDialog {
         id: dCellularMode
 

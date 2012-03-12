@@ -86,6 +86,14 @@ Page {
                 }
             }
 
+            RuleTopicSummary {
+                id: standByScreen
+                topic: "Select stand-by-screen mode"
+                summary: standByScreenModeSummary();
+                showComboBox: true
+                onTopicClicked: standByScreenModeEditHandler()
+            }
+
             Text {
                 visible: restore.visible
                 wrapMode: Text.WordWrap
@@ -116,5 +124,23 @@ Page {
     function powerSavingModeEditHandler() {
         dPowerSavingMode.selectedPowerSavingMode = rule.powerSavingMode
         dPowerSavingMode.open();
+    }
+
+    // StandByScreen mode
+    StandByScreenModeDialog {
+        id: dStandByScreenMode
+
+        onStandByScreenModeSelected: {
+            rule.standByScreenMode = selectedStandByScreenMode
+        }
+    }
+
+    function standByScreenModeSummary() {
+        return dStandByScreenMode.standByScreenModeToText(rule.standByScreenMode)
+    }
+
+    function standByScreenModeEditHandler() {
+        dStandByScreenMode.selectedStandByScreenMode = rule.standByScreenMode
+        dStandByScreenMode.open();
     }
 }

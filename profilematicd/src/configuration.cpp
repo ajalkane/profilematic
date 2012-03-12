@@ -62,6 +62,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("restoreBlueToothMode", r.getRestoreBlueToothMode());
         s.setValue("cellularMode", r.getCellularMode());
         s.setValue("commandLine", r.getCommandLine());
+        s.setValue("standByScreenMode", r.getStandByScreenMode());
         _writePresenceRuleList(s, r.presenceRules());
         s.setValue("presenceStatusMessage", r.getPresenceStatusMessage());
         s.setValue("restorePresence", r.getRestorePresence());
@@ -149,6 +150,12 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
             r.setCellularMode(cellularMode);
         }
         r.setCommandLine(s.value("commandLine").toString());
+
+        bool standByScreenModeOk = false;
+        int standByScreenMode = s.value("standByScreenMode").toInt(&standByScreenModeOk);
+        if (standByScreenModeOk) {
+            r.setStandByScreenMode(standByScreenMode);
+        }
 
         QList<PresenceRule *> presenceRules;
         _readPresenceRuleList(s, presenceRules);

@@ -65,6 +65,7 @@ private:
     bool    _restoreBlueToothMode;
     int     _cellularMode;
     QString _commandLine;
+    int     _standByScreenMode;
 
     QList<PresenceRule *> _presenceRules;
     QString _presenceStatusMessage;
@@ -94,6 +95,7 @@ private:
     Q_PROPERTY(bool restoreBlueToothMode READ getRestoreBlueToothMode WRITE setRestoreBlueToothMode NOTIFY restoreBlueToothModeChanged)
     Q_PROPERTY(int cellularMode READ getCellularMode WRITE setCellularMode NOTIFY cellularModeChanged)
     Q_PROPERTY(QString commandLine READ getCommandLine WRITE setCommandLine NOTIFY commandLineChanged)
+    Q_PROPERTY(int standByScreenMode READ getStandByScreenMode WRITE setStandByScreenMode NOTIFY standByScreenModeChanged)
 
     /**
       * This property gives access to the presence rules associated with this
@@ -143,6 +145,7 @@ signals:
     void presenceStatusMessageChanged();
     void restorePresenceChanged();
     void presenceChangeTypeChanged();
+    void standByScreenModeChanged();
 private slots:
     void onPresenceRuleActionChanged();
 public:
@@ -237,6 +240,10 @@ public:
     int getCellularMode() const;
     void setCellularMode(int mode);
 
+    // -1 don't set, 0 set StandByScreen off, 1 set StandByScreen on
+    int getStandByScreenMode() const;
+    void setStandByScreenMode(int mode);
+
     QString getCommandLine() const;
     void setCommandLine(const QString &commandLine);
 
@@ -279,7 +286,8 @@ public:
             && this->_cellularMode == o._cellularMode
             && this->_commandLine == o._commandLine
             && this->_presenceStatusMessage == o._presenceStatusMessage
-            && this->_restorePresence == o._restorePresence;
+            && this->_restorePresence == o._restorePresence
+            && this->_standByScreenMode == o._standByScreenMode;
     }
 
 
