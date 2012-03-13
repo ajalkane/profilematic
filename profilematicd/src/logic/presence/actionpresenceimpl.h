@@ -36,6 +36,8 @@ public:
 
     void activate(const Rule &rule);
 private slots:
+    void onConnectsAutomaticallyChangeFinished(Tp::PendingOperation *op);
+    void onAutomaticPresenceChangeFinished(Tp::PendingOperation *op);
     void onPresenceChangeFinished(Tp::PendingOperation *op);
     void onAccountManagerReady(Tp::PendingOperation *op);
 private:
