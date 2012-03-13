@@ -83,6 +83,18 @@ void ActionPresenceImpl::activate(const Rule &rule)
     changeAccountPresences(rule);
 }
 
+void ActionPresenceImpl::onConnectsAutomaticallyChangeFinished(Tp::PendingOperation *op)
+{
+    if (op->isError())
+        qWarning() << "ActionPresence::onConnectsAutomaticallyChangeFinished failed to change:" << op->errorMessage();
+}
+
+void ActionPresenceImpl::onAutomaticPresenceChangeFinished(Tp::PendingOperation *op)
+{
+    if (op->isError())
+        qWarning() << "ActionPresence::onAutomaticPresenceChangeFinished failed to change:" << op->errorMessage();
+}
+
 void ActionPresenceImpl::onPresenceChangeFinished(Tp::PendingOperation *op)
 {
     if (op->isError())
@@ -112,7 +124,21 @@ void ActionPresenceImpl::onAccountManagerReady(Tp::PendingOperation *op)
 void ActionPresenceImpl::changeAccountPresence(Tp::AccountPtr account, const Tp::Presence &presence)
 {
     qDebug() << "ActionPresenceImpl::changeAccountPresence: Changing account presence to" << presence.status() << "for" << account->uniqueIdentifier();
-    Tp::PendingOperation *op = account->setRequestedPresence(presence);
+    Tp::PendingOperation *op;
+
+    op = account->setConnectsAutomatically(presence.type() != Tp::ConnectionPresenceTypeOffline);
+    connect(op,
+            SIGNAL(finished(Tp::PendingOperation*)),
+            SLOT(onConnectsAutomaticallyChangeFinished(Tp::PendingOperation*)));
+
+    if (presence.type() != Tp::ConnectionPresenceTypeOffline) {
+         op = account->setAutomaticPresence(presence);
+         connect(op,
+                 SIGNAL(finished(Tp::PendingOperation*)),
+                 SLOT(onAutomaticPresenceChangeFinished(Tp::PendingOperation*)));
+    }
+
+    op = account->setRequestedPresence(presence);
     connect(op,
             SIGNAL(finished(Tp::PendingOperation*)),
             SLOT(onPresenceChangeFinished(Tp::PendingOperation*)));
