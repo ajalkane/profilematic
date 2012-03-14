@@ -68,8 +68,27 @@ void ActionPresenceImpl::activate(const Rule &rule)
     _previousPresences.clear();
 
     if (rule.getRestorePresence()) {
-        foreach(const Tp::AccountPtr &account, _accountManager->allAccounts())
-            _previousPresences.append(AccountPresence(account));
+        foreach(Accounts::AccountId accountId, _manager->accountList()) {
+            Accounts::Account *account = _manager->account(accountId);
+            foreach (const Accounts::Service *service, account->services()) {
+                account->selectService(service);
+
+                QString uid = account->valueAsString("tmc-uid");
+
+                if (uid.isEmpty())
+                    continue;
+
+                Tp::AccountPtr tpAccount
+                        = _accountManager->accountForPath(QString("/org/freedesktop/Telepathy/Account/%1").arg(uid));
+
+                if (!tpAccount) {
+                    qWarning() << "ActionPresenceImpl::activate could not find Telepathy account for" << uid;
+                    continue;
+                }
+
+                _previousPresences.append(AccountPresence(tpAccount));
+            }
+        }
     }
 
     // In case we switch back to the default rule and previous availability
