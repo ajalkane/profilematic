@@ -52,6 +52,36 @@ Page {
         dConfirmDelete.open()
     }
 
+    function saveRule() {
+        editRuleMenu.close();
+        saved()
+        pageStack.pop()
+    }
+
+    function ruleNeedsWarning() {
+        var warnings = []
+        if (rule.flightMode === 0 && (rule.wlan.length > 0 || rule.locationCells.length > 0)){
+            warnings.push('Your condition on turning flight mode off is based on WLAN connection or Cell location. If flight mode is on, WLAN and Cell location are not usually usable.')
+        }
+        if (rule.powerSavingMode === 0 && (rule.wlan.length > 0 || rule.locationCells.length > 0)){
+            warnings.push('Your condition on turning power saving mode off is based on WLAN connection. If flight mode is on, WLAN connection is not usually active.')
+        }
+
+        if (warnings.length > 0) {
+            var warning = "<ul>\n"
+            // warnings.join("<li>")
+            for (var i = 0; i < warnings.length; ++i) {
+                warning += "<li>" + warnings[i] + "</li>\n"
+            }
+            warning += "</ul>\n"
+            console.log("Warning message", warning)
+            dRuleWarning.message = warning
+            dRuleWarning.open()
+            return true
+        }
+        return false
+    }
+
     QueryDialog {
         id: dInvalidRule
 
@@ -73,6 +103,18 @@ Page {
         }
     }
 
+    QueryDialog {
+        id: dRuleWarning
+
+        titleText: "Warning: this rule might not make sense"
+        acceptButtonText: "Save anyway"
+        rejectButtonText: "Cancel"
+
+        onAccepted: {
+            saveRule()
+        }
+    }
+
     ToolBarLayout {
         id: editRuleTools
 
@@ -82,11 +124,11 @@ Page {
             text: "Save"
             onClicked: {
                 if (isValidRule()) {
-                    editRuleMenu.close();
-                    saved()
-                    pageStack.pop()
+                    if (!ruleNeedsWarning()) {
+                        saveRule()
+                    }
                 } else {
-                    dInvalidRule.open();
+                    dInvalidRule.open()
                 }
             }
         }
