@@ -32,6 +32,7 @@
 #include "logic/actionchain.h"
 #include "logic/actioncellularmode.h"
 #include "logic/actioncommandline.h"
+#include "logic/actionstandbyscreenmode.h"
 #include "logic/actionflightmode.h"
 #include "logic/actionpowersavingmode.h"
 #include "logic/actionprofile.h"
@@ -64,6 +65,7 @@ buildAction(ProfileClient *profileClient, PlatformUtil *platformUtil) {
     ac->add(new ActionBlueTooth());
     ac->add(new ActionCellularMode(platformUtil));
     ac->add(new ActionCommandLine(platformUtil));
+    ac->add(new ActionStandByScreenMode(platformUtil));
     ac->add(platformUtil->createActionPresence());
     return ac;
 }

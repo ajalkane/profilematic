@@ -376,6 +376,17 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
         ++numAction;
     }
 
+    if (rule->getStandByScreenMode() > -1) {
+        if (numAction > 0) action.append(", ");
+        switch (rule->getStandByScreenMode()) {
+        case 0:
+            action += "Stand-By-Screen disabled"; break;
+        case 1:
+            action += "Stand-By-Screen enabled"; break;
+        }
+        ++numAction;
+    }
+
     bool atLeastOnePresenceChange = false;
     foreach (PresenceRule *presenceRule, rule->presenceRules())
         if (presenceRule->action() != PresenceRule::Retain) {
