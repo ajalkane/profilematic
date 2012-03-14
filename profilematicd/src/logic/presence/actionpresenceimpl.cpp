@@ -158,71 +158,51 @@ void ActionPresenceImpl::changeAccountPresences(const Rule &rule)
         break;
     }
 
-    foreach(const Tp::AccountPtr &account, _accountManager->allAccounts()) {
-        Tp::Presence presence = defaultPresence;
+    foreach(Accounts::AccountId accountId, _manager->accountList()) {
+        Accounts::Account *account = _manager->account(accountId);
+        foreach (const Accounts::Service *service, account->services()) {
+            account->selectService(service);
 
-        switch (rule.getPresenceChangeType()) {
-        case Rule::AllOnlinePresenceType:
-        case Rule::CustomPresenceType:
-            presence = accountPresence(account, rule, defaultPresence);
-            break;
-        default:
-            break;
+            QString uid = account->valueAsString("tmc-uid");
+
+            if (uid.isEmpty())
+                continue;
+
+            Tp::AccountPtr tpAccount
+                    = _accountManager->accountForPath(QString("/org/freedesktop/Telepathy/Account/%1").arg(uid));
+
+            if (!tpAccount) {
+                qWarning() << "ActionPresenceImpl::changeAccountPresences could not find Telepathy account for" << uid;
+                continue;
+            }
+
+            Tp::Presence presence = defaultPresence;
+
+            switch (rule.getPresenceChangeType()) {
+            case Rule::AllOnlinePresenceType:
+            case Rule::CustomPresenceType:
+                presence = accountPresence(rule, account, service, defaultPresence);
+                break;
+            default:
+                break;
+            }
+
+            if (!presence.isValid())
+                continue;
+
+            changeAccountPresence(tpAccount, presence);
         }
-
-        if (!presence.isValid())
-            continue;
-
-        changeAccountPresence(account, presence);
     }
 }
 
-Tp::Presence ActionPresenceImpl::accountPresence(const Tp::AccountPtr &targetAccount,
-                                                 const Rule &rule,
+Tp::Presence ActionPresenceImpl::accountPresence(const Rule &rule,
+                                                 const Accounts::Account *account,
+                                                 const Accounts::Service *service,
                                                  const Tp::Presence &defaultPresence) const
 {
     foreach(const PresenceRule *presenceRule, rule.presenceRules()) {
-        Accounts::Account *account
-                = _manager->account(presenceRule->accountId());
-        Accounts::Service *selectedService = NULL;
-
-        if (account == NULL) {
-            qWarning() << "ActionPresence::changeSelectedAccounts could not find accountId" << presenceRule->accountId();
-            continue;
-        }
-
-        foreach (Accounts::Service *service, account->services()) {
-            if (service->name() == presenceRule->serviceName()) {
-                selectedService = service;
-                break;
-            }
-        }
-
-        if (!selectedService) {
-            qWarning() << "ActionPresence::changeSelectedAccounts could not find service" << presenceRule->serviceName();
-            continue;
-        }
-
-        account->selectService(selectedService);
-
-        QString uid = account->valueAsString("tmc-uid");
-        if (uid.isEmpty()) {
-            qWarning() << "ActionPresence::changeSelectedAccounts failed to retrieve tmc-uid for account" << presenceRule->accountId();
-            continue;
-        }
-
-        // Look-up the account using the path - Tp::Account only has uniqueId()
-        // which only guarantees that the id is unique based on the current
-        // D-Bus connection and therefore it must not necessarily match tmc-id.
-        Tp::AccountPtr tpAccount =
-                _accountManager->accountForPath(QString("/org/freedesktop/Telepathy/Account/%1").arg(uid));
-
-        if (!tpAccount) {
-            qWarning() << "ActionPresence::changeSelectedAccounts failed to retrieve Telepathy account for" << presenceRule->accountId() << uid;
-            continue;
-        }
-
-        if (tpAccount->uniqueIdentifier() != targetAccount->uniqueIdentifier())
+        if (presenceRule->accountId() != account->id()
+                || presenceRule->serviceName() != service->name())
             continue;
 
         Tp::Presence presence;
