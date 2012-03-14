@@ -3,9 +3,22 @@ set -e
 
 case "$1" in
     configure)
+
 	# Try reowning the configuration file due to bug in 1.4.0.
 	echo "Changing ProfileMatic configuration file ownership to user" 
 	[[ -e /home/user/.config/ProfileMatic ]] && chown -R user:users /home/user/.config/ProfileMatic
+
+    # 1.4.0, in setting availability to "All offline" would have
+    # set some unwanted accounts offline. This tries to restore
+    # the correct settings.
+    echo "Restoring telephone availability options..."
+    /usr/bin/mc-tool auto-presence ring/tel/ring available
+    /usr/bin/mc-tool auto-connect ring/tel/ring on
+    /usr/bin/mc-tool request ring/tel/ring available
+
+    /usr/bin/mc-tool auto-presence mmscm/mms/mms0 available
+    /usr/bin/mc-tool auto-connect mmscm/mms/mms0 on
+    /usr/bin/mc-tool request mmscm/mms/mms0 available
 
     echo "Starting profilematicd ..."
     [[ -e /etc/init/apps/profilematicd.conf ]] && initctl start apps/profilematicd
