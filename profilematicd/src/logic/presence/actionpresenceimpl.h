@@ -39,6 +39,7 @@ private slots:
     void onConnectsAutomaticallyChangeFinished(Tp::PendingOperation *op);
     void onAutomaticPresenceChangeFinished(Tp::PendingOperation *op);
     void onPresenceChangeFinished(Tp::PendingOperation *op);
+    void onCurrentPresenceChanged(const Tp::Presence &currentPresence);
     void onAccountManagerReady(Tp::PendingOperation *op);
 private:
     struct AccountPresence {
@@ -60,6 +61,7 @@ private:
     Rule *_pendingRule;
 
     QList<AccountPresence> _previousPresences;
+    QHash<Tp::AccountPtr, Tp::Presence> _requestedPresences;
 };
 
 #endif // ACTIONPRESENCEIMPL_H
