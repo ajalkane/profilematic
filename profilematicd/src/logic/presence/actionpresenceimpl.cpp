@@ -101,6 +101,34 @@ void ActionPresenceImpl::onPresenceChangeFinished(Tp::PendingOperation *op)
         qWarning() << "ActionPresence::onPresenceChangeFinished failed to change presence:" << op->errorMessage();
 }
 
+void ActionPresenceImpl::onCurrentPresenceChanged(const Tp::Presence &currentPresence) {
+    qDebug() << "ActionPresenceImpl::onCurrentPresenceChanged called";
+
+    Tp::AccountPtr account = Tp::AccountPtr(qobject_cast<Tp::Account *>(sender()));
+
+    if (!account) {
+        qWarning() << "ActionPresenceImpl::onCurrentPresenceChanged called from non Tp::Account object";
+        return;
+    }
+
+    disconnect(account.data(), SIGNAL(currentPresenceChanged(Tp::Presence)),
+               this, SLOT(onCurrentPresenceChanged(Tp::Presence)));
+
+    Tp::Presence requestedPresence = _requestedPresences.take(account);
+
+    if (!requestedPresence.isValid())
+        return;
+
+    if (currentPresence.type() == requestedPresence.type())
+        return;
+
+    qDebug() << "ActionPresenceImpl::onCurrentPresenceChanged setting actually requested presence.";
+    Tp::PendingOperation *op = account->setRequestedPresence(requestedPresence);
+    connect(op,
+            SIGNAL(finished(Tp::PendingOperation*)),
+            SLOT(onPresenceChangeFinished(Tp::PendingOperation*)));
+}
+
 void ActionPresenceImpl::onAccountManagerReady(Tp::PendingOperation *op)
 {
     qDebug("%s ActionPresence::onAccountManagerReady()", qPrintable(QDateTime::currentDateTime().toString()));
@@ -138,10 +166,19 @@ void ActionPresenceImpl::changeAccountPresence(Tp::AccountPtr account, const Tp:
                  SLOT(onAutomaticPresenceChangeFinished(Tp::PendingOperation*)));
     }
 
-    op = account->setRequestedPresence(presence);
-    connect(op,
-            SIGNAL(finished(Tp::PendingOperation*)),
-            SLOT(onPresenceChangeFinished(Tp::PendingOperation*)));
+    // Telepathy does not seem to adhere presence changes when the given account
+    // is currently in connecting mode. Therefore, we save the requested
+    // presence and apply it as soon as the current presence change was applied.
+    if (account->connectionStatus() == Tp::ConnectionStatusConnecting) {
+        _requestedPresences[account] = presence;
+        connect(account.data(), SIGNAL(currentPresenceChanged(Tp::Presence)),
+                SLOT(onCurrentPresenceChanged(Tp::Presence)));
+    } else {
+        op = account->setRequestedPresence(presence);
+        connect(op,
+                SIGNAL(finished(Tp::PendingOperation*)),
+                SLOT(onPresenceChangeFinished(Tp::PendingOperation*)));
+    }
 }
 
 void ActionPresenceImpl::changeAccountPresences(const Rule &rule)
