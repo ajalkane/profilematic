@@ -380,9 +380,9 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
         if (numAction > 0) action.append(", ");
         switch (rule->getStandByScreenMode()) {
         case 0:
-            action += "Stand-By-Screen off"; break;
+            action += "Stand-By-Screen disabled"; break;
         case 1:
-            action += "Stand-By-Screen on"; break;
+            action += "Stand-By-Screen enabled"; break;
         }
         ++numAction;
     }

@@ -63,13 +63,13 @@ MySelectionDialog {
 
         ListElement{
             mode: 0
-            name: "Off"
-            description: "Stand-by-screen off"
+            name: "Disable"
+            description: "Stand-by-screen disabled"
         }
         ListElement {
             mode: 1
-            name: "On"
-            description: "Stand-by-screen on"
+            name: "Enable"
+            description: "Stand-by-screen enabled"
         }
         ListElement {
             mode: -1

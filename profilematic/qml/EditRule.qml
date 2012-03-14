@@ -436,12 +436,21 @@ Page {
     }
 
     function powerSavingModeSummary() {
+        var summary = ""
         if (rule.powerSavingMode >= 0) {
-            var summary = actionPowerSavingMode.powerSavingModeSummary()
+            summary = actionPowerSavingMode.powerSavingModeSummary()
 
             if (rule.restorePowerSavingMode) {
                 summary += ". Restores previous mode."
             }
+            if (rule.standByScreenMode < 0){
+                return summary
+            }
+        }
+        // Append or add stand-by-screen summary
+        if (rule.standByScreenMode >= 0) {
+            summary += rule.powerSavingMode >= 0 ? ". " : ""
+            summary += actionPowerSavingMode.standByScreenModeSummary()
             return summary
         }
         return "Click to set"
