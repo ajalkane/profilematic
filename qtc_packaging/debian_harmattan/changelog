@@ -3,6 +3,8 @@ profilematic (1.5.0) unstable; urgency=low
   * Custom action (running shell script)
   * Extended availability modes, away etc. (contributed by Philip Lorenz)
   * Restore previous for BlueTooth
+  * BugFix: availability could put GSM offline
+  * Warnings of potentially impossible conditions
 
  -- Arto Jalkanen <ajalkane@gmail.com>  Tue, 14 Mar 2012 23:45:00 +0300
 
