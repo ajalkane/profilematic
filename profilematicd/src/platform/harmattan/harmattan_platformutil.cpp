@@ -22,6 +22,9 @@
 #include "../../logic/presence/actionpresenceimpl.h"
 #include <qmdevicemode.h>
 #include <RadioAccess>
+#include <gconfitem.h>
+
+#define GCONF_STAND_BY_SCREEN_KEY "/system/osso/dsm/display/use_low_power_mode"
 
 HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
     : PlatformUtil(parent)
@@ -140,6 +143,23 @@ HarmattanPlatformUtil::setCellularMode(int cellularMode) {
     if (mode != Cellular::RadioAccess::Unknown) {
         radioAccess.setMode(mode);
     }
+}
+
+void
+HarmattanPlatformUtil::setStandByScreenMode(int mode) {
+    qDebug("HarmattanPlatformUtil::setStandByScreenMode %d", mode);
+    GConfItem gconfItem(GCONF_STAND_BY_SCREEN_KEY);
+    if (mode == 0 || mode == 1) {
+        gconfItem.set(mode);
+    } else {
+        qDebug("HarmattanPlatformUtil::setStandByScreenMode unsupported mode %d", mode);
+    }
+}
+
+int
+HarmattanPlatformUtil::standByScreenMode() const {
+    GConfItem gconfItem(GCONF_STAND_BY_SCREEN_KEY);
+    return gconfItem.value().toInt();
 }
 
 void

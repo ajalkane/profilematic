@@ -84,6 +84,17 @@ PlatformUtil::setCellularMode(int state) {
 }
 
 void
+PlatformUtil::setStandByScreenMode(int mode) {
+    qDebug("PlatformUtil::setStandByScreenMode default, doing nothing for value %d", mode);
+}
+
+int
+PlatformUtil::standByScreenMode() const {
+    qDebug("PlatformUtil::standByScreenMode default, returning -1");
+    return -1;
+}
+
+void
 PlatformUtil::publishNotification(const QString &message) {
     qDebug("PlatformUtil::publishNotification default, doing nothing for value %s", qPrintable(message));
 }

@@ -42,6 +42,9 @@ public:
     virtual int cellularMode() const;
     virtual void setCellularMode(int state);
     virtual void publishNotification(const QString &message);
+    // 0: standByScreenMode off: 0, on: 1: on
+    virtual int standByScreenMode() const;
+    virtual void setStandByScreenMode(int mode);
 
     virtual ActionPresence *createActionPresence();
 };
