@@ -48,10 +48,10 @@ Rule::Rule(const Rule &o)
       _restoreBlueToothMode(o._restoreBlueToothMode),
       _cellularMode(o._cellularMode),
       _commandLine(o._commandLine),
+      _standByScreenMode(o._standByScreenMode),
       _presenceStatusMessage(o._presenceStatusMessage),
       _restorePresence(o._restorePresence),
-      _presenceChangeType(o._presenceChangeType),
-      _standByScreenMode(o._standByScreenMode)
+      _presenceChangeType(o._presenceChangeType)
 {
     // Copy the account rules
     setPresenceRules(o.presenceRules());
