@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
+
 #include "actionpowersavingmode.h"
 
 ActionPowerSavingMode::ActionPowerSavingMode(PlatformUtil *platformUtil)
