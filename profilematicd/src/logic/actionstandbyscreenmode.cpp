@@ -16,20 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#include <gconfitem.h>
 
 #include "actionstandbyscreenmode.h"
 
 ActionStandByScreenMode::ActionStandByScreenMode(PlatformUtil *platformUtil)
-    : _platformUtil(platformUtil), _previousSbsmState(-1),
-      _lowPowerModeSetting(new GConfItem("/system/osso/dsm/display/use_low_power_mode"))
+    : _platformUtil(platformUtil), _previousSbsmState(-1)
 {
 
-}
-
-ActionStandByScreenMode::~ActionStandByScreenMode()
-{
-    delete _lowPowerModeSetting;
 }
 
 void
@@ -43,7 +36,7 @@ ActionStandByScreenMode::activate(const Rule &rule) {
         qDebug("ActionStandByScreenMode::activate previous rule had restore sbsmState, restoring sbsmState %d",
                _previousSbsmState);
         standByScreenMode = _previousSbsmState;
-        _lowPowerModeSetting->set(_previousSbsmState == 1 ? true : false);
+        _platformUtil->setStandByScreenMode(_previousSbsmState);
         _previousSbsmState = -1;
     }
     else if (standByScreenMode < 0) {
@@ -54,13 +47,13 @@ ActionStandByScreenMode::activate(const Rule &rule) {
 
     if (rule.getStandByScreenMode() >= 0) {
         if (rule.getStandByScreenMode() == 1) {
-            _previousSbsmState = _lowPowerModeSetting->value().toInt();
-            _lowPowerModeSetting->set(true);
+            _previousSbsmState = _platformUtil->standByScreenMode();
+            _platformUtil->setStandByScreenMode(1);
             qDebug("ActionStandByScreenMode::activate StandByScreen enabled");
             _platformUtil->publishNotification("StandByScreen action enabled for " + rule.getRuleName());
         } else {
-            _previousSbsmState = _lowPowerModeSetting->value().toInt();
-            _lowPowerModeSetting->set(false);
+            _previousSbsmState = _platformUtil->standByScreenMode();
+            _platformUtil->setStandByScreenMode(0);
             qDebug("ActionStandByScreenMode::activate StandByScreen disabled");
             _platformUtil->publishNotification("StandByScreen action disabled for " + rule.getRuleName());
         }

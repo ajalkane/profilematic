@@ -13,11 +13,8 @@ class ActionStandByScreenMode: public Action
 
 public:
     ActionStandByScreenMode(PlatformUtil *platformUtil);
-    virtual ~ActionStandByScreenMode();
 
     virtual void activate(const Rule &rule);
-private:
-    GConfItem *_lowPowerModeSetting;
 };
 
 #endif // ACTIONSTANDBYSCREENMODE_H
