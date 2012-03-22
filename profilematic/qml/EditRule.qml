@@ -253,7 +253,7 @@ Page {
                 topic: "Profile"
                 summary: profileSummary();
                 showDrillDown: true
-                onTopicClicked: profileEditHandler()                
+                onTopicClicked: profileEditHandler()
             }
 
             RuleTopicSummary {
@@ -380,7 +380,7 @@ Page {
         rule: root.rule
     }
 
-    function locationSummary() {        
+    function locationSummary() {
         var numCellIds = rule.locationCells.length
         return numCellIds === 0 ? "Not in use" : "Cell ids set"
     }
