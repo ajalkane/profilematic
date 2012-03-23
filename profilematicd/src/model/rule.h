@@ -26,26 +26,20 @@
 #include <QMetaType>
 #include <QDBusArgument>
 
-#include "presencerule.h"
+#include "ruleaction.h"
 
 #define DEFAULT_RULE_ID "defaultRule"
 
-// IMPROVE: conditions and actions to separate classes
-class Rule : public QObject
+// IMPROVE: conditions to separate class
+// IMPROVE: it'd be cleaner to have RuleAction as member of Rule, but inheriting from it
+// will be less painful transition
+class Rule : public RuleAction
 {
-public:
-    enum PresenceChangeType {
-        CustomPresenceType,
-        AllOnlinePresenceType,
-        AllOfflinePresenceType
-    };
-
-private:
     Q_OBJECT
 
-    // Conditions
     QString   _ruleId;
     QString   _ruleName;
+    // Conditions
     QTime     _timeStart;
     QTime     _timeEnd;
     QSet<int> _days;
@@ -53,26 +47,6 @@ private:
     QSet<QString> _wlan;
     int       _wlanTimeout;
 
-    // Actions
-    QString _profile;
-    bool    _restoreProfile;
-    int     _profileVolume;
-    int     _flightMode;
-    bool    _restoreFlightMode;
-    int     _powerSavingMode;
-    bool    _restorePowerSavingMode;
-    int     _blueToothMode;
-    bool    _restoreBlueToothMode;
-    int     _cellularMode;
-    QString _commandLine;
-    int     _standByScreenMode;
-
-    QList<PresenceRule *> _presenceRules;
-    QString _presenceStatusMessage;
-    bool    _restorePresence;
-    PresenceChangeType _presenceChangeType;
-
-    Q_ENUMS(PresenceChangeType)
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
     Q_PROPERTY(QString ruleId READ getRuleId NOTIFY ruleIdChanged)
@@ -84,42 +58,13 @@ private:
     Q_PROPERTY(QVariantList locationCells READ getLocationCellsQml WRITE setLocationCellsQml NOTIFY locationCellsChanged)
     Q_PROPERTY(QVariantList wlan READ getWlanQml WRITE setWlanQml NOTIFY wlanChanged)
     Q_PROPERTY(int wlanTimeout READ getWlanTimeout WRITE setWlanTimeout NOTIFY wlanTimeoutChanged)
-    Q_PROPERTY(QString profile READ getProfile WRITE setProfile NOTIFY profileChanged)
-    Q_PROPERTY(bool restoreProfile READ getRestoreProfile WRITE setRestoreProfile NOTIFY restoreProfileChanged)
-    Q_PROPERTY(int profileVolume READ getProfileVolume WRITE setProfileVolume NOTIFY profileVolumeChanged)
-    Q_PROPERTY(int flightMode READ getFlightMode WRITE setFlightMode NOTIFY flightModeChanged)
-    Q_PROPERTY(bool restoreFlightMode READ getRestoreFlightMode WRITE setRestoreFlightMode NOTIFY restoreFlightModeChanged)
-    Q_PROPERTY(int powerSavingMode READ getPowerSavingMode WRITE setPowerSavingMode NOTIFY powerSavingModeChanged)
-    Q_PROPERTY(bool restorePowerSavingMode READ getRestorePowerSavingMode WRITE setRestorePowerSavingMode NOTIFY restorePowerSavingModeChanged)
-    Q_PROPERTY(int blueToothMode READ getBlueToothMode WRITE setBlueToothMode NOTIFY blueToothModeChanged)
-    Q_PROPERTY(bool restoreBlueToothMode READ getRestoreBlueToothMode WRITE setRestoreBlueToothMode NOTIFY restoreBlueToothModeChanged)
-    Q_PROPERTY(int cellularMode READ getCellularMode WRITE setCellularMode NOTIFY cellularModeChanged)
-    Q_PROPERTY(QString commandLine READ getCommandLine WRITE setCommandLine NOTIFY commandLineChanged)
-    Q_PROPERTY(int standByScreenMode READ getStandByScreenMode WRITE setStandByScreenMode NOTIFY standByScreenModeChanged)
-
-    /**
-      * This property gives access to the presence rules associated with this
-      * rule.
-      *
-      * \note The setter copies the individual rule instances and binds them
-      *       to the Rule instance.
-      */
-    Q_PROPERTY(QList<QObject *> presenceRules READ presenceRulesQml NOTIFY presenceRulesChanged)
-    /**
-      * This property represents the global status message set for all accounts
-      * whose presence is changed to online by this rule. Specific online
-      * status messages for each account can be specified in the corresponding
-      * PresenceRule instance.
-      */
-    Q_PROPERTY(QString presenceStatusMessage READ getPresenceStatusMessage WRITE setPresenceStatusMessage NOTIFY presenceStatusMessageChanged)
-    Q_PROPERTY(bool restorePresence READ getRestorePresence WRITE setRestorePresence NOTIFY restorePresenceChanged)
-    Q_PROPERTY(PresenceChangeType presenceChangeType READ getPresenceChangeType WRITE setPresenceChangeType NOTIFY presenceChangeTypeChanged)
 
     QString _getTimeQml(const QTime &time) const;
 
     inline QTime _timeWithSecs(const QTime time, int secs) const {
         return time.isNull() ? time : QTime(time.hour(), time.minute(), secs);
     }
+
 
 signals:
     void ruleNameChanged();
@@ -130,24 +75,6 @@ signals:
     void locationCellsChanged();
     void wlanChanged();
     void wlanTimeoutChanged();
-    void profileChanged();
-    void restoreProfileChanged();
-    void profileVolumeChanged();
-    void flightModeChanged();
-    void restoreFlightModeChanged();
-    void powerSavingModeChanged();
-    void restorePowerSavingModeChanged();
-    void blueToothModeChanged();
-    void restoreBlueToothModeChanged();
-    void cellularModeChanged();
-    void commandLineChanged();
-    void presenceRulesChanged();
-    void presenceStatusMessageChanged();
-    void restorePresenceChanged();
-    void presenceChangeTypeChanged();
-    void standByScreenModeChanged();
-private slots:
-    void onPresenceRuleActionChanged();
 public:
     typedef QString IdType;
 
@@ -158,7 +85,7 @@ public:
     virtual ~Rule();
     Rule &operator=(const Rule &o);
     Rule &conditionsFrom(const Rule &o);
-    Rule &actionsFrom(const Rule &o);
+    Rule &actionsFrom(const RuleAction &o);
     bool isDefaultRule() const;
 
     QString getRuleId() const;
@@ -207,65 +134,6 @@ public:
     int getWlanTimeout() const;
     void setWlanTimeout(int timeoutSecs);
 
-    QString getProfile() const;
-    void setProfile(const QString &profile);
-
-    bool getRestoreProfile() const;
-    void setRestoreProfile(bool restore);
-
-    // Returns -1 if the profile volume is not to be set
-    int getProfileVolume() const;
-    // Use -1 if the profile volume is not to be set, otherwise value between 0 to 100
-    void setProfileVolume(int volume);
-
-    // -1 don't set, 0, set no flight mode, 1 set flight mode
-    int getFlightMode() const;
-    void setFlightMode(int mode);
-    bool getRestoreFlightMode() const;
-    void setRestoreFlightMode(bool restore);
-
-    // -1 don't set, 0, set no power saving mode, 1 set power saving mode
-    int getPowerSavingMode() const;
-    void setPowerSavingMode(int state);
-    bool getRestorePowerSavingMode() const;
-    void setRestorePowerSavingMode(bool restore);
-
-    // -1 don't set, 0 set BlueTooth off, 1 set BlueTooth on, 2 set BlueTooth on and visible
-    int getBlueToothMode() const;
-    void setBlueToothMode(int mode);
-    bool getRestoreBlueToothMode() const;
-    void setRestoreBlueToothMode(bool restore);
-
-    // -1 don't set, 0 set Dual, 1 set 2G, 2 set 3G
-    int getCellularMode() const;
-    void setCellularMode(int mode);
-
-    // -1 don't set, 0 set StandByScreen off, 1 set StandByScreen on
-    int getStandByScreenMode() const;
-    void setStandByScreenMode(int mode);
-
-    QString getCommandLine() const;
-    void setCommandLine(const QString &commandLine);
-
-    QList<QObject *> presenceRulesQml() const;
-
-    QList<PresenceRule *> presenceRules() const;
-    void setPresenceRules(QList<PresenceRule *> presenceRules);
-
-    bool addPresenceRule(PresenceRule *presenceRule);
-    bool removePresenceRule(PresenceRule *presenceRule);
-    PresenceRule *presenceRule(const PresenceRule::Key &key);
-
-    const QString &getPresenceStatusMessage() const;
-    void setPresenceStatusMessage(const QString &pressenceStatusMessage);
-    void updatePresenceChangeType(const PresenceRule *presenceRule);
-
-    bool getRestorePresence() const;
-    void setRestorePresence(bool restorePresence);
-
-    PresenceChangeType getPresenceChangeType() const;
-    void setPresenceChangeType(PresenceChangeType presenceChangeType);
-
     inline bool operator==(const Rule &o) const {
         return this->_ruleId    == o._ruleId
             && this->_ruleName  == o._ruleName
@@ -274,20 +142,7 @@ public:
             && this->_days      == o._days
             && this->_locationCells == o._locationCells
             && this->_wlan      == o._wlan
-            && this->_profile   == o._profile
-            && this->_restoreProfile == o._restoreProfile
-            && this->_profileVolume == o._profileVolume
-            && this->_flightMode == o._flightMode
-            && this->_restoreFlightMode == o._restoreFlightMode
-            && this->_powerSavingMode == o._powerSavingMode
-            && this->_restorePowerSavingMode == o._restorePowerSavingMode
-            && this->_blueToothMode == o._blueToothMode
-            && this->_restoreBlueToothMode == o._restoreBlueToothMode
-            && this->_cellularMode == o._cellularMode
-            && this->_commandLine == o._commandLine
-            && this->_presenceStatusMessage == o._presenceStatusMessage
-            && this->_restorePresence == o._restorePresence
-            && this->_standByScreenMode == o._standByScreenMode;
+            && RuleAction::operator==(o);
     }
 
 

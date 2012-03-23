@@ -39,6 +39,7 @@ SOURCES += src/main.cpp \
     src/profileclient.cpp \
     src/configuration.cpp \
     src/model/rule.cpp \
+    src/model/ruleaction.cpp \
     src/model/presencerule.cpp \
     src/interface/profilematicinterface.cpp \
     src/preferences.cpp \
@@ -63,6 +64,7 @@ HEADERS += \
     src/profileclient.h \
     src/configuration.h \
     src/model/rule.h \
+    src/model/ruleaction.h \
     src/model/presencerule.h \
     src/interface/profilematicinterface.h \
     src/preferences.h \
