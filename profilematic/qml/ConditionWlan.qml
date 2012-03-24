@@ -27,7 +27,7 @@ Page {
     tools: commonTools
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
-    property Rule    rule;
+    property RuleCondition condition;
     property int maxWlans: 5
 
     onStatusChanged: {
@@ -70,17 +70,17 @@ Page {
            }
      }
     function addCurrentWlan() {
-        var wlan = rule.wlan
+        var wlan = condition.wlan
         var currentWlan = wlaninfo.nameIfUsable // TODObackendLocation.currentCell
         if (currentWlan !== '') {
             if (wlan.length < maxWlans) {
                 var xPos = wlanNamesFlickable.contentX
                 var yPos = wlanNamesFlickable.contentY
                 wlan.push(currentWlan)
-                rule.wlan = wlan
+                condition.wlan = wlan
                 wlanNamesFlickable.contentX = xPos
                 wlanNamesFlickable.contentY = yPos
-                if (rule.wlan.length >= maxWlans) {
+                if (condition.wlan.length >= maxWlans) {
                     collectingButton.checked = false
                 }
             }
@@ -120,10 +120,10 @@ Page {
 
             Button {
                 id: collectingButton
-                enabled: rule.wlan.length < maxWlans && wlaninfo.nameIfUsable !== ""
-                // enabled: backendLocation.currentCell >= 0 && rule.locationCells.length < root.maxCells
+                enabled: condition.wlan.length < maxWlans && wlaninfo.nameIfUsable !== ""
+                // enabled: backendLocation.currentCell >= 0 && conditiong.locationCells.length < root.maxCells
                 text: (enabled ? "Add current WLAN"
-                               : (rule.wlan.length < root.maxWlans
+                               : (condition.wlan.length < root.maxWlans
                                   ? "No WLAN"
                                   : "Max " + root.maxWlans + " WLANs added"))
                 onClicked: {
@@ -142,11 +142,11 @@ Page {
             SectionHeader {
                 width: parent.width
                 height: 20
-                section: "WLAN access points (" + rule.wlan.length + ")"
+                section: "WLAN access points (" + condition.wlan.length + ")"
             }
 
             Repeater {
-                model: rule.wlan.length // maxCells
+                model: condition.wlan.length // maxCells
                 // width: parent.width
 
                 Item {
@@ -155,7 +155,7 @@ Page {
 
                     Label {
                         id: wlanName
-                        text: rule.wlan[index]
+                        text: condition.wlan[index]
                         width: parent.width //  - removeButton.width
                         platformStyle: LabelStyleSubtitle {}
                         anchors.verticalCenter: parent.verticalCenter
@@ -181,9 +181,9 @@ Page {
 
                             onClicked: {
                                 console.log("Remove clicked")
-                                var wlan = rule.wlan
+                                var wlan = condition.wlan
                                 wlan.splice(index, 1)
-                                rule.wlan = wlan
+                                condition.wlan = wlan
                             }
                         }
 
@@ -211,12 +211,12 @@ Page {
             TextFieldWithLabel {
                 labelText: "WLAN timeout in seconds"
                 placeholderText: "No timeout"
-                text: rule.wlanTimeout !== 0 ? rule.wlanTimeout : ""
+                text: condition.wlanTimeout !== 0 ? condition.wlanTimeout : ""
                 inputMethodHints: Qt.ImhDigitsOnly
                 inputMask: "000"
                 width: parent.width
                 onTextChanged: {
-                    rule.wlanTimeout = parseInt(text)
+                    condition.wlanTimeout = parseInt(text)
                 }
             }
             Label {

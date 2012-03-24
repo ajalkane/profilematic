@@ -42,8 +42,8 @@ public:
     virtual ~ConditionManagerLocationCell();
 
     virtual void startRefresh();
-    virtual bool refresh(const Rule &rule);
-    virtual void matchedRule(const Rule &rule);
+    virtual bool refresh(const RuleCondition &rule);
+    virtual void matchedRule(const RuleCondition &rule);
     virtual void endRefresh();
 
     void monitorCellId(bool monitor);

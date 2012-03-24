@@ -50,7 +50,7 @@ RulesManager::_refresh(bool forceActivate) {
         QList<Rule>::const_iterator firstMatchingRule = _rules->constBegin();
         for (; firstMatchingRule != _rules->constEnd(); ++firstMatchingRule) {
             const Rule &rule = *firstMatchingRule;
-            bool isMatching = rule.isDefaultRule() || _conditionManager->refresh(*firstMatchingRule);
+            bool isMatching = rule.isDefaultRule() || _conditionManager->refresh(rule.condition());
             if (isMatching) {
                 break;
             }
@@ -64,7 +64,7 @@ RulesManager::_refresh(bool forceActivate) {
 
         if (firstMatchingRule != _rules->constEnd() && (forceActivate || firstMatchingRule->getRuleId() != _currentRuleId)) {
             const Rule &matchedRule = *firstMatchingRule;
-            _conditionManager->matchedRule(matchedRule);
+            _conditionManager->matchedRule(matchedRule.condition());
             _activateRule(matchedRule);
             _currentRuleId = matchedRule.getRuleId();
         }
@@ -79,5 +79,5 @@ RulesManager::_activateRule(const Rule &rule) {
     qDebug("RulesManager::_activateRule: activatingRule %s/%s",
            qPrintable(rule.getRuleId()),
            qPrintable(rule.getRuleName()));
-    _action->activate(rule);
+    _action->activate(rule.action());
 }

@@ -30,7 +30,7 @@ class ActionPowerSavingMode: public Action
 public:
     ActionPowerSavingMode(PlatformUtil *platformUtil);
 
-    virtual void activate(const Rule &rule);
+    virtual void activate(const RuleAction &rule);
 };
 
 #endif // ACTIONPOWERSAVINGMODE_H

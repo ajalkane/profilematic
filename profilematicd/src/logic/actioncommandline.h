@@ -29,7 +29,7 @@ class ActionCommandLine: public Action
 public:
     ActionCommandLine(PlatformUtil *platformUtil);
 
-    virtual void activate(const Rule &rule);
+    virtual void activate(const RuleAction &rule);
 };
 
 #endif // ACTIONCOMMANDLINE_H

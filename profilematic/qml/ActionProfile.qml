@@ -26,7 +26,7 @@ Page {
     tools: commonTools
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
-    property Rule    rule;
+    property RuleAction action;
 
     SectionHeader {
         id: header
@@ -59,7 +59,7 @@ Page {
             Item {
                 id: restoreProfileContainer
                 width: parent.width
-                height: rule.profile !== '' ? restoreProfile.height : 0
+                height: action.profile !== '' ? restoreProfile.height : 0
                 clip: true
 
                 Behavior on height {
@@ -72,17 +72,17 @@ Page {
                     topicWidth: parent.width - restoreSwitch.width
                     summary: restoreSwitch.checked ? "The previous profile will be restored."
                                                    : "Previous profile will not be restored."
-                    // visible: rule.profile !== ''
+                    // visible: action.profile !== ''
                     onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
                 }
                 Switch {
                     id: restoreSwitch
-                    checked: rule.restoreProfile
+                    checked: action.restoreProfile
                     anchors.right: restoreProfileContainer.right // container.right
                     anchors.top: parent.top
                     anchors.verticalCenter: parent.top
                     onCheckedChanged: {
-                        rule.restoreProfile = checked
+                        action.restoreProfile = checked
                     }
                 }
             }
@@ -138,7 +138,7 @@ Page {
         onSelectedIndexChanged: {
             if (selectedIndex > -1) {
                 var selectedProfile = model.getProfile(selectedIndex)
-                rule.profile = selectedProfile
+                action.profile = selectedProfile
             }
         }
 
@@ -155,11 +155,11 @@ Page {
     }
 
     function profileSummary() {
-        return rule.profile !== "" ? backendProfilesModel.getProfileToName(rule.profile) : "Click to set"
+        return action.profile !== "" ? backendProfilesModel.getProfileToName(rule.profile) : "Click to set"
     }
 
     function profileEditHandler() {
-        profilesDialog.openWithSelection(rule.profile)
+        profilesDialog.openWithSelection(action.profile)
     }
 
     QueryDialog {
@@ -183,7 +183,7 @@ Page {
         }
 
         onAccepted: {
-            rule.profileVolume = volumeValue
+            action.profileVolume = volumeValue
         }
 
         function openWithValue(volume) {
@@ -194,18 +194,18 @@ Page {
 
     // Profile volume functions
     function volumeSummary() {
-        if (rule.profileVolume < 0) {
+        if (action.profileVolume < 0) {
             return "Volume has not been selected yet"
         }
 
-        return rule.profileVolume + " %"
+        return action.profileVolume + " %"
     }
 
     function volumeEditHandler() {
-        dVolume.openWithValue(rule.profileVolume)
+        dVolume.openWithValue(action.profileVolume)
     }
 
     function isVolumeVisible() {
-        return backendProfilesModel.profileHasVolume(rule.profile);
+        return backendProfilesModel.profileHasVolume(action.profile);
     }
 }

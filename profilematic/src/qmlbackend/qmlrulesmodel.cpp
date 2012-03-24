@@ -82,6 +82,7 @@ QmlRulesModel::data(const QModelIndex & index, int role) const {
     if (index.row() < 0 || index.row() >= _rules.count())
         return QVariant();
 
+    qDebug("QmlRulesModel::data, index.row %d", index.row());
     const Rule &rule = _rules.at(index.row());
     switch (role) {
     case RuleIdRole:
@@ -93,23 +94,23 @@ QmlRulesModel::data(const QModelIndex & index, int role) const {
     case RuleNameRole:
         return rule.getRuleName();        
     case TimeStartRole:
-        return rule.getTimeStartQml();
+        return rule.condition().getTimeStartQml();
     case TimeEndRole:
-        return rule.getTimeEndQml();
+        return rule.condition().getTimeEndQml();
     // return rule.getTimeStart();
     case DaysRole:
         qDebug("QmlRulesModel::data role 'days' should not be directly accessed");
         break;
     case ProfileRole:
-        return rule.getProfile();
+        return rule.action().getProfile();
     case ProfileVolumeRole:
-        return rule.getProfileVolume();
+        return rule.action().getProfileVolume();
     case TimeSummaryRole:
-        return getTimeSummaryText(&rule, "");
+        return getTimeSummaryText(&(rule.condition()), "");
     case RuleSummaryRole:
         return getRuleSummaryText(&rule, "");
     case FlightModeRole:
-        return rule.getFlightMode();
+        return rule.action().getFlightMode();
     default:
         qDebug("Unrecognized role for QmlRulesModel::data: %d", role);
         return QVariant();
@@ -252,8 +253,8 @@ QmlRulesModel::getDaysSummaryText(const QSet<int> &days) const {
 }
 
 QString
-QmlRulesModel::getTimeSummaryText(Rule *rule, const QString &nonUsableTimeString) const {
-    return getTimeSummaryText(const_cast<const Rule *>(rule), nonUsableTimeString);
+QmlRulesModel::getTimeSummaryText(RuleCondition *condition, const QString &nonUsableTimeString) const {
+    return getTimeSummaryText(const_cast<const RuleCondition *>(condition), nonUsableTimeString);
 }
 
 QString
@@ -262,21 +263,23 @@ QmlRulesModel::getRuleSummaryText(Rule *rule, const QString &nonUsableTimeString
 }
 
 QString
-QmlRulesModel::getTimeSummaryText(const Rule *rule, const QString &nonUsableTimeString) const {
+QmlRulesModel::getTimeSummaryText(const RuleCondition *rule, const QString &nonUsableTimeString) const {
     // qDebug("QmlRulesModel::getTimeSummaryText()");
     // Rule rule = ruleVariant.value<Rule>();
     if (rule == 0) {
-        // qDebug("QmlRulesModel::getTimeSummaryText() null rule");
-        return nonUsableTimeString;
-    }
-    if (rule->getDays().isEmpty()
-            || !rule->getTimeStart().isValid()
-            || !rule->getTimeEnd().isValid()) {
-        // qDebug("QmlRulesModel::getTimeSummaryText(): nonUsable, getDays.isEmpty/!validTimeStart/!validTimeEnd %d, %d, %d",
-        //       rule->getDays().isEmpty(), !rule->getTimeStart().isValid(), !rule->getTimeEnd().isValid());
+        qDebug("QmlRulesModel::getTimeSummaryText() null rule");
         return nonUsableTimeString;
     }
 
+    if (rule->getDays().isEmpty()
+            || !rule->getTimeStart().isValid()
+            || !rule->getTimeEnd().isValid()) {
+        qDebug("QmlRulesModel::getTimeSummaryText(): nonUsable, getDays.isEmpty/!validTimeStart/!validTimeEnd %d, %d, %d",
+               rule->getDays().isEmpty(), !rule->getTimeStart().isValid(), !rule->getTimeEnd().isValid());
+        return nonUsableTimeString;
+    }
+
+    qDebug("QmlRulesModel::getTimeSummaryText() now go");
     QString summary;
     summary += rule->getTimeStartQml();
     summary += " - ";
@@ -302,7 +305,9 @@ QmlRulesModel::getTimeSummaryText(const Rule *rule, const QString &nonUsableTime
 //    }
 
     summary += " ";
+    qDebug("QmlRulesModel::getTimeSummaryText() getDaysSummaryText");
     summary += getDaysSummaryText(rule->getDays());
+    qDebug("/QmlRulesModel::getTimeSummaryText() returning %s", qPrintable(summary));
 
     return summary;
 }
@@ -316,18 +321,22 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
         // qDebug("QmlRulesModel::getTimeSummaryText() null rule");
         return nonUsableRuleString;
     }
+
+    const RuleCondition &ruleCond = rule->condition();
+    const RuleAction &ruleAction = rule->action();
+
     QString action;
     QString condition;
     int numAction = 0;
     int numCondition = 0;
 
-    if (!rule->getProfile().isEmpty()) {
-        action.append(_profilesModel->getProfileToName(rule->getProfile()));
+    if (!ruleAction.getProfile().isEmpty()) {
+        action.append(_profilesModel->getProfileToName(ruleAction.getProfile()));
         ++numAction;
     }
-    if (rule->getFlightMode() > -1) {
+    if (ruleAction.getFlightMode() > -1) {
         if (numAction > 0) action.append(", ");
-        switch (rule->getFlightMode()) {
+        switch (ruleAction.getFlightMode()) {
         case 0:
             action += "Flight mode off"; break;
         case 1:
@@ -335,9 +344,9 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
         }
         ++numAction;
     }
-    if (rule->getPowerSavingMode() > -1) {
+    if (ruleAction.getPowerSavingMode() > -1) {
         if (numAction > 0) action.append(", ");
-        switch (rule->getPowerSavingMode()) {
+        switch (ruleAction.getPowerSavingMode()) {
         case 0:
             action += "Power saving off"; break;
         case 1:
@@ -345,9 +354,9 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
         }
         ++numAction;
     }
-    if (rule->getBlueToothMode() > -1) {
+    if (ruleAction.getBlueToothMode() > -1) {
         if (numAction > 0) action.append(", ");
-        switch (rule->getBlueToothMode()) {
+        switch (ruleAction.getBlueToothMode()) {
         case 0:
             action += "BlueTooth off"; break;
         case 1:
@@ -357,9 +366,9 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
         ++numAction;
     }
 
-    if (rule->getCellularMode() > -1) {
+    if (ruleAction.getCellularMode() > -1) {
         if (numAction > 0) action.append(", ");
-        switch (rule->getCellularMode()) {
+        switch (ruleAction.getCellularMode()) {
         case 0:
             action += "Dual GSM/3G"; break;
         case 1:
@@ -370,15 +379,15 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
         ++numAction;
     }
 
-    if (!rule->getCommandLine().trimmed().isEmpty()) {
+    if (!ruleAction.getCommandLine().trimmed().isEmpty()) {
         if (numAction > 0) action.append(", ");
         action.append("Custom action");
         ++numAction;
     }
 
-    if (rule->getStandByScreenMode() > -1) {
+    if (ruleAction.getStandByScreenMode() > -1) {
         if (numAction > 0) action.append(", ");
-        switch (rule->getStandByScreenMode()) {
+        switch (ruleAction.getStandByScreenMode()) {
         case 0:
             action += "Stand-By-Screen disabled"; break;
         case 1:
@@ -388,7 +397,7 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
     }
 
     bool atLeastOnePresenceChange = false;
-    foreach (PresenceRule *presenceRule, rule->presenceRules())
+    foreach (PresenceRule *presenceRule, ruleAction.presenceRules())
         if (presenceRule->action() != PresenceRule::Retain) {
             atLeastOnePresenceChange = true;
             break;
@@ -404,17 +413,17 @@ QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRule
         condition += "other rules don't apply";
         ++numCondition;
     } else {
-        if (!rule->getLocationCells().isEmpty()) {
+        if (!ruleCond.getLocationCells().isEmpty()) {
             if (numCondition > 0) condition.append(" and ");
             condition.append("on location");
             ++numCondition;
         }
-        if (!rule->getWlan().isEmpty()) {
+        if (!ruleCond.getWlan().isEmpty()) {
             if (numCondition > 0) condition.append(" and ");
             condition.append("on WLAN");
             ++numCondition;
         }
-        QString timeCondition = getTimeSummaryText(rule, "");
+        QString timeCondition = getTimeSummaryText(&(rule->condition()), "");
         if (!timeCondition.isEmpty()) {
             if (numCondition > 0) condition.append(" and ");
             condition.append(timeCondition);

@@ -26,7 +26,7 @@ Page {
     tools: timeTools
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
-    property Rule    rule;
+    property RuleCondition condition // : (rule !== null ? rule.condition : null)
 
     ToolBarLayout {
         id: timeTools
@@ -63,7 +63,6 @@ Page {
                 summary: daysSummary()
                 showComboBox: true
                 onTopicClicked: daysEditHandler()
-                visible: !rule.isDefaultRule
             }
 
             RuleTopicSummary {
@@ -71,7 +70,6 @@ Page {
                 summary: timeStartSummary()
                 showComboBox: true
                 onTopicClicked: timeStartEditHandler()
-                visible: !rule.isDefaultRule
             }
 
             RuleTopicSummary {
@@ -79,7 +77,6 @@ Page {
                 summary: timeEndSummary()
                 showComboBox: true
                 onTopicClicked: timeEndEditHandler()
-                visible: !rule.isDefaultRule
             }
 
             Button {
@@ -96,19 +93,24 @@ Page {
                 color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
                 text: root.timeSummary()
                 Connections {
-                    target: rule
-                    onDaysChanged:      timeSummary.text = root.timeSummary()
-                    onTimeStartChanged: timeSummary.text = root.timeSummary()
-                    onTimeEndChanged:   timeSummary.text = root.timeSummary()
+                    target: condition
+                    onChanged: {
+                        console.log("ConditionTime onChanged")
+                        timeSummary.text = root.timeSummary()
+                        console.log("/ConditionTime onChanged")
+                    }
+//                    onDaysChanged:      timeSummary.text = root.timeSummary()
+//                    onTimeStartChanged: timeSummary.text = root.timeSummary()
+//                    onTimeEndChanged:   timeSummary.text = root.timeSummary()
                 }
             }
         }
     }
 
     function isValidTimeRule() {
-        if (rule.timeStart === "" && rule.timeEnd === "" && rule.days.length === 0)
+        if (condition.timeStart === "" && condition.timeEnd === "" && condition.days.length === 0)
             return true
-        if (rule.timeStart !== "" && rule.timeEnd !== "" && rule.days.length > 0)
+        if (condition.timeStart !== "" && condition.timeEnd !== "" && condition.days.length > 0)
             return true
         return false
     }
@@ -116,33 +118,33 @@ Page {
     QueryDialog {
         id: dConfirmDelete
 
-        titleText: "Clear time rules"
-        message: "Are you sure you want to clear time rules?"
+        titleText: "Clear time conditions"
+        message: "Are you sure you want to clear time conditions?"
         acceptButtonText: "Yes"
         rejectButtonText: "Cancel"
 
         onAccepted: {
-            rule.timeStart = ""
-            rule.timeEnd = ""
-            rule.days = []
+            condition.timeStart = ""
+            condition.timeEnd = ""
+            condition.days = []
         }
     }
 
     QueryDialog {
         id: dInvalidRule
 
-        titleText: "Invalid time rule"
+        titleText: "Invalid time condition"
         message: "Either set all time and day fields, or clear them.\n\n"
                  + "Missing:\n\n"
-                 + (rule.timeStart   === '' ? "Start time\n" : "")
-                 + (rule.timeEnd     === '' ? "End time\n"   : "")
-                 + (rule.days.length === 0  ? "Weekdays"     : "")
+                 + (condition.timeStart   === '' ? "Start time\n" : "")
+                 + (condition.timeEnd     === '' ? "End time\n"   : "")
+                 + (condition.days.length === 0  ? "Weekdays"     : "")
         acceptButtonText: "Ok"
     }
 
     // Profile functions
     function timeSummary() {
-        return backendRulesModel.getTimeSummaryText(rule, "") === "" ? "All time and day fields must be set. This condition is not yet usable." : "";
+        return backendRulesModel.getTimeSummaryText(condition, "") === "" ? "All time and day fields must be set. This condition is not yet usable." : "";
     }
 
     function formatTime(hour, minute) {
@@ -152,12 +154,12 @@ Page {
     TimeDialog {
         id: timeStartDialog
         titleText: "Start time"
-        onAccepted: rule.timeStart = formatTime(hour, minute)
+        onAccepted: condition.timeStart = formatTime(hour, minute)
     }
 
     // Start time functions
     function timeStartEditHandler() {
-        var time = (rule.timeStart !== "" ? rule.timeStart : "00:00")
+        var time = (condition.timeStart !== "" ? condition.timeStart : "00:00")
         var timeSplits = time.split(":")
 
         timeStartDialog.hour = timeSplits[0]
@@ -167,21 +169,21 @@ Page {
     }
 
     function timeStartSummary() {
-        if (rule.timeStart === '') {
+        if (condition.timeStart === '') {
             return "Click to set time"
         }
-        return rule.timeStart
+        return condition.timeStart
     }
 
     TimeDialog {
         id: timeEndDialog
         titleText: "End time"
-        onAccepted: rule.timeEnd = formatTime(hour, minute)
+        onAccepted: condition.timeEnd = formatTime(hour, minute)
     }
 
     // Start time functions
     function timeEndEditHandler() {
-        var time = (rule.timeEnd !== "" ? rule.timeEnd : "00:00")
+        var time = (condition.timeEnd !== "" ? condition.timeEnd : "00:00")
         var timeSplits = time.split(":")
 
         timeEndDialog.hour = timeSplits[0]
@@ -191,10 +193,10 @@ Page {
     }
 
     function timeEndSummary() {
-        if (rule.timeEnd=== '') {
+        if (condition.timeEnd=== '') {
             return "Click to set time"
         }
-        return rule.timeEnd
+        return condition.timeEnd
     }
 
 
@@ -206,15 +208,15 @@ Page {
         }
         model: backendDaysModel
         acceptButtonText: "OK"
-        onAccepted: rule.days = selectedIndexes
+        onAccepted: condition.days = selectedIndexes
     }
 
     function daysSummary() {
-        return backendRulesModel.getDaysSummaryText(rule.days);
+        return backendRulesModel.getDaysSummaryText(condition.days);
     }
 
     function daysEditHandler() {
-        daysDialog.selectedIndexes = rule.days
+        daysDialog.selectedIndexes = condition.days
         daysDialog.open();
     }
 

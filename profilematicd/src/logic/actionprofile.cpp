@@ -24,14 +24,14 @@ ActionProfile::ActionProfile(ProfileClient *profileClient)
 }
 
 void
-ActionProfile::activate(const Rule &rule) {
+ActionProfile::activate(const RuleAction &rule) {
     QString profile = rule.getProfile();
     int profileVolume = rule.getProfileVolume();
     bool profileIsEmpty = profile.trimmed().isEmpty();
 
-    if ((profileIsEmpty || rule.isDefaultRule()) && !_previousProfile.isEmpty()) {
-        qDebug("ActionProfile::activate restore, profile not set or is default rule for rule %s",
-               qPrintable(rule.getRuleName()));
+    // TODO isDefaultRule
+    if ((profileIsEmpty /*|| rule.isDefaultRule()*/) && !_previousProfile.isEmpty()) {
+        qDebug("ActionProfile::activate restore, profile not set or is default rule");
         qDebug("ActionProfile::activate previous rule had restore profile, restoring profile %s",
                qPrintable(_previousProfile));
         profile = _previousProfile;
@@ -40,8 +40,7 @@ ActionProfile::activate(const Rule &rule) {
         _previousVolume = -1;
     }
     else if (profileIsEmpty) {
-        qDebug("ActionProfile::activate profile is empty, not setting for rule %s",
-               qPrintable(rule.getRuleName()));
+        qDebug("ActionProfile::activate profile is empty, not setting");
         return;
     }
     if (rule.getRestoreProfile()) {
@@ -52,8 +51,7 @@ ActionProfile::activate(const Rule &rule) {
         _previousVolume = -1;
     }
 
-    qDebug("ActionProfile::activateRule for rule %s, profile %s, volume %d (previous %s/%d)",
-           qPrintable(rule.getRuleName()),
+    qDebug("ActionProfile::activateRule profile %s, volume %d (previous %s/%d)",
            qPrintable(profile),
            profileVolume,
            qPrintable(_previousProfile),

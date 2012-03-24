@@ -72,7 +72,9 @@ private:
     Q_PROPERTY(bool restorePresence READ getRestorePresence WRITE setRestorePresence NOTIFY restorePresenceChanged)
     Q_PROPERTY(PresenceChangeType presenceChangeType READ getPresenceChangeType WRITE setPresenceChangeType NOTIFY presenceChangeTypeChanged)
 
+    void _init();
 signals:
+    void changed();
 
     void profileChanged();
     void restoreProfileChanged();
@@ -180,6 +182,8 @@ public:
     }
 
 };
+
+Q_DECLARE_METATYPE(RuleAction)
 
 // Marshall the Rule data into a D-Bus argument
 QDBusArgument &operator<<(QDBusArgument &argument, const RuleAction &mystruct);

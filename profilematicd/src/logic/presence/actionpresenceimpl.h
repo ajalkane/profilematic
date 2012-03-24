@@ -34,7 +34,7 @@ class ActionPresenceImpl : public QObject, public ActionPresence
 public:
     ActionPresenceImpl();
 
-    void activate(const Rule &rule);
+    void activate(const RuleAction &rule);
 private slots:
     void onConnectsAutomaticallyChangeFinished(Tp::PendingOperation *op);
     void onAutomaticPresenceChangeFinished(Tp::PendingOperation *op);
@@ -58,7 +58,7 @@ private:
     Tp::AccountManagerPtr _accountManager;
     Accounts::Manager *_manager;
 
-    Rule *_pendingRule;
+    RuleAction *_pendingRule;
 
     QList<AccountPresence> _previousPresences;
     QHash<Tp::AccountPtr, Tp::Presence> _requestedPresences;

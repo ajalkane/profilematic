@@ -39,14 +39,14 @@ class ConditionManagerTime : public ConditionManager
     QDateTime _refreshTime;
 
     QDateTime _calculateNextEnd(const QDateTime &dateTimeStart, const QTime &timeStart, const QTime &timeEnd) const;
-    QPair<QDateTime, bool> _nextDateTimeFromRule(const QDateTime &from, const Rule &rule) const;
-    bool _refresh(const Rule &rule, const QDateTime &now);
+    QPair<QDateTime, bool> _nextDateTimeFromRule(const QDateTime &from, const RuleCondition &rule) const;
+    bool _refresh(const RuleCondition &rule, const QDateTime &now);
 
 public:
     ConditionManagerTime(QObject *parent = 0);
 
     virtual void startRefresh();
-    virtual bool refresh(const Rule &rule);
+    virtual bool refresh(const RuleCondition &rule);
     virtual void endRefresh();
 
     // These functions only needed for unit tests

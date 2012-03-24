@@ -26,7 +26,7 @@ Page {
     tools: commonTools
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
-    property Rule    rule;
+    property RuleAction action;
 
     SectionHeader {
         id: header
@@ -59,7 +59,7 @@ Page {
             Item {
                 id: restoreContainer
                 width: parent.width
-                height: rule.blueToothMode >= 0 ? restore.height : 0
+                height: action.blueToothMode >= 0 ? restore.height : 0
                 clip: true
 
                 Behavior on height {
@@ -76,12 +76,12 @@ Page {
                 }
                 Switch {
                     id: restoreSwitch
-                    checked: rule.restoreBlueToothMode
+                    checked: action.restoreBlueToothMode
                     anchors.right: restoreContainer.right
                     anchors.top: parent.top
                     anchors.verticalCenter: parent.top
                     onCheckedChanged: {
-                        rule.restoreBlueToothMode = checked
+                        action.restoreBlueToothMode = checked
                     }
                 }
             }
@@ -92,16 +92,16 @@ Page {
         id: dBlueToothMode
 
         onBlueToothModeSelected: {
-            rule.blueToothMode = selectedBlueToothMode
+            action.blueToothMode = selectedBlueToothMode
         }
     }
 
     function blueToothModeSummary() {
-        return dBlueToothMode.blueToothModeToText(rule.blueToothMode)
+        return dBlueToothMode.blueToothModeToText(action.blueToothMode)
     }
 
     function blueToothModeEditHandler() {
-        dBlueToothMode.selectedBlueToothMode = rule.blueToothMode
+        dBlueToothMode.selectedBlueToothMode = action.blueToothMode
         dBlueToothMode.open();
     }
 }

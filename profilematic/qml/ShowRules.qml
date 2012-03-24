@@ -411,6 +411,10 @@ Page {
     }
 
     function __openNewRule() {
+        var rule = backendRulesModel.getEditRule();
+        var ruleAction = rule.action
+        var ruleCondition = rule.condition
+
         var p = {
             "rule": backendRulesModel.getEditRule()
         }

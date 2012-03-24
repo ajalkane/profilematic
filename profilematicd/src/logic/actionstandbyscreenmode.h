@@ -14,7 +14,7 @@ class ActionStandByScreenMode: public Action
 public:
     ActionStandByScreenMode(PlatformUtil *platformUtil);
 
-    virtual void activate(const Rule &rule);
+    virtual void activate(const RuleAction &rule);
 };
 
 #endif // ACTIONSTANDBYSCREENMODE_H

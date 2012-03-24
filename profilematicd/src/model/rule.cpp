@@ -19,21 +19,30 @@
 #include "rule.h"
 
 Rule::Rule(QObject *parent)
-    : RuleAction(parent), _wlanTimeout(0)
+    : QObject(parent)
 {
+    _init();
 }
 
 Rule::Rule(const Rule &o)
-    : RuleAction(o),
+    : QObject(NULL),
       _ruleId(o._ruleId),
       _ruleName(o._ruleName),
-      _timeStart(o._timeStart),
-      _timeEnd(o._timeEnd),
-      _days(o._days),
-      _locationCells(o._locationCells),
-      _wlan(o._wlan),
-      _wlanTimeout(o._wlanTimeout)
+      _condition(o.condition()), _action(o.action())
 {
+    _init();
+}
+
+void
+Rule::_init() {
+    connect(this,        SIGNAL(ruleNameChanged()),  this, SIGNAL(changed()));
+    connect(this,        SIGNAL(ruleIdChanged()),    this, SIGNAL(changed()));
+    connect(&_condition, SIGNAL(changed()),          this, SIGNAL(conditionChanged()));
+    connect(&_action,    SIGNAL(changed()),          this, SIGNAL(actionChanged()));
+    connect(&_condition, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(&_action,     SIGNAL(changed()),    this, SIGNAL(changed()));
+//    connect(this,        SIGNAL(conditionChanged()), this, SIGNAL(changed()));
+//    connect(this,        SIGNAL(actionChanged()),    this, SIGNAL(changed()));
 }
 
 Rule
@@ -50,25 +59,20 @@ Rule &
 Rule::operator=(const Rule &o) {
     _ruleId = o._ruleId;
     _ruleName = o._ruleName;
-    conditionsFrom(o);
-    RuleAction::operator=(o);
+    _condition = o._condition;
+    _action = o._action;
     return *this;
 }
 
 Rule &
 Rule::conditionsFrom(const Rule &o) {
-    _timeStart = o._timeStart;
-    _timeEnd = o._timeEnd;
-    _days = o._days;
-    _locationCells = o._locationCells;
-    _wlan = o._wlan;
-    _wlanTimeout = o._wlanTimeout;
+    _condition = o.condition();
     return *this;
 }
 
 Rule &
-Rule::actionsFrom(const RuleAction &o) {
-    RuleAction::operator=(o);
+Rule::actionsFrom(const Rule &o) {
+    _action = o.action();
     return *this;
 }
 
@@ -103,211 +107,13 @@ Rule::setRuleName(const QString &ruleName) {
     }
 }
 
-QString
-Rule::_getTimeQml(const QTime &time) const {
-    if (time.isNull()) {
-        return "";
-    }
-    int hour = time.hour();
-    int min  = time.minute();
-    QString timeStr;
-    if (hour < 10) {
-        timeStr += "0";
-    }
-    timeStr += QString::number(hour);
-    timeStr += ":";
-    if (min < 10) {
-        timeStr += "0";
-    }
-    timeStr += QString::number(min);
-    return timeStr;
-}
-
-QTime
-Rule::getTimeStart() const {
-    return _timeStart;
-}
-
-void
-Rule::setTimeStart(const QTime &timeStart) {    
-    // Normalize to always have 00 seconds
-    QTime useTime = _timeWithSecs(timeStart, 0);
-    if (_timeStart != useTime) {
-        _timeStart = useTime;
-        emit timeStartChanged();
-    }
-}
-
-QString
-Rule::getTimeStartQml() const {
-    return _getTimeQml(getTimeStart());
-}
-
-void
-Rule::setTimeStartQml(const QString &timeStart) {
-    if (timeStart.isEmpty()) {
-        setTimeStart(QTime());
-    } else {
-        setTimeStart(QTime::fromString(timeStart, "hh:mm"));
-    }
-}
-
-QTime
-Rule::getTimeEnd() const {
-    return _timeEnd;
-}
-
-void
-Rule::setTimeEnd(const QTime &timeEnd) {
-    QTime useTime = _timeWithSecs(timeEnd, 0);
-    if (_timeEnd != useTime) {
-        _timeEnd = useTime;
-        emit timeEndChanged();
-    }
-}
-
-QString
-Rule::getTimeEndQml() const {
-    return _getTimeQml(getTimeEnd());
-}
-
-void
-Rule::setTimeEndQml(const QString &timeEnd) {
-    setTimeEnd(QTime::fromString(timeEnd, "hh:mm"));
-}
-
-const QSet<int> &
-Rule::getDays() const {
-    return _days;
-}
-
-void
-Rule::setDays(const QSet<int> &days) {
-    if (_days != days) {
-        _days = days;
-        emit daysChanged();
-    }
-}
-
-QVariantList
-Rule::getDaysQml() const {
-    QVariantList days;
-    for (QSet<int>::const_iterator i = _days.constBegin(); i != _days.constEnd(); ++i) {
-        days << QVariant::fromValue(*i);
-    }
-
-    return days;
-
-}
-void
-Rule::setDaysQml(const QVariantList &days) {
-    QSet<int> daysSet;
-    for (QVariantList::const_iterator i = days.constBegin(); i != days.constEnd(); ++i) {
-        daysSet << i->toInt();
-    }
-    setDays(daysSet);
-}
-
-const QSet<int> &
-Rule::getLocationCells() const {
-    return _locationCells;
-}
-
-void
-Rule::setLocationCells(const QSet<int> &cells) {
-    if (_locationCells != cells) {
-        _locationCells = cells;
-        emit locationCellsChanged();
-    }
-}
-
-bool variantIntLessThan(const QVariant &s1, const QVariant &s2)
-{
-    return s1.toInt() < s2.toInt();
-}
-
-QVariantList
-Rule::getLocationCellsQml() const {
-    QVariantList cells;
-    for (QSet<int>::const_iterator i = _locationCells.constBegin(); i != _locationCells.constEnd(); ++i) {
-        cells << QVariant::fromValue(*i);
-    }
-    qSort(cells.begin(), cells.end(), variantIntLessThan);
-    return cells;
-
-}
-void
-Rule::setLocationCellsQml(const QVariantList &cells) {
-    QSet<int> cellsSet;
-    for (QVariantList::const_iterator i = cells.constBegin(); i != cells.constEnd(); ++i) {
-        cellsSet << i->toInt();
-    }
-    setLocationCells(cellsSet);
-}
-
-const QSet<QString> &
-Rule::getWlan() const {
-    return _wlan;
-}
-
-void
-Rule::setWlan(const QSet<QString> &wlan) {
-    if (_wlan != wlan) {
-        _wlan = wlan;
-        emit wlanChanged();
-    }
-}
-
-bool variantQStringLessThan(const QVariant &s1, const QVariant &s2)
-{
-    return s1.toString() < s2.toString();
-}
-
-QVariantList
-Rule::getWlanQml() const {
-    QVariantList wlan;
-    for (QSet<QString>::const_iterator i = _wlan.constBegin(); i != _wlan.constEnd(); ++i) {
-        wlan << QVariant::fromValue(*i);
-    }
-    qSort(wlan.begin(), wlan.end(), variantIntLessThan);
-    return wlan;
-
-}
-void
-Rule::setWlanQml(const QVariantList &wlan) {
-    QSet<QString> wlanSet;
-    for (QVariantList::const_iterator i = wlan.constBegin(); i != wlan.constEnd(); ++i) {
-        wlanSet << i->toString();
-    }
-    setWlan(wlanSet);
-}
-
-int
-Rule::getWlanTimeout() const {
-    return _wlanTimeout;
-}
-
-void
-Rule::setWlanTimeout(int timeoutSecs) {
-    if (_wlanTimeout != timeoutSecs) {
-        _wlanTimeout = timeoutSecs;
-        emit wlanTimeoutChanged();
-    }
-}
-
-
 QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
 {
     argument.beginStructure();
     argument << rule.getRuleId();
     argument << rule.getRuleName();
-    argument << rule.getTimeStart();
-    argument << rule.getTimeEnd();
-    argument << rule.getDays();
-    argument << rule.getLocationCells();
-    argument << rule.getWlan();
-    argument << rule.getWlanTimeout();
-    argument << static_cast<const RuleAction &>(rule);
+    argument << rule.condition();
+    argument << rule.action();
     argument.endStructure();
     return argument;
 }
@@ -317,33 +123,16 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
 {
     QString   ruleId = rule.getRuleId();
     QString   ruleName = rule.getRuleName();
-    QTime     timeStart = rule.getTimeStart();
-    QTime     timeEnd = rule.getTimeEnd();
-    QList<int> days = rule.getDays().toList();
-    QList<int> cells = rule.getLocationCells().toList();
-    QList<QString> wlan = rule.getWlan().toList();
-    int     wlanTimeout = rule.getWlanTimeout();
 
     argument.beginStructure();
     argument >> ruleId;
     argument >> ruleName;
-    argument >> timeStart;
-    argument >> timeEnd;
-    argument >> days;
-    argument >> cells;
-    argument >> wlan;
-    argument >> wlanTimeout;
-    argument >> static_cast<RuleAction &>(rule);
+    argument >> rule.condition();
+    argument >> rule.action();
     argument.endStructure();
 
     rule.setRuleId(ruleId);
     rule.setRuleName(ruleName);
-    rule.setTimeStart(timeStart);
-    rule.setTimeEnd(timeEnd);
-    rule.setDays(QSet<int>::fromList(days));
-    rule.setLocationCells(QSet<int>::fromList(cells));
-    rule.setWlan(QSet<QString>::fromList(wlan));
-    rule.setWlanTimeout(wlanTimeout);
 
     return argument;
 }

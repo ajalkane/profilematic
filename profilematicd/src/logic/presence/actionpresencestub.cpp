@@ -25,7 +25,7 @@ ActionPresenceStub::ActionPresenceStub()
 {
 }
 
-void ActionPresenceStub::activate(const Rule &rule)
+void ActionPresenceStub::activate(const RuleAction &rule)
 {
     Q_UNUSED(rule)
 

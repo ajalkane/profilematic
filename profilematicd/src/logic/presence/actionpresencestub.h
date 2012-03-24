@@ -26,7 +26,7 @@ class ActionPresenceStub : public ActionPresence
 public:
     ActionPresenceStub();
 
-    void activate(const Rule &rule);
+    void activate(const RuleAction &rule);
 };
 
 #endif // ACTIONPRESENCESTUB_H

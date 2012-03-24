@@ -26,7 +26,7 @@ Page {
     tools: commonTools
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
-    property Rule    rule;
+    property RuleAction action;
 
     Flickable {
         anchors.fill: parent
@@ -46,11 +46,11 @@ Page {
             TextFieldWithLabel {
                 labelText: "Custom action"
                 placeholderText: "No custom action"
-                text: rule.commandLine
+                text: action.commandLine
                 // height: UIConstants.LIST_ITEM_HEIGHT_SMALL
                 width: parent.width
                 onTextChanged: {
-                    rule.commandLine = text
+                    action.commandLine = text
                 }
             }
 

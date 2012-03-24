@@ -25,6 +25,7 @@ RuleAction::RuleAction(QObject *parent) : QObject(parent),
     _restorePresence(false),
     _presenceChangeType(CustomPresenceType)
 {
+    _init();
 }
 
 RuleAction::RuleAction(const RuleAction &o)
@@ -45,8 +46,29 @@ RuleAction::RuleAction(const RuleAction &o)
       _restorePresence(o._restorePresence),
       _presenceChangeType(o._presenceChangeType)
 {
+    _init();
     // Copy the account rules
     setPresenceRules(o.presenceRules());
+}
+
+void
+RuleAction::_init() {
+    connect(this, SIGNAL(profileChanged()),                this, SIGNAL(changed()));
+    connect(this, SIGNAL(restoreProfileChanged()),         this, SIGNAL(changed()));
+    connect(this, SIGNAL(profileVolumeChanged()),          this, SIGNAL(changed()));
+    connect(this, SIGNAL(flightModeChanged()),             this, SIGNAL(changed()));
+    connect(this, SIGNAL(restoreFlightModeChanged()),      this, SIGNAL(changed()));
+    connect(this, SIGNAL(powerSavingModeChanged()),        this, SIGNAL(changed()));
+    connect(this, SIGNAL(restorePowerSavingModeChanged()), this, SIGNAL(changed()));
+    connect(this, SIGNAL(blueToothModeChanged()),          this, SIGNAL(changed()));
+    connect(this, SIGNAL(restoreBlueToothModeChanged()),   this, SIGNAL(changed()));
+    connect(this, SIGNAL(cellularModeChanged()),           this, SIGNAL(changed()));
+    connect(this, SIGNAL(commandLineChanged()),            this, SIGNAL(changed()));
+    connect(this, SIGNAL(presenceRulesChanged()),          this, SIGNAL(changed()));
+    connect(this, SIGNAL(presenceStatusMessageChanged()),  this, SIGNAL(changed()));
+    connect(this, SIGNAL(restorePresenceChanged()),        this, SIGNAL(changed()));
+    connect(this, SIGNAL(presenceChangeTypeChanged()),     this, SIGNAL(changed()));
+    connect(this, SIGNAL(standByScreenModeChanged()),      this, SIGNAL(changed()));
 }
 
 RuleAction::~RuleAction() {}

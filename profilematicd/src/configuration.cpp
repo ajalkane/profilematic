@@ -45,28 +45,28 @@ Configuration::writeRules(const QList<Rule> &rules) {
 
         s.setValue("ruleId", r.getRuleId());
         s.setValue("ruleName", r.getRuleName());
-        _writeIntList(s, "days", "dayId", r.getDays().toList());
-        _writeIntList(s, "locationCells", "cellId", r.getLocationCells().toList());
-        _writeStringList(s, "wlans", "wlanName", r.getWlan().toList());
-        s.setValue("wlanTimeout", r.getWlanTimeout());
-        s.setValue("timeStart", r.getTimeStart().toString());
-        s.setValue("timeEnd", r.getTimeEnd().toString());
-        s.setValue("profile", r.getProfile());
-        s.setValue("restoreProfile", r.getRestoreProfile());
-        s.setValue("profileVolume", r.getProfileVolume());
-        s.setValue("flightMode", r.getFlightMode());
-        s.setValue("restoreFlightMode", r.getRestoreFlightMode());
-        s.setValue("powerSavingMode", r.getPowerSavingMode());
-        s.setValue("restorePowerSavingMode", r.getRestorePowerSavingMode());
-        s.setValue("blueToothMode", r.getBlueToothMode());
-        s.setValue("restoreBlueToothMode", r.getRestoreBlueToothMode());
-        s.setValue("cellularMode", r.getCellularMode());
-        s.setValue("commandLine", r.getCommandLine());
-        s.setValue("standByScreenMode", r.getStandByScreenMode());
-        _writePresenceRuleList(s, r.presenceRules());
-        s.setValue("presenceStatusMessage", r.getPresenceStatusMessage());
-        s.setValue("restorePresence", r.getRestorePresence());
-        s.setValue("presenceChangeType", int(r.getPresenceChangeType()));
+        _writeIntList(s, "days", "dayId", r.condition().getDays().toList());
+        _writeIntList(s, "locationCells", "cellId", r.condition().getLocationCells().toList());
+        _writeStringList(s, "wlans", "wlanName", r.condition().getWlan().toList());
+        s.setValue("wlanTimeout", r.condition().getWlanTimeout());
+        s.setValue("timeStart", r.condition().getTimeStart().toString());
+        s.setValue("timeEnd", r.condition().getTimeEnd().toString());
+        s.setValue("profile", r.action().getProfile());
+        s.setValue("restoreProfile", r.action().getRestoreProfile());
+        s.setValue("profileVolume", r.action().getProfileVolume());
+        s.setValue("flightMode", r.action().getFlightMode());
+        s.setValue("restoreFlightMode", r.action().getRestoreFlightMode());
+        s.setValue("powerSavingMode", r.action().getPowerSavingMode());
+        s.setValue("restorePowerSavingMode", r.action().getRestorePowerSavingMode());
+        s.setValue("blueToothMode", r.action().getBlueToothMode());
+        s.setValue("restoreBlueToothMode", r.action().getRestoreBlueToothMode());
+        s.setValue("cellularMode", r.action().getCellularMode());
+        s.setValue("commandLine", r.action().getCommandLine());
+        s.setValue("standByScreenMode", r.action().getStandByScreenMode());
+        _writePresenceRuleList(s, r.action().presenceRules());
+        s.setValue("presenceStatusMessage", r.action().getPresenceStatusMessage());
+        s.setValue("restorePresence", r.action().getRestorePresence());
+        s.setValue("presenceChangeType", int(r.action().getPresenceChangeType()));
     }
     s.endArray();
 }
@@ -93,80 +93,80 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         r.setRuleName(s.value("ruleName").toString());
         QList<int> daysList;
         _readIntList(s, "days", "dayId", daysList);
-        r.setDays(QSet<int>::fromList(daysList));
+        r.condition().setDays(QSet<int>::fromList(daysList));
 
         QList<int> locationCells;
         _readIntList(s, "locationCells", "cellId", locationCells);
-        r.setLocationCells(QSet<int>::fromList(locationCells));
+        r.condition().setLocationCells(QSet<int>::fromList(locationCells));
 
         QList<QString> wlans;
         _readStringList(s, "wlans", "wlanName", wlans);
-        r.setWlan(QSet<QString>::fromList(wlans));
+        r.condition().setWlan(QSet<QString>::fromList(wlans));
 
         bool wlanTimeoutOk = false;
         int wlanTimeout = s.value("wlanTimeout").toInt(&wlanTimeoutOk);
         if (wlanTimeoutOk) {
-            r.setWlanTimeout(wlanTimeout);
+            r.condition().setWlanTimeout(wlanTimeout);
         }
 
         QString timeStartStr = s.value("timeStart").toString();
         QString timeEndStr = s.value("timeEnd").toString();
-        r.setTimeStart(QTime::fromString(timeStartStr));
-        r.setTimeEnd(rules_version == 0
-                     ? r.getTimeStart().addSecs(60)
+        r.condition().setTimeStart(QTime::fromString(timeStartStr));
+        r.condition().setTimeEnd(rules_version == 0
+                     ? r.condition().getTimeStart().addSecs(60)
                      : QTime::fromString(timeEndStr));
-        r.setProfile(s.value("profile").toString());
-        r.setRestoreProfile(s.value("restoreProfile", false).toBool());
+        r.action().setProfile(s.value("profile").toString());
+        r.action().setRestoreProfile(s.value("restoreProfile", false).toBool());
         bool profileVolumeOk = false;
         int profileVolume = s.value("profileVolume").toInt(&profileVolumeOk);
         if (profileVolumeOk) {
-            r.setProfileVolume(profileVolume);
+            r.action().setProfileVolume(profileVolume);
         }
 
         bool flightModeOk = false;
         int flightMode = s.value("flightMode").toInt(&flightModeOk);
         if (flightModeOk) {
-            r.setFlightMode(flightMode);
+            r.action().setFlightMode(flightMode);
         }
-        r.setRestoreFlightMode(s.value("restoreFlightMode", false).toBool());
+        r.action().setRestoreFlightMode(s.value("restoreFlightMode", false).toBool());
 
         bool powerSavingModeOk = false;
         int powerSavingMode = s.value("powerSavingMode").toInt(&powerSavingModeOk);
         if (powerSavingModeOk) {
-            r.setPowerSavingMode(powerSavingMode);
+            r.action().setPowerSavingMode(powerSavingMode);
         }
-        r.setRestorePowerSavingMode(s.value("restorePowerSavingMode", false).toBool());
+        r.action().setRestorePowerSavingMode(s.value("restorePowerSavingMode", false).toBool());
 
         bool blueToothModeOk = false;
         int blueToothMode = s.value("blueToothMode").toInt(&blueToothModeOk);
         if (blueToothModeOk) {
-            r.setBlueToothMode(blueToothMode);
+            r.action().setBlueToothMode(blueToothMode);
         }
-        r.setRestoreBlueToothMode(s.value("restoreBlueToothMode", false).toBool());
+        r.action().setRestoreBlueToothMode(s.value("restoreBlueToothMode", false).toBool());
 
         bool cellularModeOk = false;
         int cellularMode = s.value("cellularMode").toInt(&cellularModeOk);
         if (cellularModeOk) {
-            r.setCellularMode(cellularMode);
+            r.action().setCellularMode(cellularMode);
         }
-        r.setCommandLine(s.value("commandLine").toString());
+        r.action().setCommandLine(s.value("commandLine").toString());
 
         bool standByScreenModeOk = false;
         int standByScreenMode = s.value("standByScreenMode").toInt(&standByScreenModeOk);
         if (standByScreenModeOk) {
-            r.setStandByScreenMode(standByScreenMode);
+            r.action().setStandByScreenMode(standByScreenMode);
         }
 
         QList<PresenceRule *> presenceRules;
         _readPresenceRuleList(s, presenceRules);
-        r.setPresenceRules(presenceRules);
+        r.action().setPresenceRules(presenceRules);
 
         qDeleteAll(presenceRules);
         presenceRules.clear();
 
-        r.setPresenceStatusMessage(s.value("presenceStatusMessage").toString());
-        r.setRestorePresence(s.value("restorePresence", r.getRestorePresence()).toBool());
-        r.setPresenceChangeType((Rule::PresenceChangeType) s.value("presenceChangeType", (int) Rule::CustomPresenceType).toInt());
+        r.action().setPresenceStatusMessage(s.value("presenceStatusMessage").toString());
+        r.action().setRestorePresence(s.value("restorePresence", r.action().getRestorePresence()).toBool());
+        r.action().setPresenceChangeType((RuleAction::PresenceChangeType) s.value("presenceChangeType", (int) RuleAction::CustomPresenceType).toInt());
 
         // Make sure default rule is always last, and is created if it does not exist
         if (!r.isDefaultRule()) {

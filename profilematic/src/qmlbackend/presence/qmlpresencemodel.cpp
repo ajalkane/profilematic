@@ -18,10 +18,10 @@
 **/
 
 #include "qmlpresencemodel.h"
-#include "../../profilematicd/src/model/rule.h"
+#include "../../profilematicd/src/model/ruleaction.h"
 
 QmlPresenceModel::QmlPresenceModel(QObject *parent) :
-    QAbstractListModel(parent), _rule(NULL)
+    QAbstractListModel(parent), _action(NULL)
 {
     QHash<int, QByteArray> roleMap;
     roleMap[AccountNameRole] = "accountName";
@@ -60,12 +60,12 @@ PresenceRule *QmlPresenceModel::createPresenceRule(const Accounts::AccountId &ac
 {
     PresenceRule::Action action = PresenceRule::Retain;
 
-    if (_rule) {
-        switch (_rule->getPresenceChangeType()) {
-        case Rule::AllOfflinePresenceType:
+    if (_action) {
+        switch (_action->getPresenceChangeType()) {
+        case RuleAction::AllOfflinePresenceType:
             action = PresenceRule::SetOffline;
             break;
-        case Rule::AllOnlinePresenceType:
+        case RuleAction::AllOnlinePresenceType:
             action = PresenceRule::SetOnline;
             break;
         default:
@@ -100,13 +100,13 @@ void QmlPresenceModel::onRowsAboutToBeRemoved(const QModelIndex &parent,
                                               int start,
                                               int end)
 {
-    if (parent.isValid() || !_rule)
+    if (parent.isValid() || !_action)
         return;
 
     for (int row = start; row <= end; row++) {
         const AccountEntry *entry = _rows[row];
 
-        _rule->removePresenceRule(entry->rule);
+        _action->removePresenceRule(entry->rule);
     }
 }
 
@@ -114,19 +114,19 @@ void QmlPresenceModel::onRowsInserted(const QModelIndex &parent,
                                       int start,
                                       int end)
 {
-    if (parent.isValid() || !_rule)
+    if (parent.isValid() || !_action)
         return;
 
     for (int row = start; row <= end; row++) {
         AccountEntry *entry = _rows[row];
 
-        _rule->addPresenceRule(entry->rule);
+        _action->addPresenceRule(entry->rule);
     }
 }
 
 void QmlPresenceModel::updatePresenceRules()
 {
-    if (_rule == NULL) {
+    if (_action == NULL) {
         foreach (AccountEntry *entry, _rows) {
             // Create a new PresenceRule for each entry - the current rules
             // cannot be owned by this model as a previous rule must have been
@@ -142,14 +142,14 @@ void QmlPresenceModel::updatePresenceRules()
          it++) {
         AccountEntry *entry = *it;
 
-        PresenceRule *rule = _rule->presenceRule(entry->rule->key());
+        PresenceRule *rule = _action->presenceRule(entry->rule->key());
 
         if (rule == entry->rule)
             continue;
 
         if (!rule) {
             rule = createPresenceRule(entry->rule->accountId(), entry->rule->serviceName());
-            _rule->addPresenceRule(rule);
+            _action->addPresenceRule(rule);
         }
 
         if (entry->rule->parent() == this)
@@ -161,7 +161,7 @@ void QmlPresenceModel::updatePresenceRules()
     }
 
     // Remove old accounts from configuration
-    foreach (PresenceRule *presenceRule, _rule->presenceRules()) {
+    foreach (PresenceRule *presenceRule, _action->presenceRules()) {
         bool found = false;
 
         foreach (const AccountEntry *entry, _rows) {
@@ -174,28 +174,28 @@ void QmlPresenceModel::updatePresenceRules()
         if (found)
             continue;
 
-        _rule->removePresenceRule(presenceRule);
+        _action->removePresenceRule(presenceRule);
     }
 }
 
-Rule *QmlPresenceModel::rule() const
+RuleAction *QmlPresenceModel::action() const
 {
-    return _rule;
+    return _action;
 }
 
-void QmlPresenceModel::setRule(Rule *rule)
+void QmlPresenceModel::setAction(RuleAction *action)
 {
-    if (rule == _rule)
+    if (action == _action)
         return;
 
-    if (_rule)
-        _rule->disconnect(this);
+    if (_action)
+        _action->disconnect(this);
 
-    _rule = rule;
+    _action = action;
 
     updatePresenceRules();
 
-    emit ruleChanged();
+    emit actionChanged();
 }
 
 

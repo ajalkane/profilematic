@@ -1,4 +1,4 @@
-/**********************************************************************
+/*********************************************************************
  * Copyright 2011 Arto Jalkanen
  *
  * This file is part of ProfileMatic.
@@ -60,7 +60,7 @@ Page {
 
     function ruleNeedsWarning() {
         var warnings = []
-        if (rule.flightMode === 0 && (rule.wlan.length > 0 || rule.locationCells.length > 0)){
+        if (rule.action.flightMode === 0 && (rule.wlan.length > 0 || rule.locationCells.length > 0)){
             warnings.push('Your condition on turning flight mode off is based on WLAN connection or Cell location. If flight mode is on, WLAN and Cell location are not usually usable.')
         }
         if (rule.powerSavingMode === 0 && (rule.wlan.length > 0 || rule.locationCells.length > 0)){
@@ -210,7 +210,7 @@ Page {
                 onTopicClicked: timeEditHandler()
                 visible: !rule.isDefaultRule
                 Connections {
-                    target: rule
+                    target: rule.condition
                     onDaysChanged:      timeCondition.summary = timeSummary()
                     onTimeStartChanged: timeCondition.summary = timeSummary()
                     onTimeEndChanged:   timeCondition.summary = timeSummary()
@@ -225,7 +225,7 @@ Page {
                 onTopicClicked: locationEditHandler()
                 visible: !rule.isDefaultRule
                 Connections {
-                    target: rule
+                    target: rule.condition
                     onLocationCellsChanged: locationCondition.summary = locationSummary()
                 }
             }
@@ -238,7 +238,7 @@ Page {
                 onTopicClicked: wlanEditHandler()
                 visible: !rule.isDefaultRule
                 Connections {
-                    target: rule
+                    target: rule.condition
                     onWlanChanged: wlanCondition.summary = wlanSummary()
                     onWlanTimeoutChanged: wlanCondition.summary = wlanSummary()
                 }
@@ -313,18 +313,11 @@ Page {
                 text: root.ruleSummary()
                 Connections {
                     target: rule
-                    onDaysChanged:          ruleSummary.text = root.ruleSummary()
-                    onTimeStartChanged:     ruleSummary.text = root.ruleSummary()
-                    onTimeEndChanged:       ruleSummary.text = root.ruleSummary()
-                    onLocationCellsChanged: ruleSummary.text = root.ruleSummary()
-                    onWlanChanged:          ruleSummary.text = root.ruleSummary()
-                    onProfileChanged:       ruleSummary.text = root.ruleSummary()
-                    onPresenceRulesChanged: ruleSummary.text = root.ruleSummary()
-                    onFlightModeChanged:    ruleSummary.text = root.ruleSummary()
-                    onPowerSavingModeChanged: ruleSummary.text = root.ruleSummary()
-                    onBlueToothModeChanged: ruleSummary.text = root.ruleSummary()
-                    onCellularModeChanged:  ruleSummary.text = root.ruleSummary()
-                    onStandByScreenModeChanged: ruleSummary.text = root.ruleSummary()
+                    onChanged: {
+                        console.log("ruleSymmary")
+                        ruleSummary.text = root.ruleSummary();
+                        console.log("/ruleSymmary", ruleSummary.text)
+                    }
                 }
             }
         } // Column
@@ -337,18 +330,18 @@ Page {
     // Profile functions
     ActionProfile {
         id: actionProfile
-        rule: root.rule
+        action: root.rule.action
     }
 
     function profileSummary() {
-        if (rule.profile !== "") {
-            var profile = backendProfilesModel.getProfileToName(rule.profile)
+        if (rule.action.profile !== "") {
+            var profile = backendProfilesModel.getProfileToName(rule.action.profile)
             var summary = profile
 
-            if (backendProfilesModel.profileHasVolume(rule.profile) && rule.profileVolume > -1) {
-                summary += " (" + rule.profileVolume + "%)"
+            if (backendProfilesModel.profileHasVolume(rule.action.profile) && rule.action.profileVolume > -1) {
+                summary += " (" + rule.action.profileVolume + "%)"
             }
-            if (rule.restoreProfile) {
+            if (rule.action.restoreProfile) {
                 summary += ". Restores previous profile."
             }
             return summary
@@ -363,11 +356,11 @@ Page {
     // Time functions
     ConditionTime {
         id: conditionTime
-        rule: root.rule
+        condition: root.rule.condition
     }
 
     function timeSummary() {
-        return backendRulesModel.getTimeSummaryText(rule, "Not in use");
+        return backendRulesModel.getTimeSummaryText(rule.condition, "Not in use");
     }
 
     function timeEditHandler() {
@@ -377,11 +370,11 @@ Page {
     // Location functions
     ConditionLocation {
         id: conditionLocation
-        rule: root.rule
+        condition: root.rule.condition
     }
 
     function locationSummary() {
-        var numCellIds = rule.locationCells.length
+        var numCellIds = rule.condition.locationCells.length
         return numCellIds === 0 ? "Not in use" : "Cell ids set"
     }
 
@@ -392,14 +385,14 @@ Page {
     // Wlan functions
     ConditionWlan {
         id: conditionWlan
-        rule: root.rule
+        condition: root.rule.condition
     }
 
     function wlanSummary() {
-        var numWlans = rule.wlan.length
+        var numWlans = rule.condition.wlan.length
         return numWlans === 0 ? "Not in use"
                               : "In use"
-                                + (rule.wlanTimeout > 0 ? " (" + rule.wlanTimeout + "s timeout)"
+                                + (rule.condition.wlanTimeout > 0 ? " (" + rule.condition.wlanTimeout + "s timeout)"
                                                         : "")
     }
 
@@ -410,14 +403,14 @@ Page {
     // Flight mode functions
     ActionFlightMode {
         id: actionFlightMode
-        rule: root.rule
+        action: root.rule.action
     }
 
     function flightModeSummary() {
-        if (rule.flightMode >= 0) {
+        if (rule.action.flightMode >= 0) {
             var summary = actionFlightMode.flightModeSummary()
 
-            if (rule.restoreFlightMode) {
+            if (rule.action.restoreFlightMode) {
                 summary += ". Restores previous mode."
             }
             return summary
@@ -432,24 +425,24 @@ Page {
     // Power Saving mode functions
     ActionPowerSavingMode {
         id: actionPowerSavingMode
-        rule: root.rule
+        action: root.rule.action
     }
 
     function powerSavingModeSummary() {
         var summary = ""
-        if (rule.powerSavingMode >= 0) {
+        if (rule.action.powerSavingMode >= 0) {
             summary = actionPowerSavingMode.powerSavingModeSummary()
 
-            if (rule.restorePowerSavingMode) {
+            if (rule.action.restorePowerSavingMode) {
                 summary += ". Restores previous mode."
             }
-            if (rule.standByScreenMode < 0){
+            if (rule.action.standByScreenMode < 0){
                 return summary
             }
         }
         // Append or add stand-by-screen summary
-        if (rule.standByScreenMode >= 0) {
-            summary += rule.powerSavingMode >= 0 ? ". " : ""
+        if (rule.action.standByScreenMode >= 0) {
+            summary += rule.action.standByScreenMode >= 0 ? ". " : ""
             summary += actionPowerSavingMode.standByScreenModeSummary()
             return summary
         }
@@ -464,14 +457,14 @@ Page {
     // BlueTooth mode
     ActionBlueToothMode {
         id: actionBlueToothMode
-        rule: root.rule
+        action: root.rule.action
     }
 
     function blueToothModeSummary() {
-        if (rule.blueToothMode >= 0) {
+        if (rule.action.blueToothMode >= 0) {
             var summary = actionBlueToothMode.blueToothModeSummary()
 
-            if (rule.restoreBlueToothMode) {
+            if (rule.action.restoreBlueToothMode) {
                 summary += ". Restores previous mode."
             }
             return summary
@@ -488,27 +481,27 @@ Page {
         id: dCellularMode
 
         onCellularModeSelected: {
-            rule.cellularMode = selectedCellularMode
+            rule.action.cellularMode = selectedCellularMode
         }
     }
 
     function cellularModeSummary() {
-        return dCellularMode.cellularModeToText(rule.cellularMode)
+        return dCellularMode.cellularModeToText(rule.action.cellularMode)
     }
 
     function cellularModeEditHandler() {
-        dCellularMode.selectedCellularMode = rule.cellularMode
+        dCellularMode.selectedCellularMode = rule.action.cellularMode
         dCellularMode.open();
     }
 
     // CommandLine
     ActionCommandLine {
         id: actionCommandLine
-        rule: root.rule
+        action: root.rule.action
     }
 
     function commandLineSummary() {
-        if (rule.commandLine !== "") {
+        if (rule.action.commandLine !== "") {
             return "Custom action has been set"
         }
         return "Click to set"
@@ -523,8 +516,8 @@ Page {
         var summary = "";
         var atLeastOneChange = false;
 
-        for (var row = 0; row < rule.presenceRules.length; row++) {
-            if (rule.presenceRules[row].action !== PresenceRule.Retain) {
+        for (var row = 0; row < rule.action.presenceRules.length; row++) {
+            if (rule.action.presenceRules[row].action !== PresenceRule.Retain) {
                 atLeastOneChange = true;
                 break;
             }
@@ -542,7 +535,7 @@ Page {
     }
 
     function presenceEditHandler() {
-        root.pageStack.push(Qt.resolvedUrl("ActionPresence.qml"), { 'rule': rule });
+        root.pageStack.push(Qt.resolvedUrl("ActionPresence.qml"), { 'action': rule.action });
     }
 
 }

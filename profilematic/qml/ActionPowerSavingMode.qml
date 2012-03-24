@@ -26,7 +26,7 @@ Page {
     tools: commonTools
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
-    property Rule    rule;
+    property RuleAction action;
 
     SectionHeader {
         id: header
@@ -59,7 +59,7 @@ Page {
             Item {
                 id: restoreContainer
                 width: parent.width
-                height: rule.powerSavingMode >= 0 ? restore.height : 0
+                height: action.powerSavingMode >= 0 ? restore.height : 0
                 clip: true
 
                 Behavior on height {
@@ -76,12 +76,12 @@ Page {
                 }
                 Switch {
                     id: restoreSwitch
-                    checked: rule.restorePowerSavingMode
+                    checked: action.restorePowerSavingMode
                     anchors.right: restoreContainer.right
                     anchors.top: parent.top
                     anchors.verticalCenter: parent.top
                     onCheckedChanged: {
-                        rule.restorePowerSavingMode = checked
+                        action.restorePowerSavingMode = checked
                     }
                 }
             }
@@ -93,18 +93,6 @@ Page {
                 showComboBox: true
                 onTopicClicked: standByScreenModeEditHandler()
             }
-
-            Text {
-                visible: restore.visible
-                wrapMode: Text.WordWrap
-                width: parent.width
-                font.pixelSize: UIConstants.FONT_SMALL;
-                color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                text: "Warning: in power saving mode WLAN connections are not used. Therefore using conditions that rely on "
-                      + "being connected to WLAN can not be used to turn off power saving mode. Instead use time or cell id based "
-                      + "location rules."
-            }
-
         }
     }
 
@@ -113,16 +101,16 @@ Page {
 
         onPowerSavingModeSelected: {
             console.log("PowerSavingDialog onPowerSavingModeSelected ", selectedPowerSavingMode)
-            rule.powerSavingMode = selectedPowerSavingMode
+            action.powerSavingMode = selectedPowerSavingMode
         }
     }
 
     function powerSavingModeSummary() {
-        return dPowerSavingMode.powerSavingModeToText(rule.powerSavingMode)
+        return dPowerSavingMode.powerSavingModeToText(action.powerSavingMode)
     }
 
     function powerSavingModeEditHandler() {
-        dPowerSavingMode.selectedPowerSavingMode = rule.powerSavingMode
+        dPowerSavingMode.selectedPowerSavingMode = action.powerSavingMode
         dPowerSavingMode.open();
     }
 
@@ -131,16 +119,16 @@ Page {
         id: dStandByScreenMode
 
         onStandByScreenModeSelected: {
-            rule.standByScreenMode = selectedStandByScreenMode
+            action.standByScreenMode = selectedStandByScreenMode
         }
     }
 
     function standByScreenModeSummary() {
-        return dStandByScreenMode.standByScreenModeToText(rule.standByScreenMode)
+        return dStandByScreenMode.standByScreenModeToText(action.standByScreenMode)
     }
 
     function standByScreenModeEditHandler() {
-        dStandByScreenMode.selectedStandByScreenMode = rule.standByScreenMode
+        dStandByScreenMode.selectedStandByScreenMode = action.standByScreenMode
         dStandByScreenMode.open();
     }
 }

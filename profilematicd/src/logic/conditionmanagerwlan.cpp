@@ -101,15 +101,14 @@ ConditionManagerWlan::startRefresh() {
 }
 
 bool
-ConditionManagerWlan::refresh(const Rule &rule) {
+ConditionManagerWlan::refresh(const RuleCondition &rule) {
     const QSet<QString> &wlanNames = rule.getWlan();
     if (wlanNames.isEmpty()) {
         qDebug("ConditionManagerWlan::refresh wlanNames is empty, matches");
         return true;
     }
 
-    qDebug("ConditionManagerWlan::refresh rule %s, currentWlanName '%s'",
-           qPrintable(rule.getRuleName()), qPrintable(_currentWlanName));
+    qDebug("ConditionManagerWlan::refresh currentWlanName '%s'", qPrintable(_currentWlanName));
 
     if (_currentWlanName == WLAN_NAME_NEEDS_REFRESH) {
         _determineCurrentWlanName(false);
@@ -126,7 +125,7 @@ ConditionManagerWlan::refresh(const Rule &rule) {
 }
 
 void
-ConditionManagerWlan::matchedRule(const Rule &rule) {
+ConditionManagerWlan::matchedRule(const RuleCondition &rule) {
     _currentRuleWlanNames = rule.getWlan();
     _currentRuleWlanTimeoutSecs = rule.getWlanTimeout();
 }

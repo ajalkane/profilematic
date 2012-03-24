@@ -34,7 +34,7 @@ ActionPresenceImpl::ActionPresenceImpl() :
             SLOT(onAccountManagerReady(Tp::PendingOperation*)));
 }
 
-void ActionPresenceImpl::activate(const Rule &rule)
+void ActionPresenceImpl::activate(const RuleAction &rule)
 {
     if (!_accountManager->isReady(Tp::AccountManager::FeatureCore)) {
         qDebug() << "ActionPresence::activate Rule was activated while Telepathy Account Manager was not ready - will retry as soon as it is ready.";
@@ -42,7 +42,7 @@ void ActionPresenceImpl::activate(const Rule &rule)
         if (_pendingRule)
             delete _pendingRule;
 
-        _pendingRule = new Rule(rule);
+        _pendingRule = new RuleAction(rule);
         _pendingRule->setParent(this);
 
         return;

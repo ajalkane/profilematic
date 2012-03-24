@@ -25,7 +25,7 @@ import "UIConstants.js" as UIConstants
 
 Page {
     id: root
-    property Rule rule;
+    property RuleAction action;
 
     tools: commonTools
 
@@ -42,8 +42,8 @@ Page {
         anchors { top: header.bottom; left: parent.left; right: parent.right; topMargin: UIConstants.DEFAULT_MARGIN }
         height: visible ? statusMessage.implicitHeight : 0
         visible: {
-            for (var row = 0; row < rule.presenceRules.length; row++) {
-                switch (rule.presenceRules[row].action) {
+            for (var row = 0; row < action.presenceRules.length; row++) {
+                switch (action.presenceRules[row].action) {
                 case PresenceRule.SetOffline:
                 case PresenceRule.Retain:
                     continue;
@@ -59,7 +59,7 @@ Page {
         }
 
         placeholderText: "Status message"
-        text: rule.presenceStatusMessage
+        text: action.presenceStatusMessage
 
         Image {
             id: clearButton
@@ -81,7 +81,7 @@ Page {
 
         Behavior on height { NumberAnimation { duration: 250 } }
 
-        onTextChanged: rule.presenceStatusMessage = text
+        onTextChanged: action.presenceStatusMessage = text
     }
 
     Row {
@@ -94,17 +94,17 @@ Page {
         Button {
             id: allOnlineButton
 
-            property bool shouldBeChecked: root.rule.presenceChangeType === Rule.AllOnlinePresenceType
+            property bool shouldBeChecked: root.action.presenceChangeType === RuleAction.AllOnlinePresenceType
 
             text: "All online"
             width: (parent.width - parent.spacing) / 2
             checkable: true
             checked: shouldBeChecked
 
-            onClicked: root.rule.presenceChangeType = (checked ? Rule.AllOnlinePresenceType :  Rule.CustomPresenceType)
+            onClicked: root.action.presenceChangeType = (checked ? RuleAction.AllOnlinePresenceType :  RuleAction.CustomPresenceType)
 
             Connections {
-                target: root.rule
+                target: root.action
                 onPresenceChangeTypeChanged: allOnlineButton.checked = allOnlineButton.shouldBeChecked
             }
         }
@@ -112,17 +112,17 @@ Page {
         Button {
             id: allOfflineButton
 
-            property bool shouldBeChecked: root.rule.presenceChangeType === Rule.AllOfflinePresenceType
+            property bool shouldBeChecked: root.action.presenceChangeType === RuleAction.AllOfflinePresenceType
 
             text: "All offline"
             width: (parent.width - parent.spacing) / 2
             checkable: true
             checked: shouldBeChecked
 
-            onClicked: root.rule.presenceChangeType = (checked ? Rule.AllOfflinePresenceType : Rule.CustomPresenceType)
+            onClicked: root.action.presenceChangeType = (checked ? RuleAction.AllOfflinePresenceType : RuleAction.CustomPresenceType)
 
             Connections {
-                target: root.rule
+                target: root.action
                 onPresenceChangeTypeChanged: allOfflineButton.checked = allOfflineButton.shouldBeChecked
             }
         }
@@ -134,7 +134,7 @@ Page {
         clip: true
         anchors { top: buttonBar.bottom; right: parent.right; bottom: restorePresencesContainer.top; left: parent.left; topMargin: UIConstants.DEFAULT_MARGIN }
         model: AccountsModel {
-            rule: root.rule
+            action: root.action
         }
 
         delegate: Rectangle {
@@ -227,8 +227,8 @@ Page {
         clip: true
 
         function isVisible() {
-            for (var row = 0; row < rule.presenceRules.length; row++) {
-                if (rule.presenceRules[row].action !== PresenceRule.Retain)
+            for (var row = 0; row < action.presenceRules.length; row++) {
+                if (action.presenceRules[row].action !== PresenceRule.Retain)
                     return true;
             }
 
@@ -250,9 +250,9 @@ Page {
 
         Switch {
             id: restoreSwitch
-            checked: rule.restorePresence
+            checked: action.restorePresence
             anchors { top: parent.top; right: parent.right; verticalCenter: parent.top }
-            onCheckedChanged: rule.restorePresence = checked
+            onCheckedChanged: action.restorePresence = checked
         }
     }
 

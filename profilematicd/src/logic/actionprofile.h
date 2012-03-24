@@ -30,7 +30,7 @@ class ActionProfile: public Action
 public:
     ActionProfile(ProfileClient *profileClient);
 
-    virtual void activate(const Rule &rule);
+    virtual void activate(const RuleAction &rule);
 };
 
 #endif // ACTIONPROFILE_H

@@ -40,7 +40,7 @@ class ActionBlueTooth : public Action
 public:
     ActionBlueTooth();
 
-    virtual void activate(const Rule &rule);
+    virtual void activate(const RuleAction &rule);
 };
 
 #endif // ACTIONBLUETOOTH_H

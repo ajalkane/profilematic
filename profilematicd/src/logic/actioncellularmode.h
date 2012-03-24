@@ -29,7 +29,7 @@ class ActionCellularMode: public Action
 public:
     ActionCellularMode(PlatformUtil *platformUtil);
 
-    virtual void activate(const Rule &rule);
+    virtual void activate(const RuleAction &rule);
 };
 
 #endif // ACTIONCELLULARMODE_H

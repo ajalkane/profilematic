@@ -20,7 +20,7 @@
 #ifndef QMLACCOUNTSMODEL_H
 #define QMLACCOUNTSMODEL_H
 
-#include "../../profilematicd/src/model/rule.h"
+#include "../../profilematicd/src/model/ruleaction.h"
 
 #include <QAbstractListModel>
 #include <QDeclarativeListProperty>
@@ -39,7 +39,7 @@ class QmlPresenceModel : public QAbstractListModel
 {
     Q_OBJECT
 
-    Q_PROPERTY(Rule * rule READ rule WRITE setRule NOTIFY ruleChanged)
+    Q_PROPERTY(RuleAction * action READ action WRITE setAction NOTIFY actionChanged)
 public:
     enum Role {
         AccountNameRole = Qt::UserRole + 1,
@@ -55,10 +55,11 @@ public:
 
     int rowCount(const QModelIndex &parent) const;
 
-    Rule *rule() const;
-    void setRule(Rule *rule);
+    // TODO check if having only RuleAction reference is enough?
+    RuleAction *action() const;
+    void setAction(RuleAction *action);
 signals:
-    void ruleChanged();
+    void actionChanged();
 protected:
     PresenceRule *createPresenceRule(const Accounts::AccountId &accountId,
                                      const QString &serviceName);
@@ -77,7 +78,7 @@ private slots:
 private:
     void updatePresenceRules();
 private:
-    Rule *_rule;
+    RuleAction *_action;
 };
 
 #endif // QMLACCOUNTSMODEL_H

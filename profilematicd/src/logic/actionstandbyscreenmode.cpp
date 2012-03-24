@@ -26,13 +26,13 @@ ActionStandByScreenMode::ActionStandByScreenMode(PlatformUtil *platformUtil)
 }
 
 void
-ActionStandByScreenMode::activate(const Rule &rule) {
+ActionStandByScreenMode::activate(const RuleAction &rule) {
 
     int standByScreenMode = rule.getStandByScreenMode();
 
-    if ((standByScreenMode < 0 || rule.isDefaultRule()) && _previousSbsmState >= 0) {
-        qDebug("ActionStandByScreenMode::activate restore, sbsmState not set or is default rule for rule %s",
-               qPrintable(rule.getRuleName()));
+    // TODO isDefaultRule
+    if ((standByScreenMode < 0 /*|| rule.isDefaultRule()*/) && _previousSbsmState >= 0) {
+        qDebug("ActionStandByScreenMode::activate restore, sbsmState not set or is default rule");
         qDebug("ActionStandByScreenMode::activate previous rule had restore sbsmState, restoring sbsmState %d",
                _previousSbsmState);
         standByScreenMode = _previousSbsmState;
@@ -40,8 +40,7 @@ ActionStandByScreenMode::activate(const Rule &rule) {
         _previousSbsmState = -1;
     }
     else if (standByScreenMode < 0) {
-        qDebug("ActionStandByScreenMode::activate not setting stand-by-screen state for rule %s",
-               qPrintable(rule.getRuleName()));
+        qDebug("ActionStandByScreenMode::activate not setting stand-by-screen state");
         return;
     }
 
@@ -50,12 +49,12 @@ ActionStandByScreenMode::activate(const Rule &rule) {
             _previousSbsmState = _platformUtil->standByScreenMode();
             _platformUtil->setStandByScreenMode(1);
             qDebug("ActionStandByScreenMode::activate StandByScreen enabled");
-            _platformUtil->publishNotification("StandByScreen action enabled for " + rule.getRuleName());
+            _platformUtil->publishNotification("StandByScreen action enabled");
         } else {
             _previousSbsmState = _platformUtil->standByScreenMode();
             _platformUtil->setStandByScreenMode(0);
             qDebug("ActionStandByScreenMode::activate StandByScreen disabled");
-            _platformUtil->publishNotification("StandByScreen action disabled for " + rule.getRuleName());
+            _platformUtil->publishNotification("StandByScreen action disabled");
         }
     }
 }

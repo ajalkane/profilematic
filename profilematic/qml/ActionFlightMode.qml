@@ -26,7 +26,7 @@ Page {
     tools: commonTools
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
-    property Rule    rule;
+    property RuleAction action;
 
     SectionHeader {
         id: header
@@ -59,7 +59,7 @@ Page {
             Item {
                 id: restoreContainer
                 width: parent.width
-                height: rule.flightMode >= 0 ? restore.height : 0
+                height: action.flightMode >= 0 ? restore.height : 0
                 clip: true
 
                 Behavior on height {
@@ -76,12 +76,12 @@ Page {
                 }
                 Switch {
                     id: restoreSwitch
-                    checked: rule.restoreFlightMode
+                    checked: action.restoreFlightMode
                     anchors.right: restoreContainer.right
                     anchors.top: parent.top
                     anchors.verticalCenter: parent.top
                     onCheckedChanged: {
-                        rule.restoreFlightMode = checked
+                        action.restoreFlightMode = checked
                     }
                 }
             }
@@ -104,17 +104,17 @@ Page {
         id: dFlightMode
 
         onFlightModeSelected: {
-            rule.flightMode = selectedFlightMode
+            action.flightMode = selectedFlightMode
         }
     }
 
     function flightModeSummary() {
-        var flightModeText = dFlightMode.flightModeToText(rule.flightMode)
+        var flightModeText = dFlightMode.flightModeToText(action.flightMode)
         return flightModeText
     }
 
     function flightModeEditHandler() {
-        dFlightMode.selectedFlightMode = rule.flightMode
+        dFlightMode.selectedFlightMode = action.flightMode
         dFlightMode.open();
     }
 }

@@ -6,7 +6,7 @@ ActionCellularMode::ActionCellularMode(PlatformUtil *platformUtil)
 }
 
 void
-ActionCellularMode::activate(const Rule &rule) {
+ActionCellularMode::activate(const RuleAction &rule) {
     int cellularMode = rule.getCellularMode();
     qDebug("ActionCellularMode::activate: %d", cellularMode);
     // Quick hack to get compile on Desktop. Problem fixed in qt-mobility master

@@ -69,6 +69,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     engine->connect(engine, SIGNAL(quit()), app.data(), SLOT(quit()));
 
     qmlRegisterType<Rule>("Rule", 1, 0, "Rule");
+    qmlRegisterType<RuleCondition>("Rule", 1, 0, "RuleCondition");
+    qmlRegisterType<RuleAction>("Rule", 1, 0, "RuleAction");
     qmlRegisterType<PresenceRule>("profilematic", 1, 0, "PresenceRule");
 #ifdef MEEGO_EDITION_HARMATTAN
     qmlRegisterType<QmlPresenceModelImpl>("profilematic", 1, 0, "AccountsModel");

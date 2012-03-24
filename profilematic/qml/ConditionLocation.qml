@@ -26,12 +26,12 @@ Page {
     tools: commonTools
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
-    property Rule    rule;
+    property RuleCondition condition;
     property int maxCells: 50
 
     onStatusChanged: {
         console.log("Status changed ", status)
-        if (status == PageStatus.Activating) {
+        if (status === PageStatus.Activating) {
             collectingButton.checked = false
             backendLocation.monitorCellIdChange(true)
         } else if (status == PageStatus.Deactivating) {
@@ -40,17 +40,17 @@ Page {
     }
 
     function addCurrentCell() {
-        var cells = rule.locationCells
+        var cells = condition.locationCells
         var currentCell = backendLocation.currentCell
         if (currentCell >= 0) {
             if (cells.length < maxCells) {
                 var xPos = cellIdsFlickable.contentX
                 var yPos = cellIdsFlickable.contentY
                 cells.push(currentCell)
-                rule.locationCells = cells
+                condition.locationCells = cells
                 cellIdsFlickable.contentX = xPos
                 cellIdsFlickable.contentY = yPos
-                if (rule.locationCells.length >= maxCells) {
+                if (condition.locationCells.length >= maxCells) {
                     collectingButton.checked = false
                 }
             }
@@ -90,11 +90,11 @@ Page {
 
             Button {
                 id: collectingButton
-                checkable: rule.locationCells.length < maxCells
+                checkable: condition.locationCells.length < maxCells
                 checked: false
-                // enabled: backendLocation.currentCell >= 0 && rule.locationCells.length < root.maxCells
+                // enabled: backendLocation.currentCell >= 0 && condition.locationCells.length < root.maxCells
                 text: (checked ? "Stop collecting"
-                               : (rule.locationCells.length < root.maxCells
+                               : (condition.locationCells.length < root.maxCells
                                   ? "Start collecting"
                                   : "Max " + root.maxCells + " cells reached"))
                 onClicked: {
@@ -126,12 +126,12 @@ Page {
             SectionHeader {
                 width: parent.width
                 height: 20
-                section: "Cell ids (" + rule.locationCells.length + ")"
+                section: "Cell ids (" + condition.locationCells.length + ")"
 
             }
 
             Repeater {
-                model: rule.locationCells.length // maxCells
+                model: condition.locationCells.length // maxCells
                 // width: parent.width
 
                 Item {
@@ -140,9 +140,9 @@ Page {
 
                     Label {
                         id: cellId
-                        text: rule.locationCells[index]
+                        text: condition.locationCells[index]
                         width: parent.width //  - removeButton.width
-                        visible: rule.locationCells.length > index
+                        visible: condition.locationCells.length > index
                         platformStyle: LabelStyleSubtitle {}
                         anchors.verticalCenter: parent.verticalCenter
                     }
@@ -168,9 +168,9 @@ Page {
 
                             onClicked: {
                                 console.log("Cell location Remove clicked")
-                                var cells = rule.locationCells
+                                var cells = condition.locationCells
                                 cells.splice(index, 1)
-                                rule.locationCells = cells
+                                condition.locationCells = cells
                             }
                         }
 

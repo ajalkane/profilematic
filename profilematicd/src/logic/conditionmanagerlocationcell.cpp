@@ -37,7 +37,7 @@ ConditionManagerLocationCell::startRefresh() {
 }
 
 bool
-ConditionManagerLocationCell::refresh(const Rule &rule) {
+ConditionManagerLocationCell::refresh(const RuleCondition &rule) {
     const QSet<int> &cellIds = rule.getLocationCells();
     if (cellIds.isEmpty()) {
         qDebug("ConditionManagerLocationCell::refresh cellIds is empty, matches");
@@ -47,8 +47,7 @@ ConditionManagerLocationCell::refresh(const Rule &rule) {
     if (_currentCellId == -2) {
         _currentCellId = _networkInfo.cellId();
     }
-    qDebug("ConditionManagerLocationCell::refresh rule %s, currentCellId %d",
-           qPrintable(rule.getRuleName()), _currentCellId);
+    qDebug("ConditionManagerLocationCell::refresh currentCellId %d", _currentCellId);
 
     _watchedCellIds.unite(cellIds);
 
@@ -61,7 +60,7 @@ ConditionManagerLocationCell::refresh(const Rule &rule) {
 }
 
 void
-ConditionManagerLocationCell::matchedRule(const Rule &rule) {
+ConditionManagerLocationCell::matchedRule(const RuleCondition &rule) {
     _currentRuleCellIds = rule.getLocationCells();
 }
 

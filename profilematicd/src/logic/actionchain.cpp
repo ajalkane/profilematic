@@ -32,7 +32,7 @@ ActionChain::~ActionChain()
 }
 
 void
-ActionChain::activate(const Rule &rule) {
+ActionChain::activate(const RuleAction &rule) {
     QList<Action *>::const_iterator i = _actions.constBegin();
     for (; i != _actions.constEnd(); ++i) {
         Action *action = *i;

@@ -31,7 +31,7 @@ public:
     ActionChain();
     virtual ~ActionChain();
 
-    virtual void activate(const Rule &rule);
+    virtual void activate(const RuleAction &rule);
 
     void add(Action *action);
 };

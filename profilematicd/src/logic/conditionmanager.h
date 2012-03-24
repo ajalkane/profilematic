@@ -22,7 +22,7 @@
 #include <QObject>
 #include <QList>
 
-#include "../model/rule.h"
+#include "../model/rulecondition.h"
 
 class ConditionManager : public QObject
 {
@@ -34,12 +34,12 @@ public:
 
     virtual void startRefresh();
     // Returns true if rule matches current conditions
-    virtual bool refresh(const Rule &rule) = 0;
+    virtual bool refresh(const RuleCondition &rule) = 0;
     // Called after all rules have been processed, with the Rule that matched all conditions.
     // Called with tthe active rule if:
     //  - The matching Rule is different than the active rule in previous startRefresh/endRefrech cycle
     //  - ProfileMatic is not stopped
-    virtual void matchedRule(const Rule &rule);
+    virtual void matchedRule(const RuleCondition &rule);
     virtual void endRefresh();
 
 signals:

@@ -30,7 +30,7 @@ class ActionFlightMode: public Action
 public:
     ActionFlightMode(PlatformUtil *platformUtil);
 
-    virtual void activate(const Rule &rule);
+    virtual void activate(const RuleAction &rule);
 };
 
 #endif // ACTIONFLIGHTMODE_H
