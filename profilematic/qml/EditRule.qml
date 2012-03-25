@@ -502,9 +502,9 @@ Page {
         if (rule.action.standByScreenMode >= 0) {
             summary = actionStandByScreenMode.standByScreenModeSummary()
 
-//            if (rule.action.restoreStandByScreenMode) {
-//                summary += ". Restores previous mode."
-//            }
+            if (rule.action.restoreStandByScreenMode) {
+                summary += ". Restores previous mode."
+            }
             return summary
         }
         return "Click to set"

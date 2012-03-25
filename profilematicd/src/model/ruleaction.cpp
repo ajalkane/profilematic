@@ -21,7 +21,8 @@
 RuleAction::RuleAction(QObject *parent) : QObject(parent),
     _restoreProfile(false), _profileVolume(-1),
     _flightMode(-1), _restoreFlightMode(false), _powerSavingMode(-1), _restorePowerSavingMode(false),
-    _blueToothMode(-1), _restoreBlueToothMode(false), _cellularMode(-1), _standByScreenMode(-1),
+    _blueToothMode(-1), _restoreBlueToothMode(false), _cellularMode(-1),
+    _standByScreenMode(-1), _restoreStandByScreenMode(false),
     _restorePresence(false),
     _presenceChangeType(CustomPresenceType)
 {
@@ -42,6 +43,7 @@ RuleAction::RuleAction(const RuleAction &o)
       _cellularMode(o._cellularMode),
       _commandLine(o._commandLine),
       _standByScreenMode(o._standByScreenMode),
+      _restoreStandByScreenMode(o._restoreStandByScreenMode),
       _presenceStatusMessage(o._presenceStatusMessage),
       _restorePresence(o._restorePresence),
       _presenceChangeType(o._presenceChangeType)
@@ -69,6 +71,7 @@ RuleAction::_init() {
     connect(this, SIGNAL(restorePresenceChanged()),        this, SIGNAL(changed()));
     connect(this, SIGNAL(presenceChangeTypeChanged()),     this, SIGNAL(changed()));
     connect(this, SIGNAL(standByScreenModeChanged()),      this, SIGNAL(changed()));
+    connect(this, SIGNAL(restoreStandByScreenModeChanged()), this, SIGNAL(changed()));
 }
 
 RuleAction::~RuleAction() {}
@@ -90,6 +93,7 @@ RuleAction::operator=(const RuleAction &o) {
     _restorePresence = o._restorePresence;
     _presenceChangeType = o._presenceChangeType;
     _standByScreenMode = o._standByScreenMode;
+    _restoreStandByScreenMode = o._restoreStandByScreenMode;
     setPresenceRules(o.presenceRules());
     return *this;
 }
@@ -402,6 +406,19 @@ RuleAction::setStandByScreenMode(int mode) {
     }
 }
 
+bool
+RuleAction::getRestoreStandByScreenMode() const {
+    return _restoreStandByScreenMode;
+}
+
+void
+RuleAction::setRestoreStandByScreenMode(bool restore) {
+    if (_restoreStandByScreenMode != restore) {
+        _restoreStandByScreenMode = restore;
+        emit restoreStandByScreenModeChanged();
+    }
+}
+
 void RuleAction::onPresenceRuleChanged()
 {
     PresenceRule *presenceRule = qobject_cast<PresenceRule *>(sender());
@@ -429,6 +446,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleAction &ruleAction)
     argument << ruleAction.getRestoreBlueToothMode();
     argument << ruleAction.getCellularMode();
     argument << ruleAction.getStandByScreenMode();
+    argument << ruleAction.getRestoreStandByScreenMode();
     argument << ruleAction.getCommandLine();
     QList<PresenceRule> presenceRules;
     foreach(PresenceRule *presenceRule, ruleAction.presenceRules())
@@ -455,6 +473,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     bool    restoreBlueToothMode = ruleAction.getRestoreBlueToothMode();
     int     cellularMode = ruleAction.getCellularMode();
     int     standByScreenMode = ruleAction.getStandByScreenMode();
+    bool    restoreStandByScreenMode = ruleAction.getRestoreStandByScreenMode();
     QString commandLine = ruleAction.getCommandLine();
     QList<PresenceRule> presenceRules;
     QString presenceStatusMessage;
@@ -473,10 +492,11 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     argument >> restoreBlueToothMode;
     argument >> cellularMode;
     argument >> standByScreenMode;
+    argument >> restoreStandByScreenMode;
     argument >> commandLine;
     argument >> presenceRules;
     argument >> presenceStatusMessage;
-    argument >> restorePresence;
+    argument >> restorePresence;    
     argument >> presenceChangeType;
     argument.endStructure();
 
@@ -491,6 +511,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     ruleAction.setRestoreBlueToothMode(restoreBlueToothMode);
     ruleAction.setCellularMode(cellularMode);
     ruleAction.setStandByScreenMode(standByScreenMode);
+    ruleAction.setRestoreStandByScreenMode(restoreStandByScreenMode);
     ruleAction.setCommandLine(commandLine);
     QList<PresenceRule *> dstPresenceRules;
     foreach(const PresenceRule &presenceRule, presenceRules)

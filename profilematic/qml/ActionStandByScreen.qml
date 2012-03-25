@@ -77,12 +77,12 @@ Page {
                 }
                 Switch {
                     id: restoreSwitch
-                    // checked: action.restorePowerSavingMode
+                    checked: action.restoreStandByScreenMode
                     anchors.right: restoreContainer.right
                     anchors.top: parent.top
                     anchors.verticalCenter: parent.top
                     onCheckedChanged: {
-                        // action.restorePowerSavingMode = checked
+                        action.restoreStandByScreenMode = checked
                     }
                 }
             }

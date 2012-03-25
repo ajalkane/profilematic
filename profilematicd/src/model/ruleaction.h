@@ -33,6 +33,7 @@ private:
     int     _cellularMode;
     QString _commandLine;
     int     _standByScreenMode;
+    bool    _restoreStandByScreenMode;
 
     QList<PresenceRule *> _presenceRules;
     QString _presenceStatusMessage;
@@ -53,6 +54,7 @@ private:
     Q_PROPERTY(int cellularMode READ getCellularMode WRITE setCellularMode NOTIFY cellularModeChanged)
     Q_PROPERTY(QString commandLine READ getCommandLine WRITE setCommandLine NOTIFY commandLineChanged)
     Q_PROPERTY(int standByScreenMode READ getStandByScreenMode WRITE setStandByScreenMode NOTIFY standByScreenModeChanged)
+    Q_PROPERTY(bool restoreStandByScreenMode READ getRestoreStandByScreenMode WRITE setRestoreStandByScreenMode NOTIFY restoreStandByScreenModeChanged)
 
     /**
       * This property gives access to the presence rules associated with this
@@ -92,6 +94,7 @@ signals:
     void restorePresenceChanged();
     void presenceChangeTypeChanged();
     void standByScreenModeChanged();
+    void restoreStandByScreenModeChanged();
 private slots:
     void onPresenceRuleChanged();
 public:
@@ -141,6 +144,8 @@ public:
     // -1 don't set, 0 set StandByScreen off, 1 set StandByScreen on
     int getStandByScreenMode() const;
     void setStandByScreenMode(int mode);
+    bool getRestoreStandByScreenMode() const;
+    void setRestoreStandByScreenMode(bool restore);
 
     QString getCommandLine() const;
     void setCommandLine(const QString &commandLine);
@@ -178,7 +183,8 @@ public:
             && this->_commandLine == o._commandLine
             && this->_presenceStatusMessage == o._presenceStatusMessage
             && this->_restorePresence == o._restorePresence
-            && this->_standByScreenMode == o._standByScreenMode;
+            && this->_standByScreenMode == o._standByScreenMode
+            && this->_restoreStandByScreenMode == o._restoreStandByScreenMode;
     }
 
 };
