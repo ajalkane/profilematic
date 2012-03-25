@@ -94,14 +94,9 @@ Page {
                 text: root.timeSummary()
                 Connections {
                     target: condition
-                    onChanged: {
-                        console.log("ConditionTime onChanged")
-                        timeSummary.text = root.timeSummary()
-                        console.log("/ConditionTime onChanged")
-                    }
-//                    onDaysChanged:      timeSummary.text = root.timeSummary()
-//                    onTimeStartChanged: timeSummary.text = root.timeSummary()
-//                    onTimeEndChanged:   timeSummary.text = root.timeSummary()
+                    onDaysChanged:      timeSummary.text = root.timeSummary()
+                    onTimeStartChanged: timeSummary.text = root.timeSummary()
+                    onTimeEndChanged:   timeSummary.text = root.timeSummary()
                 }
             }
         }

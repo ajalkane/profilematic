@@ -82,7 +82,6 @@ QmlRulesModel::data(const QModelIndex & index, int role) const {
     if (index.row() < 0 || index.row() >= _rules.count())
         return QVariant();
 
-    qDebug("QmlRulesModel::data, index.row %d", index.row());
     const Rule &rule = _rules.at(index.row());
     switch (role) {
     case RuleIdRole:
@@ -274,12 +273,11 @@ QmlRulesModel::getTimeSummaryText(const RuleCondition *rule, const QString &nonU
     if (rule->getDays().isEmpty()
             || !rule->getTimeStart().isValid()
             || !rule->getTimeEnd().isValid()) {
-        qDebug("QmlRulesModel::getTimeSummaryText(): nonUsable, getDays.isEmpty/!validTimeStart/!validTimeEnd %d, %d, %d",
-               rule->getDays().isEmpty(), !rule->getTimeStart().isValid(), !rule->getTimeEnd().isValid());
+//        qDebug("QmlRulesModel::getTimeSummaryText(): nonUsable, getDays.isEmpty/!validTimeStart/!validTimeEnd %d, %d, %d",
+//               rule->getDays().isEmpty(), !rule->getTimeStart().isValid(), !rule->getTimeEnd().isValid());
         return nonUsableTimeString;
     }
 
-    qDebug("QmlRulesModel::getTimeSummaryText() now go");
     QString summary;
     summary += rule->getTimeStartQml();
     summary += " - ";
@@ -305,9 +303,9 @@ QmlRulesModel::getTimeSummaryText(const RuleCondition *rule, const QString &nonU
 //    }
 
     summary += " ";
-    qDebug("QmlRulesModel::getTimeSummaryText() getDaysSummaryText");
+//    qDebug("QmlRulesModel::getTimeSummaryText() getDaysSummaryText");
     summary += getDaysSummaryText(rule->getDays());
-    qDebug("/QmlRulesModel::getTimeSummaryText() returning %s", qPrintable(summary));
+//    qDebug("/QmlRulesModel::getTimeSummaryText() returning %s", qPrintable(summary));
 
     return summary;
 }

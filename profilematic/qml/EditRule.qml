@@ -318,11 +318,7 @@ Page {
                 text: root.ruleSummary()
                 Connections {
                     target: rule
-                    onChanged: {
-                        console.log("ruleSymmary")
-                        ruleSummary.text = root.ruleSummary();
-                        console.log("/ruleSymmary", ruleSummary.text)
-                    }
+                    onChanged: ruleSummary.text = root.ruleSummary();
                 }
             }
         } // Column
