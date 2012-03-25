@@ -1,5 +1,5 @@
 /**********************************************************************
- * Copyright 2011-2012 Arto Jalkanen
+ * Copyright 2011-2012 Ferdinand Mayet, Arto Jalkanen
  *
  * This file is part of ProfileMatic.
  *
@@ -30,7 +30,7 @@ Page {
 
     SectionHeader {
         id: header
-        section: "Power saving mode"
+        section: "Stand-by screen mode"
     }
 
     Flickable {
@@ -50,16 +50,17 @@ Page {
             height: childrenRect.height
 
             RuleTopicSummary {
-                topic: "Select power saving mode"
-                summary: powerSavingModeSummary();
+                id: standByScreen
+                topic: "Select stand-by screen mode"
+                summary: standByScreenModeSummary();
                 showComboBox: true
-                onTopicClicked: powerSavingModeEditHandler()
+                onTopicClicked: standByScreenModeEditHandler()
             }
 
             Item {
                 id: restoreContainer
                 width: parent.width
-                height: action.powerSavingMode >= 0 ? restore.height : 0
+                height: action.standByScreenMode >= 0 ? restore.height : 0
                 clip: true
 
                 Behavior on height {
@@ -67,42 +68,41 @@ Page {
                 }
                 RuleTopicSummary {
                     id: restore
-                    topic: "Restore previous power saving mode"
+                    topic: "Restore previous stand-by screen mode"
                     topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
                     topicWidth: parent.width - restoreSwitch.width
-                    summary: restoreSwitch.checked ? "The previous power saving mode will be restored."
-                                                   : "Previous power saving mode will not be restored."
+                    summary: restoreSwitch.checked ? "The previous stand-by screen mode will be restored."
+                                                   : "Previous stand-by screen mode will not be restored."
                     onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
                 }
                 Switch {
                     id: restoreSwitch
-                    checked: action.restorePowerSavingMode
+                    // checked: action.restorePowerSavingMode
                     anchors.right: restoreContainer.right
                     anchors.top: parent.top
                     anchors.verticalCenter: parent.top
                     onCheckedChanged: {
-                        action.restorePowerSavingMode = checked
+                        // action.restorePowerSavingMode = checked
                     }
                 }
             }
         }
     }
 
-    PowerSavingDialog {
-        id: dPowerSavingMode
+    StandByScreenModeDialog {
+        id: dStandByScreenMode
 
-        onPowerSavingModeSelected: {
-            console.log("PowerSavingDialog onPowerSavingModeSelected ", selectedPowerSavingMode)
-            action.powerSavingMode = selectedPowerSavingMode
+        onStandByScreenModeSelected: {
+            action.standByScreenMode = selectedStandByScreenMode
         }
     }
 
-    function powerSavingModeSummary() {
-        return dPowerSavingMode.powerSavingModeToText(action.powerSavingMode)
+    function standByScreenModeSummary() {
+        return dStandByScreenMode.standByScreenModeToText(action.standByScreenMode)
     }
 
-    function powerSavingModeEditHandler() {
-        dPowerSavingMode.selectedPowerSavingMode = action.powerSavingMode
-        dPowerSavingMode.open();
+    function standByScreenModeEditHandler() {
+        dStandByScreenMode.selectedStandByScreenMode = action.standByScreenMode
+        dStandByScreenMode.open();
     }
 }

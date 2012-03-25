@@ -269,7 +269,6 @@ Page {
                 summary: flightModeSummary();
                 showDrillDown: true
                 onTopicClicked: flightModeEditHandler()
-                visible: true
             }
 
             RuleTopicSummary {
@@ -277,7 +276,6 @@ Page {
                 summary: powerSavingModeSummary();
                 showDrillDown: true
                 onTopicClicked: powerSavingModeEditHandler()
-                visible: true
             }
 
             RuleTopicSummary {
@@ -294,6 +292,13 @@ Page {
                 summary: cellularModeSummary();
                 showComboBox: true
                 onTopicClicked: cellularModeEditHandler()
+            }
+
+            RuleTopicSummary {
+                topic: "Stand-by screen mode"
+                summary: standByScreenModeSummary();
+                showDrillDown: true
+                onTopicClicked: standByScreenModeEditHandler()
             }
 
             RuleTopicSummary {
@@ -436,14 +441,6 @@ Page {
             if (rule.action.restorePowerSavingMode) {
                 summary += ". Restores previous mode."
             }
-            if (rule.action.standByScreenMode < 0){
-                return summary
-            }
-        }
-        // Append or add stand-by-screen summary
-        if (rule.action.standByScreenMode >= 0) {
-            summary += rule.action.standByScreenMode >= 0 ? ". " : ""
-            summary += actionPowerSavingMode.standByScreenModeSummary()
             return summary
         }
         return "Click to set"
@@ -492,6 +489,30 @@ Page {
     function cellularModeEditHandler() {
         dCellularMode.selectedCellularMode = rule.action.cellularMode
         dCellularMode.open();
+    }
+
+    // Stand-by screen
+    ActionStandByScreen {
+        id: actionStandByScreenMode
+        action: root.rule.action
+    }
+
+    function standByScreenModeSummary() {
+        var summary = ""
+        if (rule.action.standByScreenMode >= 0) {
+            summary = actionStandByScreenMode.standByScreenModeSummary()
+
+//            if (rule.action.restoreStandByScreenMode) {
+//                summary += ". Restores previous mode."
+//            }
+            return summary
+        }
+        return "Click to set"
+    }
+
+
+    function standByScreenModeEditHandler() {
+        pageStack.push(actionStandByScreenMode)
     }
 
     // CommandLine
