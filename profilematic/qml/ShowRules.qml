@@ -234,6 +234,15 @@ Page {
                 width: listItem.width - (upColumn.width + parent.spacing) - (downColumn.width + parent.spacing)
                 height:  rule.height + UIConstants.PADDING_XLARGE
 
+                // Color bar for rules that are currently active
+                Rectangle {
+                    width: 10
+                    height: parent.height
+                    color: UIConstants.COLOR_APP_HEADER
+                    visible: active
+                    x: -width - 10
+                }
+
                 Rectangle {
                     id: background
                     anchors.fill: parent

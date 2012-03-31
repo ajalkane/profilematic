@@ -33,7 +33,10 @@ ProfileMaticInterface::ProfileMaticInterface(RulesManager *rulesManager, QList<R
 {
     qDBusRegisterMetaType<Rule>();
     qDBusRegisterMetaType<QList<Rule> >();
+    qDBusRegisterMetaType<QStringList>();
     qDBusRegisterMetaType<PresenceRule>();
+
+    connect(_rulesManager, SIGNAL(activeRuleIdsChanged(QStringList)), this, SIGNAL(activeRuleIdsChanged(QStringList)));
 }
 
 int
@@ -61,6 +64,13 @@ ProfileMaticInterface::~ProfileMaticInterface() {
 QList<Rule>
 ProfileMaticInterface::getRules() const {
     return *_rules;
+}
+
+
+// QList<QString>
+QStringList
+ProfileMaticInterface::getActiveRuleIds() const {
+    return _rulesManager->activeRuleIds().toList();
 }
 
 void

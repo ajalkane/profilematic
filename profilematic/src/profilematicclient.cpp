@@ -27,10 +27,12 @@ ProfileMaticClient::ProfileMaticClient(QObject *parent) :
 {
     qDBusRegisterMetaType<Rule>();
     qDBusRegisterMetaType<QList<Rule> >();
+    qDBusRegisterMetaType<QStringList>();
     qDBusRegisterMetaType<PresenceRule>();
 
     dbus_iface = new QDBusInterface(PM_SERVICE, PM_PATH,
                                     PM_INTERFACE);
+    connect(dbus_iface, SIGNAL(activeRuleIdsChanged(const QStringList &)), this, SIGNAL(activeRuleIdsChanged(const QStringList &)));
 
     connect(dbus_iface, SIGNAL(ruleUpdated(const Rule &)), this, SIGNAL(ruleUpdated(const Rule &)));
     connect(dbus_iface, SIGNAL(ruleAppended(const Rule &)), this, SIGNAL(ruleAppended(const Rule &)));
@@ -63,6 +65,19 @@ ProfileMaticClient::getRules() const {
         qDebug("getRules error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());
     }
     return QList<Rule>();
+}
+
+QStringList
+ProfileMaticClient::getActiveRuleIds() const {
+    QDBusReply<QStringList> reply = dbus_iface->call("getActiveRuleIds");
+    if (reply.isValid()) {
+        QStringList ruleIds = reply.value();
+        return ruleIds;
+    } else {
+        QDBusError e = reply.error();
+        qDebug("getActiveRuleRuleIds error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());
+    }
+    return QStringList();
 }
 
 void

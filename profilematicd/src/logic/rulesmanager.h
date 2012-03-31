@@ -20,6 +20,8 @@
 #define RULESMANAGER_H
 
 #include <QObject>
+#include <QList>
+#include <QSet>
 
 #include "conditionmanager.h"
 #include "action.h"
@@ -31,7 +33,8 @@ class RulesManager : public QObject
     Q_OBJECT
 
     const QList<Rule> *_rules;
-    Rule::IdType _currentRuleId;
+    QSet<Rule::IdType> _activeRuleIds;
+
     ConditionManager *_conditionManager;
     Action           *_action;
     const Preferences *_preferences;
@@ -47,8 +50,10 @@ public:
 
     // Called when rules have changed
     void refreshRules();
-signals:
+    inline const QSet<Rule::IdType> &activeRuleIds() const { return _activeRuleIds; }
 
+signals:
+    void activeRuleIdsChanged(const QStringList &ruleIds);
 public slots:
     void refresh();
 };

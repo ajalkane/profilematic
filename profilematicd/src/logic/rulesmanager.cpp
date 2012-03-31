@@ -59,17 +59,20 @@ RulesManager::_refresh(bool forceActivate) {
         qDebug("%s RulesManager::refresh matching rule found %d, is same as current %d, is forceActivate %d",
                qPrintable(QDateTime::currentDateTime().toString()),
                firstMatchingRule != _rules->constEnd(),
-               firstMatchingRule->getRuleId() == _currentRuleId,
+               _activeRuleIds.contains(firstMatchingRule->getRuleId()),
                forceActivate);
 
-        if (firstMatchingRule != _rules->constEnd() && (forceActivate || firstMatchingRule->getRuleId() != _currentRuleId)) {
+        if (firstMatchingRule != _rules->constEnd() && (forceActivate || !_activeRuleIds.contains(firstMatchingRule->getRuleId()))) {
             const Rule &matchedRule = *firstMatchingRule;
             _conditionManager->matchedRule(matchedRule.condition());
             _activateRule(matchedRule);
-            _currentRuleId = matchedRule.getRuleId();
+            _activeRuleIds.clear();
+            _activeRuleIds << matchedRule.getRuleId();
+            emit activeRuleIdsChanged(_activeRuleIds.toList());
         }
     } else {
         qDebug("%s RulesManager::refresh(), ProfileMatic not active", qPrintable(QDateTime::currentDateTime().toString()));
+        _activeRuleIds.clear();
     }
     _conditionManager->endRefresh();
 }

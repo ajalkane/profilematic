@@ -51,6 +51,7 @@ class QmlRulesModel: public QAbstractListModel
     QmlProfilesModel *_profilesModel;
 
     QHash<int, QByteArray> _roleToProperty;
+    QSet<Rule::IdType> _activeRuleIds;
 
     int _findRole(const QHash<int, QByteArray> &from, const QString &property);
 
@@ -72,7 +73,8 @@ public:
         ProfileVolumeRole,
         TimeSummaryRole,
         RuleSummaryRole,
-        FlightModeRole
+        FlightModeRole,
+        ActiveRole
     };
 
     QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profilesModel, QObject *parent = 0);
@@ -101,6 +103,7 @@ public:
 public slots:
     void emitSizeChanged(const QModelIndex & parent, int start, int end);
 
+    void activeRuleIdsChanged(const QStringList &activeRuleIds);
     void ruleUpdated(const Rule &);
     void ruleAppended(const Rule &);
     void ruleRemoved(const QString &);

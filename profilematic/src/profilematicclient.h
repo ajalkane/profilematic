@@ -19,6 +19,7 @@
 #ifndef PROFILEMATICCLIENT_H
 #define PROFILEMATICCLIENT_H
 
+#include <QString>
 #include <QObject>
 #include <QList>
 #include <QtDBus/QtDBus>
@@ -36,6 +37,7 @@ public:
     ~ProfileMaticClient();
 
     QList<Rule> getRules() const;
+    QStringList getActiveRuleIds() const;
     void updateRule(const Rule &rule);
     QString appendRule(const Rule &rule);
     void removeRule(const QString &ruleId);
@@ -53,6 +55,7 @@ signals:
     void ruleMoved(const QString &ruleId, int toIndex);
     void activeChanged(bool);
 
+    void activeRuleIdsChanged(const QStringList &activeRuleIds);
 public slots:
 };
 
