@@ -236,7 +236,7 @@ Page {
 
                 // Color bar for rules that are currently active
                 Rectangle {
-                    width: 10
+                    width: 5
                     height: parent.height
                     color: UIConstants.COLOR_APP_HEADER
                     visible: active
@@ -420,10 +420,6 @@ Page {
     }
 
     function __openNewRule() {
-        var rule = backendRulesModel.getEditRule();
-        var ruleAction = rule.action
-        var ruleCondition = rule.condition
-
         var p = {
             "rule": backendRulesModel.getEditRule()
         }

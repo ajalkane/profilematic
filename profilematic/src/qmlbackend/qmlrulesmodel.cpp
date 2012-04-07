@@ -110,7 +110,7 @@ QmlRulesModel::data(const QModelIndex & index, int role) const {
     case TimeSummaryRole:
         return getTimeSummaryText(&(rule.condition()), "");
     case RuleSummaryRole:
-        return getRuleSummaryText(&rule, "");
+        return _ruleSummaryText(rule);
     case FlightModeRole:
         return rule.action().getFlightMode();
     case ActiveRole:
@@ -137,6 +137,8 @@ QmlRulesModel::ruleUpdated(const Rule &rule) {
     // qDebug("QmlRulesModel: Received rule updated, now (%d) %s %s",targetIndex, qPrintable(_rules[targetIndex].getRuleId()), qPrintable(rule.getRuleName()));
 
     QModelIndex modelIndex = createIndex(targetIndex, 0);
+
+    _ruleSummaryCache.remove(rule.getRuleId());
 
     emit dataChanged(modelIndex, modelIndex);
 }
@@ -185,6 +187,7 @@ QmlRulesModel::ruleRemoved(const QString &ruleId) {
     }
 
     beginRemoveRows(QModelIndex(), targetIndex, targetIndex);
+    _ruleSummaryCache.remove(ruleId);
     _rules.removeAt(targetIndex);
     endRemoveRows();;
 }
@@ -286,11 +289,6 @@ QmlRulesModel::getTimeSummaryText(RuleCondition *condition, const QString &nonUs
 }
 
 QString
-QmlRulesModel::getRuleSummaryText(Rule *rule, const QString &nonUsableTimeString) const {
-    return getRuleSummaryText(const_cast<const Rule *>(rule), nonUsableTimeString);
-}
-
-QString
 QmlRulesModel::getTimeSummaryText(const RuleCondition *rule, const QString &nonUsableTimeString) const {
     // qDebug("QmlRulesModel::getTimeSummaryText()");
     // Rule rule = ruleVariant.value<Rule>();
@@ -339,9 +337,28 @@ QmlRulesModel::getTimeSummaryText(const RuleCondition *rule, const QString &nonU
     return summary;
 }
 
+QString
+QmlRulesModel::getRuleSummaryText(Rule *rule, const QString &nonUsableRuleString) const {
+    return _createRuleSummaryText(const_cast<const Rule *>(rule), nonUsableRuleString);
+}
+
+QString
+QmlRulesModel::_ruleSummaryText(const Rule &rule) const {
+    if (_ruleSummaryCache.contains(rule.getRuleId())) {
+        return _ruleSummaryCache[rule.getRuleId()];
+    }
+    qDebug("QmlRulesModel::getRuleSummaryText not in cache for %s", qPrintable(rule.getRuleName()));
+    QString summary = _createRuleSummaryText(const_cast<const Rule *>(&rule), "");
+    _ruleSummaryCache.insert(rule.getRuleId(), summary);
+    return summary;
+}
+
 // IMPROVE: this function is ugly, so say we all.
 QString
-QmlRulesModel::getRuleSummaryText(const Rule *rule, const QString &nonUsableRuleString) const {
+QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsableRuleString) const {
+
+    qDebug("QmlRulesModel::createRuleSummaryText called for %s", qPrintable(rule->getRuleName()));
+
     // qDebug("QmlRulesModel::getRuleSummaryText()");
     // Rule rule = ruleVariant.value<Rule>();
     if (rule == 0) {
@@ -494,7 +511,7 @@ QmlRulesModel::setEditRule(int index) {
 
 void
 QmlRulesModel::setNewEditRule() {
-    // qDebug("QmlRulesModel::setNewEditRule");
+    qDebug("QmlRulesModel::setNewEditRule");
 
     _editRule = Rule();
     // According to user input, this might be confusing, so do not set all days. Empty selection.
@@ -510,7 +527,7 @@ void
 QmlRulesModel::setNewEditRuleFrom(int index) {
     // qDebug("QmlRulesModel::setNewEditRuleFrom(%d)", index);
     if (index < 0 || index >= _rules.count()) {
-        qDebug("QmlRulesModel::setNewEditRuleFrom: Invalid index %d", index);
+        qWarning("QmlRulesModel::setNewEditRuleFrom: Invalid index %d", index);
         _editRule = Rule();
         return;
     }
@@ -533,9 +550,9 @@ QmlRulesModel::saveEditRule() {
 
 void
 QmlRulesModel::removeRule(int index) {
-    qDebug("QmlRulesModel::removeRule(%d)", index);
+    // qDebug("QmlRulesModel::removeRule(%d)", index);
     if (index < 0 || index >= _rules.count()) {
-        qDebug("QmlRulesModel::removeRule: Invalid index %d", index);
+        qWarning("QmlRulesModel::removeRule: Invalid index %d", index);
         return;
     }
 

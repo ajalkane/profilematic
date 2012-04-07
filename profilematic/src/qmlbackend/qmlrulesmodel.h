@@ -52,12 +52,16 @@ class QmlRulesModel: public QAbstractListModel
 
     QHash<int, QByteArray> _roleToProperty;
     QSet<Rule::IdType> _activeRuleIds;
+    mutable QHash<Rule::IdType, QString> _ruleSummaryCache;
 
     int _findRole(const QHash<int, QByteArray> &from, const QString &property);
 
     void _setProperty(int index, const QString &key, const QVariant &value);
 
     int _findRuleIndexById(const Rule::IdType &id) const;
+
+    QString _ruleSummaryText(const Rule &rule) const;
+    QString _createRuleSummaryText(const Rule *rule, const QString &nonUsableRuleString) const;
 public:
     enum RuleRoles {
         RuleIdRole = Qt::UserRole + 1,
@@ -94,7 +98,6 @@ public:
     Q_INVOKABLE QString getDaysSummaryText(const QVariantList &dayIndices) const;
     Q_INVOKABLE QString getTimeSummaryText(const RuleCondition *condition, const QString &nonUsableTimeString) const;
     Q_INVOKABLE QString getTimeSummaryText(RuleCondition *condition, const QString &nonUsableTimeString) const;
-    Q_INVOKABLE QString getRuleSummaryText(const Rule *rule, const QString &nonUsableTimeString) const;
     Q_INVOKABLE QString getRuleSummaryText(Rule *rule, const QString &nonUsableTimeString) const;
 
     bool isActive() const;

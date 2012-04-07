@@ -9,10 +9,10 @@ bool
 ActionBlueTooth::activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule) {
     qDebug("ActionBlueTooth::activate: %d", rule.getBlueToothMode());
     // Quick hack to get compile on Desktop. Problem fixed in qt-mobility master
+    bool activated = true;
 #ifdef __arm__
 
     int blueToothMode = rule.getBlueToothMode();
-    bool activated = true;
 
     if (useRestoreAction(ruleId, blueToothMode >= 0, _previousMode >= 0)) {
         qDebug("ActionBlueTooth::activate restore, blueTooth not set or is default rule");

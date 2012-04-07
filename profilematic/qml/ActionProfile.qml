@@ -155,7 +155,7 @@ Page {
     }
 
     function profileSummary() {
-        return action.profile !== "" ? backendProfilesModel.getProfileToName(rule.profile) : "Click to set"
+        return action.profile !== "" ? backendProfilesModel.getProfileToName(action.profile) : "Click to set"
     }
 
     function profileEditHandler() {
