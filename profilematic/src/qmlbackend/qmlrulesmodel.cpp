@@ -146,18 +146,12 @@ QmlRulesModel::activeRuleIdsChanged(const QStringList &ruleIds) {
     qDebug() << "QmlRulesModel::activeRuleIdsChanged" << ruleIds;
     QSet<Rule::IdType> ruleIdsSet(QSet<Rule::IdType>::fromList(ruleIds));
 
-    QSet<Rule::IdType> addedRuleIds(ruleIdsSet);
-    addedRuleIds.subtract(_activeRuleIds);
-
-    QSet<Rule::IdType> removedRuleIds(_activeRuleIds);
-    addedRuleIds.subtract(ruleIdsSet);
-
-    QSet<Rule::IdType> changedRuleIds(addedRuleIds);
-    changedRuleIds.unite(removedRuleIds);
+    QSet<Rule::IdType> notifyRuleIds(ruleIdsSet);
+    notifyRuleIds.unite(_activeRuleIds);
 
     _activeRuleIds = ruleIdsSet;
 
-    for (QSet<Rule::IdType>::const_iterator i = changedRuleIds.constBegin(); i != changedRuleIds.constEnd(); ++i) {
+    for (QSet<Rule::IdType>::const_iterator i = notifyRuleIds.constBegin(); i != notifyRuleIds.constEnd(); ++i) {
         const Rule::IdType &ruleId = *i;
         int targetIndex = _findRuleIndexById(ruleId);
         if (targetIndex < 0) {

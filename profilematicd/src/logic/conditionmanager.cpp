@@ -33,7 +33,7 @@ ConditionManager::startRefresh()
 }
 
 void
-ConditionManager::matchedRule(const RuleCondition &rule)
+ConditionManager::matchedRule(const RuleCondition &)
 {
 }
 

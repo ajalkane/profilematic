@@ -26,9 +26,9 @@
 QTM_USE_NAMESPACE
 #endif
 
-#include "action.h"
+#include "actionstatefulbase.h"
 
-class ActionBlueTooth : public Action
+class ActionBlueTooth : public ActionStatefulBase
 {
     // Quick hack to get compile on Desktop. Problem fixed in qt-mobility master
 #ifdef __arm__
@@ -40,7 +40,7 @@ class ActionBlueTooth : public Action
 public:
     ActionBlueTooth();
 
-    virtual void activate(const RuleAction &rule);
+    virtual bool activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule);
 };
 
 #endif // ACTIONBLUETOOTH_H

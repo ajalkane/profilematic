@@ -23,14 +23,14 @@ ActionProfile::ActionProfile(ProfileClient *profileClient)
 {
 }
 
-void
-ActionProfile::activate(const RuleAction &rule) {
+bool
+ActionProfile::activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule) {
     QString profile = rule.getProfile();
     int profileVolume = rule.getProfileVolume();
     bool profileIsEmpty = profile.trimmed().isEmpty();
+    bool activated = true;
 
-    // TODO isDefaultRule
-    if ((profileIsEmpty /*|| rule.isDefaultRule()*/) && !_previousProfile.isEmpty()) {
+    if (useRestoreAction(ruleId, !profileIsEmpty, !_previousProfile.isEmpty())) {
         qDebug("ActionProfile::activate restore, profile not set or is default rule");
         qDebug("ActionProfile::activate previous rule had restore profile, restoring profile %s",
                qPrintable(_previousProfile));
@@ -38,10 +38,12 @@ ActionProfile::activate(const RuleAction &rule) {
         profileVolume = _previousVolume;
         _previousProfile = "";
         _previousVolume = -1;
+        // Restore is not returned as activation
+        activated = false;
     }
     else if (profileIsEmpty) {
         qDebug("ActionProfile::activate profile is empty, not setting");
-        return;
+        return false;
     }
     if (rule.getRestoreProfile()) {
         _previousProfile = _profileClient->getProfile();
@@ -65,4 +67,6 @@ ActionProfile::activate(const RuleAction &rule) {
     if (profile.toLower() == "general" && profileVolume > -1 && profileVolume <= 100) {
         _profileClient->setProfileVolume(profile, profileVolume);
     }
+
+    return activated;
 }

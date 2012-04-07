@@ -7,8 +7,8 @@ ActionCommandLine::ActionCommandLine(PlatformUtil *platformUtil)
 {
 }
 
-void
-ActionCommandLine::activate(const RuleAction &rule) {
+bool
+ActionCommandLine::activateOnce(const Rule::IdType &, const RuleAction &rule) {
     if (!rule.getCommandLine().isEmpty()) {
         qDebug("ActionCommandLine::activate() executing %s", qPrintable(rule.getCommandLine()));
         bool success = QProcess::startDetached(rule.getCommandLine());
@@ -16,8 +16,9 @@ ActionCommandLine::activate(const RuleAction &rule) {
         if (!success) {
             _platformUtil->publishNotification("Custom action failed");
         }
-
+        return true;
     } else {
         qDebug("ActionCommandLine::activate() no command line");
     }
+    return false;
 }

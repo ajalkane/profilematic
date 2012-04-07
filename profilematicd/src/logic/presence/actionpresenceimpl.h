@@ -34,7 +34,7 @@ class ActionPresenceImpl : public QObject, public ActionPresence
 public:
     ActionPresenceImpl();
 
-    void activate(const RuleAction &rule);
+    bool activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule);
 private slots:
     void onConnectsAutomaticallyChangeFinished(Tp::PendingOperation *op);
     void onAutomaticPresenceChangeFinished(Tp::PendingOperation *op);
@@ -48,9 +48,11 @@ private:
         Tp::Presence presence;
     };
 private:
+    bool _hasPresenceChanges(const RuleAction &ruleAction);
+
     void changeAccountPresence(Tp::AccountPtr account, const Tp::Presence &presence);
-    void changeAccountPresences(const Rule &rule);
-    Tp::Presence accountPresence(const Rule &rule,
+    void changeAccountPresences(const RuleAction &rule);
+    Tp::Presence accountPresence(const RuleAction &rule,
                                  const Accounts::Account *account,
                                  const Accounts::Service *service,
                                  const Tp::Presence &defaultPresence) const;
@@ -58,7 +60,8 @@ private:
     Tp::AccountManagerPtr _accountManager;
     Accounts::Manager *_manager;
 
-    RuleAction *_pendingRule;
+    Rule::IdType  _pendingRuleId;
+    RuleAction   *_pendingRule;
 
     QList<AccountPresence> _previousPresences;
     QHash<Tp::AccountPtr, Tp::Presence> _requestedPresences;

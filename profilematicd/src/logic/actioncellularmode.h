@@ -19,17 +19,17 @@
 #ifndef ACTIONCELLULARMODE_H
 #define ACTIONCELLULARMODE_H
 
-#include "action.h"
+#include "actionstatefulbase.h"
 #include "../platform/platformutil.h"
 
-class ActionCellularMode: public Action
+class ActionCellularMode: public ActionStatefulBase
 {
     PlatformUtil *_platformUtil;
 
 public:
     ActionCellularMode(PlatformUtil *platformUtil);
 
-    virtual void activate(const RuleAction &rule);
+    virtual bool activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule);
 };
 
 #endif // ACTIONCELLULARMODE_H

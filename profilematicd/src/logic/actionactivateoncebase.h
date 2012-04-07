@@ -16,21 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef ACTIONFLIGHTMODE_H
-#define ACTIONFLIGHTMODE_H
+#ifndef ACTIONACTIVATEONCEBASE_H
+#define ACTIONACTIVATEONCEBASE_H
 
-#include "actionstatefulbase.h"
-#include "../platform/platformutil.h"
+#include <QSet>
 
-class ActionFlightMode: public ActionStatefulBase
+#include "action.h"
+#include "../model/rule.h"
+
+/**
+ * Base class for actions that are activated only once
+ * during the conditions life-time.
+ */
+class ActionActivateOnceBase : public Action
 {
-    PlatformUtil *_platformUtil;
-    int _previousFlightMode;
+    QSet<Rule::IdType> _previousRuleIds;
+    QSet<Rule::IdType> _activeRuleIds;
 
 public:
-    ActionFlightMode(PlatformUtil *platformUtil);
+    ActionActivateOnceBase();
 
-    virtual bool activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule);
+    virtual void startRefresh();
+
+    void activate(const Rule::IdType &ruleId, const RuleAction &rule);
+
+    virtual void endRefresh();
+
+    // Return true if activated
+    virtual bool activateOnce(const Rule::IdType &ruleId, const RuleAction &rule) = 0;
 };
 
-#endif // ACTIONFLIGHTMODE_H
+#endif // ACTIONACTIVATEONCEBASE_H

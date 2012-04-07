@@ -25,20 +25,23 @@ ActionPowerSavingMode::ActionPowerSavingMode(PlatformUtil *platformUtil)
 
 }
 
-void
-ActionPowerSavingMode::activate(const RuleAction &rule) {
+bool
+ActionPowerSavingMode::activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule) {
     int powerSavingMode = rule.getPowerSavingMode();
+    bool activated = true;
 
-    if ((powerSavingMode < 0 /*|| rule.isDefaultRule() */) && _previousPsmState >= 0) {
+    if (useRestoreAction(ruleId, powerSavingMode >= 0, _previousPsmState >= 0)) {
         qDebug("ActionPsmState::activate restore, psmState not set or is default rule");
         qDebug("ActionPsmState::activate previous rule had restore psmState, restoring psmState %d",
                _previousPsmState);
         powerSavingMode = _previousPsmState;
         _previousPsmState = -1;
+        // Restore is not returned as activation
+        activated = false;
     }
     else if (powerSavingMode < 0) {
         qDebug("ActionPsmState::activate not setting power saving state");
-        return;
+        return false;
     }
     if (rule.getRestorePowerSavingMode()) {
         _previousPsmState = _platformUtil->powerSavingMode();
@@ -48,4 +51,5 @@ ActionPowerSavingMode::activate(const RuleAction &rule) {
 
     qDebug("Setting power saving mode %d", powerSavingMode);
     _platformUtil->setPowerSavingMode(powerSavingMode);
+    return activated;
 }

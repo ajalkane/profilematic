@@ -81,7 +81,7 @@ Rule::isDefaultRule() const {
     return QLatin1String("defaultRule") == _ruleId;
 }
 
-QString
+const QString &
 Rule::getRuleId() const {
     return _ruleId;
 }

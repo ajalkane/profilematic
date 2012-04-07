@@ -34,8 +34,34 @@ ActionPresenceImpl::ActionPresenceImpl() :
             SLOT(onAccountManagerReady(Tp::PendingOperation*)));
 }
 
-void ActionPresenceImpl::activate(const RuleAction &rule)
+bool
+ActionPresenceImpl::_hasPresenceChanges(const RuleAction &ruleAction) {
+    if (ruleAction.getPresenceChangeType() != RuleAction::CustomPresenceType) {
+        return true;
+    }
+
+    bool noPresenceChanges = true;
+
+    foreach (PresenceRule *presenceRule, ruleAction.presenceRules()) {
+        // Skip rules which enforce the default action
+        if (presenceRule->action() != PresenceRule::Retain)
+            noPresenceChanges = false;
+    }
+
+    return !noPresenceChanges;
+}
+
+bool
+ActionPresenceImpl::activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule)
 {
+    bool hasPresenceChanges = _hasPresenceChanges(rule);
+    bool hadPreviousPresences = !_previousPresences.isEmpty();
+
+    if (!hasPresenceChanges && !hadPreviousPresences) {
+        qDebug() << "ActionPresence::activate rule has no presence changes or previous presences";
+        return false;
+    }
+
     if (!_accountManager->isReady(Tp::AccountManager::FeatureCore)) {
         qDebug() << "ActionPresence::activate Rule was activated while Telepathy Account Manager was not ready - will retry as soon as it is ready.";
 
@@ -44,11 +70,10 @@ void ActionPresenceImpl::activate(const RuleAction &rule)
 
         _pendingRule = new RuleAction(rule);
         _pendingRule->setParent(this);
+        _pendingRuleId = ruleId;
 
-        return;
+        return true;
     }
-
-    bool hadPreviousPresences = !_previousPresences.isEmpty();
 
     if (hadPreviousPresences) {
         qDebug() << "ActionPresence::activate restoring previous presences";
@@ -91,15 +116,21 @@ void ActionPresenceImpl::activate(const RuleAction &rule)
         }
     }
 
+    if (!hasPresenceChanges) {
+        return false;
+    }
+
     // In case we switch back to the default rule and previous availability
     // information was restored - account availabilities set by the default
     // rule should be ignored.
-    if (rule.isDefaultRule() && hadPreviousPresences) {
+    if (Rule::isDefaultRule(ruleId) && hadPreviousPresences) {
         qDebug() << "ActionPresence::activate restored previous preferences. Current rule is default rule - overriding its settings";
-        return;
+        return true;
     }
 
     changeAccountPresences(rule);
+
+    return true;
 }
 
 void ActionPresenceImpl::onConnectsAutomaticallyChangeFinished(Tp::PendingOperation *op)
@@ -162,10 +193,11 @@ void ActionPresenceImpl::onAccountManagerReady(Tp::PendingOperation *op)
         return;
     }
 
-    activate(*_pendingRule);
+    activateDifferent(_pendingRuleId, *_pendingRule);
 
     delete _pendingRule;
     _pendingRule = NULL;
+    _pendingRuleId.clear();
 }
 
 void ActionPresenceImpl::changeAccountPresence(Tp::AccountPtr account, const Tp::Presence &presence)
@@ -200,14 +232,14 @@ void ActionPresenceImpl::changeAccountPresence(Tp::AccountPtr account, const Tp:
     }
 }
 
-void ActionPresenceImpl::changeAccountPresences(const Rule &rule)
+void ActionPresenceImpl::changeAccountPresences(const RuleAction &rule)
 {
     Tp::Presence defaultPresence;
     switch (rule.getPresenceChangeType()) {
-    case Rule::AllOfflinePresenceType:
+    case RuleAction::AllOfflinePresenceType:
         defaultPresence = Tp::Presence::offline();
         break;
-    case Rule::AllOnlinePresenceType:
+    case RuleAction::AllOnlinePresenceType:
         defaultPresence = Tp::Presence::available(rule.getPresenceStatusMessage());
         break;
     default:
@@ -235,8 +267,8 @@ void ActionPresenceImpl::changeAccountPresences(const Rule &rule)
             Tp::Presence presence = defaultPresence;
 
             switch (rule.getPresenceChangeType()) {
-            case Rule::AllOnlinePresenceType:
-            case Rule::CustomPresenceType:
+            case RuleAction::AllOnlinePresenceType:
+            case RuleAction::CustomPresenceType:
                 presence = accountPresence(rule, account, service, defaultPresence);
                 break;
             default:
@@ -251,7 +283,7 @@ void ActionPresenceImpl::changeAccountPresences(const Rule &rule)
     }
 }
 
-Tp::Presence ActionPresenceImpl::accountPresence(const Rule &rule,
+Tp::Presence ActionPresenceImpl::accountPresence(const RuleAction &rule,
                                                  const Accounts::Account *account,
                                                  const Accounts::Service *service,
                                                  const Tp::Presence &defaultPresence) const

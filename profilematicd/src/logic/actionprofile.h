@@ -19,10 +19,11 @@
 #ifndef ACTIONPROFILE_H
 #define ACTIONPROFILE_H
 
-#include "action.h"
+#include "actionstatefulbase.h"
 #include "../profileclient.h"
+#include "../model/rule.h"
 
-class ActionProfile: public Action
+class ActionProfile: public ActionStatefulBase
 {
     ProfileClient *_profileClient;
     QString _previousProfile;
@@ -30,7 +31,7 @@ class ActionProfile: public Action
 public:
     ActionProfile(ProfileClient *profileClient);
 
-    virtual void activate(const RuleAction &rule);
+    virtual bool activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule);
 };
 
 #endif // ACTIONPROFILE_H

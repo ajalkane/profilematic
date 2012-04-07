@@ -20,9 +20,9 @@
 #ifndef ACTIONPRESENCE_H
 #define ACTIONPRESENCE_H
 
-#include "../action.h"
+#include "../actionstatefulbase.h"
 
-class ActionPresence : public Action
+class ActionPresence : public ActionStatefulBase
 {
 };
 

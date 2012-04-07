@@ -20,6 +20,7 @@
 #define ACTION_H
 
 #include "../model/ruleaction.h"
+#include "../model/rule.h"
 
 class Action
 {
@@ -27,7 +28,12 @@ public:
     Action();
     virtual ~Action();
 
-    virtual void activate(const RuleAction &rule) = 0;
+    virtual void startRefresh() = 0;
+
+    virtual void activate(const Rule::IdType &ruleId, const RuleAction &rule) = 0;
+
+    virtual void endRefresh() = 0;
+
 };
 
 #endif // ACTION_H

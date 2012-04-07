@@ -25,36 +25,38 @@ ActionStandByScreenMode::ActionStandByScreenMode(PlatformUtil *platformUtil)
 
 }
 
-void
-ActionStandByScreenMode::activate(const RuleAction &rule) {
+bool
+ActionStandByScreenMode::activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule) {
 
     int standByScreenMode = rule.getStandByScreenMode();
+    bool activated = true;
 
-    // TODO isDefaultRule
-    if ((standByScreenMode < 0 /*|| rule.isDefaultRule()*/) && _previousSbsmState >= 0) {
+    if (useRestoreAction(ruleId, standByScreenMode >= 0, _previousSbsmState >= 0)) {
         qDebug("ActionStandByScreenMode::activate restore, sbsmState not set or is default rule");
         qDebug("ActionStandByScreenMode::activate previous rule had restore sbsmState, restoring sbsmState %d",
                _previousSbsmState);
         standByScreenMode = _previousSbsmState;
         _platformUtil->setStandByScreenMode(_previousSbsmState);
         _previousSbsmState = -1;
+        // Restore is not returned as activation
+        activated = false;
     }
     else if (standByScreenMode < 0) {
         qDebug("ActionStandByScreenMode::activate not setting stand-by-screen state");
-        return;
+        return false;
     }
 
-    if (rule.getStandByScreenMode() >= 0) {
-        if (rule.getStandByScreenMode() == 1) {
-            _previousSbsmState = _platformUtil->standByScreenMode();
-            _platformUtil->setStandByScreenMode(1);
-            qDebug("ActionStandByScreenMode::activate StandByScreen enabled");
-            _platformUtil->publishNotification("StandByScreen action enabled");
-        } else {
-            _previousSbsmState = _platformUtil->standByScreenMode();
-            _platformUtil->setStandByScreenMode(0);
-            qDebug("ActionStandByScreenMode::activate StandByScreen disabled");
-            _platformUtil->publishNotification("StandByScreen action disabled");
-        }
+    if (standByScreenMode == 1) {
+        _previousSbsmState = _platformUtil->standByScreenMode();
+        _platformUtil->setStandByScreenMode(1);
+        qDebug("ActionStandByScreenMode::activate StandByScreen enabled");
+        _platformUtil->publishNotification("StandByScreen action enabled");
+    } else {
+        _previousSbsmState = _platformUtil->standByScreenMode();
+        _platformUtil->setStandByScreenMode(0);
+        qDebug("ActionStandByScreenMode::activate StandByScreen disabled");
+        _platformUtil->publishNotification("StandByScreen action disabled");
     }
+
+    return activated;
 }

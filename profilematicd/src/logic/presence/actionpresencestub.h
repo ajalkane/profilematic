@@ -21,12 +21,13 @@
 #define ACTIONPRESENCESTUB_H
 
 #include "actionpresence.h"
+
 class ActionPresenceStub : public ActionPresence
 {
 public:
     ActionPresenceStub();
 
-    void activate(const RuleAction &rule);
+    bool activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule);
 };
 
 #endif // ACTIONPRESENCESTUB_H

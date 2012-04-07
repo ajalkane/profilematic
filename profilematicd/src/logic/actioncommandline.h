@@ -19,17 +19,17 @@
 #ifndef ACTIONCOMMANDLINE_H
 #define ACTIONCOMMANDLINE_H
 
-#include "action.h"
+#include "actionactivateoncebase.h"
 #include "../platform/platformutil.h"
 
-class ActionCommandLine: public Action
+class ActionCommandLine: public ActionActivateOnceBase
 {
     PlatformUtil *_platformUtil;
 
 public:
     ActionCommandLine(PlatformUtil *platformUtil);
 
-    virtual void activate(const RuleAction &rule);
+    virtual bool activateOnce(const Rule::IdType &ruleId, const RuleAction &rule);
 };
 
 #endif // ACTIONCOMMANDLINE_H

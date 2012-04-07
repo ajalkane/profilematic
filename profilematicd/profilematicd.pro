@@ -59,7 +59,9 @@ SOURCES += src/main.cpp \
     src/logic/actioncellularmode.cpp \
     src/logic/actioncommandline.cpp \
     src/logic/actionstandbyscreenmode.cpp \
-    src/model/rulecondition.cpp
+    src/model/rulecondition.cpp \
+    src/logic/actionstatefulbase.cpp \
+    src/logic/actionactivateoncebase.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -86,7 +88,9 @@ HEADERS += \
     src/logic/actioncellularmode.h \
     src/logic/actioncommandline.h \
     src/logic/actionstandbyscreenmode.h \
-    src/model/rulecondition.h
+    src/model/rulecondition.h \
+    src/logic/actionstatefulbase.h \
+    src/logic/actionactivateoncebase.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp

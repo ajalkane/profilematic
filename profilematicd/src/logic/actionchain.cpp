@@ -32,11 +32,29 @@ ActionChain::~ActionChain()
 }
 
 void
-ActionChain::activate(const RuleAction &rule) {
+ActionChain::startRefresh() {
     QList<Action *>::const_iterator i = _actions.constBegin();
     for (; i != _actions.constEnd(); ++i) {
         Action *action = *i;
-        action->activate(rule);
+        action->startRefresh();
+    }
+}
+
+void
+ActionChain::activate(const Rule::IdType &ruleId, const RuleAction &rule) {
+    QList<Action *>::const_iterator i = _actions.constBegin();
+    for (; i != _actions.constEnd(); ++i) {
+        Action *action = *i;
+        action->activate(ruleId, rule);
+    }
+}
+
+void
+ActionChain::endRefresh() {
+    QList<Action *>::const_iterator i = _actions.constBegin();
+    for (; i != _actions.constEnd(); ++i) {
+        Action *action = *i;
+        action->endRefresh();
     }
 }
 
@@ -44,3 +62,4 @@ void
 ActionChain::add(Action *action) {
     _actions.append(action);
 }
+

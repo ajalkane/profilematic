@@ -31,7 +31,11 @@ public:
     ActionChain();
     virtual ~ActionChain();
 
-    virtual void activate(const RuleAction &rule);
+    virtual void startRefresh();
+
+    virtual void activate(const Rule::IdType &ruleId, const RuleAction &rule);
+
+    virtual void endRefresh();
 
     void add(Action *action);
 };

@@ -72,8 +72,9 @@ public:
     Rule &conditionsFrom(const Rule &o);
     Rule &actionsFrom(const Rule &o);
     bool isDefaultRule() const;
+    static inline bool isDefaultRule(const IdType &id) { return id == DEFAULT_RULE_ID; }
 
-    QString getRuleId() const;
+    const QString &getRuleId() const;
     void setRuleId(const QString &ruleId);
 
     QString getRuleName() const;

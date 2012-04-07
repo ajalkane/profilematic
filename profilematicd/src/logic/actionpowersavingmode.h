@@ -19,10 +19,10 @@
 #ifndef ACTIONPOWERSAVINGMODE_H
 #define ACTIONPOWERSAVINGMODE_H
 
-#include "action.h"
+#include "actionstatefulbase.h"
 #include "../platform/platformutil.h"
 
-class ActionPowerSavingMode: public Action
+class ActionPowerSavingMode: public ActionStatefulBase
 {
     PlatformUtil *_platformUtil;
     int _previousPsmState;
@@ -30,7 +30,7 @@ class ActionPowerSavingMode: public Action
 public:
     ActionPowerSavingMode(PlatformUtil *platformUtil);
 
-    virtual void activate(const RuleAction &rule);
+    virtual bool activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule);
 };
 
 #endif // ACTIONPOWERSAVINGMODE_H

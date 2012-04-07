@@ -30,6 +30,7 @@ ConditionManagerLocationCell::~ConditionManagerLocationCell() {
 
 void
 ConditionManagerLocationCell::startRefresh() {
+    _currentRuleCellIds.clear();
     _watchedCellIds.clear();
     // Use -2 as the unset current cell id, since -1 is used by the framework for
     // not being able to get cell id.
@@ -61,7 +62,7 @@ ConditionManagerLocationCell::refresh(const RuleCondition &rule) {
 
 void
 ConditionManagerLocationCell::matchedRule(const RuleCondition &rule) {
-    _currentRuleCellIds = rule.getLocationCells();
+    _currentRuleCellIds.unite(rule.getLocationCells());
 }
 
 void

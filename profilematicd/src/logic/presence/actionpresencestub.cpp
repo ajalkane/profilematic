@@ -25,9 +25,11 @@ ActionPresenceStub::ActionPresenceStub()
 {
 }
 
-void ActionPresenceStub::activate(const RuleAction &rule)
+bool
+ActionPresenceStub::activateDifferent(const Rule::IdType &, const RuleAction &rule)
 {
     Q_UNUSED(rule)
 
     qDebug() << "Would activate accounts rule here.";
+    return true;
 }

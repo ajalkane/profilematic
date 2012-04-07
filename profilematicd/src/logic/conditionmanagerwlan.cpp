@@ -98,6 +98,8 @@ ConditionManagerWlan::_logConfiguration(const QNetworkConfiguration &config) con
 void
 ConditionManagerWlan::startRefresh() {
     _watchedWlanNames.clear();
+    _currentRuleWlanNames.clear();
+    _currentRuleWlanTimeoutSecs = 0;
 }
 
 bool
@@ -126,8 +128,8 @@ ConditionManagerWlan::refresh(const RuleCondition &rule) {
 
 void
 ConditionManagerWlan::matchedRule(const RuleCondition &rule) {
-    _currentRuleWlanNames = rule.getWlan();
-    _currentRuleWlanTimeoutSecs = rule.getWlanTimeout();
+    _currentRuleWlanNames.unite(rule.getWlan());
+    _currentRuleWlanTimeoutSecs = qMax(_currentRuleWlanTimeoutSecs, rule.getWlanTimeout());
 }
 
 void

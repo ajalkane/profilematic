@@ -44,37 +44,30 @@ RulesManager::refresh() {
 
 void
 RulesManager::_refresh(bool forceActivate) {
+    qDebug("\n\nREFRESH\n\n");
     _conditionManager->startRefresh();
+    _action->startRefresh();
+    _activeRuleIds.clear();
     if (_preferences->isActive) {
         qDebug("%s RulesManager::refresh()", qPrintable(QDateTime::currentDateTime().toString()));
-        QList<Rule>::const_iterator firstMatchingRule = _rules->constBegin();
-        for (; firstMatchingRule != _rules->constEnd(); ++firstMatchingRule) {
-            const Rule &rule = *firstMatchingRule;
+        QList<Rule>::const_iterator ruleI = _rules->constBegin();
+        for (; ruleI != _rules->constEnd(); ++ruleI) {
+            const Rule &rule = *ruleI;
             bool isMatching = rule.isDefaultRule() || _conditionManager->refresh(rule.condition());
             if (isMatching) {
-                break;
+                _activateRule(rule);
+                _activeRuleIds << rule.getRuleId();
+                _conditionManager->matchedRule(rule.condition());
             }
         }
 
-        qDebug("%s RulesManager::refresh matching rule found %d, is same as current %d, is forceActivate %d",
-               qPrintable(QDateTime::currentDateTime().toString()),
-               firstMatchingRule != _rules->constEnd(),
-               _activeRuleIds.contains(firstMatchingRule->getRuleId()),
-               forceActivate);
-
-        if (firstMatchingRule != _rules->constEnd() && (forceActivate || !_activeRuleIds.contains(firstMatchingRule->getRuleId()))) {
-            const Rule &matchedRule = *firstMatchingRule;
-            _conditionManager->matchedRule(matchedRule.condition());
-            _activateRule(matchedRule);
-            _activeRuleIds.clear();
-            _activeRuleIds << matchedRule.getRuleId();
-            emit activeRuleIdsChanged(_activeRuleIds.toList());
-        }
+        emit activeRuleIdsChanged(_activeRuleIds.toList());
     } else {
         qDebug("%s RulesManager::refresh(), ProfileMatic not active", qPrintable(QDateTime::currentDateTime().toString()));
         _activeRuleIds.clear();
     }
     _conditionManager->endRefresh();
+    _action->endRefresh();
 }
 
 void
@@ -82,5 +75,5 @@ RulesManager::_activateRule(const Rule &rule) {
     qDebug("RulesManager::_activateRule: activatingRule %s/%s",
            qPrintable(rule.getRuleId()),
            qPrintable(rule.getRuleName()));
-    _action->activate(rule.action());
+    _action->activate(rule.getRuleId(), rule.action());
 }
