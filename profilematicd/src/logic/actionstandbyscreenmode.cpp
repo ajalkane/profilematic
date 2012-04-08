@@ -19,8 +19,8 @@
 
 #include "actionstandbyscreenmode.h"
 
-ActionStandByScreenMode::ActionStandByScreenMode(PlatformUtil *platformUtil)
-    : _platformUtil(platformUtil), _previousSbsmState(-1)
+ActionStandByScreenMode::ActionStandByScreenMode()
+    : _previousSbsmState(-1)
 {
 
 }
@@ -36,7 +36,7 @@ ActionStandByScreenMode::activateDifferent(const Rule::IdType &ruleId, const Rul
         qDebug("ActionStandByScreenMode::activate previous rule had restore sbsmState, restoring sbsmState %d",
                _previousSbsmState);
         standByScreenMode = _previousSbsmState;
-        _platformUtil->setStandByScreenMode(_previousSbsmState);
+        PlatformUtil::instance()->setStandByScreenMode(_previousSbsmState);
         _previousSbsmState = -1;
         // Restore is not returned as activation
         activated = false;
@@ -47,15 +47,15 @@ ActionStandByScreenMode::activateDifferent(const Rule::IdType &ruleId, const Rul
     }
 
     if (standByScreenMode == 1) {
-        _previousSbsmState = _platformUtil->standByScreenMode();
-        _platformUtil->setStandByScreenMode(1);
+        _previousSbsmState = PlatformUtil::instance()->standByScreenMode();
+        PlatformUtil::instance()->setStandByScreenMode(1);
         qDebug("ActionStandByScreenMode::activate StandByScreen enabled");
-        _platformUtil->publishNotification("StandByScreen action enabled");
+        PlatformUtil::instance()->publishNotification("StandByScreen action enabled");
     } else {
-        _previousSbsmState = _platformUtil->standByScreenMode();
-        _platformUtil->setStandByScreenMode(0);
+        _previousSbsmState = PlatformUtil::instance()->standByScreenMode();
+        PlatformUtil::instance()->setStandByScreenMode(0);
         qDebug("ActionStandByScreenMode::activate StandByScreen disabled");
-        _platformUtil->publishNotification("StandByScreen action disabled");
+        PlatformUtil::instance()->publishNotification("StandByScreen action disabled");
     }
 
     return activated;

@@ -2,8 +2,7 @@
 
 #include "actioncommandline.h"
 
-ActionCommandLine::ActionCommandLine(PlatformUtil *platformUtil)
-    : _platformUtil(platformUtil)
+ActionCommandLine::ActionCommandLine()
 {
 }
 
@@ -14,8 +13,7 @@ ActionCommandLine::activateOnce(const Rule::IdType &, const RuleAction &rule) {
         bool success = QProcess::startDetached(rule.getCommandLine());
         qDebug("ActionCommandLine::success %d", success);
         if (!success) {
-            // TODO platformUtil to singleton
-            // _platformUtil->publishNotification("Custom action failed");
+            PlatformUtil::instance()->publishNotification("Custom action failed");
         }
         return true;
     } else {

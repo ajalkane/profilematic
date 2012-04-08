@@ -26,11 +26,10 @@ class GConfItem;
 
 class ActionStandByScreenMode: public ActionStatefulBase
 {
-    PlatformUtil *_platformUtil;
     int _previousSbsmState;
 
 public:
-    ActionStandByScreenMode(PlatformUtil *platformUtil);
+    ActionStandByScreenMode();
 
     virtual bool activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule);
 };

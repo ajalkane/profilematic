@@ -24,11 +24,9 @@
 
 class ActionFlightMode: public ActionStatefulBase
 {
-    PlatformUtil *_platformUtil;
     int _previousFlightMode;
-
 public:
-    ActionFlightMode(PlatformUtil *platformUtil);
+    ActionFlightMode();
 
     virtual bool activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule);
 };

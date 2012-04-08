@@ -19,8 +19,8 @@
 
 #include "actionpowersavingmode.h"
 
-ActionPowerSavingMode::ActionPowerSavingMode(PlatformUtil *platformUtil)
-    : _platformUtil(platformUtil), _previousPsmState(-1)
+ActionPowerSavingMode::ActionPowerSavingMode()
+    : _previousPsmState(-1)
 {
 
 }
@@ -44,12 +44,12 @@ ActionPowerSavingMode::activateDifferent(const Rule::IdType &ruleId, const RuleA
         return false;
     }
     if (rule.getRestorePowerSavingMode()) {
-        _previousPsmState = _platformUtil->powerSavingMode();
+        _previousPsmState = PlatformUtil::instance()->powerSavingMode();
     } else {
         _previousPsmState = -1;
     }
 
     qDebug("Setting power saving mode %d", powerSavingMode);
-    _platformUtil->setPowerSavingMode(powerSavingMode);
+    PlatformUtil::instance()->setPowerSavingMode(powerSavingMode);
     return activated;
 }

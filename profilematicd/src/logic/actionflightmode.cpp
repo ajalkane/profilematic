@@ -18,8 +18,7 @@
 **/
 #include "actionflightmode.h"
 
-ActionFlightMode::ActionFlightMode(PlatformUtil *platformUtil)
-    : _platformUtil(platformUtil), _previousFlightMode(-1)
+ActionFlightMode::ActionFlightMode()
 {
 
 }
@@ -43,12 +42,12 @@ ActionFlightMode::activateDifferent(const Rule::IdType &ruleId, const RuleAction
         return false;
     }
     if (rule.getRestoreFlightMode()) {
-        _previousFlightMode = _platformUtil->flightMode();
+        _previousFlightMode = PlatformUtil::instance()->flightMode();
     } else {
         _previousFlightMode = -1;
     }
 
     qDebug("Setting flight mode %d", flightMode);
-    _platformUtil->setFlightMode(flightMode);
+    PlatformUtil::instance()->setFlightMode(flightMode);
     return activated;
 }

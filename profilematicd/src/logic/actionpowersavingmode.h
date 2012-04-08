@@ -24,11 +24,10 @@
 
 class ActionPowerSavingMode: public ActionStatefulBase
 {
-    PlatformUtil *_platformUtil;
     int _previousPsmState;
 
 public:
-    ActionPowerSavingMode(PlatformUtil *platformUtil);
+    ActionPowerSavingMode();
 
     virtual bool activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule);
 };

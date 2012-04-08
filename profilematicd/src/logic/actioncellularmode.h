@@ -24,10 +24,8 @@
 
 class ActionCellularMode: public ActionStatefulBase
 {
-    PlatformUtil *_platformUtil;
-
 public:
-    ActionCellularMode(PlatformUtil *platformUtil);
+    ActionCellularMode();
 
     virtual bool activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule);
 };

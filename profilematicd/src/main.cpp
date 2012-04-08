@@ -55,18 +55,16 @@ buildConditionManager() {
 }
 
 Action *
-buildAction(ProfileClient *profileClient, PlatformUtil *platformUtil) {
-    // IMPROVE: platformUtil is needed in most classes. It's idiotic
-    // to reserve memory for a pointer all of them, instead should be a singleton.
+buildAction(ProfileClient *profileClient) {
     ActionChain *ac = new ActionChain();
     ac->add(new ActionProfile(profileClient));
-    ac->add(new ActionFlightMode(platformUtil));
-    ac->add(new ActionPowerSavingMode(platformUtil));
+    ac->add(new ActionFlightMode());
+    ac->add(new ActionPowerSavingMode());
     ac->add(new ActionBlueTooth());
-    ac->add(new ActionCellularMode(platformUtil));
-    ac->add(new ActionCommandLine(platformUtil));
-    ac->add(new ActionStandByScreenMode(platformUtil));
-    ac->add(platformUtil->createActionPresence());
+    ac->add(new ActionCellularMode());
+    ac->add(new ActionCommandLine());
+    ac->add(new ActionStandByScreenMode());
+    ac->add(PlatformUtil::instance()->createActionPresence());
     return ac;
 }
 
@@ -74,20 +72,21 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
+    PlatformUtil::initialize();
     ProfileClient profileClient;
     Preferences preferences;
-    QScopedPointer<PlatformUtil> platformUtil(PlatformUtil::create());
     int rules_version = -1;
     QList<Rule> rules;
     Configuration::readRules(rules, &rules_version);
     Configuration::readPreferences(preferences);
     QScopedPointer<ConditionManager> conditionManager(buildConditionManager());
-    QScopedPointer<Action> action(buildAction(&profileClient, platformUtil.data()));
+    QScopedPointer<Action> action(buildAction(&profileClient));
     RulesManager rulesManager(&rules, conditionManager.data(), action.data(), &preferences);
     ProfileMaticInterface interface(&rulesManager, &rules, &preferences);
 
     if (interface.init()) {
         fprintf(stderr, "Exiting\n");
+        PlatformUtil::deinitialize();
         return -1;
     }
 
@@ -105,5 +104,8 @@ int main(int argc, char *argv[])
     qDebug("Starting");
     int ret = a.exec();
     qDebug("Exiting\n");
+
+    PlatformUtil::deinitialize();
+
     return ret;
 }

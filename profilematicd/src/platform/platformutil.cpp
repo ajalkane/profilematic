@@ -16,6 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
+#include <cstdio>
+#include <cstdlib>
+
 #include <QtGlobal>
 
 #include "platformutil.h"
@@ -29,6 +32,8 @@
 #include "../logic/presence/actionpresencestub.h"
 #endif
 
+PlatformUtil *PlatformUtil::_instance = 0;
+
 PlatformUtil::PlatformUtil(QObject *parent)
     : QObject(parent)
 {
@@ -38,8 +43,24 @@ PlatformUtil::~PlatformUtil()
 {
 }
 
+void
+PlatformUtil::initialize() {
+    if (_instance != 0) {
+        fprintf(stderr, "PlatformUtil::initialize called more than once");
+        exit(1);
+    }
+
+    _instance = PlatformUtil::_create();
+}
+
+void
+PlatformUtil::deinitialize() {
+    delete _instance;
+    _instance = 0;
+}
+
 PlatformUtil *
-PlatformUtil::create()
+PlatformUtil::_create()
 {
     // MEEGO_VERSION_MAJOR seems to be defined only for qmake, not for the compilation.
     // So for now use __arm__ as ugly workaround.

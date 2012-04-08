@@ -26,10 +26,21 @@ class ActionPresence;
 class PlatformUtil : public QObject
 {
     Q_OBJECT
+
+    static PlatformUtil *_instance;
+
+    static PlatformUtil *_create();
 protected:
     PlatformUtil(QObject *parent = 0);
 public:
-    static PlatformUtil *create();
+    // Initialize must be called before instance can be used.
+    static inline PlatformUtil *instance() {
+        return _instance;
+    }
+
+    static void initialize();
+    static void deinitialize();
+
     virtual ~PlatformUtil();
 
     virtual int flightMode() const;
