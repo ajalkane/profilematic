@@ -60,14 +60,13 @@ RulesManager::_refresh(bool forceActivate) {
                 _conditionManager->matchedRule(rule.condition());
             }
         }
-
-        emit activeRuleIdsChanged(_activeRuleIds.toList());
     } else {
         qDebug("%s RulesManager::refresh(), ProfileMatic not active", qPrintable(QDateTime::currentDateTime().toString()));
-        _activeRuleIds.clear();
     }
     _conditionManager->endRefresh();
     _action->endRefresh();
+
+    emit activeRuleIdsChanged(_activeRuleIds.toList());
 }
 
 void
