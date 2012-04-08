@@ -185,6 +185,24 @@ Page {
                 } // Item
             } // Repeater
 
+            TextFieldWithLabel {
+                labelText: "Timeout in seconds"
+                placeholderText: "No timeout"
+                text: condition.locationCellsTimeout !== 0 ? condition.locationCellsTimeout : ""
+                inputMethodHints: Qt.ImhDigitsOnly
+                inputMask: "000"
+                width: parent.width
+                onTextChanged: {
+                    condition.locationCellsTimeout = parseInt(text)
+                }
+            }
+
+            SectionHeader {
+                width: parent.width
+                height: 20
+                section: "Help"
+            }
+
             Label {
                 id: help
                 text: "<b>Did you know?</b>"

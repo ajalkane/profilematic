@@ -22,6 +22,7 @@
 #include <QObject>
 #include <QSet>
 #include <QSystemNetworkInfo>
+#include <QSystemAlignedTimer>
 
 QTM_USE_NAMESPACE
 
@@ -35,7 +36,11 @@ class ConditionManagerLocationCell : public ConditionManager {
 
     QSet<int> _watchedCellIds;
     QSet<int> _currentRuleCellIds;
+    int _currentTimeout;
     int _currentCellId;
+    QSystemAlignedTimer _cellsTimeout;
+
+    bool _enteredNonWatchedCell();
 
 public:
     ConditionManagerLocationCell(QObject *parent = 0);
@@ -50,6 +55,7 @@ public:
 
 public slots:
     void cellIdChanged(int cellId);
+    void onCurrentCellsTimeout();
 };
 
 #endif // CONDITIONMANAGERLOCATIONCELL_H

@@ -47,6 +47,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("ruleName", r.getRuleName());
         _writeIntList(s, "days", "dayId", r.condition().getDays().toList());
         _writeIntList(s, "locationCells", "cellId", r.condition().getLocationCells().toList());
+        s.setValue("locationCellsTimeout", r.condition().getLocationCellsTimeout());
         _writeStringList(s, "wlans", "wlanName", r.condition().getWlan().toList());
         s.setValue("wlanTimeout", r.condition().getWlanTimeout());
         s.setValue("timeStart", r.condition().getTimeStart().toString());
@@ -98,6 +99,12 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         QList<int> locationCells;
         _readIntList(s, "locationCells", "cellId", locationCells);
         r.condition().setLocationCells(QSet<int>::fromList(locationCells));
+
+        bool locationCellsTimeoutOk = false;
+        int locationCellsTimeout = s.value("locationCellsTimeout").toInt(&locationCellsTimeoutOk);
+        if (locationCellsTimeoutOk) {
+            r.condition().setLocationCellsTimeout(locationCellsTimeout);
+        }
 
         QList<QString> wlans;
         _readStringList(s, "wlans", "wlanName", wlans);

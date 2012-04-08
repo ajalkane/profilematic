@@ -17,6 +17,7 @@ class RuleCondition : public QObject
     QTime     _timeEnd;
     QSet<int> _days;
     QSet<int> _locationCells;
+    int       _locationCellsTimeout;
     QSet<QString> _wlan;
     int       _wlanTimeout;
 
@@ -26,6 +27,7 @@ class RuleCondition : public QObject
     Q_PROPERTY(QString timeEnd READ getTimeEndQml WRITE setTimeEndQml NOTIFY timeEndChanged)
     Q_PROPERTY(QVariantList days READ getDaysQml WRITE setDaysQml NOTIFY daysChanged)
     Q_PROPERTY(QVariantList locationCells READ getLocationCellsQml WRITE setLocationCellsQml NOTIFY locationCellsChanged)
+    Q_PROPERTY(int locationCellsTimeout READ getLocationCellsTimeout WRITE setLocationCellsTimeout NOTIFY locationCellsTimeoutChanged)
     Q_PROPERTY(QVariantList wlan READ getWlanQml WRITE setWlanQml NOTIFY wlanChanged)
     Q_PROPERTY(int wlanTimeout READ getWlanTimeout WRITE setWlanTimeout NOTIFY wlanTimeoutChanged)
 
@@ -43,6 +45,7 @@ signals:
     void timeEndChanged();
     void daysChanged();
     void locationCellsChanged();
+    void locationCellsTimeoutChanged();
     void wlanChanged();
     void wlanTimeoutChanged();
 
@@ -84,6 +87,9 @@ public:
     QVariantList getLocationCellsQml() const;
     void setLocationCellsQml(const QVariantList &cells);
 
+    int getLocationCellsTimeout() const;
+    void setLocationCellsTimeout(int timeoutSecs);
+
     const QSet<QString> &getWlan() const;
     void setWlan(const QSet<QString> &wlan);
     // For QML
@@ -98,7 +104,9 @@ public:
             && this->_timeEnd   == o._timeEnd
             && this->_days      == o._days
             && this->_locationCells == o._locationCells
-            && this->_wlan      == o._wlan;
+            && this->_locationCellsTimeout == o._locationCellsTimeout
+            && this->_wlan      == o._wlan
+            && this->_wlanTimeout == o._wlanTimeout;
     }
 
     inline bool isTimeStartRuleUsable() const {
