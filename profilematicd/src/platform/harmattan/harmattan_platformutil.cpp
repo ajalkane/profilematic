@@ -25,6 +25,7 @@
 #include <gconfitem.h>
 
 #define GCONF_STAND_BY_SCREEN_KEY "/system/osso/dsm/display/use_low_power_mode"
+#define GCONF_BACKGROUND_CONNECTIONS_DISABLED_KEY "/system/osso/connectivity/network_type/restricted_mode"
 
 HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
     : PlatformUtil(parent)
@@ -160,6 +161,34 @@ int
 HarmattanPlatformUtil::standByScreenMode() const {
     GConfItem gconfItem(GCONF_STAND_BY_SCREEN_KEY);
     return gconfItem.value().toInt();
+}
+
+
+void
+HarmattanPlatformUtil::setBackgroundConnectionsMode(int mode) {
+    qDebug("HarmattanPlatformUtil::setBackgroundConnectionsMode %d", mode);
+    GConfItem gconfItem(GCONF_BACKGROUND_CONNECTIONS_DISABLED_KEY);
+    if (mode == 0 || mode == 1) {
+        gconfItem.set((mode + 1) % 2);
+    } else {
+        qDebug("HarmattanPlatformUtil::setBackgroundConnectionsMode unsupported mode %d", mode);
+    }
+}
+
+int
+HarmattanPlatformUtil::backgroundConnectionsMode() const {
+    GConfItem gconfItem(GCONF_BACKGROUND_CONNECTIONS_DISABLED_KEY);
+    int disabled = gconfItem.value().toInt();
+    switch (disabled) {
+    case 0:
+        // Enabled
+        return 1;
+    case 1:
+        // Disabled
+        return 0;
+    }
+    qWarning("HarmattanPlatformUtil::backgroundConnectionsMode() unrecognized value %d, returning -1", disabled);
+    return -1;
 }
 
 void

@@ -38,6 +38,8 @@ public:
     virtual void publishNotification(const QString &message);
     virtual int standByScreenMode() const;
     virtual void setStandByScreenMode(int mode);
+    virtual int backgroundConnectionsMode() const;
+    virtual void setBackgroundConnectionsMode(int mode);
 
     ActionPresence *createActionPresence();
 };

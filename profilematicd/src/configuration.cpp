@@ -64,6 +64,9 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("cellularMode", r.action().getCellularMode());
         s.setValue("commandLine", r.action().getCommandLine());
         s.setValue("standByScreenMode", r.action().getStandByScreenMode());
+        s.setValue("restoreStandByScreenMode", r.action().getRestoreStandByScreenMode());
+        s.setValue("backgroundConnectionsMode", r.action().getBackgroundConnectionsMode());
+        s.setValue("restoreBackgroundConnectionsMode", r.action().getRestoreBackgroundConnectionsMode());
         _writePresenceRuleList(s, r.action().presenceRules());
         s.setValue("presenceStatusMessage", r.action().getPresenceStatusMessage());
         s.setValue("restorePresence", r.action().getRestorePresence());
@@ -158,12 +161,22 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         }
         r.action().setCommandLine(s.value("commandLine").toString());
 
-        bool standByScreenModeOk = false;
-        int standByScreenMode = s.value("standByScreenMode").toInt(&standByScreenModeOk);
-        if (standByScreenModeOk) {
-            r.action().setStandByScreenMode(standByScreenMode);
+        {
+            bool standByScreenModeOk = false;
+            int standByScreenMode = s.value("standByScreenMode").toInt(&standByScreenModeOk);
+            if (standByScreenModeOk) {
+                r.action().setStandByScreenMode(standByScreenMode);
+            }
+            r.action().setRestoreStandByScreenMode(s.value("restoreStandByScreenMode", false).toBool());
         }
-
+        {
+            bool backgroundConnectionsModeOk = false;
+            int backgroundConnectionsMode = s.value("backgroundConnectionsMode").toInt(&backgroundConnectionsModeOk);
+            if (backgroundConnectionsModeOk) {
+                r.action().setBackgroundConnectionsMode(backgroundConnectionsMode);
+            }
+            r.action().setRestoreBackgroundConnectionsMode(s.value("restoreBackgroundConnectionsMode", false).toBool());
+        }
         QList<PresenceRule *> presenceRules;
         _readPresenceRuleList(s, presenceRules);
         r.action().setPresenceRules(presenceRules);

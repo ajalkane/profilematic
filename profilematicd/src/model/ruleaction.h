@@ -34,6 +34,8 @@ private:
     QString _commandLine;
     int     _standByScreenMode;
     bool    _restoreStandByScreenMode;
+    int     _backgroundConnectionsMode;
+    bool    _restoreBackgroundConnectionsMode;
 
     QList<PresenceRule *> _presenceRules;
     QString _presenceStatusMessage;
@@ -55,6 +57,8 @@ private:
     Q_PROPERTY(QString commandLine READ getCommandLine WRITE setCommandLine NOTIFY commandLineChanged)
     Q_PROPERTY(int standByScreenMode READ getStandByScreenMode WRITE setStandByScreenMode NOTIFY standByScreenModeChanged)
     Q_PROPERTY(bool restoreStandByScreenMode READ getRestoreStandByScreenMode WRITE setRestoreStandByScreenMode NOTIFY restoreStandByScreenModeChanged)
+    Q_PROPERTY(int backgroundConnectionsMode READ getBackgroundConnectionsMode WRITE setBackgroundConnectionsMode NOTIFY backgroundConnectionsModeChanged)
+    Q_PROPERTY(bool restoreBackgroundConnectionsMode READ getRestoreBackgroundConnectionsMode WRITE setRestoreBackgroundConnectionsMode NOTIFY restoreBackgroundConnectionsModeChanged)
 
     /**
       * This property gives access to the presence rules associated with this
@@ -95,6 +99,8 @@ signals:
     void presenceChangeTypeChanged();
     void standByScreenModeChanged();
     void restoreStandByScreenModeChanged();
+    void backgroundConnectionsModeChanged();
+    void restoreBackgroundConnectionsModeChanged();
 private slots:
     void onPresenceRuleChanged();
 public:
@@ -147,6 +153,12 @@ public:
     bool getRestoreStandByScreenMode() const;
     void setRestoreStandByScreenMode(bool restore);
 
+    // -1 don't set, 0 set backgroundConnections off, 1 set backgroundConnections on
+    int getBackgroundConnectionsMode() const;
+    void setBackgroundConnectionsMode(int mode);
+    bool getRestoreBackgroundConnectionsMode() const;
+    void setRestoreBackgroundConnectionsMode(bool restore);
+
     QString getCommandLine() const;
     void setCommandLine(const QString &commandLine);
 
@@ -184,7 +196,9 @@ public:
             && this->_presenceStatusMessage == o._presenceStatusMessage
             && this->_restorePresence == o._restorePresence
             && this->_standByScreenMode == o._standByScreenMode
-            && this->_restoreStandByScreenMode == o._restoreStandByScreenMode;
+            && this->_restoreStandByScreenMode == o._restoreStandByScreenMode
+            && this->_backgroundConnectionsMode == o._backgroundConnectionsMode
+            && this->_restoreBackgroundConnectionsMode == o._restoreBackgroundConnectionsMode;
     }
 
 };

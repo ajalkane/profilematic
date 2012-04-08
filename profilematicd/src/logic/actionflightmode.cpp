@@ -19,8 +19,8 @@
 #include "actionflightmode.h"
 
 ActionFlightMode::ActionFlightMode()
+    : _previousFlightMode(-1)
 {
-
 }
 
 bool

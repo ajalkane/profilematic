@@ -61,7 +61,8 @@ SOURCES += src/main.cpp \
     src/logic/actionstandbyscreenmode.cpp \
     src/model/rulecondition.cpp \
     src/logic/actionstatefulbase.cpp \
-    src/logic/actionactivateoncebase.cpp
+    src/logic/actionactivateoncebase.cpp \
+    src/logic/actionbackgroundconnections.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -90,7 +91,8 @@ HEADERS += \
     src/logic/actionstandbyscreenmode.h \
     src/model/rulecondition.h \
     src/logic/actionstatefulbase.h \
-    src/logic/actionactivateoncebase.h
+    src/logic/actionactivateoncebase.h \
+    src/logic/actionbackgroundconnections.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp

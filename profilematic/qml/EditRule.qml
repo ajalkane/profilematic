@@ -302,6 +302,13 @@ Page {
             }
 
             RuleTopicSummary {
+                topic: "Background connections"
+                summary: backgroundConnectionsModeSummary();
+                showDrillDown: true
+                onTopicClicked: backgroundConnectionsModeEditHandler()
+            }
+
+            RuleTopicSummary {
                 id: commandLineAction
                 topic: "Custom action"
                 summary: commandLineSummary();
@@ -509,6 +516,30 @@ Page {
 
     function standByScreenModeEditHandler() {
         pageStack.push(actionStandByScreenMode)
+    }
+
+    // Background connections
+    ActionBackgroundConnections {
+        id: actionBackgroundConnectionsMode
+        action: root.rule.action
+    }
+
+    function backgroundConnectionsModeSummary() {
+        var summary = ""
+        if (rule.action.backgroundConnectionsMode >= 0) {
+            summary = actionBackgroundConnectionsMode.backgroundConnectionsModeSummary()
+
+            if (rule.action.restoreBackgroundConnectionsMode) {
+                summary += ". Restores previous mode."
+            }
+            return summary
+        }
+        return "Click to set"
+    }
+
+
+    function backgroundConnectionsModeEditHandler() {
+        pageStack.push(actionBackgroundConnectionsMode)
     }
 
     // CommandLine

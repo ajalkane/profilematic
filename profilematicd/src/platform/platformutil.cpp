@@ -116,6 +116,17 @@ PlatformUtil::standByScreenMode() const {
 }
 
 void
+PlatformUtil::setBackgroundConnectionsMode(int mode) {
+    qDebug("PlatformUtil::setBackgroundConnectionsMode default, doing nothing for value %d", mode);
+}
+
+int
+PlatformUtil::backgroundConnectionsMode() const {
+    qDebug("PlatformUtil::backgroundConnectionsMode default, returning -1");
+    return -1;
+}
+
+void
 PlatformUtil::publishNotification(const QString &message) {
     qDebug("PlatformUtil::publishNotification default, doing nothing for value %s", qPrintable(message));
 }
