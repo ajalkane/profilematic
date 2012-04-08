@@ -40,8 +40,8 @@ protected:
      * actionSet: true if the action is set for this rule (ie. is not something like "Don't change")
      * restorableActionSet: true if action has been stored for restoring
      */
-    inline bool useRestoreAction(const Rule::IdType &ruleId, bool actionSet, bool restorableActionSet) const {
-        return (!actionSet || Rule::isDefaultRule(ruleId)) && restorableActionSet;
+    inline bool useRestoreAction(const Rule::IdType &ruleId, bool /*actionSet*/, bool restorableActionSet) const {
+        return (Rule::isDefaultRule(ruleId)) && restorableActionSet;
     }
 
 public:

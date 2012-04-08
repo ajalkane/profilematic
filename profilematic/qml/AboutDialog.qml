@@ -20,13 +20,15 @@ import QtQuick 1.1
 import com.nokia.meego 1.0
 
 MyQueryDialog {
-    titleText: "ProfileMatic v1.5.0"
+    titleText: "ProfileMatic v1.6.0"
     message: "<b>(c) Arto Jalkanen 2011-2012</b><br>"
              + "UX design by Dina & Arto Jalkanen<br>"
              + "<br>"
              + "Contributors:"
              + "<br>"
              + "Philip Lorenz (Availability)"
+             + "<br>"
+             + "Ferdinand Mayet (Stand-by screen)"
              + "<br>"
              + "<br>"
              + "See <a href=\"http://www.kolumbus.fi/~ks2877/profilematic/\">homepage</a> for more tips, sources, donation information, and more."
