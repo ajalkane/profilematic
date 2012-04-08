@@ -24,7 +24,6 @@
 
 #include "qmldaysmodel.h"
 
-// This class is just a placeholder for now.
 class QmlBackend : public QObject {
     Q_OBJECT
 

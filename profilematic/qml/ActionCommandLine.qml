@@ -64,6 +64,15 @@ Page {
                       + "Always use full paths for file paths."
             }
 
+            Button {
+                enabled: action.commandLine !== ""
+                // enabled: backendLocation.currentCell >= 0 && conditiong.locationCells.length < root.maxCells
+                text: "Test"
+                onClicked: {
+                    console.log("Testing command line")
+                    backendRulesModel.testCommandLine(action)
+                }
+            } // Button
         }
     }
 }

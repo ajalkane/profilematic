@@ -46,6 +46,8 @@ public:
     bool isActive() const;
     void setActive(bool isActive);
 
+    void testCommandLine(const QString &commandLine);
+
     // Returns QDBusError::ErrorType of last call. 0 is no error.
     int lastError() const;
 signals:

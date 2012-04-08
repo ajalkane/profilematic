@@ -99,6 +99,7 @@ public:
     Q_INVOKABLE QString getTimeSummaryText(const RuleCondition *condition, const QString &nonUsableTimeString) const;
     Q_INVOKABLE QString getTimeSummaryText(RuleCondition *condition, const QString &nonUsableTimeString) const;
     Q_INVOKABLE QString getRuleSummaryText(Rule *rule, const QString &nonUsableTimeString) const;
+    Q_INVOKABLE void testCommandLine(RuleAction *ruleAction) const;
 
     bool isActive() const;
     void setActive(bool isActive);

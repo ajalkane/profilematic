@@ -26,8 +26,8 @@ class ActionCommandLine: public ActionActivateOnceBase
 {
     PlatformUtil *_platformUtil;
 
-public:
-    ActionCommandLine(PlatformUtil *platformUtil);
+public:    
+    ActionCommandLine(PlatformUtil *platformUtil = 0);
 
     virtual bool activateOnce(const Rule::IdType &ruleId, const RuleAction &rule);
 };

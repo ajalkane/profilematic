@@ -490,6 +490,14 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
     return summary;
 }
 
+void
+QmlRulesModel::testCommandLine(RuleAction *ruleAction) const {
+    QString commandLine = ruleAction->getCommandLine().trimmed();
+    if (!commandLine.isEmpty()) {
+        _client->testCommandLine(ruleAction->getCommandLine());
+    }
+}
+
 Rule *
 QmlRulesModel::getEditRule() {
     return &_editRule;

@@ -23,6 +23,7 @@
 #include "../model/rule.h"
 #include "../model/presencerule.h"
 #include "../configuration.h"
+#include "../logic/actioncommandline.h"
 #include "profilematicinterface.h"
 
 #define PM_OBJECT_NAME "/org/ajalkane/profilematic"
@@ -197,6 +198,14 @@ ProfileMaticInterface::_rulesChanged() {
 void
 ProfileMaticInterface::_preferencesChanged() {
     Configuration::writePreferences(*_preferences);
+}
+
+void
+ProfileMaticInterface::runCommandLine(const QString &commandLine) const {
+    RuleAction ruleAction;
+    ruleAction.setCommandLine(commandLine);
+    ActionCommandLine action;
+    action.activate(QString(), ruleAction);
 }
 
 //// Returns id of created rule or empty if error. A new rule is always

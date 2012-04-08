@@ -14,7 +14,8 @@ ActionCommandLine::activateOnce(const Rule::IdType &, const RuleAction &rule) {
         bool success = QProcess::startDetached(rule.getCommandLine());
         qDebug("ActionCommandLine::success %d", success);
         if (!success) {
-            _platformUtil->publishNotification("Custom action failed");
+            // TODO platformUtil to singleton
+            // _platformUtil->publishNotification("Custom action failed");
         }
         return true;
     } else {

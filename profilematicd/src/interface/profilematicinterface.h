@@ -68,6 +68,10 @@ public slots:
     bool isActive() const;
     void setActive(bool active);
 
+    // Used to test command line
+    // IMPROVE: this D-Bus call should be protected for only to be used by ProfileMatic UI
+    void runCommandLine(const QString &commandLine) const;
+
 private:
     int _findRuleIndexById(const Rule::IdType &id) const;
     void _rulesChanged();

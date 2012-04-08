@@ -137,3 +137,11 @@ ProfileMaticClient::setActive(bool isActive) {
     }*/
 }
 
+void
+ProfileMaticClient::testCommandLine(const QString &commandLine) {
+    /*QDBusReply<QList<Rule> > reply = */ dbus_iface->call("runCommandLine", QVariant::fromValue(commandLine));
+    /*if (!reply.isValid()) {
+        QDBusError e = reply.error();
+        qDebug("updateRule error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());
+    }*/
+}
