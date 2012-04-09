@@ -54,6 +54,8 @@ public:
     virtual void endRefresh();
 
     // Return true if activated
+    // TODO: write down the behaviour the implementations must follow, especially regarding
+    // restoring of previous
     virtual bool activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule) = 0;
 };
 

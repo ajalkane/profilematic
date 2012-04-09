@@ -75,19 +75,23 @@ ActionPresenceImpl::activateDifferent(const Rule::IdType &ruleId, const RuleActi
         return true;
     }
 
-    if (hadPreviousPresences) {
+    if (useRestoreAction(ruleId, hasPresenceChanges, hadPreviousPresences)) {
         qDebug() << "ActionPresence::activate restoring previous presences";
-    }
+        // Restore previous presences if requested by the previous rule
+        foreach (const AccountPresence &previousPresence, _previousPresences) {
+            Tp::AccountPtr tpAccount
+                    = _accountManager->accountForPath(previousPresence.objectPath);
 
-    // Restore previous presences if requested by the previous rule
-    foreach (const AccountPresence &previousPresence, _previousPresences) {
-        Tp::AccountPtr tpAccount
-                = _accountManager->accountForPath(previousPresence.objectPath);
+            if (!tpAccount)
+                continue;
 
-        if (!tpAccount)
-            continue;
-
-        changeAccountPresence(tpAccount, previousPresence.presence);
+            changeAccountPresence(tpAccount, previousPresence.presence);
+        }
+        // Restore is not returned as activation
+        return false;
+    } else if (!hasPresenceChanges) {
+        qDebug() << "ActionPresence::activate not setting presence";
+        return false;
     }
 
     _previousPresences.clear();
@@ -114,18 +118,6 @@ ActionPresenceImpl::activateDifferent(const Rule::IdType &ruleId, const RuleActi
                 _previousPresences.append(AccountPresence(tpAccount));
             }
         }
-    }
-
-    if (!hasPresenceChanges) {
-        return false;
-    }
-
-    // In case we switch back to the default rule and previous availability
-    // information was restored - account availabilities set by the default
-    // rule should be ignored.
-    if (Rule::isDefaultRule(ruleId) && hadPreviousPresences) {
-        qDebug() << "ActionPresence::activate restored previous preferences. Current rule is default rule - overriding its settings";
-        return true;
     }
 
     changeAccountPresences(rule);
