@@ -19,11 +19,15 @@
 #ifndef HARMATTAN_PLATFORMUTIL_H
 #define HARMATTAN_PLATFORMUTIL_H
 
+#include <qmactivity.h>
+
 #include "../platformutil.h"
 
 class HarmattanPlatformUtil : public PlatformUtil
 {
     Q_OBJECT
+
+    MeeGo::QmActivity _qmActivity;
 
 public:
     HarmattanPlatformUtil(QObject *parent = 0);
@@ -42,6 +46,11 @@ public:
     virtual void setBackgroundConnectionsMode(int mode);
 
     ActionPresence *createActionPresence();
+
+    virtual bool isUserActivityIdle();
+
+private slots:
+    void activityChanged(MeeGo::QmActivity::Activity activity);
 };
 
 #endif // PLATFORMUTIL_H

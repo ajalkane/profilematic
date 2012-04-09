@@ -29,6 +29,7 @@
 #include "logic/conditionmanagertime.h"
 #include "logic/conditionmanagerlocationcell.h"
 #include "logic/conditionmanagerwlan.h"
+#include "logic/conditionmanageridle.h"
 #include "logic/actionchain.h"
 #include "logic/actioncellularmode.h"
 #include "logic/actioncommandline.h"
@@ -49,6 +50,7 @@
 ConditionManager *
 buildConditionManager() {
     ConditionManagerChain *cm = new ConditionManagerChain();
+    cm->add(new ConditionManagerIdle());
     cm->add(new ConditionManagerTime());
     cm->add(new ConditionManagerLocationCell());
     cm->add(new ConditionManagerWlan());

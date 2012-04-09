@@ -61,6 +61,11 @@ public:
     virtual void setBackgroundConnectionsMode(int mode);
 
     virtual ActionPresence *createActionPresence();
+
+    virtual bool isUserActivityIdle();
+
+signals:
+    void userActivityIdleChanged(bool isIdle);
 };
 
 #endif // PLATFORMUTIL_H

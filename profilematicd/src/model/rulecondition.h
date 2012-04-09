@@ -20,6 +20,7 @@ class RuleCondition : public QObject
     int       _locationCellsTimeout;
     QSet<QString> _wlan;
     int       _wlanTimeout;
+    int       _idleForSecs;
 
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
@@ -30,6 +31,7 @@ class RuleCondition : public QObject
     Q_PROPERTY(int locationCellsTimeout READ getLocationCellsTimeout WRITE setLocationCellsTimeout NOTIFY locationCellsTimeoutChanged)
     Q_PROPERTY(QVariantList wlan READ getWlanQml WRITE setWlanQml NOTIFY wlanChanged)
     Q_PROPERTY(int wlanTimeout READ getWlanTimeout WRITE setWlanTimeout NOTIFY wlanTimeoutChanged)
+    Q_PROPERTY(int idleForSecs READ getIdleForSecs WRITE setIdleForSecs NOTIFY idleForSecsChanged)
 
     QString _getTimeQml(const QTime &time) const;
 
@@ -48,6 +50,7 @@ signals:
     void locationCellsTimeoutChanged();
     void wlanChanged();
     void wlanTimeoutChanged();
+    void idleForSecsChanged();
 
 public:
     RuleCondition(QObject *parent = 0);
@@ -99,6 +102,9 @@ public:
     int getWlanTimeout() const;
     void setWlanTimeout(int timeoutSecs);
 
+    int getIdleForSecs() const { return _idleForSecs; }
+    void setIdleForSecs(int idleForSecs);
+
     inline bool operator==(const RuleCondition &o) const {
         return this->_timeStart == o._timeStart
             && this->_timeEnd   == o._timeEnd
@@ -106,7 +112,9 @@ public:
             && this->_locationCells == o._locationCells
             && this->_locationCellsTimeout == o._locationCellsTimeout
             && this->_wlan      == o._wlan
-            && this->_wlanTimeout == o._wlanTimeout;
+            && this->_wlanTimeout == o._wlanTimeout
+            && this->_idleForSecs == o._idleForSecs;
+
     }
 
     inline bool isTimeStartRuleUsable() const {

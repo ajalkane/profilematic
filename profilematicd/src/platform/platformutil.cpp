@@ -131,6 +131,12 @@ PlatformUtil::publishNotification(const QString &message) {
     qDebug("PlatformUtil::publishNotification default, doing nothing for value %s", qPrintable(message));
 }
 
+bool
+PlatformUtil::isUserActivityIdle() {
+    qDebug("PlatformUtil::isUserActivityIdle default, returning false");
+    return false;
+}
+
 ActionPresence *PlatformUtil::createActionPresence()
 {
 #ifndef __arm__

@@ -30,6 +30,7 @@
 HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
     : PlatformUtil(parent)
 {
+    connect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)));
 }
 
 HarmattanPlatformUtil::~HarmattanPlatformUtil() {}
@@ -200,6 +201,17 @@ HarmattanPlatformUtil::publishNotification(const QString &) {
 //    notification.setImage("/usr/share/icons/hicolor/80x80/apps/profilematic80.png");
 //    notification.setBody("message");
 //    notification.publish();
+}
+
+bool
+HarmattanPlatformUtil::isUserActivityIdle() {
+    return _qmActivity.get() == MeeGo::QmActivity::Inactive;
+}
+
+void
+HarmattanPlatformUtil::activityChanged(MeeGo::QmActivity::Activity activity)
+{
+    emit userActivityIdleChanged(activity == MeeGo::QmActivity::Inactive);
 }
 
 ActionPresence *

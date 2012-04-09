@@ -1,7 +1,7 @@
 #include "rulecondition.h"
 
 RuleCondition::RuleCondition(QObject *parent)
-    : QObject(parent), _locationCellsTimeout(0), _wlanTimeout(0)
+    : QObject(parent), _locationCellsTimeout(0), _wlanTimeout(0), _idleForSecs(-1)
 {
     _init();
 }
@@ -28,6 +28,7 @@ RuleCondition::_init() {
     connect(this, SIGNAL(locationCellsTimeoutChanged()), this, SIGNAL(changed()));
     connect(this, SIGNAL(wlanChanged()),          this, SIGNAL(changed()));
     connect(this, SIGNAL(wlanTimeoutChanged()),   this, SIGNAL(changed()));
+    connect(this, SIGNAL(idleForSecsChanged()),   this, SIGNAL(changed()));
 }
 
 
@@ -41,6 +42,7 @@ RuleCondition::operator=(const RuleCondition &o)
     _locationCellsTimeout = o._locationCellsTimeout;
     _wlan = o._wlan;
     _wlanTimeout = o._wlanTimeout;
+    _idleForSecs = o._idleForSecs;
 
     return *this;
 }
@@ -252,6 +254,14 @@ RuleCondition::setWlanTimeout(int timeoutSecs) {
     }
 }
 
+void
+RuleCondition::setIdleForSecs(int idleForSecs) {
+    if (_idleForSecs != idleForSecs) {
+        _idleForSecs = idleForSecs;
+        emit idleForSecsChanged();
+    }
+}
+
 QDBusArgument &operator<<(QDBusArgument &argument, const RuleCondition &rule)
 {
     argument.beginStructure();
@@ -262,6 +272,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleCondition &rule)
     argument << rule.getLocationCellsTimeout();
     argument << rule.getWlan();
     argument << rule.getWlanTimeout();
+    argument << rule.getIdleForSecs();
     argument.endStructure();
     return argument;
 }
@@ -276,6 +287,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     int     cellsTimeout = rule.getLocationCellsTimeout();
     QList<QString> wlan = rule.getWlan().toList();
     int     wlanTimeout = rule.getWlanTimeout();
+    int     idleForSecs = rule.getIdleForSecs();
 
     argument.beginStructure();
     argument >> timeStart;
@@ -285,6 +297,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     argument >> cellsTimeout;
     argument >> wlan;
     argument >> wlanTimeout;
+    argument >> idleForSecs;
     argument.endStructure();
 
     rule.setTimeStart(timeStart);
@@ -294,6 +307,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     rule.setLocationCellsTimeout(cellsTimeout);
     rule.setWlan(QSet<QString>::fromList(wlan));
     rule.setWlanTimeout(wlanTimeout);
+    rule.setIdleForSecs(idleForSecs);
 
     return argument;
 }
