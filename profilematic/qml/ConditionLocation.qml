@@ -193,7 +193,9 @@ Page {
                 inputMask: "000"
                 width: parent.width
                 onTextChanged: {
-                    condition.locationCellsTimeout = parseInt(text)
+                    if (root.status === PageStatus.Active) {
+                        condition.locationCellsTimeout = parseInt(text)
+                    }
                 }
             }
 

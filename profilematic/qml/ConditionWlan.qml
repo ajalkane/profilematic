@@ -216,7 +216,9 @@ Page {
                 inputMask: "000"
                 width: parent.width
                 onTextChanged: {
-                    condition.wlanTimeout = parseInt(text)
+                    if (root.status === PageStatus.Active) {
+                        condition.wlanTimeout = parseInt(text)
+                    }
                 }
             }
             Label {
