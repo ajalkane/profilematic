@@ -87,6 +87,7 @@ ActionPresenceImpl::activateDifferent(const Rule::IdType &ruleId, const RuleActi
 
             changeAccountPresence(tpAccount, previousPresence.presence);
         }
+        _previousPresences.clear();
         // Restore is not returned as activation
         return false;
     } else if (!hasPresenceChanges) {
