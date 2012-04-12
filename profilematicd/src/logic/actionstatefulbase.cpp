@@ -33,7 +33,6 @@ ActionStatefulBase::activate(const Rule::IdType &ruleId, const RuleAction &rule)
         if (_activeRuleId != ruleId) {
             _activeRuleSetInRefresh = activateDifferent(ruleId, rule);
             if (_activeRuleSetInRefresh) {
-                _activeRuleSetInRefresh = true;
                 _activeRuleId = ruleId;
             }
         } else {
