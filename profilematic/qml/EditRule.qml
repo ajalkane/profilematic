@@ -276,57 +276,57 @@ Page {
                 onTopicClicked: presenceEditHandler()
             }
 
-//            RuleTopicSummary {
-//                topic: "Flight mode"
-//                summary: flightModeSummary();
-//                showDrillDown: true
-//                onTopicClicked: flightModeEditHandler()
-//            }
+            RuleTopicSummary {
+                topic: "Flight mode"
+                summary: flightModeSummary();
+                showDrillDown: true
+                onTopicClicked: flightModeEditHandler()
+            }
 
-//            RuleTopicSummary {
-//                topic: "Power saving mode"
-//                summary: powerSavingModeSummary();
-//                showDrillDown: true
-//                onTopicClicked: powerSavingModeEditHandler()
-//            }
+            RuleTopicSummary {
+                topic: "Power saving mode"
+                summary: powerSavingModeSummary();
+                showDrillDown: true
+                onTopicClicked: powerSavingModeEditHandler()
+            }
 
-//            RuleTopicSummary {
-//                id: blueToothAction
-//                topic: "BlueTooth"
-//                summary: blueToothModeSummary();
-//                showDrillDown: true
-//                onTopicClicked: blueToothModeEditHandler()
-//            }
+            RuleTopicSummary {
+                id: blueToothAction
+                topic: "BlueTooth"
+                summary: blueToothModeSummary();
+                showDrillDown: true
+                onTopicClicked: blueToothModeEditHandler()
+            }
 
-//            RuleTopicSummary {
-//                id: cellularAction
-//                topic: "Mobile network mode"
-//                summary: cellularModeSummary();
-//                showComboBox: true
-//                onTopicClicked: cellularModeEditHandler()
-//            }
+            RuleTopicSummary {
+                id: cellularAction
+                topic: "Mobile network mode"
+                summary: cellularModeSummary();
+                showComboBox: true
+                onTopicClicked: cellularModeEditHandler()
+            }
 
-//            RuleTopicSummary {
-//                topic: "Stand-by screen mode"
-//                summary: standByScreenModeSummary();
-//                showDrillDown: true
-//                onTopicClicked: standByScreenModeEditHandler()
-//            }
+            RuleTopicSummary {
+                topic: "Stand-by screen mode"
+                summary: standByScreenModeSummary();
+                showDrillDown: true
+                onTopicClicked: standByScreenModeEditHandler()
+            }
 
-//            RuleTopicSummary {
-//                topic: "Background connections"
-//                summary: backgroundConnectionsModeSummary();
-//                showDrillDown: true
-//                onTopicClicked: backgroundConnectionsModeEditHandler()
-//            }
+            RuleTopicSummary {
+                topic: "Background connections"
+                summary: backgroundConnectionsModeSummary();
+                showDrillDown: true
+                onTopicClicked: backgroundConnectionsModeEditHandler()
+            }
 
-//            RuleTopicSummary {
-//                id: commandLineAction
-//                topic: "Custom action"
-//                summary: commandLineSummary();
-//                showDrillDown: true
-//                onTopicClicked: commandLineEditHandler()
-//            }
+            RuleTopicSummary {
+                id: commandLineAction
+                topic: "Custom action"
+                summary: commandLineSummary();
+                showDrillDown: true
+                onTopicClicked: commandLineEditHandler()
+            }
 
             Text {
                 id: ruleSummary
@@ -348,11 +348,6 @@ Page {
     }
 
     // Profile functions
-    ActionProfile {
-        id: actionProfile
-        action: root.rule.action
-    }
-
     function profileSummary() {
         if (rule.action.profile !== "") {
             var profile = backendProfilesModel.getProfileToName(rule.action.profile)
@@ -370,44 +365,29 @@ Page {
     }
 
     function profileEditHandler() {
-        pageStack.push(actionProfile)
+        root.pageStack.push(Qt.resolvedUrl("ActionProfile.qml"), { 'condition': rule.condition });
     }
 
     // Time functions
-    ConditionTime {
-        id: conditionTime
-        condition: root.rule.condition
-    }
-
     function timeSummary() {
         return backendRulesModel.getTimeSummaryText(rule.condition, "Not in use");
     }
 
     function timeEditHandler() {
-        pageStack.push(conditionTime)
+        root.pageStack.push(Qt.resolvedUrl("ConditionTime.qml"), { 'condition': rule.condition });
     }
 
     // Location functions
-    ConditionLocation {
-        id: conditionLocation
-        condition: root.rule.condition
-    }
-
     function locationSummary() {
         var numCellIds = rule.condition.locationCells.length
         return numCellIds === 0 ? "Not in use" : "Cell ids set"
     }
 
     function locationEditHandler() {
-        pageStack.push(conditionLocation)
+        root.pageStack.push(Qt.resolvedUrl("ConditionLocation.qml"), { 'condition': rule.condition });
     }
 
     // Wlan functions
-    ConditionWlan {
-        id: conditionWlan
-        condition: root.rule.condition
-    }
-
     function wlanSummary() {
         var numWlans = rule.condition.wlan.length
         return numWlans === 0 ? "Not in use"
@@ -417,15 +397,10 @@ Page {
     }
 
     function wlanEditHandler() {
-        pageStack.push(conditionWlan)
+        root.pageStack.push(Qt.resolvedUrl("ConditionWlan.qml"), { 'condition': rule.condition });
     }
 
     // Idle functions
-    ConditionIdle {
-        id: conditionIdle
-        condition: root.rule.condition
-    }
-
     function idleSummary() {
         console.log("idleSummary", rule.condition.idleForSecs)
         return rule.condition.idleForSecs < 0 ? "Not in use"
@@ -433,7 +408,8 @@ Page {
     }
 
     function idleEditHandler() {
-        pageStack.push(conditionIdle)
+        root.pageStack.push(Qt.resolvedUrl("ConditionIdle.qml"), { 'condition': rule.condition });
+        // pageStack.push(conditionIdle)
     }
 
     // Flight mode functions
@@ -543,6 +519,7 @@ Page {
 
 
     function standByScreenModeEditHandler() {
+        // root.pageStack.push(Qt.resolvedUrl("ActionStandByScreen.qml"), { 'action': rule.action });
         pageStack.push(actionStandByScreenMode)
     }
 
