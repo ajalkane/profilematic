@@ -50,6 +50,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("locationCellsTimeout", r.condition().getLocationCellsTimeout());
         _writeStringList(s, "wlans", "wlanName", r.condition().getWlan().toList());
         s.setValue("wlanTimeout", r.condition().getWlanTimeout());
+        s.setValue("idleForSecs", r.condition().getIdleForSecs());
         s.setValue("timeStart", r.condition().getTimeStart().toString());
         s.setValue("timeEnd", r.condition().getTimeEnd().toString());
         s.setValue("profile", r.action().getProfile());
@@ -119,6 +120,13 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
             r.condition().setWlanTimeout(wlanTimeout);
         }
 
+        {
+            bool ok = false;
+            int value = s.value("idleForSecs").toInt(&ok);
+            if (ok) {
+                r.condition().setIdleForSecs(value);
+            }
+        }
         QString timeStartStr = s.value("timeStart").toString();
         QString timeEndStr = s.value("timeEnd").toString();
         r.condition().setTimeStart(QTime::fromString(timeStartStr));

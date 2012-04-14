@@ -242,7 +242,19 @@ Page {
                     onWlanChanged: wlanCondition.summary = wlanSummary()
                     onWlanTimeoutChanged: wlanCondition.summary = wlanSummary()
                 }
+            }
 
+            RuleTopicSummary {
+                id: idleCondition
+                topic: "Idle"
+                summary: idleSummary()
+                showDrillDown: true
+                onTopicClicked: idleEditHandler()
+                visible: !rule.isDefaultRule
+                Connections {
+                    target: rule.condition
+                    onIdleForSecsChanged: idleCondition.summary = idleSummary()
+                }
             }
 
             SectionHeader {
@@ -264,57 +276,57 @@ Page {
                 onTopicClicked: presenceEditHandler()
             }
 
-            RuleTopicSummary {
-                topic: "Flight mode"
-                summary: flightModeSummary();
-                showDrillDown: true
-                onTopicClicked: flightModeEditHandler()
-            }
+//            RuleTopicSummary {
+//                topic: "Flight mode"
+//                summary: flightModeSummary();
+//                showDrillDown: true
+//                onTopicClicked: flightModeEditHandler()
+//            }
 
-            RuleTopicSummary {
-                topic: "Power saving mode"
-                summary: powerSavingModeSummary();
-                showDrillDown: true
-                onTopicClicked: powerSavingModeEditHandler()
-            }
+//            RuleTopicSummary {
+//                topic: "Power saving mode"
+//                summary: powerSavingModeSummary();
+//                showDrillDown: true
+//                onTopicClicked: powerSavingModeEditHandler()
+//            }
 
-            RuleTopicSummary {
-                id: blueToothAction
-                topic: "BlueTooth"
-                summary: blueToothModeSummary();
-                showDrillDown: true
-                onTopicClicked: blueToothModeEditHandler()
-            }
+//            RuleTopicSummary {
+//                id: blueToothAction
+//                topic: "BlueTooth"
+//                summary: blueToothModeSummary();
+//                showDrillDown: true
+//                onTopicClicked: blueToothModeEditHandler()
+//            }
 
-            RuleTopicSummary {
-                id: cellularAction
-                topic: "Mobile network mode"
-                summary: cellularModeSummary();
-                showComboBox: true
-                onTopicClicked: cellularModeEditHandler()
-            }
+//            RuleTopicSummary {
+//                id: cellularAction
+//                topic: "Mobile network mode"
+//                summary: cellularModeSummary();
+//                showComboBox: true
+//                onTopicClicked: cellularModeEditHandler()
+//            }
 
-            RuleTopicSummary {
-                topic: "Stand-by screen mode"
-                summary: standByScreenModeSummary();
-                showDrillDown: true
-                onTopicClicked: standByScreenModeEditHandler()
-            }
+//            RuleTopicSummary {
+//                topic: "Stand-by screen mode"
+//                summary: standByScreenModeSummary();
+//                showDrillDown: true
+//                onTopicClicked: standByScreenModeEditHandler()
+//            }
 
-            RuleTopicSummary {
-                topic: "Background connections"
-                summary: backgroundConnectionsModeSummary();
-                showDrillDown: true
-                onTopicClicked: backgroundConnectionsModeEditHandler()
-            }
+//            RuleTopicSummary {
+//                topic: "Background connections"
+//                summary: backgroundConnectionsModeSummary();
+//                showDrillDown: true
+//                onTopicClicked: backgroundConnectionsModeEditHandler()
+//            }
 
-            RuleTopicSummary {
-                id: commandLineAction
-                topic: "Custom action"
-                summary: commandLineSummary();
-                showDrillDown: true
-                onTopicClicked: commandLineEditHandler()
-            }
+//            RuleTopicSummary {
+//                id: commandLineAction
+//                topic: "Custom action"
+//                summary: commandLineSummary();
+//                showDrillDown: true
+//                onTopicClicked: commandLineEditHandler()
+//            }
 
             Text {
                 id: ruleSummary
@@ -406,6 +418,22 @@ Page {
 
     function wlanEditHandler() {
         pageStack.push(conditionWlan)
+    }
+
+    // Idle functions
+    ConditionIdle {
+        id: conditionIdle
+        condition: root.rule.condition
+    }
+
+    function idleSummary() {
+        console.log("idleSummary", rule.condition.idleForSecs)
+        return rule.condition.idleForSecs < 0 ? "Not in use"
+                              : "At least for " + rule.condition.idleForSecs + " seconds"
+    }
+
+    function idleEditHandler() {
+        pageStack.push(conditionIdle)
     }
 
     // Flight mode functions

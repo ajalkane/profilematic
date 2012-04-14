@@ -102,7 +102,8 @@ public:
     int getWlanTimeout() const;
     void setWlanTimeout(int timeoutSecs);
 
-    int getIdleForSecs() const { return _idleForSecs; }
+    int getIdleForSecs() const;
+    // int getIdleForSecs() const { return _idleForSecs; }
     void setIdleForSecs(int idleForSecs);
 
     inline bool operator==(const RuleCondition &o) const {

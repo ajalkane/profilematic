@@ -137,6 +137,11 @@ PlatformUtil::isUserActivityIdle() {
     return false;
 }
 
+void
+PlatformUtil::monitorUserActivityIdle(bool monitor) {
+    qDebug("PlatformUtil::monitorUserActivityIdle default, monitor %d", monitor);
+}
+
 ActionPresence *PlatformUtil::createActionPresence()
 {
 #ifndef __arm__

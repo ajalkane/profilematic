@@ -28,7 +28,7 @@ class HarmattanPlatformUtil : public PlatformUtil
     Q_OBJECT
 
     MeeGo::QmActivity _qmActivity;
-
+    bool _monitorUserIdleActivity;
 public:
     HarmattanPlatformUtil(QObject *parent = 0);
     virtual ~HarmattanPlatformUtil();
@@ -48,6 +48,7 @@ public:
     ActionPresence *createActionPresence();
 
     virtual bool isUserActivityIdle();
+    virtual void monitorUserActivityIdle(bool monitor);
 
 private slots:
     void activityChanged(MeeGo::QmActivity::Activity activity);

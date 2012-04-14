@@ -478,6 +478,11 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
             condition.append("on WLAN");
             ++numCondition;
         }
+        if (ruleCond.getIdleForSecs() >= 0) {
+            if (numCondition > 0) condition.append(" and ");
+            condition.append("idle");
+            ++numCondition;
+        }
         QString timeCondition = getTimeSummaryText(&(rule->condition()), "");
         if (!timeCondition.isEmpty()) {
             if (numCondition > 0) condition.append(" and ");

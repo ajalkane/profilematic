@@ -28,9 +28,8 @@
 #define GCONF_BACKGROUND_CONNECTIONS_DISABLED_KEY "/system/osso/connectivity/network_type/restricted_mode"
 
 HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
-    : PlatformUtil(parent)
+    : PlatformUtil(parent), _monitorUserIdleActivity(false)
 {
-    connect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)));
 }
 
 HarmattanPlatformUtil::~HarmattanPlatformUtil() {}
@@ -206,6 +205,15 @@ HarmattanPlatformUtil::publishNotification(const QString &) {
 bool
 HarmattanPlatformUtil::isUserActivityIdle() {
     return _qmActivity.get() == MeeGo::QmActivity::Inactive;
+}
+
+void
+HarmattanPlatformUtil::monitorUserActivityIdle(bool monitor) {
+    if (monitor && !_monitorUserIdleActivity) {
+        connect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)), Qt::UniqueConnection);
+    } else if (_monitorUserIdleActivity){
+        disconnect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)));
+    }
 }
 
 void

@@ -63,6 +63,7 @@ public:
     virtual ActionPresence *createActionPresence();
 
     virtual bool isUserActivityIdle();
+    virtual void monitorUserActivityIdle(bool monitor);
 
 signals:
     void userActivityIdleChanged(bool isIdle);

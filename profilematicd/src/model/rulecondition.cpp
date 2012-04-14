@@ -14,7 +14,8 @@ RuleCondition::RuleCondition(const RuleCondition &o)
       _locationCells(o._locationCells),
       _locationCellsTimeout(o._locationCellsTimeout),
       _wlan(o._wlan),
-      _wlanTimeout(o._wlanTimeout)
+      _wlanTimeout(o._wlanTimeout),
+      _idleForSecs(o._idleForSecs)
 {
     _init();
 }
@@ -254,8 +255,15 @@ RuleCondition::setWlanTimeout(int timeoutSecs) {
     }
 }
 
+int
+RuleCondition::getIdleForSecs() const
+{
+    return _idleForSecs;
+}
+
 void
-RuleCondition::setIdleForSecs(int idleForSecs) {
+RuleCondition::setIdleForSecs(int idleForSecs)
+{
     if (_idleForSecs != idleForSecs) {
         _idleForSecs = idleForSecs;
         emit idleForSecsChanged();
