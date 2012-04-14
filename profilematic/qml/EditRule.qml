@@ -548,11 +548,6 @@ Page {
     }
 
     // CommandLine
-    ActionCommandLine {
-        id: actionCommandLine
-        action: root.rule.action
-    }
-
     function commandLineSummary() {
         if (rule.action.commandLine !== "") {
             return "Custom action has been set"
@@ -561,7 +556,7 @@ Page {
     }
 
     function commandLineEditHandler() {
-        pageStack.push(actionCommandLine)
+        root.pageStack.push(Qt.resolvedUrl("ActionCommandLine.qml"), { 'action': rule.action });
     }
 
     // Presence
