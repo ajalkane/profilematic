@@ -50,10 +50,10 @@
 ConditionManager *
 buildConditionManager() {
     ConditionManagerChain *cm = new ConditionManagerChain();
-    cm->add(new ConditionManagerIdle());
     cm->add(new ConditionManagerTime());
     cm->add(new ConditionManagerLocationCell());
     cm->add(new ConditionManagerWlan());
+    cm->add(new ConditionManagerIdle());
     return cm;
 }
 
