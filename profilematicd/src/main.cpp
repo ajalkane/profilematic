@@ -72,9 +72,18 @@ buildAction(ProfileClient *profileClient) {
     return ac;
 }
 
+void noLoggingSink(QtMsgType, const char *) {
+    // NOP
+}
+
 int main(int argc, char *argv[])
-{
-    QCoreApplication a(argc, argv);
+{    
+    QCoreApplication a(argc, argv);    
+
+    if (argc >= 2 && QLatin1String("-noDebug") == argv[1]) {
+        qDebug("Inhibiting logging");
+        qInstallMsgHandler(noLoggingSink);
+    }
 
     PlatformUtil::initialize();
     ProfileClient profileClient;
