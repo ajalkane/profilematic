@@ -20,6 +20,7 @@
 #define ACTIONACTIVATEONCEBASE_H
 
 #include <QSet>
+#include <QMap>
 
 #include "action.h"
 #include "../model/rule.h"
@@ -32,6 +33,7 @@ class ActionActivateOnceBase : public Action
 {
     QSet<Rule::IdType> _previousRuleIds;
     QSet<Rule::IdType> _activeRuleIds;
+    QMap<Rule::IdType, RuleAction> _previousExitActionsByRuleId;
 
 public:
     ActionActivateOnceBase();
@@ -42,8 +44,10 @@ public:
 
     virtual void endRefresh();
 
-    // Return true if activated
+    // Return true if has exit action. False otherwise.
     virtual bool activateOnce(const Rule::IdType &ruleId, const RuleAction &rule) = 0;
+    // Called when rule is deactivated.
+    virtual void activateOnceExit(const Rule::IdType &ruleId, const RuleAction &rule) = 0;
 };
 
 #endif // ACTIONACTIVATEONCEBASE_H

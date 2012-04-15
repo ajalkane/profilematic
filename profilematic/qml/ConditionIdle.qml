@@ -61,8 +61,9 @@ Page {
 
             Label {
                 id: help
-                text: "Idle means that the device has been in stand-by screen mode or lock screen mode at "
-                    + "least for the amount of seconds specified."
+                text: "Specify the amount of time in seconds that the device has to be in idle mode until this "
+                      + "rule is activated. Device goes into idle if user does not do anything for a while (about 30 seconds). "
+                      + "Idle mode is exited when lock screen is deactivated."
                 width: parent.width
                 platformStyle: LabelStyleSubtitle {
                     fontPixelSize: UIConstants.FONT_SMALL

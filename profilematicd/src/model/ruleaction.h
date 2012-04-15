@@ -32,6 +32,7 @@ private:
     bool    _restoreBlueToothMode;
     int     _cellularMode;
     QString _commandLine;
+    QString _commandLineExit;
     int     _standByScreenMode;
     bool    _restoreStandByScreenMode;
     int     _backgroundConnectionsMode;
@@ -55,6 +56,7 @@ private:
     Q_PROPERTY(bool restoreBlueToothMode READ getRestoreBlueToothMode WRITE setRestoreBlueToothMode NOTIFY restoreBlueToothModeChanged)
     Q_PROPERTY(int cellularMode READ getCellularMode WRITE setCellularMode NOTIFY cellularModeChanged)
     Q_PROPERTY(QString commandLine READ getCommandLine WRITE setCommandLine NOTIFY commandLineChanged)
+    Q_PROPERTY(QString commandLineExit READ getCommandLineExit WRITE setCommandLineExit NOTIFY commandLineExitChanged)
     Q_PROPERTY(int standByScreenMode READ getStandByScreenMode WRITE setStandByScreenMode NOTIFY standByScreenModeChanged)
     Q_PROPERTY(bool restoreStandByScreenMode READ getRestoreStandByScreenMode WRITE setRestoreStandByScreenMode NOTIFY restoreStandByScreenModeChanged)
     Q_PROPERTY(int backgroundConnectionsMode READ getBackgroundConnectionsMode WRITE setBackgroundConnectionsMode NOTIFY backgroundConnectionsModeChanged)
@@ -93,6 +95,7 @@ signals:
     void restoreBlueToothModeChanged();
     void cellularModeChanged();
     void commandLineChanged();
+    void commandLineExitChanged();
     void presenceRulesChanged();
     void presenceStatusMessageChanged();
     void restorePresenceChanged();
@@ -162,6 +165,9 @@ public:
     QString getCommandLine() const;
     void setCommandLine(const QString &commandLine);
 
+    inline QString getCommandLineExit() const { return _commandLineExit; }
+    void setCommandLineExit(const QString &commandLine);
+
     QList<QObject *> presenceRulesQml() const;
 
     QList<PresenceRule *> presenceRules() const;
@@ -193,6 +199,7 @@ public:
             && this->_restoreBlueToothMode == o._restoreBlueToothMode
             && this->_cellularMode == o._cellularMode
             && this->_commandLine == o._commandLine
+            && this->_commandLineExit == o._commandLineExit
             && this->_presenceStatusMessage == o._presenceStatusMessage
             && this->_restorePresence == o._restorePresence
             && this->_standByScreenMode == o._standByScreenMode

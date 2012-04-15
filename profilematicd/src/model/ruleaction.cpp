@@ -43,6 +43,7 @@ RuleAction::RuleAction(const RuleAction &o)
       _restoreBlueToothMode(o._restoreBlueToothMode),
       _cellularMode(o._cellularMode),
       _commandLine(o._commandLine),
+      _commandLineExit(o._commandLineExit),
       _standByScreenMode(o._standByScreenMode),
       _restoreStandByScreenMode(o._restoreStandByScreenMode),
       _backgroundConnectionsMode(o._backgroundConnectionsMode),
@@ -69,6 +70,7 @@ RuleAction::_init() {
     connect(this, SIGNAL(restoreBlueToothModeChanged()),   this, SIGNAL(changed()));
     connect(this, SIGNAL(cellularModeChanged()),           this, SIGNAL(changed()));
     connect(this, SIGNAL(commandLineChanged()),            this, SIGNAL(changed()));
+    connect(this, SIGNAL(commandLineExitChanged()),            this, SIGNAL(changed()));
     connect(this, SIGNAL(presenceRulesChanged()),          this, SIGNAL(changed()));
     connect(this, SIGNAL(presenceStatusMessageChanged()),  this, SIGNAL(changed()));
     connect(this, SIGNAL(restorePresenceChanged()),        this, SIGNAL(changed()));
@@ -94,6 +96,7 @@ RuleAction::operator=(const RuleAction &o) {
     _restoreBlueToothMode = o._restoreBlueToothMode;
     _cellularMode = o._cellularMode;
     _commandLine = o._commandLine;
+    _commandLineExit = o._commandLineExit;
     _presenceStatusMessage = o._presenceStatusMessage;
     _restorePresence = o._restorePresence;
     _presenceChangeType = o._presenceChangeType;
@@ -157,6 +160,17 @@ RuleAction::setCommandLine(const QString &commandLine) {
             _commandLine.clear();
         }
         emit commandLineChanged();
+    }
+}
+
+void
+RuleAction::setCommandLineExit(const QString &commandLine) {
+    if (_commandLineExit != commandLine) {
+        _commandLineExit = commandLine;
+        if (_commandLineExit.trimmed().isEmpty()) {
+            _commandLineExit.clear();
+        }
+        emit commandLineExitChanged();
     }
 }
 
@@ -483,6 +497,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleAction &ruleAction)
     argument << ruleAction.getBackgroundConnectionsMode();
     argument << ruleAction.getRestoreBackgroundConnectionsMode();
     argument << ruleAction.getCommandLine();
+    argument << ruleAction.getCommandLineExit();
     QList<PresenceRule> presenceRules;
     foreach(PresenceRule *presenceRule, ruleAction.presenceRules())
         presenceRules.append(*presenceRule);
@@ -512,6 +527,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     int     backgroundConnectionsMode = ruleAction.getBackgroundConnectionsMode();
     bool    restoreBackgroundConnectionsMode = ruleAction.getBackgroundConnectionsMode();
     QString commandLine = ruleAction.getCommandLine();
+    QString commandLineExit = ruleAction.getCommandLineExit();
     QList<PresenceRule> presenceRules;
     QString presenceStatusMessage;
     bool restorePresence;
@@ -533,6 +549,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     argument >> backgroundConnectionsMode;
     argument >> restoreBackgroundConnectionsMode;
     argument >> commandLine;
+    argument >> commandLineExit;
     argument >> presenceRules;
     argument >> presenceStatusMessage;
     argument >> restorePresence;
@@ -554,6 +571,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     ruleAction.setBackgroundConnectionsMode(backgroundConnectionsMode);
     ruleAction.setRestoreBackgroundConnectionsMode(restoreBackgroundConnectionsMode);
     ruleAction.setCommandLine(commandLine);
+    ruleAction.setCommandLineExit(commandLineExit);
     QList<PresenceRule *> dstPresenceRules;
     foreach(const PresenceRule &presenceRule, presenceRules)
         dstPresenceRules.append(new PresenceRule(presenceRule));

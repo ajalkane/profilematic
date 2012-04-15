@@ -549,8 +549,15 @@ Page {
 
     // CommandLine
     function commandLineSummary() {
-        if (rule.action.commandLine !== "") {
-            return "Custom action has been set"
+        if (rule.action.commandLine !== "" &&
+                rule.action.commandLineExit !== "") {
+            return "Custom action on activate and deactivate has been set"
+        }
+        else if (rule.action.commandLine !== "") {
+            return "Custom action on activate has been set"
+        }
+        else if (rule.action.commandLineExit !== "") {
+            return "Custom action on deactivate has been set"
         }
         return "Click to set"
     }

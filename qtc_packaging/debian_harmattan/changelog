@@ -1,6 +1,9 @@
 profilematic (1.6.0) unstable; urgency=low
   * Multi-rule activation
   * Stand-by screen action (contributed by Ferdinand Mayet)
+  * Background connections action
+  * Idle condition
+  * Command-line action for when rule is deactivated
 
  -- Arto Jalkanen <ajalkane@gmail.com>  Tue, 14 Apr 2012 23:45:00 +0300
 

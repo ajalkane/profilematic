@@ -34,7 +34,6 @@ Column {
 
     SectionHeader {
         id: label
-        visible: !rule.isDefaultRule
     }
     TextField {
         id: labelField

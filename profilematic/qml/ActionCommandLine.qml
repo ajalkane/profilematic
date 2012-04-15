@@ -43,8 +43,16 @@ Page {
             width: parent.width
             height: childrenRect.height
 
+            Text {
+                wrapMode: Text.WordWrap
+                width: parent.width
+                font.pixelSize: UIConstants.FONT_SMALL;
+                color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
+                text: "Use this action only if you know what you're doing (ie. you're familiar with using N9's developer mode and terminal)! "
+            }
+
             TextFieldWithLabel {
-                labelText: "Custom action"
+                labelText: "Custom action on rule activate"
                 placeholderText: "No custom action"
                 text: action.commandLine
                 // height: UIConstants.LIST_ITEM_HEIGHT_SMALL
@@ -59,8 +67,7 @@ Page {
                 width: parent.width
                 font.pixelSize: UIConstants.FONT_SMALL;
                 color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                text: "Use this action only if you know what you're doing (ie. you're familiar with using N9's developer mode and terminal)! "
-                      + "Enter into the text box the shell command you want to run when this rule is activated. "
+                text: "Enter into the text box the shell command you want to run when this rule is activated. "
                       + "Always use full paths for file paths."
             }
 
@@ -70,9 +77,40 @@ Page {
                 text: "Test"
                 onClicked: {
                     console.log("Testing command line")
-                    backendRulesModel.testCommandLine(action)
+                    backendRulesModel.testCommandLine(action.commandLine)
                 }
             } // Button
+
+            TextFieldWithLabel {
+                labelText: "Custom action on rule deactivate"
+                placeholderText: "No custom action"
+                text: action.commandLineExit
+                // height: UIConstants.LIST_ITEM_HEIGHT_SMALL
+                width: parent.width
+                onTextChanged: {
+                    action.commandLineExit = text
+                }
+            }
+
+            Text {
+                wrapMode: Text.WordWrap
+                width: parent.width
+                font.pixelSize: UIConstants.FONT_SMALL;
+                color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
+                text: "Enter into the text box the shell command you want to run when this rule is deactivated. "
+                      + "Always use full paths for file paths."
+            }
+
+            Button {
+                enabled: action.commandLineExit !== ""
+                // enabled: backendLocation.currentCell >= 0 && conditiong.locationCells.length < root.maxCells
+                text: "Test"
+                onClicked: {
+                    console.log("Testing command line exit")
+                    backendRulesModel.testCommandLine(action.commandLineExit)
+                }
+            } // Button
+
         }
     }
 }

@@ -32,10 +32,22 @@ void
 ActionActivateOnceBase::activate(const Rule::IdType &ruleId, const RuleAction &rule) {
     _activeRuleIds << ruleId;
     if (!_previousRuleIds.contains(ruleId)) {
-        activateOnce(ruleId, rule);
+        if (activateOnce(ruleId, rule)) {
+            _previousExitActionsByRuleId[ruleId] = rule;
+        }
     }
 }
 
 void
 ActionActivateOnceBase::endRefresh() {
+    if (!_previousExitActionsByRuleId.isEmpty()) {
+        for (QSet<Rule::IdType>::const_iterator i = _previousRuleIds.constBegin();
+             i != _previousRuleIds.constEnd(); ++i) {
+            if (!_activeRuleIds.contains(*i) &&
+                 _previousExitActionsByRuleId.contains(*i)) {
+                activateOnceExit(*i, _previousExitActionsByRuleId.value(*i));
+                _previousExitActionsByRuleId.remove(*i);
+            }
+        }
+    }
 }

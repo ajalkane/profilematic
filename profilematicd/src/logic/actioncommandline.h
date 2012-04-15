@@ -19,6 +19,8 @@
 #ifndef ACTIONCOMMANDLINE_H
 #define ACTIONCOMMANDLINE_H
 
+#include <QString>
+
 #include "actionactivateoncebase.h"
 #include "../platform/platformutil.h"
 
@@ -27,7 +29,10 @@ class ActionCommandLine: public ActionActivateOnceBase
 public:    
     ActionCommandLine();
 
+    bool runCommandLine(const QString &commandLine) const;
     virtual bool activateOnce(const Rule::IdType &ruleId, const RuleAction &rule);
+    virtual void activateOnceExit(const Rule::IdType &ruleId, const RuleAction &rule);
+
 };
 
 #endif // ACTIONCOMMANDLINE_H

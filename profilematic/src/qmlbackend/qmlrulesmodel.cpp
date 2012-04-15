@@ -445,7 +445,8 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
         ++numAction;
     }
 
-    if (!ruleAction.getCommandLine().trimmed().isEmpty()) {
+    if (!ruleAction.getCommandLine().trimmed().isEmpty() ||
+        !ruleAction.getCommandLineExit().trimmed().isEmpty()) {
         if (numAction > 0) action.append(", ");
         action.append("Custom action");
         ++numAction;
@@ -507,10 +508,10 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
 }
 
 void
-QmlRulesModel::testCommandLine(RuleAction *ruleAction) const {
-    QString commandLine = ruleAction->getCommandLine().trimmed();
+QmlRulesModel::testCommandLine(const QString &commandLineInput) const {
+    QString commandLine = commandLineInput.trimmed();
     if (!commandLine.isEmpty()) {
-        _client->testCommandLine(ruleAction->getCommandLine());
+        _client->testCommandLine(commandLine);
     }
 }
 
