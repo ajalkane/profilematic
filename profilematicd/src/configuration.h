@@ -29,8 +29,9 @@
 /**
   * 0 <= 1.1.1, before timeEnd
   * 1 = 1.2.0, endTime, default rule, cell tower based location
+  * 2 = 1.6.0, multi-rule
   */
-#define RULES_VERSION 1
+#define RULES_VERSION 2
 
 class Configuration
 {

@@ -47,9 +47,14 @@
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QString mainQmlFile(QLatin1String("qml/main.qml"));
-    if (argc >= 2 && QLatin1String("-conversionWarning") == argv[1]) {
-        qDebug("Displaying conversion warning");
-        mainQmlFile = QLatin1String("qml/mainConversionWarning.qml");
+    if (argc >= 2) {
+        if (QLatin1String("-conversionWarning") == argv[1]) {
+            qDebug("Displaying conversion warning");
+            mainQmlFile = QLatin1String("qml/mainConversionWarning.qml");
+        } else if (QLatin1String("-multiRuleWarning") == argv[1]) {
+            qDebug("Displaying multi-rule warning");
+            mainQmlFile = QLatin1String("qml/mainMultiRuleWarning.qml");
+        }
     }
 
     QScopedPointer<QApplication> app(createApplication(argc, argv));

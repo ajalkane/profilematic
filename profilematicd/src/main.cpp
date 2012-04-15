@@ -46,6 +46,7 @@
 #include <stdio.h>
 
 #define CONVERSION_WARNING_CMDLINE "/opt/profilematic/bin/profilematic -conversionWarning"
+#define MULTIRULE_WARNING_CMDLINE "/opt/profilematic/bin/profilematic -multiRuleWarning"
 
 ConditionManager *
 buildConditionManager() {
@@ -108,10 +109,19 @@ int main(int argc, char *argv[])
     // LATER: this code can be removed a couple of versions down the road I think.
     qDebug("rules_version: %d", rules_version);
     // rules.size > 1 because default rule always exists
-    if (rules_version == 0 && rules.size() > 1) {
-        qDebug("Launching conversion warning");
-        QProcess::startDetached(CONVERSION_WARNING_CMDLINE);
-        qDebug("Conversion warning launched");
+    if (rules.size() > 1) {
+        switch (rules_version) {
+        case 0:
+            qDebug("Launching conversion warning");
+            QProcess::startDetached(CONVERSION_WARNING_CMDLINE);
+            qDebug("Conversion warning launched");
+            break;
+        case 1:
+            qDebug("Launching multiRule warning");
+            QProcess::startDetached(MULTIRULE_WARNING_CMDLINE);
+            qDebug("Multi-rule warning launched");
+            break;
+        }
     }
 
     qDebug("Starting");

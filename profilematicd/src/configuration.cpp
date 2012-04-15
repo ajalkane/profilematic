@@ -210,7 +210,7 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
     s.endArray();
 
     // Write rules to finalize conversion
-    if (rules_version == 0) {
+    if (rules_version < RULES_VERSION) {
         qDebug("Writing rules after conversion");
         writeRules(rules);
     }
