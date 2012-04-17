@@ -23,6 +23,7 @@
 #include "actionpresence.h"
 
 #include <TelepathyQt4/AccountManager>
+#include <QNetworkConfigurationManager>
 
 namespace Accounts {
 class Manager;
@@ -41,6 +42,7 @@ private slots:
     void onPresenceChangeFinished(Tp::PendingOperation *op);
     void onCurrentPresenceChanged(const Tp::Presence &currentPresence);
     void onAccountManagerReady(Tp::PendingOperation *op);
+    void onOnlineStateChanged(bool);
 private:
     struct AccountPresence {
         AccountPresence(const Tp::AccountPtr &account);
@@ -49,6 +51,8 @@ private:
     };
 private:
     bool _hasPresenceChanges(const RuleAction &ruleAction);
+    void _delayRuleActivation(const Rule::IdType &ruleId, const RuleAction &rule);
+    void _activatePendingRule();
 
     void changeAccountPresence(Tp::AccountPtr account, const Tp::Presence &presence);
     void changeAccountPresences(const RuleAction &rule);
@@ -57,6 +61,8 @@ private:
                                  const Accounts::Service *service,
                                  const Tp::Presence &defaultPresence) const;
 private:
+    QNetworkConfigurationManager *_networkConfigurationManager;
+
     Tp::AccountManagerPtr _accountManager;
     Accounts::Manager *_manager;
 
