@@ -231,7 +231,7 @@ void
 Configuration::readPreferences(Preferences &p) {
     // IMPROVE constants.h
     // So wrong by the API specifications, but so right by the end results (no, I don't like doing it this way)
-    QSettings s("ProfileMatic", "rules");
+    QSettings s("ProfileMatic", "preferences");
     p.isActive = s.value("isActive", true).toBool();
 }
 
