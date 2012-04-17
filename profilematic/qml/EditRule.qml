@@ -380,7 +380,10 @@ Page {
     // Location functions
     function locationSummary() {
         var numCellIds = rule.condition.locationCells.length
-        return numCellIds === 0 ? "Not in use" : "Cell ids set"
+        return numCellIds === 0 ? "Not in use"
+                                : "Cell ids set"
+                                + (rule.condition.locationCellsTimeout > 0 ? " (" + rule.condition.locationCellsTimeout + "s timeout)"
+                                                                             : "")
     }
 
     function locationEditHandler() {
@@ -393,7 +396,7 @@ Page {
         return numWlans === 0 ? "Not in use"
                               : "In use"
                                 + (rule.condition.wlanTimeout > 0 ? " (" + rule.condition.wlanTimeout + "s timeout)"
-                                                        : "")
+                                                                  : "")
     }
 
     function wlanEditHandler() {
