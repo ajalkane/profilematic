@@ -360,7 +360,8 @@ Page {
                 visible: backendRulesModel.count > 1
                 font.pixelSize: UIConstants.FONT_SMALL;
                 color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                text: "Use arrows to change the order of the rules. The first rule that matches is used.";
+                text: "Currently matching rules are shown with blue bar. Use arrows to change the order of the rules. "
+                    + "First matching rule is preferred, if actions overlap.";
             }
             Text {
                 wrapMode: Text.WordWrap

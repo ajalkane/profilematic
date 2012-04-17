@@ -199,6 +199,17 @@ Page {
                 }
             }
 
+            Label {
+                text: "Rule is kept valid for specified seconds after getting into cell id not in the list. Useful in "
+                      + "areas where it's hard to collect all possible cell ids."
+
+                width: parent.width
+                platformStyle: LabelStyleSubtitle {
+                    fontPixelSize: UIConstants.FONT_SMALL
+                    textColor: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
+                }
+            }
+
             SectionHeader {
                 width: parent.width
                 height: 20

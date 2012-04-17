@@ -365,7 +365,7 @@ Page {
     }
 
     function profileEditHandler() {
-        root.pageStack.push(Qt.resolvedUrl("ActionProfile.qml"), { 'condition': rule.condition });
+        root.pageStack.push(Qt.resolvedUrl("ActionProfile.qml"), { 'action': rule.action });
     }
 
     // Time functions
