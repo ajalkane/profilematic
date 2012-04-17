@@ -211,9 +211,10 @@ void
 HarmattanPlatformUtil::monitorUserActivityIdle(bool monitor) {
     if (monitor && !_monitorUserIdleActivity) {
         connect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)), Qt::UniqueConnection);
-    } else if (_monitorUserIdleActivity){
+    } else if (!monitor && _monitorUserIdleActivity){
         disconnect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)));
     }
+    _monitorUserIdleActivity = monitor;
 }
 
 void
