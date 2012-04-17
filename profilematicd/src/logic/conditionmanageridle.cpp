@@ -16,7 +16,9 @@ ConditionManagerIdle::ConditionManagerIdle(QObject *parent)
     connect(PlatformUtil::instance(), SIGNAL(userActivityIdleChanged(bool)), this, SLOT(userActivityIdleChanged(bool)));
     connect(&_timer, SIGNAL(timeout()), this, SIGNAL(refreshNeeded()));
 
-    qDebug("ConditionManagerIdle::ConditionManagerIdle current isIdle %d", PlatformUtil::instance()->isUserActivityIdle());
+    // Initialize startTime to current time so that upon starting of the daemon idle is
+    // is not activated immediately.
+    _idleStartTime = QDateTime::currentDateTime();
 }
 
 ConditionManagerIdle::~ConditionManagerIdle() {
