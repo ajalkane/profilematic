@@ -69,34 +69,34 @@ ActionPresenceImpl::_activatePendingRule() {
         return;
     }
 
-    activateDifferent(_pendingRuleId, *_pendingRule);
-
-    delete _pendingRule;
-    _pendingRule = NULL;
-    _pendingRuleId.clear();
+    ActivateStatus status = _activateInternal(_pendingRuleId, *_pendingRule);
+    if (status != Delayed) {
+        delete _pendingRule;
+        _pendingRule = NULL;
+        _pendingRuleId.clear();
+    }
 }
 
-bool
-ActionPresenceImpl::activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule)
-{
+ActionPresenceImpl::ActivateStatus
+ActionPresenceImpl::_activateInternal(const Rule::IdType &ruleId, const RuleAction &rule) {
     bool hasPresenceChanges = _hasPresenceChanges(rule);
     bool hadPreviousPresences = !_previousPresences.isEmpty();
 
     if (!hasPresenceChanges && !hadPreviousPresences) {
         qDebug() << "ActionPresence::activate rule has no presence changes or previous presences";
-        return false;
+        return NotActivated;
     }
 
     if (!_accountManager->isReady(Tp::AccountManager::FeatureCore)) {
         qDebug() << "ActionPresence::activate Rule was activated while Telepathy Account Manager was not ready - will retry as soon as it is ready.";
         _delayRuleActivation(ruleId, rule);
-        return true;
+        return Delayed;
     }
     if (!_networkConfigurationManager->isOnline()) {
         qDebug() << "ActionPresence::activate Rule was activated while no connection - will retry as soon as it is ready.";
         _delayRuleActivation(ruleId, rule);
         connect(_networkConfigurationManager, SIGNAL(onlineStateChanged(bool)), this, SLOT(onOnlineStateChanged(bool)));
-        return true;
+        return Delayed;
 
     }
     if (useRestoreAction(ruleId, hasPresenceChanges, hadPreviousPresences)) {
@@ -113,10 +113,10 @@ ActionPresenceImpl::activateDifferent(const Rule::IdType &ruleId, const RuleActi
         }
         _previousPresences.clear();
         // Restore is not returned as activation
-        return false;
+        return NotActivated;
     } else if (!hasPresenceChanges) {
         qDebug() << "ActionPresence::activate not setting presence";
-        return false;
+        return NotActivated;
     }
 
     _previousPresences.clear();
@@ -147,7 +147,13 @@ ActionPresenceImpl::activateDifferent(const Rule::IdType &ruleId, const RuleActi
 
     changeAccountPresences(rule);
 
-    return true;
+    return Activated;
+}
+
+bool
+ActionPresenceImpl::activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule)
+{
+    return _activateInternal(ruleId, rule) != NotActivated;
 }
 
 void ActionPresenceImpl::onConnectsAutomaticallyChangeFinished(Tp::PendingOperation *op)

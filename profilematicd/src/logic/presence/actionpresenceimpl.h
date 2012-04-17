@@ -50,6 +50,13 @@ private:
         Tp::Presence presence;
     };
 private:
+    enum ActivateStatus {
+        Delayed,
+        NotActivated,
+        Activated
+    };
+
+    ActivateStatus _activateInternal(const Rule::IdType &ruleId, const RuleAction &rule);
     bool _hasPresenceChanges(const RuleAction &ruleAction);
     void _delayRuleActivation(const Rule::IdType &ruleId, const RuleAction &rule);
     void _activatePendingRule();
