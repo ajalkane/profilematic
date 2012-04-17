@@ -404,7 +404,7 @@ Page {
     function idleSummary() {
         console.log("idleSummary", rule.condition.idleForSecs)
         return rule.condition.idleForSecs < 0 ? "Not in use"
-                              : "At least for " + rule.condition.idleForSecs + " seconds"
+                              : "At least for " + rule.condition.idleForSecs / 60 + " minutes"
     }
 
     function idleEditHandler() {

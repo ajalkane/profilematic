@@ -213,7 +213,7 @@ Page {
                 placeholderText: "No timeout"
                 text: condition.wlanTimeout !== 0 ? condition.wlanTimeout : ""
                 inputMethodHints: Qt.ImhDigitsOnly
-                inputMask: "000"
+                validator: RegExpValidator { regExp: /\d{0,3}/ }
                 width: parent.width
                 onTextChanged: {
                     if (root.status === PageStatus.Active) {

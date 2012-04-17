@@ -190,7 +190,7 @@ Page {
                 placeholderText: "No timeout"
                 text: condition.locationCellsTimeout !== 0 ? condition.locationCellsTimeout : ""
                 inputMethodHints: Qt.ImhDigitsOnly
-                inputMask: "000"
+                validator: RegExpValidator { regExp: /\d{0,3}/ }
                 width: parent.width
                 onTextChanged: {
                     if (root.status === PageStatus.Active) {

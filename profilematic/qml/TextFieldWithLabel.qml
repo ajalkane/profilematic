@@ -27,6 +27,7 @@ Column {
     property alias text: labelField.text
     property alias inputMask: labelField.inputMask
     property alias inputMethodHints: labelField.inputMethodHints
+    property alias validator: labelField.validator
 
     height: childrenRect.height
 
