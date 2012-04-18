@@ -69,7 +69,7 @@ ActionPresenceImpl::_activatePendingRule() {
         return;
     }
 
-    ActivateStatus status = _activateInternal(_pendingRuleId, *_pendingRule);
+    ActivateStatus status = _activateInternal(_pendingRuleId, *_pendingRule, true);
     if (status != Delayed) {
         delete _pendingRule;
         _pendingRule = NULL;
@@ -78,7 +78,7 @@ ActionPresenceImpl::_activatePendingRule() {
 }
 
 ActionPresenceImpl::ActivateStatus
-ActionPresenceImpl::_activateInternal(const Rule::IdType &ruleId, const RuleAction &rule) {
+ActionPresenceImpl::_activateInternal(const Rule::IdType &ruleId, const RuleAction &rule, bool isPendingRule) {
     bool hasPresenceChanges = _hasPresenceChanges(rule);
     bool hadPreviousPresences = !_previousPresences.isEmpty();
 
@@ -97,7 +97,6 @@ ActionPresenceImpl::_activateInternal(const Rule::IdType &ruleId, const RuleActi
         _delayRuleActivation(ruleId, rule);
         connect(_networkConfigurationManager, SIGNAL(onlineStateChanged(bool)), this, SLOT(onOnlineStateChanged(bool)));
         return Delayed;
-
     }
     if (useRestoreAction(ruleId, hasPresenceChanges, hadPreviousPresences)) {
         qDebug() << "ActionPresence::activate restoring previous presences";
@@ -120,6 +119,15 @@ ActionPresenceImpl::_activateInternal(const Rule::IdType &ruleId, const RuleActi
     }
 
     _previousPresences.clear();
+    // If pending rule exists, it must be removed now that some rule managed to get active.
+    // It can happen that for example the onOnlineStateChanged signal is received after the
+    // refresh() that activated the rule
+    if (!isPendingRule && _pendingRule != NULL) {
+        qDebug() << "ActionPresence::activate removing pending rule as another rule activated";
+        delete _pendingRule;
+        _pendingRule = NULL;
+        _pendingRuleId.clear();
+    }
 
     if (rule.getRestorePresence()) {
         foreach(Accounts::AccountId accountId, _manager->accountList()) {

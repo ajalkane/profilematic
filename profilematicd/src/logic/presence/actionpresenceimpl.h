@@ -56,7 +56,7 @@ private:
         Activated
     };
 
-    ActivateStatus _activateInternal(const Rule::IdType &ruleId, const RuleAction &rule);
+    ActivateStatus _activateInternal(const Rule::IdType &ruleId, const RuleAction &rule, bool isPendingRule = false);
     bool _hasPresenceChanges(const RuleAction &ruleAction);
     void _delayRuleActivation(const Rule::IdType &ruleId, const RuleAction &rule);
     void _activatePendingRule();
