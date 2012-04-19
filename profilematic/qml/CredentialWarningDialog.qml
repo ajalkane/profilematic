@@ -1,5 +1,5 @@
 /**********************************************************************
- * Copyright 2011 Arto Jalkanen
+ * Copyright 2012 Arto Jalkanen
  *
  * This file is part of ProfileMatic.
  *
@@ -19,33 +19,15 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
 
-PageStackWindow {
-    id: appWindow
-
-    initialPage: ShowRules {}
-
-    ToolBarLayout {
-        id: commonTools
-        visible: false
-        ToolIcon {
-            iconId: "toolbar-back"
-            visible: pageStack.depth > 1
-            onClicked: { pageStack.pop(); }
-        }
-    }
-
-    CredentialWarningDialog {
-        id: credWarn
-    }
-
-    Component.onCompleted: {
-        theme.inverted = true
-
-        if (backendRulesModel.isMissingDeviceModeCredential() &&
-            backendRulesModel.hasRulesThatNeedDeviceModeCredential()) {
-            console.log("Credential warning", backendRulesModel.isMissingDeviceModeCredential(), backendRulesModel.hasRulesThatNeedDeviceModeCredential());
-            credWarn.open()
-        }
-    }
-
+QueryDialog {
+    titleText: "Warning"
+    message: "ProfileMatic lacks credentials that are needed to "
+             + "change flight mode and power saving mode, and you "
+             + "have such rules."
+             + "\n\n"
+             + "Reinstall ProfileMatic to restore the credentials if "
+             + "your firmware version is PR1.2 or earlier. With later "
+             + "firmwares flight mode and power saving mode actions "
+             + "may not work at all."
+    acceptButtonText: "Close"
 }

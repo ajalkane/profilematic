@@ -49,6 +49,9 @@ public:
     // 0: Power Saving Mode off, 1: Power Saving mode on
     virtual int powerSavingMode() const;
     virtual void setPowerSavingMode(int state);
+    // Returns true if daemon has credentials to change flightMode and powerSavingMode
+    virtual bool hasDeviceModeCredential() const;
+
     // 0: Dual mode, 1: 2G only, 2: 3G only
     virtual int cellularMode() const;
     virtual void setCellularMode(int state);
@@ -58,8 +61,7 @@ public:
     virtual void setStandByScreenMode(int mode);
     // 0: background connections off, 1: on
     virtual int backgroundConnectionsMode() const;
-    virtual void setBackgroundConnectionsMode(int mode);
-
+    virtual void setBackgroundConnectionsMode(int mode);    
     virtual ActionPresence *createActionPresence();
 
     virtual bool isUserActivityIdle();

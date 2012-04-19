@@ -22,6 +22,7 @@
 #include "../../logic/presence/actionpresenceimpl.h"
 #include <qmdevicemode.h>
 #include <RadioAccess>
+#include <QProcess>
 #include <gconfitem.h>
 
 #define GCONF_STAND_BY_SCREEN_KEY "/system/osso/dsm/display/use_low_power_mode"
@@ -96,6 +97,16 @@ HarmattanPlatformUtil::setPowerSavingMode(int state) {
 
         qDebug("HarmattanPlatformUtil::Setting Power Saving State, return value %d", return_value);
     }
+}
+
+bool
+HarmattanPlatformUtil::hasDeviceModeCredential() const {
+    int exitCode = QProcess::execute("/usr/bin/accli -t mce::DeviceModeControl");
+    if (exitCode < 0) {
+        qWarning("Could not query mce::DeviceModeControl");
+        return true;
+    }
+    return exitCode == 0;
 }
 
 int

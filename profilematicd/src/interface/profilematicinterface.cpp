@@ -24,6 +24,8 @@
 #include "../model/presencerule.h"
 #include "../configuration.h"
 #include "../logic/actioncommandline.h"
+#include "../platform/platformutil.h"
+
 #include "profilematicinterface.h"
 
 #define PM_OBJECT_NAME "/org/ajalkane/profilematic"
@@ -176,6 +178,11 @@ ProfileMaticInterface::setActive(bool isActive) {
         _rulesManager->refreshRules();
         _preferencesChanged();
     }
+}
+
+bool
+ProfileMaticInterface::hasDeviceModeCredential() const {
+    return PlatformUtil::instance()->hasDeviceModeCredential();
 }
 
 int

@@ -50,6 +50,9 @@ class QmlRulesModel: public QAbstractListModel
     ProfileMaticClient *_client;
     QmlProfilesModel *_profilesModel;
 
+    bool _isMissingDeviceModeCredential;
+    bool _hasRulesThatNeedDeviceModeCredential;
+
     QHash<int, QByteArray> _roleToProperty;
     QSet<Rule::IdType> _activeRuleIds;
     mutable QHash<Rule::IdType, QString> _ruleSummaryCache;
@@ -100,6 +103,8 @@ public:
     Q_INVOKABLE QString getTimeSummaryText(RuleCondition *condition, const QString &nonUsableTimeString) const;
     Q_INVOKABLE QString getRuleSummaryText(Rule *rule, const QString &nonUsableTimeString) const;
     Q_INVOKABLE void testCommandLine(const QString &commandLine) const;
+    Q_INVOKABLE inline bool isMissingDeviceModeCredential() const { return _isMissingDeviceModeCredential; }
+    Q_INVOKABLE inline bool hasRulesThatNeedDeviceModeCredential() const { return _hasRulesThatNeedDeviceModeCredential; }
 
     bool isActive() const;
     void setActive(bool isActive);

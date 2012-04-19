@@ -37,6 +37,7 @@ public:
     virtual void setFlightMode(int flightMode);
     virtual int powerSavingMode() const;
     virtual void setPowerSavingMode(int state);
+    virtual bool hasDeviceModeCredential() const;
     virtual int cellularMode() const;
     virtual void setCellularMode(int state);
     virtual void publishNotification(const QString &message);

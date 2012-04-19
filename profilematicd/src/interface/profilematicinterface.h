@@ -68,6 +68,8 @@ public slots:
     bool isActive() const;
     void setActive(bool active);
 
+    bool hasDeviceModeCredential() const;
+
     // Used to test command line
     // IMPROVE: this D-Bus call should be protected for only to be used by ProfileMatic UI
     void runCommandLine(const QString &commandLine) const;

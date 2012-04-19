@@ -24,7 +24,8 @@
 #include "qmlrulesmodel.h"
 
 QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profilesModel, QObject *parent)
-    : QAbstractListModel(parent), _isActive(false), _backendError(false), _client(client), _profilesModel(profilesModel)
+    : QAbstractListModel(parent), _isActive(false), _backendError(false), _client(client), _profilesModel(profilesModel),
+      _isMissingDeviceModeCredential(false), _hasRulesThatNeedDeviceModeCredential(false)
 {    
     _roleToProperty[RuleIdRole]          = "ruleId";
     _roleToProperty[IsDefaultRuleRole]   = "isDefaultRule";
@@ -59,7 +60,17 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profi
         _backendError = true;
     }
     _isActive = _client->isActive();
+    _isMissingDeviceModeCredential = !_client->hasDeviceModeCredential();
     _activeRuleIds = QSet<Rule::IdType>::fromList(_client->getActiveRuleIds());
+
+    foreach (const Rule &rule, _rules) {
+        if (rule.action().getFlightMode() >= 0 ||
+            rule.action().getPowerSavingMode() >= 0) {
+            qDebug("QmlRulesModel::QmlRulesModel: rule %s, flightMode %d, powerSavingMode %d",
+                   qPrintable(rule.getRuleName()), rule.action().getFlightMode(), rule.action().getPowerSavingMode());
+            _hasRulesThatNeedDeviceModeCredential = true;
+        }
+    }
 
     connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(emitSizeChanged(QModelIndex,int,int)));
     connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(emitSizeChanged(QModelIndex,int,int)));

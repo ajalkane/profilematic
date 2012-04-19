@@ -137,6 +137,16 @@ ProfileMaticClient::setActive(bool isActive) {
     }*/
 }
 
+bool
+ProfileMaticClient::hasDeviceModeCredential() const {
+    QDBusReply<bool> reply = dbus_iface->call("hasDeviceModeCredential");
+    if (!reply.isValid()) {
+        QDBusError e = reply.error();
+        qDebug("hasDeviceModeCredential error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());
+    }
+    return reply.value();
+}
+
 void
 ProfileMaticClient::testCommandLine(const QString &commandLine) {
     /*QDBusReply<QList<Rule> > reply = */ dbus_iface->call("runCommandLine", QVariant::fromValue(commandLine));

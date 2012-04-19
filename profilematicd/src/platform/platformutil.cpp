@@ -93,6 +93,12 @@ PlatformUtil::setPowerSavingMode(int state) {
     qDebug("PlatformUtil::setPowerSavingMode default, doing nothing for value %d", state);
 }
 
+bool
+PlatformUtil::hasDeviceModeCredential() const {
+    qDebug("PlatformUtil::hasDeviceModeCredential() default");
+    return false;
+}
+
 int
 PlatformUtil::cellularMode() const {
     qDebug("PlatformUtil::cellularMode default, returning -1");
