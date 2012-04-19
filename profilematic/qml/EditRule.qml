@@ -60,10 +60,10 @@ Page {
 
     function ruleNeedsWarning() {
         var warnings = []
-        if (rule.action.flightMode === 0 && (rule.wlan.length > 0 || rule.locationCells.length > 0)){
+        if (rule.action.flightMode === 0 && (rule.condition.wlan.length > 0 || rule.condition.locationCells.length > 0)){
             warnings.push('Your condition on turning flight mode off is based on WLAN connection or Cell location. If flight mode is on, WLAN and Cell location are not usually usable.')
         }
-        if (rule.powerSavingMode === 0 && (rule.wlan.length > 0 || rule.locationCells.length > 0)){
+        if (rule.action.powerSavingMode === 0 && (rule.condition.wlan.length > 0 || rule.condition.locationCells.length > 0)){
             warnings.push('Your condition on turning power saving mode off is based on WLAN connection. If flight mode is on, WLAN connection is not usually active.')
         }
 
@@ -227,6 +227,7 @@ Page {
                 Connections {
                     target: rule.condition
                     onLocationCellsChanged: locationCondition.summary = locationSummary()
+                    onLocationCellsTimeoutChanged: locationCondition.summary = locationSummary()
                 }
             }
 
