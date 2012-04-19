@@ -239,7 +239,7 @@ Page {
                     width: 5
                     height: parent.height
                     color: UIConstants.COLOR_APP_HEADER
-                    visible: active
+                    visible: active && !isDefaultRule
                     x: -width - 10
                 }
 
@@ -360,8 +360,8 @@ Page {
                 visible: backendRulesModel.count > 1
                 font.pixelSize: UIConstants.FONT_SMALL;
                 color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                text: "Currently matching rules are shown with blue bar. Use arrows to change the order of the rules. "
-                    + "First matching rule is preferred, if actions overlap.";
+                text: "Blue bar is shown on rules whose conditions match currently. First matching rule is preferred for an action if there is conflicts. "
+                    + "Use arrows to change the order of the rules.";
             }
             Text {
                 wrapMode: Text.WordWrap
