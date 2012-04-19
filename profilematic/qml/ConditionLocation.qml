@@ -30,11 +30,11 @@ Page {
     property int maxCells: 50
 
     onStatusChanged: {
-        console.log("Status changed ", status)
+        // console.log("Status changed ", status)
         if (status === PageStatus.Activating) {
             collectingButton.checked = false
             backendLocation.monitorCellIdChange(true)
-        } else if (status == PageStatus.Deactivating) {
+        } else if (status === PageStatus.Deactivating) {
             backendLocation.monitorCellIdChange(false)
         }
     }

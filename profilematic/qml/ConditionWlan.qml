@@ -31,11 +31,11 @@ Page {
     property int maxWlans: 5
 
     onStatusChanged: {
-        console.log("Status changed ", status)
-        if (status == PageStatus.Activating) {
+        // console.log("Status changed ", status)
+        if (status === PageStatus.Activating) {
             wlaninfo.monitor(true)
             wlaninfo.setNameIfUsable();
-        } else if (status == PageStatus.Deactivating) {
+        } else if (status === PageStatus.Deactivating) {
             wlaninfo.monitor(false)
         }
     }
