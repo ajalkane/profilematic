@@ -5,8 +5,9 @@ profilematic (1.6.0) unstable; urgency=low
   * Idle condition
   * Command-line action for when rule is deactivated
   * Debug log output is inhibited when running as daemon
+  * Warning displayed if flight mode/power saving used but credentials lost
 
- -- Arto Jalkanen <ajalkane@gmail.com>  Tue, 14 Apr 2012 23:45:00 +0300
+ -- Arto Jalkanen <ajalkane@gmail.com>  Sat, 21 Apr 2012 21:00:00 +0300
 
 profilematic (1.5.0) unstable; urgency=low
   * Mobile network mode action (Dual/2G/3G)
