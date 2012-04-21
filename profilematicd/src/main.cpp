@@ -46,6 +46,7 @@
 #include <stdio.h>
 
 #define CONVERSION_WARNING_CMDLINE "/opt/profilematic/bin/profilematic -conversionWarning"
+#define CREDENTIAL_WARNING_CMDLINE "/opt/profilematic/bin/profilematic -credentialWarning"
 #define MULTIRULE_WARNING_CMDLINE "/opt/profilematic/bin/profilematic -multiRuleWarning"
 
 ConditionManager *
@@ -77,6 +78,22 @@ void noLoggingSink(QtMsgType, const char *) {
     // NOP
 }
 
+void credentialsCheck(const QList<Rule> &rules) {
+    bool hasRulesThatNeedDeviceModeCredential = false;
+    foreach (const Rule &rule, rules) {
+        if (rule.action().getFlightMode() >= 0 ||
+            rule.action().getPowerSavingMode() >= 0) {
+            hasRulesThatNeedDeviceModeCredential = true;
+        }
+    }
+
+    if (hasRulesThatNeedDeviceModeCredential && !PlatformUtil::instance()->hasDeviceModeCredential()) {
+        qDebug("Launching credential warning");
+        QProcess::startDetached(CREDENTIAL_WARNING_CMDLINE);
+        qDebug("Credential warning launched");
+    }
+}
+
 int main(int argc, char *argv[])
 {    
     QCoreApplication a(argc, argv);    
@@ -103,6 +120,8 @@ int main(int argc, char *argv[])
         PlatformUtil::deinitialize();
         return -1;
     }
+
+    credentialsCheck(rules);
 
     rulesManager.refresh();
 

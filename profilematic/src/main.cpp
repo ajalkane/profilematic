@@ -54,6 +54,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
         } else if (QLatin1String("-multiRuleWarning") == argv[1]) {
             qDebug("Displaying multi-rule warning");
             mainQmlFile = QLatin1String("qml/mainMultiRuleWarning.qml");
+        } else if (QLatin1String("-credentialWarning") == argv[1]) {
+            qDebug("Displaying credential warning");
+            mainQmlFile = QLatin1String("qml/mainCredentialWarning.qml");
         }
     }
 

@@ -34,18 +34,8 @@ PageStackWindow {
         }
     }
 
-    CredentialWarningDialog {
-        id: credWarn
-    }
-
     Component.onCompleted: {
         theme.inverted = true
-
-        if (backendRulesModel.isMissingDeviceModeCredential() &&
-            backendRulesModel.hasRulesThatNeedDeviceModeCredential()) {
-            console.log("Credential warning", backendRulesModel.isMissingDeviceModeCredential(), backendRulesModel.hasRulesThatNeedDeviceModeCredential());
-            credWarn.open()
-        }
     }
 
 }
