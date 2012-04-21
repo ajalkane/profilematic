@@ -117,10 +117,6 @@ Page {
                       + "restore previous profile, the latest profile will run. "
                       + "E.g. phone set to silent by this rule will remain silent until you decide to make "
                       + "changes or another rule that sets profile becomes valid."
-                      + "\n\n"
-                      + "Note: Restore profile will override profile set in Default rule. E.g if you "
-                      + "have Default rule to set 'Beep' profile, but deactivating current rule wants to restore "
-                      + "'Silent' profile, then 'Silent' profile will be selected."
             }
 
         }
