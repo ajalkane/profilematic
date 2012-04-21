@@ -184,6 +184,15 @@ Page {
                 text: rule.ruleName
                 visible: rule.isDefaultRule
             }
+            Text {
+                visible: rule.isDefaultRule
+                     wrapMode: Text.WordWrap
+                width: parent.width
+                font.pixelSize: UIConstants.FONT_SMALL;
+                color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
+                text: "Activates specified actions if no other rule with matching conditions has the action specified. "
+                      + "Note: if a regular rule has 'restore previous' in its action, it overrides default rules action."
+            }
 
             TextFieldWithLabel {
                 labelText: "Rule name"

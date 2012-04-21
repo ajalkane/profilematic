@@ -239,7 +239,8 @@ Page {
                     width: 5
                     height: parent.height
                     color: UIConstants.COLOR_APP_HEADER
-                    visible: active && !isDefaultRule
+                    // To avoid confusion, default rule is shown active only when it has some action(s)
+                    visible: active && (!isDefaultRule || ruleSummary !== "When other rules don't apply")
                     x: -width - 10
                 }
 
