@@ -12,6 +12,9 @@ Other requirements:
  - Qt version 4.7.4
  - qt-components installed in runtime
  - libcellular-qt1
+ - libtelepathy-qt4
+
+NOTE: the following are old instructions, the newer QtSDK should have the required library
 
 libcellular-qt1 is not installed by default for use in QtCreator. You must get 
 the package first and then install it. For example:
