@@ -1,9 +1,12 @@
 profilematic (1.6.0) unstable; urgency=low
   * Multi-rule activation
+  * Active rules are shown in UI
   * Stand-by screen action (contributed by Ferdinand Mayet)
   * Background connections action
   * Idle condition
-  * Command-line action for when rule is deactivated
+  * Custom action for when rule is deactivated
+  * Custom action has test button for testing it
+  * Location by cell id has timeout option
   * Debug log output is inhibited when running as daemon
   * Warning displayed if flight mode/power saving used but credentials lost
 
