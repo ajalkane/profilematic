@@ -1,7 +1,8 @@
 profilematic (1.6.1) unstable; urgency=low
   * Cell id location condition fix
+  * Close vkb on pressing enter in availability action
 
- -- Arto Jalkanen <ajalkane@gmail.com>  Sat, 26 Apr 2012 22:47:00 +0300
+ -- Arto Jalkanen <ajalkane@gmail.com>  Sat, 28 Apr 2012 01:28:00 +0300
 
 profilematic (1.6.0) unstable; urgency=low
   * Multi-rule activation
