@@ -99,7 +99,6 @@ ConditionManagerLocationCell::_enteredNonWatchedCell() {
         }
         return false;
     } else {
-        emit refreshNeeded();
         return true;
     }
 }
@@ -113,6 +112,8 @@ ConditionManagerLocationCell::cellIdChanged(int cellId) {
         return;
     }
 
+    bool refresh = false;
+
     if (_currentRuleCellIds.contains(cellId)) {
         qDebug("ConditionManagerLocationCell::cellIdChanged current rule has this cellId");
         if (_cellsTimeout.isActive()) _cellsTimeout.stop();
@@ -120,19 +121,22 @@ ConditionManagerLocationCell::cellIdChanged(int cellId) {
     else if (_watchedCellIds.contains(cellId)) {
         qDebug("ConditionManagerLocationCell::cellIdChanged watched contains and is not in current Rule's cellIds, requesting refresh");
         if (_cellsTimeout.isActive()) _cellsTimeout.stop();
-        emit refreshNeeded();
+        refresh = true;
     }
     else if (!_currentRuleCellIds.isEmpty()) {
         qDebug("ConditionManagerLocationCell::cellIdChanged, not anymore in current rule's cells, requesting refresh");
         if (!_enteredNonWatchedCell()) {
             // If timeout is used, current cell id must not be set
             return;
+        } else {
+            refresh = true;
         }
     }
     else {
         qDebug("ConditionManagerLocationCell::cellIdChanged but not in active cellIds, no refresh");
     }
     _currentCellId = cellId;
+    if (refresh) emit refreshNeeded();
 }
 
 void
