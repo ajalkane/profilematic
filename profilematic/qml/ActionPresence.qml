@@ -82,7 +82,14 @@ Page {
         Behavior on height { NumberAnimation { duration: 250 } }
 
         onTextChanged: action.presenceStatusMessage = text
+
+        Keys.onReturnPressed: {
+            platformCloseSoftwareInputPanel()
+            dummy.focus = true
+        }
     }
+
+    Item { id: dummy }
 
     Row {
         id: buttonBar
