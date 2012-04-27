@@ -124,11 +124,12 @@ ConditionManagerLocationCell::cellIdChanged(int cellId) {
         refresh = true;
     }
     else if (!_currentRuleCellIds.isEmpty()) {
-        qDebug("ConditionManagerLocationCell::cellIdChanged, not anymore in current rule's cells, requesting refresh");
         if (!_enteredNonWatchedCell()) {
+            qDebug("ConditionManagerLocationCell::cellIdChanged, not anymore in current rule's timeout active");
             // If timeout is used, current cell id must not be set
             return;
         } else {
+            qDebug("ConditionManagerLocationCell::cellIdChanged, not anymore in current rule's cells, requesting refresh");
             refresh = true;
         }
     }
