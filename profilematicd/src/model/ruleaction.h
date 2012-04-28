@@ -104,6 +104,7 @@ signals:
     void restoreStandByScreenModeChanged();
     void backgroundConnectionsModeChanged();
     void restoreBackgroundConnectionsModeChanged();
+    void nfcChanged();
 private slots:
     void onPresenceRuleChanged();
 public:

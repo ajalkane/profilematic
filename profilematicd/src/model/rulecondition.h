@@ -8,6 +8,8 @@
 #include <QMetaType>
 #include <QDBusArgument>
 
+#include "ruleconditionnfc.h"
+
 class RuleCondition : public QObject
 {
     Q_OBJECT
@@ -21,6 +23,7 @@ class RuleCondition : public QObject
     QSet<QString> _wlan;
     int       _wlanTimeout;
     int       _idleForSecs;
+    RuleConditionNFC _nfc;
 
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
@@ -32,6 +35,7 @@ class RuleCondition : public QObject
     Q_PROPERTY(QVariantList wlan READ getWlanQml WRITE setWlanQml NOTIFY wlanChanged)
     Q_PROPERTY(int wlanTimeout READ getWlanTimeout WRITE setWlanTimeout NOTIFY wlanTimeoutChanged)
     Q_PROPERTY(int idleForSecs READ getIdleForSecs WRITE setIdleForSecs NOTIFY idleForSecsChanged)
+    Q_PROPERTY(RuleConditionNFC *nfc READ getNFCQml NOTIFY nfcChanged)
 
     QString _getTimeQml(const QTime &time) const;
 
@@ -51,6 +55,7 @@ signals:
     void wlanChanged();
     void wlanTimeoutChanged();
     void idleForSecsChanged();
+    void nfcChanged();
 
 public:
     RuleCondition(QObject *parent = 0);
@@ -106,6 +111,11 @@ public:
     // int getIdleForSecs() const { return _idleForSecs; }
     void setIdleForSecs(int idleForSecs);
 
+    inline const RuleConditionNFC &getNFC() const { return _nfc; }
+    inline void setNFC(const RuleConditionNFC &nfc) { _nfc = nfc; }
+    // For QML
+    inline RuleConditionNFC *getNFCQml() { return &_nfc; }
+
     inline bool operator==(const RuleCondition &o) const {
         return this->_timeStart == o._timeStart
             && this->_timeEnd   == o._timeEnd
@@ -114,7 +124,8 @@ public:
             && this->_locationCellsTimeout == o._locationCellsTimeout
             && this->_wlan      == o._wlan
             && this->_wlanTimeout == o._wlanTimeout
-            && this->_idleForSecs == o._idleForSecs;
+            && this->_idleForSecs == o._idleForSecs
+            && this->_nfc == o._nfc;
 
     }
 

@@ -15,7 +15,8 @@ RuleCondition::RuleCondition(const RuleCondition &o)
       _locationCellsTimeout(o._locationCellsTimeout),
       _wlan(o._wlan),
       _wlanTimeout(o._wlanTimeout),
-      _idleForSecs(o._idleForSecs)
+      _idleForSecs(o._idleForSecs),
+      _nfc(o._nfc)
 {
     _init();
 }
@@ -30,6 +31,9 @@ RuleCondition::_init() {
     connect(this, SIGNAL(wlanChanged()),          this, SIGNAL(changed()));
     connect(this, SIGNAL(wlanTimeoutChanged()),   this, SIGNAL(changed()));
     connect(this, SIGNAL(idleForSecsChanged()),   this, SIGNAL(changed()));
+
+    connect(&_nfc, SIGNAL(changed()),   this, SIGNAL(nfcChanged()));
+    connect(this, SIGNAL(nfcChanged()),   this, SIGNAL(changed()));
 }
 
 
@@ -44,6 +48,7 @@ RuleCondition::operator=(const RuleCondition &o)
     _wlan = o._wlan;
     _wlanTimeout = o._wlanTimeout;
     _idleForSecs = o._idleForSecs;
+    _nfc = o._nfc;
 
     return *this;
 }
@@ -218,9 +223,12 @@ RuleCondition::setWlan(const QSet<QString> &wlan) {
     }
 }
 
+// IMPROVE: same function exists in ruleconditionnfc.cpp
+namespace {
 bool variantQStringLessThan(const QVariant &s1, const QVariant &s2)
 {
     return s1.toString() < s2.toString();
+}
 }
 
 QVariantList
@@ -281,6 +289,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleCondition &rule)
     argument << rule.getWlan();
     argument << rule.getWlanTimeout();
     argument << rule.getIdleForSecs();
+    argument << rule.getNFC();
     argument.endStructure();
     return argument;
 }
@@ -296,6 +305,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     QList<QString> wlan = rule.getWlan().toList();
     int     wlanTimeout = rule.getWlanTimeout();
     int     idleForSecs = rule.getIdleForSecs();
+    RuleConditionNFC nfc;
 
     argument.beginStructure();
     argument >> timeStart;
@@ -306,6 +316,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     argument >> wlan;
     argument >> wlanTimeout;
     argument >> idleForSecs;
+    argument >> nfc;
     argument.endStructure();
 
     rule.setTimeStart(timeStart);
@@ -316,6 +327,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     rule.setWlan(QSet<QString>::fromList(wlan));
     rule.setWlanTimeout(wlanTimeout);
     rule.setIdleForSecs(idleForSecs);
+    rule.setNFC(nfc);
 
     return argument;
 }
