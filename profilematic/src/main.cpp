@@ -79,6 +79,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<Rule>("Rule", 1, 0, "Rule");
     qmlRegisterType<RuleCondition>("Rule", 1, 0, "RuleCondition");
     qmlRegisterType<RuleAction>("Rule", 1, 0, "RuleAction");
+    qmlRegisterType<RuleConditionNFC>("Rule", 1, 0, "RuleConditionNFC");
     qmlRegisterType<PresenceRule>("profilematic", 1, 0, "PresenceRule");
 #ifdef MEEGO_EDITION_HARMATTAN
     qmlRegisterType<QmlPresenceModelImpl>("profilematic", 1, 0, "AccountsModel");

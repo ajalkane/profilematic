@@ -263,6 +263,19 @@ Page {
                 }
             }
 
+            RuleTopicSummary {
+                id: nfcCondition
+                topic: "NFC tags"
+                summary: nfcConditionSummary()
+                showDrillDown: true
+                onTopicClicked: nfcConditionEditHandler()
+                visible: !rule.isDefaultRule
+                Connections {
+                    target: rule.condition
+                    onIdleForSecsChanged: nfcCondition.summary = nfcConditionSummary()
+                }
+            }
+
             SectionHeader {
                 section: "Action"
             }
@@ -416,6 +429,19 @@ Page {
     function idleEditHandler() {
         root.pageStack.push(Qt.resolvedUrl("ConditionIdle.qml"), { 'condition': rule.condition });
         // pageStack.push(conditionIdle)
+    }
+
+    // NFC condition functions
+    function nfcConditionSummary() {
+        var numUids = rule.condition.nfc.uids.length
+        return numUids === 0 ? "Not in use"
+                                : "NFC tags set"
+                                + (rule.condition.nfc.toggleCondition ? " (toggles)"
+                                                                             : "")
+    }
+
+    function nfcConditionEditHandler() {
+        root.pageStack.push(Qt.resolvedUrl("ConditionNFC.qml"), { 'condition': rule.condition });
     }
 
     // Flight mode functions

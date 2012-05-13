@@ -35,7 +35,7 @@ class RuleCondition : public QObject
     Q_PROPERTY(QVariantList wlan READ getWlanQml WRITE setWlanQml NOTIFY wlanChanged)
     Q_PROPERTY(int wlanTimeout READ getWlanTimeout WRITE setWlanTimeout NOTIFY wlanTimeoutChanged)
     Q_PROPERTY(int idleForSecs READ getIdleForSecs WRITE setIdleForSecs NOTIFY idleForSecsChanged)
-    Q_PROPERTY(RuleConditionNFC *nfc READ getNFCQml NOTIFY nfcChanged)
+    Q_PROPERTY(RuleConditionNFC *nfc READ getNFCQml NOTIFY nfcChanged STORED false)
 
     QString _getTimeQml(const QTime &time) const;
 
@@ -111,7 +111,7 @@ public:
     // int getIdleForSecs() const { return _idleForSecs; }
     void setIdleForSecs(int idleForSecs);
 
-    inline const RuleConditionNFC &getNFC() const { return _nfc; }
+    inline const RuleConditionNFC &nfc() const { return _nfc; }
     inline void setNFC(const RuleConditionNFC &nfc) { _nfc = nfc; }
     // For QML
     inline RuleConditionNFC *getNFCQml() { return &_nfc; }

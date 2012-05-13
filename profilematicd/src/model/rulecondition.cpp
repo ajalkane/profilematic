@@ -289,7 +289,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleCondition &rule)
     argument << rule.getWlan();
     argument << rule.getWlanTimeout();
     argument << rule.getIdleForSecs();
-    argument << rule.getNFC();
+    argument << rule.nfc();
     argument.endStructure();
     return argument;
 }
