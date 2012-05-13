@@ -436,16 +436,17 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
         ++numAction;
     }
 
-    if (ruleAction.getBackgroundConnectionsMode() > -1) {
-        if (numAction > 0) action.append(", ");
-        switch (ruleAction.getBackgroundConnectionsMode()) {
-        case 0:
-            action += "Background connections off"; break;
-        case 1:
-            action += "Background connections on"; break;
-        }
-        ++numAction;
-    }
+    // Modifying background connections do not work, disable until finding working solutions
+//    if (ruleAction.getBackgroundConnectionsMode() > -1) {
+//        if (numAction > 0) action.append(", ");
+//        switch (ruleAction.getBackgroundConnectionsMode()) {
+//        case 0:
+//            action += "Background connections off"; break;
+//        case 1:
+//            action += "Background connections on"; break;
+//        }
+//        ++numAction;
+//    }
 
     if (!ruleAction.getCommandLine().trimmed().isEmpty() ||
         !ruleAction.getCommandLineExit().trimmed().isEmpty()) {

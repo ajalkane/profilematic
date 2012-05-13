@@ -68,7 +68,8 @@ buildAction(ProfileClient *profileClient) {
     ac->add(new ActionBlueTooth());
     ac->add(new ActionCellularMode());
     ac->add(new ActionStandByScreenMode());
-    ac->add(new ActionBackgroundConnections());
+    // Modifying background connections do not work, disable until finding working solutions
+    // ac->add(new ActionBackgroundConnections());
     ac->add(new ActionCommandLine());
     ac->add(PlatformUtil::instance()->createActionPresence());
     return ac;

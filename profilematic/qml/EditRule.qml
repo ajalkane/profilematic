@@ -323,12 +323,13 @@ Page {
                 onTopicClicked: standByScreenModeEditHandler()
             }
 
-            RuleTopicSummary {
-                topic: "Background connections"
-                summary: backgroundConnectionsModeSummary();
-                showDrillDown: true
-                onTopicClicked: backgroundConnectionsModeEditHandler()
-            }
+            // Modifying background connections do not work, disable until finding working solutions
+//            RuleTopicSummary {
+//                topic: "Background connections"
+//                summary: backgroundConnectionsModeSummary();
+//                showDrillDown: true
+//                onTopicClicked: backgroundConnectionsModeEditHandler()
+//            }
 
             RuleTopicSummary {
                 id: commandLineAction
