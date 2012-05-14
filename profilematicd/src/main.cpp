@@ -82,8 +82,9 @@ void noLoggingSink(QtMsgType, const char *) {
 void credentialsCheck(const QList<Rule> &rules) {
     bool hasRulesThatNeedDeviceModeCredential = false;
     foreach (const Rule &rule, rules) {
-        if (rule.action().getFlightMode() >= 0 ||
-            rule.action().getPowerSavingMode() >= 0) {
+        if (rule.action().getFlightMode() >= 0 /* ||
+            Seems like power saving mode works even without the credential?
+            rule.action().getPowerSavingMode() >= 0 */) {
             hasRulesThatNeedDeviceModeCredential = true;
         }
     }

@@ -25,12 +25,12 @@ PageStackWindow {
         id: dQuery
         titleText: "Warning"
         message: "ProfileMatic lacks credentials that are needed to "
-                 + "change flight mode and power saving mode, and you "
+                 + "change flight mode, and you "
                  + "have such rules."
                  + "\n\n"
                  + "Reinstall ProfileMatic to restore the credentials if "
                  + "your firmware version is PR1.2 or earlier. With later "
-                 + "firmwares flight mode and power saving mode actions "
+                 + "firmwares flight mode actions "
                  + "may not work at all."
         onAccepted: Qt.quit();
         onRejected: Qt.quit();
