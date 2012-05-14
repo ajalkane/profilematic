@@ -88,38 +88,8 @@ Page {
             width: parent.width
             height: childrenRect.height
 
-            Button {
-                id: collectingButton
-                checkable: condition.nfc.uids.length < maxUids
-                checked: false
-                text: (checked ? "Stop collecting"
-                               : (condition.nfc.uids.length < root.maxUids
-                                  ? "Start collecting"
-                                  : "Max " + root.maxUids+ " NFC tags reached"))
-                onClicked: {
-                    if (checked) {
-                        // addCurrentUid()
-                    }
-                }
-
-                Connections {
-//                    target: root.status === PageStatus.Active ? backendLocation : null
-//                    onCurrentCellChanged: {
-//                        console.log("Current cell changed")
-//                        if (collectingButton.checked) {
-//                            addCurrentCell()
-//                        }
-//                    }
-                }
-            } // Button
-
-            Label {
-                text: "Bring NFC tag close to the phone to add it to NFC tags that are matched by this rule"
-                width: parent.width
-                platformStyle: LabelStyleSubtitle {
-                    fontPixelSize: UIConstants.FONT_SMALL
-                    textColor: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                }
+            LabelHelp {
+                text: "Bring NFC tag close to the phone to add it to tags that are matched by this rule"
             }
 
             Label {
@@ -207,63 +177,36 @@ Page {
 //                }
 //            }
 
-            Label {
-                text: "Rule is kept valid for specified seconds after getting into cell id not in the list. Useful in "
-                      + "areas where it's hard to collect all possible cell ids."
-
-                width: parent.width
-                platformStyle: LabelStyleSubtitle {
-                    fontPixelSize: UIConstants.FONT_SMALL
-                    textColor: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                }
-            }
-
             SectionHeader {
                 width: parent.width
                 height: 20
-                section: "Help"
+                section: "Condition behaviour"
             }
 
-            Label {
-                id: help
-                text: "<b>Did you know?</b>"
-                      + "<p>"
-                      + "Location by mobile cell ids comes free from your operator and "
-                      + "does not drain battery, unlike GPS."
-                      + "<p>"
-                      + "<b>How does it work?</b>"
-                      + "<p>"
-                      + "Let's say you want to silence your phone in - and near - your "
-                      + "office. First, go to the office and press 'start collecting'. "
-                      + "If it's a larger area, walk around the office a bit. Five minutes or so should do it. "
-                      + "Press 'Stop collecting'. Now we have the desired location. "
-                      + "<p>"
-                      + "The program saves and stores the location only if you save the rule. "
-                      + "If you delete the rule or press 'Cancel', all the location info will be discarded."
-                      + "<p>"
-                      + "<b>Several different settings at the same location?</b>"
-                      + "<p>"
-                      + "Create a new rule by copying an existing one from the main menu (long press on a rule), "
-                      + "so the location info will be copied as well. Then change rest "
-                      + "of the conditions and actions as you want, and Bob's your uncle."
-                      + "<p>"
-                      + "<b>Please note:</b>"
-                      + "<ul>"
-                      + "<li> The cell id depends on the network your phone uses. For example, if you "
-                      + "use both GSM and 3G,"
-                      + "you should collect the cell ids using both mobile network modes. "
-                      + "When 'collecting' is on, switch between the networks or select a dual mode. "
-                      +"<li>Cell id technology can't be used for a very exact location."
-                      + "</ul>"
-
+            Item {
+                id: nfcBehaviourContainer
                 width: parent.width
-                platformStyle: LabelStyleSubtitle {
-                    fontPixelSize: UIConstants.FONT_SMALL
-                    // textColor: "#8c8c8c"
-                    textColor: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
+                height: toggleCondition.height
+
+                RuleTopicSummary {
+                    id: toggleCondition
+                    topic: "Toggle condition"
+                    topicWidth: parent.width - toggleSwitch.width
+                    summary: toggleSwitch.checked ? "Condition active toggled on/off with NFC tag"
+                                                  : "Condition active only when NFC tag detected"
+                    onTopicClicked: toggleSwitch.checked = !toggleSwitch.checked
+                }
+                Switch {
+                    id: toggleSwitch
+                    // checked: action.restoreProfile
+                    anchors.right: nfcBehaviourContainer.right // container.right
+                    anchors.top: parent.top
+                    anchors.verticalCenter: parent.top
+                    //onCheckedChanged: {
+                        // action.restoreProfile = checked
+                    //}
                 }
             }
-
         } // Column
     } // Flickable
 
