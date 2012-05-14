@@ -355,22 +355,15 @@ Page {
             width: parent.width
             spacing: UIConstants.PADDING_SMALL
 
-            Text {
-                wrapMode: Text.WordWrap
-                width: parent.width
+            LabelHelp {
                 visible: backendRulesModel.count > 1
-                font.pixelSize: UIConstants.FONT_SMALL;
-                color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
                 text: "Blue bar is shown on rules whose conditions match currently. First matching rule is preferred for an action if there is conflicts. "
                     + "Use arrows to change the order of the rules.";
             }
-            Text {
-                wrapMode: Text.WordWrap
+            LabelHelp {
                 width: parent.width
                 // No rules are displayed when only default rule (without user specified rules)
                 visible: backendRulesModel.count > 1
-                font.pixelSize: UIConstants.FONT_SMALL;
-                color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
                 text: backendRulesModel.active ? "Rules are followed even if application is closed or device is rebooted" : ""
             }
         }

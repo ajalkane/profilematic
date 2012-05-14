@@ -86,12 +86,7 @@ Page {
                 }
             }
 
-            Text {
-                visible: restore.visible
-                wrapMode: Text.WordWrap
-                width: parent.width
-                font.pixelSize: UIConstants.FONT_SMALL;
-                color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
+            LabelHelp {
                 text: "Warning: in Flight mode connections are not used. Therefore using conditions that rely on WLAN "
                       + "or location can not work to switch flight mode off. Instead, use time based conditions."
             }

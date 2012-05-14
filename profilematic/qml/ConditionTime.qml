@@ -84,13 +84,8 @@ Page {
                 onClicked: dConfirmDelete.open()
             }
 
-            Text {
+            LabelHelp {
                 id: timeSummary
-                wrapMode: Text.WordWrap
-                width: parent.width
-                // visible: isValidRule()
-                font.pixelSize: UIConstants.FONT_SMALL;
-                color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
                 text: root.timeSummary()
                 Connections {
                     target: condition

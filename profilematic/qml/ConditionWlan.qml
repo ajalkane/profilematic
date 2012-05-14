@@ -198,15 +198,8 @@ Page {
                 } // Item
             } // Repeater
 
-            Label {
-                id: help
+            LabelHelp {
                 text: "This condition can be used to activate a rule when connected to WLAN. Add the desired WLAN when connected to it."
-
-                width: parent.width
-                platformStyle: LabelStyleSubtitle {
-                    fontPixelSize: UIConstants.FONT_SMALL
-                    textColor: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                }
             }
             TextFieldWithLabel {
                 labelText: "WLAN timeout in seconds"
@@ -221,15 +214,9 @@ Page {
                     }
                 }
             }
-            Label {
+            LabelHelp {
                 text: "Use WLAN timeout if your connection to the WLAN is weak. When timeout is set, "
                       + "WLAN is considered active after losing connection for as many seconds as specified. "
-
-                width: parent.width
-                platformStyle: LabelStyleSubtitle {
-                    fontPixelSize: UIConstants.FONT_SMALL
-                    textColor: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                }
             }
         } // Column
     } // Flickable

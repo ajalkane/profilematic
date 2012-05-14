@@ -59,16 +59,10 @@ Page {
                 }
             }
 
-            Label {
-                id: help
+            LabelHelp {
                 text: "Specify the amount of time in minutes that the device has to be in idle mode until this "
                       + "rule is activated. Device goes into idle if user does not do anything for a while (about 30 seconds). "
                       + "Idle mode is exited when lock screen is deactivated."
-                width: parent.width
-                platformStyle: LabelStyleSubtitle {
-                    fontPixelSize: UIConstants.FONT_SMALL
-                    textColor: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                }
             }
 
         } // Column

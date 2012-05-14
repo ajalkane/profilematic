@@ -199,15 +199,9 @@ Page {
                 }
             }
 
-            Label {
+            LabelHelp {
                 text: "Rule is kept valid for specified seconds after getting into cell id not in the list. Useful in "
                       + "areas where it's hard to collect all possible cell ids."
-
-                width: parent.width
-                platformStyle: LabelStyleSubtitle {
-                    fontPixelSize: UIConstants.FONT_SMALL
-                    textColor: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                }
             }
 
             SectionHeader {
@@ -216,7 +210,7 @@ Page {
                 section: "Help"
             }
 
-            Label {
+            LabelHelp {
                 id: help
                 text: "<b>Did you know?</b>"
                       + "<p>"
@@ -247,13 +241,6 @@ Page {
                       + "When 'collecting' is on, switch between the networks or select a dual mode. "
                       +"<li>Cell id technology can't be used for a very exact location."
                       + "</ul>"
-
-                width: parent.width
-                platformStyle: LabelStyleSubtitle {
-                    fontPixelSize: UIConstants.FONT_SMALL
-                    // textColor: "#8c8c8c"
-                    textColor: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                }
             }
 
         } // Column

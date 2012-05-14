@@ -43,11 +43,7 @@ Page {
             width: parent.width
             height: childrenRect.height
 
-            Text {
-                wrapMode: Text.WordWrap
-                width: parent.width
-                font.pixelSize: UIConstants.FONT_SMALL;
-                color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
+            LabelHelp {
                 text: "Use this action only if you know what you're doing (ie. you're familiar with using N9's developer mode and terminal)! "
             }
 
@@ -62,11 +58,7 @@ Page {
                 }
             }
 
-            Text {
-                wrapMode: Text.WordWrap
-                width: parent.width
-                font.pixelSize: UIConstants.FONT_SMALL;
-                color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
+            LabelHelp {
                 text: "Enter into the text box the shell command you want to run when this rule is activated. "
                       + "Always use full paths for file paths."
             }
@@ -92,11 +84,7 @@ Page {
                 }
             }
 
-            Text {
-                wrapMode: Text.WordWrap
-                width: parent.width
-                font.pixelSize: UIConstants.FONT_SMALL;
-                color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
+            LabelHelp {
                 text: "Enter into the text box the shell command you want to run when this rule is deactivated. "
                       + "Always use full paths for file paths."
             }
