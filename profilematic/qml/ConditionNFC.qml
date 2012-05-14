@@ -66,7 +66,7 @@ Page {
         SectionHeader {
             width: parent.width
             height: 20
-            section: "NFC tag"
+            section: "NFC condition"
         }
     }
 
@@ -112,6 +112,15 @@ Page {
 //                    }
                 }
             } // Button
+
+            Label {
+                text: "Bring NFC tag close to the phone to add it to NFC tags that are matched by this rule"
+                width: parent.width
+                platformStyle: LabelStyleSubtitle {
+                    fontPixelSize: UIConstants.FONT_SMALL
+                    textColor: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
+                }
+            }
 
             Label {
                 id: summary
