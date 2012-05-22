@@ -21,9 +21,11 @@ CONFIG += cellular-qt
 PKGCONFIG += gq-gconf
 
 MOBILITY += systeminfo
-!isEmpty(MEEGO_VERSION_MAJOR) {
-    MOBILITY += connectivity
-}
+MOBILITY += connectivity
+
+#!isEmpty(MEEGO_VERSION_MAJOR) {
+#    MOBILITY += connectivity
+#}
 
 # IMPROVE: Correct behaviour should be:
 #  - UnitTests ran before deploying/running of the executable
@@ -64,7 +66,8 @@ SOURCES += src/main.cpp \
     src/logic/actionactivateoncebase.cpp \
     src/logic/actionbackgroundconnections.cpp \
     src/logic/conditionmanageridle.cpp \
-    src/model/ruleconditionnfc.cpp
+    src/model/ruleconditionnfc.cpp \
+    src/logic/conditionmanagernfc.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -96,7 +99,8 @@ HEADERS += \
     src/logic/actionactivateoncebase.h \
     src/logic/actionbackgroundconnections.h \
     src/logic/conditionmanageridle.h \
-    src/model/ruleconditionnfc.h
+    src/model/ruleconditionnfc.h \
+    src/logic/conditionmanagernfc.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp
