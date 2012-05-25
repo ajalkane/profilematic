@@ -23,6 +23,7 @@ symbian:TARGET.CAPABILITY += NetworkServices
 CONFIG += qdeclarative-boostable
 CONFIG += mobility
 MOBILITY += systeminfo
+MOBILITY += connectivity
 
 # Uncomment to simulate changing cell id in UI. Is not used if MEEGO_MAJOR_VERSION is
 # set for build to avoid accidental usage on real device.
@@ -42,7 +43,8 @@ SOURCES += src/main.cpp \
     src/qmlbackend/qmlprofilesmodel.cpp \
     src/profilematicclient.cpp \
     src/qmlbackend/qmllocation.cpp \
-    src/qmlbackend/presence/qmlpresencemodel.cpp
+    src/qmlbackend/presence/qmlpresencemodel.cpp \
+    src/qmlbackend/nfc/qmlnfcmobility.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -57,7 +59,8 @@ HEADERS += \
     src/qmlbackend/qmlprofilesmodel.h \
     src/profilematicclient.h \
     src/qmlbackend/qmllocation.h \
-    src/qmlbackend/presence/qmlpresencemodel.h
+    src/qmlbackend/presence/qmlpresencemodel.h \
+    src/qmlbackend/nfc/qmlnfcmobility.h
 
 # To avoid mistakes, do not use the simulated cellId on a device build.
 !profilematic_simulated_cellid|!isEmpty(MEEGO_VERSION_MAJOR) {

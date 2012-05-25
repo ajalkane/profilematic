@@ -16,22 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef CONDITIONMANAGERNFC_H
-#define CONDITIONMANAGERNFC_H
+#ifndef QMLNFCMOBILITY_H
+#define QMLNFCMOBILITY_H
+
+#include <QObject>
 
 #include <QNearFieldManager>
 
 QTM_USE_NAMESPACE
 
-#include "conditionmanager.h"
-
-class ConditionManagerNFC : public ConditionManager {
+class QmlNfcMobility : public QObject
+{
     Q_OBJECT
 
-    QNearFieldManager *nfcManager;
+    QNearFieldManager *_nfcManager;
 
 public:
-    ConditionManagerNFC();
+    QmlNfcMobility(QObject *parent = 0);
+
+private slots:
+    void targetDetected(QNearFieldTarget *target);
+
+public slots:
+    void monitorNfc(bool monitor);
+
+signals:
+    void currentNfcUidChanged(const QString &uid) const;
 };
 
-#endif // CONDITIONMANAGERNFC_H
+#endif // QMLNFCMOBILITY_H

@@ -34,6 +34,7 @@
 #include "qmlbackend/qmlrulesmodel.h"
 #include "qmlbackend/qmlprofilesmodel.h"
 #include "qmlbackend/qmllocation.h"
+#include "qmlbackend/nfc/qmlnfcmobility.h"
 
 #include "qmlapplicationviewer.h"
 
@@ -71,6 +72,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QmlRulesModel qmlRulesModel(&profileMaticClient, &qmlProfilesModel);
     QmlBackend qmlBackend;
     QScopedPointer<QmlLocation> qmlLocation(QmlLocation::create());
+    QmlNfcMobility qmlNfc;
 
     QDeclarativeContext *ctxt = viewer->rootContext();
     QDeclarativeEngine *engine = ctxt->engine();
@@ -92,6 +94,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     ctxt->setContextProperty("backendRulesModel", &qmlRulesModel);
     ctxt->setContextProperty("backendProfilesModel", &qmlProfilesModel);
     ctxt->setContextProperty("backendLocation", qmlLocation.data());
+    ctxt->setContextProperty("backendNfc", &qmlNfc);
 
     viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer->setMainQmlFile(mainQmlFile);

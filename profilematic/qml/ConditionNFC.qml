@@ -30,32 +30,30 @@ Page {
     property int maxUids: 5
 
     onStatusChanged: {
-//        // console.log("Status changed ", status)
-//        if (status === PageStatus.Activating) {
-//            collectingButton.checked = false
-//            backendLocation.monitorCellIdChange(true)
-//        } else if (status === PageStatus.Deactivating) {
-//            backendLocation.monitorCellIdChange(false)
-//        }
+        // console.log("Status changed ", status)
+        if (status === PageStatus.Activating) {
+            backendNfc.monitorNfc(true)
+        } else if (status === PageStatus.Deactivating) {
+            backendNfc.monitorNfc(false)
+        }
     }
 
-//    function addCurrentCell() {
-//        var cells = condition.locationCells
-//        var currentCell = backendLocation.currentCell
-//        if (currentCell >= 0) {
-//            if (cells.length < maxCells) {
-//                var xPos = cellIdsFlickable.contentX
-//                var yPos = cellIdsFlickable.contentY
-//                cells.push(currentCell)
-//                condition.locationCells = cells
-//                cellIdsFlickable.contentX = xPos
-//                cellIdsFlickable.contentY = yPos
-//                if (condition.locationCells.length >= maxCells) {
-//                    collectingButton.checked = false
-//                }
-//            }
-//        }
-//    }
+    function addNfcUid(nfcUid) {
+        console.log("addNfcUid('" + nfcUid + ")")
+        if (nfcUid !== '') {
+            var uids = condition.nfc.uids
+
+            if (uids.length < maxUids) {
+                var xPos = flickable.contentX
+                var yPos = flickable.contentY
+                uids.push(nfcUid)
+                console.log("Adding nfcUid " + nfcUid)
+                condition.nfc.uids = uids
+                flickable.contentX = xPos
+                flickable.contentY = yPos
+            }
+        }
+    }
 
     Column {
         id: header
@@ -94,17 +92,26 @@ Page {
 
             Label {
                 id: summary
-                text: "Placeholder" // backendLocation.currentCell >= 0 ? "Current cell id " + backendLocation.currentCell + "."
-                                    //                   : "Mobile network unreachable"
+                text: ""
                 width: parent.width
+                visible: text !== ""
 
                 platformStyle: LabelStyleSubtitle {}
+
+                Connections {
+                    target: backendNfc
+                    onCurrentNfcUidChanged: {
+                        summary.text = "Last detected NFC id: " + uid;
+                        addNfcUid(uid)
+                    }
+                }
             }
 
             SectionHeader {
                 width: parent.width
                 height: 20
-                section: "NFC tags (" + condition.nfc.uids.length + ")"
+                visible: condition.nfc.uids.length > 0
+                section: "NFC tags (" + condition.nfc.uids.length + "/" + maxUids + ")"
 
             }
 

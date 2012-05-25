@@ -50,7 +50,8 @@ QVariantList
 RuleConditionNFC::getUidsQml() const {
     QVariantList uids;
     for (QSet<QByteArray>::const_iterator i = _uids.constBegin(); i != _uids.constEnd(); ++i) {
-        uids << QVariant::fromValue(*i);
+        QString uidHex(i->toHex());
+        uids << uidHex; // QVariant::fromValue(*i);
     }
     qSort(uids.begin(), uids.end(), variantQStringLessThan);
     return uids;
@@ -59,9 +60,11 @@ RuleConditionNFC::getUidsQml() const {
 
 void
 RuleConditionNFC::setUidsQml(const QVariantList &uids) {
+    qDebug("RuleConditionNFC::setUidsQml");
     QSet<QByteArray> uidsSet;
     for (QVariantList::const_iterator i = uids.constBegin(); i != uids.constEnd(); ++i) {
-        uidsSet << i->toByteArray();
+        uidsSet << QByteArray::fromHex(i->toByteArray());
+        qDebug("RuleConditionNFC::setUidsQml: adding %s", qPrintable(i->toString()));
     }
     setUids(uidsSet);
 }
