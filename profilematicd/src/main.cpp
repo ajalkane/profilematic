@@ -30,6 +30,7 @@
 #include "logic/conditionmanagerlocationcell.h"
 #include "logic/conditionmanagerwlan.h"
 #include "logic/conditionmanageridle.h"
+#include "logic/conditionmanagernfc.h"
 #include "logic/actionchain.h"
 #include "logic/actioncellularmode.h"
 #include "logic/actioncommandline.h"
@@ -51,11 +52,15 @@
 
 ConditionManager *
 buildConditionManager() {
+    qDebug("Building conditions");
     ConditionManagerChain *cm = new ConditionManagerChain();
     cm->add(new ConditionManagerTime());
     cm->add(new ConditionManagerLocationCell());
     cm->add(new ConditionManagerWlan());
     cm->add(new ConditionManagerIdle());
+    qDebug("Building conditions 2");
+    cm->add(new ConditionManagerNFC());
+    qDebug("Building conditions 3");
     return cm;
 }
 
@@ -124,6 +129,8 @@ int main(int argc, char *argv[])
     }
 
     credentialsCheck(rules);
+
+    qDebug("main: refresh");
 
     rulesManager.refresh();
 

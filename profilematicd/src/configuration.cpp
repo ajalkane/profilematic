@@ -73,6 +73,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("presenceStatusMessage", r.action().getPresenceStatusMessage());
         s.setValue("restorePresence", r.action().getRestorePresence());
         s.setValue("presenceChangeType", int(r.action().getPresenceChangeType()));
+        _writeNfcCondition(s, r.condition().nfc());
     }
     s.endArray();
 }
@@ -198,6 +199,8 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         r.action().setRestorePresence(s.value("restorePresence", r.action().getRestorePresence()).toBool());
         r.action().setPresenceChangeType((RuleAction::PresenceChangeType) s.value("presenceChangeType", (int) RuleAction::CustomPresenceType).toInt());
 
+        _readNfcCondition(s, r.condition().nfc());
+
         // Make sure default rule is always last, and is created if it does not exist
         if (!r.isDefaultRule()) {
             rules << r;
@@ -238,7 +241,7 @@ Configuration::readPreferences(Preferences &p) {
 void
 Configuration::_assignRuleId(Rule &r, const QVariant &ruleIdVar) {
     // First released version did not set ruleIds, and it was assumed to be int.
-    // Now it is changed to be UUID, a string. If the ruleId is a string, create
+    // Now it is changed to be UUID, a string. If the ruleId is an integer, create
     // a new UUID
     bool ok = true;
     int oldIntId = ruleIdVar.toInt(&ok);
@@ -290,6 +293,40 @@ void Configuration::_readPresenceRuleList(QSettings &s, QList<PresenceRule *> &r
         rules.append(new PresenceRule(accountId, serviceName, action, statusMessage));
     }
     s.endArray();
+}
+
+void
+Configuration::_writeNfcCondition(QSettings &s, const RuleConditionNFC &condNfc) {
+    s.setValue("nfcToggleCondition", condNfc.getToggleCondition());
+    s.beginWriteArray("nfcUids");
+    int row = 0;
+    foreach (QByteArray nfcUid, condNfc.getUids()) {
+        QString uidStr(nfcUid.toHex());
+        s.setArrayIndex(row);
+        s.setValue("nfcUid", uidStr);
+    }
+
+    s.endArray();
+
+}
+
+void
+Configuration::_readNfcCondition(QSettings &s, RuleConditionNFC &condNfc) {
+    condNfc.setToggleCondition(s.value("restoreBlueToothMode", false).toBool());
+
+    int size = s.beginReadArray("nfcUids");
+    QSet<QByteArray> uids;
+
+    for (int row = 0; row < size; row++) {
+        s.setArrayIndex(row);
+
+        QByteArray uidHex = s.value("nfcUid").toByteArray();
+        uids << QByteArray::fromHex(uidHex);
+    }
+    condNfc.setUids(uids);
+
+    s.endArray();
+
 }
 
 void

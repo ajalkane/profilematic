@@ -112,6 +112,7 @@ public:
     void setIdleForSecs(int idleForSecs);
 
     inline const RuleConditionNFC &nfc() const { return _nfc; }
+    inline RuleConditionNFC &nfc() { return _nfc; }
     inline void setNFC(const RuleConditionNFC &nfc) { _nfc = nfc; }
     // For QML
     inline RuleConditionNFC *getNFCQml() { return &_nfc; }

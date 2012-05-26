@@ -28,10 +28,27 @@ QTM_USE_NAMESPACE
 class ConditionManagerNFC : public ConditionManager {
     Q_OBJECT
 
-    QNearFieldManager *nfcManager;
+    QNearFieldManager *_nfcManager;
+    // QtMobility on N9 seems to have a bug (?), on targetLost the target->uid is empty.
+    // So we have to cache the current nfc uid.
+    QByteArray _currentNfcUid;
+    QSet<QByteArray> _currentTogglingNfcUids;
+    QSet<QByteArray> _currentNonTogglingNfcUids;
+    QSet<QByteArray> _watchedNonTogglingNfcUids;
+    QSet<QByteArray> _watchedTogglingNfcUids;
 
+    void _monitorNfc(bool monitor);
 public:
     ConditionManagerNFC();
+
+    virtual void startRefresh();
+    virtual bool refresh(const RuleCondition &rule);
+    virtual void matchedRule(const RuleCondition &rule);
+    virtual void endRefresh();
+
+private slots:
+    void targetDetected(QNearFieldTarget *target);
+    void targetLost(QNearFieldTarget *target);
 };
 
 #endif // CONDITIONMANAGERNFC_H
