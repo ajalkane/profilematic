@@ -205,13 +205,13 @@ Page {
                 }
                 Switch {
                     id: toggleSwitch
-                    // checked: action.restoreProfile
+                    checked: condition.nfc.toggleCondition
                     anchors.right: nfcBehaviourContainer.right // container.right
                     anchors.top: parent.top
                     anchors.verticalCenter: parent.top
-                    //onCheckedChanged: {
-                        // action.restoreProfile = checked
-                    //}
+                    onCheckedChanged: {
+                        condition.nfc.toggleCondition = checked
+                    }
                 }
             }
         } // Column
