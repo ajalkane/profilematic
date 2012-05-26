@@ -29,10 +29,27 @@ Page {
     property RuleCondition condition;
     property int maxUids: 5
 
+    QueryDialog {
+        id: dNfcNotActive
+
+        titleText: "NFC is not enabled"
+        message: "You have not enabled NFC. To use NFC rules you must enable "
+                 + "NFC from device settings. Also you can't collect NFC tags here "
+                 + "without enabling NFC tags from the settings."
+        acceptButtonText: "Ok"
+    }
+
+
     onStatusChanged: {
         // console.log("Status changed ", status)
         if (status === PageStatus.Activating) {
             backendNfc.monitorNfc(true)
+            if (!backendNfc.isAvailable()) {
+                console.log("Opening NFC not active warning dialog")
+                dNfcNotActive.open();
+            } else {
+                console.log("NFC is active, no warning dialog")
+            }
         } else if (status === PageStatus.Deactivating) {
             backendNfc.monitorNfc(false)
         }

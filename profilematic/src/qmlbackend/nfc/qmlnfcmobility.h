@@ -39,6 +39,7 @@ private slots:
 
 public slots:
     void monitorNfc(bool monitor);
+    bool isAvailable() const;
 
 signals:
     void currentNfcUidChanged(const QString &uid) const;

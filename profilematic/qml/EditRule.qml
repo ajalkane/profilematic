@@ -265,7 +265,7 @@ Page {
 
             RuleTopicSummary {
                 id: nfcCondition
-                topic: "NFC tags"
+                topic: "NFC"
                 summary: nfcConditionSummary()
                 showDrillDown: true
                 onTopicClicked: nfcConditionEditHandler()
@@ -435,7 +435,7 @@ Page {
     function nfcConditionSummary() {
         var numUids = rule.condition.nfc.uids.length
         return numUids === 0 ? "Not in use"
-                                : "NFC tags set"
+                                : "NFC detection set"
                                 + (rule.condition.nfc.toggleCondition ? " (toggles)"
                                                                              : "")
     }

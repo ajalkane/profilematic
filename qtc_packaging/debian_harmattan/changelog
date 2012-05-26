@@ -1,3 +1,9 @@
+profilematic (1.7.0) unstable; urgency=low
+  * NFC condition
+  * Custom action sets correct environment so QML applications virtual keyboard works
+
+ -- Arto Jalkanen <ajalkane@gmail.com>  Sat, 26 May 2012 21:00:00 +0300
+
 profilematic (1.6.2) unstable; urgency=low
   * Removed background connections action, as it doesn't work
   * Removed power saving from credential warning

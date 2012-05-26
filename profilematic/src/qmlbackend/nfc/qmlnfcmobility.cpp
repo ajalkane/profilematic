@@ -47,3 +47,8 @@ QmlNfcMobility::targetDetected(QNearFieldTarget *target) {
     emit currentNfcUidChanged(uidStr);
     target->deleteLater();
 }
+
+bool
+QmlNfcMobility::isAvailable() const {
+    return _nfcManager->isAvailable();
+}
