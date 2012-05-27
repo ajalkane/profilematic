@@ -31,6 +31,7 @@
 #include "logic/conditionmanagerwlan.h"
 #include "logic/conditionmanageridle.h"
 #include "logic/conditionmanagernfc.h"
+#include "logic/conditionmanagernetworkmode.h"
 #include "logic/actionchain.h"
 #include "logic/actioncellularmode.h"
 #include "logic/actioncommandline.h"
@@ -58,9 +59,9 @@ buildConditionManager() {
     cm->add(new ConditionManagerLocationCell());
     cm->add(new ConditionManagerWlan());
     cm->add(new ConditionManagerIdle());
-    qDebug("Building conditions 2");
     cm->add(new ConditionManagerNFC());
-    qDebug("Building conditions 3");
+    cm->add(new ConditionManagerNetworkMode());
+
     return cm;
 }
 

@@ -67,7 +67,8 @@ SOURCES += src/main.cpp \
     src/logic/actionbackgroundconnections.cpp \
     src/logic/conditionmanageridle.cpp \
     src/model/ruleconditionnfc.cpp \
-    src/logic/conditionmanagernfc.cpp
+    src/logic/conditionmanagernfc.cpp \
+    src/logic/conditionmanagernetworkmode.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -100,7 +101,8 @@ HEADERS += \
     src/logic/actionbackgroundconnections.h \
     src/logic/conditionmanageridle.h \
     src/model/ruleconditionnfc.h \
-    src/logic/conditionmanagernfc.h
+    src/logic/conditionmanagernfc.h \
+    src/logic/conditionmanagernetworkmode.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp
