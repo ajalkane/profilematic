@@ -2,7 +2,7 @@
 
 RuleCondition::RuleCondition(QObject *parent)
     : QObject(parent), _locationCellsTimeout(0), _wlanTimeout(0), _idleForSecs(-1),
-      _networkMode(Undefined)
+      _networkMode(UndefinedNetworkMode)
 {
     _init();
 }

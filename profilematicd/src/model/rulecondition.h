@@ -17,9 +17,9 @@ class RuleCondition : public QObject
 
 public:
     enum NetworkMode {
-        Undefined = 0,
-        WLAN,
-        GSM
+        UndefinedNetworkMode = 0,
+        Wlan,
+        Gsm
     };
 
 private:
