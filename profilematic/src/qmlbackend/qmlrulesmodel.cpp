@@ -477,6 +477,11 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
             condition.append("on location");
             ++numCondition;
         }
+        if (!ruleCond.getNetworkMode() <= 0) {
+            if (numCondition > 0) condition.append(" and ");
+            condition.append("on network mode");
+            ++numCondition;
+        }
         if (!ruleCond.getWlan().isEmpty()) {
             if (numCondition > 0) condition.append(" and ");
             condition.append("on WLAN");
