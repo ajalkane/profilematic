@@ -10,13 +10,13 @@ ConditionManagerInternetConnectionMode::startRefresh() {
     _existsRulesWithInternetConnectionMode = false;
 }
 
-RuleCondition::InternetConnectionMode mapNetworkMode(QSystemNetworkInfo::NetworkMode mode) {
-    if (mode == QSystemNetworkInfo::GsmMode)
+RuleCondition::InternetConnectionMode mapNetworkMode(QNetworkConfiguration::BearerType type) {
+    if (type == QNetworkConfiguration::Bearer2G || type == QNetworkConfiguration::BearerHSPA)
         return RuleCondition::Gsm;
-    if (mode == QSystemNetworkInfo::WlanMode)
+    if (type == QNetworkConfiguration::BearerWLAN)
         return RuleCondition::Wlan;
 
-    qWarning("Warning: unknown network mode %d", mode);
+    qWarning("Warning: unrecognized bearer type %d", type);
     return RuleCondition::UndefinedInternetConnectionMode;
 }
 
@@ -29,7 +29,7 @@ ConditionManagerInternetConnectionMode::refresh(const RuleCondition &condition) 
     _existsRulesWithInternetConnectionMode = true;
 
     if (_currentInternetConnectionMode == RuleCondition::UndefinedInternetConnectionMode) {
-        _currentInternetConnectionMode = mapNetworkMode(_networkInfo.currentMode());
+        _currentInternetConnectionMode = mapNetworkMode(_networkConfigurationManager.defaultConfiguration().bearerType());
     }
 
     return _currentInternetConnectionMode == condition.getInternetConnectionMode();
@@ -49,24 +49,46 @@ ConditionManagerInternetConnectionMode::endRefresh() {
 }
 
 void
-ConditionManagerInternetConnectionMode::mynetworkModeChanged(QSystemNetworkInfo::NetworkMode mode) {
-    qDebug("%s ConditionManagerInternetConnectionMode:networkModeChanged(%d), refreshing", qPrintable(QDateTime::currentDateTime().toString()), mode);
-    _currentInternetConnectionMode = mapNetworkMode(mode);
-
-    emit refreshNeeded();
-}
-
-void
 ConditionManagerInternetConnectionMode::_monitorNetworkMode(bool monitor) {
     qDebug("ConditionManagerInternetConnectionMode::monitorNetworkMode(%d), currently %d", monitor, _monitor);
     if (monitor != _monitor) {
         _monitor = monitor;
+
         if (monitor) {
-            bool success = connect(&_networkInfo, SIGNAL(networkModeChanged(QSystemNetworkInfo::NetworkMode)), this, SLOT(mynetworkModeChanged(QSystemNetworkInfo::NetworkMode)));
-            qDebug("ConditionManagerInternetConnectionMode::monitorNetworkMode connected signal return value %d", success);
+            qDebug("ConditionManagerInternetConnectionMode::monitor network configuration change");
+            connect(&_networkConfigurationManager,
+                    SIGNAL(configurationChanged(const QNetworkConfiguration &)),
+                    this, SLOT(onConfigurationChanged(const QNetworkConfiguration &)));
         } else {
-            qDebug("ConditionManagerInternetConnectionMode::monitorNetworkMode disconnecting signal");
-            disconnect(&_networkInfo, SIGNAL(networkModeChanged(QSystemNetworkInfo::NetworkMode)), this, SLOT(mynetworkModeChanged(QSystemNetworkInfo::NetworkMode)));
+            qDebug("ConditionManagerInternetConnectionMode::monitor disconnect network configuration change signal");
+            disconnect(&_networkConfigurationManager,
+                    SIGNAL(configurationChanged(const QNetworkConfiguration &)),
+                    this, SLOT(onConfigurationChanged(const QNetworkConfiguration &)));
         }
     }
+}
+
+void _logConfiguration(const QNetworkConfiguration &config) {
+    qDebug("QNetworkConfiguration::bearerTypeName %s", qPrintable(config.bearerTypeName()));
+    qDebug("QNetworkConfiguration::identifier     %s", qPrintable(config.identifier()));
+    qDebug("QNetworkConfiguration::name           %s", qPrintable(config.name()));
+    qDebug("QNetworkConfiguration::state          %0x", (int)config.state());
+    qDebug(" ");
+}
+
+void
+ConditionManagerInternetConnectionMode::onConfigurationChanged(const QNetworkConfiguration &config) {
+    qDebug("%s Network configuration changed", qPrintable(QDateTime::currentDateTime().toString()));
+    _logConfiguration(config);
+
+    if (config.state() == QNetworkConfiguration::Active)
+    {
+        RuleCondition::InternetConnectionMode activeMode = mapNetworkMode(config.bearerType());
+        if (activeMode != _currentInternetConnectionMode) {
+            _currentInternetConnectionMode = activeMode;
+            qDebug("ConditionManagerInternetConnectionMode::onConfigurationChanged requesting refresh");
+            emit refreshNeeded();
+        }
+    }
+
 }

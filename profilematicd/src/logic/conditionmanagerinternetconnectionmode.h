@@ -19,9 +19,7 @@
 #ifndef CONDITIONMANAGERINTERNETCONNECTIONMODE_H
 #define CONDITIONMANAGERINTERNETCONNECTIONMODE_H
 
-#include <QSystemNetworkInfo>
-
-QTM_USE_NAMESPACE
+#include <QNetworkConfigurationManager>
 
 #include "conditionmanager.h"
 
@@ -29,7 +27,7 @@ class ConditionManagerInternetConnectionMode : public ConditionManager {
     Q_OBJECT
 
     RuleCondition::InternetConnectionMode _currentInternetConnectionMode;
-    QSystemNetworkInfo _networkInfo;
+    QNetworkConfigurationManager _networkConfigurationManager;
     bool _existsRulesWithInternetConnectionMode;
     bool _monitor;
 
@@ -42,8 +40,8 @@ public:
     virtual void matchedRule(const RuleCondition &rule);
     virtual void endRefresh();
 
-public slots:
-    void mynetworkModeChanged(QSystemNetworkInfo::NetworkMode mode);
+private slots:
+    void onConfigurationChanged(const QNetworkConfiguration &config);
 };
 
 #endif // CONDITIONMANAGERINTERNETCONNECTIONMODE_H
