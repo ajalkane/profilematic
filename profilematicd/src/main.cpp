@@ -31,7 +31,7 @@
 #include "logic/conditionmanagerwlan.h"
 #include "logic/conditionmanageridle.h"
 #include "logic/conditionmanagernfc.h"
-#include "logic/conditionmanagernetworkmode.h"
+#include "logic/conditionmanagerinternetconnectionmode.h"
 #include "logic/actionchain.h"
 #include "logic/actioncellularmode.h"
 #include "logic/actioncommandline.h"
@@ -60,7 +60,7 @@ buildConditionManager() {
     cm->add(new ConditionManagerWlan());
     cm->add(new ConditionManagerIdle());
     cm->add(new ConditionManagerNFC());
-    cm->add(new ConditionManagerNetworkMode());
+    cm->add(new ConditionManagerInternetConnectionMode());
 
     return cm;
 }

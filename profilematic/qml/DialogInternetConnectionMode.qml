@@ -23,19 +23,19 @@ import "UIConstants.js" as UIConstants
 
 MySelectionDialog {
     id: root
-    titleText: "Match network mode"
-    model: networkModeModel
+    titleText: "Internet connection mode"
+    model: internetConnectionModeModel
     platformStyle: SelectionDialogStyle {
        itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
     }
 
-    property int selectedNetworkMode: 0
-    signal networkModeSelected
+    property int selectedInternetConnectionMode: 0
+    signal internetConnectionModeSelected
 
     onSelectedIndexChanged: {
         if (selectedIndex > -1) {
-            selectedNetworkMode = model.get(selectedIndex).mode
-            networkModeSelected()
+            selectedInternetConnectionMode = model.get(selectedIndex).mode
+            internetConnectionModeSelected()
         }
     }
 
@@ -47,9 +47,9 @@ MySelectionDialog {
     }
 
     function __selectIndex() {
-        for (var i = 0; i < networkModeModel.count; i++) {
-            var networkMode = networkModeModel.get(i).mode
-            if (selectedNetworkMode === networkMode) {
+        for (var i = 0; i < internetConnectionModeModel.count; i++) {
+            var internetConnectionMode = internetConnectionModeModel.get(i).mode
+            if (selectedInternetConnectionMode === internetConnectionMode) {
                 selectedIndex = i
             }
         }
@@ -58,7 +58,7 @@ MySelectionDialog {
 
     // Flight mode
     ListModel {
-        id: networkModeModel;
+        id: internetConnectionModeModel;
 
         ListElement{
             mode: 0
@@ -77,12 +77,12 @@ MySelectionDialog {
         }
     }
 
-    function networkModeSummary(networkMode) {
-        switch (networkMode) {
+    function internetConnectionModeSummary(internetConnectionMode) {
+        switch (internetConnectionMode) {
         case 1:
         case 2:
-            return networkModeModel.get(networkMode).description;
+            return internetConnectionModeModel.get(internetConnectionMode).description;
         }
-        return networkModeModel.get(0).description;
+        return internetConnectionModeModel.get(0).description;
     }
 }

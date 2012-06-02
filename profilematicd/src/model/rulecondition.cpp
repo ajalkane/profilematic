@@ -2,7 +2,7 @@
 
 RuleCondition::RuleCondition(QObject *parent)
     : QObject(parent), _locationCellsTimeout(0), _wlanTimeout(0), _idleForSecs(-1),
-      _networkMode(UndefinedNetworkMode)
+      _internetConnectionMode(UndefinedInternetConnectionMode)
 {
     _init();
 }
@@ -18,7 +18,7 @@ RuleCondition::RuleCondition(const RuleCondition &o)
       _wlanTimeout(o._wlanTimeout),
       _idleForSecs(o._idleForSecs),
       _nfc(o._nfc),
-      _networkMode(o._networkMode)
+      _internetConnectionMode(o._internetConnectionMode)
 {
     _init();
 }
@@ -36,7 +36,7 @@ RuleCondition::_init() {
 
     connect(&_nfc, SIGNAL(changed()),   this, SIGNAL(nfcChanged()));
     connect(this, SIGNAL(nfcChanged()),   this, SIGNAL(changed()));
-    connect(this, SIGNAL(networkModeChanged()), this, SIGNAL(changed()));
+    connect(this, SIGNAL(internetConnectionModeChanged()), this, SIGNAL(changed()));
 }
 
 
@@ -52,7 +52,7 @@ RuleCondition::operator=(const RuleCondition &o)
     _wlanTimeout = o._wlanTimeout;
     _idleForSecs = o._idleForSecs;
     _nfc = o._nfc;
-    _networkMode = o._networkMode;
+    _internetConnectionMode = o._internetConnectionMode;
 
     return *this;
 }
@@ -283,11 +283,11 @@ RuleCondition::setIdleForSecs(int idleForSecs)
 }
 
 void
-RuleCondition::setNetworkMode(NetworkMode mode)
+RuleCondition::setInternetConnectionMode(InternetConnectionMode mode)
 {
-    if (_networkMode != mode) {
-        _networkMode = mode;
-        emit networkModeChanged();
+    if (_internetConnectionMode != mode) {
+        _internetConnectionMode = mode;
+        emit internetConnectionModeChanged();
     }
 }
 
@@ -303,7 +303,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleCondition &rule)
     argument << rule.getWlanTimeout();
     argument << rule.getIdleForSecs();
     argument << rule.nfc();
-    argument << int(rule.getNetworkMode());
+    argument << int(rule.getInternetConnectionMode());
     argument.endStructure();
     return argument;
 }
@@ -344,7 +344,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     rule.setWlanTimeout(wlanTimeout);
     rule.setIdleForSecs(idleForSecs);
     rule.setNFC(nfc);
-    rule.setNetworkMode((RuleCondition::NetworkMode)networkMode);
+    rule.setInternetConnectionMode((RuleCondition::InternetConnectionMode)networkMode);
 
     return argument;
 }

@@ -30,7 +30,7 @@ Page {
 
     SectionHeader {
         id: header
-        section: "Choose internet network mode"
+        section: "Choose internet connection"
     }
 
     Flickable {
@@ -50,10 +50,10 @@ Page {
             height: childrenRect.height
 
             RuleTopicSummary {
-                topic: "Network mode"
-                summary: networkModeSummary()
+                topic: "Internet connection mode"
+                summary: internetConnectionModeSummary()
                 showComboBox: true
-                onTopicClicked: networkModeEditHandler()
+                onTopicClicked: internetConnectionModeEditHandler()
             }
 
             LabelHelp {
@@ -62,21 +62,21 @@ Page {
         }
     }
 
-    DialogNetworkMode {
-        id: dNetworkMode
+    DialogInternetConnectionMode {
+        id: dInternetConnectionMode
 
-        onNetworkModeSelected: {
-            condition.networkMode = selectedNetworkMode
+        onInternetConnectionModeSelected: {
+            condition.internetConnectionMode = selectedInternetConnectionMode
         }
     }
 
-    function networkModeSummary() {
-        var summary = dNetworkMode.networkModeSummary(condition.networkMode)
+    function internetConnectionModeSummary() {
+        var summary = dInternetConnectionMode.internetConnectionModeSummary(condition.internetConnectionMode)
         return summary
     }
 
-    function networkModeEditHandler() {
-        dNetworkMode.selectedNetworkMode = condition.networkMode
-        dNetworkMode.open();
+    function internetConnectionModeEditHandler() {
+        dInternetConnectionMode.selectedInternetConnectionMode = condition.internetConnectionMode
+        dInternetConnectionMode.open();
     }
 }

@@ -73,7 +73,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("presenceStatusMessage", r.action().getPresenceStatusMessage());
         s.setValue("restorePresence", r.action().getRestorePresence());
         s.setValue("presenceChangeType", int(r.action().getPresenceChangeType()));
-        s.setValue("networkMode", int(r.condition().getNetworkMode()));
+        s.setValue("internetConnectionMode", int(r.condition().getInternetConnectionMode()));
         _writeNfcCondition(s, r.condition().nfc());
     }
     s.endArray();
@@ -202,9 +202,9 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
 
         _readNfcCondition(s, r.condition().nfc());
 
-        RuleCondition::NetworkMode networkMode
-                = (RuleCondition::NetworkMode) s.value("action", 0).toInt();
-        r.condition().setNetworkMode(networkMode);
+        RuleCondition::InternetConnectionMode internetConnectionMode
+                = (RuleCondition::InternetConnectionMode) s.value("internetConnectionMode", 0).toInt();
+        r.condition().setInternetConnectionMode(internetConnectionMode);
 
         // Make sure default rule is always last, and is created if it does not exist
         if (!r.isDefaultRule()) {

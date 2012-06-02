@@ -237,15 +237,15 @@ Page {
             }
 
             RuleTopicSummary {
-                id: networkModeCondition
-                topic: "Network mode"
-                summary: networkModeSummary()
+                id: internetConnectionModeCondition
+                topic: "Internet connection"
+                summary: internetConnectionModeSummary()
                 showDrillDown: true
-                onTopicClicked: networkModeEditHandler()
+                onTopicClicked: internetConnectionModeEditHandler()
                 visible: !rule.isDefaultRule
                 Connections {
                     target: rule.condition
-                    onNetworkModeChanged: networkModeCondition.summary = networkModeSummary()
+                    onInternetConnectionModeChanged: internetConnectionModeCondition.summary = internetConnectionModeSummary()
                 }
             }
 
@@ -419,9 +419,9 @@ Page {
         root.pageStack.push(Qt.resolvedUrl("ConditionLocation.qml"), { 'condition': rule.condition });
     }
 
-    // Network mode functions
-    function networkModeSummary() {
-        switch (rule.condition.networkMode) {
+    // Internet condition mode functions
+    function internetConnectionModeSummary() {
+        switch (rule.condition.internetConnectionMode) {
         case RuleCondition.Gsm:
             return "GSM"
         case RuleCondition.Wlan:
@@ -430,8 +430,8 @@ Page {
         return "Not in use"
     }
 
-    function networkModeEditHandler() {
-        root.pageStack.push(Qt.resolvedUrl("ConditionNetworkMode.qml"), { 'condition': rule.condition });
+    function internetConnectionModeEditHandler() {
+        root.pageStack.push(Qt.resolvedUrl("ConditionInternetConnectionMode.qml"), { 'condition': rule.condition });
     }
 
     // Wlan functions

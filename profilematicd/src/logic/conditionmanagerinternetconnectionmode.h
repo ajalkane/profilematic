@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef CONDITIONMANAGERNETWORKMODE_H
-#define CONDITIONMANAGERNETWORKMODE_H
+#ifndef CONDITIONMANAGERINTERNETCONNECTIONMODE_H
+#define CONDITIONMANAGERINTERNETCONNECTIONMODE_H
 
 #include <QSystemNetworkInfo>
 
@@ -25,25 +25,25 @@ QTM_USE_NAMESPACE
 
 #include "conditionmanager.h"
 
-class ConditionManagerNetworkMode : public ConditionManager {
+class ConditionManagerInternetConnectionMode : public ConditionManager {
     Q_OBJECT
 
-    RuleCondition::NetworkMode _currentNetworkMode;
+    RuleCondition::InternetConnectionMode _currentInternetConnectionMode;
     QSystemNetworkInfo _networkInfo;
-    bool _existsRulesWithNetworkMode;
+    bool _existsRulesWithInternetConnectionMode;
     bool _monitor;
 
     void _monitorNetworkMode(bool monitor);
 public:
-    ConditionManagerNetworkMode();
+    ConditionManagerInternetConnectionMode();
 
     virtual void startRefresh();
     virtual bool refresh(const RuleCondition &rule);
     virtual void matchedRule(const RuleCondition &rule);
     virtual void endRefresh();
 
-private slots:
-    void networkModeChanged(QSystemNetworkInfo::NetworkMode mode);
+public slots:
+    void mynetworkModeChanged(QSystemNetworkInfo::NetworkMode mode);
 };
 
-#endif // CONDITIONMANAGERNETWORKMODE_H
+#endif // CONDITIONMANAGERINTERNETCONNECTIONMODE_H

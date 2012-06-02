@@ -477,19 +477,26 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
             condition.append("on location");
             ++numCondition;
         }
-        if (!ruleCond.getNetworkMode() <= 0) {
+        if (ruleCond.getInternetConnectionMode() != RuleCondition::UndefinedInternetConnectionMode) {
             if (numCondition > 0) condition.append(" and ");
-            condition.append("on network mode");
+            switch (ruleCond.getInternetConnectionMode()) {
+            case RuleCondition::Wlan:
+                condition.append("WLAN");
+                break;
+            case RuleCondition::Gsm:
+                condition.append("GSM");
+                break;
+            default:
+                "Unrecognized";
+                break;
+            }
+            condition.append(" net connection");
+
             ++numCondition;
         }
         if (!ruleCond.getWlan().isEmpty()) {
             if (numCondition > 0) condition.append(" and ");
             condition.append("on WLAN");
-            ++numCondition;
-        }
-        if (ruleCond.getIdleForSecs() >= 0) {
-            if (numCondition > 0) condition.append(" and ");
-            condition.append("idle");
             ++numCondition;
         }
         if (ruleCond.getIdleForSecs() >= 0) {

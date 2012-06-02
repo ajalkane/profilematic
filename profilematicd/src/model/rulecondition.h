@@ -13,11 +13,11 @@
 class RuleCondition : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(NetworkMode)
+    Q_ENUMS(InternetConnectionMode)
 
 public:
-    enum NetworkMode {
-        UndefinedNetworkMode = 0,
+    enum InternetConnectionMode {
+        UndefinedInternetConnectionMode = 0,
         Wlan,
         Gsm
     };
@@ -33,7 +33,7 @@ private:
     int       _wlanTimeout;
     int       _idleForSecs;
     RuleConditionNFC _nfc;
-    NetworkMode _networkMode;
+    InternetConnectionMode _internetConnectionMode;
 
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
@@ -46,7 +46,7 @@ private:
     Q_PROPERTY(int wlanTimeout READ getWlanTimeout WRITE setWlanTimeout NOTIFY wlanTimeoutChanged)
     Q_PROPERTY(int idleForSecs READ getIdleForSecs WRITE setIdleForSecs NOTIFY idleForSecsChanged)
     Q_PROPERTY(RuleConditionNFC *nfc READ getNFCQml NOTIFY nfcChanged STORED false)
-    Q_PROPERTY(enum NetworkMode networkMode READ getNetworkMode WRITE setNetworkMode NOTIFY networkModeChanged)
+    Q_PROPERTY(enum InternetConnectionMode internetConnectionMode READ getInternetConnectionMode WRITE setInternetConnectionMode NOTIFY internetConnectionModeChanged)
 
     QString _getTimeQml(const QTime &time) const;
 
@@ -67,7 +67,7 @@ signals:
     void wlanTimeoutChanged();
     void idleForSecsChanged();
     void nfcChanged();
-    void networkModeChanged();
+    void internetConnectionModeChanged();
 
 public:
     RuleCondition(QObject *parent = 0);
@@ -129,8 +129,8 @@ public:
     // For QML
     inline RuleConditionNFC *getNFCQml() { return &_nfc; }
 
-    inline NetworkMode getNetworkMode() const { return _networkMode; }
-    void setNetworkMode(NetworkMode);
+    inline InternetConnectionMode getInternetConnectionMode() const { return _internetConnectionMode; }
+    void setInternetConnectionMode(InternetConnectionMode);
 
     inline bool operator==(const RuleCondition &o) const {
         return this->_timeStart == o._timeStart
@@ -142,7 +142,7 @@ public:
             && this->_wlanTimeout == o._wlanTimeout
             && this->_idleForSecs == o._idleForSecs
             && this->_nfc == o._nfc
-            && this->_networkMode == o._networkMode;
+            && this->_internetConnectionMode == o._internetConnectionMode;
 
     }
 
