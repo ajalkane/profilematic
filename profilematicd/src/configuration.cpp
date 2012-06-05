@@ -312,7 +312,7 @@ Configuration::_writeNfcCondition(QSettings &s, const RuleConditionNFC &condNfc)
 
 void
 Configuration::_readNfcCondition(QSettings &s, RuleConditionNFC &condNfc) {
-    condNfc.setToggleCondition(s.value("restoreBlueToothMode", false).toBool());
+    condNfc.setToggleCondition(s.value("nfcToggleCondition", false).toBool());
 
     int size = s.beginReadArray("nfcUids");
     QSet<QByteArray> uids;
