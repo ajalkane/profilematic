@@ -484,7 +484,7 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
                 condition.append("WLAN");
                 break;
             case RuleCondition::Gsm:
-                condition.append("GSM");
+                condition.append("mobile");
                 break;
             default:
                 "Unrecognized";

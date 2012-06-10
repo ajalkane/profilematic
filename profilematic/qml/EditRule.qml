@@ -423,7 +423,7 @@ Page {
     function internetConnectionModeSummary() {
         switch (rule.condition.internetConnectionMode) {
         case RuleCondition.Gsm:
-            return "GSM"
+            return "Mobile"
         case RuleCondition.Wlan:
             return "WLAN"
         }

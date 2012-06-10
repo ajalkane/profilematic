@@ -72,7 +72,7 @@ MySelectionDialog {
         }
         ListElement {
             mode: 2
-            name: "GSM"
+            name: "Mobile"
             description: "When using internet over mobile connection"
         }
     }
