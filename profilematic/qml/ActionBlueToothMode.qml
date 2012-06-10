@@ -50,7 +50,7 @@ Page {
             height: childrenRect.height
 
             RuleTopicSummary {
-                topic: "Select BlueTooth mode"
+                topic: "Select Bluetooth mode"
                 summary: blueToothModeSummary();
                 showComboBox: true
                 onTopicClicked: blueToothModeEditHandler()
@@ -67,11 +67,11 @@ Page {
                 }
                 RuleTopicSummary {
                     id: restore
-                    topic: "Restore previous BlueTooth mode"
+                    topic: "Restore previous Bluetooth mode"
                     topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
                     topicWidth: parent.width - restoreSwitch.width
-                    summary: restoreSwitch.checked ? "The previous BlueTooth mode will be restored."
-                                                   : "Previous BlueTooth mode will not be restored."
+                    summary: restoreSwitch.checked ? "The previous Bluetooth mode will be restored."
+                                                   : "Previous Bluetooth mode will not be restored."
                     onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
                 }
                 Switch {

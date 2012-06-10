@@ -404,10 +404,10 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
         if (numAction > 0) action.append(", ");
         switch (ruleAction.getBlueToothMode()) {
         case 0:
-            action += "BlueTooth off"; break;
+            action += "Bluetooth off"; break;
         case 1:
         case 2:
-            action += "BlueTooth on"; break;
+            action += "Bluetooth on"; break;
         }
         ++numAction;
     }

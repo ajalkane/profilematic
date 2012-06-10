@@ -23,7 +23,7 @@ import "UIConstants.js" as UIConstants
 
 MySelectionDialog {
     id: root
-    titleText: "Set BlueTooth mode"
+    titleText: "Set Bluetooth mode"
     model: blueToothModel
     platformStyle: SelectionDialogStyle {
        itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
@@ -64,17 +64,17 @@ MySelectionDialog {
         ListElement{
             mode: 0
             name: "Off"
-            description: "BlueTooth off"
+            description: "Bluetooth off"
         }
         ListElement {
             mode: 1
             name: "On"
-            description: "BlueTooth on"
+            description: "Bluetooth on"
         }
         ListElement {
             mode: 2
             name: "On and visible"
-            description: "BlueTooth on and visible"
+            description: "Bluetooth on and visible"
         }
         // BlueToothModelSummary depends on "Don't change" to be be index 3.
         ListElement {

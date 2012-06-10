@@ -324,7 +324,7 @@ Page {
 
             RuleTopicSummary {
                 id: blueToothAction
-                topic: "BlueTooth"
+                topic: "Bluetooth"
                 summary: blueToothModeSummary();
                 showDrillDown: true
                 onTopicClicked: blueToothModeEditHandler()
