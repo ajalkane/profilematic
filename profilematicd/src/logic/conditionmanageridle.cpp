@@ -15,10 +15,6 @@ ConditionManagerIdle::ConditionManagerIdle(QObject *parent)
     _timer.setSingleShot(true);
     connect(PlatformUtil::instance(), SIGNAL(userActivityIdleChanged(bool)), this, SLOT(userActivityIdleChanged(bool)));
     connect(&_timer, SIGNAL(timeout()), this, SIGNAL(refreshNeeded()));
-
-    // Initialize startTime to current time so that upon starting of the daemon idle is
-    // is not activated immediately.
-    _idleStartTime = QDateTime::currentDateTime();
 }
 
 ConditionManagerIdle::~ConditionManagerIdle() {
@@ -50,6 +46,18 @@ ConditionManagerIdle::refresh(const RuleCondition &condition) {
     if (_currentIdleMode == IDLE_MODE_NOT) {
         qDebug("ConditionManagerIdle idle mode not active");
         return false;
+    }
+
+    // This check is needed, otherwise idle is kicked into effect immediately.
+    // Another approach would be to move idle condition as first condition, but
+    // I'm not comfortable with that - the device goes in/out of idle condition
+    // often, and it's good that the idle processing can be limited by other
+    // rules. The downside is, that idle condition is not totally accurate combined
+    // with other rules: Time 21:00 - 06:00 and Idle 30 mins, will mean the earliest
+    // activation is 21:30.
+    if (_idleStartTime.isNull()) {
+        qDebug("ConditionManagerIdle::refresh idleStartTime is null, initializing to current time");
+        _idleStartTime = QDateTime::currentDateTime();
     }
 
     int secsAfterIdle = _idleStartTime.secsTo(_refreshTime);
