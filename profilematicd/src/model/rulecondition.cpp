@@ -1,7 +1,8 @@
 #include "rulecondition.h"
 
 RuleCondition::RuleCondition(QObject *parent)
-    : QObject(parent), _locationCellsTimeout(0), _wlanTimeout(0), _idleForSecs(-1)
+    : QObject(parent), _locationCellsTimeout(0), _wlanTimeout(0), _idleForSecs(-1),
+      _internetConnectionMode(UndefinedInternetConnectionMode)
 {
     _init();
 }
@@ -16,7 +17,8 @@ RuleCondition::RuleCondition(const RuleCondition &o)
       _wlan(o._wlan),
       _wlanTimeout(o._wlanTimeout),
       _idleForSecs(o._idleForSecs),
-      _nfc(o._nfc)
+      _nfc(o._nfc),
+      _internetConnectionMode(o._internetConnectionMode)
 {
     _init();
 }
@@ -34,6 +36,7 @@ RuleCondition::_init() {
 
     connect(&_nfc, SIGNAL(changed()),   this, SIGNAL(nfcChanged()));
     connect(this, SIGNAL(nfcChanged()),   this, SIGNAL(changed()));
+    connect(this, SIGNAL(internetConnectionModeChanged()), this, SIGNAL(changed()));
 }
 
 
@@ -49,6 +52,7 @@ RuleCondition::operator=(const RuleCondition &o)
     _wlanTimeout = o._wlanTimeout;
     _idleForSecs = o._idleForSecs;
     _nfc = o._nfc;
+    _internetConnectionMode = o._internetConnectionMode;
 
     return *this;
 }
@@ -278,6 +282,15 @@ RuleCondition::setIdleForSecs(int idleForSecs)
     }
 }
 
+void
+RuleCondition::setInternetConnectionMode(InternetConnectionMode mode)
+{
+    if (_internetConnectionMode != mode) {
+        _internetConnectionMode = mode;
+        emit internetConnectionModeChanged();
+    }
+}
+
 QDBusArgument &operator<<(QDBusArgument &argument, const RuleCondition &rule)
 {
     argument.beginStructure();
@@ -290,6 +303,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleCondition &rule)
     argument << rule.getWlanTimeout();
     argument << rule.getIdleForSecs();
     argument << rule.nfc();
+    argument << int(rule.getInternetConnectionMode());
     argument.endStructure();
     return argument;
 }
@@ -306,6 +320,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     int     wlanTimeout = rule.getWlanTimeout();
     int     idleForSecs = rule.getIdleForSecs();
     RuleConditionNFC nfc;
+    int networkMode;
 
     argument.beginStructure();
     argument >> timeStart;
@@ -317,6 +332,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     argument >> wlanTimeout;
     argument >> idleForSecs;
     argument >> nfc;
+    argument >> networkMode;
     argument.endStructure();
 
     rule.setTimeStart(timeStart);
@@ -328,6 +344,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     rule.setWlanTimeout(wlanTimeout);
     rule.setIdleForSecs(idleForSecs);
     rule.setNFC(nfc);
+    rule.setInternetConnectionMode((RuleCondition::InternetConnectionMode)networkMode);
 
     return argument;
 }
