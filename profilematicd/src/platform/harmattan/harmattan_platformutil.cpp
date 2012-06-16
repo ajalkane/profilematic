@@ -29,8 +29,13 @@
 #define GCONF_BACKGROUND_CONNECTIONS_DISABLED_KEY "/system/osso/connectivity/network_type/restricted_mode"
 
 HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
-    : PlatformUtil(parent), _monitorUserIdleActivity(false)
+    : PlatformUtil(parent)
 {
+    _currentCellularActivity = _cellularControl.activity();
+    _currentActivity = _qmActivity.get();
+    _currentIdle = _currentActivity == MeeGo::QmActivity::Inactive;
+    connect(&_cellularControl, SIGNAL(activityChanged(int)), this, SLOT(privateCellularActivityChanged(int)));
+    connect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)));
 }
 
 HarmattanPlatformUtil::~HarmattanPlatformUtil() {}
@@ -157,6 +162,13 @@ HarmattanPlatformUtil::setCellularMode(int cellularMode) {
     }
 }
 
+int
+HarmattanPlatformUtil::cellularActivity() const {
+    int activity = (int)_cellularControl.activity();
+    qDebug("HarmattanPlatformUtil::cellularActivity %d", activity);
+    return activity;
+}
+
 void
 HarmattanPlatformUtil::setStandByScreenMode(int mode) {
     qDebug("HarmattanPlatformUtil::setStandByScreenMode %d", mode);
@@ -215,23 +227,44 @@ HarmattanPlatformUtil::publishNotification(const QString &) {
 
 bool
 HarmattanPlatformUtil::isUserActivityIdle() {
-    return _qmActivity.get() == MeeGo::QmActivity::Inactive;
+    return _currentIdle;
 }
 
 void
-HarmattanPlatformUtil::monitorUserActivityIdle(bool monitor) {
-    if (monitor && !_monitorUserIdleActivity) {
-        connect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)), Qt::UniqueConnection);
-    } else if (!monitor && _monitorUserIdleActivity){
-        disconnect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)));
+HarmattanPlatformUtil::_emitRealIdle() {
+    qDebug("HarmattanPlatformUtil::_emitRealIdle: a(%d) c(%d) i(%d)", _currentActivity, _currentCellularActivity, _currentIdle);
+
+    // Harmattan PR1.2 claims idle mode if on the phone! That's not nice, so this is a work around for that.
+    // Basically idle mode changes are considered only when cellular is inactive.
+    if (_currentCellularActivity <= 0) {
+        if (_currentActivity == MeeGo::QmActivity::Inactive && _currentIdle == false) {
+            emit userActivityIdleChanged(true);
+            _currentIdle = true;
+        } else if (_currentActivity == MeeGo::QmActivity::Active && _currentIdle == true) {
+            emit userActivityIdleChanged(false);
+            _currentIdle = false;
+        }
     }
-    _monitorUserIdleActivity = monitor;
 }
 
 void
 HarmattanPlatformUtil::activityChanged(MeeGo::QmActivity::Activity activity)
 {
-    emit userActivityIdleChanged(activity == MeeGo::QmActivity::Inactive);
+    _currentActivity = activity;
+
+    // Harmattan PR1.2 claims idle mode if on the phone! That's not nice, so this is a work around for that
+    _emitRealIdle();
+}
+
+void
+HarmattanPlatformUtil::privateCellularActivityChanged(int activity)
+{
+    _currentCellularActivity = (Cellular::SystemControl::Activity)activity;
+    qDebug("HarmattanPlatformUtil::cellularActivityChanged %d", activity);
+    emit cellularActivityChanged(activity);
+
+    // Harmattan PR1.2 claims idle mode if on the phone! That's not nice, so this is a work around for that
+    _emitRealIdle();
 }
 
 ActionPresence *
@@ -239,3 +272,4 @@ HarmattanPlatformUtil::createActionPresence()
 {
     return new ActionPresenceImpl();
 }
+

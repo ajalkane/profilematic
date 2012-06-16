@@ -80,10 +80,10 @@ ConditionManagerIdle::endRefresh() {
 
     if (_currentMinIdleSecs != INT_MAX) {
         qDebug("ConditionManagerIdle monitorUserActivityIdle");
-        PlatformUtil::instance()->monitorUserActivityIdle(true);
+        connect(PlatformUtil::instance(), SIGNAL(userActivityIdleChanged(bool)), this, SLOT(userActivityIdleChanged(bool)), Qt::UniqueConnection);
     } else {
         qDebug("ConditionManagerIdle not monitorUserActivityIdle");
-        PlatformUtil::instance()->monitorUserActivityIdle(false);
+        disconnect(PlatformUtil::instance(), SIGNAL(userActivityIdleChanged(bool)), this, SLOT(userActivityIdleChanged(bool)));
         _currentIdleMode = IDLE_MODE_UNKNOWN;
     }
 }

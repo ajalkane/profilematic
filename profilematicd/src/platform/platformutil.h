@@ -55,6 +55,8 @@ public:
     // 0: Dual mode, 1: 2G only, 2: 3G only
     virtual int cellularMode() const;
     virtual void setCellularMode(int state);
+    // -1: Unknown, 0: Idle, 1: Signaling, 2: Call, 3: Data
+    virtual int cellularActivity() const;
     virtual void publishNotification(const QString &message);
     // 0: standByScreenMode off: 0, 1: on
     virtual int standByScreenMode() const;
@@ -65,10 +67,10 @@ public:
     virtual ActionPresence *createActionPresence();
 
     virtual bool isUserActivityIdle();
-    virtual void monitorUserActivityIdle(bool monitor);
-
 signals:
     void userActivityIdleChanged(bool isIdle);
+    // -1: Unknown, 0: Idle, 1: Signaling, 2: Call, 3: Data
+    void cellularActivityChanged(int activity);
 };
 
 #endif // PLATFORMUTIL_H

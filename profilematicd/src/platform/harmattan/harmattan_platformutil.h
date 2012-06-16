@@ -20,6 +20,7 @@
 #define HARMATTAN_PLATFORMUTIL_H
 
 #include <qmactivity.h>
+#include <SystemControl>
 
 #include "../platformutil.h"
 
@@ -28,7 +29,13 @@ class HarmattanPlatformUtil : public PlatformUtil
     Q_OBJECT
 
     MeeGo::QmActivity _qmActivity;
-    bool _monitorUserIdleActivity;
+    MeeGo::QmActivity::Activity _currentActivity;
+    bool _currentIdle;
+
+    Cellular::SystemControl _cellularControl;
+    Cellular::SystemControl::Activity _currentCellularActivity;
+
+    void _emitRealIdle();
 public:
     HarmattanPlatformUtil(QObject *parent = 0);
     virtual ~HarmattanPlatformUtil();
@@ -39,6 +46,7 @@ public:
     virtual void setPowerSavingMode(int state);
     virtual bool hasDeviceModeCredential() const;
     virtual int cellularMode() const;
+    virtual int cellularActivity() const;
     virtual void setCellularMode(int state);
     virtual void publishNotification(const QString &message);
     virtual int standByScreenMode() const;
@@ -49,10 +57,8 @@ public:
     ActionPresence *createActionPresence();
 
     virtual bool isUserActivityIdle();
-    virtual void monitorUserActivityIdle(bool monitor);
-
 private slots:
     void activityChanged(MeeGo::QmActivity::Activity activity);
+    void privateCellularActivityChanged(int activity);
 };
-
-#endif // PLATFORMUTIL_H
+#endif // HARMATTAN_PLATFORMUTIL_H

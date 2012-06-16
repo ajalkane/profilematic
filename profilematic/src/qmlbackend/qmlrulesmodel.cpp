@@ -487,7 +487,7 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
                 condition.append("mobile");
                 break;
             default:
-                "Unrecognized";
+                condition.append("Unrecognized");
                 break;
             }
             condition.append(" net connection");

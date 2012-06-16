@@ -110,6 +110,12 @@ PlatformUtil::setCellularMode(int state) {
     qDebug("PlatformUtil::setCellularMode default, doing nothing for value %d", state);
 }
 
+int
+PlatformUtil::cellularActivity() const {
+    qDebug("PlatformUtil::cellularActivity default, returning -1");
+    return -1;
+}
+
 void
 PlatformUtil::setStandByScreenMode(int mode) {
     qDebug("PlatformUtil::setStandByScreenMode default, doing nothing for value %d", mode);
@@ -141,11 +147,6 @@ bool
 PlatformUtil::isUserActivityIdle() {
     qDebug("PlatformUtil::isUserActivityIdle default, returning false");
     return false;
-}
-
-void
-PlatformUtil::monitorUserActivityIdle(bool monitor) {
-    qDebug("PlatformUtil::monitorUserActivityIdle default, monitor %d", monitor);
 }
 
 ActionPresence *PlatformUtil::createActionPresence()

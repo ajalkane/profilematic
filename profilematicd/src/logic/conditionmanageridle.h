@@ -32,7 +32,7 @@ public:
     virtual bool refresh(const RuleCondition &rule);
     virtual void endRefresh();
 
-public slots:
+private slots:
     void userActivityIdleChanged(bool isIdle);
 };
 
