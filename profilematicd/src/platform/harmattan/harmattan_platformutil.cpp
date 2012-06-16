@@ -29,7 +29,7 @@
 #define GCONF_BACKGROUND_CONNECTIONS_DISABLED_KEY "/system/osso/connectivity/network_type/restricted_mode"
 
 HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
-    : PlatformUtil(parent)
+    : PlatformUtil(parent), _pendingCellularMode(-1)
 {
     _currentCellularActivity = _cellularControl.activity();
     _currentActivity = _qmActivity.get();
@@ -137,7 +137,13 @@ HarmattanPlatformUtil::cellularMode() const {
 void
 HarmattanPlatformUtil::setCellularMode(int cellularMode) {
     qDebug("HarmattanPlatformUtil::setCellularMode setting cellular mode %d", cellularMode);
-
+    if (_currentCellularActivity > 0) {
+        // Delay changing of cellular mode until no calls or data transfer. Otherwise
+        // call/transfer aborts.
+        qDebug("HarmattanPlatformUtil::setCellularMode cellularActivity is %d, pending the change of mode", _currentCellularActivity);
+        _pendingCellularMode = cellularMode;
+        return;
+    }
     Cellular::RadioAccess radioAccess;
     Cellular::RadioAccess::Mode mode = Cellular::RadioAccess::Unknown;
     switch (cellularMode) {
@@ -236,7 +242,10 @@ HarmattanPlatformUtil::_emitRealIdle() {
 
     // Harmattan PR1.2 claims idle mode if on the phone! That's not nice, so this is a work around for that.
     // Basically idle mode changes are considered only when cellular is inactive.
-    if (_currentCellularActivity <= 0) {
+    // Note that PR1.2 also seems to return data usage as Cellular::SystemControl::UnknownActivity (-1)
+    // and not as Cellular::SystemControl::Data as it should. Idle mode won't be turned on
+    // until data transfer has stopped - that's probably preferable in most cases.
+    if (_currentCellularActivity == Cellular::SystemControl::Idle) {
         if (_currentActivity == MeeGo::QmActivity::Inactive && _currentIdle == false) {
             emit userActivityIdleChanged(true);
             _currentIdle = true;
@@ -265,6 +274,14 @@ HarmattanPlatformUtil::privateCellularActivityChanged(int activity)
 
     // Harmattan PR1.2 claims idle mode if on the phone! That's not nice, so this is a work around for that
     _emitRealIdle();
+
+    // Note that PR1.2 also seems to return data usage as Cellular::SystemControl::UnknownActivity (-1)
+    // and not as Cellular::SystemControl::Data as it should.
+    if (_currentCellularActivity == Cellular::SystemControl::Idle && _pendingCellularMode >= 0) {
+        qDebug("HarmattanPlatformUtil::cellularActivityChanged activating pending cellular mode");
+        setCellularMode(_pendingCellularMode);
+        _pendingCellularMode = -1;
+    }
 }
 
 ActionPresence *

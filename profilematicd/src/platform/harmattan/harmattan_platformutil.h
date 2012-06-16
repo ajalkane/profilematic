@@ -34,6 +34,7 @@ class HarmattanPlatformUtil : public PlatformUtil
 
     Cellular::SystemControl _cellularControl;
     Cellular::SystemControl::Activity _currentCellularActivity;
+    int _pendingCellularMode;
 
     void _emitRealIdle();
 public:
