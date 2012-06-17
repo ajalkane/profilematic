@@ -36,6 +36,7 @@ HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
     _currentIdle = _currentActivity == MeeGo::QmActivity::Inactive;
     connect(&_cellularControl, SIGNAL(activityChanged(int)), this, SLOT(privateCellularActivityChanged(int)));
     connect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)));
+    connect(&_systemState, SIGNAL(systemStateChanged(MeeGo::QmSystemState::StateIndication)), this, SLOT(privateSystemStateChanged(MeeGo::QmSystemState::StateIndication)));
 }
 
 HarmattanPlatformUtil::~HarmattanPlatformUtil() {}
@@ -281,6 +282,17 @@ HarmattanPlatformUtil::privateCellularActivityChanged(int activity)
         qDebug("HarmattanPlatformUtil::cellularActivityChanged activating pending cellular mode");
         setCellularMode(_pendingCellularMode);
         _pendingCellularMode = -1;
+    }
+}
+
+void
+HarmattanPlatformUtil::privateSystemStateChanged(MeeGo::QmSystemState::StateIndication systemState)
+{
+    qDebug("HarmattanPlatformUtil::privateSystemStateChanged %d", systemState);
+    if (systemState == MeeGo::QmSystemState::Shutdown) {
+        // Doesn't feel safe to trigger actions in any other case.
+        qDebug("HarmattanPlatformUtil::privateSystemStateChanged emitting shuttingDown signal");
+        emit shuttingDown();
     }
 }
 

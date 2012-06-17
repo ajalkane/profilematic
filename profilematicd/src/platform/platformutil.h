@@ -71,6 +71,7 @@ signals:
     void userActivityIdleChanged(bool isIdle);
     // -1: Unknown, 0: Idle, 1: Signaling, 2: Call, 3: Data
     void cellularActivityChanged(int activity);
+    void shuttingDown();
 };
 
 #endif // PLATFORMUTIL_H

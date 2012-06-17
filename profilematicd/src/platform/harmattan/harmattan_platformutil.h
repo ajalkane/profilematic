@@ -20,6 +20,7 @@
 #define HARMATTAN_PLATFORMUTIL_H
 
 #include <qmactivity.h>
+#include <qmsystemstate.h>
 #include <SystemControl>
 
 #include "../platformutil.h"
@@ -30,6 +31,7 @@ class HarmattanPlatformUtil : public PlatformUtil
 
     MeeGo::QmActivity _qmActivity;
     MeeGo::QmActivity::Activity _currentActivity;
+    MeeGo::QmSystemState _systemState;
     bool _currentIdle;
 
     Cellular::SystemControl _cellularControl;
@@ -61,5 +63,6 @@ public:
 private slots:
     void activityChanged(MeeGo::QmActivity::Activity activity);
     void privateCellularActivityChanged(int activity);
+    void privateSystemStateChanged(MeeGo::QmSystemState::StateIndication);
 };
 #endif // HARMATTAN_PLATFORMUTIL_H

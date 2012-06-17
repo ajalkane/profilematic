@@ -17,6 +17,7 @@
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
 #include "rulesmanager.h"
+#include "../platform/platformutil.h"
 
 RulesManager::RulesManager(const QList<Rule> *rules,
                            ConditionManager *conditionManager,
@@ -30,6 +31,7 @@ RulesManager::RulesManager(const QList<Rule> *rules,
       _preferences(preferences)
 {
     connect(_conditionManager, SIGNAL(refreshNeeded()), this, SLOT(refresh()));
+    connect(PlatformUtil::instance(), SIGNAL(shuttingDown()), SLOT(shuttingDown()));
 }
 
 void
@@ -75,4 +77,26 @@ RulesManager::_activateRule(const Rule &rule) {
            qPrintable(rule.getRuleId()),
            qPrintable(rule.getRuleName()));
     _action->activate(rule.getRuleId(), rule.action());
+}
+
+// Tries upon shutdown to restore the default rule (and restore previous) so that state is not messed up when rebooting the phone.
+// This logic assumes activating default rule handles correctly any possible "restore previous" rules. Needs modifications
+// if there is changes to that.
+void
+RulesManager::shuttingDown() {
+    qDebug("RulesManager::shuttingDown");
+    _conditionManager->startRefresh();
+    _action->startRefresh();
+    _activeRuleIds.clear();
+    if (_preferences->isActive) {
+        qDebug("%s RulesManager::restoring defaults", qPrintable(QDateTime::currentDateTime().toString()));
+        // Assume default rule is the last one
+        const Rule &defaultRule = _rules->last();
+        _activateRule(defaultRule);
+        _conditionManager->matchedRule(defaultRule.condition());
+    } else {
+        qDebug("%s RulesManager::refresh(), ProfileMatic not active", qPrintable(QDateTime::currentDateTime().toString()));
+    }
+    _conditionManager->endRefresh();
+    _action->endRefresh();
 }

@@ -56,6 +56,7 @@ signals:
     void activeRuleIdsChanged(const QStringList &ruleIds);
 public slots:
     void refresh();
+    void shuttingDown();
 };
 
 #endif // RULESMANAGER_H
