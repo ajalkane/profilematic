@@ -37,6 +37,7 @@ HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
     connect(&_cellularControl, SIGNAL(activityChanged(int)), this, SLOT(privateCellularActivityChanged(int)));
     connect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)));
     connect(&_systemState, SIGNAL(systemStateChanged(MeeGo::QmSystemState::StateIndication)), this, SLOT(privateSystemStateChanged(MeeGo::QmSystemState::StateIndication)));
+    connect(&_qmbattery, SIGNAL(chargingStateChanged(MeeGo::QmBattery::ChargingState)), this, SLOT(privateBatteryChargingStateChanged(MeeGo::QmBattery::ChargingState)));
 }
 
 HarmattanPlatformUtil::~HarmattanPlatformUtil() {}
@@ -221,6 +222,12 @@ HarmattanPlatformUtil::backgroundConnectionsMode() const {
     return -1;
 }
 
+int
+HarmattanPlatformUtil::batteryChargingState() const {
+    qDebug("HarmattanPlatformUtil::batteryChargingState");
+    return _qmbattery.getChargingState();
+}
+
 void
 HarmattanPlatformUtil::publishNotification(const QString &) {
 // Forget about this for now... requires libraries that I'm not sure I want to link into for daemon.
@@ -293,6 +300,25 @@ HarmattanPlatformUtil::privateSystemStateChanged(MeeGo::QmSystemState::StateIndi
         // Doesn't feel safe to trigger actions in any other case.
         qDebug("HarmattanPlatformUtil::privateSystemStateChanged emitting shuttingDown signal");
         emit shuttingDown();
+    }
+}
+
+void
+HarmattanPlatformUtil::privateBatteryChargingStateChanged(MeeGo::QmBattery::ChargingState chargingStateEnum)
+{
+    qDebug("HarmattanPlatformUtil::privateChargingStateChanged %d", chargingStateEnum);
+    int chargingState = -1;
+    switch (chargingStateEnum) {
+    case MeeGo::QmBattery::StateNotCharging:
+        chargingState = 0;
+    case MeeGo::QmBattery::StateCharging:
+        chargingState = 1;
+    default:
+        qWarning("HarmattanPlatformUtil::privateChargingStateChanged unsupported chargingState %d", chargingState);
+    }
+
+    if (chargingState >= 0) {
+        emit batteryChargingStateChanged(chargingState);
     }
 }
 

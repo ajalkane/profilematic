@@ -20,6 +20,7 @@
 #define HARMATTAN_PLATFORMUTIL_H
 
 #include <qmactivity.h>
+#include <qmbattery.h>
 #include <qmsystemstate.h>
 #include <SystemControl>
 
@@ -29,9 +30,11 @@ class HarmattanPlatformUtil : public PlatformUtil
 {
     Q_OBJECT
 
+    MeeGo::QmBattery _qmbattery;
     MeeGo::QmActivity _qmActivity;
     MeeGo::QmActivity::Activity _currentActivity;
     MeeGo::QmSystemState _systemState;
+
     bool _currentIdle;
 
     Cellular::SystemControl _cellularControl;
@@ -56,6 +59,7 @@ public:
     virtual void setStandByScreenMode(int mode);
     virtual int backgroundConnectionsMode() const;
     virtual void setBackgroundConnectionsMode(int mode);
+    virtual int batteryChargingState() const;
 
     ActionPresence *createActionPresence();
 
@@ -64,5 +68,6 @@ private slots:
     void activityChanged(MeeGo::QmActivity::Activity activity);
     void privateCellularActivityChanged(int activity);
     void privateSystemStateChanged(MeeGo::QmSystemState::StateIndication);
+    void privateBatteryChargingStateChanged(MeeGo::QmBattery::ChargingState chargingState);
 };
 #endif // HARMATTAN_PLATFORMUTIL_H

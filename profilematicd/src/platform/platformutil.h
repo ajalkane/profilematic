@@ -64,14 +64,18 @@ public:
     // 0: background connections off, 1: on
     virtual int backgroundConnectionsMode() const;
     virtual void setBackgroundConnectionsMode(int mode);    
+    // 0: Not charging, 1: Charging
+    virtual int batteryChargingState() const;
     virtual ActionPresence *createActionPresence();
 
     virtual bool isUserActivityIdle();
+
 signals:
     void userActivityIdleChanged(bool isIdle);
     // -1: Unknown, 0: Idle, 1: Signaling, 2: Call, 3: Data
     void cellularActivityChanged(int activity);
     void shuttingDown();
+    void batteryChargingStateChanged(int chargingState);
 };
 
 #endif // PLATFORMUTIL_H

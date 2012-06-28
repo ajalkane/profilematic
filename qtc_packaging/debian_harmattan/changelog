@@ -4,6 +4,7 @@ profilematic (1.7.0) unstable; urgency=low
   * Custom action sets correct environment so QML applications virtual keyboard works
   * Idle mode not activated while speaking on phone
   * Mobile network mode change delayed until no call/data usage
+  * On shutdown tries to "restore previous" actions and activates default rule.
 
  -- Arto Jalkanen <ajalkane@gmail.com>  Sat, 26 May 2012 21:00:00 +0300
 
