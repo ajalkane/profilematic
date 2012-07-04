@@ -2,7 +2,9 @@
 
 RuleCondition::RuleCondition(QObject *parent)
     : QObject(parent), _locationCellsTimeout(0), _wlanTimeout(0), _idleForSecs(-1),
-      _internetConnectionMode(UndefinedInternetConnectionMode)
+      _internetConnectionMode(UndefinedInternetConnectionMode),
+      _chargingState(UndefinedChargingState)
+
 {
     _init();
 }
@@ -37,6 +39,7 @@ RuleCondition::_init() {
     connect(&_nfc, SIGNAL(changed()),   this, SIGNAL(nfcChanged()));
     connect(this, SIGNAL(nfcChanged()),   this, SIGNAL(changed()));
     connect(this, SIGNAL(internetConnectionModeChanged()), this, SIGNAL(changed()));
+    connect(this, SIGNAL(chargingStateChanged()), this, SIGNAL(changed()));
 }
 
 
@@ -53,6 +56,7 @@ RuleCondition::operator=(const RuleCondition &o)
     _idleForSecs = o._idleForSecs;
     _nfc = o._nfc;
     _internetConnectionMode = o._internetConnectionMode;
+    _chargingState = o._chargingState;
 
     return *this;
 }
@@ -291,6 +295,15 @@ RuleCondition::setInternetConnectionMode(InternetConnectionMode mode)
     }
 }
 
+void
+RuleCondition::setChargingState(ChargingState state)
+{
+    if (_chargingState != state) {
+        _chargingState = state;
+        emit chargingStateChanged();
+    }
+}
+
 QDBusArgument &operator<<(QDBusArgument &argument, const RuleCondition &rule)
 {
     argument.beginStructure();
@@ -304,6 +317,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleCondition &rule)
     argument << rule.getIdleForSecs();
     argument << rule.nfc();
     argument << int(rule.getInternetConnectionMode());
+    argument << int(rule.getChargingState());
     argument.endStructure();
     return argument;
 }
@@ -321,6 +335,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     int     idleForSecs = rule.getIdleForSecs();
     RuleConditionNFC nfc;
     int networkMode;
+    int chargingState;
 
     argument.beginStructure();
     argument >> timeStart;
@@ -333,6 +348,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     argument >> idleForSecs;
     argument >> nfc;
     argument >> networkMode;
+    argument >> chargingState;
     argument.endStructure();
 
     rule.setTimeStart(timeStart);
@@ -345,6 +361,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     rule.setIdleForSecs(idleForSecs);
     rule.setNFC(nfc);
     rule.setInternetConnectionMode((RuleCondition::InternetConnectionMode)networkMode);
+    rule.setChargingState((RuleCondition::ChargingState)chargingState);
 
     return argument;
 }

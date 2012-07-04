@@ -22,6 +22,12 @@ public:
         Gsm
     };
 
+    enum ChargingState {
+        UndefinedChargingState = 0,
+        NotCharging,
+        Charging
+    };
+
 private:
     // Conditions
     QTime     _timeStart;
@@ -34,6 +40,7 @@ private:
     int       _idleForSecs;
     RuleConditionNFC _nfc;
     InternetConnectionMode _internetConnectionMode;
+    ChargingState _chargingState;
 
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
@@ -47,6 +54,7 @@ private:
     Q_PROPERTY(int idleForSecs READ getIdleForSecs WRITE setIdleForSecs NOTIFY idleForSecsChanged)
     Q_PROPERTY(RuleConditionNFC *nfc READ getNFCQml NOTIFY nfcChanged STORED false)
     Q_PROPERTY(enum InternetConnectionMode internetConnectionMode READ getInternetConnectionMode WRITE setInternetConnectionMode NOTIFY internetConnectionModeChanged)
+    Q_PROPERTY(enum ChargingState chargingState READ getChargingState WRITE setChargingState NOTIFY chargingStateChanged)
 
     QString _getTimeQml(const QTime &time) const;
 
@@ -68,6 +76,7 @@ signals:
     void idleForSecsChanged();
     void nfcChanged();
     void internetConnectionModeChanged();
+    void chargingStateChanged();
 
 public:
     RuleCondition(QObject *parent = 0);
@@ -132,6 +141,9 @@ public:
     inline InternetConnectionMode getInternetConnectionMode() const { return _internetConnectionMode; }
     void setInternetConnectionMode(InternetConnectionMode);
 
+    inline ChargingState getChargingState() const { return _chargingState; }
+    void setChargingState(ChargingState);
+
     inline bool operator==(const RuleCondition &o) const {
         return this->_timeStart == o._timeStart
             && this->_timeEnd   == o._timeEnd
@@ -142,7 +154,8 @@ public:
             && this->_wlanTimeout == o._wlanTimeout
             && this->_idleForSecs == o._idleForSecs
             && this->_nfc == o._nfc
-            && this->_internetConnectionMode == o._internetConnectionMode;
+            && this->_internetConnectionMode == o._internetConnectionMode
+            && this->_chargingState == o._chargingState;
 
     }
 
