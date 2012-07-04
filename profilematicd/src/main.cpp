@@ -26,6 +26,7 @@
 #include "model/rule.h"
 #include "logic/rulesmanager.h"
 #include "logic/conditionmanagerchain.h"
+#include "logic/conditionmanagercharging.h"
 #include "logic/conditionmanagertime.h"
 #include "logic/conditionmanagerlocationcell.h"
 #include "logic/conditionmanagerwlan.h"
@@ -55,6 +56,7 @@ ConditionManager *
 buildConditionManager() {
     qDebug("Building conditions");
     ConditionManagerChain *cm = new ConditionManagerChain();
+    cm->add(new ConditionManagerCharging());
     cm->add(new ConditionManagerTime());
     cm->add(new ConditionManagerLocationCell());
     cm->add(new ConditionManagerWlan());

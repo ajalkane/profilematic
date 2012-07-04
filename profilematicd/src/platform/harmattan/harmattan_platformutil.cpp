@@ -311,8 +311,10 @@ HarmattanPlatformUtil::privateBatteryChargingStateChanged(MeeGo::QmBattery::Char
     switch (chargingStateEnum) {
     case MeeGo::QmBattery::StateNotCharging:
         chargingState = 0;
+        break;
     case MeeGo::QmBattery::StateCharging:
         chargingState = 1;
+        break;
     default:
         qWarning("HarmattanPlatformUtil::privateChargingStateChanged unsupported chargingState %d", chargingState);
     }
