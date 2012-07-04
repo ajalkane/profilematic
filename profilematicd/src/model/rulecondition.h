@@ -23,7 +23,7 @@ public:
     };
 
     enum ChargingState {
-        UndefinedChargingState = 0,
+        UndefinedChargingState = -1,
         NotCharging,
         Charging
     };
