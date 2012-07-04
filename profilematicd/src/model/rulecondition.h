@@ -14,6 +14,7 @@ class RuleCondition : public QObject
 {
     Q_OBJECT
     Q_ENUMS(InternetConnectionMode)
+    Q_ENUMS(ChargingState)
 
 public:
     enum InternetConnectionMode {

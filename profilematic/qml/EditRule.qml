@@ -289,6 +289,19 @@ Page {
                 }
             }
 
+            RuleTopicSummary {
+                id: chargingStateCondition
+                topic: "Charging state"
+                summary: chargingStateSummary()
+                showDrillDown: true
+                onTopicClicked: chargingStateEditHandler()
+                visible: !rule.isDefaultRule
+                Connections {
+                    target: rule.condition
+                    onInternetConnectionModeChanged: chargingStateCondition.summary = chargingStateSummary()
+                }
+            }
+
             SectionHeader {
                 section: "Action"
             }
@@ -470,6 +483,21 @@ Page {
 
     function nfcConditionEditHandler() {
         root.pageStack.push(Qt.resolvedUrl("ConditionNFC.qml"), { 'condition': rule.condition });
+    }
+
+    // Charging state functions
+    function chargingStateSummary() {
+        switch (rule.condition.chargingState) {
+        case RuleCondition.NotCharging:
+            return "Not charging power"
+        case RuleCondition.Charging:
+            return "Charging power"
+        }
+        return "Not in use"
+    }
+
+    function chargingStateEditHandler() {
+        root.pageStack.push(Qt.resolvedUrl("ConditionChargingState.qml"), { 'condition': rule.condition });
     }
 
     // Flight mode functions

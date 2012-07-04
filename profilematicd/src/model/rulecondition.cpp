@@ -20,7 +20,8 @@ RuleCondition::RuleCondition(const RuleCondition &o)
       _wlanTimeout(o._wlanTimeout),
       _idleForSecs(o._idleForSecs),
       _nfc(o._nfc),
-      _internetConnectionMode(o._internetConnectionMode)
+      _internetConnectionMode(o._internetConnectionMode),
+      _chargingState(o._chargingState)
 {
     _init();
 }
@@ -298,6 +299,7 @@ RuleCondition::setInternetConnectionMode(InternetConnectionMode mode)
 void
 RuleCondition::setChargingState(ChargingState state)
 {
+    qDebug("RuleCondition::setChargingState(%d) current %d", state, _chargingState);
     if (_chargingState != state) {
         _chargingState = state;
         emit chargingStateChanged();

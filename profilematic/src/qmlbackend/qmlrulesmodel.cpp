@@ -509,6 +509,22 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
             condition.append("NFC");
             ++numCondition;
         }
+        if (ruleCond.getChargingState() != RuleCondition::UndefinedChargingState) {
+            if (numCondition > 0) condition.append(" and ");
+            switch (ruleCond.getChargingState()) {
+            case RuleCondition::NotCharging:
+                condition.append("not charging");
+                break;
+            case RuleCondition::Charging:
+                condition.append("charging");
+                break;
+            default:
+                condition.append("charging state unrecognized");
+                break;
+            }
+
+            ++numCondition;
+        }
         QString timeCondition = getTimeSummaryText(&(rule->condition()), "");
         if (!timeCondition.isEmpty()) {
             if (numCondition > 0) condition.append(" and ");
