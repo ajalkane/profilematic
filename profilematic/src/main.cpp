@@ -32,6 +32,8 @@
 #include "qmlbackend/qmlbackend.h"
 #include "qmlbackend/qmldaysmodel.h"
 #include "qmlbackend/qmlrulesmodel.h"
+#include "qmlbackend/qmlconditioneditmodel.h"
+#include "qmlbackend/qmlboolfiltermodel.h"
 #include "qmlbackend/qmlprofilesmodel.h"
 #include "qmlbackend/qmllocation.h"
 #include "qmlbackend/nfc/qmlnfcmobility.h"
@@ -70,6 +72,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QmlProfilesModel qmlProfilesModel(&profileClient, QmlProfilesModel::ProfileType);
     QmlDaysModel qmlDaysModel;
     QmlRulesModel qmlRulesModel(&profileMaticClient, &qmlProfilesModel);
+    QmlConditionEditModel qmlConditionEditModel(qmlRulesModel.getEditRule());
+    QmlBoolFilterModel qmlConditionEditVisibleModel(&qmlConditionEditModel, QmlConditionEditModel::VisibleRole, false);
+    QmlBoolFilterModel qmlConditionEditNonVisibleModel(&qmlConditionEditModel, QmlConditionEditModel::VisibleRole, true);
     QmlBackend qmlBackend;
     QScopedPointer<QmlLocation> qmlLocation(QmlLocation::create());
     QmlNfcMobility qmlNfc;
@@ -93,6 +98,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     ctxt->setContextProperty("backendDaysModel", &qmlDaysModel);
     ctxt->setContextProperty("backendRulesModel", &qmlRulesModel);
     ctxt->setContextProperty("backendProfilesModel", &qmlProfilesModel);
+    ctxt->setContextProperty("backendConditionEditModel", &qmlConditionEditModel);
+    ctxt->setContextProperty("backendConditionEditVisibleModel", &qmlConditionEditVisibleModel);
+    ctxt->setContextProperty("backendConditionEditNonVisibleModel", &qmlConditionEditNonVisibleModel);
     ctxt->setContextProperty("backendLocation", qmlLocation.data());
     ctxt->setContextProperty("backendNfc", &qmlNfc);
 

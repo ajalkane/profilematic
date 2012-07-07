@@ -162,6 +162,34 @@ Page {
         }
     }
 
+    // This is a hack to access from SelectionDialog the roles of the model.
+    ListView {
+        id: lMoreConditions
+        model: backendConditionEditNonVisibleModel
+        delegate: Item {
+            property variant myModel: model
+        }
+    }
+
+    MySelectionDialog {
+        id: dMoreConditions
+        titleText: "Select condition"
+        platformStyle: SelectionDialogStyle {
+            itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
+        }
+        model: backendConditionEditNonVisibleModel
+
+        onSelectedIndexChanged: {
+            if (selectedIndex > -1) {
+                console.log("Selected condition index", selectedIndex)
+                // This is a hack to access from SelectionDialog the roles of the model.
+                // Ugly but works.
+                lMoreConditions.currentIndex = selectedIndex
+                conditionEditHandler(lMoreConditions.currentItem.myModel.qmlEditFile)
+            }
+        }
+    }
+
     Flickable {
         anchors.fill: parent // editRule
         pressDelay: 140
@@ -207,100 +235,34 @@ Page {
                 visible: !rule.isDefaultRule
             }
 
-            RuleTopicSummary {
-                id: timeCondition
-                topic: "Time"
-                summary: timeSummary()
-                showDrillDown: true
-                onTopicClicked: timeEditHandler()
-                visible: !rule.isDefaultRule
-                Connections {
-                    target: rule.condition
-                    onDaysChanged:      timeCondition.summary = timeSummary()
-                    onTimeStartChanged: timeCondition.summary = timeSummary()
-                    onTimeEndChanged:   timeCondition.summary = timeSummary()
+            Repeater {
+                id: conditionsView
+                model: backendConditionEditVisibleModel
+
+                RuleTopicSummary {
+                    topic: model.name
+                    summary: model.summary
+                    showDrillDown: true
+                    onTopicClicked: {
+                        conditionEditHandler(model.qmlEditFile);
+                        console.log("Clicked qmlEditHandler " + qmlEditFile);
+                    }
+
+                    // visible: model.visible
                 }
             }
 
-            RuleTopicSummary {
-                id: locationCondition
-                topic: "Cell id location"
-                summary: locationSummary()
-                showDrillDown: true
-                onTopicClicked: locationEditHandler()
-                visible: !rule.isDefaultRule
-                Connections {
-                    target: rule.condition
-                    onLocationCellsChanged: locationCondition.summary = locationSummary()
-                    onLocationCellsTimeoutChanged: locationCondition.summary = locationSummary()
+            Button {
+                text: "More conditions"
+                visible: backendConditionEditNonVisibleModel.count > 0
+                onClicked: {
+                    console.log("More conditions clicked")
+                    console.log("Size: " + backendConditionEditNonVisibleModel.count)
+                    dMoreConditions.selectedIndex = -1
+                    dMoreConditions.open()
                 }
             }
 
-            RuleTopicSummary {
-                id: internetConnectionModeCondition
-                topic: "Internet connection"
-                summary: internetConnectionModeSummary()
-                showDrillDown: true
-                onTopicClicked: internetConnectionModeEditHandler()
-                visible: !rule.isDefaultRule
-                Connections {
-                    target: rule.condition
-                    onInternetConnectionModeChanged: internetConnectionModeCondition.summary = internetConnectionModeSummary()
-                }
-            }
-
-            RuleTopicSummary {
-                id: wlanCondition
-                topic: "WLAN"
-                summary: wlanSummary()
-                showDrillDown: true
-                onTopicClicked: wlanEditHandler()
-                visible: !rule.isDefaultRule
-                Connections {
-                    target: rule.condition
-                    onWlanChanged: wlanCondition.summary = wlanSummary()
-                    onWlanTimeoutChanged: wlanCondition.summary = wlanSummary()
-                }
-            }
-
-            RuleTopicSummary {
-                id: idleCondition
-                topic: "Idle"
-                summary: idleSummary()
-                showDrillDown: true
-                onTopicClicked: idleEditHandler()
-                visible: !rule.isDefaultRule
-                Connections {
-                    target: rule.condition
-                    onIdleForSecsChanged: idleCondition.summary = idleSummary()
-                }
-            }
-
-            RuleTopicSummary {
-                id: nfcCondition
-                topic: "NFC"
-                summary: nfcConditionSummary()
-                showDrillDown: true
-                onTopicClicked: nfcConditionEditHandler()
-                visible: !rule.isDefaultRule
-                Connections {
-                    target: rule.condition
-                    onIdleForSecsChanged: nfcCondition.summary = nfcConditionSummary()
-                }
-            }
-
-            RuleTopicSummary {
-                id: chargingStateCondition
-                topic: "Charging state"
-                summary: chargingStateSummary()
-                showDrillDown: true
-                onTopicClicked: chargingStateEditHandler()
-                visible: !rule.isDefaultRule
-                Connections {
-                    target: rule.condition
-                    onInternetConnectionModeChanged: chargingStateCondition.summary = chargingStateSummary()
-                }
-            }
 
             SectionHeader {
                 section: "Action"
@@ -385,6 +347,11 @@ Page {
         } // Column
     } // Flickable
 
+    function conditionEditHandler(fileName) {
+        root.pageStack.push(Qt.resolvedUrl(fileName), { 'condition': rule.condition });
+    }
+
+
     function ruleSummary() {
         return backendRulesModel.getRuleSummaryText(rule, "Can't be used as a rule yet. Specify at least one condition, and an action.");
     }
@@ -408,96 +375,6 @@ Page {
 
     function profileEditHandler() {
         root.pageStack.push(Qt.resolvedUrl("ActionProfile.qml"), { 'action': rule.action });
-    }
-
-    // Time functions
-    function timeSummary() {
-        return backendRulesModel.getTimeSummaryText(rule.condition, "Not in use");
-    }
-
-    function timeEditHandler() {
-        root.pageStack.push(Qt.resolvedUrl("ConditionTime.qml"), { 'condition': rule.condition });
-    }
-
-    // Location functions
-    function locationSummary() {
-        var numCellIds = rule.condition.locationCells.length
-        return numCellIds === 0 ? "Not in use"
-                                : "Cell ids set"
-                                + (rule.condition.locationCellsTimeout > 0 ? " (" + rule.condition.locationCellsTimeout + "s timeout)"
-                                                                             : "")
-    }
-
-    function locationEditHandler() {
-        root.pageStack.push(Qt.resolvedUrl("ConditionLocation.qml"), { 'condition': rule.condition });
-    }
-
-    // Internet condition mode functions
-    function internetConnectionModeSummary() {
-        switch (rule.condition.internetConnectionMode) {
-        case RuleCondition.Gsm:
-            return "Mobile"
-        case RuleCondition.Wlan:
-            return "WLAN"
-        }
-        return "Not in use"
-    }
-
-    function internetConnectionModeEditHandler() {
-        root.pageStack.push(Qt.resolvedUrl("ConditionInternetConnectionMode.qml"), { 'condition': rule.condition });
-    }
-
-    // Wlan functions
-    function wlanSummary() {
-        var numWlans = rule.condition.wlan.length
-        return numWlans === 0 ? "Not in use"
-                              : "In use"
-                                + (rule.condition.wlanTimeout > 0 ? " (" + rule.condition.wlanTimeout + "s timeout)"
-                                                                  : "")
-    }
-
-    function wlanEditHandler() {
-        root.pageStack.push(Qt.resolvedUrl("ConditionWlan.qml"), { 'condition': rule.condition });
-    }
-
-    // Idle functions
-    function idleSummary() {
-        console.log("idleSummary", rule.condition.idleForSecs)
-        return rule.condition.idleForSecs < 0 ? "Not in use"
-                              : "At least for " + rule.condition.idleForSecs / 60 + " minutes"
-    }
-
-    function idleEditHandler() {
-        root.pageStack.push(Qt.resolvedUrl("ConditionIdle.qml"), { 'condition': rule.condition });
-        // pageStack.push(conditionIdle)
-    }
-
-    // NFC condition functions
-    function nfcConditionSummary() {
-        var numUids = rule.condition.nfc.uids.length
-        return numUids === 0 ? "Not in use"
-                                : "NFC detection set"
-                                + (rule.condition.nfc.toggleCondition ? " (toggles)"
-                                                                             : "")
-    }
-
-    function nfcConditionEditHandler() {
-        root.pageStack.push(Qt.resolvedUrl("ConditionNFC.qml"), { 'condition': rule.condition });
-    }
-
-    // Charging state functions
-    function chargingStateSummary() {
-        switch (rule.condition.chargingState) {
-        case RuleCondition.NotCharging:
-            return "Not charging power"
-        case RuleCondition.Charging:
-            return "Charging power"
-        }
-        return "Not in use"
-    }
-
-    function chargingStateEditHandler() {
-        root.pageStack.push(Qt.resolvedUrl("ConditionChargingState.qml"), { 'condition': rule.condition });
     }
 
     // Flight mode functions

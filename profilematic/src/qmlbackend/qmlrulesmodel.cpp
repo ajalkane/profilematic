@@ -22,6 +22,7 @@
 #include <QSet>
 
 #include "qmlrulesmodel.h"
+#include "qmlrulesummary.h"
 
 QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profilesModel, QObject *parent)
     : QAbstractListModel(parent), _isActive(false), _backendError(false), _client(client), _profilesModel(profilesModel),
@@ -242,47 +243,7 @@ QmlRulesModel::getDaysSummaryText(const QVariantList &dayIndices) const {
 
 QString
 QmlRulesModel::getDaysSummaryText(const QSet<int> &days) const {
-    // qDebug("QmlRulesModel::getDaysSummaryText(), days size %d", days.size());
-
-    if (days.size() == 7) {
-        return "All days";
-    }
-    if (days.size() == 0) {
-        return "No days";
-    }
-    // If only one day selected, display full name
-    if (days.size() == 1) {
-        int dayId = *(days.constBegin());
-        return QDate::longDayName(dayId + 1, QDate::StandaloneFormat);
-    }
-
-    int rangeStart = -1;
-
-    QString daysStr = "";
-    // The loop goes up-to 7 so that Sunday is considered as last in range.
-    // Days.contains for 7 should always contain false as days are in range of 0-6.
-    for (int i = 0; i < 8; ++i) {
-        if (days.contains(i)) {
-            if (rangeStart < 0) {
-                rangeStart = i;
-
-            }
-        } else {
-            if (rangeStart > -1) {
-                if (!daysStr.isEmpty()) {
-                    daysStr += ", ";
-                }
-
-                daysStr += QDate::shortDayName(rangeStart + 1, QDate::StandaloneFormat);
-                if (rangeStart < i - 1) {
-                    daysStr += " - ";
-                    daysStr += QDate::shortDayName((i - 1) + 1, QDate::StandaloneFormat);
-                }
-                rangeStart = -1;
-            }
-        }
-    }
-    return daysStr;
+    return QmlRuleSummary::daysSummaryText(days);
 }
 
 QString
@@ -292,51 +253,7 @@ QmlRulesModel::getTimeSummaryText(RuleCondition *condition, const QString &nonUs
 
 QString
 QmlRulesModel::getTimeSummaryText(const RuleCondition *rule, const QString &nonUsableTimeString) const {
-    // qDebug("QmlRulesModel::getTimeSummaryText()");
-    // Rule rule = ruleVariant.value<Rule>();
-    if (rule == 0) {
-        qDebug("QmlRulesModel::getTimeSummaryText() null rule");
-        return nonUsableTimeString;
-    }
-
-    if (rule->getDays().isEmpty()
-            || !rule->getTimeStart().isValid()
-            || !rule->getTimeEnd().isValid()) {
-//        qDebug("QmlRulesModel::getTimeSummaryText(): nonUsable, getDays.isEmpty/!validTimeStart/!validTimeEnd %d, %d, %d",
-//               rule->getDays().isEmpty(), !rule->getTimeStart().isValid(), !rule->getTimeEnd().isValid());
-        return nonUsableTimeString;
-    }
-
-    QString summary;
-    summary += rule->getTimeStartQml();
-    summary += " - ";
-    summary += rule->getTimeEndQml();
-    if (rule->getTimeStart() == rule->getTimeEnd()) {
-        summary += " (";
-        summary += "24h";
-        summary += ")";
-    }
-    // I don't think this length clarification is needed otherwise
-//    else {
-//        QTime duration = rule->getTimeDuration();
-//        qDebug("QmlRulesModel::getTimeSummaryText() 3" );
-//        if (duration.hour() != 0) {
-//            summary += QString::number(duration.hour());
-//            summary += "h";
-//        }
-//        qDebug("QmlRulesModel::getTimeSummaryText() 3");
-//        if (duration.minute() != 0) {
-//            summary += QString::number(duration.minute());
-//            summary += "min";
-//        }
-//    }
-
-    summary += " ";
-//    qDebug("QmlRulesModel::getTimeSummaryText() getDaysSummaryText");
-    summary += getDaysSummaryText(rule->getDays());
-//    qDebug("/QmlRulesModel::getTimeSummaryText() returning %s", qPrintable(summary));
-
-    return summary;
+    return QmlRuleSummary::timeSummary(rule, nonUsableTimeString);
 }
 
 QString
@@ -563,7 +480,7 @@ QmlRulesModel::getEditRule() {
 
 void
 QmlRulesModel::setEditRule(int index) {
-    // qDebug("QmlRulesModel::setEditRule(%d)", index);
+    qDebug("QmlRulesModel::setEditRule(%d)", index);
     if (index < 0 || index >= _rules.count()) {
         qDebug("QmlRulesModel::setEditRule: Invalid index %d", index);
         _editRule = Rule();
@@ -572,7 +489,7 @@ QmlRulesModel::setEditRule(int index) {
 
     _editRule = _rules[index];
 
-    // qDebug("QmlRulesModel::setEditRule client->saveEditRule id %s, name %s", qPrintable(_editRule.getRuleId()), qPrintable(_editRule.getRuleName()));
+    qDebug("QmlRulesModel::setEditRule client->saveEditRule id %s, name %s %p", qPrintable(_editRule.getRuleId()), qPrintable(_editRule.getRuleName()), &_editRule);
 }
 
 void

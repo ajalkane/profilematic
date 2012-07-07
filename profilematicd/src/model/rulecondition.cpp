@@ -176,8 +176,10 @@ RuleCondition::getLocationCells() const {
 
 void
 RuleCondition::setLocationCells(const QSet<int> &cells) {
+    qDebug("RuleCondition::setLocationCells");
     if (_locationCells != cells) {
         _locationCells = cells;
+        qDebug("RuleCondition::setLocationCells emit");
         emit locationCellsChanged();
     }
 }

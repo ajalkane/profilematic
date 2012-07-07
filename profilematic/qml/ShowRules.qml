@@ -340,11 +340,7 @@ Page {
                         }
 
                         backendRulesModel.setEditRule(index)
-                        var p = {
-                            "rule": backendRulesModel.getEditRule()
-                        }
-                        editRule = loadEditRule(p)
-                        pageStack.push(editRule)
+                        __editRule();
                         listView.currentIndex = -1
                     }
                 }
@@ -414,13 +410,19 @@ Page {
         backendRulesModel.saveEditRule()
     }
 
-    function __openNewRule() {
+    function __editRule() {
         var p = {
             "rule": backendRulesModel.getEditRule()
         }
-        editRuleModelIndex = -1
+        backendConditionEditModel.initializeEdit();
         editRule = loadEditRule(p)
+        console.log("Opening rule");
         pageStack.push(editRule)
+    }
+
+    function __openNewRule() {
+        editRuleModelIndex = -1
+        __editRule();
     }
 
     function openNewRule() {
