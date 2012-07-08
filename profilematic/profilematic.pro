@@ -48,7 +48,8 @@ SOURCES += src/main.cpp \
     src/qmlbackend/qmlconditioneditmodel.cpp \
     src/qmlbackend/qmlrulesummary.cpp \
     src/qmlbackend/qmlboolfiltermodel.cpp \
-    src/qmlbackend/qmlbaseruleeditmodel.cpp
+    src/qmlbackend/qmlbaseruleeditmodel.cpp \
+    src/qmlbackend/qmlactioneditmodel.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -68,7 +69,8 @@ HEADERS += \
     src/qmlbackend/qmlconditioneditmodel.h \
     src/qmlbackend/qmlrulesummary.h \
     src/qmlbackend/qmlboolfiltermodel.h \
-    src/qmlbackend/qmlbaseruleeditmodel.h
+    src/qmlbackend/qmlbaseruleeditmodel.h \
+    src/qmlbackend/qmlactioneditmodel.h
 
 # To avoid mistakes, do not use the simulated cellId on a device build.
 !profilematic_simulated_cellid|!isEmpty(MEEGO_VERSION_MAJOR) {

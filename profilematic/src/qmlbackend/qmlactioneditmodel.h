@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef QMLCONDITIONEDITMODEL_H
-#define QMLCONDITIONEDITMODEL_H
+#ifndef QMLACTIONEDITMODEL_H
+#define QMLACTIONEDITMODEL_H
 
 #include <QObject>
 
@@ -25,14 +25,14 @@
 #include "../../profilematicd/src/model/rule.h"
 #include "qmlbaseruleeditmodel.h"
 
-class QmlConditionEditModel: public QmlBaseRuleEditModel
+class QmlActionEditModel: public QmlBaseRuleEditModel
 {
     Q_OBJECT
 
     typedef QmlBaseRuleEditModel super;
 
 public:
-    QmlConditionEditModel(Rule *rule, QObject *parent = 0);
+    QmlActionEditModel(Rule *rule, QObject *parent = 0);
 };
 
-#endif // QMLCONDITIONEDITMODEL_H
+#endif // QMLACTIONEDITMODEL_H

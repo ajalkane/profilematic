@@ -33,8 +33,10 @@
 #include "qmlbackend/qmldaysmodel.h"
 #include "qmlbackend/qmlrulesmodel.h"
 #include "qmlbackend/qmlconditioneditmodel.h"
+#include "qmlbackend/qmlactioneditmodel.h"
 #include "qmlbackend/qmlboolfiltermodel.h"
 #include "qmlbackend/qmlprofilesmodel.h"
+#include "qmlbackend/qmlrulesummary.h"
 #include "qmlbackend/qmllocation.h"
 #include "qmlbackend/nfc/qmlnfcmobility.h"
 
@@ -70,11 +72,18 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     ProfileMaticClient profileMaticClient;
 
     QmlProfilesModel qmlProfilesModel(&profileClient, QmlProfilesModel::ProfileType);
+    QmlRuleSummary::initialize(&qmlProfilesModel);
     QmlDaysModel qmlDaysModel;
     QmlRulesModel qmlRulesModel(&profileMaticClient, &qmlProfilesModel);
+
     QmlConditionEditModel qmlConditionEditModel(qmlRulesModel.getEditRule());
     QmlBoolFilterModel qmlConditionEditVisibleModel(&qmlConditionEditModel, QmlConditionEditModel::VisibleRole, false);
     QmlBoolFilterModel qmlConditionEditNonVisibleModel(&qmlConditionEditModel, QmlConditionEditModel::VisibleRole, true);
+
+    QmlActionEditModel qmlActionEditModel(qmlRulesModel.getEditRule());
+    QmlBoolFilterModel qmlActionEditVisibleModel(&qmlActionEditModel, QmlConditionEditModel::VisibleRole, false);
+    QmlBoolFilterModel qmlActionEditNonVisibleModel(&qmlActionEditModel, QmlConditionEditModel::VisibleRole, true);
+
     QmlBackend qmlBackend;
     QScopedPointer<QmlLocation> qmlLocation(QmlLocation::create());
     QmlNfcMobility qmlNfc;
@@ -101,6 +110,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     ctxt->setContextProperty("backendConditionEditModel", &qmlConditionEditModel);
     ctxt->setContextProperty("backendConditionEditVisibleModel", &qmlConditionEditVisibleModel);
     ctxt->setContextProperty("backendConditionEditNonVisibleModel", &qmlConditionEditNonVisibleModel);
+    ctxt->setContextProperty("backendActionEditModel", &qmlActionEditModel);
+    ctxt->setContextProperty("backendActionEditVisibleModel", &qmlActionEditVisibleModel);
+    ctxt->setContextProperty("backendActionEditNonVisibleModel", &qmlActionEditNonVisibleModel);
     ctxt->setContextProperty("backendLocation", qmlLocation.data());
     ctxt->setContextProperty("backendNfc", &qmlNfc);
 

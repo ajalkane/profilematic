@@ -37,12 +37,14 @@ public:
         QString qmlEditFile;
         bool visible;
         bool defaultVisible;
+        bool initiallyVisible;
 
         inline Description(const QString &ptopic, const QString pqmlEditFile, bool pdefaultVisible = false) {
             topic = ptopic;
             qmlEditFile = pqmlEditFile;
             visible = false;
             defaultVisible = pdefaultVisible;
+            initiallyVisible = false;
         }
 
         virtual QString summary(const Rule &) const = 0;
@@ -61,6 +63,7 @@ protected:
     Rule *_editRule;
     QList<Description *> _descriptions;
 
+    void recalculateVisible();
 public:
 
     enum ConditionRoles {

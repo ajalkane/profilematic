@@ -36,13 +36,13 @@ QmlBaseRuleEditModel::QmlBaseRuleEditModel(Rule *editRule, QObject *parent)
 
 int
 QmlBaseRuleEditModel::rowCount(const QModelIndex &) const {
-    qDebug("QmlBaseRuleEditModel::rowCount() %d", _descriptions.count());
+    // qDebug("QmlBaseRuleEditModel::rowCount() %d", _descriptions.count());
     return _descriptions.count();
 }
 
 QVariant
 QmlBaseRuleEditModel::data(const QModelIndex & index, int role) const {
-    qDebug("QmlBaseRuleEditModel::data %d/%d", index.row(), _descriptions.count());
+    // qDebug("QmlBaseRuleEditModel::data %d/%d", index.row(), _descriptions.count());
     if (index.row() < 0 || index.row() >= _descriptions.count())
         return QVariant();
 
@@ -69,8 +69,16 @@ QmlBaseRuleEditModel::ruleChanged() {
     qDebug("QmlBaseRuleEditModel::ruleChanged() _descriptions.size() = %d", _descriptions.size());
     // TODO recalculate summaries
 
-    initializeEdit();
-    // IMPROVE: not optimal
+    recalculateVisible();
+}
+
+void
+QmlBaseRuleEditModel::recalculateVisible() {
+    qDebug("QmlBaseRuleEditModel::recalculateVisible");
+    foreach (Description *d, _descriptions) {
+        d->visible = d->initiallyVisible || d->isSet(*_editRule);
+    }
+
     QModelIndex modelIndexStart = createIndex(0, 0);
     QModelIndex modelIndexEnd   = createIndex(_descriptions.size() - 1, 0);
     emit dataChanged(modelIndexStart, modelIndexEnd);
@@ -79,9 +87,18 @@ QmlBaseRuleEditModel::ruleChanged() {
 void
 QmlBaseRuleEditModel::initializeEdit() {
     qDebug("QmlBaseRuleEditModel::initializeEdit");
-    for (int i = 0; i < _descriptions.size(); ++i) {
-        Description *d = _descriptions[i];
-        d->visible = d->defaultVisible || d->isSet(*_editRule);
+    bool hasVisibles = false;
+    foreach (Description *d, _descriptions) {
+        d->visible = d->isSet(*_editRule);
+        d->initiallyVisible = d->visible;
+        if (d->visible) hasVisibles = true;
+    }
+
+    if (!hasVisibles) {
+        foreach (Description *d, _descriptions) {
+                d->visible = d->defaultVisible;
+                d->initiallyVisible = d->visible;
+        }
     }
 
     QModelIndex modelIndexStart = createIndex(0, 0);

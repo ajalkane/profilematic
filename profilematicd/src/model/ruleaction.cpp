@@ -470,6 +470,8 @@ void RuleAction::onPresenceRuleChanged()
 {
     PresenceRule *presenceRule = qobject_cast<PresenceRule *>(sender());
 
+    emit changed();
+
     if (!presenceRule)
         return;
 

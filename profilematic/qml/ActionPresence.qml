@@ -322,7 +322,6 @@ Page {
             presenceSelectionDialog.model = model
         }
 
-        onRuleChanged: __updateSelectedIndex()
         Connections {
             target: presenceSelectionDialog.rule
             onActionChanged: presenceSelectionDialog.__updateSelectedIndex()

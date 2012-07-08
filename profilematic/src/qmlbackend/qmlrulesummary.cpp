@@ -1,8 +1,6 @@
 #include "qmlrulesummary.h"
 
-QmlRuleSummary::QmlRuleSummary()
-{
-}
+QmlProfilesModel *QmlRuleSummary::_profilesModel = 0;
 
 QString
 QmlRuleSummary::timeSummary(const RuleCondition *rule, const QString &nonUsableTimeString) {
@@ -197,4 +195,168 @@ QmlRuleSummary::chargingSummary(const RuleCondition *cond, const QString &nonUsa
     }
 
     return s;
+}
+
+
+QString
+QmlRuleSummary::profileSummary(const RuleAction *action, const QString &nonUsable) {
+    if (action == 0) return nonUsable;
+
+    QString profile = action->getProfile();
+    if (!profile.isEmpty()) {
+        QString profileName = _profilesModel->getProfileToName(profile);
+        QString summary = profileName;
+
+        if (_profilesModel->profileHasVolume(profile) && action->getProfileVolume() > -1) {
+            summary += QString(" (%1%)").arg(action->getProfileVolume());
+        }
+        if (action->getRestoreProfile()) {
+            summary += ". Restores previous profile.";
+        }
+        return summary;
+    }
+    return nonUsable;
+}
+
+QString
+QmlRuleSummary::presenceSummary(const RuleAction *action, const QString &nonUsable) {
+    if (action == 0) return nonUsable;
+
+    QString summary = nonUsable;
+    bool atLeastOneChange = false;
+
+    foreach (PresenceRule *presenceRule, action->presenceRules()) {
+        if (presenceRule->action() != PresenceRule::Retain) {
+            atLeastOneChange = true;
+            break;
+        }
+    }
+
+    if (atLeastOneChange)
+        summary = "At least one change";
+
+    if (action->getRestorePresence())
+        summary += ". Restores previous availability";
+
+    return summary;
+}
+
+QString
+QmlRuleSummary::flightModeSummary(const RuleAction *action, const QString &nonUsable) {
+    if (action == 0) return nonUsable;
+
+    QString summary;
+    switch (action->getFlightMode()) {
+    case 0:
+        summary = "Flight mode off"; break;
+    case 1:
+        summary = "Flight mode on"; break;
+    default:
+        return nonUsable;
+    }
+
+    if (action->getRestoreFlightMode()) {
+        summary += ". Restores previous mode.";
+    }
+    return summary;
+}
+
+QString
+QmlRuleSummary::powerSavingModeSummary(const RuleAction *action, const QString &nonUsable) {
+    if (action == 0) return nonUsable;
+
+    QString summary;
+    switch (action->getPowerSavingMode()) {
+    case 0:
+        summary = "Power saving off"; break;
+    case 1:
+        summary = "Power saving on"; break;
+    default:
+        return nonUsable;
+    }
+
+    if (action->getRestorePowerSavingMode()) {
+        summary += ". Restores previous mode.";
+    }
+    return summary;
+}
+
+QString
+QmlRuleSummary::bluetoothModeSummary(const RuleAction *action, const QString &nonUsable) {
+    if (action == 0) return nonUsable;
+
+    QString summary;
+    switch (action->getBlueToothMode()) {
+    case 0:
+        summary = "Bluetooth off"; break;
+    case 1:
+        summary = "Bluetooth on"; break;
+    case 2:
+        summary = "Bluetooth on and visible"; break;
+    default:
+        return nonUsable;
+    }
+
+    if (action->getRestoreBlueToothMode()) {
+        summary += ". Restores previous mode.";
+    }
+    return summary;
+}
+
+QString
+QmlRuleSummary::cellularModeSummary(const RuleAction *action, const QString &nonUsable) {
+    if (action == 0) return nonUsable;
+
+    QString summary;
+    switch (action->getCellularMode()) {
+    case 0:
+        summary = "Dual GSM/3G"; break;
+    case 1:
+        summary = "GSM"; break;
+    case 2:
+        summary = "3G"; break;
+    default:
+        return nonUsable;
+    }
+
+    return summary;
+}
+
+QString
+QmlRuleSummary::standByScreenModeSummary(const RuleAction *action, const QString &nonUsable) {
+    if (action == 0) return nonUsable;
+
+    QString summary;
+    switch (action->getStandByScreenMode()) {
+    case 0:
+        summary = "Stand-by screen off"; break;
+    case 1:
+        summary = "Stand-by screen on"; break;
+    default:
+        return nonUsable;
+    }
+
+    if (action->getRestoreStandByScreenMode()) {
+        summary += ". Restores previous mode.";
+    }
+
+    return summary;
+}
+
+QString
+QmlRuleSummary::customActionSummary(const RuleAction *action, const QString &nonUsable) {
+    if (action == 0) return nonUsable;
+
+    if (!action->getCommandLine().isEmpty() &&
+            !action->getCommandLineExit().isEmpty()) {
+        return "Custom action on activate and deactivate has been set";
+    }
+    else if (!action->getCommandLine().isEmpty()) {
+        return "Custom action on activate has been set";
+    }
+    else if (!action->getCommandLineExit().isEmpty()) {
+        return "Custom action on deactivate has been set";
+    }
+
+    return nonUsable;
 }

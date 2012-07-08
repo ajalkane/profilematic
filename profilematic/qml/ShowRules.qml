@@ -415,6 +415,7 @@ Page {
             "rule": backendRulesModel.getEditRule()
         }
         backendConditionEditModel.initializeEdit();
+        backendActionEditModel.initializeEdit();
         editRule = loadEditRule(p)
         console.log("Opening rule");
         pageStack.push(editRule)

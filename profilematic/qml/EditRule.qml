@@ -162,33 +162,52 @@ Page {
         }
     }
 
-    // This is a hack to access from SelectionDialog the roles of the model.
-    ListView {
-        id: lMoreConditions
-        model: backendConditionEditNonVisibleModel
-        delegate: Item {
-            property variant myModel: model
-        }
-    }
-
-    MySelectionDialog {
+    ItemSelectionDialog {
         id: dMoreConditions
         titleText: "Select condition"
-        platformStyle: SelectionDialogStyle {
-            itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
-        }
         model: backendConditionEditNonVisibleModel
-
-        onSelectedIndexChanged: {
-            if (selectedIndex > -1) {
-                console.log("Selected condition index", selectedIndex)
-                // This is a hack to access from SelectionDialog the roles of the model.
-                // Ugly but works.
-                lMoreConditions.currentIndex = selectedIndex
-                conditionEditHandler(lMoreConditions.currentItem.myModel.qmlEditFile)
-            }
+        onItemSelected: {
+            console.log("on item selected called ", item.qmlEditFile)
+            conditionEditHandler(item.qmlEditFile)
         }
     }
+
+    ItemSelectionDialog {
+        id: dMoreActions
+        titleText: "Select action"
+        model: backendActionEditNonVisibleModel
+        onItemSelected: {
+            console.log("on item selected called ", item.qmlEditFile)
+            actionEditHandler(item.qmlEditFile)
+        }
+    }
+
+    // This is a hack to access from SelectionDialog the roles of the model.
+//    ListView {
+//        id: lMoreConditions
+//        model: backendConditionEditNonVisibleModel
+//        delegate: Item {
+//            property variant myModel: model
+//        }
+//    }
+
+//    MySelectionDialog {
+//        id: dMoreConditions
+//        titleText: "Select condition"
+//        platformStyle: SelectionDialogStyle {
+//            itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
+//        }
+//        model: backendConditionEditNonVisibleModel
+//        onSelectedIndexChanged: {
+//            if (selectedIndex > -1) {
+//                console.log("Selected condition index", selectedIndex)
+//                // This is a hack to access from SelectionDialog the roles of the model.
+//                // Ugly but works.
+//                lMoreConditions.currentIndex = selectedIndex
+//                conditionEditHandler(lMoreConditions.currentItem.myModel.qmlEditFile)
+//            }
+//        }
+//    }
 
     Flickable {
         anchors.fill: parent // editRule
@@ -238,23 +257,28 @@ Page {
             Repeater {
                 id: conditionsView
                 model: backendConditionEditVisibleModel
+                Item {
+                    width: root.width
+                    height: childrenRect.height
+                    visible: !rule.isDefaultRule
 
-                RuleTopicSummary {
-                    topic: model.name
-                    summary: model.summary
-                    showDrillDown: true
-                    onTopicClicked: {
-                        conditionEditHandler(model.qmlEditFile);
-                        console.log("Clicked qmlEditHandler " + qmlEditFile);
+                    RuleTopicSummary {
+                        topic: model.name
+                        summary: model.summary
+                        showDrillDown: true
+                        onTopicClicked: {
+                            conditionEditHandler(model.qmlEditFile);
+                            console.log("Clicked qmlEditHandler " + qmlEditFile);
+                        }
+
+                        // visible: model.visible
                     }
-
-                    // visible: model.visible
                 }
             }
 
             Button {
                 text: "More conditions"
-                visible: backendConditionEditNonVisibleModel.count > 0
+                visible: !rule.isDefaultRule && backendConditionEditNonVisibleModel.count > 0
                 onClicked: {
                     console.log("More conditions clicked")
                     console.log("Size: " + backendConditionEditNonVisibleModel.count)
@@ -268,73 +292,39 @@ Page {
                 section: "Action"
             }
 
-            RuleTopicSummary {
-                topic: "Profile"
-                summary: profileSummary();
-                showDrillDown: true
-                onTopicClicked: profileEditHandler()
+            Repeater {
+                id: actionsView
+                model: backendActionEditVisibleModel
+
+                Item {
+                    width: root.width
+                    height: childrenRect.height
+
+                    RuleTopicSummary {
+                        topic: model.name
+                        summary: model.summary
+                        showDrillDown: true
+                        onTopicClicked: {
+                            actionEditHandler(model.qmlEditFile);
+                            console.log("Clicked qmlEditHandler " + qmlEditFile);
+                        }
+
+                        // visible: model.visible
+                    }
+                }
             }
 
-            RuleTopicSummary {
-                id: presenceAction
-                topic: "Account availability"
-                summary: presenceSummary()
-                showDrillDown: true
-                onTopicClicked: presenceEditHandler()
+            Button {
+                text: "More actions"
+                visible: backendActionEditNonVisibleModel.count > 0
+                onClicked: {
+                    console.log("More actions clicked")
+                    console.log("Size: " + backendActionEditNonVisibleModel.count)
+                    dMoreActions.selectedIndex = -1
+                    dMoreActions.open()
+                }
             }
 
-            RuleTopicSummary {
-                topic: "Flight mode"
-                summary: flightModeSummary();
-                showDrillDown: true
-                onTopicClicked: flightModeEditHandler()
-            }
-
-            RuleTopicSummary {
-                topic: "Power saving mode"
-                summary: powerSavingModeSummary();
-                showDrillDown: true
-                onTopicClicked: powerSavingModeEditHandler()
-            }
-
-            RuleTopicSummary {
-                id: blueToothAction
-                topic: "Bluetooth"
-                summary: blueToothModeSummary();
-                showDrillDown: true
-                onTopicClicked: blueToothModeEditHandler()
-            }
-
-            RuleTopicSummary {
-                id: cellularAction
-                topic: "Mobile network mode"
-                summary: cellularModeSummary();
-                showComboBox: true
-                onTopicClicked: cellularModeEditHandler()
-            }
-
-            RuleTopicSummary {
-                topic: "Stand-by screen mode"
-                summary: standByScreenModeSummary();
-                showDrillDown: true
-                onTopicClicked: standByScreenModeEditHandler()
-            }
-
-            // Modifying background connections do not work, disable until finding working solutions
-//            RuleTopicSummary {
-//                topic: "Background connections"
-//                summary: backgroundConnectionsModeSummary();
-//                showDrillDown: true
-//                onTopicClicked: backgroundConnectionsModeEditHandler()
-//            }
-
-            RuleTopicSummary {
-                id: commandLineAction
-                topic: "Custom action"
-                summary: commandLineSummary();
-                showDrillDown: true
-                onTopicClicked: commandLineEditHandler()
-            }
 
             LabelHelp {
                 id: ruleSummary
@@ -351,211 +341,11 @@ Page {
         root.pageStack.push(Qt.resolvedUrl(fileName), { 'condition': rule.condition });
     }
 
+    function actionEditHandler(fileName) {
+        root.pageStack.push(Qt.resolvedUrl(fileName), { 'action': rule.action });
+    }
 
     function ruleSummary() {
         return backendRulesModel.getRuleSummaryText(rule, "Can't be used as a rule yet. Specify at least one condition, and an action.");
     }
-
-    // Profile functions
-    function profileSummary() {
-        if (rule.action.profile !== "") {
-            var profile = backendProfilesModel.getProfileToName(rule.action.profile)
-            var summary = profile
-
-            if (backendProfilesModel.profileHasVolume(rule.action.profile) && rule.action.profileVolume > -1) {
-                summary += " (" + rule.action.profileVolume + "%)"
-            }
-            if (rule.action.restoreProfile) {
-                summary += ". Restores previous profile."
-            }
-            return summary
-        }
-        return "Click to set"
-    }
-
-    function profileEditHandler() {
-        root.pageStack.push(Qt.resolvedUrl("ActionProfile.qml"), { 'action': rule.action });
-    }
-
-    // Flight mode functions
-    ActionFlightMode {
-        id: actionFlightMode
-        action: root.rule.action
-    }
-
-    function flightModeSummary() {
-        if (rule.action.flightMode >= 0) {
-            var summary = actionFlightMode.flightModeSummary()
-
-            if (rule.action.restoreFlightMode) {
-                summary += ". Restores previous mode."
-            }
-            return summary
-        }
-        return "Click to set"
-    }
-
-    function flightModeEditHandler() {
-        pageStack.push(actionFlightMode)
-    }
-
-    // Power Saving mode functions
-    ActionPowerSavingMode {
-        id: actionPowerSavingMode
-        action: root.rule.action
-    }
-
-    function powerSavingModeSummary() {
-        var summary = ""
-        if (rule.action.powerSavingMode >= 0) {
-            summary = actionPowerSavingMode.powerSavingModeSummary()
-
-            if (rule.action.restorePowerSavingMode) {
-                summary += ". Restores previous mode."
-            }
-            return summary
-        }
-        return "Click to set"
-    }
-
-
-    function powerSavingModeEditHandler() {
-        pageStack.push(actionPowerSavingMode)
-    }
-
-    // BlueTooth mode
-    ActionBlueToothMode {
-        id: actionBlueToothMode
-        action: root.rule.action
-    }
-
-    function blueToothModeSummary() {
-        if (rule.action.blueToothMode >= 0) {
-            var summary = actionBlueToothMode.blueToothModeSummary()
-
-            if (rule.action.restoreBlueToothMode) {
-                summary += ". Restores previous mode."
-            }
-            return summary
-        }
-        return "Click to set"
-    }
-
-    function blueToothModeEditHandler() {
-        pageStack.push(actionBlueToothMode)
-    }
-
-    // Cellular mode
-    CellularModeDialog {
-        id: dCellularMode
-
-        onCellularModeSelected: {
-            rule.action.cellularMode = selectedCellularMode
-        }
-    }
-
-    function cellularModeSummary() {
-        return dCellularMode.cellularModeToText(rule.action.cellularMode)
-    }
-
-    function cellularModeEditHandler() {
-        dCellularMode.selectedCellularMode = rule.action.cellularMode
-        dCellularMode.open();
-    }
-
-    // Stand-by screen
-    ActionStandByScreen {
-        id: actionStandByScreenMode
-        action: root.rule.action
-    }
-
-    function standByScreenModeSummary() {
-        var summary = ""
-        if (rule.action.standByScreenMode >= 0) {
-            summary = actionStandByScreenMode.standByScreenModeSummary()
-
-            if (rule.action.restoreStandByScreenMode) {
-                summary += ". Restores previous mode."
-            }
-            return summary
-        }
-        return "Click to set"
-    }
-
-
-    function standByScreenModeEditHandler() {
-        // root.pageStack.push(Qt.resolvedUrl("ActionStandByScreen.qml"), { 'action': rule.action });
-        pageStack.push(actionStandByScreenMode)
-    }
-
-    // Background connections
-    ActionBackgroundConnections {
-        id: actionBackgroundConnectionsMode
-        action: root.rule.action
-    }
-
-    function backgroundConnectionsModeSummary() {
-        var summary = ""
-        if (rule.action.backgroundConnectionsMode >= 0) {
-            summary = actionBackgroundConnectionsMode.backgroundConnectionsModeSummary()
-
-            if (rule.action.restoreBackgroundConnectionsMode) {
-                summary += ". Restores previous mode."
-            }
-            return summary
-        }
-        return "Click to set"
-    }
-
-
-    function backgroundConnectionsModeEditHandler() {
-        pageStack.push(actionBackgroundConnectionsMode)
-    }
-
-    // CommandLine
-    function commandLineSummary() {
-        if (rule.action.commandLine !== "" &&
-                rule.action.commandLineExit !== "") {
-            return "Custom action on activate and deactivate has been set"
-        }
-        else if (rule.action.commandLine !== "") {
-            return "Custom action on activate has been set"
-        }
-        else if (rule.action.commandLineExit !== "") {
-            return "Custom action on deactivate has been set"
-        }
-        return "Click to set"
-    }
-
-    function commandLineEditHandler() {
-        root.pageStack.push(Qt.resolvedUrl("ActionCommandLine.qml"), { 'action': rule.action });
-    }
-
-    // Presence
-    function presenceSummary() {
-        var summary = "";
-        var atLeastOneChange = false;
-
-        for (var row = 0; row < rule.action.presenceRules.length; row++) {
-            if (rule.action.presenceRules[row].action !== PresenceRule.Retain) {
-                atLeastOneChange = true;
-                break;
-            }
-        }
-
-        if (atLeastOneChange)
-            summary = "At least one change";
-        else
-            summary = "Don't change"
-
-        if (rule.restorePresence)
-            summary += ". Restores previous availability";
-
-        return summary;
-    }
-
-    function presenceEditHandler() {
-        root.pageStack.push(Qt.resolvedUrl("ActionPresence.qml"), { 'action': rule.action });
-    }
-
 }
