@@ -47,7 +47,7 @@ class Rule : public QObject
 
     Q_PROPERTY(QString ruleId READ getRuleId NOTIFY ruleIdChanged)
     Q_PROPERTY(QString ruleName READ getRuleName WRITE setRuleName NOTIFY ruleNameChanged)
-    Q_PROPERTY(bool ruleActive READ getRuleActive NOTIFY ruleActiveChanged)
+    Q_PROPERTY(bool ruleActive READ getRuleActive WRITE setRuleActive NOTIFY ruleActiveChanged)
     Q_PROPERTY(bool isDefaultRule READ isDefaultRule NOTIFY ruleIdChanged STORED false)
     Q_PROPERTY(RuleCondition *condition READ conditionQml NOTIFY conditionChanged STORED false)
     Q_PROPERTY(RuleAction *action READ actionQml NOTIFY actionChanged STORED false)

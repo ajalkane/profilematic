@@ -159,6 +159,12 @@ Page {
                     confirmDelete()
                 }
             }
+            MenuItem {
+                text: rule.ruleActive ? "Deactivate rule" : "Activate rule"
+                onClicked: {
+                    rule.ruleActive = !rule.ruleActive
+                }
+            }
         }
     }
 
@@ -212,7 +218,7 @@ Page {
             LabelHelp {
                 visible: !rule.ruleActive
                 color: "orange" // IMPROVE to UIConstants
-                text: "This rule is not active"
+                text: "This rule is not active. You can reactivate this rule from menu. Changes won't be activated before saving."
             }
 
             TextFieldWithLabel {
