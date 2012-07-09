@@ -209,6 +209,12 @@ Page {
                 text: "Activates specified actions if no other rule with matching conditions has the action specified. "
                       + "Note: if a regular rule has 'restore previous' in its action, it overrides default rules action."
             }
+            LabelHelp {
+                visible: !rule.ruleActive
+                color: "orange" // IMPROVE to UIConstants
+                text: "This rule is not active"
+            }
+
             TextFieldWithLabel {
                 labelText: "Rule name"
                 placeholderText: "Auto-generated"
