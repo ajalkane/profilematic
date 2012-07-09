@@ -79,10 +79,13 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QmlConditionEditModel qmlConditionEditModel(qmlRulesModel.getEditRule());
     QmlBoolFilterModel qmlConditionEditVisibleModel(&qmlConditionEditModel, QmlConditionEditModel::VisibleRole, false);
     QmlBoolFilterModel qmlConditionEditNonVisibleModel(&qmlConditionEditModel, QmlConditionEditModel::VisibleRole, true);
-
+    qmlConditionEditNonVisibleModel.setSortRole(QmlConditionEditModel::TopicRole);
+    qmlConditionEditNonVisibleModel.sort(0);
     QmlActionEditModel qmlActionEditModel(qmlRulesModel.getEditRule());
     QmlBoolFilterModel qmlActionEditVisibleModel(&qmlActionEditModel, QmlConditionEditModel::VisibleRole, false);
     QmlBoolFilterModel qmlActionEditNonVisibleModel(&qmlActionEditModel, QmlConditionEditModel::VisibleRole, true);
+    qmlActionEditNonVisibleModel.setSortRole(QmlActionEditModel::TopicRole);
+    qmlActionEditNonVisibleModel.sort(0);
 
     QmlBackend qmlBackend;
     QScopedPointer<QmlLocation> qmlLocation(QmlLocation::create());
