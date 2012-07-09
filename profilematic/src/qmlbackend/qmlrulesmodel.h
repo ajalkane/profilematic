@@ -94,6 +94,7 @@ public:
     Q_INVOKABLE Rule *getEditRule();
     Q_INVOKABLE void saveEditRule();
     Q_INVOKABLE void removeRule(int index);
+    Q_INVOKABLE void toggleRuleActive(int index);
     Q_INVOKABLE void moveRule(int fromIndex, int toIndex);
 
     QString getDaysSummaryText(const QSet<int> &days) const;

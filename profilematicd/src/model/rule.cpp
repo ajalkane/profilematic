@@ -34,6 +34,16 @@ Rule::Rule(const Rule &o)
     _init();
 }
 
+Rule &
+Rule::operator=(const Rule &o) {
+    _ruleId = o._ruleId;
+    _ruleName = o._ruleName;
+    _ruleActive = o._ruleActive;
+    _condition = o._condition;
+    _action = o._action;
+    return *this;
+}
+
 void
 Rule::_init() {
     connect(this,        SIGNAL(ruleNameChanged()),  this, SIGNAL(changed()));
@@ -56,15 +66,6 @@ Rule::createDefaultRule() {
 }
 
 Rule::~Rule() {}
-
-Rule &
-Rule::operator=(const Rule &o) {
-    _ruleId = o._ruleId;
-    _ruleName = o._ruleName;
-    _condition = o._condition;
-    _action = o._action;
-    return *this;
-}
 
 Rule &
 Rule::conditionsFrom(const Rule &o) {

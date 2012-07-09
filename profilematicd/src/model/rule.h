@@ -94,11 +94,11 @@ public:
     inline RuleAction *actionQml() { return &_action; }
 
     inline bool operator==(const Rule &o) const {
-        return this->_ruleId    == o._ruleId
-            && this->_ruleName  == o._ruleName
-            && this->_ruleActive    == o._ruleActive
-            && this->_condition == o._condition
-            && this->_action    == o._action;
+        return this->_ruleId     == o._ruleId
+            && this->_ruleName   == o._ruleName
+            && this->_ruleActive == o._ruleActive
+            && this->_condition  == o._condition
+            && this->_action     == o._action;
     }
 };
 

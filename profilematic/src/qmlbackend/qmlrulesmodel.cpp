@@ -94,8 +94,8 @@ QmlRulesModel::data(const QModelIndex & index, int role) const {
         return rule.getRuleId();
     case IsDefaultRuleRole:
         return rule.isDefaultRule();
-    // case RuleActiveRole:
-        // return rule.ruleActive;
+    case RuleActiveRole:
+        return rule.getRuleActive();
     case RuleNameRole:
         return rule.getRuleName();        
     case TimeStartRole:
@@ -541,6 +541,19 @@ QmlRulesModel::removeRule(int index) {
 
     const Rule &r = _rules.at(index);
     _client->removeRule(r.getRuleId());
+}
+
+void
+QmlRulesModel::toggleRuleActive(int index) {
+    // qDebug("QmlRulesModel::removeRule(%d)", index);
+    if (index < 0 || index >= _rules.count()) {
+        qWarning("QmlRulesModel::toggleRuleActive: Invalid index %d", index);
+        return;
+    }
+
+    Rule r = _rules.at(index);
+    r.setRuleActive(!r.getRuleActive());
+    _client->updateRule(r);
 }
 
 void

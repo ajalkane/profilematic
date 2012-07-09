@@ -182,33 +182,6 @@ Page {
         }
     }
 
-    // This is a hack to access from SelectionDialog the roles of the model.
-//    ListView {
-//        id: lMoreConditions
-//        model: backendConditionEditNonVisibleModel
-//        delegate: Item {
-//            property variant myModel: model
-//        }
-//    }
-
-//    MySelectionDialog {
-//        id: dMoreConditions
-//        titleText: "Select condition"
-//        platformStyle: SelectionDialogStyle {
-//            itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
-//        }
-//        model: backendConditionEditNonVisibleModel
-//        onSelectedIndexChanged: {
-//            if (selectedIndex > -1) {
-//                console.log("Selected condition index", selectedIndex)
-//                // This is a hack to access from SelectionDialog the roles of the model.
-//                // Ugly but works.
-//                lMoreConditions.currentIndex = selectedIndex
-//                conditionEditHandler(lMoreConditions.currentItem.myModel.qmlEditFile)
-//            }
-//        }
-//    }
-
     Flickable {
         anchors.fill: parent // editRule
         pressDelay: 140
@@ -236,7 +209,6 @@ Page {
                 text: "Activates specified actions if no other rule with matching conditions has the action specified. "
                       + "Note: if a regular rule has 'restore previous' in its action, it overrides default rules action."
             }
-
             TextFieldWithLabel {
                 labelText: "Rule name"
                 placeholderText: "Auto-generated"
