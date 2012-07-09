@@ -40,7 +40,7 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profi
     _roleToProperty[TimeSummaryRole]     = "timeSummary";
     _roleToProperty[RuleSummaryRole]     = "ruleSummary";
     _roleToProperty[FlightModeRole]      = "flightMode";
-    _roleToProperty[ActiveRole]          = "active";
+    _roleToProperty[MatchingRole]        = "matching";
 
     setRoleNames(_roleToProperty);
 
@@ -49,7 +49,7 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profi
     connect(_client, SIGNAL(ruleRemoved(const QString &)), this, SLOT(ruleRemoved(const QString &)));
     connect(_client, SIGNAL(ruleMoved(const QString &, int)), this, SLOT(ruleMoved(const QString &, int)));
     connect(_client, SIGNAL(activeChanged(bool)), this, SLOT(activeChangedBackend(bool)));
-    connect(_client, SIGNAL(activeRuleIdsChanged(const QStringList &)), this, SLOT(activeRuleIdsChanged(const QStringList &)));
+    connect(_client, SIGNAL(matchingRuleIdsChanged(const QStringList &)), this, SLOT(matchingRuleIdsChanged(const QStringList &)));
 
     _rules = _client->getRules();
     // This should be fairly uncommon occurence, meaning profilematic daemon
@@ -62,7 +62,7 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profi
     }
     _isActive = _client->isActive();
     _isMissingDeviceModeCredential = !_client->hasDeviceModeCredential();
-    _activeRuleIds = QSet<Rule::IdType>::fromList(_client->getActiveRuleIds());
+    _matchingRuleIds = QSet<Rule::IdType>::fromList(_client->getMatchingRuleIds());
 
     connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(emitSizeChanged(QModelIndex,int,int)));
     connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(emitSizeChanged(QModelIndex,int,int)));
@@ -116,8 +116,8 @@ QmlRulesModel::data(const QModelIndex & index, int role) const {
         return _ruleSummaryText(rule);
     case FlightModeRole:
         return rule.action().getFlightMode();
-    case ActiveRole:
-        return _activeRuleIds.contains(rule.getRuleId());
+    case MatchingRole:
+        return _matchingRuleIds.contains(rule.getRuleId());
     default:
         qDebug("Unrecognized role for QmlRulesModel::data: %d", role);
         return QVariant();
@@ -147,20 +147,20 @@ QmlRulesModel::ruleUpdated(const Rule &rule) {
 }
 
 void
-QmlRulesModel::activeRuleIdsChanged(const QStringList &ruleIds) {
-    qDebug() << "QmlRulesModel::activeRuleIdsChanged" << ruleIds;
+QmlRulesModel::matchingRuleIdsChanged(const QStringList &ruleIds) {
+    qDebug() << "QmlRulesModel::matchingRuleIdsChanged" << ruleIds;
     QSet<Rule::IdType> ruleIdsSet(QSet<Rule::IdType>::fromList(ruleIds));
 
     QSet<Rule::IdType> notifyRuleIds(ruleIdsSet);
-    notifyRuleIds.unite(_activeRuleIds);
+    notifyRuleIds.unite(_matchingRuleIds);
 
-    _activeRuleIds = ruleIdsSet;
+    _matchingRuleIds = ruleIdsSet;
 
     for (QSet<Rule::IdType>::const_iterator i = notifyRuleIds.constBegin(); i != notifyRuleIds.constEnd(); ++i) {
         const Rule::IdType &ruleId = *i;
         int targetIndex = _findRuleIndexById(ruleId);
         if (targetIndex < 0) {
-            qDebug("QmlRulesModel:activeRuleIdsChanged no rule found for id %s", qPrintable(ruleId));
+            qDebug("QmlRulesModel:matchingRuleIdsChanged no rule found for id %s", qPrintable(ruleId));
             continue;
         }
         QModelIndex modelIndex = createIndex(targetIndex, 0);

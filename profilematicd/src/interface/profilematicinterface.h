@@ -52,10 +52,10 @@ signals:
     void ruleMoved(const QString &ruleId, int toIndex);
     void activeChanged(bool isActive);
 
-    void activeRuleIdsChanged(const QStringList &ruleIds);
+    void matchingRuleIdsChanged(const QStringList &ruleIds);
 public slots:
     QList<Rule> getRules() const;
-    QStringList getActiveRuleIds() const;
+    QStringList getMatchingRuleIds() const;
 
     void updateRule(const Rule &rule);
     // Creates a new rule. Returns the new ruleId. If the given rule

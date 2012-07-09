@@ -33,7 +33,7 @@ class RulesManager : public QObject
     Q_OBJECT
 
     const QList<Rule> *_rules;
-    QSet<Rule::IdType> _activeRuleIds;
+    QSet<Rule::IdType> _matchingRuleIds;
 
     ConditionManager *_conditionManager;
     Action           *_action;
@@ -50,10 +50,10 @@ public:
 
     // Called when rules have changed
     void refreshRules();
-    inline const QSet<Rule::IdType> &activeRuleIds() const { return _activeRuleIds; }
+    inline const QSet<Rule::IdType> &matchingRuleIds() const { return _matchingRuleIds; }
 
 signals:
-    void activeRuleIdsChanged(const QStringList &ruleIds);
+    void matchingRuleIdsChanged(const QStringList &ruleIds);
 public slots:
     void refresh();
     void shuttingDown();

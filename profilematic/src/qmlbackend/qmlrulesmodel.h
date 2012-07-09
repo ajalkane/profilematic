@@ -53,7 +53,7 @@ class QmlRulesModel: public QAbstractListModel
     bool _isMissingDeviceModeCredential;
 
     QHash<int, QByteArray> _roleToProperty;
-    QSet<Rule::IdType> _activeRuleIds;
+    QSet<Rule::IdType> _matchingRuleIds;
     mutable QHash<Rule::IdType, QString> _ruleSummaryCache;
 
     int _findRole(const QHash<int, QByteArray> &from, const QString &property);
@@ -65,6 +65,7 @@ class QmlRulesModel: public QAbstractListModel
     QString _ruleSummaryText(const Rule &rule) const;
     QString _createRuleSummaryText(const Rule *rule, const QString &nonUsableRuleString) const;
 public:
+    // IMPROVE: many of these roles are really not used anymore. Clean-up.
     enum RuleRoles {
         RuleIdRole = Qt::UserRole + 1,
         IsDefaultRuleRole,
@@ -80,7 +81,7 @@ public:
         TimeSummaryRole,
         RuleSummaryRole,
         FlightModeRole,
-        ActiveRole
+        MatchingRole
     };
 
     QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profilesModel, QObject *parent = 0);
@@ -110,7 +111,7 @@ public:
 public slots:
     void emitSizeChanged(const QModelIndex & parent, int start, int end);
 
-    void activeRuleIdsChanged(const QStringList &activeRuleIds);
+    void matchingRuleIdsChanged(const QStringList &matchingRuleIds);
     void ruleUpdated(const Rule &);
     void ruleAppended(const Rule &);
     void ruleRemoved(const QString &);

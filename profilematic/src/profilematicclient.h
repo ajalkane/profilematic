@@ -37,7 +37,7 @@ public:
     ~ProfileMaticClient();
 
     QList<Rule> getRules() const;
-    QStringList getActiveRuleIds() const;
+    QStringList getMatchingRuleIds() const;
     void updateRule(const Rule &rule);
     QString appendRule(const Rule &rule);
     void removeRule(const QString &ruleId);
@@ -59,7 +59,7 @@ signals:
     void ruleMoved(const QString &ruleId, int toIndex);
     void activeChanged(bool);
 
-    void activeRuleIdsChanged(const QStringList &activeRuleIds);
+    void matchingRuleIdsChanged(const QStringList &matchingRuleIds);
 public slots:
 };
 

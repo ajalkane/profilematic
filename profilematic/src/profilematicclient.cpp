@@ -32,7 +32,7 @@ ProfileMaticClient::ProfileMaticClient(QObject *parent) :
 
     dbus_iface = new QDBusInterface(PM_SERVICE, PM_PATH,
                                     PM_INTERFACE);
-    connect(dbus_iface, SIGNAL(activeRuleIdsChanged(const QStringList &)), this, SIGNAL(activeRuleIdsChanged(const QStringList &)));
+    connect(dbus_iface, SIGNAL(matchingRuleIdsChanged(const QStringList &)), this, SIGNAL(matchingRuleIdsChanged(const QStringList &)));
 
     connect(dbus_iface, SIGNAL(ruleUpdated(const Rule &)), this, SIGNAL(ruleUpdated(const Rule &)));
     connect(dbus_iface, SIGNAL(ruleAppended(const Rule &)), this, SIGNAL(ruleAppended(const Rule &)));
@@ -68,8 +68,8 @@ ProfileMaticClient::getRules() const {
 }
 
 QStringList
-ProfileMaticClient::getActiveRuleIds() const {
-    QDBusReply<QStringList> reply = dbus_iface->call("getActiveRuleIds");
+ProfileMaticClient::getMatchingRuleIds() const {
+    QDBusReply<QStringList> reply = dbus_iface->call("getMatchingRuleIds");
     if (reply.isValid()) {
         QStringList ruleIds = reply.value();
         return ruleIds;

@@ -49,7 +49,7 @@ RulesManager::_refresh(bool forceActivate) {
     qDebug("\n\nREFRESH\n\n");
     _conditionManager->startRefresh();
     _action->startRefresh();
-    _activeRuleIds.clear();
+    _matchingRuleIds.clear();
     if (_preferences->isActive) {
         qDebug("%s RulesManager::refresh()", qPrintable(QDateTime::currentDateTime().toString()));
         QList<Rule>::const_iterator ruleI = _rules->constBegin();
@@ -62,7 +62,7 @@ RulesManager::_refresh(bool forceActivate) {
             bool isMatching = rule.isDefaultRule() || _conditionManager->refresh(rule.condition());
             if (isMatching) {
                 _activateRule(rule);
-                _activeRuleIds << rule.getRuleId();
+                _matchingRuleIds << rule.getRuleId();
                 _conditionManager->matchedRule(rule.condition());
             }
         }
@@ -72,7 +72,7 @@ RulesManager::_refresh(bool forceActivate) {
     _conditionManager->endRefresh();
     _action->endRefresh();
 
-    emit activeRuleIdsChanged(_activeRuleIds.toList());
+    emit matchingRuleIdsChanged(_matchingRuleIds.toList());
 }
 
 void
@@ -91,7 +91,7 @@ RulesManager::shuttingDown() {
     qDebug("RulesManager::shuttingDown");
     _conditionManager->startRefresh();
     _action->startRefresh();
-    _activeRuleIds.clear();
+    _matchingRuleIds.clear();
     if (_preferences->isActive) {
         qDebug("%s RulesManager::restoring defaults", qPrintable(QDateTime::currentDateTime().toString()));
         // Assume default rule is the last one
