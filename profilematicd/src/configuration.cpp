@@ -45,6 +45,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
 
         s.setValue("ruleId", r.getRuleId());
         s.setValue("ruleName", r.getRuleName());
+        s.setValue("ruleActive", r.getRuleActive());
         _writeIntList(s, "days", "dayId", r.condition().getDays().toList());
         _writeIntList(s, "locationCells", "cellId", r.condition().getLocationCells().toList());
         s.setValue("locationCellsTimeout", r.condition().getLocationCellsTimeout());
@@ -100,6 +101,7 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
 
         _assignRuleId(r, s.value("ruleId"));
         r.setRuleName(s.value("ruleName").toString());
+        r.setRuleActive(s.value("ruleActive", true).toBool());
         QList<int> daysList;
         _readIntList(s, "days", "dayId", daysList);
         r.condition().setDays(QSet<int>::fromList(daysList));

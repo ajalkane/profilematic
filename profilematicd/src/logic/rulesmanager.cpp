@@ -55,6 +55,10 @@ RulesManager::_refresh(bool forceActivate) {
         QList<Rule>::const_iterator ruleI = _rules->constBegin();
         for (; ruleI != _rules->constEnd(); ++ruleI) {
             const Rule &rule = *ruleI;
+            if (!rule.getRuleActive()) {
+                qDebug("RulesManager::refresh() rule %s is not active, skipping", qPrintable(rule.getRuleName()));
+                continue;
+            }
             bool isMatching = rule.isDefaultRule() || _conditionManager->refresh(rule.condition());
             if (isMatching) {
                 _activateRule(rule);
