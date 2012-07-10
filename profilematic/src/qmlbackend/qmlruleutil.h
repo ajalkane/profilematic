@@ -46,7 +46,7 @@ public:
     QString cellLocationSummary(const RuleCondition *rule, const QString &nonUsable);
     void cellLocationClear(RuleCondition *rule);
     QString internetConnectionModeSummary(const RuleCondition *rule, const QString &nonUsable);
-    void internetConnectionClear(RuleCondition *rule);
+    void internetConnectionModeClear(RuleCondition *rule);
     QString wlanSummary(const RuleCondition *rule, const QString &nonUsable);
     void wlanClear(RuleCondition *rule);
     QString idleSummary(const RuleCondition *rule, const QString &nonUsable);
@@ -63,9 +63,9 @@ public:
     QString flightModeSummary(const RuleAction *action, const QString &nonUsable);
     void flightModeClear(RuleAction *action);
     QString powerSavingModeSummary(const RuleAction *action, const QString &nonUsable);
-    void powerSavingClear(RuleAction *action);
+    void powerSavingModeClear(RuleAction *action);
     QString bluetoothModeSummary(const RuleAction *action, const QString &nonUsable);
-    void bluetoothClear(RuleAction *action);
+    void bluetoothModeClear(RuleAction *action);
     QString cellularModeSummary(const RuleAction *action, const QString &nonUsable);
     void cellularModeClear(RuleAction *action);
     QString standByScreenModeSummary(const RuleAction *action, const QString &nonUsable);

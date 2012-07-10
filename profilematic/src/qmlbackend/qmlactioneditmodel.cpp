@@ -31,6 +31,9 @@
         virtual bool isSet(const Rule &rule) const { \
             return !QmlRuleUtil::instance()->name##Summary(&(rule.action()), "").isEmpty(); \
         } \
+        virtual void clear(Rule &rule) { \
+            QmlRuleUtil::instance()->name##Clear(&(rule.action())); \
+        } \
     } description##name;
 
 DESCRIPTION(profile, "Profile", "ActionProfile.qml", true)

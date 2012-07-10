@@ -49,6 +49,7 @@ public:
 
         virtual QString summary(const Rule &) const = 0;
         virtual bool isSet(const Rule &) const = 0;
+        virtual void clear(Rule &) = 0;
     };
 
 private:

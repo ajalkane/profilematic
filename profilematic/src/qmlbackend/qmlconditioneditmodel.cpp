@@ -31,6 +31,9 @@
         virtual bool isSet(const Rule &rule) const { \
             return !QmlRuleUtil::instance()->name##Summary(&(rule.condition()), "").isEmpty(); \
         } \
+        virtual void clear(Rule &rule) { \
+            QmlRuleUtil::instance()->name##Clear(&(rule.condition())); \
+        } \
     } description##name;
 
 DESCRIPTION(time, "Time", "ConditionTime.qml", true)

@@ -188,7 +188,7 @@ QmlRuleUtil::internetConnectionModeSummary(const RuleCondition *cond, const QStr
 }
 
 void
-QmlRuleUtil::internetConnectionClear(RuleCondition *cond) {
+QmlRuleUtil::internetConnectionModeClear(RuleCondition *cond) {
     if (cond == 0) return;
 
     cond->setInternetConnectionMode(RuleCondition::UndefinedInternetConnectionMode);
@@ -376,6 +376,14 @@ QmlRuleUtil::flightModeSummary(const RuleAction *action, const QString &nonUsabl
     return summary;
 }
 
+void
+QmlRuleUtil::flightModeClear(RuleAction *action) {
+    if (action == 0) return;
+
+    action->setFlightMode(-1);
+    action->setRestoreFlightMode(false);
+}
+
 QString
 QmlRuleUtil::powerSavingModeSummary(const RuleAction *action, const QString &nonUsable) {
     if (action == 0) return nonUsable;
@@ -394,6 +402,14 @@ QmlRuleUtil::powerSavingModeSummary(const RuleAction *action, const QString &non
         summary += ". Restores previous mode.";
     }
     return summary;
+}
+
+void
+QmlRuleUtil::powerSavingModeClear(RuleAction *action) {
+    if (action == 0) return;
+
+    action->setPowerSavingMode(-1);
+    action->setRestorePowerSavingMode(false);
 }
 
 QString
@@ -419,7 +435,7 @@ QmlRuleUtil::bluetoothModeSummary(const RuleAction *action, const QString &nonUs
 }
 
 void
-QmlRuleUtil::bluetoothClear(RuleAction *action) {
+QmlRuleUtil::bluetoothModeClear(RuleAction *action) {
     if (action == 0) return;
 
     action->setBlueToothMode(-1);
