@@ -41,22 +41,37 @@ public:
     }
 
     QString timeSummary(const RuleCondition *rule, const QString &nonUsable);
+    void timeClear(RuleCondition *rule);
     QString daysSummaryText(const QSet<int> &days);
     QString cellLocationSummary(const RuleCondition *rule, const QString &nonUsable);
+    void cellLocationClear(RuleCondition *rule);
     QString internetConnectionModeSummary(const RuleCondition *rule, const QString &nonUsable);
+    void internetConnectionClear(RuleCondition *rule);
     QString wlanSummary(const RuleCondition *rule, const QString &nonUsable);
+    void wlanClear(RuleCondition *rule);
     QString idleSummary(const RuleCondition *rule, const QString &nonUsable);
+    void idleClear(RuleCondition *rule);
     QString nfcSummary(const RuleCondition *rule, const QString &nonUsable);
+    void nfcClear(RuleCondition *rule);
     QString chargingSummary(const RuleCondition *rule, const QString &nonUsable);
+    void chargingClear(RuleCondition *rule);
 
     QString profileSummary(const RuleAction *action, const QString &nonUsable);
+    void profileClear(RuleAction *action);
     QString presenceSummary(const RuleAction *action, const QString &nonUsable);
+    void presenceClear(RuleAction *action);
     QString flightModeSummary(const RuleAction *action, const QString &nonUsable);
+    void flightModeClear(RuleAction *action);
     QString powerSavingModeSummary(const RuleAction *action, const QString &nonUsable);
+    void powerSavingClear(RuleAction *action);
     QString bluetoothModeSummary(const RuleAction *action, const QString &nonUsable);
+    void bluetoothClear(RuleAction *action);
     QString cellularModeSummary(const RuleAction *action, const QString &nonUsable);
+    void cellularModeClear(RuleAction *action);
     QString standByScreenModeSummary(const RuleAction *action, const QString &nonUsable);
+    void standByScreenModeClear(RuleAction *action);
     QString customActionSummary(const RuleAction *action, const QString &nonUsable);
+    void customActionClear(RuleAction *action);
 };
 
 #endif // QMLRULEUTIL_H
