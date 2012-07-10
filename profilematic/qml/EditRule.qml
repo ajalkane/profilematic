@@ -161,6 +161,7 @@ Page {
             }
             MenuItem {
                 text: rule.ruleActive ? "Deactivate rule" : "Activate rule"
+                enabled: !rule.isDefaultRule
                 onClicked: {
                     rule.ruleActive = !rule.ruleActive
                 }
