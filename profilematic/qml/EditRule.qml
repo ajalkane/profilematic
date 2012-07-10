@@ -255,6 +255,9 @@ Page {
                             conditionEditHandler(model.qmlEditFile);
                             console.log("Clicked qmlEditHandler " + qmlEditFile);
                         }
+                        onPressAndHold: {
+                            contextMenuConditions.openForIndex(index, model.name)
+                        }
 
                         // visible: model.visible
                     }
@@ -321,6 +324,27 @@ Page {
             }
         } // Column
     } // Flickable
+
+    ContextMenu {
+        id: contextMenuConditions
+        property int selectedIndex
+        property string topic;
+
+        MenuLayout {
+            MenuItem {
+                text: "Clear " + contextMenuConditions.topic
+                onClicked: {
+                    console.log("Clear condition index ", contextMenuConditions.selectedIndex)
+                    // backendEdRulesModel.toggleRuleActive(contextMenu.selectedRuleIndex)
+                }
+            }
+        }
+        function openForIndex(index, topic) {
+            selectedIndex = index
+            contextMenuConditions.topic = topic
+            open()
+        }
+    }
 
     function conditionEditHandler(fileName) {
         root.pageStack.push(Qt.resolvedUrl(fileName), { 'condition': rule.condition });

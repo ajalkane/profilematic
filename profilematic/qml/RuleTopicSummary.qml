@@ -34,6 +34,7 @@ Item {
     property bool showDrillDown: false
     property bool showComboBox: false
     signal topicClicked
+    signal pressAndHold
 
     width: parent.width
     height: content.height
@@ -86,6 +87,9 @@ Item {
 
         onClicked: {
             topicClicked()
+        }
+        onPressAndHold: {
+            root.pressAndHold();
         }
     }
 }
