@@ -34,9 +34,9 @@
     } description##name;
 
 DESCRIPTION(time, "Time", "ConditionTime.qml", true)
-DESCRIPTION(cellLocation, "Cell id location", "ConditionLocation.qml", true)
+DESCRIPTION(cellLocation, "Cell id location", "ConditionLocation.qml", false)
 DESCRIPTION(internetConnectionMode, "Internet connection", "ConditionInternetConnectionMode.qml", false)
-DESCRIPTION(wlan, "WLAN", "ConditionWlan.qml", true)
+DESCRIPTION(wlan, "WLAN", "ConditionWlan.qml", false)
 DESCRIPTION(idle, "Idle", "ConditionIdle.qml", false)
 DESCRIPTION(nfc,  "NFC", "ConditionNFC.qml", false)
 DESCRIPTION(charging,  "Charging state", "ConditionChargingState.qml", false)
