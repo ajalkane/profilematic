@@ -19,7 +19,7 @@
 
 #include "qmlbaseruleeditmodel.h"
 
-#include "qmlrulesummary.h"
+#include "qmlruleutil.h"
 
 QmlBaseRuleEditModel::QmlBaseRuleEditModel(Rule *editRule, QObject *parent)
     : QAbstractListModel(parent), _editRule(editRule)

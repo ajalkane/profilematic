@@ -46,10 +46,10 @@ SOURCES += src/main.cpp \
     src/qmlbackend/presence/qmlpresencemodel.cpp \
     src/qmlbackend/nfc/qmlnfcmobility.cpp \
     src/qmlbackend/qmlconditioneditmodel.cpp \
-    src/qmlbackend/qmlrulesummary.cpp \
     src/qmlbackend/qmlboolfiltermodel.cpp \
     src/qmlbackend/qmlbaseruleeditmodel.cpp \
-    src/qmlbackend/qmlactioneditmodel.cpp
+    src/qmlbackend/qmlactioneditmodel.cpp \
+    src/qmlbackend/qmlruleutil.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -67,10 +67,10 @@ HEADERS += \
     src/qmlbackend/presence/qmlpresencemodel.h \
     src/qmlbackend/nfc/qmlnfcmobility.h \
     src/qmlbackend/qmlconditioneditmodel.h \
-    src/qmlbackend/qmlrulesummary.h \
     src/qmlbackend/qmlboolfiltermodel.h \
     src/qmlbackend/qmlbaseruleeditmodel.h \
-    src/qmlbackend/qmlactioneditmodel.h
+    src/qmlbackend/qmlactioneditmodel.h \
+    src/qmlbackend/qmlruleutil.h
 
 # To avoid mistakes, do not use the simulated cellId on a device build.
 !profilematic_simulated_cellid|!isEmpty(MEEGO_VERSION_MAJOR) {

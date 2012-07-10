@@ -22,7 +22,7 @@
 #include <QSet>
 
 #include "qmlrulesmodel.h"
-#include "qmlrulesummary.h"
+#include "qmlruleutil.h"
 
 QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profilesModel, QObject *parent)
     : QAbstractListModel(parent), _isActive(false), _backendError(false), _client(client), _profilesModel(profilesModel),
@@ -243,7 +243,7 @@ QmlRulesModel::getDaysSummaryText(const QVariantList &dayIndices) const {
 
 QString
 QmlRulesModel::getDaysSummaryText(const QSet<int> &days) const {
-    return QmlRuleSummary::daysSummaryText(days);
+    return QmlRuleUtil::instance()->daysSummaryText(days);
 }
 
 QString
@@ -253,7 +253,7 @@ QmlRulesModel::getTimeSummaryText(RuleCondition *condition, const QString &nonUs
 
 QString
 QmlRulesModel::getTimeSummaryText(const RuleCondition *rule, const QString &nonUsableTimeString) const {
-    return QmlRuleSummary::timeSummary(rule, nonUsableTimeString);
+    return QmlRuleUtil::instance()->timeSummary(rule, nonUsableTimeString);
 }
 
 QString

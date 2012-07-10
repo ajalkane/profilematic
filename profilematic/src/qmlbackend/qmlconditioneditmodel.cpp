@@ -19,17 +19,17 @@
 
 #include "qmlconditioneditmodel.h"
 
-#include "qmlrulesummary.h"
+#include "qmlruleutil.h"
 
 #define DESCRIPTION(name, topic, qmlFile, isDefault) \
     struct Description##name : public QmlBaseRuleEditModel::Description { \
         Description##name() : QmlConditionEditModel::Description(topic, qmlFile, isDefault) {} \
         virtual QString summary(const Rule &rule) const { \
-            return QmlRuleSummary::name##Summary(&(rule.condition()), "Not in use"); \
+            return QmlRuleUtil::instance()->name##Summary(&(rule.condition()), "Not in use"); \
         } \
 \
         virtual bool isSet(const Rule &rule) const { \
-            return !QmlRuleSummary::name##Summary(&(rule.condition()), "").isEmpty(); \
+            return !QmlRuleUtil::instance()->name##Summary(&(rule.condition()), "").isEmpty(); \
         } \
     } description##name;
 

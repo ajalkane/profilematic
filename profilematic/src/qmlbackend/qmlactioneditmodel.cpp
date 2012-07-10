@@ -19,17 +19,17 @@
 
 #include "qmlactioneditmodel.h"
 
-#include "qmlrulesummary.h"
+#include "qmlruleutil.h"
 
 #define DESCRIPTION(name, topic, qmlFile, isDefault) \
     struct Description##name : public QmlBaseRuleEditModel::Description { \
         Description##name() : QmlActionEditModel::Description(topic, qmlFile, isDefault) {} \
         virtual QString summary(const Rule &rule) const { \
-            return QmlRuleSummary::name##Summary(&(rule.action()), "Don't change"); \
+            return QmlRuleUtil::instance()->name##Summary(&(rule.action()), "Don't change"); \
         } \
 \
         virtual bool isSet(const Rule &rule) const { \
-            return !QmlRuleSummary::name##Summary(&(rule.action()), "").isEmpty(); \
+            return !QmlRuleUtil::instance()->name##Summary(&(rule.action()), "").isEmpty(); \
         } \
     } description##name;
 

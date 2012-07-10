@@ -1,9 +1,49 @@
-#include "qmlrulesummary.h"
+/**********************************************************************
+ * Copyright 2011-2012 Arto Jalkanen
+ *
+ * This file is part of ProfileMatic.
+ *
+ * ProfileMatic is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ProfileMatic is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
+**/
+#include <cstdio>
+#include <cstdlib>
+#include "qmlruleutil.h"
 
-QmlProfilesModel *QmlRuleSummary::_profilesModel = 0;
+QmlRuleUtil *QmlRuleUtil::_instance = 0;
+
+void
+QmlRuleUtil::initialize(QmlProfilesModel *profilesModel) {
+    if (_instance != 0) {
+        fprintf(stderr, "QmlRuleUtil::initialize called more than once");
+        exit(1);
+    }
+
+    _instance = new QmlRuleUtil(profilesModel);
+}
+
+void
+QmlRuleUtil::deinitialize() {
+    delete _instance;
+    _instance = 0;
+}
+
+QmlRuleUtil::QmlRuleUtil(QmlProfilesModel *profilesModel) {
+    _profilesModel = profilesModel;
+}
 
 QString
-QmlRuleSummary::timeSummary(const RuleCondition *rule, const QString &nonUsableTimeString) {
+QmlRuleUtil::timeSummary(const RuleCondition *rule, const QString &nonUsableTimeString) {
     // qDebug("QmlRulesModel::getTimeSummaryText()");
     // Rule rule = ruleVariant.value<Rule>();
     if (rule == 0) {
@@ -52,7 +92,7 @@ QmlRuleSummary::timeSummary(const RuleCondition *rule, const QString &nonUsableT
 }
 
 QString
-QmlRuleSummary::daysSummaryText(const QSet<int> &days) {
+QmlRuleUtil::daysSummaryText(const QSet<int> &days) {
     // qDebug("QmlRulesModel::getDaysSummaryText(), days size %d", days.size());
 
     if (days.size() == 7) {
@@ -97,7 +137,7 @@ QmlRuleSummary::daysSummaryText(const QSet<int> &days) {
 }
 
 QString
-QmlRuleSummary::cellLocationSummary(const RuleCondition *cond, const QString &nonUsable) {
+QmlRuleUtil::cellLocationSummary(const RuleCondition *cond, const QString &nonUsable) {
     if (cond == 0) return nonUsable;
 
     int numCellIds = cond->getLocationCells().size();
@@ -114,7 +154,7 @@ QmlRuleSummary::cellLocationSummary(const RuleCondition *cond, const QString &no
 }
 
 QString
-QmlRuleSummary::internetConnectionModeSummary(const RuleCondition *cond, const QString &nonUsable) {
+QmlRuleUtil::internetConnectionModeSummary(const RuleCondition *cond, const QString &nonUsable) {
     if (cond == 0) return nonUsable;
 
     switch (cond->getInternetConnectionMode()) {
@@ -129,7 +169,7 @@ QmlRuleSummary::internetConnectionModeSummary(const RuleCondition *cond, const Q
 }
 
 QString
-QmlRuleSummary::wlanSummary(const RuleCondition *cond, const QString &nonUsable) {
+QmlRuleUtil::wlanSummary(const RuleCondition *cond, const QString &nonUsable) {
     if (cond == 0) return nonUsable;
 
     int numWlans = cond->getWlan().size();
@@ -146,7 +186,7 @@ QmlRuleSummary::wlanSummary(const RuleCondition *cond, const QString &nonUsable)
 }
 
 QString
-QmlRuleSummary::idleSummary(const RuleCondition *cond, const QString &nonUsable) {
+QmlRuleUtil::idleSummary(const RuleCondition *cond, const QString &nonUsable) {
     if (cond == 0) return nonUsable;
 
     int idleForSecs = cond->getIdleForSecs();
@@ -160,7 +200,7 @@ QmlRuleSummary::idleSummary(const RuleCondition *cond, const QString &nonUsable)
 }
 
 QString
-QmlRuleSummary::nfcSummary(const RuleCondition *cond, const QString &nonUsable) {
+QmlRuleUtil::nfcSummary(const RuleCondition *cond, const QString &nonUsable) {
     if (cond == 0) return nonUsable;
 
     int nfcUids = cond->nfc().getUids().size();
@@ -177,7 +217,7 @@ QmlRuleSummary::nfcSummary(const RuleCondition *cond, const QString &nonUsable) 
 }
 
 QString
-QmlRuleSummary::chargingSummary(const RuleCondition *cond, const QString &nonUsable) {
+QmlRuleUtil::chargingSummary(const RuleCondition *cond, const QString &nonUsable) {
     if (cond == 0) return nonUsable;
 
     RuleCondition::ChargingState chargingState = cond->getChargingState();
@@ -199,7 +239,7 @@ QmlRuleSummary::chargingSummary(const RuleCondition *cond, const QString &nonUsa
 
 
 QString
-QmlRuleSummary::profileSummary(const RuleAction *action, const QString &nonUsable) {
+QmlRuleUtil::profileSummary(const RuleAction *action, const QString &nonUsable) {
     if (action == 0) return nonUsable;
 
     QString profile = action->getProfile();
@@ -219,7 +259,7 @@ QmlRuleSummary::profileSummary(const RuleAction *action, const QString &nonUsabl
 }
 
 QString
-QmlRuleSummary::presenceSummary(const RuleAction *action, const QString &nonUsable) {
+QmlRuleUtil::presenceSummary(const RuleAction *action, const QString &nonUsable) {
     if (action == 0) return nonUsable;
 
     QString summary = nonUsable;
@@ -242,7 +282,7 @@ QmlRuleSummary::presenceSummary(const RuleAction *action, const QString &nonUsab
 }
 
 QString
-QmlRuleSummary::flightModeSummary(const RuleAction *action, const QString &nonUsable) {
+QmlRuleUtil::flightModeSummary(const RuleAction *action, const QString &nonUsable) {
     if (action == 0) return nonUsable;
 
     QString summary;
@@ -262,7 +302,7 @@ QmlRuleSummary::flightModeSummary(const RuleAction *action, const QString &nonUs
 }
 
 QString
-QmlRuleSummary::powerSavingModeSummary(const RuleAction *action, const QString &nonUsable) {
+QmlRuleUtil::powerSavingModeSummary(const RuleAction *action, const QString &nonUsable) {
     if (action == 0) return nonUsable;
 
     QString summary;
@@ -282,7 +322,7 @@ QmlRuleSummary::powerSavingModeSummary(const RuleAction *action, const QString &
 }
 
 QString
-QmlRuleSummary::bluetoothModeSummary(const RuleAction *action, const QString &nonUsable) {
+QmlRuleUtil::bluetoothModeSummary(const RuleAction *action, const QString &nonUsable) {
     if (action == 0) return nonUsable;
 
     QString summary;
@@ -304,7 +344,7 @@ QmlRuleSummary::bluetoothModeSummary(const RuleAction *action, const QString &no
 }
 
 QString
-QmlRuleSummary::cellularModeSummary(const RuleAction *action, const QString &nonUsable) {
+QmlRuleUtil::cellularModeSummary(const RuleAction *action, const QString &nonUsable) {
     if (action == 0) return nonUsable;
 
     QString summary;
@@ -323,7 +363,7 @@ QmlRuleSummary::cellularModeSummary(const RuleAction *action, const QString &non
 }
 
 QString
-QmlRuleSummary::standByScreenModeSummary(const RuleAction *action, const QString &nonUsable) {
+QmlRuleUtil::standByScreenModeSummary(const RuleAction *action, const QString &nonUsable) {
     if (action == 0) return nonUsable;
 
     QString summary;
@@ -344,7 +384,7 @@ QmlRuleSummary::standByScreenModeSummary(const RuleAction *action, const QString
 }
 
 QString
-QmlRuleSummary::customActionSummary(const RuleAction *action, const QString &nonUsable) {
+QmlRuleUtil::customActionSummary(const RuleAction *action, const QString &nonUsable) {
     if (action == 0) return nonUsable;
 
     if (!action->getCommandLine().isEmpty() &&

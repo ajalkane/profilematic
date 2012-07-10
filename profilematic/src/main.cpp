@@ -36,7 +36,7 @@
 #include "qmlbackend/qmlactioneditmodel.h"
 #include "qmlbackend/qmlboolfiltermodel.h"
 #include "qmlbackend/qmlprofilesmodel.h"
-#include "qmlbackend/qmlrulesummary.h"
+#include "qmlbackend/qmlruleutil.h"
 #include "qmlbackend/qmllocation.h"
 #include "qmlbackend/nfc/qmlnfcmobility.h"
 
@@ -72,7 +72,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     ProfileMaticClient profileMaticClient;
 
     QmlProfilesModel qmlProfilesModel(&profileClient, QmlProfilesModel::ProfileType);
-    QmlRuleSummary::initialize(&qmlProfilesModel);
+    QmlRuleUtil::initialize(&qmlProfilesModel);
     QmlDaysModel qmlDaysModel;
     QmlRulesModel qmlRulesModel(&profileMaticClient, &qmlProfilesModel);
 
@@ -129,5 +129,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     int retVal = app->exec();
     qDebug("Exiting with return value %d", retVal);
+    QmlRuleUtil::deinitialize();
+
     return retVal;
 }
