@@ -106,3 +106,15 @@ QmlBaseRuleEditModel::initializeEdit() {
     emit dataChanged(modelIndexStart, modelIndexEnd);
 
 }
+
+void
+QmlBaseRuleEditModel::clearEditItem(int index) {
+    // qDebug("QmlRulesModel::removeRule(%d)", index);
+    if (index < 0 || index >= _descriptions.count()) {
+        qWarning("QmlBaseRuleEditModel::QmlBaseRuleEditModel: Invalid index %d", index);
+        return;
+    }
+
+    Description *d = _descriptions.at(index);
+    d->clear(*_editRule);
+}

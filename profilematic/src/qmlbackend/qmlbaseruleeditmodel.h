@@ -78,6 +78,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     Q_INVOKABLE void initializeEdit();
+    Q_INVOKABLE void clearEditItem(int index);
 
 public slots:
     void ruleChanged();
