@@ -32,7 +32,7 @@
 class ActionActivateOnceBase : public Action
 {
     QSet<Rule::IdType> _previousRuleIds;
-    QSet<Rule::IdType> _activeRuleIds;
+    QSet<Rule::IdType> _matchingRuleIds;
     QMap<Rule::IdType, RuleAction> _previousExitActionsByRuleId;
 
 public:

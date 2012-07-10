@@ -159,6 +159,13 @@ Page {
                     confirmDelete()
                 }
             }
+            MenuItem {
+                text: rule.ruleActive ? "Deactivate rule" : "Activate rule"
+                enabled: !rule.isDefaultRule
+                onClicked: {
+                    rule.ruleActive = !rule.ruleActive
+                }
+            }
         }
     }
 
@@ -181,33 +188,6 @@ Page {
             actionEditHandler(item.qmlEditFile)
         }
     }
-
-    // This is a hack to access from SelectionDialog the roles of the model.
-//    ListView {
-//        id: lMoreConditions
-//        model: backendConditionEditNonVisibleModel
-//        delegate: Item {
-//            property variant myModel: model
-//        }
-//    }
-
-//    MySelectionDialog {
-//        id: dMoreConditions
-//        titleText: "Select condition"
-//        platformStyle: SelectionDialogStyle {
-//            itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
-//        }
-//        model: backendConditionEditNonVisibleModel
-//        onSelectedIndexChanged: {
-//            if (selectedIndex > -1) {
-//                console.log("Selected condition index", selectedIndex)
-//                // This is a hack to access from SelectionDialog the roles of the model.
-//                // Ugly but works.
-//                lMoreConditions.currentIndex = selectedIndex
-//                conditionEditHandler(lMoreConditions.currentItem.myModel.qmlEditFile)
-//            }
-//        }
-//    }
 
     Flickable {
         anchors.fill: parent // editRule
@@ -235,6 +215,11 @@ Page {
                 visible: rule.isDefaultRule
                 text: "Activates specified actions if no other rule with matching conditions has the action specified. "
                       + "Note: if a regular rule has 'restore previous' in its action, it overrides default rules action."
+            }
+            LabelHelp {
+                visible: !rule.ruleActive
+                color: "orange" // IMPROVE to UIConstants
+                text: "This rule is not active. You can reactivate this rule from menu. Changes won't be activated before saving."
             }
 
             TextFieldWithLabel {

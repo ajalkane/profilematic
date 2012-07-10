@@ -23,6 +23,8 @@ import "UIConstants.js" as UIConstants
 
 // IMPROVE should not be needed in future updates, use font: UiConstants.SubtitleFont
 LabelStyle {
+    property bool disabled: false
+
     fontPixelSize: UIConstants.SUBTITLE_FONT_SIZE
-    textColor: UIConstants.SUBTITLE_COLOR // TODO inverted
+    textColor: disabled ? "grey" : UIConstants.SUBTITLE_COLOR // TODO inverted
 }

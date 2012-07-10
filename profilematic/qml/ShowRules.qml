@@ -239,8 +239,8 @@ Page {
                     width: 5
                     height: parent.height
                     color: UIConstants.COLOR_APP_HEADER
-                    // To avoid confusion, default rule is shown active only when it has some action(s)
-                    visible: active && (!isDefaultRule || ruleSummary !== "When other rules don't apply")
+                    // To avoid confusion, default rule is shown matching only when it has some action(s)
+                    visible: matching && (!isDefaultRule || ruleSummary !== "When other rules don't apply")
                     x: -width - 10
                 }
 
@@ -260,7 +260,7 @@ Page {
                         id: mainText
                         text: model.ruleName
                         width: parent.width
-                        platformStyle: LabelStyleTitle {}
+                        platformStyle: LabelStyleTitle { disabled: !ruleActive }
                         font.weight: Font.Bold
                         elide: Text.ElideRight
                     }
@@ -268,6 +268,7 @@ Page {
                         width: ruleItem.width
                         text: ruleSummary
                         platformStyle: LabelStyleSubtitle {
+                            disabled: !ruleActive;
                             fontPixelSize: UIConstants.FONT_SMALL
                         }
                         wrapMode: Text.WordWrap
@@ -288,7 +289,7 @@ Page {
                         listView.currentIndex = index
                     }
                     onPressAndHold: {
-                        contextMenu.openForIndex(index, index === listView.count - 1)
+                        contextMenu.openForIndex(index, index === listView.count - 1, ruleActive)
                     }
                 }
 
@@ -387,6 +388,7 @@ Page {
         id: contextMenu
         property int selectedRuleIndex
         property int isDefaultRule
+        property bool ruleActive
 
         MenuLayout {
             MenuItem {
@@ -398,10 +400,16 @@ Page {
                 onClicked: dConfirmDelete.open()
                 enabled: !contextMenu.isDefaultRule
             }
+            MenuItem {
+                text: contextMenu.ruleActive ? "Deactivate rule" : "Activate rule"
+                onClicked: backendRulesModel.toggleRuleActive(contextMenu.selectedRuleIndex)
+                enabled: !contextMenu.isDefaultRule
+            }
         }
-        function openForIndex(index, isDefaultRule) {
+        function openForIndex(index, isDefaultRule, ruleActive) {
             selectedRuleIndex = index
             contextMenu.isDefaultRule = isDefaultRule
+            contextMenu.ruleActive = ruleActive
             open()
         }
     }

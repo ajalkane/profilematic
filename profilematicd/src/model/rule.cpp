@@ -19,7 +19,7 @@
 #include "rule.h"
 
 Rule::Rule(QObject *parent)
-    : QObject(parent)
+    : QObject(parent), _ruleActive(true)
 {
     _init();
 }
@@ -28,15 +28,27 @@ Rule::Rule(const Rule &o)
     : QObject(NULL),
       _ruleId(o._ruleId),
       _ruleName(o._ruleName),
+      _ruleActive(o._ruleActive),
       _condition(o.condition()), _action(o.action())
 {
     _init();
+}
+
+Rule &
+Rule::operator=(const Rule &o) {
+    _ruleId = o._ruleId;
+    _ruleName = o._ruleName;
+    _ruleActive = o._ruleActive;
+    _condition = o._condition;
+    _action = o._action;
+    return *this;
 }
 
 void
 Rule::_init() {
     connect(this,        SIGNAL(ruleNameChanged()),  this, SIGNAL(changed()));
     connect(this,        SIGNAL(ruleIdChanged()),    this, SIGNAL(changed()));
+    connect(this,        SIGNAL(ruleActiveChanged()),    this, SIGNAL(changed()));
     connect(&_condition, SIGNAL(changed()),          this, SIGNAL(conditionChanged()));
     connect(&_action,    SIGNAL(changed()),          this, SIGNAL(actionChanged()));
     connect(&_condition, SIGNAL(changed()), this, SIGNAL(changed()));
@@ -54,15 +66,6 @@ Rule::createDefaultRule() {
 }
 
 Rule::~Rule() {}
-
-Rule &
-Rule::operator=(const Rule &o) {
-    _ruleId = o._ruleId;
-    _ruleName = o._ruleName;
-    _condition = o._condition;
-    _action = o._action;
-    return *this;
-}
 
 Rule &
 Rule::conditionsFrom(const Rule &o) {
@@ -107,11 +110,20 @@ Rule::setRuleName(const QString &ruleName) {
     }
 }
 
+void
+Rule::setRuleActive(bool active) {
+    if (_ruleActive != active) {
+        _ruleActive = active;
+        emit ruleActiveChanged();
+    }
+}
+
 QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
 {
     argument.beginStructure();
     argument << rule.getRuleId();
     argument << rule.getRuleName();
+    argument << rule.getRuleActive();
     argument << rule.condition();
     argument << rule.action();
     argument.endStructure();
@@ -123,16 +135,19 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
 {
     QString   ruleId = rule.getRuleId();
     QString   ruleName = rule.getRuleName();
+    bool      ruleActive = rule.getRuleActive();
 
     argument.beginStructure();
     argument >> ruleId;
     argument >> ruleName;
+    argument >> ruleActive;
     argument >> rule.condition();
     argument >> rule.action();
     argument.endStructure();
 
     rule.setRuleId(ruleId);
     rule.setRuleName(ruleName);
+    rule.setRuleActive(ruleActive);
 
     return argument;
 }
