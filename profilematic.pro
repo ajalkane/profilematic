@@ -12,4 +12,6 @@ OTHER_FILES += \
 SUBDIRS += \
     profilematicd profilematic
 
-
+contains(MEEGO_EDITION,harmattan) {
+    SUBDIRS += platformutil
+}

@@ -28,10 +28,7 @@ PageStackWindow {
                  + "change flight mode, and you "
                  + "have such rules."
                  + "\n\n"
-                 + "Reinstall ProfileMatic to restore the credentials if "
-                 + "your firmware version is PR1.2 or earlier. With later "
-                 + "firmwares flight mode actions "
-                 + "may not work at all."
+                 + "You can try to reinstall ProfileMatic to restore the credentials."
         onAccepted: Qt.quit();
         onRejected: Qt.quit();
     }
