@@ -92,6 +92,12 @@ HEADERS += \
 
     SOURCES += src/qmlbackend/presence/qmlpresencemodelimpl.cpp
     HEADERS += src/qmlbackend/presence/qmlpresencemodelimpl.h
+
+    # Splash screen
+    splash.files = profilematic-splash.png
+    splash.path = /opt/profilematic/
+
+    INSTALLS += splash
 } else {
     SOURCES += src/qmlbackend/presence/qmlpresencemodelstub.cpp
     HEADERS += src/qmlbackend/presence/qmlpresencemodelstub.h
@@ -102,18 +108,3 @@ include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
 
 OTHER_FILES +=
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
