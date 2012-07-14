@@ -6,6 +6,7 @@ profilematic (1.7.0) unstable; urgency=low
   * Mobile network mode change delayed until no call/data usage
   * On shutdown tries to "restore previous" actions and activates default rule.
   * UI improvement: Rule editing shows only some of the conditions/actions
+  * UI improvement: Rule editing has context menu to clear condition/action
 
  -- Arto Jalkanen <ajalkane@gmail.com>  Sat, 26 May 2012 21:00:00 +0300
 
