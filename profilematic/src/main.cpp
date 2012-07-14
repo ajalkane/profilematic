@@ -49,6 +49,8 @@
 #include "qmlbackend/presence/qmlpresencemodelstub.h"
 #endif
 
+void setupEditModel(const QmlBaseRuleEditModel &qmlEditModel, QmlBoolFilterModel &qmlFilterModel);
+
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QString mainQmlFile(QLatin1String("qml/main.qml"));
@@ -79,13 +81,14 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QmlConditionEditModel qmlConditionEditModel(qmlRulesModel.getEditRule());
     QmlBoolFilterModel qmlConditionEditVisibleModel(&qmlConditionEditModel, QmlConditionEditModel::VisibleRole, false);
     QmlBoolFilterModel qmlConditionEditNonVisibleModel(&qmlConditionEditModel, QmlConditionEditModel::VisibleRole, true);
-    qmlConditionEditNonVisibleModel.setSortRole(QmlConditionEditModel::TopicRole);
-    qmlConditionEditNonVisibleModel.sort(0);
+    setupEditModel(qmlConditionEditModel, qmlConditionEditVisibleModel);
+    setupEditModel(qmlConditionEditModel, qmlConditionEditNonVisibleModel);
+
     QmlActionEditModel qmlActionEditModel(qmlRulesModel.getEditRule());
     QmlBoolFilterModel qmlActionEditVisibleModel(&qmlActionEditModel, QmlConditionEditModel::VisibleRole, false);
     QmlBoolFilterModel qmlActionEditNonVisibleModel(&qmlActionEditModel, QmlConditionEditModel::VisibleRole, true);
-    qmlActionEditNonVisibleModel.setSortRole(QmlActionEditModel::TopicRole);
-    qmlActionEditNonVisibleModel.sort(0);
+    setupEditModel(qmlActionEditModel, qmlActionEditVisibleModel);
+    setupEditModel(qmlActionEditModel, qmlActionEditNonVisibleModel);
 
     QmlBackend qmlBackend;
     QScopedPointer<QmlLocation> qmlLocation(QmlLocation::create());
@@ -132,4 +135,12 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QmlRuleUtil::deinitialize();
 
     return retVal;
+}
+
+void setupEditModel(const QmlBaseRuleEditModel &qmlEditModel, QmlBoolFilterModel &qmlFilterModel) {
+     qmlEditModel.connect(&qmlEditModel, SIGNAL(visibleChanged()), &qmlFilterModel, SLOT(invalidate()));
+     qmlEditModel.connect(&qmlEditModel, SIGNAL(visibleChanged()), &qmlFilterModel, SLOT(invalidate()));
+
+    qmlFilterModel.setSortRole(QmlBaseRuleEditModel::TopicRole);
+    qmlFilterModel.sort(0);
 }

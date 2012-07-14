@@ -256,7 +256,7 @@ Page {
                             console.log("Clicked qmlEditHandler " + qmlEditFile);
                         }
                         onPressAndHold: {
-                            contextMenuConditions.openForIndex(index, model.name)
+                            contextMenu.openForIndex(backendConditionEditModel, backendConditionEditVisibleModel, index, model.name)
                         }
 
                         // visible: model.visible
@@ -296,6 +296,9 @@ Page {
                             actionEditHandler(model.qmlEditFile);
                             console.log("Clicked qmlEditHandler " + qmlEditFile);
                         }
+                        onPressAndHold: {
+                            contextMenu.openForIndex(backendActionEditModel, backendActionEditVisibleModel, index, model.name)
+                        }
 
                         // visible: model.visible
                     }
@@ -326,22 +329,29 @@ Page {
     } // Flickable
 
     ContextMenu {
-        id: contextMenuConditions
+        id: contextMenu
+        property variant usedEditModel
+        property variant usedVisibleEditModel
         property int selectedIndex
         property string topic;
 
         MenuLayout {
             MenuItem {
-                text: "Clear " + contextMenuConditions.topic
+                text: "Clear " + contextMenu.topic
                 onClicked: {
-                    console.log("Clear condition index ", contextMenuConditions.selectedIndex)
+                    var index = contextMenu.usedVisibleEditModel.mapToSourceIndex(contextMenu.selectedIndex)
+                    console.log("Clear condition index ", index)
+                    contextMenu.usedEditModel.clearEditItem(index)
                     // backendEdRulesModel.toggleRuleActive(contextMenu.selectedRuleIndex)
                 }
             }
         }
-        function openForIndex(index, topic) {
+        function openForIndex(editModel, visibleEditModel, index, topic) {
+            console.log("openForIndex(" + index + ", " + topic + ")")
+            usedEditModel = editModel
+            usedVisibleEditModel = visibleEditModel
             selectedIndex = index
-            contextMenuConditions.topic = topic
+            contextMenu.topic = topic
             open()
         }
     }

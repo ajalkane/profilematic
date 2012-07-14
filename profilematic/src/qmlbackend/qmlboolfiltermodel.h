@@ -27,19 +27,25 @@ class QmlBoolFilterModel : public QSortFilterProxyModel
 
     int  _filterOnRole;
     bool _filterCondition;
+    bool _debugLog;
 
     // Needed for SelectionDialog
     Q_PROPERTY(int count READ rowCount NOTIFY sizeChanged)
 
 public:
-    QmlBoolFilterModel(QAbstractItemModel *sourceModel, int filterOnRole, bool filterCondition, QObject *parent = 0);
+    QmlBoolFilterModel(QAbstractItemModel *sourceModel, int filterOnRole, bool filterCondition, bool debugLog = false, QObject *parent = 0);
 
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
 
+    Q_INVOKABLE int mapToSourceIndex(int index);
+    inline void setDebugLog(bool d) { _debugLog = d; }
 private slots:
     void emitSizeChanged(const QModelIndex &, int, int);
 signals:
     void sizeChanged();
+public slots:
+    void debugLog(const QString &where);
+    void debugLog();
 };
 
 #endif // QMLBOOLFILTERMODEL_H

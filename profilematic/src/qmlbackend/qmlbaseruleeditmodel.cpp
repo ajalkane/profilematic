@@ -75,27 +75,46 @@ QmlBaseRuleEditModel::ruleChanged() {
 void
 QmlBaseRuleEditModel::recalculateVisible() {
     qDebug("QmlBaseRuleEditModel::recalculateVisible");
+    bool hasVisibleChanged = false;
     foreach (Description *d, _descriptions) {
-        d->visible = d->initiallyVisible || d->isSet(*_editRule);
+        bool newVisible = d->initiallyVisible || d->isSet(*_editRule);
+        if (newVisible != d->visible) {
+            d->visible = newVisible;
+            hasVisibleChanged = true;
+        }
     }
 
     QModelIndex modelIndexStart = createIndex(0, 0);
     QModelIndex modelIndexEnd   = createIndex(_descriptions.size() - 1, 0);
     emit dataChanged(modelIndexStart, modelIndexEnd);
+    if (hasVisibleChanged) {
+        qDebug("QmlBaseRuleEditModel::visibleChanged");
+        emit visibleChanged();
+    }
 }
 
 void
 QmlBaseRuleEditModel::initializeEdit() {
     qDebug("QmlBaseRuleEditModel::initializeEdit");
     bool hasVisibles = false;
+    bool hasVisibleChanged = false;
     foreach (Description *d, _descriptions) {
-        d->visible = d->isSet(*_editRule);
-        d->initiallyVisible = d->visible;
-        if (d->visible) hasVisibles = true;
+        bool newVisible = d->isSet(*_editRule);
+        if (newVisible != d->visible) {
+            d->visible = newVisible;
+            hasVisibleChanged = true;
+        }
+        if (newVisible) hasVisibles = true;
+        d->initiallyVisible = newVisible;
     }
 
     if (!hasVisibles) {
         foreach (Description *d, _descriptions) {
+                bool newVisible = d->defaultVisible;
+                if (newVisible != d->visible) {
+                    d->visible = newVisible;
+                    hasVisibleChanged = true;
+                }
                 d->visible = d->defaultVisible;
                 d->initiallyVisible = d->visible;
         }
@@ -104,17 +123,18 @@ QmlBaseRuleEditModel::initializeEdit() {
     QModelIndex modelIndexStart = createIndex(0, 0);
     QModelIndex modelIndexEnd   = createIndex(_descriptions.size() - 1, 0);
     emit dataChanged(modelIndexStart, modelIndexEnd);
-
+    if (hasVisibleChanged) emit visibleChanged();
 }
 
 void
 QmlBaseRuleEditModel::clearEditItem(int index) {
-    // qDebug("QmlRulesModel::removeRule(%d)", index);
+    qDebug("QmlRulesModel::removeRule(%d)", index);
     if (index < 0 || index >= _descriptions.count()) {
-        qWarning("QmlBaseRuleEditModel::QmlBaseRuleEditModel: Invalid index %d", index);
+        qWarning("QmlBaseRuleEditModel::clearEditItem: Invalid index %d/%d", index, _descriptions.size());
         return;
     }
 
     Description *d = _descriptions.at(index);
+    qDebug("QmlRulesModel::clearRule(%d) %s", index, qPrintable(d->topic));
     d->clear(*_editRule);
 }

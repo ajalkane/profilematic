@@ -37,9 +37,9 @@
     } description##name;
 
 DESCRIPTION(profile, "Profile", "ActionProfile.qml", true)
-DESCRIPTION(presence, "Account availability", "ActionPresence.qml", true)
+DESCRIPTION(presence, "Account availability", "ActionPresence.qml", false)
 DESCRIPTION(flightMode, "Flight mode", "ActionFlightMode.qml", false)
-DESCRIPTION(powerSavingMode, "Power saving mode", "ActionPowerSavingMode.qml", true)
+DESCRIPTION(powerSavingMode, "Power saving mode", "ActionPowerSavingMode.qml", false)
 DESCRIPTION(bluetoothMode, "Bluetooth", "ActionBlueToothMode.qml", false)
 DESCRIPTION(cellularMode, "Mobile network mode", "ActionCellularMode.qml", false)
 DESCRIPTION(standByScreenMode, "Stand-by screen mode", "ActionStandByScreen.qml", false)

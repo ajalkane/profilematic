@@ -18,20 +18,47 @@
 **/
 #include "qmlboolfiltermodel.h"
 
-QmlBoolFilterModel::QmlBoolFilterModel(QAbstractItemModel *sourceModel, int filterOnRole, bool filterCondition, QObject *parent)
-    : QSortFilterProxyModel(parent), _filterOnRole(filterOnRole), _filterCondition(filterCondition)
+QmlBoolFilterModel::QmlBoolFilterModel(QAbstractItemModel *sourceModel, int filterOnRole, bool filterCondition, bool pdebugLog, QObject *parent)
+    : QSortFilterProxyModel(parent), _filterOnRole(filterOnRole), _filterCondition(filterCondition), _debugLog(pdebugLog)
 {
     setSourceModel(sourceModel);
     setDynamicSortFilter(true);
 
     connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(emitSizeChanged(QModelIndex,int,int)));
     connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(emitSizeChanged(QModelIndex,int,int)));
+
+    debugLog("Constructor");
+}
+
+void
+QmlBoolFilterModel::debugLog() {
+    debugLog("unspecified");
+}
+
+void
+QmlBoolFilterModel::debugLog(const QString &where) {
+    if (!_debugLog) return;
+
+    qDebug("QmlBoolFilterModel::debugLog() %s", qPrintable(where));
+    qDebug("source rowCount %d, filter rowCount %d", sourceModel()->rowCount(), rowCount());
+    for (int i = 0; i < sourceModel()->rowCount(); ++i) {
+        QModelIndex sIndex = sourceModel()->index(i, 0);
+        QModelIndex fIndex = mapFromSource(sIndex);
+        qDebug("source %i -> filter %i", sIndex.row(), fIndex.row());
+    }
+    for (int i = 0; i < rowCount(); ++i) {
+        QModelIndex fIndex = index(i, 0);
+        QModelIndex sIndex = mapToSource(fIndex);
+        qDebug("filter %i -> source %i", fIndex.row(), sIndex.row());
+    }
 }
 
 void
 QmlBoolFilterModel::emitSizeChanged(const QModelIndex &, int, int) {
     // qDebug("QmlBoolFilterModel::emitSizeChanged");
     emit sizeChanged();
+    debugLog("emitSizeChanged");
+
 }
 
 bool
@@ -41,4 +68,19 @@ QmlBoolFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourcePar
     QVariant value = sourceModel()->data(index, _filterOnRole);
 
     return value.toBool() != _filterCondition;
+}
+
+int
+QmlBoolFilterModel::mapToSourceIndex(int i) {
+    debugLog("mapToSourceIndex");
+
+    QModelIndex mi = index(i, 0);
+    qWarning("QmlBoolFilterModel::mapToSourceIndex(%d)", i);
+
+    if (!mi.isValid()) {
+        qWarning("QmlBoolFilterModel::mapToSourceIndex: Invalid index %d", i);
+        return -1;
+    }
+
+    return mapToSource(mi).row();
 }

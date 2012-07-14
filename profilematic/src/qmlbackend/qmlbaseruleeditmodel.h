@@ -84,6 +84,7 @@ public slots:
     void ruleChanged();
 signals:
     void sizeChanged();
+    void visibleChanged();
 };
 
 #endif // QMLBASERULEEDITMODEL_H
