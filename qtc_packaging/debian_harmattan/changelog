@@ -1,11 +1,13 @@
 profilematic (1.7.0) unstable; urgency=low
   * NFC condition
   * Network connection type condition
+  * Charging condition
+  * Rules can be deactivated one by one
   * Custom action sets correct environment so QML applications virtual keyboard works
   * Idle mode not activated while speaking on phone
   * Mobile network mode change delayed until no call/data usage
   * On shutdown tries to "restore previous" actions and activates default rule.
-  * UI improvement: Rule editing shows only some of the conditions/actions
+  * UI improvement: Rule editing shows only conditions/actions set. New rule editing shows only Time condition and Profile action at first
   * UI improvement: Rule editing has context menu to clear condition/action
   * Fix: flight mode setting code moved to separate binary to keep aegis credentials
   * Added splash screen
