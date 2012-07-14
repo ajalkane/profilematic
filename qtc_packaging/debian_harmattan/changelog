@@ -7,6 +7,7 @@ profilematic (1.7.0) unstable; urgency=low
   * On shutdown tries to "restore previous" actions and activates default rule.
   * UI improvement: Rule editing shows only some of the conditions/actions
   * UI improvement: Rule editing has context menu to clear condition/action
+  * Fix: flight mode setting code moved to separate binary to keep aegis credentials
 
  -- Arto Jalkanen <ajalkane@gmail.com>  Sat, 26 May 2012 21:00:00 +0300
 
