@@ -520,7 +520,7 @@ QmlRuleUtil::customActionSummary(const RuleAction *action, const QString &nonUsa
     if (action == 0) return nonUsable;
 
     QString commandLine = action->getCommandLine().trimmed();
-    QString commandLineExit = action->getCommandLine().trimmed();
+    QString commandLineExit = action->getCommandLineExit().trimmed();
     if (inListing) {
         return (!commandLine.isEmpty() || !commandLineExit.isEmpty() ? "Command line" : nonUsable);
     } else {
