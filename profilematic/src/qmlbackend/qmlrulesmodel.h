@@ -24,6 +24,9 @@
 #include <QVariantList>
 #include <QVariantMap>
 
+#include "qmlconditioneditmodel.h"
+#include "qmlactioneditmodel.h"
+
 #include "qmlprofilesmodel.h"
 #include "../profilematicclient.h"
 
@@ -47,8 +50,10 @@ class QmlRulesModel: public QAbstractListModel
     bool _isActive;
     bool _backendError;
 
-    ProfileMaticClient *_client;
-    QmlProfilesModel *_profilesModel;
+    ProfileMaticClient    *_client;
+    QmlProfilesModel      *_profilesModel;
+    QmlConditionEditModel *_conditionEditModel;
+    QmlActionEditModel    *_actionEditModel;
 
     bool _isMissingDeviceModeCredential;
 
@@ -109,6 +114,8 @@ public:
     bool isActive() const;
     void setActive(bool isActive);
     bool backendError() const;
+    inline QmlConditionEditModel *getConditionEditModel() const { return _conditionEditModel; }
+    inline QmlActionEditModel    *getActionEditModel() const { return _actionEditModel; }
 public slots:
     void emitSizeChanged(const QModelIndex & parent, int start, int end);
 

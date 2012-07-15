@@ -44,6 +44,9 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profi
 
     setRoleNames(_roleToProperty);
 
+    _conditionEditModel = new QmlConditionEditModel(&_editRule, this);
+    _actionEditModel = new QmlActionEditModel(&_editRule, this);
+
     connect(_client, SIGNAL(ruleUpdated(const Rule &)), this, SLOT(ruleUpdated(const Rule &)));
     connect(_client, SIGNAL(ruleAppended(const Rule &)), this, SLOT(ruleAppended(const Rule &)));
     connect(_client, SIGNAL(ruleRemoved(const QString &)), this, SLOT(ruleRemoved(const QString &)));

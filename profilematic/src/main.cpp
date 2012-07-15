@@ -32,8 +32,6 @@
 #include "qmlbackend/qmlbackend.h"
 #include "qmlbackend/qmldaysmodel.h"
 #include "qmlbackend/qmlrulesmodel.h"
-#include "qmlbackend/qmlconditioneditmodel.h"
-#include "qmlbackend/qmlactioneditmodel.h"
 #include "qmlbackend/qmlboolfiltermodel.h"
 #include "qmlbackend/qmlprofilesmodel.h"
 #include "qmlbackend/qmlruleutil.h"
@@ -49,7 +47,7 @@
 #include "qmlbackend/presence/qmlpresencemodelstub.h"
 #endif
 
-void setupEditModel(const QmlBaseRuleEditModel &qmlEditModel, QmlBoolFilterModel &qmlFilterModel);
+void setupEditModel(const QmlBaseRuleEditModel *qmlEditModel, QmlBoolFilterModel *qmlFilterModel);
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
@@ -78,17 +76,15 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QmlDaysModel qmlDaysModel;
     QmlRulesModel qmlRulesModel(&profileMaticClient, &qmlProfilesModel);
 
-    QmlConditionEditModel qmlConditionEditModel(qmlRulesModel.getEditRule());
-    QmlBoolFilterModel qmlConditionEditVisibleModel(&qmlConditionEditModel, QmlConditionEditModel::VisibleRole, false);
-    QmlBoolFilterModel qmlConditionEditNonVisibleModel(&qmlConditionEditModel, QmlConditionEditModel::VisibleRole, true);
-    setupEditModel(qmlConditionEditModel, qmlConditionEditVisibleModel);
-    setupEditModel(qmlConditionEditModel, qmlConditionEditNonVisibleModel);
+    QmlBoolFilterModel qmlConditionEditVisibleModel(qmlRulesModel.getConditionEditModel(), QmlConditionEditModel::VisibleRole, false);
+    QmlBoolFilterModel qmlConditionEditNonVisibleModel(qmlRulesModel.getConditionEditModel(), QmlConditionEditModel::VisibleRole, true);
+    setupEditModel(qmlRulesModel.getConditionEditModel(), &qmlConditionEditVisibleModel);
+    setupEditModel(qmlRulesModel.getConditionEditModel(), &qmlConditionEditNonVisibleModel);
 
-    QmlActionEditModel qmlActionEditModel(qmlRulesModel.getEditRule());
-    QmlBoolFilterModel qmlActionEditVisibleModel(&qmlActionEditModel, QmlConditionEditModel::VisibleRole, false);
-    QmlBoolFilterModel qmlActionEditNonVisibleModel(&qmlActionEditModel, QmlConditionEditModel::VisibleRole, true);
-    setupEditModel(qmlActionEditModel, qmlActionEditVisibleModel);
-    setupEditModel(qmlActionEditModel, qmlActionEditNonVisibleModel);
+    QmlBoolFilterModel qmlActionEditVisibleModel(qmlRulesModel.getActionEditModel(), QmlConditionEditModel::VisibleRole, false);
+    QmlBoolFilterModel qmlActionEditNonVisibleModel(qmlRulesModel.getActionEditModel(), QmlConditionEditModel::VisibleRole, true);
+    setupEditModel(qmlRulesModel.getActionEditModel(), &qmlActionEditVisibleModel);
+    setupEditModel(qmlRulesModel.getActionEditModel(), &qmlActionEditNonVisibleModel);
 
     QmlBackend qmlBackend;
     QScopedPointer<QmlLocation> qmlLocation(QmlLocation::create());
@@ -113,10 +109,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     ctxt->setContextProperty("backendDaysModel", &qmlDaysModel);
     ctxt->setContextProperty("backendRulesModel", &qmlRulesModel);
     ctxt->setContextProperty("backendProfilesModel", &qmlProfilesModel);
-    ctxt->setContextProperty("backendConditionEditModel", &qmlConditionEditModel);
+    ctxt->setContextProperty("backendConditionEditModel", qmlRulesModel.getConditionEditModel());
     ctxt->setContextProperty("backendConditionEditVisibleModel", &qmlConditionEditVisibleModel);
     ctxt->setContextProperty("backendConditionEditNonVisibleModel", &qmlConditionEditNonVisibleModel);
-    ctxt->setContextProperty("backendActionEditModel", &qmlActionEditModel);
+    ctxt->setContextProperty("backendActionEditModel", qmlRulesModel.getActionEditModel());
     ctxt->setContextProperty("backendActionEditVisibleModel", &qmlActionEditVisibleModel);
     ctxt->setContextProperty("backendActionEditNonVisibleModel", &qmlActionEditNonVisibleModel);
     ctxt->setContextProperty("backendLocation", qmlLocation.data());
@@ -137,10 +133,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     return retVal;
 }
 
-void setupEditModel(const QmlBaseRuleEditModel &qmlEditModel, QmlBoolFilterModel &qmlFilterModel) {
-     qmlEditModel.connect(&qmlEditModel, SIGNAL(visibleChanged()), &qmlFilterModel, SLOT(invalidate()));
-     qmlEditModel.connect(&qmlEditModel, SIGNAL(visibleChanged()), &qmlFilterModel, SLOT(invalidate()));
+void setupEditModel(const QmlBaseRuleEditModel *qmlEditModel, QmlBoolFilterModel *qmlFilterModel) {
+    qmlEditModel->connect(qmlEditModel, SIGNAL(visibleChanged()), qmlFilterModel, SLOT(invalidate()));
+    qmlEditModel->connect(qmlEditModel, SIGNAL(visibleChanged()), qmlFilterModel, SLOT(invalidate()));
 
-    qmlFilterModel.setSortRole(QmlBaseRuleEditModel::TopicRole);
-    qmlFilterModel.sort(0);
+    qmlFilterModel->setSortRole(QmlBaseRuleEditModel::TopicRole);
+    qmlFilterModel->sort(0);
 }
