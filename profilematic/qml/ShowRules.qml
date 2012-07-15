@@ -354,7 +354,7 @@ Page {
 
             LabelHelp {
                 visible: backendRulesModel.count > 1
-                text: "Blue bar is shown on rules whose conditions match currently. First matching rule is preferred for an action if there is conflicts. "
+                text: "Blue bar is shown on rules whose conditions match currently. First matching rule is preferred for an action if there are conflicts. "
                     + "Use arrows to change the order of the rules.";
             }
             LabelHelp {
