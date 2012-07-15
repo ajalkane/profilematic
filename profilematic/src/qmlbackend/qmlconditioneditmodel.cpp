@@ -24,14 +24,18 @@
 #define DESCRIPTION(name, topic, qmlFile, isDefault) \
     struct Description##name : public QmlBaseRuleEditModel::Description { \
         Description##name() : QmlConditionEditModel::Description(topic, qmlFile, isDefault) {} \
-        virtual QString summary(const Rule &rule) const { \
-            return QmlRuleUtil::instance()->name##Summary(&(rule.condition()), "Not in use"); \
+        virtual QString summary(const Rule &rule, bool inListing) const { \
+            return summary(rule, "Not in use", inListing); \
+        } \
+\
+        virtual QString summary(const Rule &rule, const QString &notUsed, bool inListing) const { \
+            return QmlRuleUtil::instance()->name##Summary(&(rule.condition()), notUsed, inListing); \
         } \
 \
         virtual bool isSet(const Rule &rule) const { \
-            return !QmlRuleUtil::instance()->name##Summary(&(rule.condition()), "").isEmpty(); \
+            return !summary(rule, "", false).isEmpty(); \
         } \
-        virtual void clear(Rule &rule) { \
+        virtual void clear(Rule &rule) const { \
             QmlRuleUtil::instance()->name##Clear(&(rule.condition())); \
         } \
     } description##name;

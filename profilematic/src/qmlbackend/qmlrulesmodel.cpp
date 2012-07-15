@@ -275,7 +275,6 @@ QmlRulesModel::_ruleSummaryText(const Rule &rule) const {
     return summary;
 }
 
-// IMPROVE: this function is ugly, so say we all.
 QString
 QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsableRuleString) const {
 
@@ -288,168 +287,32 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
         return nonUsableRuleString;
     }
 
-    const RuleCondition &ruleCond = rule->condition();
-    const RuleAction &ruleAction = rule->action();
-
     QString action;
     QString condition;
     int numAction = 0;
     int numCondition = 0;
 
-    if (!ruleAction.getProfile().isEmpty()) {
-        action.append(_profilesModel->getProfileToName(ruleAction.getProfile()));
-        ++numAction;
-    }
-    if (ruleAction.getFlightMode() > -1) {
-        if (numAction > 0) action.append(", ");
-        switch (ruleAction.getFlightMode()) {
-        case 0:
-            action += "Flight mode off"; break;
-        case 1:
-            action += "Flight mode on"; break;
+    QString emptyString;
+    foreach (const QmlBaseRuleEditModel::Description *d, _actionEditModel->getDescriptions()) {
+        QString summary = d->summary(*rule, emptyString, true);
+        if (!summary.isEmpty()) {
+            if (numAction > 0) action.append(", ");
+            action += summary;
+            ++numAction;
         }
-        ++numAction;
-    }
-    if (ruleAction.getPowerSavingMode() > -1) {
-        if (numAction > 0) action.append(", ");
-        switch (ruleAction.getPowerSavingMode()) {
-        case 0:
-            action += "Power saving off"; break;
-        case 1:
-            action += "Power saving on"; break;
-        }
-        ++numAction;
-    }
-    if (ruleAction.getBlueToothMode() > -1) {
-        if (numAction > 0) action.append(", ");
-        switch (ruleAction.getBlueToothMode()) {
-        case 0:
-            action += "Bluetooth off"; break;
-        case 1:
-        case 2:
-            action += "Bluetooth on"; break;
-        }
-        ++numAction;
-    }
-
-    if (ruleAction.getCellularMode() > -1) {
-        if (numAction > 0) action.append(", ");
-        switch (ruleAction.getCellularMode()) {
-        case 0:
-            action += "Dual GSM/3G"; break;
-        case 1:
-            action += "GSM"; break;
-        case 2:
-            action += "3G"; break;
-        }
-        ++numAction;
-    }
-
-    if (ruleAction.getStandByScreenMode() > -1) {
-        if (numAction > 0) action.append(", ");
-        switch (ruleAction.getStandByScreenMode()) {
-        case 0:
-            action += "Stand-by screen off"; break;
-        case 1:
-            action += "Stand-by screen on"; break;
-        }
-        ++numAction;
-    }
-
-    // Modifying background connections do not work, disable until finding working solutions
-//    if (ruleAction.getBackgroundConnectionsMode() > -1) {
-//        if (numAction > 0) action.append(", ");
-//        switch (ruleAction.getBackgroundConnectionsMode()) {
-//        case 0:
-//            action += "Background connections off"; break;
-//        case 1:
-//            action += "Background connections on"; break;
-//        }
-//        ++numAction;
-//    }
-
-    if (!ruleAction.getCommandLine().trimmed().isEmpty() ||
-        !ruleAction.getCommandLineExit().trimmed().isEmpty()) {
-        if (numAction > 0) action.append(", ");
-        action.append("Custom action");
-        ++numAction;
-    }
-
-    bool atLeastOnePresenceChange = false;
-    foreach (PresenceRule *presenceRule, ruleAction.presenceRules())
-        if (presenceRule->action() != PresenceRule::Retain) {
-            atLeastOnePresenceChange = true;
-            break;
-        }
-
-    if (atLeastOnePresenceChange) {
-        if (numAction > 0) action.append(", ");
-        action += "Availability change";
-         ++numAction;
     }
 
     if (rule->isDefaultRule()) {
         condition += "other rules don't apply";
         ++numCondition;
     } else {
-        if (!ruleCond.getLocationCells().isEmpty()) {
-            if (numCondition > 0) condition.append(" and ");
-            condition.append("on location");
-            ++numCondition;
-        }
-        if (ruleCond.getInternetConnectionMode() != RuleCondition::UndefinedInternetConnectionMode) {
-            if (numCondition > 0) condition.append(" and ");
-            switch (ruleCond.getInternetConnectionMode()) {
-            case RuleCondition::Wlan:
-                condition.append("WLAN");
-                break;
-            case RuleCondition::Gsm:
-                condition.append("mobile");
-                break;
-            default:
-                condition.append("Unrecognized");
-                break;
+        foreach (const QmlBaseRuleEditModel::Description *d, _conditionEditModel->getDescriptions()) {
+            QString summary = d->summary(*rule, emptyString, true);
+            if (!summary.isEmpty()) {
+                if (numCondition > 0) condition.append(" and ");
+                condition += summary;
+                ++numCondition;
             }
-            condition.append(" net connection");
-
-            ++numCondition;
-        }
-        if (!ruleCond.getWlan().isEmpty()) {
-            if (numCondition > 0) condition.append(" and ");
-            condition.append("on WLAN");
-            ++numCondition;
-        }
-        if (ruleCond.getIdleForSecs() >= 0) {
-            if (numCondition > 0) condition.append(" and ");
-            condition.append("idle");
-            ++numCondition;
-        }
-        if (!ruleCond.nfc().getUids().isEmpty()) {
-            if (numCondition > 0) condition.append(" and ");
-            condition.append("NFC");
-            ++numCondition;
-        }
-        if (ruleCond.getChargingState() != RuleCondition::UndefinedChargingState) {
-            if (numCondition > 0) condition.append(" and ");
-            switch (ruleCond.getChargingState()) {
-            case RuleCondition::NotCharging:
-                condition.append("not charging");
-                break;
-            case RuleCondition::Charging:
-                condition.append("charging");
-                break;
-            default:
-                condition.append("charging state unrecognized");
-                break;
-            }
-
-            ++numCondition;
-        }
-        QString timeCondition = getTimeSummaryText(&(rule->condition()), "");
-        if (!timeCondition.isEmpty()) {
-            if (numCondition > 0) condition.append(" and ");
-            condition.append(timeCondition);
-            ++numCondition;
         }
     }
 

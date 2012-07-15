@@ -40,37 +40,37 @@ public:
         return _instance;
     }
 
-    QString timeSummary(const RuleCondition *rule, const QString &nonUsable);
+    QString timeSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
     void timeClear(RuleCondition *rule);
-    QString daysSummaryText(const QSet<int> &days);
-    QString cellLocationSummary(const RuleCondition *rule, const QString &nonUsable);
+    QString daysSummaryText(const QSet<int> &days, bool inListing = false);
+    QString cellLocationSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
     void cellLocationClear(RuleCondition *rule);
-    QString internetConnectionModeSummary(const RuleCondition *rule, const QString &nonUsable);
+    QString internetConnectionModeSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
     void internetConnectionModeClear(RuleCondition *rule);
-    QString wlanSummary(const RuleCondition *rule, const QString &nonUsable);
+    QString wlanSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
     void wlanClear(RuleCondition *rule);
-    QString idleSummary(const RuleCondition *rule, const QString &nonUsable);
+    QString idleSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
     void idleClear(RuleCondition *rule);
-    QString nfcSummary(const RuleCondition *rule, const QString &nonUsable);
+    QString nfcSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
     void nfcClear(RuleCondition *rule);
-    QString chargingSummary(const RuleCondition *rule, const QString &nonUsable);
+    QString chargingSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
     void chargingClear(RuleCondition *rule);
 
-    QString profileSummary(const RuleAction *action, const QString &nonUsable);
+    QString profileSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
     void profileClear(RuleAction *action);
-    QString presenceSummary(const RuleAction *action, const QString &nonUsable);
+    QString presenceSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
     void presenceClear(RuleAction *action);
-    QString flightModeSummary(const RuleAction *action, const QString &nonUsable);
+    QString flightModeSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
     void flightModeClear(RuleAction *action);
-    QString powerSavingModeSummary(const RuleAction *action, const QString &nonUsable);
+    QString powerSavingModeSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
     void powerSavingModeClear(RuleAction *action);
-    QString bluetoothModeSummary(const RuleAction *action, const QString &nonUsable);
+    QString bluetoothModeSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
     void bluetoothModeClear(RuleAction *action);
-    QString cellularModeSummary(const RuleAction *action, const QString &nonUsable);
+    QString cellularModeSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
     void cellularModeClear(RuleAction *action);
-    QString standByScreenModeSummary(const RuleAction *action, const QString &nonUsable);
+    QString standByScreenModeSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
     void standByScreenModeClear(RuleAction *action);
-    QString customActionSummary(const RuleAction *action, const QString &nonUsable);
+    QString customActionSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
     void customActionClear(RuleAction *action);
 };
 

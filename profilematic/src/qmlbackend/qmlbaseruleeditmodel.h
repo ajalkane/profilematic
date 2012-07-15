@@ -32,13 +32,14 @@ class QmlBaseRuleEditModel: public QAbstractListModel
     Q_OBJECT
 
 public:
-    struct Description {
+    class Description {
+    protected:
         QString topic;
         QString qmlEditFile;
         bool visible;
         bool defaultVisible;
         bool initiallyVisible;
-
+    public:
         inline Description(const QString &ptopic, const QString pqmlEditFile, bool pdefaultVisible = false) {
             topic = ptopic;
             qmlEditFile = pqmlEditFile;
@@ -47,9 +48,12 @@ public:
             initiallyVisible = false;
         }
 
-        virtual QString summary(const Rule &) const = 0;
+        virtual QString summary(const Rule &, bool inListing = false) const = 0;
+        virtual QString summary(const Rule &, const QString &notUsed, bool inListing = false) const = 0;
         virtual bool isSet(const Rule &) const = 0;
-        virtual void clear(Rule &) = 0;
+        virtual void clear(Rule &) const = 0;
+
+        friend class QmlBaseRuleEditModel;
     };
 
 private:
@@ -79,6 +83,8 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     Q_INVOKABLE void initializeEdit();
     Q_INVOKABLE void clearEditItem(int index);
+
+    inline const QList<Description *> &getDescriptions() const { return _descriptions; }
 
 public slots:
     void ruleChanged();
