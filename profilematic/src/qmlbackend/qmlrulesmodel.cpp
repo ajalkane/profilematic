@@ -275,6 +275,17 @@ QmlRulesModel::_ruleSummaryText(const Rule &rule) const {
     return summary;
 }
 
+// Simple formatting for summaries shown as list. Individual summaries
+// are expected to start with upper case letter. This will put starting
+// letter to lower, unless it seems to start with abbreviation (like GSM).
+void formatListingSummary(QString &s) {
+    if (s.length() > 1 && s.at(0).isUpper() && s.at(1).isLower()) {
+        if (!s.startsWith("Bluetooth")) {
+            s[0] = s.at(0).toLower();
+        }
+    }
+}
+
 QString
 QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsableRuleString) const {
 
@@ -296,7 +307,11 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
     foreach (const QmlBaseRuleEditModel::Description *d, _actionEditModel->getDescriptions()) {
         QString summary = d->summary(*rule, emptyString, true);
         if (!summary.isEmpty()) {
-            if (numAction > 0) action.append(", ");
+            if (numAction > 0) {
+                formatListingSummary(summary);
+                action.append(", ");
+            }
+
             action += summary;
             ++numAction;
         }
@@ -310,6 +325,7 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
             QString summary = d->summary(*rule, emptyString, true);
             if (!summary.isEmpty()) {
                 if (numCondition > 0) condition.append(" and ");
+                formatListingSummary(summary);
                 condition += summary;
                 ++numCondition;
             }

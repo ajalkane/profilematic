@@ -182,9 +182,9 @@ QmlRuleUtil::internetConnectionModeSummary(const RuleCondition *cond, const QStr
 
     switch (cond->getInternetConnectionMode()) {
     case RuleCondition::Gsm:
-        return "Mobile";
+        return "Mobile net connection";
     case RuleCondition::Wlan:
-        return "WLAN";
+        return "WLAN net connection";
     default:
         return nonUsable;
     }
@@ -238,7 +238,7 @@ QmlRuleUtil::idleSummary(const RuleCondition *cond, const QString &nonUsable, bo
         s.append(nonUsable);
     } else {
         if (inListing) {
-            s.append("idle");
+            s.append("Idle");
         } else {
             s.append(QString("At least for %1 minutes").arg(idleForSecs / 60));
         }
