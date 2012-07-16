@@ -25,24 +25,8 @@
 #include "preferences.h"
 #include "model/rule.h"
 #include "logic/rulesmanager.h"
-#include "logic/conditionmanagerchain.h"
-#include "logic/conditionmanagercharging.h"
-#include "logic/conditionmanagertime.h"
-#include "logic/conditionmanagerlocationcell.h"
-#include "logic/conditionmanagerwlan.h"
-#include "logic/conditionmanageridle.h"
-#include "logic/conditionmanagernfc.h"
-#include "logic/conditionmanagerinternetconnectionmode.h"
-#include "logic/actionchain.h"
-#include "logic/actioncellularmode.h"
-#include "logic/actioncommandline.h"
-#include "logic/actionstandbyscreenmode.h"
-#include "logic/actionbackgroundconnections.h"
-#include "logic/actionflightmode.h"
-#include "logic/actionpowersavingmode.h"
-#include "logic/actionprofile.h"
-#include "logic/actionbluetooth.h"
-#include "logic/presence/actionpresence.h"
+#include "logic/conditionmanagerfactory.h"
+#include "logic/actionfactory.h"
 #include "interface/profilematicinterface.h"
 #include "platform/platformutil.h"
 
@@ -55,32 +39,12 @@
 ConditionManager *
 buildConditionManager() {
     qDebug("Building conditions");
-    ConditionManagerChain *cm = new ConditionManagerChain();
-    cm->add(new ConditionManagerCharging());
-    cm->add(new ConditionManagerTime());
-    cm->add(new ConditionManagerLocationCell());
-    cm->add(new ConditionManagerWlan());
-    cm->add(new ConditionManagerIdle());
-    cm->add(new ConditionManagerNFC());
-    cm->add(new ConditionManagerInternetConnectionMode());
-
-    return cm;
+    return ConditionManagerFactory::create();
 }
 
 Action *
 buildAction(ProfileClient *profileClient) {
-    ActionChain *ac = new ActionChain();
-    ac->add(new ActionProfile(profileClient));
-    ac->add(new ActionFlightMode());
-    ac->add(new ActionPowerSavingMode());
-    ac->add(new ActionBlueTooth());
-    ac->add(new ActionCellularMode());
-    ac->add(new ActionStandByScreenMode());
-    // Modifying background connections do not work, disable until finding working solutions
-    // ac->add(new ActionBackgroundConnections());
-    ac->add(new ActionCommandLine());
-    ac->add(PlatformUtil::instance()->createActionPresence());
-    return ac;
+    return ActionFactory::create(profileClient);
 }
 
 void noLoggingSink(QtMsgType, const char *) {
