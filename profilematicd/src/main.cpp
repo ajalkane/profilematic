@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
     QScopedPointer<ConditionManager> conditionManager(buildConditionManager());
     QScopedPointer<Action> action(buildAction(&profileClient));
     RulesManager rulesManager(&rules, conditionManager.data(), action.data(), &preferences);
-    ProfileMaticInterface interface(&rulesManager, &rules, &preferences);
+    ProfileMaticInterface interface(&rulesManager, &rules, &preferences, &profileClient);
 
     if (interface.init()) {
         fprintf(stderr, "Exiting\n");

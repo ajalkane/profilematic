@@ -24,6 +24,7 @@
 #include "../model/presencerule.h"
 #include "../configuration.h"
 #include "../logic/actioncommandline.h"
+#include "../logic/actionfactory.h"
 #include "../platform/platformutil.h"
 
 #include "profilematicinterface.h"
@@ -31,8 +32,8 @@
 #define PM_OBJECT_NAME "/org/ajalkane/profilematic"
 #define PM_SERVICE_NAME "org.ajalkane.profilematic"
 
-ProfileMaticInterface::ProfileMaticInterface(RulesManager *rulesManager, QList<Rule> *rules, Preferences *preferences, QObject *parent) :
-    QObject(parent), _rulesManager(rulesManager), _rules(rules), _preferences(preferences)
+ProfileMaticInterface::ProfileMaticInterface(RulesManager *rulesManager, QList<Rule> *rules, Preferences *preferences, ProfileClient *profileClient, QObject *parent) :
+    QObject(parent), _rulesManager(rulesManager), _rules(rules), _preferences(preferences), _profileClient(profileClient)
 {
     qDBusRegisterMetaType<Rule>();
     qDBusRegisterMetaType<QList<Rule> >();
@@ -213,6 +214,16 @@ ProfileMaticInterface::runCommandLine(const QString &commandLine) const {
     ruleAction.setCommandLine(commandLine);
     ActionCommandLine action;
     action.activate(QString(), ruleAction);
+}
+
+void
+ProfileMaticInterface::executeAction(const RuleAction &action) {
+    qDebug("ProfileMaticInterface::executeAction");
+    QScopedPointer<Action> actionGuard(ActionFactory::create(_profileClient));
+    Action *actionRunner = actionGuard.data();
+    actionRunner->startRefresh();
+    actionRunner->activate(Rule::IdType(), action);
+    actionRunner->endRefresh();
 }
 
 //// Returns id of created rule or empty if error. A new rule is always

@@ -27,6 +27,7 @@
 #include "../model/rule.h"
 #include "../configuration.h"
 #include "../preferences.h"
+#include "../profileclient.h"
 #include "../logic/rulesmanager.h"
 
 class ProfileMaticInterface : public QObject
@@ -36,9 +37,10 @@ class ProfileMaticInterface : public QObject
     RulesManager   *_rulesManager;
     QList<Rule> *_rules;
     Preferences *_preferences;
+    ProfileClient *_profileClient;
 
 public:
-    explicit ProfileMaticInterface(RulesManager *rulesManager, QList<Rule> *rules, Preferences *preferences, QObject *parent = 0);
+    explicit ProfileMaticInterface(RulesManager *rulesManager, QList<Rule> *rules, Preferences *preferences, ProfileClient *profileClient, QObject *parent = 0);
     virtual ~ProfileMaticInterface();
 
     // Return 0 if success
@@ -74,6 +76,8 @@ public slots:
     // IMPROVE: this D-Bus call should be protected for only to be used by ProfileMatic UI
     void runCommandLine(const QString &commandLine) const;
 
+    // Used for one-time activation of a rule's actions
+    void executeAction(const RuleAction &action);
 private:
     int _findRuleIndexById(const Rule::IdType &id) const;
     void _rulesChanged();
