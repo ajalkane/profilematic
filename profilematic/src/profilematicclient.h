@@ -49,6 +49,7 @@ public:
     bool hasDeviceModeCredential() const;
 
     void testCommandLine(const QString &commandLine);
+    void executeAction(const RuleAction &action) const;
 
     // Returns QDBusError::ErrorType of last call. 0 is no error.
     int lastError() const;

@@ -450,6 +450,18 @@ QmlRulesModel::moveRule(int index, int toIndex) {
     _client->moveRule(r.getRuleId(), toIndex);
 }
 
+void
+QmlRulesModel::executeAction(int index) const {
+    // qDebug("QmlRulesModel::executeAction(%d)", index);
+    if (index < 0 || index >= _rules.count()) {
+        qDebug("QmlRulesModel::executeAction: Invalid index %d", index);
+        return;
+    }
+
+    const Rule &r = _rules.at(index);
+    _client->executeAction(r.action());
+}
+
 bool
 QmlRulesModel::isActive() const {
     return _isActive;

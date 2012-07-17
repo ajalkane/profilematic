@@ -77,7 +77,7 @@ public slots:
     void runCommandLine(const QString &commandLine) const;
 
     // Used for one-time activation of a rule's actions
-    void executeAction(const RuleAction &action);
+    void executeAction(const RuleAction &action) const;
 private:
     int _findRuleIndexById(const Rule::IdType &id) const;
     void _rulesChanged();

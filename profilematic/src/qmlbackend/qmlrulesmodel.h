@@ -109,6 +109,7 @@ public:
     Q_INVOKABLE QString getTimeSummaryText(RuleCondition *condition, const QString &nonUsableTimeString) const;
     Q_INVOKABLE QString getRuleSummaryText(Rule *rule, const QString &nonUsableTimeString) const;
     Q_INVOKABLE void testCommandLine(const QString &commandLine) const;
+    Q_INVOKABLE void executeAction(int index) const;
     Q_INVOKABLE inline bool isMissingDeviceModeCredential() const { return _isMissingDeviceModeCredential; }
 
     bool isActive() const;

@@ -36,6 +36,7 @@ ProfileMaticInterface::ProfileMaticInterface(RulesManager *rulesManager, QList<R
     QObject(parent), _rulesManager(rulesManager), _rules(rules), _preferences(preferences), _profileClient(profileClient)
 {
     qDBusRegisterMetaType<Rule>();
+    qDBusRegisterMetaType<RuleAction>();
     qDBusRegisterMetaType<QList<Rule> >();
     qDBusRegisterMetaType<QStringList>();
     qDBusRegisterMetaType<PresenceRule>();
@@ -217,12 +218,12 @@ ProfileMaticInterface::runCommandLine(const QString &commandLine) const {
 }
 
 void
-ProfileMaticInterface::executeAction(const RuleAction &action) {
+ProfileMaticInterface::executeAction(const RuleAction &action) const {
     qDebug("ProfileMaticInterface::executeAction");
     QScopedPointer<Action> actionGuard(ActionFactory::create(_profileClient));
     Action *actionRunner = actionGuard.data();
     actionRunner->startRefresh();
-    actionRunner->activate(Rule::IdType(), action);
+    actionRunner->activate("temporary", action);
     actionRunner->endRefresh();
 }
 

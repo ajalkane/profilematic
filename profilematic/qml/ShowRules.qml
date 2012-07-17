@@ -392,6 +392,10 @@ Page {
 
         MenuLayout {
             MenuItem {
+                text: "Run rule's actions"
+                onClicked: backendRulesModel.executeAction(contextMenu.selectedRuleIndex)
+            }
+            MenuItem {
                 text: "Copy as new"
                 onClicked: copyAsNewRule(contextMenu.selectedRuleIndex)
             }

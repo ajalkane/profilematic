@@ -26,6 +26,7 @@ ProfileMaticClient::ProfileMaticClient(QObject *parent) :
     QObject(parent), dbus_iface(NULL)
 {
     qDBusRegisterMetaType<Rule>();
+    qDBusRegisterMetaType<RuleAction>();
     qDBusRegisterMetaType<QList<Rule> >();
     qDBusRegisterMetaType<QStringList>();
     qDBusRegisterMetaType<PresenceRule>();
@@ -150,6 +151,15 @@ ProfileMaticClient::hasDeviceModeCredential() const {
 void
 ProfileMaticClient::testCommandLine(const QString &commandLine) {
     /*QDBusReply<QList<Rule> > reply = */ dbus_iface->call("runCommandLine", QVariant::fromValue(commandLine));
+    /*if (!reply.isValid()) {
+        QDBusError e = reply.error();
+        qDebug("updateRule error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());
+    }*/
+}
+
+void
+ProfileMaticClient::executeAction(const RuleAction &action) const {
+    /*QDBusReply<QList<Rule> > reply = */ dbus_iface->call("executeAction", QVariant::fromValue(action));
     /*if (!reply.isValid()) {
         QDBusError e = reply.error();
         qDebug("updateRule error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());
