@@ -8,14 +8,14 @@
     <credential name="TrackerWriteAccess" />
     <for path="/opt/profilematic/bin/profilematicd"/>
   </request>
-  <request>
-    <credential name="mce::DeviceModeControl" />
-    <for path="/opt/profilematic/bin/platformutil"/>
-    <for path="applauncherd-launcher::/usr/bin/applauncherd.bin"/>
-  </request>
   <request context="INSTALL">
     <!-- This is needed to reown configuration file to user from 1.4.0 bug -->
     <credential name="CAP::chown" />
+  </request>
+  <request>
+    <credential name="mce::DeviceModeControl" />
+    <!-- <for path="/opt/profilematic/bin/platformutil" /> -->
+    <for path="applauncherd-launcher::/usr/bin/applauncherd.bin" id="" />
   </request>
 </aegis>
 

@@ -28,14 +28,7 @@
 #define GCONF_STAND_BY_SCREEN_KEY "/system/osso/dsm/display/use_low_power_mode"
 #define GCONF_BACKGROUND_CONNECTIONS_DISABLED_KEY "/system/osso/connectivity/network_type/restricted_mode"
 #define PLATFORMUTIL_APP "/opt/profilematic/bin/platformutil"
-
-int execPlatformApp(const char *parameter) {
-    QStringList args;
-    args << parameter;
-    int ret = QProcess::execute(PLATFORMUTIL_APP, args);
-    qDebug("execPlatformApp(%s) return code %d", parameter, ret);
-    return ret;
-}
+#define FLIGHT_MODE_CMD "invoker --type=m " PLATFORMUTIL_APP
 
 HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
     : PlatformUtil(parent), _pendingCellularMode(-1)
@@ -72,8 +65,12 @@ HarmattanPlatformUtil::flightMode() const {
 void
 HarmattanPlatformUtil::setFlightMode(int flightMode) {
     qDebug("HarmattanPlatformUtil::Setting flightMode to %d", flightMode);
-    const char *par = flightMode == 1 ? "flightModeOn" : "flightModeOff";
-    int ret = execPlatformApp(par);
+    const char *par = flightMode == 1 ? " flightModeOn" : " flightModeOff";
+
+    QString cmd(FLIGHT_MODE_CMD);
+    cmd += par;
+
+    int ret = QProcess::execute(cmd);
     qDebug("HarmattanPlatformUtil::setFlightMode() exec return code %d", ret);
 }
 
@@ -111,12 +108,14 @@ HarmattanPlatformUtil::setPowerSavingMode(int state) {
 
 bool
 HarmattanPlatformUtil::hasDeviceModeCredential() const {
-    int exitCode = execPlatformApp("hasDeviceModeCredential");
-    if (exitCode < 0) {
-        qWarning("Could not query mce::DeviceModeControl");
-        return true;
-    }
-    return exitCode == 0;
+    // Detecting this is a bit harder now as using invoker. Assuming the best.
+    return true;
+    //    int exitCode = execPlatformApp("hasDeviceModeCredential");
+    //    if (exitCode < 0) {
+    //        qWarning("Could not query mce::DeviceModeControl");
+    //        return true;
+    //    }
+    //    return exitCode == 0;
 }
 
 int

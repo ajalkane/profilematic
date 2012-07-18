@@ -1,7 +1,7 @@
 TEMPLATE = app
 CONFIG += console
-CONFIG -= qt
 CONFIG += qmsystem2
+CONFIG += qt-boostable
 
 SOURCES += main.cpp
 

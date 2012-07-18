@@ -8,20 +8,21 @@
 int setFlightMode(bool on) {
     MeeGo::QmDeviceMode deviceMode;
 
-    bool return_value = deviceMode.setMode(on
+    bool returnValue = deviceMode.setMode(on
                                       ? MeeGo::QmDeviceMode::Flight
                                       : MeeGo::QmDeviceMode::Normal);
 
-    qDebug("platformutil::Setting flightMode return_value %d", return_value);
-    return return_value ? 0 : 1;
+    qDebug("platformutil::Setting flightMode return_value %d", returnValue);
+    return returnValue ? 0 : 1;
 }
 
 int hasDeviceModeCredential() {
-    return QProcess::execute("/usr/bin/accli -t mce::DeviceModeControl");
-    // return QProcess::execute("/usr/bin/accli -t mce::TKLockControl");
+    int exitCode = QProcess::execute("/usr/bin/accli -t mce::DeviceModeControl");
+    qDebug("platformutil::hasDeviceModeCredential return value %d", exitCode);
+    return exitCode;
 }
 
-int main(int argc, char *argv[])
+Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
