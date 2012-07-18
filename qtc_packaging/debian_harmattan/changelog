@@ -3,8 +3,9 @@ profilematic (1.7.0) unstable; urgency=low
   * Network connection type condition
   * Charging condition
   * Rules can be deactivated one by one
+  * Rule's actions can be manually activated
   * Custom action sets correct environment so QML applications virtual keyboard works
-  * Idle mode not activated while speaking on phone
+  * Idle condition not activated while speaking on phone
   * Mobile network mode change delayed until no call/data usage
   * On shutdown tries to "restore previous" actions and activates default rule.
   * UI improvement: Rule editing shows only conditions/actions set. New rule editing shows only Time condition and Profile action at first
