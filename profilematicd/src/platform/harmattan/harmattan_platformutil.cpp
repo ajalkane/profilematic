@@ -251,18 +251,16 @@ HarmattanPlatformUtil::_emitRealIdle() {
     qDebug("HarmattanPlatformUtil::_emitRealIdle: a(%d) c(%d) i(%d)", _currentActivity, _currentCellularActivity, _currentIdle);
 
     // Harmattan PR1.2 claims idle mode if on the phone! That's not nice, so this is a work around for that.
-    // Basically idle mode changes are considered only when cellular is inactive.
-    // Note that PR1.2 also seems to return data usage as Cellular::SystemControl::UnknownActivity (-1)
-    // and not as Cellular::SystemControl::Data as it should. Idle mode won't be turned on
-    // until data transfer has stopped - that's probably preferable in most cases.
-    if (_currentCellularActivity == Cellular::SystemControl::Idle) {
-        if (_currentActivity == MeeGo::QmActivity::Inactive && _currentIdle == false) {
-            emit userActivityIdleChanged(true);
-            _currentIdle = true;
-        } else if (_currentActivity == MeeGo::QmActivity::Active && _currentIdle == true) {
-            emit userActivityIdleChanged(false);
-            _currentIdle = false;
-        }
+    // Basically not signaling idle if call is in progress.
+    bool callInProgress = _currentCellularActivity == Cellular::SystemControl::Call
+                       || _currentCellularActivity == Cellular::SystemControl::Signaling;
+
+    if (_currentIdle == false && (!callInProgress && _currentActivity == MeeGo::QmActivity::Inactive)) {
+        _currentIdle = true;
+        emit userActivityIdleChanged(true);
+    } else if (_currentIdle == true && (callInProgress || _currentActivity == MeeGo::QmActivity::Active)) {
+        _currentIdle = false;
+        emit userActivityIdleChanged(false);
     }
 }
 
