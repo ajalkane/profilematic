@@ -6,7 +6,7 @@ ActionBlueTooth::ActionBlueTooth()
 }
 
 bool
-ActionBlueTooth::activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule) {
+ActionBlueTooth::activateDifferent(const Rule::IdType &/*ruleId*/, const RuleAction &rule) {
     qDebug("ActionBlueTooth::activate: %d", rule.getBlueToothMode());
     // Quick hack to get compile on Desktop. Problem fixed in qt-mobility master
     bool activated = true;

@@ -40,7 +40,7 @@ MySelectionDialog {
     }
 
     onStatusChanged: {
-        if (status == DialogStatus.Opening) {
+        if (status === DialogStatus.Opening) {
             selectedIndex = -1
             __selectIndex()
         }

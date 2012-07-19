@@ -41,7 +41,7 @@ MySelectionDialog {
     }
 
     onStatusChanged: {
-        if (status == DialogStatus.Opening) {
+        if (status === DialogStatus.Opening) {
             selectedIndex = -1
             __selectIndex()
         }
@@ -50,7 +50,7 @@ MySelectionDialog {
     function __selectIndex() {
         for (var i = 0; i < blueToothModel.count; i++) {
             var blueToothMode = blueToothModel.get(i).mode
-            if (selectedBlueToothMode == blueToothMode) {
+            if (selectedBlueToothMode === blueToothMode) {
                 selectedIndex = i
             }
         }

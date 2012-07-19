@@ -28,18 +28,10 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profi
     : QAbstractListModel(parent), _isActive(false), _backendError(false), _client(client), _profilesModel(profilesModel),
       _isMissingDeviceModeCredential(false)
 {    
-    _roleToProperty[RuleIdRole]          = "ruleId";
     _roleToProperty[IsDefaultRuleRole]   = "isDefaultRule";
     _roleToProperty[RuleActiveRole]      = "ruleActive";
     _roleToProperty[RuleNameRole]        = "ruleName";
-    _roleToProperty[TimeStartRole]       = "timeStart";
-    _roleToProperty[TimeEndRole]         = "timeEnd";
-    _roleToProperty[DaysRole]            = "daysRole";
-    _roleToProperty[ProfileRole]         = "profile";
-    _roleToProperty[ProfileVolumeRole]   = "profileVolume";
-    _roleToProperty[TimeSummaryRole]     = "timeSummary";
     _roleToProperty[RuleSummaryRole]     = "ruleSummary";
-    _roleToProperty[FlightModeRole]      = "flightMode";
     _roleToProperty[MatchingRole]        = "matching";
 
     setRoleNames(_roleToProperty);
@@ -93,32 +85,14 @@ QmlRulesModel::data(const QModelIndex & index, int role) const {
 
     const Rule &rule = _rules.at(index.row());
     switch (role) {
-    case RuleIdRole:
-        return rule.getRuleId();
     case IsDefaultRuleRole:
         return rule.isDefaultRule();
     case RuleActiveRole:
         return rule.getRuleActive();
     case RuleNameRole:
         return rule.getRuleName();        
-    case TimeStartRole:
-        return rule.condition().getTimeStartQml();
-    case TimeEndRole:
-        return rule.condition().getTimeEndQml();
-    // return rule.getTimeStart();
-    case DaysRole:
-        qDebug("QmlRulesModel::data role 'days' should not be directly accessed");
-        break;
-    case ProfileRole:
-        return rule.action().getProfile();
-    case ProfileVolumeRole:
-        return rule.action().getProfileVolume();
-    case TimeSummaryRole:
-        return getTimeSummaryText(&(rule.condition()), "");
     case RuleSummaryRole:
         return _ruleSummaryText(rule);
-    case FlightModeRole:
-        return rule.action().getFlightMode();
     case MatchingRole:
         return _matchingRuleIds.contains(rule.getRuleId());
     default:

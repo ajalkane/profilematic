@@ -31,7 +31,7 @@ QmlProfilesModel::QmlProfilesModel(ProfileClient *profileClient, Role nameRole, 
 }
 
 void
-QmlProfilesModel::_init(Role nameRole) {
+QmlProfilesModel::_init(Role /*nameRole*/) {
     Q_ASSERT_X(nameRole == ProfileType, "QmlProfileModel", "Only ProfileType role supported at the moment");
 
     _nameToProfile["Don't change"] = "";

@@ -29,7 +29,7 @@ ListModel {
 
     function getProfileToName(profile) {
         for (var i = 0; i < count; ++i) {
-            if (get(i).profile == profile) {
+            if (get(i).profile === profile) {
                 return get(i).name
             }
         }
@@ -37,7 +37,7 @@ ListModel {
     }
 
     function profileHasVolume(profile) {
-        return profile == "General"
+        return profile === "General"
     }
 
     ListElement { profile: "Silent profile"; profileType: "Silent"; name: "SilentN" }

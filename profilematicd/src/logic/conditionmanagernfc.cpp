@@ -51,7 +51,7 @@ ConditionManagerNFC::refresh(const RuleCondition &rule) {
 }
 
 void
-ConditionManagerNFC::matchedRule(const RuleCondition &rule) {
+ConditionManagerNFC::matchedRule(const RuleCondition &/*rule*/) {
 //    _currentRuleCellIds.unite(rule.getLocationCells());
 //    _currentTimeout = qMax(_currentTimeout, rule.getLocationCellsTimeout());
 }
@@ -105,7 +105,7 @@ ConditionManagerNFC::targetDetected(QNearFieldTarget *target) {
 }
 
 void
-ConditionManagerNFC::targetLost(QNearFieldTarget *target) {
+ConditionManagerNFC::targetLost(QNearFieldTarget */*target*/) {
     qDebug("ConditionManagerNFC::targetLostDetected()");
     // QtMobility on N9 seems to have a bug (?), target->uid is empty
     QByteArray uid = _currentNfcUid; // target->uid();

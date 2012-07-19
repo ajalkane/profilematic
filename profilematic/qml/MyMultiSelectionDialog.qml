@@ -115,10 +115,10 @@ CommonDialog {
         property variant oldSelectedIndexes: []
     }
     onStatusChanged: {
-      if (status == DialogStatus.Opening) {
+      if (status === DialogStatus.Opening) {
           selectionListView.positionViewAtIndex(selectedIndexes[0], ListView.Center)
       }
-      if (status == DialogStatus.Open)
+      if (status === DialogStatus.Open)
           backup.oldSelectedIndexes = selectedIndexes
     }
     onRejected: { selectedIndexes = backup.oldSelectedIndexes }
@@ -196,7 +196,7 @@ CommonDialog {
                 objectName: "acceptButton"
                 text: ""
                 onClicked: accept()
-                visible: text != ""
+                visible: text !== ""
                 __dialogButton: true
                 platformStyle: ButtonStyle {inverted: true}
             }
@@ -206,7 +206,7 @@ CommonDialog {
                 objectName: "rejectButton"
                 text: ""
                 onClicked: reject()
-                visible: text != ""
+                visible: text !== ""
                 __dialogButton: true
                 platformStyle: ButtonStyle {inverted: true}
             }

@@ -142,7 +142,7 @@ Page {
         function openWithSelection(selectedProfile) {
             for (var i = 0; i < backendProfilesModel.count; i++) {
                 var profile = backendProfilesModel.getProfile(i)
-                if (selectedProfile == profile) {
+                if (selectedProfile === profile) {
                     selectedIndex = i
                 }
             }

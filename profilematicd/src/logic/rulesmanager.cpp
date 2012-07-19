@@ -45,7 +45,7 @@ RulesManager::refresh() {
 }
 
 void
-RulesManager::_refresh(bool forceActivate) {
+RulesManager::_refresh(bool /*forceActivate*/) {
     qDebug("\n\nREFRESH\n\n");
     _conditionManager->startRefresh();
     _action->startRefresh();

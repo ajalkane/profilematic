@@ -223,7 +223,7 @@ Dialog {
                 id: acceptButton
                 text: ""
                 onClicked: accept()
-                visible: text != ""
+                visible: text !== ""
                 __dialogButton: true
                 platformStyle: ButtonStyle {inverted: true}
             }
@@ -231,7 +231,7 @@ Dialog {
                 id: rejectButton
                 text: ""
                 onClicked: reject()
-                visible: text != ""
+                visible: text !== ""
                 __dialogButton: true
                 platformStyle: ButtonStyle {inverted: true}
             }
@@ -250,7 +250,7 @@ Dialog {
         states: [
             State {
                 name: "__query__visible"
-                when: root.__animationChief == "queryDialog" && (root.status == DialogStatus.Opening || root.status == DialogStatus.Open)
+                when: root.__animationChief == "queryDialog" && (root.status === DialogStatus.Opening || root.status == DialogStatus.Open)
                 PropertyChanges {
                     target: root
                     opacity: 1.0
@@ -258,7 +258,7 @@ Dialog {
             },
             State {
                 name: "__query__hidden"
-                when: root.__animationChief == "queryDialog" && (root.status == DialogStatus.Closing || root.status == DialogStatus.Closed)
+                when: root.__animationChief == "queryDialog" && (root.status === DialogStatus.Closing || root.status == DialogStatus.Closed)
                 PropertyChanges {
                     target: root
                     opacity: 0.0

@@ -40,7 +40,7 @@ MySelectionDialog {
     }
 
     onStatusChanged: {
-        if (status == DialogStatus.Opening) {
+        if (status === DialogStatus.Opening) {
             selectedIndex = -1
             __selectIndex()
         }
@@ -49,7 +49,7 @@ MySelectionDialog {
     function __selectIndex() {
         for (var i = 0; i < flightModel.count; i++) {
             var flightMode = flightModel.get(i).mode
-            if (selectedFlightMode == flightMode) {
+            if (selectedFlightMode === flightMode) {
                 selectedIndex = i
             }
         }

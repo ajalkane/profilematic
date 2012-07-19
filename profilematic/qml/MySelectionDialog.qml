@@ -56,7 +56,7 @@ CommonDialog {
 
             Item {
                 id: delegateItem
-                property bool selected: index == selectedIndex;
+                property bool selected: index === selectedIndex;
 
                 height: root.platformStyle.itemHeight
                 anchors.left: parent.left
@@ -101,7 +101,7 @@ CommonDialog {
         }
 
     onStatusChanged: {
-      if (status == DialogStatus.Opening && selectedIndex >= 0) {
+      if (status === DialogStatus.Opening && selectedIndex >= 0) {
           selectionListView.positionViewAtIndex(selectedIndex, ListView.Center)
       }
     }

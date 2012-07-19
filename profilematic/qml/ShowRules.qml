@@ -46,7 +46,7 @@ Page {
         var component = Qt.createComponent(file)        
         console.log("/createComponent", file)
 
-        if (component.status == Component.Ready) {
+        if (component.status === Component.Ready) {
             console.log("createObject", file)
             var comp = component.createObject(showRules, properties)
             console.log("/createObject")
@@ -70,7 +70,7 @@ Page {
             iconId: "toolbar-view-menu";
             anchors.right: parent.right
 
-            onClicked: (mainMenu.status == DialogStatus.Closed) ? mainMenu.open() : mainMenu.close()
+            onClicked: (mainMenu.status === DialogStatus.Closed) ? mainMenu.open() : mainMenu.close()
 
         }
     }
@@ -158,7 +158,7 @@ Page {
 
             states: State {
                 name: "Selected"
-                when: listView.currentItem != -1
+                when: listView.currentItem !== -1
                 PropertyChanges { target: highlightBar; opacity: 0.8 }
             }
 

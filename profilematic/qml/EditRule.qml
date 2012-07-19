@@ -144,7 +144,7 @@ Page {
             visible: rule.ruleId !== '' //  -1
             iconId: "toolbar-view-menu";
             anchors.right: parent.right
-            onClicked: (editRuleMenu.status == DialogStatus.Closed) ? editRuleMenu.open() : editRuleMenu.close()
+            onClicked: (editRuleMenu.status === DialogStatus.Closed) ? editRuleMenu.open() : editRuleMenu.close()
         }
     }
 

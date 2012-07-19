@@ -104,7 +104,7 @@ Page {
                 }
 
                 Connections {
-                    target: root.status == PageStatus.Active ? backendLocation : null
+                    target: root.status === PageStatus.Active ? backendLocation : null
                     onCurrentCellChanged: {
                         console.log("Current cell changed")
                         if (collectingButton.checked) {

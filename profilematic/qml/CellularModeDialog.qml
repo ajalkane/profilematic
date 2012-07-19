@@ -40,7 +40,7 @@ MySelectionDialog {
     }
 
     onStatusChanged: {
-        if (status == DialogStatus.Opening) {
+        if (status === DialogStatus.Opening) {
             selectedIndex = -1
             __selectIndex()
         }
@@ -49,7 +49,7 @@ MySelectionDialog {
     function __selectIndex() {
         for (var i = 0; i < cellularModel.count; i++) {
             var cellularMode = cellularModel.get(i).mode
-            if (selectedCellularMode == cellularMode) {
+            if (selectedCellularMode === cellularMode) {
                 selectedIndex = i
             }
         }

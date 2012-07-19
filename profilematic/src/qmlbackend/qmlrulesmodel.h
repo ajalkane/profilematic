@@ -72,20 +72,10 @@ class QmlRulesModel: public QAbstractListModel
 public:
     // IMPROVE: many of these roles are really not used anymore. Clean-up.
     enum RuleRoles {
-        RuleIdRole = Qt::UserRole + 1,
-        IsDefaultRuleRole,
+        IsDefaultRuleRole = Qt::UserRole + 1,
         RuleActiveRole,
         RuleNameRole,
-        TimeStartRole,
-        TimeEndRole,
-        // This is a dummy role and can not be accessed/set using data/setData.
-        // Instead getDayIndices/setDayIndices must be used.
-        DaysRole,
-        ProfileRole,
-        ProfileVolumeRole,
-        TimeSummaryRole,
         RuleSummaryRole,
-        FlightModeRole,
         MatchingRole
     };
 
