@@ -79,7 +79,7 @@ ConditionManagerNFC::_monitorNfc(bool monitor) {
 
 void
 ConditionManagerNFC::targetDetected(QNearFieldTarget *target) {
-    qDebug("ConditionManagerNFC::targetDetected()");
+    qDebug("%s ConditionManagerNFC::targetDetected()", qPrintable(QDateTime::currentDateTime().toString()));
     QByteArray uid = target->uid();
     _currentNfcUid = uid;
     QString uidStr(uid.toHex());
@@ -106,7 +106,7 @@ ConditionManagerNFC::targetDetected(QNearFieldTarget *target) {
 
 void
 ConditionManagerNFC::targetLost(QNearFieldTarget */*target*/) {
-    qDebug("ConditionManagerNFC::targetLostDetected()");
+    qDebug("%s ConditionManagerNFC::targetLostDetected()", qPrintable(QDateTime::currentDateTime().toString()));
     // QtMobility on N9 seems to have a bug (?), target->uid is empty
     QByteArray uid = _currentNfcUid; // target->uid();
     QString uidStr(uid.toHex());
