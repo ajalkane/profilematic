@@ -252,13 +252,16 @@ HarmattanPlatformUtil::_emitRealIdle() {
 
     // Harmattan PR1.2 claims idle mode if on the phone! That's not nice, so this is a work around for that.
     // Basically not signaling idle if call is in progress.
-    bool callInProgress = _currentCellularActivity == Cellular::SystemControl::Call
-                       || _currentCellularActivity == Cellular::SystemControl::Signaling;
-
-    if (_currentIdle == false && (!callInProgress && _currentActivity == MeeGo::QmActivity::Inactive)) {
+    // "RealIdle" is designed to fulfill following special cases:
+    // 1) If call is on-going, will not go from active to "RealIdle"
+    // 2) If idle and call incoming, will not exit "RealIdle".
+    // The reasoning for case 2) is: if idle is used for example as a "night time" rule to keep phone silent,
+    // you don't want to exit "realIdle" because someone tries calling. So realIdle is only exited
+    // if idle is active.
+    if (_currentIdle == false && (_currentCellularActivity != Cellular::SystemControl::Call && _currentActivity == MeeGo::QmActivity::Inactive)) {
         _currentIdle = true;
         emit userActivityIdleChanged(true);
-    } else if (_currentIdle == true && (callInProgress || _currentActivity == MeeGo::QmActivity::Active)) {
+    } else if (_currentIdle == true && (_currentActivity == MeeGo::QmActivity::Active)) {
         _currentIdle = false;
         emit userActivityIdleChanged(false);
     }
