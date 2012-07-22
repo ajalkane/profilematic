@@ -71,7 +71,7 @@ Page {
      }
     function addCurrentWlan() {
         var wlan = condition.wlan
-        var currentWlan = wlaninfo.nameIfUsable // TODObackendLocation.currentCell
+        var currentWlan = wlaninfo.nameIfUsable
         if (currentWlan !== '') {
             if (wlan.length < maxWlans) {
                 var xPos = wlanNamesFlickable.contentX

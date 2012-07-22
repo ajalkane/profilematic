@@ -67,7 +67,6 @@ QmlBaseRuleEditModel::data(const QModelIndex & index, int role) const {
 void
 QmlBaseRuleEditModel::ruleChanged() {
     qDebug("QmlBaseRuleEditModel::ruleChanged() _descriptions.size() = %d", _descriptions.size());
-    // TODO recalculate summaries
 
     recalculateVisible();
 }

@@ -55,7 +55,6 @@ public:
 
     int rowCount(const QModelIndex &parent) const;
 
-    // TODO check if having only RuleAction reference is enough?
     RuleAction *action() const;
     void setAction(RuleAction *action);
 signals:

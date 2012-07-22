@@ -103,7 +103,6 @@ public:
 };
 
 Q_DECLARE_METATYPE(Rule)
-// TODO this needs cleaning up
 Q_DECLARE_METATYPE(QList<Rule>)
 
 // Marshall the Rule data into a D-Bus argument
