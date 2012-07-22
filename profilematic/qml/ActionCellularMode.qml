@@ -86,6 +86,11 @@ Page {
 //                    }
 //                }
 //            }
+            LabelHelp {
+                text: "Changes are always delayed until the connection is idle. "
+                      + "This is meant to ensure that an ongoing call or data transfer is not aborted because of the change."
+            }
+
         }
     }
 
