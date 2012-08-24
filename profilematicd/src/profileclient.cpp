@@ -113,10 +113,17 @@ ProfileClient::getProfileVolume(const QString &profile) const {
     QDBusInterface dbus_iface(PROFILED_SERVICE, PROFILED_PATH,
                               PROFILED_INTERFACE);
 
-    QDBusReply<int> reply = dbus_iface.call(PROFILED_GET_VALUE, profile, PROFILED_VOLUME_VALUE);
+    QDBusReply<QString> reply = dbus_iface.call(PROFILED_GET_VALUE, profile, PROFILED_VOLUME_VALUE);
 
     if (reply.isValid()) {
-        return reply.value();
+        QString value = reply.value();
+        bool isOk = false;
+        int volume = value.toInt(&isOk);
+        if (isOk) {
+            return volume;
+        } else {
+            qDebug("ProfileClient::getProfileVolume returned non-int for profile %s: %s", qPrintable(profile), qPrintable(value));
+        }
     } else {
         qDebug("ProfileClient::getProfileVolume returned invalid reply for profile %s", qPrintable(profile));
     }

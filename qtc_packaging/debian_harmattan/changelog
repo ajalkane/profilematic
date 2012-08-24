@@ -1,3 +1,8 @@
+profilematic (1.7.1) unstable; urgency=low
+  * Fix: Restoring of profile volume
+
+ -- Arto Jalkanen <ajalkane@gmail.com>  Fri, 24 Aug 2012 23:01:00 +0300
+
 profilematic (1.7.0) unstable; urgency=low
   * NFC condition
   * Network connection type condition
