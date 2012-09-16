@@ -1,3 +1,8 @@
+profilematic (1.7.2) unstable; urgency=low
+  * Fix: Internet connection mode
+
+ -- Arto Jalkanen <ajalkane@gmail.com>  Fri, 15 Sep 2012 23:21:00 +0300
+
 profilematic (1.7.1) unstable; urgency=low
   * Fix: Restoring of profile volume
 
