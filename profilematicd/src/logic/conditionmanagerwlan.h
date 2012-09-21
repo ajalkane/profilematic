@@ -54,7 +54,7 @@ public:
     virtual ~ConditionManagerWlan();
 
     virtual void startRefresh();
-    virtual bool refresh(const RuleCondition &rule);
+    virtual bool refresh(const Rule::IdType &, const RuleCondition &rule);
     virtual void matchedRule(const RuleCondition &rule);
     virtual void endRefresh();
 

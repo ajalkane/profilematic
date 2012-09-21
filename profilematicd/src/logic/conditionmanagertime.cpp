@@ -51,7 +51,7 @@ ConditionManagerTime::endRefresh() {
 }
 
 bool
-ConditionManagerTime::refresh(const RuleCondition &rule) {
+ConditionManagerTime::refresh(const Rule::IdType &, const RuleCondition &rule) {
     return _refresh(rule, _refreshTime);
 }
 

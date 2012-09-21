@@ -316,6 +316,7 @@ Configuration::_writeNfcCondition(QSettings &s, const RuleConditionNFC &condNfc)
         QString uidStr(nfcUid.toHex());
         s.setArrayIndex(row);
         s.setValue("nfcUid", uidStr);
+        row++;
     }
 
     s.endArray();

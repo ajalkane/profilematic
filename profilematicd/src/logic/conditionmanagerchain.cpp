@@ -42,11 +42,11 @@ ConditionManagerChain::startRefresh() {
 }
 
 bool
-ConditionManagerChain::refresh(const RuleCondition &rule) {
+ConditionManagerChain::refresh(const Rule::IdType &ruleId, const RuleCondition &rule) {
     QList<ConditionManager *>::const_iterator i = _conditionManagers.constBegin();
     for (; i != _conditionManagers.constEnd(); ++i) {
         ConditionManager *cm = *i;
-        if (!cm->refresh(rule)) {
+        if (!cm->refresh(ruleId, rule)) {
             return false;
         }
     }

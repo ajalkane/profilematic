@@ -14,7 +14,7 @@ ConditionManagerCharging::startRefresh() {
 }
 
 bool
-ConditionManagerCharging::refresh(const RuleCondition &condition) {
+ConditionManagerCharging::refresh(const Rule::IdType &, const RuleCondition &condition) {
     RuleCondition::ChargingState chargingState = condition.getChargingState();
     if (chargingState == RuleCondition::UndefinedChargingState) {
         qDebug("ConditionManagerCharging charging state not set");

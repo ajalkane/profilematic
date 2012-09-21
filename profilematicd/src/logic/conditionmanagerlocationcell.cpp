@@ -42,7 +42,7 @@ ConditionManagerLocationCell::startRefresh() {
 }
 
 bool
-ConditionManagerLocationCell::refresh(const RuleCondition &rule) {
+ConditionManagerLocationCell::refresh(const Rule::IdType &, const RuleCondition &rule) {
     const QSet<int> &cellIds = rule.getLocationCells();
     if (cellIds.isEmpty()) {
         qDebug("ConditionManagerLocationCell::refresh cellIds is empty, matches");
