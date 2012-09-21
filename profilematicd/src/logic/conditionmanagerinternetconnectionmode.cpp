@@ -21,7 +21,7 @@ RuleCondition::InternetConnectionMode mapNetworkMode(QNetworkConfiguration::Bear
 }
 
 bool
-ConditionManagerInternetConnectionMode::refresh(const RuleCondition &condition) {
+ConditionManagerInternetConnectionMode::refresh(const Rule::IdType &, const RuleCondition &condition) {
     if (condition.getInternetConnectionMode() == RuleCondition::UndefinedInternetConnectionMode) {
         return true;
     }

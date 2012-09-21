@@ -46,7 +46,7 @@ public:
     ConditionManagerTime(QObject *parent = 0);
 
     virtual void startRefresh();
-    virtual bool refresh(const RuleCondition &rule);
+    virtual bool refresh(const Rule::IdType &, const RuleCondition &rule);
     virtual void endRefresh();
 
     // These functions only needed for unit tests

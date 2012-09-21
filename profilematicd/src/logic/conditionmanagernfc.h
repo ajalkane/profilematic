@@ -20,6 +20,8 @@
 #define CONDITIONMANAGERNFC_H
 
 #include <QNearFieldManager>
+#include <QSet>
+#include <QHash>
 
 QTM_USE_NAMESPACE
 
@@ -32,8 +34,10 @@ class ConditionManagerNFC : public ConditionManager {
     // QtMobility on N9 seems to have a bug (?), on targetLost the target->uid is empty.
     // So we have to cache the current nfc uid.
     QByteArray _currentNfcUid;
-    QSet<QByteArray> _currentTogglingNfcUids;
-    QSet<QByteArray> _currentNonTogglingNfcUids;
+    QSet<Rule::IdType> _currentToggledRules;
+//    QSet<QByteArray> _currentTogglingNfcUids;
+//    QSet<QByteArray> _currentNonTogglingNfcUids;
+    QHash<Rule::IdType, QSet<QByteArray> > _watchedTogglingNfcUidsByRuleId;
     QSet<QByteArray> _watchedNonTogglingNfcUids;
     QSet<QByteArray> _watchedTogglingNfcUids;
 
@@ -42,7 +46,7 @@ public:
     ConditionManagerNFC();
 
     virtual void startRefresh();
-    virtual bool refresh(const RuleCondition &rule);
+    virtual bool refresh(const Rule::IdType &, const RuleCondition &rule);
     virtual void matchedRule(const RuleCondition &rule);
     virtual void endRefresh();
 

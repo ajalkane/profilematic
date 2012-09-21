@@ -103,7 +103,7 @@ ConditionManagerWlan::startRefresh() {
 }
 
 bool
-ConditionManagerWlan::refresh(const RuleCondition &rule) {
+ConditionManagerWlan::refresh(const Rule::IdType &, const RuleCondition &rule) {
     const QSet<QString> &wlanNames = rule.getWlan();
     if (wlanNames.isEmpty()) {
         qDebug("ConditionManagerWlan::refresh wlanNames is empty, matches");

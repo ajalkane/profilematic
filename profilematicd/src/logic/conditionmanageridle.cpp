@@ -30,7 +30,7 @@ ConditionManagerIdle::startRefresh() {
 }
 
 bool
-ConditionManagerIdle::refresh(const RuleCondition &condition) {
+ConditionManagerIdle::refresh(const Rule::IdType &, const RuleCondition &condition) {
     int idleForSecs = condition.getIdleForSecs();
     if (idleForSecs < 0) {
         qDebug("ConditionManagerIdle not set %d", idleForSecs);
