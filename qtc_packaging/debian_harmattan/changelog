@@ -1,7 +1,8 @@
 profilematic (1.7.2) unstable; urgency=low
   * Fix: Internet connection mode
+  * Fix: NFC condition with multiple tags. Saving multiple tags fixed. Toggling with multiple tags fixed.
 
- -- Arto Jalkanen <ajalkane@gmail.com>  Fri, 15 Sep 2012 23:21:00 +0300
+ -- Arto Jalkanen <ajalkane@gmail.com>  Fri, 21 Sep 2012 22:00:00 +0300
 
 profilematic (1.7.1) unstable; urgency=low
   * Fix: Restoring of profile volume
