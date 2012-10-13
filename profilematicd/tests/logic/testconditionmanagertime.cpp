@@ -34,7 +34,7 @@ TestConditionManagerTime::_refresh(ConditionManagerTime &cm, const QList<Rule> &
     cm.startRefresh();
     QList<Rule>::const_iterator firstMatchingRule = rules.constBegin();
     for (; firstMatchingRule != rules.constEnd(); ++firstMatchingRule) {
-        bool isMatching = cm.refresh(*firstMatchingRule);
+        bool isMatching = cm.refresh(firstMatchingRule->getRuleId(), firstMatchingRule->condition());
         if (isMatching) {
             break;
         }
@@ -48,7 +48,7 @@ TestConditionManagerTime::_refresh(ConditionManagerTime &cm, const QList<Rule> &
     cm.startRefresh(now);
     QList<Rule>::const_iterator firstMatchingRule = rules.constBegin();
     for (; firstMatchingRule != rules.constEnd(); ++firstMatchingRule) {
-        bool isMatching = cm.refresh(*firstMatchingRule);
+        bool isMatching = cm.refresh(firstMatchingRule->getRuleId(), firstMatchingRule->condition());
         if (isMatching) {
             break;
         }
@@ -75,8 +75,8 @@ TestConditionManagerTime::refresh_basicTestsTimer() {
 
     // TODO this is not basic test, but exceptional use case
     // Check that if unusable day, not used, and not matching
-    rule1.setTimeStart(QTime::currentTime());
-    rule1.setTimeEnd(QTime::currentTime());
+    rule1.condition().setTimeStart(QTime::currentTime());
+    rule1.condition().setTimeEnd(QTime::currentTime());
     rules << rule1;
     match = _refresh(cm, rules);
     QCOMPARE(cm.timer()->isActive(), false);
@@ -93,9 +93,9 @@ TestConditionManagerTime::refresh_basicTestsTimer() {
     // Match to next start day
     // Tuesday
     QDateTime now = QDateTime::fromString("27.09.2011 22:00", "dd.MM.yyyy hh:mm");
-    rule1.setDays(_allDays);
-    rule1.setTimeStart(now.addSecs(100).time());
-    rule1.setTimeEnd(now.addSecs(200).time());
+    rule1.condition().setDays(_allDays);
+    rule1.condition().setTimeStart(now.addSecs(100).time());
+    rule1.condition().setTimeEnd(now.addSecs(200).time());
     rules[0] = rule1;
     match = _refresh(cm, rules, now);
     QCOMPARE((int)cm.timer()->lastError(), 0);
@@ -105,9 +105,9 @@ TestConditionManagerTime::refresh_basicTestsTimer() {
     QCOMPARE(cm.minimumIntervalMsec(), 60 * 1000);
 
     // Match to next day
-    rule1.setDays(_allDays);
-    rule1.setTimeStart(now.addSecs(-100).time());
-    rule1.setTimeEnd(now.addSecs(-50).time());
+    rule1.condition().setDays(_allDays);
+    rule1.condition().setTimeStart(now.addSecs(-100).time());
+    rule1.condition().setTimeEnd(now.addSecs(-50).time());
     rules[0] = rule1;
     match = _refresh(cm, rules, now);
     QVERIFY(cm.timer()->isActive() == true);
@@ -127,9 +127,9 @@ TestConditionManagerTime::refresh_basicTestsMatching() {
     ConditionManagerTime cm;
 
     // Match to next end day
-    rule1.setDays(_allDays);
-    rule1.setTimeStart(now.addSecs(-100).time());
-    rule1.setTimeEnd(now.addSecs(100).time());
+    rule1.condition().setDays(_allDays);
+    rule1.condition().setTimeStart(now.addSecs(-100).time());
+    rule1.condition().setTimeEnd(now.addSecs(100).time());
     rules << rule1;
     match = _refresh(cm, rules, now);
     QCOMPARE(cm.timer()->isActive(), true);
@@ -145,9 +145,9 @@ TestConditionManagerTime::refresh_basicTestsMatching() {
     rules.clear();
     // Tuesday
     days.insert(1);
-    rule1.setDays(days);
-    rule1.setTimeStart(now.time());
-    rule1.setTimeEnd(now.addSecs(-60).time());
+    rule1.condition().setDays(days);
+    rule1.condition().setTimeStart(now.time());
+    rule1.condition().setTimeEnd(now.addSecs(-60).time());
     rules << rule1;
     match = _refresh(cm, rules, now);
     QCOMPARE(cm.timer()->isActive(), true);
@@ -162,10 +162,10 @@ TestConditionManagerTime::refresh_basicTestsMatching() {
     days.clear();
     rules.clear();
     days.insert(1);
-    rule1.setDays(days);
+    rule1.condition().setDays(days);
     // startTime is on tuesday, 22:00
-    rule1.setTimeStart(now.addSecs(-8 * 60 * 60).time());
-    rule1.setTimeEnd(now.addSecs(60).time());
+    rule1.condition().setTimeStart(now.addSecs(-8 * 60 * 60).time());
+    rule1.condition().setTimeEnd(now.addSecs(60).time());
     rules << rule1;
     match = _refresh(cm, rules, now);
     QCOMPARE((int)cm.timer()->lastError(), 0);
@@ -181,9 +181,9 @@ TestConditionManagerTime::refresh_basicTestsMatching() {
     rules.clear();
     // Tuesday
     days.insert(1);
-    rule1.setDays(days);
-    rule1.setTimeStart(now.time());
-    rule1.setTimeEnd(now.time());
+    rule1.condition().setDays(days);
+    rule1.condition().setTimeStart(now.time());
+    rule1.condition().setTimeEnd(now.time());
     rules << rule1;
     match = _refresh(cm, rules, now);
     QCOMPARE(cm.timer()->isActive(), true);
@@ -205,9 +205,9 @@ TestConditionManagerTime::refresh_dayTimeTests() {
 
     // Check a rule with one day selected, with time 1 minute after now
     days << 1; // Tuesday
-    rule1.setDays(days);
-    rule1.setTimeStart(now.time().addSecs(60));
-    rule1.setTimeEnd(now.time().addSecs(60));
+    rule1.condition().setDays(days);
+    rule1.condition().setTimeStart(now.time().addSecs(60));
+    rule1.condition().setTimeEnd(now.time().addSecs(60));
     rules.clear();
     rules << rule1;
 
@@ -217,8 +217,8 @@ TestConditionManagerTime::refresh_dayTimeTests() {
     QCOMPARE(cm.minimumIntervalMsec(), 60 * 1000);
 
     // Then try with a time that is a 2 minute before. In that case wakeup should go to next week.
-    rules.first().setTimeStart(now.time().addSecs(-120));
-    rules.first().setTimeEnd(now.time().addSecs(-60));
+    rules.first().condition().setTimeStart(now.time().addSecs(-120));
+    rules.first().condition().setTimeEnd(now.time().addSecs(-60));
     match = _refresh(cm, rules, now);
     QVERIFY(match == 0);
     QCOMPARE(cm.minimumIntervalMsec(), (7 * 24 * 60 * 60 - 2*60) * 1000);
@@ -236,12 +236,12 @@ TestConditionManagerTime::refresh_multiRuleTests() {
     ConditionManagerTime cm;
 
     // Check that if rules equal, the first one matching (in order) is used
-    rule1.setDays(_allDays);
-    rule1.setTimeStart(now.addSecs(120).time());
-    rule1.setTimeEnd(now.addSecs(180).time());
-    rule2.setDays(_allDays);
-    rule2.setTimeStart(rule1.getTimeStart());
-    rule2.setTimeEnd(rule1.getTimeEnd());
+    rule1.condition().setDays(_allDays);
+    rule1.condition().setTimeStart(now.addSecs(120).time());
+    rule1.condition().setTimeEnd(now.addSecs(180).time());
+    rule2.condition().setDays(_allDays);
+    rule2.condition().setTimeStart(rule1.condition().getTimeStart());
+    rule2.condition().setTimeEnd(rule1.condition().getTimeEnd());
 
     rules << rule1 << rule2;
 
@@ -264,12 +264,12 @@ TestConditionManagerTime::refresh_multiRuleTestsMatching() {
 
     // Check that if several rules fall into same time window, the first one matches.
     // IMPROVE this kind of test belongs to RulesManager unit tests, which don't exist yet
-    rule1.setDays(_allDays);
-    rule1.setTimeStart(now.addSecs(-60).time());
-    rule1.setTimeEnd(now.addSecs(60).time());
-    rule2.setDays(_allDays);
-    rule2.setTimeStart(rule1.getTimeStart());
-    rule2.setTimeEnd(rule1.getTimeEnd());
+    rule1.condition().setDays(_allDays);
+    rule1.condition().setTimeStart(now.addSecs(-60).time());
+    rule1.condition().setTimeEnd(now.addSecs(60).time());
+    rule2.condition().setDays(_allDays);
+    rule2.condition().setTimeStart(rule1.condition().getTimeStart());
+    rule2.condition().setTimeEnd(rule1.condition().getTimeEnd());
 
     rules << rule1 << rule2;
 
@@ -292,9 +292,9 @@ TestConditionManagerTime::refreshNeeded_signalTest() {
     ConditionManagerTime cm;
 
     days << 1;
-    rule.setDays(days);
-    rule.setTimeStart(now.addSecs(1).time());
-    rule.setTimeEnd(now.addSecs(1).time());
+    rule.condition().setDays(days);
+    rule.condition().setTimeStart(now.addSecs(1).time());
+    rule.condition().setTimeEnd(now.addSecs(1).time());
 
     rules << rule;
 

@@ -22,8 +22,8 @@
 namespace {
     class DummyConditionManager : public ConditionManager {
     public:
-        QList<Rule> matchingRules;        
-        QList<Rule> refreshCalledWithRules;
+        QList<Rule::IdType> matchingRules;
+        QList<Rule::IdType> refreshCalledWithRules;
         bool refreshCalled;
         bool emitRefreshNeeded;
 
@@ -33,26 +33,26 @@ namespace {
             }
         }
 
-        virtual bool refresh(const Rule &rule) {
-            refreshCalledWithRules << rule;
+        virtual bool refresh(const Rule::IdType &ruleId, const RuleCondition &rule) {
+            refreshCalledWithRules << ruleId;
             refreshCalled = true;
-            return matchingRules.contains(rule);
+            return matchingRules.contains(ruleId);
         }
     };    
 }
 
-const Rule *
-refresh(ConditionManager &cm, const QList<Rule> &rules) {
+const Rule::IdType *
+refresh(ConditionManager &cm, const QList<Rule::IdType> &ruleIds) {
     cm.startRefresh();
-    QList<Rule>::const_iterator firstMatchingRule = rules.constBegin();
-    for (; firstMatchingRule != rules.constEnd(); ++firstMatchingRule) {
-        bool isMatching = cm.refresh(*firstMatchingRule);
+    QList<Rule::IdType>::const_iterator firstMatchingRuleId = ruleIds.constBegin();
+    for (; firstMatchingRuleId != ruleIds.constEnd(); ++firstMatchingRuleId) {
+        bool isMatching = cm.refresh(*firstMatchingRuleId, RuleCondition());
         if (isMatching) {
             break;
         }
     }
     cm.endRefresh();
-    return firstMatchingRule != rules.constEnd() ? &(*firstMatchingRule) : 0;
+    return firstMatchingRuleId != ruleIds.constEnd() ? &(*firstMatchingRuleId) : 0;
 }
 
 TestConditionManagerChain::TestConditionManagerChain() {
@@ -64,17 +64,14 @@ TestConditionManagerChain::refresh_withNoMatches() {
     DummyConditionManager *cm2 = new DummyConditionManager;
     DummyConditionManager *cm3 = new DummyConditionManager;
     DummyConditionManager *cm4 = new DummyConditionManager;
-    Rule rule1;
-    Rule rule2;
-    Rule rule3;
-    rule1.setRuleId("1");
-    rule2.setRuleId("2");
-    rule3.setRuleId("3");
+    Rule::IdType rule1("1");
+    Rule::IdType rule2("2");
+    Rule::IdType rule3("3");
 
-    QList<Rule> expectCalled1;
-    QList<Rule> expectCalled2;
-    QList<Rule> expectCalled3;
-    QList<Rule> expectCalled4;
+    QList<Rule::IdType> expectCalled1;
+    QList<Rule::IdType> expectCalled2;
+    QList<Rule::IdType> expectCalled3;
+    QList<Rule::IdType> expectCalled4;
 
     expectCalled1 << rule1 << rule2 << rule3;
     expectCalled2 << rule1 << rule2;
@@ -90,7 +87,7 @@ TestConditionManagerChain::refresh_withNoMatches() {
     cmc.add(cm3);
     cmc.add(cm4);
 
-    const Rule *match = refresh(cmc, expectCalled1);
+    const Rule::IdType *match = refresh(cmc, expectCalled1);
 
     QCOMPARE(cm1->refreshCalled, true);
     QCOMPARE(cm1->refreshCalledWithRules, expectCalled1);
@@ -111,15 +108,12 @@ void
 TestConditionManagerChain::refresh_withMatches() {
     DummyConditionManager *cm1 = new DummyConditionManager;
     DummyConditionManager *cm2 = new DummyConditionManager;
-    Rule rule1;
-    Rule rule2;
-    Rule rule3;
-    rule1.setRuleId("1");
-    rule2.setRuleId("2");
-    rule3.setRuleId("3");
+    Rule::IdType rule1("1");
+    Rule::IdType rule2("2");
+    Rule::IdType rule3("3");
 
-    QList<Rule> expectCalled1;
-    QList<Rule> expectCalled2;
+    QList<Rule::IdType> expectCalled1;
+    QList<Rule::IdType> expectCalled2;
 
     cm1->matchingRules << rule1 << rule2 << rule3;
     cm2->matchingRules << rule2;
@@ -131,7 +125,7 @@ TestConditionManagerChain::refresh_withMatches() {
     cmc.add(cm1);
     cmc.add(cm2);
 
-    const Rule *match = refresh(cmc, expectCalled1);
+    const Rule::IdType *match = refresh(cmc, expectCalled1);
 
     QCOMPARE(cm1->refreshCalled, true);
     QCOMPARE(cm1->refreshCalledWithRules, expectCalled1);
@@ -148,7 +142,7 @@ TestConditionManagerChain::refreshNeeded_signalTest() {
     DummyConditionManager *cm2 = new DummyConditionManager;
     SignalCounter signalTarget;
     ConditionManagerChain cmc;
-    QList<Rule> rules;
+    QList<Rule::IdType> ruleIds;
 
     cm1->emitRefreshNeeded = true;
     cm2->emitRefreshNeeded = true;
@@ -158,6 +152,6 @@ TestConditionManagerChain::refreshNeeded_signalTest() {
     connect(&cmc, SIGNAL(refreshNeeded()), &signalTarget, SLOT(onSignal()));
 
     QCOMPARE(signalTarget.numSignal, 0);
-    refresh(cmc, rules);
+    refresh(cmc, ruleIds);
     QCOMPARE(signalTarget.numSignal, 2);
 }
