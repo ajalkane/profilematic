@@ -311,9 +311,9 @@ TestConditionManagerTime::refreshNeeded_signalTest() {
     QCOMPARE(cm.timer()->isActive(), true);
     QCOMPARE(cm.minimumIntervalMsec(), 1 * 1000);
 
-    // Wait for 2 seconds, the sginal should be fired by then.
+    // Wait for 2 seconds, the signal should be fired by then.
     qDebug("Waiting 2 * 1000");
-    QTest::qWait(2 * 1000);
+    QTest::qWait(5 * 1000);
 
     QCOMPARE(signalTarget.numSignal, 1);
 

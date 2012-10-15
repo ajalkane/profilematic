@@ -23,17 +23,15 @@
 #include <QTime>
 //#include <QTimer>
 #include <QPair>
-#include <QSystemAlignedTimer>
 
-QTM_USE_NAMESPACE
-
+#include "../util/systemalignedtimer.h"
 #include "conditionmanager.h"
 
 class ConditionManagerTime : public ConditionManager
 {
     typedef ConditionManager super;
     // QTimer _timer;
-    QSystemAlignedTimer _timer;
+    SystemAlignedTimer _timer;
     int _timerIntervalMaxAddition;
     QDateTime _nextNearestDateTime;
     QDateTime _refreshTime;
@@ -50,7 +48,7 @@ public:
     virtual void endRefresh();
 
     // These functions only needed for unit tests
-    const QSystemAlignedTimer *timer() const {
+    const SystemAlignedTimer *timer() const {
         return &_timer;
     }
     // Minimum interval in msecs
