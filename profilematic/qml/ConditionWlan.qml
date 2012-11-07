@@ -18,7 +18,8 @@
 **/
 import QtQuick 1.1
 import com.nokia.meego 1.0
-import QtMobility.systeminfo 1.1
+import profilematic 1.0
+// import QtMobility.systeminfo 1.1
 import Rule 1.0
 import "UIConstants.js" as UIConstants
 
@@ -53,6 +54,9 @@ Page {
            }
 
            function setNameIfUsable() {
+               console.log("ConditionWlan: networkStatus: " + networkStatus)
+               console.log("ConditionWlan: mode: " + mode)
+               console.log("ConditionWlan: networkName: " + networkName)
                nameIfUsable = (networkStatus == "Connected" && mode == 4 ? networkName : "")
            }
 

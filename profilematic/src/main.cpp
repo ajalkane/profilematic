@@ -37,6 +37,7 @@
 #include "qmlbackend/qmlruleutil.h"
 #include "qmlbackend/qmllocation.h"
 #include "qmlbackend/nfc/qmlnfcmobility.h"
+#include "qmlbackend/networkinfo/qmlnetworkinfo.h"
 
 #include "qmlapplicationviewer.h"
 
@@ -99,6 +100,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<RuleAction>("Rule", 1, 0, "RuleAction");
     qmlRegisterType<RuleConditionNFC>("Rule", 1, 0, "RuleConditionNFC");
     qmlRegisterType<PresenceRule>("profilematic", 1, 0, "PresenceRule");
+    qmlRegisterType<QmlNetworkInfo>("profilematic", 1, 0, "NetworkInfo");
 #ifdef MEEGO_EDITION_HARMATTAN
     qmlRegisterType<QmlPresenceModelImpl>("profilematic", 1, 0, "AccountsModel");
 #else
