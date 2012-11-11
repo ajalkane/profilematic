@@ -71,7 +71,8 @@ SOURCES += src/main.cpp \
     src/logic/conditionmanagerinternetconnectionmode.cpp \
     src/logic/conditionmanagercharging.cpp \
     src/logic/conditionmanagerfactory.cpp \
-    src/logic/actionfactory.cpp
+    src/logic/actionfactory.cpp \
+    src/model/ruleconditionbatterylevel.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -108,7 +109,8 @@ HEADERS += \
     src/logic/conditionmanagerinternetconnectionmode.h \
     src/logic/conditionmanagercharging.h \
     src/logic/conditionmanagerfactory.h \
-    src/logic/actionfactory.h
+    src/logic/actionfactory.h \
+    src/model/ruleconditionbatterylevel.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp

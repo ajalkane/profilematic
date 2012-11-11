@@ -21,7 +21,8 @@ RuleCondition::RuleCondition(const RuleCondition &o)
       _idleForSecs(o._idleForSecs),
       _nfc(o._nfc),
       _internetConnectionMode(o._internetConnectionMode),
-      _chargingState(o._chargingState)
+      _chargingState(o._chargingState),
+      _batteryLevel(o._batteryLevel)
 {
     _init();
 }
@@ -41,6 +42,7 @@ RuleCondition::_init() {
     connect(this, SIGNAL(nfcChanged()),   this, SIGNAL(changed()));
     connect(this, SIGNAL(internetConnectionModeChanged()), this, SIGNAL(changed()));
     connect(this, SIGNAL(chargingStateChanged()), this, SIGNAL(changed()));
+    connect(this, SIGNAL(batteryLevelChanged()),   this, SIGNAL(changed()));
 }
 
 
@@ -58,6 +60,7 @@ RuleCondition::operator=(const RuleCondition &o)
     _nfc = o._nfc;
     _internetConnectionMode = o._internetConnectionMode;
     _chargingState = o._chargingState;
+    _batteryLevel = o._batteryLevel;
 
     return *this;
 }
@@ -322,6 +325,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleCondition &rule)
     argument << rule.nfc();
     argument << int(rule.getInternetConnectionMode());
     argument << int(rule.getChargingState());
+    argument << rule.batteryLevel();
     argument.endStructure();
     return argument;
 }
@@ -340,6 +344,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     RuleConditionNFC nfc;
     int networkMode;
     int chargingState;
+    RuleConditionBatteryLevel batteryLevel;
 
     argument.beginStructure();
     argument >> timeStart;
@@ -353,6 +358,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     argument >> nfc;
     argument >> networkMode;
     argument >> chargingState;
+    argument >> batteryLevel;
     argument.endStructure();
 
     rule.setTimeStart(timeStart);
@@ -366,6 +372,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     rule.setNFC(nfc);
     rule.setInternetConnectionMode((RuleCondition::InternetConnectionMode)networkMode);
     rule.setChargingState((RuleCondition::ChargingState)chargingState);
+    rule.setBatteryLevel(batteryLevel);
 
     return argument;
 }

@@ -1,3 +1,8 @@
+profilematic (1.8.0) unstable; urgency=low
+  * Fix: Edited internet connection name and WLAN condition
+
+ -- Arto Jalkanen <ajalkane@gmail.com>  Fri, 21 Sep 2012 22:00:00 +0300
+
 profilematic (1.7.2) unstable; urgency=low
   * Fix: Internet connection mode
   * Fix: NFC condition with multiple tags. Saving multiple tags fixed. Toggling with multiple tags fixed.
