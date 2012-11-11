@@ -77,6 +77,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("internetConnectionMode", int(r.condition().getInternetConnectionMode()));
         s.setValue("chargingState", int(r.condition().getChargingState()));
         _writeNfcCondition(s, r.condition().nfc());
+        _writeBatteryLevelCondition(s, r.condition().batteryLevel());
     }
     s.endArray();
 }
@@ -204,6 +205,7 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         r.action().setPresenceChangeType((RuleAction::PresenceChangeType) s.value("presenceChangeType", (int) RuleAction::CustomPresenceType).toInt());
 
         _readNfcCondition(s, r.condition().nfc());
+        _readBatteryLevelCondition(s, r.condition().batteryLevel());
 
         RuleCondition::InternetConnectionMode internetConnectionMode
                 = (RuleCondition::InternetConnectionMode) s.value("internetConnectionMode", 0).toInt();
@@ -340,6 +342,19 @@ Configuration::_readNfcCondition(QSettings &s, RuleConditionNFC &condNfc) {
 
     s.endArray();
 
+}
+
+void
+Configuration::_writeBatteryLevelCondition(QSettings &s, const RuleConditionBatteryLevel &cond) {
+    s.setValue("batteryLevelMin", cond.getLevelMin());
+    s.setValue("batteryLevelMax", cond.getLevelMax());
+
+}
+
+void
+Configuration::_readBatteryLevelCondition(QSettings &s, RuleConditionBatteryLevel &cond) {
+    cond.setLevelMin(s.value("batteryLevelMin", -1).toInt());
+    cond.setLevelMax(s.value("batteryLevelMax", -1).toInt());
 }
 
 void

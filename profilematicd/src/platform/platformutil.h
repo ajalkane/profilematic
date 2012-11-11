@@ -70,12 +70,18 @@ public:
 
     virtual bool isUserActivityIdle();
 
+    // Returns the battery level in percents between 0-100
+    virtual int batteryLevel() const;
+    // IMPROVE: Qt has ways to detect if any object is connected to signal, that would be nicer way to
+    // do this and would make this method unnecessary.
+    virtual void monitorBatteryLevel(bool monitor);
 signals:
     void userActivityIdleChanged(bool isIdle);
     // -1: Unknown, 0: Idle, 1: Signaling, 2: Call, 3: Data
     void cellularActivityChanged(int activity);
     void shuttingDown();
     void batteryChargingStateChanged(int chargingState);
+    void batteryLevelChanged(int batteryLevel);
 };
 
 #endif // PLATFORMUTIL_H

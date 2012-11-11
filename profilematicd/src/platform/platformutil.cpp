@@ -163,3 +163,16 @@ ActionPresence *PlatformUtil::createActionPresence()
     return NULL;
 #endif
 }
+
+int
+PlatformUtil::batteryLevel() const {
+    qDebug("PlatformUtil::batteryLevel default, returning -1");
+    return -1;
+}
+
+void
+PlatformUtil::monitorBatteryLevel(bool monitor) {
+    qDebug("PlatformUtil::monitorBatteryLevel default, monitor: %d", monitor);
+}
+
+

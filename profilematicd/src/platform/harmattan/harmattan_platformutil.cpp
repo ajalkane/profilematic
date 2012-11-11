@@ -333,3 +333,13 @@ HarmattanPlatformUtil::createActionPresence()
     return new ActionPresenceImpl();
 }
 
+int
+HarmattanPlatformUtil::batteryLevel() const {
+    qDebug("HarmattanPlatformUtil::batteryLevel default, returning -1");
+    return -1;
+}
+
+void
+HarmattanPlatformUtil::monitorBatteryLevel(bool monitor ) {
+    qDebug("HarmattanPlatformUtil::monitorBatteryLevel default, monitor: %d", monitor);
+}

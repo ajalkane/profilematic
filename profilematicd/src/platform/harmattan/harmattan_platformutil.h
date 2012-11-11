@@ -64,6 +64,10 @@ public:
     ActionPresence *createActionPresence();
 
     virtual bool isUserActivityIdle();
+
+    virtual int batteryLevel() const;
+    virtual void monitorBatteryLevel(bool monitor);
+
 private slots:
     void activityChanged(MeeGo::QmActivity::Activity activity);
     void privateCellularActivityChanged(int activity);
