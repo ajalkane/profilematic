@@ -55,6 +55,8 @@ public:
     void nfcClear(RuleCondition *rule);
     QString chargingSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
     void chargingClear(RuleCondition *rule);
+    QString batteryLevelSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
+    void batteryLevelClear(RuleCondition *rule);
 
     QString profileSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
     void profileClear(RuleAction *action);

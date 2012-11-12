@@ -73,5 +73,6 @@ private slots:
     void privateCellularActivityChanged(int activity);
     void privateSystemStateChanged(MeeGo::QmSystemState::StateIndication);
     void privateBatteryChargingStateChanged(MeeGo::QmBattery::ChargingState chargingState);
+    void batteryRemainingCapacityChanged(int percentage, int bars);
 };
 #endif // HARMATTAN_PLATFORMUTIL_H

@@ -313,6 +313,29 @@ QmlRuleUtil::chargingClear(RuleCondition *cond) {
 }
 
 QString
+QmlRuleUtil::batteryLevelSummary(const RuleCondition *cond, const QString &nonUsable, bool inListing) {
+    if (cond == 0) return nonUsable;
+
+    const RuleConditionBatteryLevel &bl = cond->batteryLevel();
+    if (!bl.isValid()) {
+        return nonUsable;
+    }
+    if (bl.getLevelMax() == 100) {
+        return QString("Battery level at least %1%%").arg(bl.getLevelMin());
+    } else if (bl.getLevelMin() == 0) {
+        return QString("Battery level at most %1%%").arg(bl.getLevelMax());
+    }
+    return QString("Battery level between %1%% - %2%%").arg(bl.getLevelMin(), bl.getLevelMax());
+}
+
+void
+QmlRuleUtil::batteryLevelClear(RuleCondition *cond) {
+    if (cond == 0) return;
+
+    cond->setChargingState(RuleCondition::UndefinedChargingState);
+}
+
+QString
 QmlRuleUtil::profileSummary(const RuleAction *action, const QString &nonUsable, bool inListing) {
     if (action == 0) return nonUsable;
 

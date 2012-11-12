@@ -48,8 +48,12 @@ public:
     inline bool getLevelMin() const { return _levelMin; }
     inline bool getLevelMax() const { return _levelMax; }
 
+    inline bool isValid() const { return getLevelMin() > -1 && getLevelMax() > -1; }
+
     void setLevelMin(int level);
     void setLevelMax(int level);
+
+    inline void clear() { _levelMin = _levelMax = -1; }
 
     inline bool operator==(const RuleConditionBatteryLevel &o) const {
         return this->_levelMin == o._levelMin
