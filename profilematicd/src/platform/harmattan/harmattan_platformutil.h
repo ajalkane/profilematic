@@ -64,10 +64,15 @@ public:
     ActionPresence *createActionPresence();
 
     virtual bool isUserActivityIdle();
+
+    virtual int batteryLevel() const;
+    virtual void monitorBatteryLevel(bool monitor);
+
 private slots:
     void activityChanged(MeeGo::QmActivity::Activity activity);
     void privateCellularActivityChanged(int activity);
     void privateSystemStateChanged(MeeGo::QmSystemState::StateIndication);
     void privateBatteryChargingStateChanged(MeeGo::QmBattery::ChargingState chargingState);
+    void batteryRemainingCapacityChanged(int percentage, int bars);
 };
 #endif // HARMATTAN_PLATFORMUTIL_H

@@ -9,6 +9,7 @@
 #include <QDBusArgument>
 
 #include "ruleconditionnfc.h"
+#include "ruleconditionbatterylevel.h"
 
 class RuleCondition : public QObject
 {
@@ -42,6 +43,7 @@ private:
     RuleConditionNFC _nfc;
     InternetConnectionMode _internetConnectionMode;
     ChargingState _chargingState;
+    RuleConditionBatteryLevel _batteryLevel;
 
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
@@ -56,6 +58,7 @@ private:
     Q_PROPERTY(RuleConditionNFC *nfc READ getNFCQml NOTIFY nfcChanged STORED false)
     Q_PROPERTY(enum InternetConnectionMode internetConnectionMode READ getInternetConnectionMode WRITE setInternetConnectionMode NOTIFY internetConnectionModeChanged)
     Q_PROPERTY(enum ChargingState chargingState READ getChargingState WRITE setChargingState NOTIFY chargingStateChanged)
+    Q_PROPERTY(RuleConditionBatteryLevel *batteryLevel READ getBatteryLevelQml NOTIFY batteryLevelChanged STORED false)
 
     QString _getTimeQml(const QTime &time) const;
 
@@ -78,6 +81,7 @@ signals:
     void nfcChanged();
     void internetConnectionModeChanged();
     void chargingStateChanged();
+    void batteryLevelChanged();
 
 public:
     RuleCondition(QObject *parent = 0);
@@ -139,6 +143,13 @@ public:
     // For QML
     inline RuleConditionNFC *getNFCQml() { return &_nfc; }
 
+
+    inline const RuleConditionBatteryLevel &batteryLevel() const { return _batteryLevel; }
+    inline RuleConditionBatteryLevel &batteryLevel() { return _batteryLevel; }
+    inline void setBatteryLevel(const RuleConditionBatteryLevel &batteryLevel) { _batteryLevel = batteryLevel; }
+    // For QML
+    inline RuleConditionBatteryLevel *getBatteryLevelQml() { return &_batteryLevel; }
+
     inline InternetConnectionMode getInternetConnectionMode() const { return _internetConnectionMode; }
     void setInternetConnectionMode(InternetConnectionMode);
 
@@ -156,8 +167,8 @@ public:
             && this->_idleForSecs == o._idleForSecs
             && this->_nfc == o._nfc
             && this->_internetConnectionMode == o._internetConnectionMode
-            && this->_chargingState == o._chargingState;
-
+            && this->_chargingState == o._chargingState
+            && this->_batteryLevel == o._batteryLevel;
     }
 
     inline bool isTimeStartRuleUsable() const {

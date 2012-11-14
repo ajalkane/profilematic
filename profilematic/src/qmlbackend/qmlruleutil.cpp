@@ -38,7 +38,7 @@ QmlRuleUtil::deinitialize() {
     _instance = 0;
 }
 
-QmlRuleUtil::QmlRuleUtil(QmlProfilesModel *profilesModel) {
+QmlRuleUtil::QmlRuleUtil(QmlProfilesModel *profilesModel) : QObject(0) {
     _profilesModel = profilesModel;
 }
 
@@ -310,6 +310,40 @@ QmlRuleUtil::chargingClear(RuleCondition *cond) {
     if (cond == 0) return;
 
     cond->setChargingState(RuleCondition::UndefinedChargingState);
+}
+
+QString
+QmlRuleUtil::batteryLevelSummary(RuleCondition *cond, const QString &nonUsable, bool inListing) {
+    qDebug("batteryLevelSummary QML version");
+    return batteryLevelSummary(const_cast<const RuleCondition *>(cond), nonUsable, inListing);
+}
+
+QString
+QmlRuleUtil::batteryLevelSummary(const RuleCondition *cond, const QString &nonUsable, bool inListing) {
+    if (cond == 0) return nonUsable;
+
+    const RuleConditionBatteryLevel &bl = cond->batteryLevel();
+    if (!bl.isValid()) {
+        return nonUsable;
+    }
+    qDebug("QmlRuleUtil::Battery level %d - %d", bl.getLevelMin(), bl.getLevelMax());
+
+    if (bl.getLevelMax() == bl.getLevelMin()) {
+        return QString("Battery level exactly %1%").arg(bl.getLevelMin());
+    }
+    else if (bl.getLevelMax() == 100) {
+        return QString("Battery level at least %1%").arg(bl.getLevelMin());
+    } else if (bl.getLevelMin() == 0) {
+        return QString("Battery level at most %1%").arg(bl.getLevelMax());
+    }
+    return QString("Battery level between %1% - %2%").arg(bl.getLevelMin()).arg(bl.getLevelMax());
+}
+
+void
+QmlRuleUtil::batteryLevelClear(RuleCondition *cond) {
+    if (cond == 0) return;
+
+    cond->batteryLevel().clear();
 }
 
 QString

@@ -333,3 +333,25 @@ HarmattanPlatformUtil::createActionPresence()
     return new ActionPresenceImpl();
 }
 
+int
+HarmattanPlatformUtil::batteryLevel() const {
+    int level = _qmbattery.getRemainingCapacityPct();
+    qDebug("HarmattanPlatformUtil::batteryLevel returning %d", level);
+    return level;
+}
+
+void
+HarmattanPlatformUtil::monitorBatteryLevel(bool monitor ) {
+    qDebug("HarmattanPlatformUtil::monitorBatteryLevel monitor: %d", monitor);
+    if (monitor) {
+        connect(&_qmbattery, SIGNAL(batteryRemainingCapacityChanged(int,int)), this, SLOT(batteryRemainingCapacityChanged(int,int)), Qt::UniqueConnection);
+    } else {
+        disconnect(&_qmbattery, SIGNAL(batteryRemainingCapacityChanged(int,int)), this, SLOT(batteryRemainingCapacityChanged(int,int)));
+    }
+}
+
+void
+HarmattanPlatformUtil::batteryRemainingCapacityChanged(int percentage, int bars) {
+    qDebug("HarmattanPlatformUtil::batteryRemainingCapacityChanged pct %d bars %d", percentage, bars);
+    emit batteryLevelChanged(percentage);
+}

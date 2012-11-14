@@ -44,6 +44,9 @@ class Configuration
     static void _readPresenceRuleList(QSettings &s, QList<PresenceRule *> &rules);
     static void _writeNfcCondition(QSettings &s, const RuleConditionNFC &condNfc);
     static void _readNfcCondition(QSettings &s, RuleConditionNFC &condNfc);
+    static void _writeBatteryLevelCondition(QSettings &s, const RuleConditionBatteryLevel &cond);
+    static void _readBatteryLevelCondition(QSettings &s, RuleConditionBatteryLevel &cond);
+
 public:
     Configuration();
 
