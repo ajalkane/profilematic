@@ -1,5 +1,7 @@
 profilematic (1.8.0) unstable; urgency=low
   * Fix: Edited internet connection name and WLAN condition
+  * Condition: Battery level
+  * Some new D-Bus APIs for scripting
 
  -- Arto Jalkanen <ajalkane@gmail.com>  Fri, 21 Sep 2012 22:00:00 +0300
 
