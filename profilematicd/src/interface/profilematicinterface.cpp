@@ -227,6 +227,52 @@ ProfileMaticInterface::executeAction(const RuleAction &action) const {
     actionRunner->endRefresh();
 }
 
+
+// Some helper methods, not used by ProfileMatic, that may be helpful for D-Bus scripting
+int
+ProfileMaticInterface::_findRuleIndexByName(const QString &name) const {
+    for (int i = 0; i < _rules->size(); ++i) {
+        const Rule &r = _rules->at(i);
+        if (name.trimmed() == r.getRuleName().trimmed()) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+QStringList
+ProfileMaticInterface::getRuleNames() {
+    qDebug("ProfileMaticInterface::getRuleNames");
+    QStringList ruleNames;
+    foreach (const Rule &r, *_rules) {
+        ruleNames << r.getRuleName();
+    }
+    return ruleNames;
+}
+
+QString
+ProfileMaticInterface::getRuleIdForName(const QString &ruleName) {
+    qDebug("ProfileMaticInterface::getRuleIdForName(%s)", qPrintable(ruleName));
+    int i = _findRuleIndexByName(ruleName);
+    if (i >= 0) {
+        qDebug("ProfileMaticInterface::getRuleIdForName matched %s", qPrintable(_rules->at(i).getRuleId()));
+        return _rules->at(i).getRuleId();
+    }
+    qDebug("ProfileMaticInterface::getRuleIdForName(%s) no match", qPrintable(ruleName));
+    return "";
+}
+
+void
+ProfileMaticInterface::executeActionsByRuleName(const QString &ruleName) {
+    qDebug("ProfileMaticInterface::executeActionsByRuleName(%s)", qPrintable(ruleName));
+    int i = _findRuleIndexByName(ruleName);
+    if (i >= 0) {
+        qDebug("ProfileMaticInterface::executeActionsByRuleName matched %s", qPrintable(_rules->at(i).getRuleId()));
+        executeAction(_rules->at(i).action());
+    }
+    qDebug("ProfileMaticInterface::executeActionsByRuleName(%s) no match", qPrintable(ruleName));
+}
+
 //// Returns id of created rule or empty if error. A new rule is always
 //// added as last rule.
 //QString

@@ -78,8 +78,14 @@ public slots:
 
     // Used for one-time activation of a rule's actions
     void executeAction(const RuleAction &action) const;
+
+    // Some helper methods, not used by ProfileMatic, that may be helpful for D-Bus scripting
+    QStringList getRuleNames();
+    QString getRuleIdForName(const QString &ruleName);
+    void executeActionsByRuleName(const QString &ruleName);
 private:
     int _findRuleIndexById(const Rule::IdType &id) const;
+    int _findRuleIndexByName(const QString &name) const;
     void _rulesChanged();
     void _preferencesChanged();
 };
