@@ -99,6 +99,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<RuleCondition>("Rule", 1, 0, "RuleCondition");
     qmlRegisterType<RuleAction>("Rule", 1, 0, "RuleAction");
     qmlRegisterType<RuleConditionNFC>("Rule", 1, 0, "RuleConditionNFC");
+    qmlRegisterType<RuleConditionBatteryLevel>("Rule", 1, 0, "RuleConditionBatteryLevel");
     qmlRegisterType<PresenceRule>("profilematic", 1, 0, "PresenceRule");
     qmlRegisterType<QmlNetworkInfo>("profilematic", 1, 0, "NetworkInfo");
 #ifdef MEEGO_EDITION_HARMATTAN
@@ -119,6 +120,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     ctxt->setContextProperty("backendActionEditNonVisibleModel", &qmlActionEditNonVisibleModel);
     ctxt->setContextProperty("backendLocation", qmlLocation.data());
     ctxt->setContextProperty("backendNfc", &qmlNfc);
+    ctxt->setContextProperty("backendRuleUtil", QmlRuleUtil::instance());
 
     viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer->setMainQmlFile(mainQmlFile);

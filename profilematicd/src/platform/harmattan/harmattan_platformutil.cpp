@@ -337,7 +337,7 @@ int
 HarmattanPlatformUtil::batteryLevel() const {
     int level = _qmbattery.getRemainingCapacityPct();
     qDebug("HarmattanPlatformUtil::batteryLevel returning %d", level);
-    return -1;
+    return level;
 }
 
 void
@@ -351,7 +351,7 @@ HarmattanPlatformUtil::monitorBatteryLevel(bool monitor ) {
 }
 
 void
-HarmattanPlatformUtil::batteryRemainingCapacityChanged(int percentage, int bars)
-{
+HarmattanPlatformUtil::batteryRemainingCapacityChanged(int percentage, int bars) {
     qDebug("HarmattanPlatformUtil::batteryRemainingCapacityChanged pct %d bars %d", percentage, bars);
+    emit batteryLevelChanged(percentage);
 }

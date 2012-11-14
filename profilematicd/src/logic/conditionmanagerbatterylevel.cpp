@@ -16,27 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#include <limits>
 #include "conditionmanagerbatterylevel.h"
 #include "../platform/platformutil.h"
+
 namespace {
-    int batteryLevelUnknown = -1;
+    int batteryLevelUnknown        = -1;
+    int batteryLevelMinUnreachable = -1;
+    int batteryLevelMaxUnreachable = 101;
+    int smallestDistanceDownNotSet = -101;
+    int smallestDistanceUpNotSet   = 101;
 }
 
 ConditionManagerBatteryLevel::ConditionManagerBatteryLevel()
+    : _latestLevel(batteryLevelUnknown),
+      _monitoring(false)
 {
+    _limitDown.closestLevel     = batteryLevelMinUnreachable;
+    _limitDown.smallestDistance = smallestDistanceDownNotSet;
+    _limitUp.closestLevel       = batteryLevelMaxUnreachable;
+    _limitUp.smallestDistance   = smallestDistanceUpNotSet;
 }
 
 void
 ConditionManagerBatteryLevel::startRefresh() {
-    _closestLevelDown = INT_MIN;
-    _closestLevelUp = INT_MAX;
-    _smallestDistanceDown = INT_MIN;
-    _smallestDistanceUp = INT_MAX;
+    _limitDown.closestLevel     = batteryLevelMinUnreachable;
+    _limitDown.smallestDistance = smallestDistanceDownNotSet;
+    _limitUp.closestLevel       = batteryLevelMaxUnreachable;
+    _limitUp.smallestDistance   = smallestDistanceUpNotSet;
 }
 
 bool
-ConditionManagerBatteryLevel::refresh(const Rule::IdType &ruleId, const RuleCondition &rule) {
+ConditionManagerBatteryLevel::refresh(const Rule::IdType &/*ruleId*/, const RuleCondition &rule) {
     const RuleConditionBatteryLevel &bl = rule.batteryLevel();
     if (!bl.isValid()) {
         qDebug("ConditionManagerBatteryLevel::refresh battery levels not set, matches");
@@ -50,13 +60,13 @@ ConditionManagerBatteryLevel::refresh(const Rule::IdType &ruleId, const RuleCond
     int distanceMin = _distance(bl.getLevelMin());
     int distanceMax = _distance(bl.getLevelMax());
 
-    _updateSmallestDistance(distanceMin);
-    _updateSmallestDistance(distanceMax);
-
     bool matches = _latestLevel >= bl.getLevelMin() && _latestLevel <= bl.getLevelMax();
 
-    qDebug("ConditionManagerBatteryLevel::refresh matches %d, level %d, range %d-%d",
-           matches, _latestLevel, bl.getLevelMin(), bl.getLevelMax());
+    _updateSmallestDistanceFromMin(distanceMin, matches);
+    _updateSmallestDistanceFromMax(distanceMax, matches);
+
+    qDebug("ConditionManagerBatteryLevel::refresh matches %d, level %d, range %d-%d, smallestDistance %d/%d",
+           matches, _latestLevel, bl.getLevelMin(), bl.getLevelMax(), _limitDown.smallestDistance, _limitUp.smallestDistance);
 
     return matches;
 }
@@ -67,12 +77,14 @@ ConditionManagerBatteryLevel::matchedRule(const RuleCondition &/*rule*/) {
 
 void
 ConditionManagerBatteryLevel::endRefresh() {
-    if (_smallestDistanceDown != INT_MIN) {
+    if (_limitDown.smallestDistance != smallestDistanceDownNotSet ||
+        _limitUp.smallestDistance   != smallestDistanceUpNotSet)
+    {
         _monitorBatteryLevel(true);
-        _closestLevelDown = _distanceToLevel(_smallestDistanceDown);
-        _closestLevelUp = _distanceToLevel(_smallestDistanceUp);
+        _limitDown.closestLevel = _distanceToLevel(_limitDown.smallestDistance);
+        _limitUp.closestLevel = _distanceToLevel(_limitUp.smallestDistance);
 
-        qDebug("ConditionManagerBatteryLevel::endRefresh current level %d, down %d, up %d", _latestLevel, _closestLevelDown, _closestLevelUp);
+        qDebug("ConditionManagerBatteryLevel::endRefresh current level %d, down %d, up %d", _latestLevel, _limitDown.closestLevel, _limitUp.closestLevel);
     } else {
         _monitorBatteryLevel(false);
         _latestLevel = batteryLevelUnknown;
@@ -81,10 +93,14 @@ ConditionManagerBatteryLevel::endRefresh() {
 
 void
 ConditionManagerBatteryLevel::_monitorBatteryLevel(bool monitor) {
-    if (monitor) {
-        connect(PlatformUtil::instance(), SIGNAL(batteryLevelChanged(int)), this, SLOT(batteryLevelChanged(int)), Qt::UniqueConnection);
-    } else {
-        disconnect(PlatformUtil::instance(), SIGNAL(batteryLevelChanged(int)), this, SLOT(batteryLevelChanged(int)));
+    if (monitor != _monitoring) {
+        _monitoring = monitor;
+        if (monitor) {
+            connect(PlatformUtil::instance(), SIGNAL(batteryLevelChanged(int)), this, SLOT(batteryLevelChanged(int)), Qt::UniqueConnection);
+        } else {
+            disconnect(PlatformUtil::instance(), SIGNAL(batteryLevelChanged(int)), this, SLOT(batteryLevelChanged(int)));
+        }
+        PlatformUtil::instance()->monitorBatteryLevel(monitor);
     }
 }
 
@@ -93,7 +109,7 @@ ConditionManagerBatteryLevel::batteryLevelChanged(int batteryLevel) {
     qDebug("ConditionManagerBatteryLevel::batteryLevelChanged(%d)", batteryLevel);
     if (batteryLevel != _latestLevel) {
         _latestLevel = batteryLevel;
-        if (_latestLevel < _closestLevelDown || _latestLevel > _closestLevelUp) {
+        if (_latestLevel < _limitDown.closestLevel || _latestLevel > _limitUp.closestLevel) {
             qDebug("ConditionManagerBatteryLevel::batteryLevelChanged requesting refresh");
             emit refreshNeeded();
         }

@@ -42,6 +42,7 @@ RuleCondition::_init() {
     connect(this, SIGNAL(nfcChanged()),   this, SIGNAL(changed()));
     connect(this, SIGNAL(internetConnectionModeChanged()), this, SIGNAL(changed()));
     connect(this, SIGNAL(chargingStateChanged()), this, SIGNAL(changed()));
+    connect(&_batteryLevel, SIGNAL(changed()),   this, SIGNAL(batteryLevelChanged()));
     connect(this, SIGNAL(batteryLevelChanged()),   this, SIGNAL(changed()));
 }
 

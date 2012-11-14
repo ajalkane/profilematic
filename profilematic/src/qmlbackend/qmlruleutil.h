@@ -19,6 +19,7 @@
 #ifndef QMLRULEUTIL_H
 #define QMLRULEUTIL_H
 
+#include <QObject>
 #include <QString>
 
 // IMPROVE need to have the Rule object in common sources or library.
@@ -26,12 +27,16 @@
 
 #include "qmlprofilesmodel.h"
 
-class QmlRuleUtil
+class QmlRuleUtil : public QObject
 {
+    Q_OBJECT
+
     static QmlRuleUtil *_instance;
     QmlProfilesModel *_profilesModel;
 
     QmlRuleUtil(QmlProfilesModel *profilesModel);
+
+
 public:
     static void initialize(QmlProfilesModel *profilesModel);
     static void deinitialize();
@@ -55,8 +60,9 @@ public:
     void nfcClear(RuleCondition *rule);
     QString chargingSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
     void chargingClear(RuleCondition *rule);
-    QString batteryLevelSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
-    void batteryLevelClear(RuleCondition *rule);
+    QString batteryLevelSummary(const RuleCondition *cond, const QString &nonUsable, bool inListing = false);
+    Q_INVOKABLE QString batteryLevelSummary(RuleCondition *cond, const QString &nonUsable, bool inListing);
+    Q_INVOKABLE void batteryLevelClear(RuleCondition *cond);
 
     QString profileSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
     void profileClear(RuleAction *action);

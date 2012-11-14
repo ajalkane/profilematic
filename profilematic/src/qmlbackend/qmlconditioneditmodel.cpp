@@ -47,6 +47,7 @@ DESCRIPTION(wlan, "WLAN", "ConditionWlan.qml", false)
 DESCRIPTION(idle, "Idle", "ConditionIdle.qml", false)
 DESCRIPTION(nfc,  "NFC", "ConditionNFC.qml", false)
 DESCRIPTION(charging,  "Charging state", "ConditionChargingState.qml", false)
+DESCRIPTION(batteryLevel,  "Battery level", "ConditionBatteryLevel.qml", false)
 
 QmlConditionEditModel::QmlConditionEditModel(Rule *editRule, QObject *parent)
     : super(editRule, parent)
@@ -57,7 +58,8 @@ QmlConditionEditModel::QmlConditionEditModel(Rule *editRule, QObject *parent)
                   << &descriptionwlan
                   << &descriptionidle
                   << &descriptionnfc
-                  << &descriptioncharging;
+                  << &descriptioncharging
+                  << &descriptionbatteryLevel;
 
     connect(_editRule, SIGNAL(conditionChanged()), this, SLOT(ruleChanged()));
 }

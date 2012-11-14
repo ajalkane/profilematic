@@ -26,12 +26,17 @@
 class ConditionManagerBatteryLevel : public ConditionManager {
     Q_OBJECT
 
-    int _latestLevel;
-    int _closestLevelDown;
-    int _closestLevelUp;
-    int _smallestDistanceDown;
-    int _smallestDistanceUp;
+    struct Limit {
+        int closestLevel;
+        int smallestDistance;
+    };
 
+    Limit _limitDown;
+    Limit _limitUp;
+
+    int _latestLevel;
+
+    bool _monitoring;
     void _monitorBatteryLevel(bool monitor);
 
     inline int _distance(int level) {
@@ -41,11 +46,35 @@ class ConditionManagerBatteryLevel : public ConditionManager {
         return _latestLevel + distance;
     }
 
-    inline void _updateSmallestDistance(int distance) {
-        if (distance == 0) return;
-        int &updateVar = (distance < 0 ? _smallestDistanceDown : _smallestDistanceUp);
-        if (qAbs(distance) < qAbs(updateVar)) {
-            updateVar = distance;
+    inline void _updateSmallestDistanceFromMin(int distance, bool isInclusive) {
+        if (distance == 0) {
+            _limitDown.smallestDistance = 0;
+        } else {
+            _updateSmallestDistance(distance, isInclusive);
+        }
+    }
+
+    inline void _updateSmallestDistanceFromMax(int distance, bool isInclusive) {
+        if (distance == 0) {
+            _limitUp.smallestDistance = 0;
+        } else {
+            _updateSmallestDistance(distance, isInclusive);
+        }
+    }
+
+    // Assumes always called with distance != 0
+    inline void _updateSmallestDistance(int distance, bool isInclusive) {
+        Limit *updateLimit = (distance < 0 ? &_limitDown : &_limitUp);
+        int absDistance = qAbs(distance);
+//        qDebug("_updateSmallestDistance: d %d, updateVar %d, d/u: %d/%d", distance, updateLimit->smallestDistance, _limitDown.smallestDistance, _limitUp.smallestDistance);
+//        qDebug("_updateSmallestDistance: qAbs(distance) %d qAbs(updateVar) %d", absDistance, qAbs(updateLimit->smallestDistance));
+        if (absDistance < qAbs(updateLimit->smallestDistance)) {
+            updateLimit->smallestDistance = distance;
+            if (!isInclusive) {
+                updateLimit->smallestDistance += (distance < 0 ? 1 : -1);
+//                qDebug("_updateSmallestDistance: adjusted for not inclusive");
+            }
+//            qDebug("_updateSmallestDistance: set d %d, updateVar %d, d/u: %d/%d", distance, updateLimit->smallestDistance, _limitDown.smallestDistance, _limitUp.smallestDistance);
         }
     }
 

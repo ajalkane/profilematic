@@ -6,6 +6,7 @@
 #include "conditionmanageridle.h"
 #include "conditionmanagernfc.h"
 #include "conditionmanagerinternetconnectionmode.h"
+#include "conditionmanagerbatterylevel.h"
 
 #include "conditionmanagerfactory.h"
 
@@ -24,6 +25,7 @@ ConditionManagerFactory::create()
     cm->add(new ConditionManagerIdle());
     cm->add(new ConditionManagerNFC());
     cm->add(new ConditionManagerInternetConnectionMode());
+    cm->add(new ConditionManagerBatteryLevel());
 
     return cm;
 }
