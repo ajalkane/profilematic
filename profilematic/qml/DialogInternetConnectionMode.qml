@@ -75,12 +75,24 @@ MySelectionDialog {
             name: "Mobile"
             description: "When using internet over mobile connection"
         }
+        ListElement {
+            mode: 3
+            name: "Any"
+            description: "When any internet connection is in use"
+        }
+        ListElement {
+            mode: 4
+            name: "No internet connection"
+            description: "When no internet connection is in use"
+        }
     }
 
     function internetConnectionModeSummary(internetConnectionMode) {
         switch (internetConnectionMode) {
         case 1:
         case 2:
+        case 3:
+        case 4:
             return internetConnectionModeModel.get(internetConnectionMode).description;
         }
         return internetConnectionModeModel.get(0).description;

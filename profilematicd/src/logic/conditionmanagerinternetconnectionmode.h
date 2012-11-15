@@ -29,9 +29,12 @@ class ConditionManagerInternetConnectionMode : public ConditionManager {
     RuleCondition::InternetConnectionMode _currentInternetConnectionMode;
     QString _currentInternetConnectionIdentifier;
     QNetworkConfigurationManager _networkConfigurationManager;
+    QNetworkConfiguration _networkConfigurationNone;
+
     bool _existsRulesWithInternetConnectionMode;
     bool _monitor;
 
+    RuleCondition::InternetConnectionMode _mapNetworkMode(const QNetworkConfiguration &conf);
     QNetworkConfiguration _getCurrentActiveConfiguration() const;
     void _monitorNetworkMode(bool monitor);
 public:

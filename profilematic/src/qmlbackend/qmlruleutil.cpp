@@ -185,6 +185,10 @@ QmlRuleUtil::internetConnectionModeSummary(const RuleCondition *cond, const QStr
         return "Mobile net connection";
     case RuleCondition::Wlan:
         return "WLAN net connection";
+    case RuleCondition::ConnectionAny:
+        return "Any net connection";
+    case RuleCondition::ConnectionNone:
+        return "No net connection";
     default:
         return nonUsable;
     }

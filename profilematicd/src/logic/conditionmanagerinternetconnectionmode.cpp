@@ -12,13 +12,20 @@ ConditionManagerInternetConnectionMode::startRefresh() {
     _existsRulesWithInternetConnectionMode = false;
 }
 
-RuleCondition::InternetConnectionMode mapNetworkMode(QNetworkConfiguration::BearerType type) {
-    if (type == QNetworkConfiguration::Bearer2G || type == QNetworkConfiguration::BearerHSPA)
+RuleCondition::InternetConnectionMode
+ConditionManagerInternetConnectionMode::_mapNetworkMode(const QNetworkConfiguration &conf) {
+    if (conf == _networkConfigurationNone) {
+        qWarning("ConditionManagerInternetConnectionMode::mapNetworkMode no internet connection, RuleCondition::None returned");
+        return RuleCondition::ConnectionNone;
+    }
+
+    QNetworkConfiguration::BearerType bearerType = conf.bearerType();
+    if (bearerType == QNetworkConfiguration::Bearer2G || bearerType == QNetworkConfiguration::BearerHSPA)
         return RuleCondition::Gsm;
-    if (type == QNetworkConfiguration::BearerWLAN)
+    if (bearerType == QNetworkConfiguration::BearerWLAN)
         return RuleCondition::Wlan;
 
-    qWarning("Warning: unrecognized bearer type %d", type);
+    qWarning("Warning: unrecognized bearer type %d", bearerType);
     return RuleCondition::UndefinedInternetConnectionMode;
 }
 
@@ -33,10 +40,16 @@ ConditionManagerInternetConnectionMode::refresh(const Rule::IdType &, const Rule
 
     if (_currentInternetConnectionMode == RuleCondition::UndefinedInternetConnectionMode) {
         QNetworkConfiguration conf = _getCurrentActiveConfiguration();
-        _currentInternetConnectionMode = mapNetworkMode(conf.bearerType());
+        _currentInternetConnectionMode = _mapNetworkMode(conf);
         _currentInternetConnectionIdentifier = conf.identifier();
         qDebug("ConditionManagerInternetConnectionMode::refresh current mode not set, mapped to %d (%s)",
                _currentInternetConnectionMode, qPrintable(_currentInternetConnectionIdentifier));
+    }
+
+    if (condition.getInternetConnectionMode() == RuleCondition::ConnectionAny
+            && _currentInternetConnectionMode != RuleCondition::ConnectionNone) {
+        qDebug("ConditionManagerInternetConnectionMode::refresh connectionAny and current connection != None (%d)", _currentInternetConnectionMode);
+        return true;
     }
 
     qDebug("ConditionManagerInternetConnectionMode::comparing %d == %d", _currentInternetConnectionMode, condition.getInternetConnectionMode());
@@ -96,8 +109,8 @@ ConditionManagerInternetConnectionMode::_getCurrentActiveConfiguration() const {
         }
     }
 
-    qWarning("ConditionManagerInternetConnectionMode::_getCurrentActiveConfiguration: no active configuration found, returning default");
-    return _networkConfigurationManager.defaultConfiguration();
+    qWarning("ConditionManagerInternetConnectionMode::_getCurrentActiveConfiguration: no active configuration found, returning None");
+    return _networkConfigurationNone;
 }
 
 void
@@ -106,7 +119,7 @@ ConditionManagerInternetConnectionMode::onConfigurationChanged(const QNetworkCon
     _logConfiguration(config);
 
     if (config.state() == QNetworkConfiguration::Active) {
-        RuleCondition::InternetConnectionMode activeMode = mapNetworkMode(config.bearerType());
+        RuleCondition::InternetConnectionMode activeMode = _mapNetworkMode(config);
         if (activeMode != _currentInternetConnectionMode) {
             _currentInternetConnectionMode = activeMode;
             _currentInternetConnectionIdentifier = config.identifier();

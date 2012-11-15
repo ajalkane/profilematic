@@ -21,13 +21,15 @@ public:
     enum InternetConnectionMode {
         UndefinedInternetConnectionMode = 0,
         Wlan,
-        Gsm
+        Gsm,
+        ConnectionAny,
+        ConnectionNone
     };
 
     enum ChargingState {
         UndefinedChargingState = -1,
         NotCharging,
-        Charging
+        Charging,
     };
 
 private:
