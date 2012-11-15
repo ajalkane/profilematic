@@ -323,7 +323,7 @@ QmlRuleUtil::batteryLevelSummary(RuleCondition *cond, const QString &nonUsable, 
 }
 
 QString
-QmlRuleUtil::batteryLevelSummary(const RuleCondition *cond, const QString &nonUsable, bool inListing) {
+QmlRuleUtil::batteryLevelSummary(const RuleCondition *cond, const QString &nonUsable, bool /*inListing*/) {
     if (cond == 0) return nonUsable;
 
     const RuleConditionBatteryLevel &bl = cond->batteryLevel();
