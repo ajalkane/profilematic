@@ -48,6 +48,7 @@ DESCRIPTION(idle, "Idle", "ConditionIdle.qml", false)
 DESCRIPTION(nfc,  "NFC", "ConditionNFC.qml", false)
 DESCRIPTION(charging,  "Charging state", "ConditionChargingState.qml", false)
 DESCRIPTION(batteryLevel,  "Battery level", "ConditionBatteryLevel.qml", false)
+DESCRIPTION(calendar,  "Calendar", "ConditionCalendar.qml", false)
 
 QmlConditionEditModel::QmlConditionEditModel(Rule *editRule, QObject *parent)
     : super(editRule, parent)
@@ -59,7 +60,8 @@ QmlConditionEditModel::QmlConditionEditModel(Rule *editRule, QObject *parent)
                   << &descriptionidle
                   << &descriptionnfc
                   << &descriptioncharging
-                  << &descriptionbatteryLevel;
+                  << &descriptionbatteryLevel
+                  << &descriptioncalendar;
 
     connect(_editRule, SIGNAL(conditionChanged()), this, SLOT(ruleChanged()));
 }

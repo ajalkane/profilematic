@@ -32,7 +32,7 @@ MOBILITY += connectivity
 #  - If UnitTests fail, no deployment/running of the executable
 #  - UnitTest code must not be included in the final executable.
 # Uncomment if just unit tests are to be ran:
-# CONFIG += qtestlib
+CONFIG += qtestlib
 
 TEMPLATE = app
 
@@ -73,7 +73,15 @@ SOURCES += src/main.cpp \
     src/logic/conditionmanagerfactory.cpp \
     src/logic/actionfactory.cpp \
     src/model/ruleconditionbatterylevel.cpp \
-    src/logic/conditionmanagerbatterylevel.cpp
+    src/logic/conditionmanagerbatterylevel.cpp \
+    src/logic/calendar/conditionmanagercalendar.cpp \
+    src/platform/calendar/calendarmanager.cpp \
+    src/platform/calendar/calendarentry.cpp \
+    src/model/ruleconditioncalendar.cpp \
+    src/logic/calendar/calendarentrymatchercondition.cpp \
+    src/logic/calendar/calendarentrymatcher.cpp \
+    src/logic/calendar/calendarentrymatcherdatetime.cpp \
+    src/platform/calendar/impl/stub/calendarmanagerstub.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -112,7 +120,15 @@ HEADERS += \
     src/logic/conditionmanagerfactory.h \
     src/logic/actionfactory.h \
     src/model/ruleconditionbatterylevel.h \
-    src/logic/conditionmanagerbatterylevel.h
+    src/logic/conditionmanagerbatterylevel.h \
+    src/logic/calendar/conditionmanagercalendar.h \
+    src/platform/calendar/calendarmanager.h \
+    src/platform/calendar/calendarentry.h \
+    src/model/ruleconditioncalendar.h \
+    src/logic/calendar/calendarentrymatchercondition.h \
+    src/logic/calendar/calendarentrymatcher.h \
+    src/logic/calendar/calendarentrymatcherdatetime.h \
+    src/platform/calendar/impl/stub/calendarmanagerstub.cpp
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp
@@ -125,8 +141,16 @@ HEADERS += \
     PKGCONFIG += accounts-qt
     PKGCONFIG += TelepathyQt4
 
-    SOURCES += src/logic/presence/actionpresenceimpl.cpp
-    HEADERS += src/logic/presence/actionpresenceimpl.h
+    # Live and learn from OrganizerFeed:
+    # Add gq-gconf and libmkcal - we're not using QtMobility's organizer module
+    # as it loads the whole calendar into memory
+    CONFIG += link_pkgconfig
+    PKGCONFIG += libmkcal
+
+    SOURCES += src/logic/presence/actionpresenceimpl.cpp \
+               src/platform/calendar/impl/mkcal/calendarmanagermkcal.cpp
+    HEADERS += src/logic/presence/actionpresenceimpl.h \
+               src/platform/calendar/impl/mkcal/calendarmanagermkcal.h
 } else {
     SOURCES += src/logic/presence/actionpresencestub.cpp
     HEADERS += src/logic/presence/actionpresencestub.h
@@ -137,11 +161,16 @@ qtestlib {
     SOURCES += tests/main.cpp \
         tests/logic/testconditionmanagerchain.cpp \
         tests/logic/testconditionmanagertime.cpp \
-        tests/logic/signalcounter.cpp
+        tests/logic/signalcounter.cpp \
+        tests/logic/testcalendarentrymatchercondition.cpp \
+        tests/logic/testcalendarentrymatcherdatetime.cpp
 
     HEADERS += tests/logic/testconditionmanagerchain.h \
         tests/logic/testconditionmanagertime.h \
-        tests/logic/signalcounter.h
+        tests/logic/signalcounter.h \
+        tests/logic/testcalendarentrymatchercondition.h \
+        tests/logic/testcalendarentrymatcherdatetime.h
+
 }
 
 #!isEmpty(MEEGO_VERSION_MAJOR) {

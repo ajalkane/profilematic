@@ -68,6 +68,8 @@ public:
     virtual int batteryLevel() const;
     virtual void monitorBatteryLevel(bool monitor);
 
+    virtual CalendarManager *createCalendarManager(QObject *parent = 0);
+
 private slots:
     void activityChanged(MeeGo::QmActivity::Activity activity);
     void privateCellularActivityChanged(int activity);

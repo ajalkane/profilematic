@@ -20,16 +20,27 @@
 
 #include "logic/testconditionmanagertime.h"
 #include "logic/testconditionmanagerchain.h"
+#include "logic/testcalendarentrymatchercondition.h"
+#include "logic/testcalendarentrymatcherdatetime.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication app(argc, argv);
+    Q_UNUSED(app)
 
     int retval(0);
 
-    retval += QTest::qExec(&TestConditionManagerTime(), argc, argv);
-    retval += QTest::qExec(&TestConditionManagerChain(), argc, argv);
+    QList<QObject *> tests;
+    tests << new TestCalendarEntryMatcherCondition();
+    tests << new TestCalendarEntryMatcherDateTime();
+    // TODO include back into the test set
+//    tests << new TestConditionManagerTime();
+//    tests << new testConditionManagerChain();
 
+    foreach (QObject *test, tests) {
+        retval += QTest::qExec(test, argc, argv);
+        delete test;
+    }
     qDebug("Tests exiting with return value %d", retval);
     return (retval ? 1 : 0);
 }

@@ -6,6 +6,10 @@
     <!-- These credentials should be used according to documentation for Presence (Availability) -->
     <credential name="TrackerReadAccess" />
     <credential name="TrackerWriteAccess" />
+    <!-- For calendar access -->
+    <credential name="GRP::calendar" />
+    <credential name="GRP::metadata-users" />
+    <credential name="GRP::users" />
     <for path="/opt/profilematic/bin/profilematicd"/>
   </request>
   <request context="INSTALL">

@@ -63,6 +63,8 @@ public:
     QString batteryLevelSummary(const RuleCondition *cond, const QString &nonUsable, bool inListing = false);
     Q_INVOKABLE QString batteryLevelSummary(RuleCondition *cond, const QString &nonUsable, bool inListing);
     Q_INVOKABLE void batteryLevelClear(RuleCondition *cond);
+    QString calendarSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
+    void calendarClear(RuleCondition *rule);
 
     QString profileSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
     void profileClear(RuleAction *action);

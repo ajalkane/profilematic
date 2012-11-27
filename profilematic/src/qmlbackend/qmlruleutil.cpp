@@ -351,6 +351,26 @@ QmlRuleUtil::batteryLevelClear(RuleCondition *cond) {
 }
 
 QString
+QmlRuleUtil::calendarSummary(const RuleCondition *cond, const QString &nonUsable, bool inListing) {
+    Q_UNUSED(inListing)
+
+    if (cond == 0) return nonUsable;
+
+    const RuleConditionCalendar &calendar = cond->calendar();
+    if (calendar.isValid()) {
+        return "Calendar entries";
+    }
+    return nonUsable;
+}
+
+void
+QmlRuleUtil::calendarClear(RuleCondition *cond) {
+    if (cond == 0) return;
+
+    cond->calendar().clear();
+}
+
+QString
 QmlRuleUtil::profileSummary(const RuleAction *action, const QString &nonUsable, bool inListing) {
     if (action == 0) return nonUsable;
 

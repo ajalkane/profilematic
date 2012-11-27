@@ -10,6 +10,7 @@
 
 #include "ruleconditionnfc.h"
 #include "ruleconditionbatterylevel.h"
+#include "ruleconditioncalendar.h"
 
 class RuleCondition : public QObject
 {
@@ -29,7 +30,7 @@ public:
     enum ChargingState {
         UndefinedChargingState = -1,
         NotCharging,
-        Charging,
+        Charging
     };
 
 private:
@@ -46,6 +47,7 @@ private:
     InternetConnectionMode _internetConnectionMode;
     ChargingState _chargingState;
     RuleConditionBatteryLevel _batteryLevel;
+    RuleConditionCalendar _calendar;
 
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
@@ -61,6 +63,7 @@ private:
     Q_PROPERTY(enum InternetConnectionMode internetConnectionMode READ getInternetConnectionMode WRITE setInternetConnectionMode NOTIFY internetConnectionModeChanged)
     Q_PROPERTY(enum ChargingState chargingState READ getChargingState WRITE setChargingState NOTIFY chargingStateChanged)
     Q_PROPERTY(RuleConditionBatteryLevel *batteryLevel READ getBatteryLevelQml NOTIFY batteryLevelChanged STORED false)
+    Q_PROPERTY(RuleConditionCalendar *calendar READ getCalendarQml NOTIFY calendarChanged STORED false)
 
     QString _getTimeQml(const QTime &time) const;
 
@@ -84,6 +87,7 @@ signals:
     void internetConnectionModeChanged();
     void chargingStateChanged();
     void batteryLevelChanged();
+    void calendarChanged();
 
 public:
     RuleCondition(QObject *parent = 0);
@@ -152,6 +156,12 @@ public:
     // For QML
     inline RuleConditionBatteryLevel *getBatteryLevelQml() { return &_batteryLevel; }
 
+    inline const RuleConditionCalendar &calendar() const { return _calendar; }
+    inline RuleConditionCalendar &calendar() { return _calendar; }
+    inline void setCalendar(const RuleConditionCalendar &calendar) { _calendar = calendar; }
+    // For QML
+    inline RuleConditionCalendar *getCalendarQml() { return &_calendar; }
+
     inline InternetConnectionMode getInternetConnectionMode() const { return _internetConnectionMode; }
     void setInternetConnectionMode(InternetConnectionMode);
 
@@ -170,7 +180,8 @@ public:
             && this->_nfc == o._nfc
             && this->_internetConnectionMode == o._internetConnectionMode
             && this->_chargingState == o._chargingState
-            && this->_batteryLevel == o._batteryLevel;
+            && this->_batteryLevel == o._batteryLevel
+            && this->_calendar == o._calendar;
     }
 
     inline bool isTimeStartRuleUsable() const {
