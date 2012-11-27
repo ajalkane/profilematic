@@ -83,7 +83,7 @@ MySelectionDialog {
         ListElement {
             mode: 4
             name: "No internet connection"
-            description: "When no internet connection is in use"
+            description: "When internet connection is disabled or unavailable"
         }
     }
 
