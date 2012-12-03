@@ -19,22 +19,42 @@
 #ifndef CALENDARMANAGERMKCAL_H
 #define CALENDARMANAGERMKCAL_H
 
+#include <QTimer>
+
 #include <extendedcalendar.h>
 #include <extendedstorage.h>
 
 #include "../../calendarmanager.h"
 
-class CalendarManagerMkCal: public CalendarManager
+class CalendarManagerMkCal: public CalendarManager, public mKCal::ExtendedStorageObserver
 {
+    Q_OBJECT
+
     mKCal::ExtendedCalendar::Ptr _calendarBackendPtr;
     mKCal::ExtendedStorage::Ptr _storagePtr;
 
+    /**
+      * Timer to close the calendar backend after a certain period of time, to free memory.
+      */
+    QTimer _inactivityCalendarCloseTimer;
+
     void _ensureCalendarInitialized();
     void _fixIncidenceDates(KCalCore::Incidence::Ptr incidence, QDateTime &dtStart, QDateTime &dtEnd);
+
 public:
     CalendarManagerMkCal(QObject *parent = 0);
 
     QList<CalendarEntry> loadCalendarEntries(const QDate &startDate, const QDate &endDate);
+    void closeCalendar();
+
+    // ExtendedStorageObserver
+    void storageModified(mKCal::ExtendedStorage *storage, const QString& info);
+    void storageProgress(mKCal::ExtendedStorage *storage, const QString &info);
+    void storageFinished(mKCal::ExtendedStorage *storage, bool error, const QString &info);
+
+private slots:
+    void _reopenCalendar();
+
 };
 
 #endif // CALENDARMANAGERMKCAL_H

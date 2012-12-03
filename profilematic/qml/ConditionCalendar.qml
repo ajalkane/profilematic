@@ -39,7 +39,10 @@ Page {
 //                console.log("NFC is active, no warning dialog")
 //            }
         } else if (status === PageStatus.Deactivating) {
-            condition.calendar.summaryMatch = keywords.text
+            condition.calendar.summaryMatch = summaryMatch.text
+            condition.calendar.locationMatch = locationMatch.text
+            condition.calendar.timePrepend = parseInt(timePrepend.text)
+            condition.calendar.timeAppend = parseInt(timeAppend.text)
         }
     }
 
@@ -74,21 +77,44 @@ Page {
             height: childrenRect.height
 
             TextFieldWithLabel {
-                id: keywords
-                labelText: "Keywords in calendar summary"
+                id: summaryMatch
+                labelText: "Match in calendar summary"
                 placeholderText: "Not set"
                 text: condition.calendar.summaryMatch
                 width: parent.width
-//                onTextChanged: {
-//                    if (root.status === PageStatus.Active) {
-//                        condition.calendar.summaryMatch = text
-//                    }
-//                }
+            }
+
+            TextFieldWithLabel {
+                id: locationMatch
+                labelText: "Match in location"
+                placeholderText: "Not set"
+                text: condition.calendar.locationMatch
+                width: parent.width
+            }
+
+            TextFieldWithLabel {
+                id: timePrepend
+                labelText: "Prepend in seconds"
+                placeholderText: "No prepend"
+                text: condition.calendar.timePrepend !== 0 ? condition.calendar.timePrepend: ""
+                inputMethodHints: Qt.ImhDigitsOnly
+                validator: RegExpValidator { regExp: /\d{0,3}/ }
+                width: parent.width
+            }
+
+            TextFieldWithLabel {
+                id: timeAppend
+                labelText: "Append in seconds"
+                placeholderText: "No append"
+                text: condition.calendar.timeAppend !== 0 ? condition.calendar.timeAppend: ""
+                inputMethodHints: Qt.ImhDigitsOnly
+                validator: RegExpValidator { regExp: /\d{0,3}/ }
+                width: parent.width
             }
 
             LabelHelp {
                 id: timeSummary
-                text: "Keywords are space separated words that will be matched in the calendar's summary (topic)"
+                text: "Give several matches by separating matches with comma"
             }
         }
     }

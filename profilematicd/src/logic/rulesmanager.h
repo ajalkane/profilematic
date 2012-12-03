@@ -48,6 +48,10 @@ public:
                  const Preferences *preferences,
                  QObject *parent = 0);
 
+    // Called when rule has been updated. This is just a notification
+    // refreshRules() is called after that.
+    void ruleUpdated(const Rule &oldRule, const Rule &updatedRule);
+
     // Called when rules have changed
     void refreshRules();
     inline const QSet<Rule::IdType> &matchingRuleIds() const { return _matchingRuleIds; }

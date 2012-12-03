@@ -20,6 +20,8 @@
 
 #include "logic/testconditionmanagertime.h"
 #include "logic/testconditionmanagerchain.h"
+#include "logic/testconditionmanagercalendar.h"
+#include "logic/testconditionmanagercaching.h"
 #include "logic/testcalendarentrymatchercondition.h"
 #include "logic/testcalendarentrymatcherdatetime.h"
 
@@ -33,6 +35,8 @@ int main(int argc, char *argv[])
     QList<QObject *> tests;
     tests << new TestCalendarEntryMatcherCondition();
     tests << new TestCalendarEntryMatcherDateTime();
+    tests << new TestConditionManagerCalendar();
+    tests << new TestConditionManagerCaching();
     // TODO include back into the test set
 //    tests << new TestConditionManagerTime();
 //    tests << new testConditionManagerChain();

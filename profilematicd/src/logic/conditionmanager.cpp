@@ -41,3 +41,9 @@ void
 ConditionManager::endRefresh()
 {
 }
+
+void
+ConditionManager::ruleUpdated(const Rule &oldRule, const Rule &updatedRule) {
+    Q_UNUSED(oldRule)
+    Q_UNUSED(updatedRule)
+}

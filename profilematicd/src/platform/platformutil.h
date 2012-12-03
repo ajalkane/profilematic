@@ -43,6 +43,8 @@ public:
     }
 
     static void initialize();
+    // Only intended to be used Unit Tests to initialize a mock instance
+    static void initialize(PlatformUtil *useInstance);
     static void deinitialize();
 
     virtual ~PlatformUtil();

@@ -27,6 +27,7 @@ public:
     CalendarManagerStub(QObject *parent = 0);
 
     virtual QList<CalendarEntry> loadCalendarEntries(const QDate &startDate, const QDate &endDate);
+    virtual void closeCalendar();
 };
 
 #endif // CALENDARMANAGERSTUB_H

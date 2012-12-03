@@ -34,6 +34,9 @@ public:
 private slots:
     void matchDateTime();
 
+    void matchDateTime_append();
+    void matchDateTime_prepend();
+
 };
 
 #endif // TESTCALENDARENTRYMATCHERDATETIME_H

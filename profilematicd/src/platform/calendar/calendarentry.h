@@ -27,13 +27,15 @@ class CalendarEntry
     QDateTime _start;
     QDateTime _end;
     QString _summary;
+    QString _location;
 
 public:
-    CalendarEntry(const QDateTime &start, const QDateTime &end, const QString &summary);
+    CalendarEntry(const QDateTime &start, const QDateTime &end, const QString &summary, const QString &location);
 
     inline const QDateTime &start()   const { return _start; }
     inline const QDateTime &end()     const { return _end; }
     inline const QString   &summary() const { return _summary; }
+    inline const QString   &location() const { return _location; }
 };
 
 #endif // CALENDARENTRY_H

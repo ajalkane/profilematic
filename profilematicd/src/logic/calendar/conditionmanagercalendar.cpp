@@ -23,175 +23,147 @@
 #include "conditionmanagercalendar.h"
 #include "calendarentrymatchercondition.h"
 
+// Since DateTime resolution is in milliseconds, and here calculations are done
+// on second resolution, a buffer of one second to get rid of errors due to
+// rounding.
+#define SECS_TO_BUFFER 1
+
 ConditionManagerCalendar::ConditionManagerCalendar(QObject *parent)
-    : ConditionManager(parent), _entriesLoaded(false)
-{    
+    : ConditionManagerCacheable(parent)
+{
+    setObjectName("ConditionManagerCalendar");
+
     qDebug("ConditionManagerCalendar::constructor");
+    _timerForNextNearest.setSingleShot(true);
+    _calendarManager = PlatformUtil::instance()->createCalendarManager();
 
-    _timer.setSingleShot(true);
-
-    connect(&_timer, SIGNAL(timeout()), this, SIGNAL(askRefresh()));
-
-//    QDate startDate = QDate(2012, 11, 20);
-//    QDate endDate = QDate(2012, 11, 23);
-
-//    CalendarManager *cm = PlatformUtil::instance()->createCalendarManager();
-//    QList<CalendarEntry> entries = cm->loadCalendarEntries(startDate, endDate);
-
-//    foreach (const CalendarEntry &entry, entries) {
-//        qDebug() << "CalendarEntry start" << entry.start();
-//        qDebug() << "CalendarEntry end" << entry.end();
-//        qDebug() << "CalendarEntry summary " << entry.summary();
-//    }
-
-/*
-    foreach (QString manager, QOrganizerManager::availableManagers()) {
-             qDebug("ConditionManagerCalendar::availableManager %s", qPrintable(manager));
-    }
-    QOrganizerManager defaultManager;
-    qDebug("ConditionManagerCalendar::defaultManager %s", qPrintable(defaultManager.managerName()));
-
-    mKCal::ExtendedCalendar::Ptr m_calendarBackendPtr;
-    mKCal::ExtendedStorage::Ptr m_storagePtr;
-
-    m_calendarBackendPtr =
-            mKCal::ExtendedCalendar::Ptr(new mKCal::ExtendedCalendar(KDateTime::Spec::LocalZone()));
-    m_storagePtr =
-            mKCal::ExtendedStorage::Ptr(mKCal::ExtendedCalendar::defaultStorage(m_calendarBackendPtr));
-    // m_storagePtr->registerObserver(this);
-    m_storagePtr->open();
-
-    // loadEventsFromBackend
-    quint32 m_maxLookAhead = 24 * 3600;
-    mKCal::Notebook::List allNotebooks(m_storagePtr->notebooks());
-     foreach(const mKCal::Notebook::Ptr& currNotebook, allNotebooks) {
-         // Update look-ahead
-         // m_maxLookAhead = qMax(m_maxLookAhead, calendarSettings->lookAhead());
-         // TODO print something about the notebooks to see what works
-         qDebug() << "Notebook uid " << currNotebook->uid();
-         qDebug() << "Notebook name " << currNotebook->name();
-         qDebug() << "Notebook description " << currNotebook->description();
-         qDebug() << "Notebook color " << currNotebook->color();
-         qDebug() << "Notebook isShared " << currNotebook->isShared();
-         qDebug() << "Notebook isMaster " << currNotebook->isMaster();
-         qDebug() << "Notebook isSynchronized " << currNotebook->isSynchronized();
-         qDebug() << "Notebook isVisible " << currNotebook->isVisible();
-         qDebug() << "Notebook account " << currNotebook->account();
-         qDebug() << "Notebook isDefault " << currNotebook->isDefault();
-         qDebug() << "Notebook syncProfile " << currNotebook->syncProfile();
-     }
-
-     QDate startDate = QDate(2012, 11, 20);
-     QDate endDate = QDate(2012, 11, 23);
-
-     // Ignore load failures as load() simply checks if at least one new entry
-      // has been loaded (which must not neccesarily be the case).
-      m_storagePtr->load(startDate, endDate);
-      m_storagePtr->loadRecurringIncidences();
-
-      KCalCore::Incidence::List incidences =
-              m_calendarBackendPtr->incidences(startDate, endDate);
-
-      qDebug() << "Incidences size" << incidences.size();
-      foreach(const KCalCore::Incidence::Ptr& incidence, incidences) {
-      }
-
-
-      // For some reason if startDate should be included in expansions we need
-      // to start expanding one day beforehands.
-      mKCal::ExtendedCalendar::ExpandedIncidenceList
-              incidenceList = m_calendarBackendPtr->expandRecurrences(&incidences,
-                                                                      KDateTime(startDate.addDays(-1)),
-                                                                      KDateTime(endDate));
-      qDebug() << "Expanded incidences size" << incidences.size();
-      foreach(const mKCal::ExtendedCalendar::ExpandedIncidence &expandedIncident,
-              incidenceList) {
-          const mKCal::ExtendedCalendar::ExpandedIncidenceValidity
-                          &incidenceValidity = expandedIncident.first;
-          KCalCore::Incidence::Ptr incidence = expandedIncident.second;
-
-          qDebug() << "Incidence start " << incidenceValidity.dtStart;
-          qDebug() << "Incidence end " << incidenceValidity.dtEnd;
-          qDebug() << "Incidence summary " << incidence->summary();
-          qDebug() << "Incidence location " << incidence->location();
-          qDebug() << "Incidence categories " << incidence->categoriesStr();
-
-          // qDebug() << "Expanded Incidence description " << expandedIncident.description();
-    } */
-
-}
-
-void
-ConditionManagerCalendar::startRefresh() {
-    _timer.stop();
-    _nextNearestDateTime = QDateTime();
-    _refreshTime = QDateTime(QDate(2012, 11, 21), QTime(8,45)); // QDateTime::currentDateTime();
-}
-
-void
-ConditionManagerCalendar::_updateNextNearestDateTime(const CalendarEntry &entry, const CalendarEntryMatcherDateTime &matcher) {
-    QDateTime fromEntry = matcher.nextNearestStartOrEnd(_refreshTime, entry);
-    if (fromEntry.isValid() && fromEntry < _nextNearestDateTime) {
-        _nextNearestDateTime = fromEntry;
-    }
+    connect(&_timerForNextNearest, SIGNAL(timeout()), this, SLOT(onTimeoutForNextMatchCheck()));
+    connect(_calendarManager, SIGNAL(onCalendarChanged()), this, SLOT(onCalendarChanged()));
 }
 
 bool
-ConditionManagerCalendar::refresh(const Rule::IdType &, const RuleCondition &condition) {
+ConditionManagerCalendar::conditionSetForMatching(const RuleCondition &cond) const {
+    return _conditionSetForMatching(cond.calendar());
+}
+
+ConditionManagerCacheable::MatchStatus
+ConditionManagerCalendar::match(const Rule::IdType &, const RuleCondition &condition) {
     const RuleConditionCalendar &condCal = condition.calendar();
 
-    if (!condCal.isValid()) {
-        qDebug("ConditionManagerCalendar::refresh calendar options not set or invalid, matches");
-        return true;
+    if (!_conditionSetForMatching(condCal)) {
+        qDebug("ConditionManagerCalendar::match() calendar options not set or invalid, matches");
+        return MatchNotSet;
     }
 
-    _ensureCalendarEntriesLoaded();
+    QDateTime now = QDateTime::currentDateTime();
+    return match(now, condCal);
+}
 
-    bool matches = false;
-    CalendarEntryMatcherCondition matcherSummary(condCal);
-    CalendarEntryMatcherDateTime matcherDateTime(condCal, _refreshTime);
+ConditionManagerCacheable::MatchStatus
+ConditionManagerCalendar::match(const QDateTime &now, const RuleConditionCalendar &condCal) {
+    _ensureCalendarEntriesLoaded(now);
+
+    MatchStatus match = NotMatched;
+    CalendarEntryMatcherCondition matcherCondition(condCal);
+    CalendarEntryMatcherDateTime matcherDateTime(condCal, now);
+
+    if (_nextNearestDateTime <= now) {
+        QDate startDate = now.date();
+        QDate endDate = startDate.addDays(1);
+
+        // Initializing next nearest invalidation timer so that calendar gets reloaded
+        _nextNearestDateTime = QDateTime(endDate);
+        _startNextNearestTimer(now);
+    }
 
     foreach (CalendarEntry entry, _entries) {
-        if (matcherSummary.match(entry)) {
+        if (matcherCondition.match(entry)) {
+            qDebug("ConditionManagerCalendar::match() condition matches entry %s", qPrintable(entry.summary()));
             _updateNextNearestDateTime(entry, matcherDateTime);
             if (matcherDateTime.match(entry)) {
-                matches = true;
-                break;
+                match = Matched;
             }
         }
     }
 
-    return matches;
+    qDebug("ConditionManagerCalendar::match() returning %d", (int)match);
+
+    return match;
 }
 
 void
-ConditionManagerCalendar::endRefresh() {
-    if (!_nextNearestDateTime.isNull()) {
-        int interval = _refreshTime.secsTo(_nextNearestDateTime);
-        qDebug("ConditionManagerCalendar: Now %s", qPrintable(_refreshTime.toString()));
-        qDebug("ConditionManagerCalendar: Scheduling a timer to %s, interval %ds", qPrintable(_nextNearestDateTime.toString()), (int)interval);
-        _timer.start(interval); // , interval + _timerIntervalMaxAddition);
-    } else {
-        qDebug("ConditionManagerCalendar: No nearest calendar based rule found");
+ConditionManagerCalendar::startMonitor() {
+}
+
+void
+ConditionManagerCalendar::stopMonitor() {
+    qDebug("%s ConditionManagerCalendar::stopMonitor", qPrintable(QDateTime::currentDateTime().toString()));
+    _timerForNextNearest.stop();
+    _nextNearestDateTime = QDateTime();
+    _entries.clear();
+    _entriesLoadedForDay = QDate();
+
+    _calendarManager->closeCalendar();
+}
+
+void
+ConditionManagerCalendar::rulesChanged() {
+    _timerForNextNearest.stop();
+    _nextNearestDateTime = QDateTime();
+    _entries.clear();
+    _entriesLoadedForDay = QDate();
+}
+
+void
+ConditionManagerCalendar::onCalendarChanged() {
+    qDebug("%s ConditionManagerCalendar::onCalendarChanged", qPrintable(QDateTime::currentDateTime().toString()));
+    _timerForNextNearest.stop();
+    _nextNearestDateTime = QDateTime();
+    _entries.clear();
+    _entriesLoadedForDay = QDate();
+    emit matchInvalidated();
+}
+
+void
+ConditionManagerCalendar::onTimeoutForNextMatchCheck() {
+    qDebug("%s ConditionManagerCalendar::onTimeoutForNextMatchCheck", qPrintable(QDateTime::currentDateTime().toString()));
+    emit matchInvalidated();
+}
+
+void
+ConditionManagerCalendar::_startNextNearestTimer(const QDateTime &now) {
+    int interval = now.secsTo(_nextNearestDateTime);
+    interval += SECS_TO_BUFFER;
+    qDebug("ConditionManagerCalendar: Now %s", qPrintable(now.toString()));
+    qDebug("ConditionManagerCalendar: Scheduling a timer to %s, interval %ds", qPrintable(_nextNearestDateTime.toString()), (int)interval);
+
+    timerStart(interval); // , interval + _timerIntervalMaxAddition);
+}
+
+void
+ConditionManagerCalendar::_updateNextNearestDateTime(const CalendarEntry &entry, const CalendarEntryMatcherDateTime &matcher) {
+    QDateTime fromEntry = matcher.nextNearestStartOrEnd(entry);
+    if (fromEntry.isValid() && fromEntry < _nextNearestDateTime) {
+        _nextNearestDateTime = fromEntry;
+        const QDateTime &now = matcher.now();
+        _startNextNearestTimer(now);
     }
-
 }
 
 void
-ConditionManagerCalendar::_ensureCalendarEntriesLoaded() {
-    if (!_entriesLoaded) {
-        QDate startDate = QDate(2012, 11, 21);
-        QDate endDate = QDate(2012, 11, 21);
+ConditionManagerCalendar::_ensureCalendarEntriesLoaded(const QDateTime &now) {
+    qDebug("ConditionManagerCalendar::_ensureCalendarEntriesLoaded entriesLoadedForDay %s", qPrintable(_entriesLoadedForDay.toString()));
+    if (!_entriesLoadedForDay.isValid() || _entriesLoadedForDay != now.date()) {
+        QDate startDate = now.date();
+        QDate endDate = startDate.addDays(1);
 
-        CalendarManager *cm = PlatformUtil::instance()->createCalendarManager();
-        _entries = cm->loadCalendarEntries(startDate, endDate);
+        // Initializing next nearest invalidation timer so that calendar gets reloaded when day changes
+        _nextNearestDateTime = QDateTime(endDate);
+        _startNextNearestTimer(now);
 
-        _entriesLoaded = true;
+        _entries = _calendarManager->loadCalendarEntries(startDate, endDate);
+        qDebug("ConditionManagerCalendar::_ensureCalendarEntriesLoaded loaded %d calendar entries", _entries.size());
+
+        _entriesLoadedForDay = now.date();
     }
-}
-
-void
-ConditionManagerCalendar::askRefresh() {
-    qDebug("%s ConditionManagerCalendar::askRefresh", qPrintable(_refreshTime.toString()));
-    emit refreshNeeded();
 }

@@ -28,35 +28,58 @@
 #include <extendedcalendar.h>
 #include <extendedstorage.h>
 
+#define SECONDS_PER_DAY (24 * 60 * 60)
+
 CalendarManagerMkCal::CalendarManagerMkCal(QObject *parent)
     : CalendarManager(parent), _calendarBackendPtr(0), _storagePtr(0)
 {
+    _inactivityCalendarCloseTimer.setSingleShot(true);
+
+    connect(&_inactivityCalendarCloseTimer, SIGNAL(timeout()), this, SLOT(_reopenCalendar()));
 }
 
 void
 CalendarManagerMkCal::_ensureCalendarInitialized() {
-    if (_calendarBackendPtr == 0) {
+    if (_calendarBackendPtr.isNull()) {
         _calendarBackendPtr =
                 mKCal::ExtendedCalendar::Ptr(new mKCal::ExtendedCalendar(KDateTime::Spec::LocalZone()));
         _storagePtr =
                 mKCal::ExtendedStorage::Ptr(mKCal::ExtendedCalendar::defaultStorage(_calendarBackendPtr));
-        // m_storagePtr->registerObserver(this);
+        _storagePtr->registerObserver(this);
         _storagePtr->open();
     }
 }
 
 namespace {
-void logExpandedIncidence(const mKCal::ExtendedCalendar::ExpandedIncidence &expandedIncident) {
-    const mKCal::ExtendedCalendar::ExpandedIncidenceValidity
-            &incidenceValidity = expandedIncident.first;
-    KCalCore::Incidence::Ptr incidence = expandedIncident.second;
+    void logExpandedIncidence(const mKCal::ExtendedCalendar::ExpandedIncidence &expandedIncident) {
+        const mKCal::ExtendedCalendar::ExpandedIncidenceValidity
+                &incidenceValidity = expandedIncident.first;
+        KCalCore::Incidence::Ptr incidence = expandedIncident.second;
 
-    qDebug() << "Incidence start " << incidenceValidity.dtStart;
-    qDebug() << "Incidence end " << incidenceValidity.dtEnd;
-    qDebug() << "Incidence summary " << incidence->summary();
-    qDebug() << "Incidence location " << incidence->location();
-    qDebug() << "Incidence categories " << incidence->categoriesStr();
-}
+        qDebug() << "Incidence start " << incidenceValidity.dtStart;
+        qDebug() << "Incidence end " << incidenceValidity.dtEnd;
+        qDebug() << "Incidence summary " << incidence->summary();
+        qDebug() << "Incidence location " << incidence->location();
+        qDebug() << "Incidence categories " << incidence->categoriesStr();
+    }
+
+    void logNotebooks(mKCal::ExtendedStorage::Ptr storagePtr) {
+        mKCal::Notebook::List allNotebooks(storagePtr->notebooks());
+        foreach(const mKCal::Notebook::Ptr& currNotebook, allNotebooks) {
+            qDebug() << "Notebook uid " << currNotebook->uid();
+            qDebug() << "Notebook name " << currNotebook->name();
+            qDebug() << "Notebook description " << currNotebook->description();
+            qDebug() << "Notebook color " << currNotebook->color();
+            qDebug() << "Notebook isShared " << currNotebook->isShared();
+            qDebug() << "Notebook isMaster " << currNotebook->isMaster();
+            qDebug() << "Notebook isSynchronized " << currNotebook->isSynchronized();
+            qDebug() << "Notebook isVisible " << currNotebook->isVisible();
+            qDebug() << "Notebook account " << currNotebook->account();
+            qDebug() << "Notebook isDefault " << currNotebook->isDefault();
+            qDebug() << "Notebook syncProfile " << currNotebook->syncProfile();
+        }
+    }
+
 } // namespace
 
 void
@@ -87,23 +110,7 @@ CalendarManagerMkCal::loadCalendarEntries(const QDate &startDate, const QDate &e
     _ensureCalendarInitialized();
 
     // loadEventsFromBackend
-    mKCal::Notebook::List allNotebooks(_storagePtr->notebooks());
-    foreach(const mKCal::Notebook::Ptr& currNotebook, allNotebooks) {
-        // Update look-ahead
-        // m_maxLookAhead = qMax(m_maxLookAhead, calendarSettings->lookAhead());
-        // TODO print something about the notebooks to see what works
-        qDebug() << "Notebook uid " << currNotebook->uid();
-        qDebug() << "Notebook name " << currNotebook->name();
-        qDebug() << "Notebook description " << currNotebook->description();
-        qDebug() << "Notebook color " << currNotebook->color();
-        qDebug() << "Notebook isShared " << currNotebook->isShared();
-        qDebug() << "Notebook isMaster " << currNotebook->isMaster();
-        qDebug() << "Notebook isSynchronized " << currNotebook->isSynchronized();
-        qDebug() << "Notebook isVisible " << currNotebook->isVisible();
-        qDebug() << "Notebook account " << currNotebook->account();
-        qDebug() << "Notebook isDefault " << currNotebook->isDefault();
-        qDebug() << "Notebook syncProfile " << currNotebook->syncProfile();
-    }
+    logNotebooks(_storagePtr);
 
     // Ignore load failures as load() simply checks if at least one new entry
     // has been loaded (which must not neccesarily be the case).
@@ -147,8 +154,84 @@ CalendarManagerMkCal::loadCalendarEntries(const QDate &startDate, const QDate &e
         if (!notebook->isVisible() || !notebook->eventsAllowed())
             continue;
 
-        calendarEntries << CalendarEntry(incidenceValidity.dtStart, incidenceValidity.dtEnd, incidence->summary());
+        calendarEntries << CalendarEntry(incidenceValidity.dtStart, incidenceValidity.dtEnd, incidence->summary(), incidence->location());
+    }
+
+    // Start inactivity timer to clear the loaded calendar to save memory
+    if (!_inactivityCalendarCloseTimer.isActive()) {
+        _inactivityCalendarCloseTimer.start(SECONDS_PER_DAY * 1000);
+        qDebug() << "CalendarManagerMkCal::starting invactivity close timer";
     }
 
     return calendarEntries;
+}
+
+void
+CalendarManagerMkCal::_reopenCalendar() {
+    qDebug() << "CalendarManagerMkCal::_reopenCalendar";
+    // Only reopen if calendar was open
+    if (_calendarBackendPtr.isNull()) {
+        qDebug() << "CalendarManagerMkCal::_reopenCalendar calendar is not open, doing nothing";
+        return;
+    }
+
+    // Obtain a reference to the old entries - they will be closed after the
+    // new instance has been loaded so we don't miss any updates which
+    // happen during reload.
+    mKCal::ExtendedCalendar::Ptr oldCalendarBackendPtr = _calendarBackendPtr;
+    mKCal::ExtendedStorage::Ptr oldStoragePtr = _storagePtr;
+
+    _calendarBackendPtr.clear();
+    _storagePtr.clear();
+
+    _ensureCalendarInitialized();
+
+    if (oldCalendarBackendPtr)
+        oldCalendarBackendPtr->close();
+    if (oldStoragePtr)
+        oldStoragePtr->close();
+
+    qDebug() << "CalendarManagerMkCal::_reopenCalendar done";
+}
+
+void
+CalendarManagerMkCal::closeCalendar() {
+    qDebug() << "CalendarManagerMkCal::closeCalendar";
+    if (!_calendarBackendPtr.isNull()) {
+        qDebug() << "CalendarManagerMkCal::closeCalendar calendar was open, closing";
+        _calendarBackendPtr->close();
+        _calendarBackendPtr.clear();
+        _storagePtr->close();
+        _storagePtr.clear();
+    }
+}
+
+/**
+  * Something inside the storage has changed.
+  */
+void
+CalendarManagerMkCal::storageModified(mKCal::ExtendedStorage *storage,
+                                   const QString &info)
+{
+    Q_UNUSED(info)
+    Q_UNUSED(storage)
+
+    qDebug() << "CalendarManagerMkCal::storageModified: info" << info;
+
+    emit onCalendarChanged();
+}
+
+void
+CalendarManagerMkCal::storageProgress(mKCal::ExtendedStorage *storage, const QString &info)
+{
+    Q_UNUSED(storage)
+    Q_UNUSED(info)
+}
+
+void
+CalendarManagerMkCal::storageFinished(mKCal::ExtendedStorage *storage, bool error, const QString &info)
+{
+    Q_UNUSED(storage)
+    Q_UNUSED(error)
+    Q_UNUSED(info)
 }

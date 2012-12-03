@@ -25,8 +25,9 @@
 class CalendarEntryMatcherCondition : public CalendarEntryMatcher
 {
     QRegExp _regExpSummary;
+    QRegExp _regExpLocation;
 
-    void _createRegExpFromKeywords(QRegExp &regExp, const QString &condition);
+    bool _createRegExpFromKeywords(QRegExp &regExp, const QString &condition);
 public:
     CalendarEntryMatcherCondition(const RuleConditionCalendar &condition);
 

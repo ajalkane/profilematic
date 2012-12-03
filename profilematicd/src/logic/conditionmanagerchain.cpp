@@ -72,6 +72,15 @@ ConditionManagerChain::endRefresh() {
 }
 
 void
+ConditionManagerChain::ruleUpdated(const Rule &oldRule, const Rule &updatedRule) {
+    QList<ConditionManager *>::const_iterator i = _conditionManagers.constBegin();
+    for (; i != _conditionManagers.constEnd(); ++i) {
+        ConditionManager *cm = *i;
+        cm->ruleUpdated(oldRule, updatedRule);
+    }
+}
+
+void
 ConditionManagerChain::add(ConditionManager *conditionManager) {
     _conditionManagers.append(conditionManager);
     connect(conditionManager, SIGNAL(refreshNeeded()), this, SIGNAL(refreshNeeded()));

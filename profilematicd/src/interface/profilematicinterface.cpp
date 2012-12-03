@@ -87,6 +87,9 @@ ProfileMaticInterface::updateRule(const Rule &rule) {
         return;
     }
 
+    const Rule &oldRule = _rules->at(index);
+    _rulesManager->ruleUpdated(oldRule, rule);
+
     if (!rule.isDefaultRule()) {
         (*_rules)[index] = rule; // Rule(rule);
     } else {

@@ -32,7 +32,12 @@ public:
 
 private slots:
     void matchSummary();
-    void matchSummaryEmpty();
+    void matchConditionsEmpty();
+
+    void matchLocation();
+    void matchLocationEmpty();
+
+    void matchLocationAndSummary();
 };
 
 #endif // TESTCALENDARENTRYMATCHERCONDITION_H

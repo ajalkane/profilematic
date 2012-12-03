@@ -16,29 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef CALENDARENTRYMATCHERDATETIME_H
-#define CALENDARENTRYMATCHERDATETIME_H
+#ifndef TESTCONDITIONMANAGERCACHING_H
+#define TESTCONDITIONMANAGERCACHING_H
 
-#include "calendarentrymatcher.h"
+#include <QObject>
+#include <QtTest/QtTest>
 
-class CalendarEntryMatcherDateTime : public CalendarEntryMatcher
+#include "../../src/logic/conditionmanagercaching.h"
+#include "../../src/model/rule.h"
+
+class TestConditionManagerCaching : public QObject
 {
-    QDateTime _now;
-    int _prepend;
-    int _append;
+    Q_OBJECT
 
-    QDateTime _useEndTime(const CalendarEntry &entry) const;
-    QDateTime _useStartTime(const CalendarEntry &entry) const;
 public:
-    CalendarEntryMatcherDateTime(const RuleConditionCalendar &condition, const QDateTime &now);
+    TestConditionManagerCaching();
 
-    inline const QDateTime &now() const { return _now; }
-
-    virtual bool match(const CalendarEntry &entry);
-
-    // Returns invalid if no next nearest time for the entry, from the given time
-    QDateTime nextNearestStartOrEnd(const CalendarEntry &entry) const;
+private slots:
+    void testStartStopMonitor();
+    void testMatchCaching();
 
 };
 
-#endif // CALENDARENTRYMATCHERDATETIME_H
+#endif // TESTCONDITIONMANAGERCACHING_H

@@ -28,10 +28,10 @@ TestCalendarEntryMatcherCondition::matchSummary() {
     cond.setSummaryMatch("thismatch1 , match2,matc.h3,  ,");
 
     CalendarEntryMatcherCondition matcher(cond);
-    CalendarEntry entry1(QDateTime(), QDateTime(), "thiSmatch1");
-    CalendarEntry entry2(QDateTime(), QDateTime(), "tooMATCH2");
-    CalendarEntry entry3(QDateTime(), QDateTime(), "MATC.H3too");
-    CalendarEntry entry4(QDateTime(), QDateTime(), "nomatch");
+    CalendarEntry entry1(QDateTime(), QDateTime(), "thiSmatch1", "");
+    CalendarEntry entry2(QDateTime(), QDateTime(), "tooMATCH2", "");
+    CalendarEntry entry3(QDateTime(), QDateTime(), "MATC.H3too", "");
+    CalendarEntry entry4(QDateTime(), QDateTime(), "nomatch", "");
 
     QCOMPARE(matcher.match(entry1), true);
     QCOMPARE(matcher.match(entry2), true);
@@ -40,16 +40,66 @@ TestCalendarEntryMatcherCondition::matchSummary() {
 }
 
 void
-TestCalendarEntryMatcherCondition::matchSummaryEmpty() {
+TestCalendarEntryMatcherCondition::matchConditionsEmpty() {
     RuleConditionCalendar cond;
-    cond.setSummaryMatch("");
 
     CalendarEntryMatcherCondition matcher(cond);
-    CalendarEntry entry1(QDateTime(), QDateTime(), "thiSmatch1");
-    CalendarEntry entry2(QDateTime(), QDateTime(), "");
-    CalendarEntry entry3(QDateTime(), QDateTime(), " ");
+    CalendarEntry entry1(QDateTime(), QDateTime(), "thiSmatch1", "");
+    CalendarEntry entry2(QDateTime(), QDateTime(), "", "");
+    CalendarEntry entry3(QDateTime(), QDateTime(), " ", "");
 
     QCOMPARE(matcher.match(entry1), false);
     QCOMPARE(matcher.match(entry2), false);
     QCOMPARE(matcher.match(entry3), false);
+}
+
+void
+TestCalendarEntryMatcherCondition::matchLocation() {
+    RuleConditionCalendar cond;
+    cond.setLocationMatch("thismatch1 , match2,matc.h3,  ,");
+
+    CalendarEntryMatcherCondition matcher(cond);
+    CalendarEntry entry1(QDateTime(), QDateTime(), "", "thiSmatch1");
+    CalendarEntry entry2(QDateTime(), QDateTime(), "", "tooMATCH2");
+    CalendarEntry entry3(QDateTime(), QDateTime(), "", "MATC.H3too");
+    CalendarEntry entry4(QDateTime(), QDateTime(), "", "nomatch");
+
+    QCOMPARE(matcher.match(entry1), true);
+    QCOMPARE(matcher.match(entry2), true);
+    QCOMPARE(matcher.match(entry3), true);
+    QCOMPARE(matcher.match(entry4), false);
+}
+
+void
+TestCalendarEntryMatcherCondition::matchLocationEmpty() {
+    RuleConditionCalendar cond;
+
+    CalendarEntryMatcherCondition matcher(cond);
+    CalendarEntry entry1(QDateTime(), QDateTime(), "thiSmatch1", "");
+    CalendarEntry entry2(QDateTime(), QDateTime(), "", "");
+    CalendarEntry entry3(QDateTime(), QDateTime(), " ", "");
+
+    QCOMPARE(matcher.match(entry1), false);
+    QCOMPARE(matcher.match(entry2), false);
+    QCOMPARE(matcher.match(entry3), false);
+}
+
+void
+TestCalendarEntryMatcherCondition::matchLocationAndSummary() {
+    RuleConditionCalendar cond;
+    cond.setSummaryMatch("thismatchsum1 , matchsum2,matcsum.h3,  ,");
+    cond.setLocationMatch("thismatchloc1 , matchloc2,matchloc.h3,  ,");
+
+    CalendarEntryMatcherCondition matcher(cond);
+    CalendarEntry entry1(QDateTime(), QDateTime(), "thismatchsum1", "thismatchloc1");
+    CalendarEntry entry2(QDateTime(), QDateTime(), "", "thismatchloc1");
+    CalendarEntry entry3(QDateTime(), QDateTime(), "thismatchsum1", "");
+    CalendarEntry entry4(QDateTime(), QDateTime(), "thismatchsum1", "nolocmatch");
+    CalendarEntry entry5(QDateTime(), QDateTime(), "nosummatch", "thismatchloc1");
+
+    QCOMPARE(matcher.match(entry1), true);
+    QCOMPARE(matcher.match(entry2), false);
+    QCOMPARE(matcher.match(entry3), false);
+    QCOMPARE(matcher.match(entry4), false);
+    QCOMPARE(matcher.match(entry5), false);
 }

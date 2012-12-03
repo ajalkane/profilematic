@@ -32,7 +32,7 @@ MOBILITY += connectivity
 #  - If UnitTests fail, no deployment/running of the executable
 #  - UnitTest code must not be included in the final executable.
 # Uncomment if just unit tests are to be ran:
-CONFIG += qtestlib
+# CONFIG += qtestlib
 
 TEMPLATE = app
 
@@ -81,7 +81,9 @@ SOURCES += src/main.cpp \
     src/logic/calendar/calendarentrymatchercondition.cpp \
     src/logic/calendar/calendarentrymatcher.cpp \
     src/logic/calendar/calendarentrymatcherdatetime.cpp \
-    src/platform/calendar/impl/stub/calendarmanagerstub.cpp
+    src/platform/calendar/impl/stub/calendarmanagerstub.cpp \
+    src/logic/conditionmanagercacheable.cpp \
+    src/logic/conditionmanagercaching.cpp \
 
 HEADERS += \
     src/profileclient.h \
@@ -128,7 +130,9 @@ HEADERS += \
     src/logic/calendar/calendarentrymatchercondition.h \
     src/logic/calendar/calendarentrymatcher.h \
     src/logic/calendar/calendarentrymatcherdatetime.h \
-    src/platform/calendar/impl/stub/calendarmanagerstub.cpp
+    src/platform/calendar/impl/stub/calendarmanagerstub.cpp \
+    src/logic/conditionmanagercacheable.h \
+    src/logic/conditionmanagercaching.h \
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp
@@ -163,14 +167,18 @@ qtestlib {
         tests/logic/testconditionmanagertime.cpp \
         tests/logic/signalcounter.cpp \
         tests/logic/testcalendarentrymatchercondition.cpp \
-        tests/logic/testcalendarentrymatcherdatetime.cpp
+        tests/logic/testcalendarentrymatcherdatetime.cpp \
+        tests/logic/testconditionmanagercalendar.cpp \
+        tests/logic/testconditionmanagercaching.cpp
+
 
     HEADERS += tests/logic/testconditionmanagerchain.h \
         tests/logic/testconditionmanagertime.h \
         tests/logic/signalcounter.h \
         tests/logic/testcalendarentrymatchercondition.h \
-        tests/logic/testcalendarentrymatcherdatetime.h
-
+        tests/logic/testcalendarentrymatcherdatetime.h \
+        tests/logic/testconditionmanagercalendar.h \
+        tests/logic/testconditionmanagercaching.h
 }
 
 #!isEmpty(MEEGO_VERSION_MAJOR) {

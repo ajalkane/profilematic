@@ -46,6 +46,8 @@ class Configuration
     static void _readNfcCondition(QSettings &s, RuleConditionNFC &condNfc);
     static void _writeBatteryLevelCondition(QSettings &s, const RuleConditionBatteryLevel &cond);
     static void _readBatteryLevelCondition(QSettings &s, RuleConditionBatteryLevel &cond);
+    static void _writeCalendarCondition(QSettings &s, const RuleConditionCalendar &cond);
+    static void _readCalendarCondition(QSettings &s, RuleConditionCalendar &cond);
 
 public:
     Configuration();

@@ -35,6 +35,11 @@ RulesManager::RulesManager(const QList<Rule> *rules,
 }
 
 void
+RulesManager::ruleUpdated(const Rule &oldRule, const Rule &updatedRule) {
+    _conditionManager->ruleUpdated(oldRule, updatedRule);
+}
+
+void
 RulesManager::refreshRules() {
     _refresh(true);
 }

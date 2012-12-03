@@ -18,7 +18,7 @@
 **/
 #include "calendarentry.h"
 
-CalendarEntry::CalendarEntry(const QDateTime &start, const QDateTime &end, const QString &summary)
-    : _start(start), _end(end), _summary(summary)
+CalendarEntry::CalendarEntry(const QDateTime &start, const QDateTime &end, const QString &summary, const QString &location)
+    : _start(start), _end(end), _summary(summary), _location(location)
 {
 }

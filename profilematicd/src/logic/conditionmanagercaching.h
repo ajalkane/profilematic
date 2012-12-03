@@ -16,38 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef CONDITIONMANAGER_H
-#define CONDITIONMANAGER_H
+#ifndef CONDITIONMANAGERCACHING_H
+#define CONDITIONMANAGERCACHING_H
 
-#include <QObject>
-#include <QList>
+#include <QHash>
 
-#include "../model/rule.h"
-#include "../model/rulecondition.h"
+#include "conditionmanager.h"
+#include "conditionmanagercacheable.h"
 
-class ConditionManager : public QObject
+class ConditionManagerCaching : public ConditionManager
 {
     Q_OBJECT
 
+    ConditionManagerCacheable *_cacheable;
+
+    QHash<Rule::IdType, ConditionManagerCacheable::MatchStatus> _matchCache;
+
+    int _numPotentialConditionsInRefresh;
+    int _numPotentialConditionsInPreviousRefresh;
 public:
-    ConditionManager(QObject *parent = 0);
-    virtual ~ConditionManager();
+    /**
+     * Takes ownership of the given Cacheable object
+     */
+    ConditionManagerCaching(ConditionManagerCacheable *cacheable, QObject *parent = 0);
 
     virtual void startRefresh();
-    // Returns true if rule matches current conditions
-    virtual bool refresh(const Rule::IdType &ruleId, const RuleCondition &rule) = 0;
-    // Called after all rules have been processed, with the Rule that matched all conditions.
-    // Called with tthe active rule if:
-    //  - The matching Rule is different than the active rule in previous startRefresh/endRefrech cycle
-    //  - ProfileMatic is not stopped
+    virtual bool refresh(const Rule::IdType &ruleId, const RuleCondition &rule);
     virtual void matchedRule(const RuleCondition &rule);
     virtual void endRefresh();
-
-    // Called (before refresh) when a rule has been updated
     virtual void ruleUpdated(const Rule &oldRule, const Rule &updatedRule);
-signals:
-    // Signal sent when condition needs refreshing. When emitting this,
-    void refreshNeeded();
+
+private slots:
+    void matchInvalidated();
 };
 
-#endif // CONDITIONMANAGER_H
+#endif // CONDITIONMANAGERCACHING_H

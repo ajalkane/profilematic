@@ -33,9 +33,30 @@ public:
     CalendarManager(QObject *parent = 0);
     virtual ~CalendarManager();
 
+    /**
+     * Loads calendar entries in the given date range
+     *
+     * The startDate is inclusive, and endDate exclusive. In practice
+     * it means for date+time range this: (startDate):00:00 - (endDate):00:00.
+     * As an example, if all calendar entries are wanted for one DAY, the parameters
+     * should be (DAY), (DAY + 1day). For example: (DAY, DAY.addDays(1)).
+     *
+     * There is no restrictions on the order of returned calendar entries, although it
+     * it is preferrable to return them sorted by (startDate, endDate)
+     */
     virtual QList<CalendarEntry> loadCalendarEntries(const QDate &startDate, const QDate &endDate) = 0;
 
+    /**
+     * Closes the calendar, releasing any resources that might be used.
+     */
+    virtual void closeCalendar() = 0;
 signals:
+    /**
+     * Emitted when any change done on calendar. If this signal is emitted, must assume any
+     * entries loaded with loadCalendarEntries are invalid. This signal must be emitted only
+     * if loadCalendarEntries() have been called, and closeCalendar() has not been called
+     * after that.
+     */
     void onCalendarChanged();
 };
 

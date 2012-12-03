@@ -30,3 +30,6 @@ CalendarManagerStub::loadCalendarEntries(const QDate &startDate, const QDate &en
 
     return QList<CalendarEntry>();
 }
+
+void
+CalendarManagerStub::closeCalendar() {}

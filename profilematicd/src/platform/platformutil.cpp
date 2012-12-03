@@ -52,7 +52,12 @@ PlatformUtil::initialize() {
         exit(1);
     }
 
-    _instance = PlatformUtil::_create();
+    initialize(PlatformUtil::_create());
+}
+
+void
+PlatformUtil::initialize(PlatformUtil *useInstance) {
+    _instance = useInstance;
 }
 
 void

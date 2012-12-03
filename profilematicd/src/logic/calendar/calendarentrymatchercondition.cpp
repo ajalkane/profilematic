@@ -22,10 +22,17 @@
 
 CalendarEntryMatcherCondition::CalendarEntryMatcherCondition(const RuleConditionCalendar &condition)
 {
-    _createRegExpFromKeywords(_regExpSummary, condition.getSummaryMatch());
+    bool someMatch = false;
+    someMatch |= _createRegExpFromKeywords(_regExpSummary, condition.getSummaryMatch());
+    someMatch |= _createRegExpFromKeywords(_regExpLocation, condition.getLocationMatch());
+    if (!someMatch) {
+        // Create regExp that won't match.
+        qDebug() << "CalendarEntryMatcherCondition::CalendarEntryMatcherCondition creating non matching regexp";
+        _regExpSummary = QRegExp(" ^");
+    }
 }
 
-void
+bool
 CalendarEntryMatcherCondition::_createRegExpFromKeywords(QRegExp &regExp, const QString &keywordsStr) {
     QStringList keywords = keywordsStr.split(QRegExp("\\s*,\\s*"), QString::SkipEmptyParts);
     QString regExpStr;
@@ -39,13 +46,21 @@ CalendarEntryMatcherCondition::_createRegExpFromKeywords(QRegExp &regExp, const 
     qDebug() << "CalendarEntryMatcherSummary::constructor created regexp" << regExpStr;
     if (!regExpStr.isEmpty()) {
         regExp = QRegExp(regExpStr, Qt::CaseInsensitive);
+        return true;
     } else {
-        // Create regExp that won't match.
-        regExp = QRegExp(" ^");
+        // Create a regexp that always matches
+        regExp = QRegExp(".*");
     }
+    return false;
 }
 
 bool
 CalendarEntryMatcherCondition::match(const CalendarEntry &entry) {
-    return _regExpSummary.indexIn(entry.summary()) != -1;
+    //    qDebug() << "regExpSummary" << _regExpSummary;
+    //    qDebug() << "regExpLocation" << _regExpLocation;
+    //    qDebug() << "summary" << _regExpSummary.indexIn(entry.summary());
+    //    qDebug() << "location" << _regExpLocation.indexIn(entry.location());
+
+    return _regExpSummary.indexIn(entry.summary()) != -1
+        && _regExpLocation.indexIn(entry.location()) != -1;
 }
