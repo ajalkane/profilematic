@@ -1,8 +1,9 @@
 profilematic (1.8.1) unstable; urgency=low
+  * Added restore previous to mobile network action
   * Fix: bug in WLAN condition selection showing also mobile connection
   * Internet connection summary clarified
 
- -- Arto Jalkanen <ajalkane@gmail.com>  Fri, 5 Dec 2012 00:02:00 +0300
+ -- Arto Jalkanen <ajalkane@gmail.com>  Tue, 4 Dec 2012 22:00:00 +0300
 
 profilematic (1.8.0) unstable; urgency=low
   * Condition: Battery level
