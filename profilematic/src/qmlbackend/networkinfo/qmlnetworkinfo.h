@@ -53,7 +53,7 @@ public:
 private:
     Q_ENUMS(Mode)
 
-    Q_PROPERTY(enum Mode mode READ mode WRITE setMode NOTIFY modeChanged)
+    Q_PROPERTY(enum Mode mode READ mode WRITE setPreferredMode NOTIFY modeChanged)
     Q_PROPERTY(QString networkName READ networkName)
     Q_PROPERTY(QString networkStatus READ networkStatus)
 
@@ -68,7 +68,8 @@ private:
     bool _monitorStatusChanges;
 
     Mode _networkMode;
-    QString _networkName;
+    Mode _preferredMode;
+    QNetworkConfiguration _currentConfiguration;
     QString _networkStatus;
 
     QNetworkConfiguration _getCurrentActiveConfiguration() const;
@@ -80,6 +81,7 @@ public:
 
     Mode mode() const;
     void setMode(const Mode mode);
+    void setPreferredMode(const Mode mode);
 
     QString networkName() const;
     QString networkStatus() const;

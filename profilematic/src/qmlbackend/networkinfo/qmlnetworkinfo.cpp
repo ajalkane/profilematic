@@ -7,12 +7,12 @@ QmlNetworkInfo::QmlNetworkInfo(QObject *parent)
       _monitorStatusChanges(false),
       _networkMode(UnknownMode)
 {
-    qDebug("QmlNetworkInfo::constructor() this hate machine has been created");
+    qDebug("QmlNetworkInfo::constructor()");
     _networkConfigurationManager = new QNetworkConfigurationManager(this);
-    QNetworkConfiguration conf = _getCurrentActiveConfiguration();
-    _networkMode = _networkConfigurationToMode(conf);
-    _networkName = conf.name();
-    _networkStatus = _networkConfigurationToStatus(conf);
+    _currentConfiguration = _getCurrentActiveConfiguration();
+    _networkMode = _networkConfigurationToMode(_currentConfiguration);
+    _preferredMode = _networkMode;
+    _networkStatus = _networkConfigurationToStatus(_currentConfiguration);
 
     connect(_networkConfigurationManager,
             SIGNAL(configurationChanged(const QNetworkConfiguration &)),
@@ -24,13 +24,15 @@ QmlNetworkInfo::_getCurrentActiveConfiguration() const {
     qDebug("QmlNetworkInfo::_getCurrentActiveConfiguration");
     QList<QNetworkConfiguration> confs = _networkConfigurationManager->allConfigurations(QNetworkConfiguration::Active);
     foreach (const QNetworkConfiguration nc, confs) {
+        // Here should prefer active configurations that are of preferredMode type,
+        // but that's not needed on MeeGo as only one connection is active
         if (nc.state() == QNetworkConfiguration::Active) {
             return nc;
         }
     }
 
-    qDebug("QmlNetworkInfo::_getCurrentActiveConfiguration: no active configuration found, returning default");
-    return _networkConfigurationManager->defaultConfiguration();
+    qDebug("QmlNetworkInfo::_getCurrentActiveConfiguration: no active configuration found, returning invalid");
+    return QNetworkConfiguration();
 }
 
 QmlNetworkInfo::Mode
@@ -45,9 +47,15 @@ QmlNetworkInfo::setMode(const Mode mode) {
     emit modeChanged();
 }
 
+void
+QmlNetworkInfo::setPreferredMode(const Mode mode) {
+    qDebug("QmlNetworkInfo::setPreferredMode %d", mode);
+    _preferredMode = mode;
+}
+
 QString
 QmlNetworkInfo::networkName() const {
-    return _networkName;
+    return _currentConfiguration.name();
 }
 
 QString
@@ -127,26 +135,32 @@ QmlNetworkInfo::onConfigurationChanged(const QNetworkConfiguration &config) {
     qDebug("QmlNetworkInfo::Network configuration changed");
     logConfiguration(config);
 
-    Mode mode = _networkConfigurationToMode(config);
-    if (mode == _networkMode) {
-        if (config.state() == QNetworkConfiguration::Active) {
-            if (_monitorNameChanges && config.name() != _networkName) {
-                _networkName = config.name();
-                emit nameChanged();
-            }
-            if (_monitorStatusChanges) {
-                QString status = _networkConfigurationToStatus(config);
-                if (status != _networkStatus) {
-                    _networkStatus = status;
-                    emit statusChanged();
-                }
-            }
-        }
-        else {
-            _networkName.clear();
+    if (config == _currentConfiguration) {
+        if (config.state() != QNetworkConfiguration::Active) {
+            _currentConfiguration = QNetworkConfiguration();
             _networkStatus.clear();
+            _networkMode = UnknownMode;
             emit nameChanged();
             emit statusChanged();
+            emit modeChanged();
+
+            return;
+        }
+    }
+
+    Mode mode = _networkConfigurationToMode(config);
+    if (config.state() == QNetworkConfiguration::Active) {
+        _currentConfiguration = config;
+        setMode(mode);
+        if (_monitorNameChanges) {
+            emit nameChanged();
+        }
+        if (_monitorStatusChanges) {
+            QString status = _networkConfigurationToStatus(config);
+            if (status != _networkStatus) {
+                _networkStatus = status;
+                emit statusChanged();
+            }
         }
     }
 }
