@@ -64,6 +64,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("blueToothMode", r.action().getBlueToothMode());
         s.setValue("restoreBlueToothMode", r.action().getRestoreBlueToothMode());
         s.setValue("cellularMode", r.action().getCellularMode());
+        s.setValue("restoreCellularMode", r.action().getRestoreCellularMode());
         s.setValue("commandLine", r.action().getCommandLine());
         s.setValue("commandLineExit", r.action().getCommandLineExit());
         s.setValue("standByScreenMode", r.action().getStandByScreenMode());
@@ -174,6 +175,8 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         if (cellularModeOk) {
             r.action().setCellularMode(cellularMode);
         }
+        r.action().setRestoreCellularMode(s.value("restoreCellularMode", false).toBool());
+
         r.action().setCommandLine(s.value("commandLine").toString());
         r.action().setCommandLineExit(s.value("commandLineExit").toString());
 

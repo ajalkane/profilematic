@@ -31,6 +31,7 @@ private:
     int     _blueToothMode;
     bool    _restoreBlueToothMode;
     int     _cellularMode;
+    bool    _restoreCellularMode;
     QString _commandLine;
     QString _commandLineExit;
     int     _standByScreenMode;
@@ -55,6 +56,7 @@ private:
     Q_PROPERTY(int blueToothMode READ getBlueToothMode WRITE setBlueToothMode NOTIFY blueToothModeChanged)
     Q_PROPERTY(bool restoreBlueToothMode READ getRestoreBlueToothMode WRITE setRestoreBlueToothMode NOTIFY restoreBlueToothModeChanged)
     Q_PROPERTY(int cellularMode READ getCellularMode WRITE setCellularMode NOTIFY cellularModeChanged)
+    Q_PROPERTY(bool restoreCellularMode READ getRestoreCellularMode WRITE setRestoreCellularMode NOTIFY restoreCellularModeChanged)
     Q_PROPERTY(QString commandLine READ getCommandLine WRITE setCommandLine NOTIFY commandLineChanged)
     Q_PROPERTY(QString commandLineExit READ getCommandLineExit WRITE setCommandLineExit NOTIFY commandLineExitChanged)
     Q_PROPERTY(int standByScreenMode READ getStandByScreenMode WRITE setStandByScreenMode NOTIFY standByScreenModeChanged)
@@ -94,6 +96,7 @@ signals:
     void blueToothModeChanged();
     void restoreBlueToothModeChanged();
     void cellularModeChanged();
+    void restoreCellularModeChanged();
     void commandLineChanged();
     void commandLineExitChanged();
     void presenceRulesChanged();
@@ -150,6 +153,8 @@ public:
     // -1 don't set, 0 set Dual, 1 set 2G, 2 set 3G
     int getCellularMode() const;
     void setCellularMode(int mode);
+    inline bool getRestoreCellularMode() const { return _restoreCellularMode; }
+    void setRestoreCellularMode(bool restore);
 
     // -1 don't set, 0 set StandByScreen off, 1 set StandByScreen on
     int getStandByScreenMode() const;
@@ -199,6 +204,7 @@ public:
             && this->_blueToothMode == o._blueToothMode
             && this->_restoreBlueToothMode == o._restoreBlueToothMode
             && this->_cellularMode == o._cellularMode
+            && this->_restoreCellularMode == o._restoreCellularMode
             && this->_commandLine == o._commandLine
             && this->_commandLineExit == o._commandLineExit
             && this->_presenceStatusMessage == o._presenceStatusMessage

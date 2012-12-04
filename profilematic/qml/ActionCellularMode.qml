@@ -57,35 +57,35 @@ Page {
                 onTopicClicked: cellularModeEditHandler()
             }
 
-//            Item {
-//                id: restoreContainer
-//                width: parent.width
-//                height: action.cellularMode >= 0 ? restore.height : 0
-//                clip: true
+            Item {
+                id: restoreContainer
+                width: parent.width
+                height: action.cellularMode >= 0 ? restore.height : 0
+                clip: true
 
-//                Behavior on height {
-//                    NumberAnimation { duration: 300 }
-//                }
-//                RuleTopicSummary {
-//                    id: restore
-//                    topic: "Restore previous mobile network mode"
-//                    topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
-//                    topicWidth: parent.width - restoreSwitch.width
-//                    summary: restoreSwitch.checked ? "The mobile network mode will be restored."
-//                                                   : "Previous mobile network mode will not be restored."
-//                    onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
-//                }
-//                Switch {
-//                    id: restoreSwitch
-//                    checked: action.restoreCellularMode
-//                    anchors.right: restoreContainer.right
-//                    anchors.top: parent.top
-//                    anchors.verticalCenter: parent.top
-//                    onCheckedChanged: {
-//                        action.restoreCellularMode = checked
-//                    }
-//                }
-//            }
+                Behavior on height {
+                    NumberAnimation { duration: 300 }
+                }
+                RuleTopicSummary {
+                    id: restore
+                    topic: "Restore previous mobile network mode"
+                    topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
+                    topicWidth: parent.width - restoreSwitch.width
+                    summary: restoreSwitch.checked ? "The mobile network mode will be restored."
+                                                   : "Previous mobile network mode will not be restored."
+                    onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
+                }
+                Switch {
+                    id: restoreSwitch
+                    checked: action.restoreCellularMode
+                    anchors.right: restoreContainer.right
+                    anchors.top: parent.top
+                    anchors.verticalCenter: parent.top
+                    onCheckedChanged: {
+                        action.restoreCellularMode = checked
+                    }
+                }
+            }
             LabelHelp {
                 text: "Changes are always delayed until the connection is idle. "
                       + "This is meant to ensure that an ongoing call or data transfer is not aborted because of the change."

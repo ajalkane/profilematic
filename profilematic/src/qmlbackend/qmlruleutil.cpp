@@ -499,7 +499,7 @@ QmlRuleUtil::bluetoothModeClear(RuleAction *action) {
 }
 
 QString
-QmlRuleUtil::cellularModeSummary(const RuleAction *action, const QString &nonUsable, bool /*inListing*/) {
+QmlRuleUtil::cellularModeSummary(const RuleAction *action, const QString &nonUsable, bool inListing) {
     if (action == 0) return nonUsable;
 
     QString summary;
@@ -512,6 +512,10 @@ QmlRuleUtil::cellularModeSummary(const RuleAction *action, const QString &nonUsa
         summary = "3G"; break;
     default:
         return nonUsable;
+    }
+
+    if (!inListing && action->getRestoreCellularMode()) {
+        summary += ". Restores previous mode.";
     }
 
     return summary;

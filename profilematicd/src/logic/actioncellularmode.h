@@ -24,6 +24,8 @@
 
 class ActionCellularMode: public ActionStatefulBase
 {
+    int _previousCellularMode;
+
 public:
     ActionCellularMode();
 

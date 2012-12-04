@@ -21,7 +21,8 @@
 RuleAction::RuleAction(QObject *parent) : QObject(parent),
     _restoreProfile(false), _profileVolume(-1),
     _flightMode(-1), _restoreFlightMode(false), _powerSavingMode(-1), _restorePowerSavingMode(false),
-    _blueToothMode(-1), _restoreBlueToothMode(false), _cellularMode(-1),
+    _blueToothMode(-1), _restoreBlueToothMode(false),
+    _cellularMode(-1), _restoreCellularMode(false),
     _standByScreenMode(-1), _restoreStandByScreenMode(false),
     _backgroundConnectionsMode(-1), _restoreBackgroundConnectionsMode(false),
     _restorePresence(false),
@@ -42,6 +43,7 @@ RuleAction::RuleAction(const RuleAction &o)
       _blueToothMode(o._blueToothMode),
       _restoreBlueToothMode(o._restoreBlueToothMode),
       _cellularMode(o._cellularMode),
+      _restoreCellularMode(o._restoreCellularMode),
       _commandLine(o._commandLine),
       _commandLineExit(o._commandLineExit),
       _standByScreenMode(o._standByScreenMode),
@@ -69,6 +71,7 @@ RuleAction::_init() {
     connect(this, SIGNAL(blueToothModeChanged()),          this, SIGNAL(changed()));
     connect(this, SIGNAL(restoreBlueToothModeChanged()),   this, SIGNAL(changed()));
     connect(this, SIGNAL(cellularModeChanged()),           this, SIGNAL(changed()));
+    connect(this, SIGNAL(restoreCellularModeChanged()),    this, SIGNAL(changed()));
     connect(this, SIGNAL(commandLineChanged()),            this, SIGNAL(changed()));
     connect(this, SIGNAL(commandLineExitChanged()),            this, SIGNAL(changed()));
     connect(this, SIGNAL(presenceRulesChanged()),          this, SIGNAL(changed()));
@@ -95,6 +98,7 @@ RuleAction::operator=(const RuleAction &o) {
     _blueToothMode = o._blueToothMode;
     _restoreBlueToothMode = o._restoreBlueToothMode;
     _cellularMode = o._cellularMode;
+    _restoreCellularMode = o._restoreCellularMode;
     _commandLine = o._commandLine;
     _commandLineExit = o._commandLineExit;
     _presenceStatusMessage = o._presenceStatusMessage;
@@ -414,6 +418,14 @@ RuleAction::setCellularMode(int mode) {
     }
 }
 
+void
+RuleAction::setRestoreCellularMode(bool restore) {
+    if (_restoreCellularMode != restore) {
+        _restoreCellularMode = restore;
+        emit restoreCellularModeChanged();
+    }
+}
+
 int
 RuleAction::getStandByScreenMode() const {
     return _standByScreenMode;
@@ -494,6 +506,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleAction &ruleAction)
     argument << ruleAction.getBlueToothMode();
     argument << ruleAction.getRestoreBlueToothMode();
     argument << ruleAction.getCellularMode();
+    argument << ruleAction.getRestoreCellularMode();
     argument << ruleAction.getStandByScreenMode();
     argument << ruleAction.getRestoreStandByScreenMode();
     argument << ruleAction.getBackgroundConnectionsMode();
@@ -524,6 +537,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     int     blueToothMode = ruleAction.getBlueToothMode();
     bool    restoreBlueToothMode = ruleAction.getRestoreBlueToothMode();
     int     cellularMode = ruleAction.getCellularMode();
+    bool    restoreCellularMode = ruleAction.getRestoreCellularMode();
     int     standByScreenMode = ruleAction.getStandByScreenMode();
     bool    restoreStandByScreenMode = ruleAction.getRestoreStandByScreenMode();
     int     backgroundConnectionsMode = ruleAction.getBackgroundConnectionsMode();
@@ -546,6 +560,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     argument >> blueToothMode;
     argument >> restoreBlueToothMode;
     argument >> cellularMode;
+    argument >> restoreCellularMode;
     argument >> standByScreenMode;
     argument >> restoreStandByScreenMode;
     argument >> backgroundConnectionsMode;
@@ -568,6 +583,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     ruleAction.setBlueToothMode(blueToothMode);
     ruleAction.setRestoreBlueToothMode(restoreBlueToothMode);
     ruleAction.setCellularMode(cellularMode);
+    ruleAction.setRestoreCellularMode(restoreCellularMode);
     ruleAction.setStandByScreenMode(standByScreenMode);
     ruleAction.setRestoreStandByScreenMode(restoreStandByScreenMode);
     ruleAction.setBackgroundConnectionsMode(backgroundConnectionsMode);
