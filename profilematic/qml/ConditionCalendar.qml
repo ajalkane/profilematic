@@ -23,7 +23,7 @@ import "UIConstants.js" as UIConstants
 
 Page {
     id: root
-    tools: timeTools
+    tools: toolBar
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
     property RuleCondition condition // : (rule !== null ? rule.condition : null)
@@ -39,15 +39,15 @@ Page {
 //                console.log("NFC is active, no warning dialog")
 //            }
         } else if (status === PageStatus.Deactivating) {
-            condition.calendar.summaryMatch = summaryMatch.text
-            condition.calendar.locationMatch = locationMatch.text
-            condition.calendar.timePrepend = parseInt(timePrepend.text)
-            condition.calendar.timeAppend = parseInt(timeAppend.text)
+//            condition.calendar.summaryMatch = summaryMatch.text
+//            condition.calendar.locationMatch = locationMatch.text
+//            condition.calendar.timePrepend = parseInt(timePrepend.text)
+//            condition.calendar.timeAppend = parseInt(timeAppend.text)
         }
     }
 
     ToolBarLayout {
-        id: timeTools
+        id: toolBar
         visible: false
         ToolIcon {
             iconId: "toolbar-back"
@@ -76,46 +76,55 @@ Page {
             width: parent.width
             height: childrenRect.height
 
+            LabelHelp {
+                text: "Keywords in the fields are used to match calendar entries. "
+                      + "Condition matches a calendar entry if all fields set here match it. "
+                      + "At least one field must be set for the condition to be usable."
+                      + "\n\n"
+                      + "Comma (,) is used to separate keywords in a field. Any keyword separated by comma "
+                      + "that is found in the calendar field will match. Matching is case insensitive."
+            }
+
+            Separator {}
+
             TextFieldWithLabel {
                 id: summaryMatch
-                labelText: "Match in calendar summary"
+                labelText: "Match summary in calendar entry"
                 placeholderText: "Not set"
                 text: condition.calendar.summaryMatch
                 width: parent.width
+                onTextChanged: {
+                    if (root.status === PageStatus.Active) {
+                        condition.calendar.summaryMatch = text
+                    }
+                }
             }
 
             TextFieldWithLabel {
                 id: locationMatch
-                labelText: "Match in location"
+                labelText: "Match location in calendar entry"
                 placeholderText: "Not set"
                 text: condition.calendar.locationMatch
                 width: parent.width
+                onTextChanged: {
+                    if (root.status === PageStatus.Active) {
+                        condition.calendar.locationMatch = text
+                    }
+                }
             }
 
-            TextFieldWithLabel {
-                id: timePrepend
-                labelText: "Prepend in seconds"
-                placeholderText: "No prepend"
-                text: condition.calendar.timePrepend !== 0 ? condition.calendar.timePrepend: ""
-                inputMethodHints: Qt.ImhDigitsOnly
-                validator: RegExpValidator { regExp: /\d{0,3}/ }
-                width: parent.width
+            Separator {}
+
+            RuleTopic {
+                topic: "Advanced settings"
+                showDrillDown: true
+                disabled: !condition.calendar.isValid()
+                onTopicClicked: {
+                    root.pageStack.push(Qt.resolvedUrl("ConditionCalendarAdvanced.qml"), { 'condition': condition });
+                }
             }
 
-            TextFieldWithLabel {
-                id: timeAppend
-                labelText: "Append in seconds"
-                placeholderText: "No append"
-                text: condition.calendar.timeAppend !== 0 ? condition.calendar.timeAppend: ""
-                inputMethodHints: Qt.ImhDigitsOnly
-                validator: RegExpValidator { regExp: /\d{0,3}/ }
-                width: parent.width
-            }
-
-            LabelHelp {
-                id: timeSummary
-                text: "Give several matches by separating matches with comma"
-            }
+            Separator {}
         }
     }
 }
