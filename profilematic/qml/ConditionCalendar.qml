@@ -55,9 +55,9 @@ Page {
         }
     }
 
-    SectionHeader {
+    PageHeader {
         id: header
-        section: "Calendar condition"
+        text: "Calendar condition"
     }
 
     Flickable {
@@ -70,7 +70,7 @@ Page {
 
         Column {
             id: container
-            spacing: UIConstants.PADDING_XXLARGE
+            spacing: UIConstants.PADDING_XLARGE
             anchors.verticalCenter: parent.verticalCenter
 
             width: parent.width

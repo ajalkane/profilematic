@@ -80,7 +80,7 @@ var COLOR_BACKGROUND = "#E0E1E2"; // Background
 // var COLOR_SELECT = "#4591ff"; //Selected item background
 
 var COLOR_INVERTED_FOREGROUND = "#ffffff"; // Text color
-var COLOR_INVERTED_SECONDARY_FOREGROUND = "#8c8c8c"; // Secondary text
+var COLOR_INVERTED_SECONDARY_FOREGROUND = "#c6c3c6"; // Secondary text
 var COLOR_INVERTED_BACKGROUND = "#000000"; // Background
 
 var COLOR_DISABLED_FOREGROUND = "#b2b2b4";

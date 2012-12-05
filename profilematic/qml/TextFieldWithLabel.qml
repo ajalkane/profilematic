@@ -21,8 +21,8 @@ import com.nokia.meego 1.0
 
 import "UIConstants.js" as UIConstants
 
-Column {
-    property alias labelText: label.section
+Item {
+    property alias labelText: headerLabel.text
     property alias placeholderText: labelField.placeholderText
     property alias text: labelField.text
     property alias inputMask: labelField.inputMask
@@ -33,11 +33,20 @@ Column {
 
     signal accepted
 
-    SectionHeader {
-        id: label
+    Text {
+        id: headerLabel
+        anchors.rightMargin: 8 // IMPROVE UIConstants
+        // anchors.bottomMargin: UIConstants.PADDING_SMALL
+        font.pixelSize: UIConstants.FONT_LSMALL
+        font.weight: Font.Light
+
+        color: theme.inverted ? UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND : UIConstants.COLOR_SECONDARY_FOREGROUND
     }
+
     TextField {
         id: labelField
+        anchors.top: headerLabel.bottom
+        anchors.rightMargin: headerLabel.anchors.rightMargin
         width: parent.width
         Keys.onReturnPressed: {
             platformCloseSoftwareInputPanel()
