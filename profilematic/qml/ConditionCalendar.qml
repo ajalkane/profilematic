@@ -55,14 +55,8 @@ Page {
         }
     }
 
-    PageHeader {
-        id: header
-        text: "Calendar condition"
-    }
-
     Flickable {
         anchors.fill: parent
-        anchors.topMargin: header.height
         pressDelay: 140
         clip: true
         contentWidth: parent.width
@@ -75,6 +69,11 @@ Page {
 
             width: parent.width
             height: childrenRect.height
+
+            PageHeader {
+                id: header
+                text: "Calendar condition"
+            }
 
             LabelHelp {
                 text: "Keywords in the fields are used to match calendar entries. "

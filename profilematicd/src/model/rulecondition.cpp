@@ -184,10 +184,8 @@ RuleCondition::getLocationCells() const {
 
 void
 RuleCondition::setLocationCells(const QSet<int> &cells) {
-    qDebug("RuleCondition::setLocationCells");
     if (_locationCells != cells) {
         _locationCells = cells;
-        qDebug("RuleCondition::setLocationCells emit");
         emit locationCellsChanged();
     }
 }
@@ -309,7 +307,6 @@ RuleCondition::setInternetConnectionMode(InternetConnectionMode mode)
 void
 RuleCondition::setChargingState(ChargingState state)
 {
-    qDebug("RuleCondition::setChargingState(%d) current %d", state, _chargingState);
     if (_chargingState != state) {
         _chargingState = state;
         emit chargingStateChanged();

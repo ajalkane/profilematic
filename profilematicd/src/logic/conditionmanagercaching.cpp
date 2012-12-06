@@ -65,13 +65,21 @@ ConditionManagerCaching::endRefresh() {
     }
 }
 
+/**
+ * This function is only called when rule is updated. It is not called for removing of rule and adding a rule.
+ * For adding a rule, cache do not have to be invalidated as it can't exist in cache yet (generated id is always
+ * unique). For removing a rule the cached value will remain for some time, but that does not matter much. It will
+ * removed next time matchInvalidated is called.
+ */
 void
 ConditionManagerCaching::ruleUpdated(const Rule &oldRule, const Rule &updatedRule) {
     Q_UNUSED(updatedRule)
 
     qDebug() << "ConditionManagerCaching::ruleUpdated, invalidating cache for" << oldRule.getRuleName();
 
-    // Invalidate cache for the rule
+    /*
+     * Invalidate cache for the rule.
+     */
     _matchCache.remove(oldRule.getRuleId());
 }
 

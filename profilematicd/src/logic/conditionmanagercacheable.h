@@ -30,12 +30,15 @@
  * and if that changes call matchInvalidated(). Thus making match() cacheable.
  *
  * Eventually, concrete ConditionManagers implementations should be refactored to be
- * implementations of this interface when possible (most should).
+ * implementations of this interface when possible (for most it should be possible).
  *
  * Advantages to old interface:
  * - Possibility to cache matches to reduce cost of refreshes
  * - More straightforward implementation
  * - Unification of concepts
+ *
+ * The name of the class is not the best, but since currently only ConditionManagerCaching
+ * manages implementations of this class, it is fitting.
  */
 class ConditionManagerCacheable : public QObject
 {

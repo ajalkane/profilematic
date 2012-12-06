@@ -28,14 +28,8 @@ Page {
 
     property RuleCondition condition // : (rule !== null ? rule.condition : null)
 
-    PageHeader {
-        id: header
-        text: "Calendar condition advanced"
-    }
-
     Flickable {
         anchors.fill: parent
-        anchors.topMargin: header.height
         pressDelay: 140
         clip: true
         contentWidth: parent.width
@@ -48,6 +42,11 @@ Page {
 
             width: parent.width
             height: childrenRect.height
+
+            PageHeader {
+                id: header
+                text: "Calendar condition advanced"
+            }
 
             RuleTopicSummary {
                 topic: "Match before calendar entry start"

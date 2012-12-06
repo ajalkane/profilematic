@@ -33,7 +33,7 @@ ConditionManagerCalendar::ConditionManagerCalendar(QObject *parent)
 {
     setObjectName("ConditionManagerCalendar");
 
-    qDebug("ConditionManagerCalendar::constructor");
+    qDebug() << "ConditionManagerCalendar::constructor";
     _timerForNextNearest.setSingleShot(true);
     _calendarManager = PlatformUtil::instance()->createCalendarManager();
 
@@ -51,7 +51,7 @@ ConditionManagerCalendar::match(const Rule::IdType &, const RuleCondition &condi
     const RuleConditionCalendar &condCal = condition.calendar();
 
     if (!_conditionSetForMatching(condCal)) {
-        qDebug("ConditionManagerCalendar::match() calendar options not set or invalid, matches");
+        qDebug() << "ConditionManagerCalendar::match() calendar options not set or invalid, matches";
         return MatchNotSet;
     }
 
@@ -78,7 +78,7 @@ ConditionManagerCalendar::match(const QDateTime &now, const RuleConditionCalenda
 
     foreach (CalendarEntry entry, _entries) {
         if (matcherCondition.match(entry)) {
-            qDebug("ConditionManagerCalendar::match() condition matches entry %s", qPrintable(entry.summary()));
+            qDebug() << "ConditionManagerCalendar::match() condition matches entry" << entry.summary();
             _updateNextNearestDateTime(entry, matcherDateTime);
             if (matcherDateTime.match(entry)) {
                 match = Matched;
@@ -86,7 +86,7 @@ ConditionManagerCalendar::match(const QDateTime &now, const RuleConditionCalenda
         }
     }
 
-    qDebug("ConditionManagerCalendar::match() returning %d", (int)match);
+    qDebug() << "ConditionManagerCalendar::match() returning" << (int)match;
 
     return match;
 }
@@ -97,7 +97,7 @@ ConditionManagerCalendar::startMonitor() {
 
 void
 ConditionManagerCalendar::stopMonitor() {
-    qDebug("%s ConditionManagerCalendar::stopMonitor", qPrintable(QDateTime::currentDateTime().toString()));
+    qDebug() << QDateTime::currentDateTime().toString() << "ConditionManagerCalendar::stopMonitor";
     _timerForNextNearest.stop();
     _nextNearestDateTime = QDateTime();
     _entries.clear();
@@ -116,7 +116,7 @@ ConditionManagerCalendar::rulesChanged() {
 
 void
 ConditionManagerCalendar::onCalendarChanged() {
-    qDebug("%s ConditionManagerCalendar::onCalendarChanged", qPrintable(QDateTime::currentDateTime().toString()));
+    qDebug() << QDateTime::currentDateTime().toString() << "ConditionManagerCalendar::onCalendarChanged";
     _timerForNextNearest.stop();
     _nextNearestDateTime = QDateTime();
     _entries.clear();
@@ -126,7 +126,7 @@ ConditionManagerCalendar::onCalendarChanged() {
 
 void
 ConditionManagerCalendar::onTimeoutForNextMatchCheck() {
-    qDebug("%s ConditionManagerCalendar::onTimeoutForNextMatchCheck", qPrintable(QDateTime::currentDateTime().toString()));
+    qDebug() << QDateTime::currentDateTime().toString() << "ConditionManagerCalendar::onTimeoutForNextMatchCheck";
     emit matchInvalidated();
 }
 
@@ -134,8 +134,8 @@ void
 ConditionManagerCalendar::_startNextNearestTimer(const QDateTime &now) {
     int interval = now.secsTo(_nextNearestDateTime);
     interval += SECS_TO_BUFFER;
-    qDebug("ConditionManagerCalendar: Now %s", qPrintable(now.toString()));
-    qDebug("ConditionManagerCalendar: Scheduling a timer to %s, interval %ds", qPrintable(_nextNearestDateTime.toString()), (int)interval);
+    qDebug() << "ConditionManagerCalendar: Now" << now.toString();
+    qDebug() << "ConditionManagerCalendar: Scheduling a timer to" << _nextNearestDateTime.toString() << "interval" << interval;
 
     timerStart(interval); // , interval + _timerIntervalMaxAddition);
 }
@@ -152,7 +152,7 @@ ConditionManagerCalendar::_updateNextNearestDateTime(const CalendarEntry &entry,
 
 void
 ConditionManagerCalendar::_ensureCalendarEntriesLoaded(const QDateTime &now) {
-    qDebug("ConditionManagerCalendar::_ensureCalendarEntriesLoaded entriesLoadedForDay %s", qPrintable(_entriesLoadedForDay.toString()));
+    qDebug() << "ConditionManagerCalendar::_ensureCalendarEntriesLoaded _entriesLoadedForDay" << _entriesLoadedForDay.toString();
     if (!_entriesLoadedForDay.isValid() || _entriesLoadedForDay != now.date()) {
         QDate startDate = now.date();
         QDate endDate = startDate.addDays(1);
@@ -162,7 +162,7 @@ ConditionManagerCalendar::_ensureCalendarEntriesLoaded(const QDateTime &now) {
         _startNextNearestTimer(now);
 
         _entries = _calendarManager->loadCalendarEntries(startDate, endDate);
-        qDebug("ConditionManagerCalendar::_ensureCalendarEntriesLoaded loaded %d calendar entries", _entries.size());
+        qDebug() << "ConditionManagerCalendar::_ensureCalendarEntriesLoaded loaded" << _entries.size() << "calendar entries";
 
         _entriesLoadedForDay = now.date();
     }

@@ -109,8 +109,7 @@ QList<CalendarEntry>
 CalendarManagerMkCal::loadCalendarEntries(const QDate &startDate, const QDate &endDate) {
     _ensureCalendarInitialized();
 
-    // loadEventsFromBackend
-    logNotebooks(_storagePtr);
+    // logNotebooks(_storagePtr);
 
     // Ignore load failures as load() simply checks if at least one new entry
     // has been loaded (which must not neccesarily be the case).
@@ -160,7 +159,7 @@ CalendarManagerMkCal::loadCalendarEntries(const QDate &startDate, const QDate &e
     // Start inactivity timer to clear the loaded calendar to save memory
     if (!_inactivityCalendarCloseTimer.isActive()) {
         _inactivityCalendarCloseTimer.start(SECONDS_PER_DAY * 1000);
-        qDebug() << "CalendarManagerMkCal::starting invactivity close timer";
+        qDebug() << QDateTime::currentDateTime().toString() << "CalendarManagerMkCal::starting invactivity close timer";
     }
 
     return calendarEntries;
@@ -168,7 +167,7 @@ CalendarManagerMkCal::loadCalendarEntries(const QDate &startDate, const QDate &e
 
 void
 CalendarManagerMkCal::_reopenCalendar() {
-    qDebug() << "CalendarManagerMkCal::_reopenCalendar";
+    qDebug() << QDateTime::currentDateTime().toString() << "CalendarManagerMkCal::_reopenCalendar";
     // Only reopen if calendar was open
     if (_calendarBackendPtr.isNull()) {
         qDebug() << "CalendarManagerMkCal::_reopenCalendar calendar is not open, doing nothing";
@@ -216,7 +215,7 @@ CalendarManagerMkCal::storageModified(mKCal::ExtendedStorage *storage,
     Q_UNUSED(info)
     Q_UNUSED(storage)
 
-    qDebug() << "CalendarManagerMkCal::storageModified: info" << info;
+    qDebug() << QDateTime::currentDateTime().toString() << "CalendarManagerMkCal::storageModified: info" << info;
 
     emit onCalendarChanged();
 }
