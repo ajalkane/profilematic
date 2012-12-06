@@ -45,6 +45,16 @@ Page {
             width: parent.width
             height: childrenRect.height
 
+            PageHeader {
+                text: "Idle condition"
+            }
+
+            LabelHelp {
+                text: "Specify the amount of time in minutes that the device has to be in idle mode until this "
+                      + "rule is activated. Device goes into idle if user does not do anything for a while (about 30 seconds). "
+                      + "Idle mode is exited when lock screen is deactivated."
+            }
+
             TextFieldWithLabel {
                 labelText: "Idle in minutes"
                 placeholderText: "Not set"
@@ -58,13 +68,6 @@ Page {
                     }
                 }
             }
-
-            LabelHelp {
-                text: "Specify the amount of time in minutes that the device has to be in idle mode until this "
-                      + "rule is activated. Device goes into idle if user does not do anything for a while (about 30 seconds). "
-                      + "Idle mode is exited when lock screen is deactivated."
-            }
-
         } // Column
     } // Flickable
 }

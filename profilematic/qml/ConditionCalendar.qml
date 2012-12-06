@@ -23,37 +23,10 @@ import "UIConstants.js" as UIConstants
 
 Page {
     id: root
-    tools: toolBar
+    tools: commonTools
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
     property RuleCondition condition // : (rule !== null ? rule.condition : null)
-
-    onStatusChanged: {
-        // console.log("Status changed ", status)
-        if (status === PageStatus.Activating) {
-//            backendNfc.monitorNfc(true)
-//            if (!backendNfc.isAvailable()) {
-//                console.log("Opening NFC not active warning dialog")
-//                dNfcNotActive.open();
-//            } else {
-//                console.log("NFC is active, no warning dialog")
-//            }
-        } else if (status === PageStatus.Deactivating) {
-//            condition.calendar.summaryMatch = summaryMatch.text
-//            condition.calendar.locationMatch = locationMatch.text
-//            condition.calendar.timePrepend = parseInt(timePrepend.text)
-//            condition.calendar.timeAppend = parseInt(timeAppend.text)
-        }
-    }
-
-    ToolBarLayout {
-        id: toolBar
-        visible: false
-        ToolIcon {
-            iconId: "toolbar-back"
-            onClicked: pageStack.pop()
-        }
-    }
 
     Flickable {
         anchors.fill: parent
@@ -71,7 +44,6 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                id: header
                 text: "Calendar condition"
             }
 

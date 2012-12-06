@@ -91,23 +91,9 @@ Page {
         }
     }
 
-    Column {
-        id: header
-        width: parent.width
-        height: childrenRect.height
-        spacing: UIConstants.PADDING_XXLARGE
-
-        SectionHeader {
-            width: parent.width
-            height: 20
-            section: "WLAN"
-        }
-    }
-
     Flickable {
         id: wlanNamesFlickable
         anchors.fill: parent
-        anchors.topMargin: header.height + UIConstants.PADDING_XXLARGE
 
         pressDelay: 140
         clip: true
@@ -121,6 +107,14 @@ Page {
 
             width: parent.width
             height: childrenRect.height
+
+            PageHeader {
+                text: "WLAN condition"
+            }
+
+            LabelHelp {
+                text: "This condition can be used to activate a rule when connected to WLAN. Add the desired WLAN when connected to it."
+            }
 
             Button {
                 id: collectingButton
@@ -202,9 +196,6 @@ Page {
                 } // Item
             } // Repeater
 
-            LabelHelp {
-                text: "This condition can be used to activate a rule when connected to WLAN. Add the desired WLAN when connected to it."
-            }
             TextFieldWithLabel {
                 labelText: "WLAN timeout in seconds"
                 placeholderText: "No timeout"

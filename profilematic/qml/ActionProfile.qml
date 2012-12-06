@@ -28,14 +28,8 @@ Page {
 
     property RuleAction action;
 
-    SectionHeader {
-        id: header
-        section: "Profile"
-    }
-
     Flickable {
         anchors.fill: parent
-        anchors.topMargin: header.height
         pressDelay: 140
         clip: true
         contentWidth: parent.width
@@ -48,6 +42,10 @@ Page {
 
             width: parent.width
             height: childrenRect.height
+
+            PageHeader {
+                text: "Profile action"
+            }
 
             RuleTopicSummary {
                 topic: "Select profile"

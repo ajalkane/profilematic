@@ -29,14 +29,8 @@ Page {
 
     property RuleCondition condition // : (rule !== null ? rule.condition : null)
 
-    SectionHeader {
-        id: header
-        section: "Choose battery level range"
-    }
-
     Flickable {
         anchors.fill: parent
-        anchors.topMargin: header.height
         pressDelay: 140
         clip: true
         contentWidth: parent.width
@@ -49,6 +43,10 @@ Page {
 
             width: parent.width
             height: childrenRect.height
+
+            PageHeader {
+                text: "Battery level condition"
+            }
 
             RuleTopicSummary {
                 id: summary

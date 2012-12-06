@@ -57,23 +57,9 @@ Page {
         }
     }
 
-    Column {
-        id: header
-        width: parent.width
-        height: childrenRect.height
-        spacing: UIConstants.PADDING_XXLARGE
-
-        SectionHeader {
-            width: parent.width
-            height: 20
-            section: "Cell id location"
-        }
-    }
-
     Flickable {
         id: cellIdsFlickable
         anchors.fill: parent
-        anchors.topMargin: header.height + UIConstants.PADDING_XXLARGE
 
         pressDelay: 140
         clip: true
@@ -87,6 +73,10 @@ Page {
 
             width: parent.width
             height: childrenRect.height
+
+            PageHeader {
+                text: "Cell id location condition"
+            }
 
             Button {
                 id: collectingButton

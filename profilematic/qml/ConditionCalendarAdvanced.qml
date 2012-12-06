@@ -44,7 +44,6 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                id: header
                 text: "Calendar condition advanced"
             }
 

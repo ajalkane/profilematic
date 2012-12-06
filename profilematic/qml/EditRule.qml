@@ -205,12 +205,17 @@ Page {
             width: parent.width
             height: childrenRect.height
 
-            Label {
-                id: label
-                color: UIConstants.COLOR_SECONDARY_FOREGROUND
-                text: rule.ruleName
-                visible: rule.isDefaultRule
+            PageHeader {
+                id: header
+                text: rule.ruleId === '' ? "New rule" : (rule.isDefaultRule ? "Default rule" : "Edit rule");
             }
+
+//            Label {
+//                id: label
+//                color: UIConstants.COLOR_SECONDARY_FOREGROUND
+//                text: rule.ruleName
+//                visible: rule.isDefaultRule
+//            }
             LabelHelp {
                 visible: rule.isDefaultRule
                 text: "Activates specified actions if no other rule with matching conditions has the action specified. "

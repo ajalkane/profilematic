@@ -31,9 +31,9 @@ Page {
 
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
-    SectionHeader {
+    PageHeader {
         id: header
-        section: "Account availability"
+        text: "Account availability action"
     }
 
     TextField {

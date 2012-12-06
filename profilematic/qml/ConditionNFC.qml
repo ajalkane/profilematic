@@ -72,23 +72,9 @@ Page {
         }
     }
 
-    Column {
-        id: header
-        width: parent.width
-        height: childrenRect.height
-        spacing: UIConstants.PADDING_XXLARGE
-
-        SectionHeader {
-            width: parent.width
-            height: 20
-            section: "NFC condition"
-        }
-    }
-
     Flickable {
         id: flickable
         anchors.fill: parent
-        anchors.topMargin: header.height + UIConstants.PADDING_XXLARGE
 
         pressDelay: 140
         clip: true
@@ -102,6 +88,10 @@ Page {
 
             width: parent.width
             height: childrenRect.height
+
+            PageHeader {
+                text: "NFC condition"
+            }
 
             LabelHelp {
                 text: "Bring NFC tag close to the phone to add it to tags that are matched by this rule"

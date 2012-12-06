@@ -37,11 +37,6 @@ Page {
         }
     }
 
-    SectionHeader {
-        id: header
-        section: "Choose time and weekdays"
-    }
-
     Flickable {
         anchors.fill: parent
         anchors.topMargin: header.height
@@ -57,6 +52,10 @@ Page {
 
             width: parent.width
             height: childrenRect.height
+
+            PageHeader {
+                text: "Time condition"
+            }
 
             RuleTopicSummary {
                 topic: "Weekdays"

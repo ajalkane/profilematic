@@ -28,14 +28,8 @@ Page {
 
     property RuleCondition condition // : (rule !== null ? rule.condition : null)
 
-    SectionHeader {
-        id: header
-        section: "Choose charging state"
-    }
-
     Flickable {
         anchors.fill: parent
-        anchors.topMargin: header.height
         pressDelay: 140
         clip: true
         contentWidth: parent.width
@@ -48,6 +42,10 @@ Page {
 
             width: parent.width
             height: childrenRect.height
+
+            PageHeader {
+                text: "Charging state condition"
+            }
 
             RuleTopicSummary {
                 topic: "Charging state"

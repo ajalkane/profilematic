@@ -28,11 +28,6 @@ Page {
 
     property RuleAction action;
 
-    SectionHeader {
-        id: header
-        section: "Stand-by screen mode"
-    }
-
     Flickable {
         anchors.fill: parent
         anchors.topMargin: header.height
@@ -48,6 +43,10 @@ Page {
 
             width: parent.width
             height: childrenRect.height
+
+            PageHeader {
+                text: "Stand-by screen action"
+            }
 
             RuleTopicSummary {
                 id: standByScreen

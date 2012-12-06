@@ -43,6 +43,10 @@ Page {
             width: parent.width
             height: childrenRect.height
 
+            PageHeader {
+                text: "Custom action"
+            }
+
             LabelHelp {
                 text: "Use this action only if you know what you're doing (ie. you're familiar with using N9's developer mode and terminal)! "
             }
