@@ -23,6 +23,8 @@
 
 #include "platformutil.h"
 
+#include "calendar/impl/stub/calendarmanagerstub.h"
+
 // MEEGO_VERSION_MAJOR seems to be defined only for qmake, not for the compilation.
 // So for now use __arm__ as ugly workaround.
 // #ifdef MEEGO_VERSION_MAJOR
@@ -50,7 +52,12 @@ PlatformUtil::initialize() {
         exit(1);
     }
 
-    _instance = PlatformUtil::_create();
+    initialize(PlatformUtil::_create());
+}
+
+void
+PlatformUtil::initialize(PlatformUtil *useInstance) {
+    _instance = useInstance;
 }
 
 void
@@ -175,4 +182,8 @@ PlatformUtil::monitorBatteryLevel(bool monitor) {
     qDebug("PlatformUtil::monitorBatteryLevel default, monitor: %d", monitor);
 }
 
-
+CalendarManager *
+PlatformUtil::createCalendarManager(QObject *parent)
+{
+    return new CalendarManagerStub(parent);
+}

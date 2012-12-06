@@ -21,6 +21,10 @@
 
 #include <QObject>
 
+// IMPROVE it's wrong to have in platform util this... rather platformutil should abstract the QtTelepathy functions for portability between platforms
+#include "../logic/presence/actionpresence.h"
+#include "calendar/calendarmanager.h"
+
 class ActionPresence;
 
 class PlatformUtil : public QObject
@@ -39,6 +43,8 @@ public:
     }
 
     static void initialize();
+    // Only intended to be used Unit Tests to initialize a mock instance
+    static void initialize(PlatformUtil *useInstance);
     static void deinitialize();
 
     virtual ~PlatformUtil();
@@ -75,6 +81,9 @@ public:
     // IMPROVE: Qt has ways to detect if any object is connected to signal, that would be nicer way to
     // do this and would make this method unnecessary.
     virtual void monitorBatteryLevel(bool monitor);
+
+    virtual CalendarManager *createCalendarManager(QObject *parent = 0);
+
 signals:
     void userActivityIdleChanged(bool isIdle);
     // -1: Unknown, 0: Idle, 1: Signaling, 2: Call, 3: Data

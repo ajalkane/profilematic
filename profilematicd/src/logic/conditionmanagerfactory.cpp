@@ -8,6 +8,9 @@
 #include "conditionmanagerinternetconnectionmode.h"
 #include "conditionmanagerbatterylevel.h"
 
+#include "conditionmanagercaching.h"
+#include "calendar/conditionmanagercalendar.h"
+
 #include "conditionmanagerfactory.h"
 
 ConditionManagerFactory::ConditionManagerFactory()
@@ -26,6 +29,7 @@ ConditionManagerFactory::create()
     cm->add(new ConditionManagerNFC());
     cm->add(new ConditionManagerInternetConnectionMode());
     cm->add(new ConditionManagerBatteryLevel());
+    cm->add(new ConditionManagerCaching(new ConditionManagerCalendar()));
 
     return cm;
 }

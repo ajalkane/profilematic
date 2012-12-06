@@ -22,7 +22,8 @@ RuleCondition::RuleCondition(const RuleCondition &o)
       _nfc(o._nfc),
       _internetConnectionMode(o._internetConnectionMode),
       _chargingState(o._chargingState),
-      _batteryLevel(o._batteryLevel)
+      _batteryLevel(o._batteryLevel),
+      _calendar(o._calendar)
 {
     _init();
 }
@@ -43,7 +44,9 @@ RuleCondition::_init() {
     connect(this, SIGNAL(internetConnectionModeChanged()), this, SIGNAL(changed()));
     connect(this, SIGNAL(chargingStateChanged()), this, SIGNAL(changed()));
     connect(&_batteryLevel, SIGNAL(changed()),   this, SIGNAL(batteryLevelChanged()));
-    connect(this, SIGNAL(batteryLevelChanged()),   this, SIGNAL(changed()));
+    connect(this, SIGNAL(batteryLevelChanged()), this, SIGNAL(changed()));
+    connect(&_calendar,     SIGNAL(changed()),   this, SIGNAL(calendarChanged()));
+    connect(this, SIGNAL(calendarChanged()), this, SIGNAL(changed()));
 }
 
 
@@ -62,6 +65,7 @@ RuleCondition::operator=(const RuleCondition &o)
     _internetConnectionMode = o._internetConnectionMode;
     _chargingState = o._chargingState;
     _batteryLevel = o._batteryLevel;
+    _calendar = o._calendar;
 
     return *this;
 }
@@ -180,10 +184,8 @@ RuleCondition::getLocationCells() const {
 
 void
 RuleCondition::setLocationCells(const QSet<int> &cells) {
-    qDebug("RuleCondition::setLocationCells");
     if (_locationCells != cells) {
         _locationCells = cells;
-        qDebug("RuleCondition::setLocationCells emit");
         emit locationCellsChanged();
     }
 }
@@ -305,7 +307,6 @@ RuleCondition::setInternetConnectionMode(InternetConnectionMode mode)
 void
 RuleCondition::setChargingState(ChargingState state)
 {
-    qDebug("RuleCondition::setChargingState(%d) current %d", state, _chargingState);
     if (_chargingState != state) {
         _chargingState = state;
         emit chargingStateChanged();
@@ -327,6 +328,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleCondition &rule)
     argument << int(rule.getInternetConnectionMode());
     argument << int(rule.getChargingState());
     argument << rule.batteryLevel();
+    argument << rule.calendar();
     argument.endStructure();
     return argument;
 }
@@ -346,6 +348,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     int networkMode;
     int chargingState;
     RuleConditionBatteryLevel batteryLevel;
+    RuleConditionCalendar calendar;
 
     argument.beginStructure();
     argument >> timeStart;
@@ -360,6 +363,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     argument >> networkMode;
     argument >> chargingState;
     argument >> batteryLevel;
+    argument >> calendar;
     argument.endStructure();
 
     rule.setTimeStart(timeStart);
@@ -374,6 +378,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     rule.setInternetConnectionMode((RuleCondition::InternetConnectionMode)networkMode);
     rule.setChargingState((RuleCondition::ChargingState)chargingState);
     rule.setBatteryLevel(batteryLevel);
+    rule.setCalendar(calendar);
 
     return argument;
 }

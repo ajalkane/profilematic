@@ -43,6 +43,8 @@ public:
     virtual void matchedRule(const RuleCondition &rule);
     virtual void endRefresh();
 
+    // Called (before refresh) when a rule has been updated
+    virtual void ruleUpdated(const Rule &oldRule, const Rule &updatedRule);
 signals:
     // Signal sent when condition needs refreshing. When emitting this,
     void refreshNeeded();

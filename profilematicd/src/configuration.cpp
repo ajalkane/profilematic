@@ -79,6 +79,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
         s.setValue("chargingState", int(r.condition().getChargingState()));
         _writeNfcCondition(s, r.condition().nfc());
         _writeBatteryLevelCondition(s, r.condition().batteryLevel());
+        _writeCalendarCondition(s, r.condition().calendar());
     }
     s.endArray();
 }
@@ -209,6 +210,7 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
 
         _readNfcCondition(s, r.condition().nfc());
         _readBatteryLevelCondition(s, r.condition().batteryLevel());
+        _readCalendarCondition(s, r.condition().calendar());
 
         RuleCondition::InternetConnectionMode internetConnectionMode
                 = (RuleCondition::InternetConnectionMode) s.value("internetConnectionMode", 0).toInt();
@@ -358,6 +360,22 @@ void
 Configuration::_readBatteryLevelCondition(QSettings &s, RuleConditionBatteryLevel &cond) {
     cond.setLevelMin(s.value("batteryLevelMin", -1).toInt());
     cond.setLevelMax(s.value("batteryLevelMax", -1).toInt());
+}
+
+void
+Configuration::_writeCalendarCondition(QSettings &s, const RuleConditionCalendar &cond) {
+    s.setValue("calendarSummaryMatch", cond.getSummaryMatch());
+    s.setValue("calendarLocationMatch", cond.getLocationMatch());
+    s.setValue("calendarTimePrepend", cond.getTimePrepend());
+    s.setValue("calendarTimeAppend", cond.getTimeAppend());
+}
+
+void
+Configuration::_readCalendarCondition(QSettings &s, RuleConditionCalendar &cond) {
+    cond.setSummaryMatch(s.value("calendarSummaryMatch", "").toString());
+    cond.setLocationMatch(s.value("calendarLocationMatch", "").toString());
+    cond.setTimePrepend(s.value("calendarTimePrepend", "0").toInt());
+    cond.setTimeAppend(s.value("calendarTimeAppend", "0").toInt());
 }
 
 void

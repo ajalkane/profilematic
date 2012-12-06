@@ -25,6 +25,8 @@
 #include <QProcess>
 #include <gconfitem.h>
 
+#include "../calendar/impl/mkcal/calendarmanagermkcal.h"
+
 #define GCONF_STAND_BY_SCREEN_KEY "/system/osso/dsm/display/use_low_power_mode"
 #define GCONF_BACKGROUND_CONNECTIONS_DISABLED_KEY "/system/osso/connectivity/network_type/restricted_mode"
 #define PLATFORMUTIL_APP "/opt/profilematic/bin/platformutil"
@@ -354,4 +356,10 @@ void
 HarmattanPlatformUtil::batteryRemainingCapacityChanged(int percentage, int bars) {
     qDebug("HarmattanPlatformUtil::batteryRemainingCapacityChanged pct %d bars %d", percentage, bars);
     emit batteryLevelChanged(percentage);
+}
+
+CalendarManager *
+HarmattanPlatformUtil::createCalendarManager(QObject *parent)
+{
+    return new CalendarManagerMkCal(parent);
 }
