@@ -41,6 +41,8 @@ class RulesManager : public QObject
 
     void _activateRule(const Rule &rule);
     void _refresh(bool forceActivate);
+    void _matchRule(const Rule &rule);
+
 public:
     RulesManager(const QList<Rule> *rules,
                  ConditionManager *conditionManager,

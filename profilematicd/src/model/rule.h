@@ -41,6 +41,7 @@ class Rule : public QObject
     QString   _ruleId;
     QString   _ruleName;
     bool      _ruleActive;
+    bool      _stopIfMatched;
 
     RuleCondition _condition;
     RuleAction _action;
@@ -48,6 +49,7 @@ class Rule : public QObject
     Q_PROPERTY(QString ruleId READ getRuleId NOTIFY ruleIdChanged)
     Q_PROPERTY(QString ruleName READ getRuleName WRITE setRuleName NOTIFY ruleNameChanged)
     Q_PROPERTY(bool ruleActive READ getRuleActive WRITE setRuleActive NOTIFY ruleActiveChanged)
+    Q_PROPERTY(bool stopIfMatched READ getStopIfMatched WRITE setStopIfMatched NOTIFY stopIfMatchedChanged)
     Q_PROPERTY(bool isDefaultRule READ isDefaultRule NOTIFY ruleIdChanged STORED false)
     Q_PROPERTY(RuleCondition *condition READ conditionQml NOTIFY conditionChanged STORED false)
     Q_PROPERTY(RuleAction *action READ actionQml NOTIFY actionChanged STORED false)
@@ -62,6 +64,7 @@ signals:
     void ruleNameChanged();
     void ruleIdChanged();
     void ruleActiveChanged();
+    void stopIfMatchedChanged();
 public:
     typedef QString IdType;
 
@@ -85,6 +88,9 @@ public:
     inline bool getRuleActive() const { return _ruleActive; }
     void setRuleActive(bool active);
 
+    inline bool getStopIfMatched() const { return _stopIfMatched; }
+    void setStopIfMatched(bool stopIfMatched);
+
     inline       RuleAction &action()             { return _action; }
     inline       RuleCondition &condition()       { return _condition; }
     inline const RuleAction &action()       const { return _action; }
@@ -97,6 +103,7 @@ public:
         return this->_ruleId     == o._ruleId
             && this->_ruleName   == o._ruleName
             && this->_ruleActive == o._ruleActive
+            && this->_stopIfMatched == o._stopIfMatched
             && this->_condition  == o._condition
             && this->_action     == o._action;
     }

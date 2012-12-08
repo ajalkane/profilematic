@@ -60,24 +60,40 @@ RulesManager::_refresh(bool /*forceActivate*/) {
         QList<Rule>::const_iterator ruleI = _rules->constBegin();
         for (; ruleI != _rules->constEnd(); ++ruleI) {
             const Rule &rule = *ruleI;
+            if (rule.isDefaultRule()) continue;
+
             if (!rule.getRuleActive()) {
                 qDebug("RulesManager::refresh() rule %s is not active, skipping", qPrintable(rule.getRuleName()));
                 continue;
             }
-            bool isMatching = rule.isDefaultRule() || _conditionManager->refresh(rule.getRuleId(), rule.condition());
+            bool isMatching = _conditionManager->refresh(rule.getRuleId(), rule.condition());
             if (isMatching) {
-                _activateRule(rule);
-                _matchingRuleIds << rule.getRuleId();
-                _conditionManager->matchedRule(rule.condition());
+                _matchRule(rule);
+                if (rule.getStopIfMatched()) {
+                    qDebug("RulesManager::refresh(), rule has stopIfMatched, skipping rest");
+                    break;
+                }
             }
         }
+        // Assume default rule is the last one
+        const Rule &defaultRule = _rules->last();
+        // Default rule always matches
+        _matchRule(defaultRule);
     } else {
         qDebug("%s RulesManager::refresh(), ProfileMatic not active", qPrintable(QDateTime::currentDateTime().toString()));
     }
     _conditionManager->endRefresh();
     _action->endRefresh();
 
+    // IMPROVE: should emit only if really changed
     emit matchingRuleIdsChanged(_matchingRuleIds.toList());
+}
+
+void
+RulesManager::_matchRule(const Rule &rule) {
+    _activateRule(rule);
+    _matchingRuleIds << rule.getRuleId();
+    _conditionManager->matchedRule(rule.condition());
 }
 
 void

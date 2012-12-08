@@ -19,7 +19,7 @@
 #include "rule.h"
 
 Rule::Rule(QObject *parent)
-    : QObject(parent), _ruleActive(true)
+    : QObject(parent), _ruleActive(true), _stopIfMatched(false)
 {
     _init();
 }
@@ -29,6 +29,7 @@ Rule::Rule(const Rule &o)
       _ruleId(o._ruleId),
       _ruleName(o._ruleName),
       _ruleActive(o._ruleActive),
+      _stopIfMatched(o._stopIfMatched),
       _condition(o.condition()), _action(o.action())
 {
     _init();
@@ -39,6 +40,7 @@ Rule::operator=(const Rule &o) {
     _ruleId = o._ruleId;
     _ruleName = o._ruleName;
     _ruleActive = o._ruleActive;
+    _stopIfMatched = o._stopIfMatched;
     _condition = o._condition;
     _action = o._action;
     return *this;
@@ -49,6 +51,7 @@ Rule::_init() {
     connect(this,        SIGNAL(ruleNameChanged()),  this, SIGNAL(changed()));
     connect(this,        SIGNAL(ruleIdChanged()),    this, SIGNAL(changed()));
     connect(this,        SIGNAL(ruleActiveChanged()),    this, SIGNAL(changed()));
+    connect(this,        SIGNAL(stopIfMatchedChanged()), this, SIGNAL(changed()));
     connect(&_condition, SIGNAL(changed()),          this, SIGNAL(conditionChanged()));
     connect(&_action,    SIGNAL(changed()),          this, SIGNAL(actionChanged()));
     connect(&_condition, SIGNAL(changed()), this, SIGNAL(changed()));
@@ -118,12 +121,21 @@ Rule::setRuleActive(bool active) {
     }
 }
 
+void
+Rule::setStopIfMatched(bool stopIfMatched) {
+    if (_stopIfMatched != stopIfMatched) {
+        _stopIfMatched = stopIfMatched;
+        emit stopIfMatchedChanged();
+    }
+}
+
 QDBusArgument &operator<<(QDBusArgument &argument, const Rule &rule)
 {
     argument.beginStructure();
     argument << rule.getRuleId();
     argument << rule.getRuleName();
     argument << rule.getRuleActive();
+    argument << rule.getStopIfMatched();
     argument << rule.condition();
     argument << rule.action();
     argument.endStructure();
@@ -136,11 +148,13 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     QString   ruleId = rule.getRuleId();
     QString   ruleName = rule.getRuleName();
     bool      ruleActive = rule.getRuleActive();
+    bool      stopIfMatched = rule.getStopIfMatched();
 
     argument.beginStructure();
     argument >> ruleId;
     argument >> ruleName;
     argument >> ruleActive;
+    argument >> stopIfMatched;
     argument >> rule.condition();
     argument >> rule.action();
     argument.endStructure();
@@ -148,6 +162,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Rule &rule)
     rule.setRuleId(ruleId);
     rule.setRuleName(ruleName);
     rule.setRuleActive(ruleActive);
+    rule.setStopIfMatched(stopIfMatched);
 
     return argument;
 }
