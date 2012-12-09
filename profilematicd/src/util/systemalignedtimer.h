@@ -41,7 +41,7 @@ class SystemAlignedTimer : public QObject
 
     QSystemAlignedTimer _timer;
     // Contains the real minimum target time if overflowed
-    QDateTime _overflowedMinimumInterval;
+    QDateTime _overflowedMinimumTarget;
     // The real minimum and maximum interval until timeout
     int _minimumInterval;
     int _maximumInterval;
