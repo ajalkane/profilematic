@@ -260,7 +260,11 @@ Page {
                         id: mainText
                         text: model.ruleName
                         width: parent.width
-                        platformStyle: LabelStyleTitle { disabled: !ruleActive }
+                        platformStyle: LabelStyleTitle {
+                            disabled: !ruleActive
+                            // IMPROVE: "orange" to UIConstants
+                            textColor: model.stopIfMatched ? "orange" : implicitTextColor
+                        }
                         font.weight: Font.Bold
                         elide: Text.ElideRight
                     }

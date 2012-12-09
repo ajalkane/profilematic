@@ -76,7 +76,8 @@ public:
         RuleActiveRole,
         RuleNameRole,
         RuleSummaryRole,
-        MatchingRole
+        MatchingRole,
+        StopIfMatchedRole
     };
 
     QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profilesModel, QObject *parent = 0);

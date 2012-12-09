@@ -141,7 +141,7 @@ Page {
             }
         }
         ToolIcon {
-            visible: rule.ruleId !== '' //  -1
+            visible: !rule.isDefaultRule
             iconId: "toolbar-view-menu";
             anchors.right: parent.right
             onClicked: (editRuleMenu.status === DialogStatus.Closed) ? editRuleMenu.open() : editRuleMenu.close()
@@ -151,9 +151,11 @@ Page {
     Menu {
         id: editRuleMenu
         visualParent: pageStack
+
         MenuLayout {
             MenuItem {
                 text: "Delete"
+                enabled: rule.ruleId !== '' && !rule.isDefaultRule
                 onClicked: {
                     console.log("Delete menu item clicked")
                     confirmDelete()
@@ -161,11 +163,19 @@ Page {
             }
             MenuItem {
                 text: rule.ruleActive ? "Deactivate rule" : "Activate rule"
-                enabled: !rule.isDefaultRule
+                enabled: rule.ruleId !== '' && !rule.isDefaultRule
                 onClicked: {
                     rule.ruleActive = !rule.ruleActive
                 }
             }
+            MenuItem {
+                text: "Advanced options"
+                enabled: !rule.isDefaultRule
+                onClicked: {
+                    root.pageStack.push(Qt.resolvedUrl("EditRuleAdvanced.qml"), { 'rule': rule });
+                }
+            }
+
         }
     }
 
@@ -225,6 +235,12 @@ Page {
                 visible: !rule.ruleActive
                 color: "orange" // IMPROVE to UIConstants
                 text: "This rule is not active. You can reactivate this rule from menu. Changes won't be activated before saving."
+            }
+
+            LabelHelp {
+                visible: rule.stopIfMatched
+                color: "orange" // IMPROVE to UIConstants
+                text: "If this rule matches, following rules are skipped."
             }
 
             TextFieldWithLabel {

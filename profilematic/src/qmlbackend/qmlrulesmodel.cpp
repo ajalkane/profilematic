@@ -33,6 +33,7 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profi
     _roleToProperty[RuleNameRole]        = "ruleName";
     _roleToProperty[RuleSummaryRole]     = "ruleSummary";
     _roleToProperty[MatchingRole]        = "matching";
+    _roleToProperty[StopIfMatchedRole]   = "stopIfMatched";
 
     setRoleNames(_roleToProperty);
 
@@ -95,6 +96,8 @@ QmlRulesModel::data(const QModelIndex & index, int role) const {
         return _ruleSummaryText(rule);
     case MatchingRole:
         return _matchingRuleIds.contains(rule.getRuleId());
+    case StopIfMatchedRole:
+        return rule.getStopIfMatched();
     default:
         qDebug("Unrecognized role for QmlRulesModel::data: %d", role);
         return QVariant();

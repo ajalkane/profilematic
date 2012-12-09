@@ -24,7 +24,8 @@ import "UIConstants.js" as UIConstants
 // IMPROVE should not be needed in future updates, use font: UiConstants.TitleFont
 LabelStyle {
     property bool disabled: false
+    property string implicitTextColor: disabled ? "grey" : (!theme.inverted ? UIConstants.TITLE_COLOR : UIConstants.TITLE_INVERTED_COLOR)
 
     fontPixelSize: UIConstants.TITLE_FONT_SIZE
-    textColor: disabled ? "grey" : (!theme.inverted ? UIConstants.TITLE_COLOR : UIConstants.TITLE_INVERTED_COLOR)
+    textColor: implicitTextColor // disabled ? "grey" : (!theme.inverted ? UIConstants.TITLE_COLOR : UIConstants.TITLE_INVERTED_COLOR)
 }
