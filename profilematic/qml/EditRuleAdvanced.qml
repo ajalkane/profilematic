@@ -1,5 +1,5 @@
 /*********************************************************************
- * Copyright 2011 Arto Jalkanen
+ * Copyright 2012 Arto Jalkanen
  *
  * This file is part of ProfileMatic.
  *
@@ -33,7 +33,7 @@ Page {
     property Rule    rule;
 
     Flickable {
-        anchors.fill: parent // editRule
+        anchors.fill: parent
         pressDelay: 140
         clip: true
         contentWidth: parent.width
@@ -42,7 +42,6 @@ Page {
         Column {
             id: container
             spacing: UIConstants.DEFAULT_MARGIN
-            // anchors.fill: parent
             anchors.verticalCenter: parent.verticalCenter
 
             width: parent.width
@@ -53,28 +52,13 @@ Page {
                 text: "Rule advanced options"
             }
 
-            Item {
-                width: parent.width
-                height: stopIfMatched.height
-
-                RuleTopicSummary {
-                    id: stopIfMatched
-                    topic: "Stop rule processing if matches"
-                    topicHeight: Math.max(topicImplicitHeight, stopIfMatchedSwitch.height)
-                    topicWidth: parent.width - stopIfMatchedSwitch.width
-                    summary: stopIfMatchedSwitch.checked ? "No more rules processed if this rule matches."
-                                                   : "Normal rule matching."
-                    onTopicClicked: stopIfMatchedSwitch.checked = !stopIfMatchedSwitch.checked
-                }
-                Switch {
-                    id: stopIfMatchedSwitch
-                    checked: rule.stopIfMatched
-                    anchors.right: parent.right
-                    anchors.top: parent.top
-                    anchors.verticalCenter: parent.top
-                    onCheckedChanged: {
-                        rule.stopIfMatched = checked
-                    }
+            RuleTopicSummarySwitch {
+                topic: "Stop rule processing if matches"
+                summary: checked ? "No more rules processed if this rule matches."
+                                 : "Normal rule matching."
+                checked: rule.stopIfMatched
+                onCheckedChanged: {
+                    rule.stopIfMatched = checked;
                 }
             }
 
