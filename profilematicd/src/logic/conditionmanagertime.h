@@ -52,12 +52,12 @@ public:
         return &_timer;
     }
     // Minimum interval in msecs
-    inline int minimumIntervalMsec() const {
-        return _timer.minimumInterval() * 1000;
+    inline int minimumIntervalSec() const {
+        return _timer.minimumInterval();
     }
     // Maximum interval in msecs
-    inline int maximumIntervalMsec() const {
-        return _timer.maximumInterval() * 1000;
+    inline int maximumIntervalSec() const {
+        return _timer.maximumInterval();
     }
     inline void setTimerMaxIntervalAddition(int add) {
         _timerIntervalMaxAddition = add;

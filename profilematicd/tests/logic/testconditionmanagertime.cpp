@@ -102,7 +102,7 @@ TestConditionManagerTime::refresh_basicTestsTimer() {
     QVERIFY(cm.timer()->isActive() == true);
     QVERIFY(match == 0);
     // 100 = 1min40secs, start time is actually minute after
-    QCOMPARE(cm.minimumIntervalMsec(), 60 * 1000);
+    QCOMPARE(cm.minimumIntervalSec(), 60);
 
     // Match to next day
     rule1.condition().setDays(_allDays);
@@ -113,7 +113,7 @@ TestConditionManagerTime::refresh_basicTestsTimer() {
     QVERIFY(cm.timer()->isActive() == true);
     QVERIFY(match == 0);
     // 100 = 1min40secs, start time is actually 2 minutes before
-    QCOMPARE(cm.minimumIntervalMsec(), (24 * 60 * 60 - 120) * 1000);
+    QCOMPARE(cm.minimumIntervalSec(), (24 * 60 * 60 - 120));
 }
 
 void
@@ -135,7 +135,7 @@ TestConditionManagerTime::refresh_basicTestsMatching() {
     QCOMPARE(cm.timer()->isActive(), true);
     QVERIFY(*match == rule1);
     // 100 = 1min40secs, end time is actually 1min after
-    QCOMPARE(cm.minimumIntervalMsec(), 60 * 1000);
+    QCOMPARE(cm.minimumIntervalSec(), 60);
 
     // Match to next day, when start time is current time, and end time is current time - minute (21:59:59), even as only tuesday selected
     // Tuesday
@@ -153,7 +153,7 @@ TestConditionManagerTime::refresh_basicTestsMatching() {
     QCOMPARE(cm.timer()->isActive(), true);
     QVERIFY(*match == rule1);
     // 24h - 60 seconds
-    QCOMPARE(cm.minimumIntervalMsec(), (24 * 60 * 60 - 60) * 1000);
+    QCOMPARE(cm.minimumIntervalSec(), (24 * 60 * 60 - 60) );
 
 
     // Match to endTime, when startTime is in the previous day
@@ -171,7 +171,7 @@ TestConditionManagerTime::refresh_basicTestsMatching() {
     QCOMPARE((int)cm.timer()->lastError(), 0);
     QVERIFY(cm.timer()->isActive() == true);
     QVERIFY(*match == rule1);
-    QCOMPARE(cm.minimumIntervalMsec(), 60 * 1000);
+    QCOMPARE(cm.minimumIntervalSec(), 60);
 
     // Match to next day when startTime = endTime and now = startTime
     // Tuesday
@@ -190,7 +190,7 @@ TestConditionManagerTime::refresh_basicTestsMatching() {
     QVERIFY(match != 0);
     QVERIFY(*match == rule1);
     // 24h
-    QCOMPARE(cm.minimumIntervalMsec(), 24 * 60 * 60 * 1000);
+    QCOMPARE(cm.minimumIntervalSec(), 24 * 60 * 60 );
 }
 
 void
@@ -214,14 +214,14 @@ TestConditionManagerTime::refresh_dayTimeTests() {
     match = _refresh(cm, rules, now);
     QVERIFY(cm.timer()->isActive() == true);
     QVERIFY(match == 0);
-    QCOMPARE(cm.minimumIntervalMsec(), 60 * 1000);
+    QCOMPARE(cm.minimumIntervalSec(), 60 );
 
     // Then try with a time that is a 2 minute before. In that case wakeup should go to next week.
     rules.first().condition().setTimeStart(now.time().addSecs(-120));
     rules.first().condition().setTimeEnd(now.time().addSecs(-60));
     match = _refresh(cm, rules, now);
     QVERIFY(match == 0);
-    QCOMPARE(cm.minimumIntervalMsec(), (7 * 24 * 60 * 60 - 2*60) * 1000);
+    QCOMPARE(cm.minimumIntervalSec(), (7 * 24 * 60 * 60 - 2*60) );
 }
 
 void
@@ -248,7 +248,7 @@ TestConditionManagerTime::refresh_multiRuleTests() {
     match = _refresh(cm, rules, now);
     QVERIFY(cm.timer()->isActive() == true);
     QVERIFY(match == 0);
-    QCOMPARE(cm.minimumIntervalMsec(), 120 * 1000);
+    QCOMPARE(cm.minimumIntervalSec(), 120 );
 }
 
 void
@@ -276,7 +276,7 @@ TestConditionManagerTime::refresh_multiRuleTestsMatching() {
     match = _refresh(cm, rules, now);
     QCOMPARE(cm.timer()->isActive(), true);
     QVERIFY(*match == rule1);
-    QCOMPARE(cm.minimumIntervalMsec(), 60 * 1000);
+    QCOMPARE(cm.minimumIntervalSec(), 60 );
 }
 
 void
@@ -301,7 +301,7 @@ TestConditionManagerTime::refresh_nextIntervalRoundedUp() {
     QVERIFY(match == 0);
     // Exact interval is 60 seconds - 1msec, but since the underlying timer operates on second boundaries,
     // we should have 60 interval
-    QCOMPARE(cm.minimumIntervalMsec(), 60 * 1000);
+    QCOMPARE(cm.minimumIntervalSec(), 60 );
 }
 
 void
@@ -334,17 +334,17 @@ TestConditionManagerTime::refreshNeeded_signalTest() {
     QCOMPARE(signalTarget.numSignal, 0);
     QVERIFY(match == 0);
     QCOMPARE(cm.timer()->isActive(), true);
-    QCOMPARE(cm.minimumIntervalMsec(), 1 * 1000);
+    QCOMPARE(cm.minimumIntervalSec(), 1 );
 
     // Wait for 5 seconds, the signal should be fired by then.
-    qDebug("Waiting 5 * 1000");
+    qDebug("Waiting 5 * 1000 msec");
     QTest::qWait(5 * 1000);
 
     QCOMPARE(signalTarget.numSignal, 1);
 
 //    ruleWatch.refreshWatch(now);
 //    QVERIFY(ruleWatch.timer()->isActive() == true);
-//    QCOMPARE(ruleWatch.minimumIntervalMsec(), 120 * 1000);
+//    QCOMPARE(ruleWatch.minimumIntervalSec(), 120 );
 //    QCOMPARE(ruleWatch.targetRule(), item2);
 }
 
