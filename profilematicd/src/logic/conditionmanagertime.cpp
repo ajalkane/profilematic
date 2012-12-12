@@ -19,7 +19,7 @@
 #include "conditionmanagertime.h"
 
 ConditionManagerTime::ConditionManagerTime(QObject *parent)
-    : ConditionManager(parent), _timerIntervalMaxAddition(58)
+    : ConditionManager(parent), _timerIntervalMaxAddition(30)
 {
     _timer.setSingleShot(true);
 
@@ -42,6 +42,8 @@ void
 ConditionManagerTime::endRefresh() {
     if (!_nextNearestDateTime.isNull()) {
         int interval = _refreshTime.secsTo(_nextNearestDateTime);
+        if (_refreshTime.time().msec() > 0) interval += 1;
+
         qDebug("Now %s", qPrintable(_refreshTime.toString()));
         qDebug("Scheduling a timer to %s, interval %ds", qPrintable(_nextNearestDateTime.toString()), (int)interval);
         _timer.start(interval, interval + _timerIntervalMaxAddition);

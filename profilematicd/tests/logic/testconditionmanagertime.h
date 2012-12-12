@@ -42,6 +42,7 @@ private slots:
     void refresh_dayTimeTests();
     void refresh_multiRuleTests();
     void refresh_multiRuleTestsMatching();
+    void refresh_nextIntervalRoundedUp();
     void refreshNeeded_signalTest();
 };
 

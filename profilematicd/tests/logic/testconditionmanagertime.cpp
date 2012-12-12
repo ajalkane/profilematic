@@ -280,6 +280,31 @@ TestConditionManagerTime::refresh_multiRuleTestsMatching() {
 }
 
 void
+TestConditionManagerTime::refresh_nextIntervalRoundedUp() {
+    QList<Rule> rules;
+    const Rule *match;
+    Rule rule1;
+    ConditionManagerTime cm;
+
+    // Initial state
+    // Tuesday, with one millisecond over 10 o'clock
+    qDebug("constructing now");
+    QDateTime now = QDateTime::fromString("27.09.2011 10:00:00:1", "dd.MM.yyyy hh:mm:ss:z");
+    qDebug("constructing done");
+    rule1.condition().setDays(_allDays);
+    rule1.condition().setTimeStart(now.addSecs(60).time());
+    rule1.condition().setTimeEnd(now.addSecs(120).time());
+    rules << rule1;
+    match = _refresh(cm, rules, now);
+    QCOMPARE((int)cm.timer()->lastError(), 0);
+    QVERIFY(cm.timer()->isActive() == true);
+    QVERIFY(match == 0);
+    // Exact interval is 60 seconds - 1msec, but since the underlying timer operates on second boundaries,
+    // we should have 60 interval
+    QCOMPARE(cm.minimumIntervalMsec(), 60 * 1000);
+}
+
+void
 TestConditionManagerTime::refreshNeeded_signalTest() {
     QList<Rule> rules;
     const Rule *match;
@@ -311,8 +336,8 @@ TestConditionManagerTime::refreshNeeded_signalTest() {
     QCOMPARE(cm.timer()->isActive(), true);
     QCOMPARE(cm.minimumIntervalMsec(), 1 * 1000);
 
-    // Wait for 2 seconds, the signal should be fired by then.
-    qDebug("Waiting 2 * 1000");
+    // Wait for 5 seconds, the signal should be fired by then.
+    qDebug("Waiting 5 * 1000");
     QTest::qWait(5 * 1000);
 
     QCOMPARE(signalTarget.numSignal, 1);
