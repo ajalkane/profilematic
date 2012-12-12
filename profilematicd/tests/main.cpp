@@ -37,9 +37,8 @@ int main(int argc, char *argv[])
     tests << new TestCalendarEntryMatcherDateTime();
     tests << new TestConditionManagerCalendar();
     tests << new TestConditionManagerCaching();
-    // TODO include back into the test set
-//    tests << new TestConditionManagerTime();
-//    tests << new testConditionManagerChain();
+    tests << new TestConditionManagerTime();
+    tests << new TestConditionManagerChain();
 
     foreach (QObject *test, tests) {
         retval += QTest::qExec(test, argc, argv);

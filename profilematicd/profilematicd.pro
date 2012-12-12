@@ -71,7 +71,6 @@ SOURCES += src/main.cpp \
     src/logic/conditionmanagerinternetconnectionmode.cpp \
     src/logic/conditionmanagercharging.cpp \
     src/logic/conditionmanagerfactory.cpp \
-<<<<<<< HEAD
     src/logic/actionfactory.cpp \
     src/model/ruleconditionbatterylevel.cpp \
     src/logic/conditionmanagerbatterylevel.cpp \
@@ -85,7 +84,6 @@ SOURCES += src/main.cpp \
     src/platform/calendar/impl/stub/calendarmanagerstub.cpp \
     src/logic/conditionmanagercacheable.cpp \
     src/logic/conditionmanagercaching.cpp \
-    src/logic/actionfactory.cpp
 
 HEADERS += \
     src/profileclient.h \
