@@ -32,7 +32,7 @@ MOBILITY += connectivity
 #  - If UnitTests fail, no deployment/running of the executable
 #  - UnitTest code must not be included in the final executable.
 # Uncomment if just unit tests are to be ran:
-# CONFIG += qtestlib
+CONFIG += qtestlib
 
 TEMPLATE = app
 
@@ -71,6 +71,7 @@ SOURCES += src/main.cpp \
     src/logic/conditionmanagerinternetconnectionmode.cpp \
     src/logic/conditionmanagercharging.cpp \
     src/logic/conditionmanagerfactory.cpp \
+<<<<<<< HEAD
     src/logic/actionfactory.cpp \
     src/model/ruleconditionbatterylevel.cpp \
     src/logic/conditionmanagerbatterylevel.cpp \
@@ -84,6 +85,7 @@ SOURCES += src/main.cpp \
     src/platform/calendar/impl/stub/calendarmanagerstub.cpp \
     src/logic/conditionmanagercacheable.cpp \
     src/logic/conditionmanagercaching.cpp \
+    src/logic/actionfactory.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -133,10 +135,14 @@ HEADERS += \
     src/platform/calendar/impl/stub/calendarmanagerstub.cpp \
     src/logic/conditionmanagercacheable.h \
     src/logic/conditionmanagercaching.h \
+    src/util/pmtimer.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
+    DEFINES += PM_TIMER_USHORT
+
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp
     HEADERS += src/platform/harmattan/harmattan_platformutil.h
+
 }
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
@@ -158,6 +164,14 @@ HEADERS += \
 } else {
     SOURCES += src/logic/presence/actionpresencestub.cpp
     HEADERS += src/logic/presence/actionpresencestub.h
+}
+
+contains(DEFINES, PM_TIMER_USHORT) {
+    SOURCES += src/util/pmtimerushort.cpp
+    HEADERS += src/util/pmtimerushort.h
+} else {
+    SOURCES += src/util/pmtimerqt.cpp
+    HEADERS += src/util/pmtimerqt.h
 }
 
 qtestlib {

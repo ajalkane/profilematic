@@ -1,19 +1,18 @@
 #include <climits>
 
-#include "systemalignedtimer.h"
+#include "pmtimerushort.h"
 
-SystemAlignedTimer::SystemAlignedTimer()
+PmTimer::PmTimer()
     : _minimumInterval(-1), _maximumInterval(-1)
 {
-    connect(&_timer, SIGNAL(error(QSystemAlignedTimer::AlignedTimerError)), this, SIGNAL(error(QSystemAlignedTimer::AlignedTimerError)));
+    connect(&_timer, SIGNAL(error(QSystemAlignedTimer::AlignedTimerError)), this, SIGNAL(error(int)));
     connect(&_timer, SIGNAL(timeout()), this, SLOT(_timeout()));
 }
 
 void
-SystemAlignedTimer::_start(int minimumInterval, int maximumInterval) {
+PmTimer::_start(int minimumInterval, int maximumInterval) {
     if (maximumInterval > USHRT_MAX) {
-        _overflowedMinimumTarget = QDateTime::currentDateTime();
-        _overflowedMinimumTarget.addSecs(minimumInterval);
+        _overflowedMinimumTarget = QDateTime::currentDateTime().addSecs(minimumInterval);
         int intermediaryMaximumInterval = USHRT_MAX;
         int intermediaryMinimumInterval = intermediaryMaximumInterval- (maximumInterval - minimumInterval);
         // Tries to keep the difference between minimum and maximum the same to better use
@@ -22,7 +21,7 @@ SystemAlignedTimer::_start(int minimumInterval, int maximumInterval) {
             intermediaryMinimumInterval = intermediaryMaximumInterval;
         }
 
-        qDebug("SystemAlignedTimer::start(%d, %d): unsigned short overflow, setting intermediary interval %d - %d",
+        qDebug("PmTimerUShort::start(%d, %d): unsigned short overflow, setting intermediary interval %d - %d",
                minimumInterval, maximumInterval,
                intermediaryMinimumInterval, intermediaryMaximumInterval);
         _timer.start(intermediaryMinimumInterval,
@@ -34,20 +33,20 @@ SystemAlignedTimer::_start(int minimumInterval, int maximumInterval) {
 }
 
 void
-SystemAlignedTimer::start(int minimumInterval, int maximumInterval) {
+PmTimer::start(int minimumInterval, int maximumInterval) {
     _minimumInterval = minimumInterval;
     _maximumInterval = maximumInterval;
     _start(minimumInterval, maximumInterval);
 }
 
 void
-SystemAlignedTimer::_timeout() {
+PmTimer::_timeout() {
     if (_overflowedMinimumTarget.isNull()) {
         emit timeout();
     } else {
         QDateTime now = QDateTime::currentDateTime();
         int minimumInterval = now.secsTo(_overflowedMinimumTarget);
-        qDebug("SystemAlignedTimer::_timeout() delaying timeout, minimumInterval now %d", minimumInterval);
+        qDebug("%s PmTimerUShort::_timeout() delaying timeout, minimumInterval now %d", qPrintable(now.toString()), minimumInterval);
         if (minimumInterval <= 0) {
             emit timeout();
         } else {

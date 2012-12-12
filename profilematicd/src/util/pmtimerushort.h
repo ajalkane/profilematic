@@ -17,8 +17,8 @@
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
 
-#ifndef SYSTEMALIGNEDTIMER_H
-#define SYSTEMALIGNEDTIMER_H
+#ifndef PMTIMERUSHORT_H
+#define PMTIMERUSHORT_H
 
 #include <QObject>
 #include <QDateTime>
@@ -35,7 +35,7 @@ QTM_USE_NAMESPACE
  *
  * Only the part of the API that's needed by ProfileMatic is implemented.
  */
-class SystemAlignedTimer : public QObject
+class PmTimer : public QObject
 {
     Q_OBJECT
 
@@ -48,7 +48,7 @@ class SystemAlignedTimer : public QObject
 
     void _start(int minimumInterval, int maximumInterval);
 public:
-    SystemAlignedTimer();
+    PmTimer();
 
     inline void setSingleShot(bool single) {
         _timer.setSingleShot(single);
@@ -64,7 +64,8 @@ public:
         return _timer.isActive();
     }
 
-    inline QSystemAlignedTimer::AlignedTimerError lastError() const {
+    // 0 for no error, non-zero for error
+    inline int lastError() const {
         return _timer.lastError();
     }
 
@@ -80,7 +81,7 @@ private slots:
 
 signals:
     void timeout();
-    void error(QSystemAlignedTimer::AlignedTimerError error);
+    void error(int error);
 };
 
-#endif // SYSTEMALIGNEDTIMER_H
+#endif // PMTIMERUSHORT_H
