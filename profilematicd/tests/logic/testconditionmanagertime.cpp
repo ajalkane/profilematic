@@ -21,6 +21,8 @@
 #include "testconditionmanagertime.h"
 #include "signalcounter.h"
 
+#include "../../src/logic/conditionmanagercaching.h"
+
 TestConditionManagerTime::TestConditionManagerTime()
 {
     for (int i = 0; i < 7; ++i) {
@@ -29,31 +31,35 @@ TestConditionManagerTime::TestConditionManagerTime()
 }
 
 // IMPROVE doesn't need to be class function
-const Rule *
-TestConditionManagerTime::_refresh(ConditionManagerTime &cm, const QList<Rule> &rules) {
-    cm.startRefresh();
-    QList<Rule>::const_iterator firstMatchingRule = rules.constBegin();
-    for (; firstMatchingRule != rules.constEnd(); ++firstMatchingRule) {
-        bool isMatching = cm.refresh(firstMatchingRule->getRuleId(), firstMatchingRule->condition());
-        if (isMatching) {
-            break;
-        }
-    }
-    return firstMatchingRule != rules.constEnd() ? &(*firstMatchingRule) : 0;
-}
+//const Rule *
+//TestConditionManagerTime::_refresh(ConditionManagerTime &cm, const QList<Rule> &rules) {
+//    ConditionManagerCaching cmcaching(&cm);
+
+//    cmcaching.startRefresh();
+//    QList<Rule>::const_iterator firstMatchingRule = rules.constBegin();
+//    for (; firstMatchingRule != rules.constEnd(); ++firstMatchingRule) {
+//        bool isMatching = cmcaching.refresh(firstMatchingRule->getRuleId(), firstMatchingRule->condition());
+//        if (isMatching) {
+//            break;
+//        }
+//    }
+//    return firstMatchingRule != rules.constEnd() ? &(*firstMatchingRule) : 0;
+//}
 
 // IMPROVE doesn't need to be class function
 const Rule *
 TestConditionManagerTime::_refresh(ConditionManagerTime &cm, const QList<Rule> &rules, const QDateTime &now) {
-    cm.startRefresh(now);
+//     ConditionManagerCaching cmcaching(&cm);
+
+//    cmcaching.startRefresh(now);
     QList<Rule>::const_iterator firstMatchingRule = rules.constBegin();
     for (; firstMatchingRule != rules.constEnd(); ++firstMatchingRule) {
-        bool isMatching = cm.refresh(firstMatchingRule->getRuleId(), firstMatchingRule->condition());
-        if (isMatching) {
+        ConditionManagerCacheable::MatchStatus match = cm.match(now, firstMatchingRule->condition());
+        if (match != ConditionManagerCacheable::NotMatched) {
             break;
         }
     }
-    cm.endRefresh();
+//     cmcaching.endRefresh();
     return firstMatchingRule != rules.constEnd() ? &(*firstMatchingRule) : 0;
 }
 
@@ -68,17 +74,8 @@ TestConditionManagerTime::refresh_basicTestsTimer() {
     QCOMPARE(cm.timer()->isActive(), false);
 
     // Empty rules
-    match = _refresh(cm, rules);
+    match = _refresh(cm, rules, QDateTime::currentDateTime());
 
-    QCOMPARE(cm.timer()->isActive(), false);
-    QVERIFY(match == 0);
-
-    // TODO this is not basic test, but exceptional use case
-    // Check that if unusable day, not used, and not matching
-    rule1.condition().setTimeStart(QTime::currentTime());
-    rule1.condition().setTimeEnd(QTime::currentTime());
-    rules << rule1;
-    match = _refresh(cm, rules);
     QCOMPARE(cm.timer()->isActive(), false);
     QVERIFY(match == 0);
 
@@ -86,7 +83,7 @@ TestConditionManagerTime::refresh_basicTestsTimer() {
     rules.clear();
     rule1 = Rule();
     rules << rule1;
-    match = _refresh(cm, rules);
+    match = _refresh(cm, rules, QDateTime::currentDateTime());
     QCOMPARE(cm.timer()->isActive(), false);
     QVERIFY(*match == rule1);
 
@@ -105,6 +102,7 @@ TestConditionManagerTime::refresh_basicTestsTimer() {
     QCOMPARE(cm.minimumIntervalSec(), 60);
 
     // Match to next day
+    cm.rulesChanged();
     rule1.condition().setDays(_allDays);
     rule1.condition().setTimeStart(now.addSecs(-100).time());
     rule1.condition().setTimeEnd(now.addSecs(-50).time());
@@ -137,8 +135,9 @@ TestConditionManagerTime::refresh_basicTestsMatching() {
     // 100 = 1min40secs, end time is actually 1min after
     QCOMPARE(cm.minimumIntervalSec(), 60);
 
-    // Match to next day, when start time is current time, and end time is current time - minute (21:59:59), even as only tuesday selected
+    // Match to next day, when start time is current time, and end time is current time - minute (21:59:00), even as only tuesday selected
     // Tuesday
+    cm.rulesChanged();
     now = QDateTime::fromString("27.09.2011 22:00", "dd.MM.yyyy hh:mm");
     rule1 = Rule();
     days.clear();
@@ -175,6 +174,7 @@ TestConditionManagerTime::refresh_basicTestsMatching() {
 
     // Match to next day when startTime = endTime and now = startTime
     // Tuesday
+    cm.rulesChanged();
     now = QDateTime::fromString("27.09.2011 22:00", "dd.MM.yyyy hh:mm");
     rule1 = Rule();
     days.clear();
@@ -217,6 +217,7 @@ TestConditionManagerTime::refresh_dayTimeTests() {
     QCOMPARE(cm.minimumIntervalSec(), 60 );
 
     // Then try with a time that is a 2 minute before. In that case wakeup should go to next week.
+    cm.rulesChanged();
     rules.first().condition().setTimeStart(now.time().addSecs(-120));
     rules.first().condition().setTimeEnd(now.time().addSecs(-60));
     match = _refresh(cm, rules, now);
@@ -326,7 +327,7 @@ TestConditionManagerTime::refreshNeeded_signalTest() {
     QCOMPARE(signalTarget.numSignal, 0);
     QVERIFY(cm.timer()->isActive() == false);
 
-    connect(&cm, SIGNAL(refreshNeeded()), &signalTarget, SLOT(onSignal()));
+    connect(&cm, SIGNAL(matchInvalidated()), &signalTarget, SLOT(onSignal()));
 
     cm.setTimerMaxIntervalAddition(1);
     match = _refresh(cm, rules, now);

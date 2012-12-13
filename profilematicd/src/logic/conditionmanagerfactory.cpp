@@ -22,14 +22,14 @@ ConditionManagerFactory::create()
 {
     ConditionManagerChain *cm = new ConditionManagerChain();
     cm->add(new ConditionManagerCharging());
-    cm->add(new ConditionManagerTime());
+    cm->add(new ConditionManagerCaching(new ConditionManagerTime));
     cm->add(new ConditionManagerLocationCell());
     cm->add(new ConditionManagerWlan());
     cm->add(new ConditionManagerIdle());
     cm->add(new ConditionManagerNFC());
     cm->add(new ConditionManagerInternetConnectionMode());
     cm->add(new ConditionManagerBatteryLevel());
-    cm->add(new ConditionManagerCaching(new ConditionManagerCalendar()));
+    cm->add(new ConditionManagerCaching(new ConditionManagerCalendar));
 
     return cm;
 }

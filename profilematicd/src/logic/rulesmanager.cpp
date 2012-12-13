@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
+#include <QDebug>
+
 #include "rulesmanager.h"
 #include "../platform/platformutil.h"
 
@@ -66,6 +68,7 @@ RulesManager::_refresh(bool /*forceActivate*/) {
                 qDebug("RulesManager::refresh() rule %s is not active, skipping", qPrintable(rule.getRuleName()));
                 continue;
             }
+            qDebug() << "RulesManager::refresh() considering rule" << rule.getRuleName();
             bool isMatching = _conditionManager->refresh(rule.getRuleId(), rule.condition());
             if (isMatching) {
                 _matchRule(rule);

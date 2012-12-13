@@ -21,33 +21,41 @@
 
 #include <QDateTime>
 #include <QTime>
-//#include <QTimer>
 #include <QPair>
 
 #include "../util/pmtimer.h"
-#include "conditionmanager.h"
+#include "conditionmanagercacheable.h"
 
-class ConditionManagerTime : public ConditionManager
+class ConditionManagerTime : public ConditionManagerCacheable
 {
-    typedef ConditionManager super;
-    // QTimer _timer;
+    typedef ConditionManagerCacheable super;
     PmTimer _timer;
-    int _timerIntervalMaxAddition;
     QDateTime _nextNearestDateTime;
-    QDateTime _refreshTime;
+    int _timerIntervalMaxAddition;
 
-    QDateTime _calculateNextEnd(const QDateTime &dateTimeStart, const QTime &timeStart, const QTime &timeEnd) const;
+
+    inline bool _conditionSetForMatching(const RuleCondition &cond) const { return cond.isTimeConditionValid(); }
+
+    void _updateNextNearestDateTime(const QDateTime &now, const QDateTime &nearestFromRule);
+    void _startNextNearestTimer(const QDateTime &now);
+
     QPair<QDateTime, bool> _nextDateTimeFromRule(const QDateTime &from, const RuleCondition &rule) const;
-    bool _refresh(const RuleCondition &rule, const QDateTime &now);
+    QDateTime _calculateNextEnd(const QDateTime &dateTimeStart, const QTime &timeStart, const QTime &timeEnd) const;
 
 public:
     ConditionManagerTime(QObject *parent = 0);
 
-    virtual void startRefresh();
-    virtual bool refresh(const Rule::IdType &, const RuleCondition &rule);
-    virtual void endRefresh();
+    virtual bool conditionSetForMatching(const RuleCondition &cond) const;
+    virtual MatchStatus match(const Rule::IdType &ruleId, const RuleCondition &cond);
+
+    virtual void startMonitor();
+    virtual void stopMonitor();
+
+    virtual void rulesChanged();
 
     // These functions only needed for unit tests
+    MatchStatus match(const QDateTime &now, const RuleCondition &cond);
+
     const PmTimer *timer() const {
         return &_timer;
     }
@@ -62,8 +70,6 @@ public:
     inline void setTimerMaxIntervalAddition(int add) {
         _timerIntervalMaxAddition = add;
     }
-
-    void startRefresh(const QDateTime &now);
 };
 
 #endif // CONDITIONMANAGERTIME_H

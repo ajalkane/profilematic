@@ -16,76 +16,96 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
+#include <QDebug>
 #include "conditionmanagertime.h"
 
 ConditionManagerTime::ConditionManagerTime(QObject *parent)
-    : ConditionManager(parent), _timerIntervalMaxAddition(30)
+    : ConditionManagerCacheable(parent), _timerIntervalMaxAddition(30)
 {
+    setObjectName("ConditionManagerTime");
+
     _timer.setSingleShot(true);
 
-    connect(&_timer, SIGNAL(timeout()), this, SIGNAL(refreshNeeded()));
+    connect(&_timer, SIGNAL(timeout()), this, SIGNAL(matchInvalidated()));
 }
 
-void
-ConditionManagerTime::startRefresh(const QDateTime &now) {
-    _timer.stop();
-    _nextNearestDateTime = QDateTime();
-    _refreshTime = now;
+bool
+ConditionManagerTime::conditionSetForMatching(const RuleCondition &cond) const {
+    return _conditionSetForMatching(cond);
 }
 
-void
-ConditionManagerTime::startRefresh() {
-    startRefresh(QDateTime::currentDateTime());
+ConditionManagerCacheable::MatchStatus
+ConditionManagerTime::match(const Rule::IdType &, const RuleCondition &cond) {
+    QDateTime now = QDateTime::currentDateTime();
+    return match(now, cond);
 }
 
-void
-ConditionManagerTime::endRefresh() {
-    if (!_nextNearestDateTime.isNull()) {
-        int interval = _refreshTime.secsTo(_nextNearestDateTime);
-        if (_refreshTime.time().msec() > 0) interval += 1;
-
-        qDebug("Now %s", qPrintable(_refreshTime.toString()));
-        qDebug("Scheduling a timer to %s, interval %ds", qPrintable(_nextNearestDateTime.toString()), (int)interval);
-        _timer.start(interval, interval + _timerIntervalMaxAddition);
-    } else {
-        qDebug("No nearest time based rule found");
+ConditionManagerCacheable::MatchStatus
+ConditionManagerTime::match(const QDateTime &now, const RuleCondition &cond) {
+    if (!_conditionSetForMatching(cond)) {
+        qDebug() << "ConditionManagerTime::match() time options not set or invalid, matches";
+        return MatchNotSet;
     }
-}
 
-bool
-ConditionManagerTime::refresh(const Rule::IdType &, const RuleCondition &rule) {
-    return _refresh(rule, _refreshTime);
-}
-
-bool
-ConditionManagerTime::_refresh(const RuleCondition &rule, const QDateTime &now) {
-    QPair<QDateTime, bool> p = _nextDateTimeFromRule(now, rule);
-    QDateTime nearestFromRule = p.first;
+    QPair<QDateTime, bool> p = _nextDateTimeFromRule(now, cond);
+    const QDateTime &nearestFromRule = p.first;
     bool matching = p.second;
 
-    qDebug("ConditionManagerTime::refresh match %d", matching);
+    qDebug() << "ConditionManagerTime::refresh match " << matching;
 
-    if (!nearestFromRule.isNull() && (_nextNearestDateTime.isNull() || nearestFromRule < _nextNearestDateTime)) {
-        qDebug("Setting nearest to %s, was %s",
-               qPrintable(nearestFromRule.toString()),
-               qPrintable(_nextNearestDateTime.toString()));
-        _nextNearestDateTime = nearestFromRule;
+    _updateNextNearestDateTime(now, nearestFromRule);
+    return matching ? Matched : NotMatched;
+}
+
+void
+ConditionManagerTime::startMonitor() {
+    // NO-OP
+}
+
+void
+ConditionManagerTime::stopMonitor() {
+    qDebug() << "ConditionManagerTime::stopMonitor stoppingTimer";
+    _timer.stop();
+    _nextNearestDateTime = QDateTime();
+}
+
+void
+ConditionManagerTime::rulesChanged() {
+    qDebug() << "ConditionManagerTime::rulesChanged stoppingTimer";
+    _timer.stop();
+    _nextNearestDateTime = QDateTime();
+}
+
+void
+ConditionManagerTime::_updateNextNearestDateTime(const QDateTime &now, const QDateTime &nearestFromRule ) {
+    if (!nearestFromRule.isNull()) {
+        if (now >= _nextNearestDateTime) {
+            qDebug() << "ConditionManagerTime::now >= _nextNearestDateTime, resetting for new calculation";
+            _nextNearestDateTime = QDateTime();
+        }
+        if (_nextNearestDateTime.isNull() || nearestFromRule < _nextNearestDateTime) {
+            qDebug() << "ConditionManagerTime::Setting nearest to" << nearestFromRule.toString() << "was" << _nextNearestDateTime.toString();
+            _nextNearestDateTime = nearestFromRule;
+            _startNextNearestTimer(now);
+        }
     }
-    return matching;
+}
+
+void
+ConditionManagerTime::_startNextNearestTimer(const QDateTime &now) {
+    int interval = now.secsTo(_nextNearestDateTime);
+    if (now.time().msec() > 0) interval += 1;
+    qDebug() << "ConditionManagerCalendar: Now" << now.toString();
+    qDebug() << "ConditionManagerCalendar: Scheduling a timer to" << _nextNearestDateTime.toString() << ", interval" << interval;
+
+    _timer.start(interval, interval + _timerIntervalMaxAddition);
 }
 
 QPair<QDateTime, bool>
 ConditionManagerTime::_nextDateTimeFromRule(const QDateTime &from, const RuleCondition &rule) const {
-    bool isDaysUsable      = rule.isDaysRuleUsable();
-    bool isTimeStartUsable = rule.isTimeStartRuleUsable();
-    bool isTimeEndUsable   = rule.isTimeEndRuleUsable();
-
-    if (!isDaysUsable || !isTimeStartUsable || !isTimeEndUsable) {
-        // Return as time matching if time start and time end not set
-        bool matching = (!isTimeStartUsable && !isTimeEndUsable);
-        qDebug("ConditionManagerTime::time Day or time is not usable, returning null date time (matching %d)",
-               matching);
-        return qMakePair(QDateTime(), matching);
+    if (!rule.isTimeConditionValid()) {
+        qDebug() << "ConditionManagerTime::time Day or time is not usable, returning null date time";
+        return qMakePair(QDateTime(), false);
     }
 
     // rule.daysActive = true and days not empty always if gets this far
@@ -99,17 +119,16 @@ ConditionManagerTime::_nextDateTimeFromRule(const QDateTime &from, const RuleCon
         int dayId = (dayOfWeek - 1 + i + 7) % 7;
         bool considerDay = selectedDays.contains(dayId);
 
-        qDebug("ConditionManagerTime::time, considering dayId %d (%d)", dayId, considerDay);
+        qDebug() << "ConditionManagerTime::time, considering dayId" << dayId << "(" << considerDay << ")";
 
         if (considerDay) {
             QDateTime nextStart = from;
             nextStart = nextStart.addDays(i);
             nextStart.setTime(rule.getTimeStart());
             QDateTime nextEnd = _calculateNextEnd(nextStart, rule.getTimeStart(), rule.getTimeEnd());
-            qDebug("ConditionManagerTime::from(%s), nextStart(%s), nextEnd(%s)",
-                   qPrintable(from.toString()),
-                   qPrintable(nextStart.toString()),
-                   qPrintable(nextEnd.toString()));
+            qDebug() << "ConditionManagerTime::from" << from.toString()
+                     << ", nextStart" << nextStart.toString()
+                     << ", nextEnd" << nextEnd.toString();
 
             // Guards against a rule when:
             // - Some days, including current day, are set
@@ -117,18 +136,16 @@ ConditionManagerTime::_nextDateTimeFromRule(const QDateTime &from, const RuleCon
             // In other words, a rule that is based on weekdays. In these cases
             // the current day can not be considered as an edge case, but the next day.
             if (nextStart > from) {
-                qDebug("ConditionManagerTime::time, matching next timeStart returning %s",
-                       qPrintable(nextStart.toString()));
+                qDebug() << "ConditionManagerTime::time, matching next timeStart returning" << nextStart.toString();
                 return qMakePair(nextStart, false);
             } else if (nextEnd >= from) {
-                qDebug("ConditionManagerTime::time, matching next timeEnd returning %s",
-                       qPrintable(nextEnd.toString()));
+                qDebug() << "ConditionManagerTime::time, matching next timeEnd returning" << nextEnd.toString();
                 return qMakePair(nextEnd, true);
             }
 
         }
     }
-    qDebug("ConditionManagerTime::time returning null QDateTime");
+    qDebug() << "ConditionManagerTime::time returning null QDateTime";
     // Means no time based rules
     return qMakePair(QDateTime(), true);
 }

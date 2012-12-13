@@ -193,6 +193,11 @@ public:
     inline bool isDaysRuleUsable() const {
         return !getDays().isEmpty();
     }
+
+    inline bool isTimeConditionValid() const {
+        return isTimeStartRuleUsable() && isTimeEndRuleUsable() && isDaysRuleUsable();
+    }
+
     inline bool isLocationCellsRuleUsable() const {
         return !getLocationCells().isEmpty();
     }
