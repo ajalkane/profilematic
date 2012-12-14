@@ -24,7 +24,7 @@ ConditionManagerFactory::create()
     cm->add(new ConditionManagerCharging());
     cm->add(new ConditionManagerCaching(new ConditionManagerTime));
     cm->add(new ConditionManagerLocationCell());
-    cm->add(new ConditionManagerWlan());
+    cm->add(new ConditionManagerCaching(new ConditionManagerWlan()));
     cm->add(new ConditionManagerIdle());
     cm->add(new ConditionManagerNFC());
     cm->add(new ConditionManagerInternetConnectionMode());

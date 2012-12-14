@@ -27,18 +27,18 @@
 
 QTM_USE_NAMESPACE
 
-#include "conditionmanager.h"
+#include "conditionmanagercacheable.h"
 #include "../platform/platformutil.h"
+#include "../util/pmtimer.h"
 
-class ConditionManagerWlan : public ConditionManager {
+class ConditionManagerWlan : public ConditionManagerCacheable {
     Q_OBJECT
 
     QNetworkConfigurationManager *_networkConfigurationManager;
 
     QSet<QString> _watchedWlanNames;
-    QSet<QString> _currentRuleWlanNames;
     QString _currentWlanName;
-    QSystemAlignedTimer _wlanTimeout;
+    PmTimer _wlanTimeout;
     int _currentRuleWlanTimeoutSecs;
 
     bool _monitoring;
@@ -46,21 +46,24 @@ class ConditionManagerWlan : public ConditionManager {
     void _wlanNotActive();
     void _wlanActive(const QString &name);
     void _logConfiguration(const QNetworkConfiguration &config) const;
-    void _determineCurrentWlanName(bool requestRefreshIfChanged);
+    void _determineCurrentWlanName(bool invalidateIfNeeded);
     void _setCurrentWlanName(const QNetworkConfiguration &config, bool requestRefreshIfChanged);
+
+    inline bool _conditionSetForMatching(const RuleCondition &cond) const { return !cond.getWlan().isEmpty(); }
 
 public:
     ConditionManagerWlan(QObject *parent = 0);
     virtual ~ConditionManagerWlan();
 
-    virtual void startRefresh();
-    virtual bool refresh(const Rule::IdType &, const RuleCondition &rule);
-    virtual void matchedRule(const RuleCondition &rule);
-    virtual void endRefresh();
+    virtual bool conditionSetForMatching(const RuleCondition &cond) const;
+    virtual MatchStatus match(const Rule::IdType &ruleId, const RuleCondition &cond);
 
-    void monitorConfiguration(bool monitor);
+    virtual void startMonitor();
+    virtual void stopMonitor();
 
-public slots:
+    virtual void rulesChanged();
+
+private slots:
     void onConfigurationAdded(const QNetworkConfiguration   &config);
     void onConfigurationChanged(const QNetworkConfiguration &config);
     void onConfigurationRemoved(const QNetworkConfiguration &config);
