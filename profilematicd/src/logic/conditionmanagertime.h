@@ -28,6 +28,8 @@
 
 class ConditionManagerTime : public ConditionManagerCacheable
 {
+    Q_OBJECT
+
     typedef ConditionManagerCacheable super;
     PmTimer _timer;
     QDateTime _nextNearestDateTime;
@@ -70,6 +72,9 @@ public:
     inline void setTimerMaxIntervalAddition(int add) {
         _timerIntervalMaxAddition = add;
     }
+
+//private slots:
+//    void _matchInvalidated();
 };
 
 #endif // CONDITIONMANAGERTIME_H

@@ -31,6 +31,13 @@
  * By default, an implementation based on QTimer is provided.
  *
  * All implementations must provide class named PmTimer.
+ *
+ * Note: QSystemAlignedTimer and QTimer behave differently when start()
+ * is called if the timer was already active (isActive()). QSystemAlignedTimer
+ * would disregard the new start (at least in the case of singleShot(true) which
+ * is used by Profilematic). QTimer would cancel the previous timer and start
+ * the new. Implementations of PmTimer must provide similar functionality as
+ * QTimer regards to this.
  */
 
 #ifdef PM_TIMER_USHORT

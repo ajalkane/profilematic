@@ -319,6 +319,15 @@ TestConditionManagerTime::refreshNeeded_signalTest() {
 
     days << 1;
     rule.condition().setDays(days);
+    rule.condition().setTimeStart(now.addSecs(200).time());
+    rule.condition().setTimeEnd(now.addSecs(200).time());
+
+    rules << rule;
+
+    // A following rules has earlier timeout time. This makes sure
+    // that ConditionManagerTime's timer implementation handles calling
+    // of new .start(min, max) correctly
+    rule.condition().setDays(days);
     rule.condition().setTimeStart(now.addSecs(1).time());
     rule.condition().setTimeEnd(now.addSecs(1).time());
 
@@ -335,7 +344,7 @@ TestConditionManagerTime::refreshNeeded_signalTest() {
     QCOMPARE(signalTarget.numSignal, 0);
     QVERIFY(match == 0);
     QCOMPARE(cm.timer()->isActive(), true);
-    QCOMPARE(cm.minimumIntervalSec(), 1 );
+    QCOMPARE(cm.minimumIntervalSec(), 1);
 
     // Wait for 5 seconds, the signal should be fired by then.
     qDebug("Waiting 5 * 1000 msec");

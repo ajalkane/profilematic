@@ -22,11 +22,21 @@
 ConditionManagerTime::ConditionManagerTime(QObject *parent)
     : ConditionManagerCacheable(parent), _timerIntervalMaxAddition(30)
 {
+    qDebug() << "ConditionManagerTime::constructor";
+
     setObjectName("ConditionManagerTime");
 
     _timer.setSingleShot(true);
 
     connect(&_timer, SIGNAL(timeout()), this, SIGNAL(matchInvalidated()));
+
+//    if (!connect(&_timer, SIGNAL(timeout()), this, SIGNAL(matchInvalidated()))) {
+//        qDebug() << "ConditionManagerTime::constructor connecting timeout to matchInvalidated failed";
+//    }
+
+//    if (!connect(&_timer, SIGNAL(timeout()), this, SLOT(_matchInvalidated()))) {
+//        qDebug() << "ConditionManagerTime::constructor connecting timeout to matchInvalidated failed";
+//    }
 }
 
 bool
@@ -95,8 +105,8 @@ void
 ConditionManagerTime::_startNextNearestTimer(const QDateTime &now) {
     int interval = now.secsTo(_nextNearestDateTime);
     if (now.time().msec() > 0) interval += 1;
-    qDebug() << "ConditionManagerCalendar: Now" << now.toString();
-    qDebug() << "ConditionManagerCalendar: Scheduling a timer to" << _nextNearestDateTime.toString() << ", interval" << interval;
+    qDebug() << "ConditionManagerTime: Now" << now.toString();
+    qDebug() << "ConditionManagerTime: Scheduling a timer to" << _nextNearestDateTime.toString() << ", interval" << interval;
 
     _timer.start(interval, interval + _timerIntervalMaxAddition);
 }
@@ -159,3 +169,9 @@ ConditionManagerTime::_calculateNextEnd(const QDateTime &dateTimeStart, const QT
     }
     return nextEnd;
 }
+
+//void
+//ConditionManagerTime::_matchInvalidated() {
+//    qDebug() << "ConditionManagerTime::_matchInvalidated, emitting matchInvalidated";
+//    emit matchInvalidated();
+//}

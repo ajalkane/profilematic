@@ -68,7 +68,7 @@ RulesManager::_refresh(bool /*forceActivate*/) {
                 qDebug("RulesManager::refresh() rule %s is not active, skipping", qPrintable(rule.getRuleName()));
                 continue;
             }
-            qDebug() << "RulesManager::refresh() considering rule" << rule.getRuleName();
+            qDebug() << "\nRulesManager::refresh() considering rule" << rule.getRuleName();
             bool isMatching = _conditionManager->refresh(rule.getRuleId(), rule.condition());
             if (isMatching) {
                 _matchRule(rule);

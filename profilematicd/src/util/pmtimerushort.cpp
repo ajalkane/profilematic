@@ -1,13 +1,18 @@
 #include <climits>
 
+#include <QDebug>
+
 #include "pmtimerushort.h"
 
 PmTimer::PmTimer()
     : _minimumInterval(-1), _maximumInterval(-1)
 {
-    connect(&_timer, SIGNAL(error(QSystemAlignedTimer::AlignedTimerError)), this, SIGNAL(error(int)));
+    qDebug() << "PmTimerUShort::constructor";
+    connect(&_timer, SIGNAL(error(QSystemAlignedTimer::AlignedTimerError)), this, SLOT(_error(QSystemAlignedTimer::AlignedTimerError)));
     connect(&_timer, SIGNAL(timeout()), this, SLOT(_timeout()));
 }
+
+PmTimer::~PmTimer() {}
 
 void
 PmTimer::_start(int minimumInterval, int maximumInterval) {
@@ -27,6 +32,7 @@ PmTimer::_start(int minimumInterval, int maximumInterval) {
         _timer.start(intermediaryMinimumInterval,
                      intermediaryMaximumInterval);
     } else {
+        qDebug("%s PmTimerUShort::_start() starting normal timeout with %d/%d", qPrintable(QDateTime::currentDateTime().toString()), minimumInterval, maximumInterval);
         _overflowedMinimumTarget = QDateTime();
         _timer.start(minimumInterval, maximumInterval);
     }
@@ -34,6 +40,11 @@ PmTimer::_start(int minimumInterval, int maximumInterval) {
 
 void
 PmTimer::start(int minimumInterval, int maximumInterval) {
+    qDebug("%s PmTimerUShort::start() called with with %d/%d", qPrintable(QDateTime::currentDateTime().toString()), minimumInterval, maximumInterval);
+    if (_timer.isActive()) {
+        qDebug("PmTimerUShort::start() was active, stopping");
+        _timer.stop();
+    }
     _minimumInterval = minimumInterval;
     _maximumInterval = maximumInterval;
     _start(minimumInterval, maximumInterval);
@@ -42,6 +53,7 @@ PmTimer::start(int minimumInterval, int maximumInterval) {
 void
 PmTimer::_timeout() {
     if (_overflowedMinimumTarget.isNull()) {
+        qDebug("%s PmTimerUShort::_timeout() emitting timeout", qPrintable(QDateTime::currentDateTime().toString()));
         emit timeout();
     } else {
         QDateTime now = QDateTime::currentDateTime();
@@ -55,3 +67,8 @@ PmTimer::_timeout() {
     }
 }
 
+void
+PmTimer::_error(QSystemAlignedTimer::AlignedTimerError err) {
+    qDebug() << QDateTime::currentDateTime().toString() << "PmTimerUShort:_error" << err;
+    emit error((int)err);
+}

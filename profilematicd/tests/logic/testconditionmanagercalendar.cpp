@@ -1,5 +1,7 @@
 #include "testconditionmanagercalendar.h"
 
+#include "signalcounter.h"
+
 #include "../../src/platform/platformutil.h"
 
 class MockCalendarManager : public CalendarManager {
@@ -458,4 +460,48 @@ TestConditionManagerCalendar::match_nextNearestDateTime_multiConditionSecondMatc
     match = cmc.match(now, condCal2);
     QCOMPARE(match, ConditionManagerCacheable::Matched);
     QCOMPARE(cmc.minimumIntervalSec(), 60 + 1);
+}
+
+void
+TestConditionManagerCalendar::matchInvalidated_signalTest() {
+    ConditionManagerCalendar cmc;
+    RuleConditionCalendar condCal1;
+    ConditionManagerCacheable::MatchStatus match;
+    SignalCounter signalTarget;
+
+    condCal1.setSummaryMatch("the match");
+
+    // Tuesday
+    QDateTime dateTimeBase = QDateTime::fromString("27.09.2011 10:00:01", "dd.MM.yyyy hh:mm:z");
+    QDateTime now;
+
+    QList<CalendarEntry> entries;
+    entries << CalendarEntry(dateTimeBase.addSecs(10*60+60), dateTimeBase.addSecs(10*60+180), "the match", "");
+    entries << CalendarEntry(dateTimeBase.addSecs(1), dateTimeBase.addSecs(2*60), "the match", "");
+
+    _cm->returnEntries = entries;
+
+    QCOMPARE(signalTarget.numSignal, 0);
+    QVERIFY(cmc.timer()->isActive() == false);
+
+    connect(&cmc, SIGNAL(matchInvalidated()), &signalTarget, SLOT(onSignal()));
+    // cmc.setTimerMaxIntervalAddition(1);
+    now = dateTimeBase; // .addSecs(10*60);
+    match = cmc.match(now, condCal1); // _refresh(cm, rules, now);
+
+    QCOMPARE(signalTarget.numSignal, 0);
+    QVERIFY(match == 0);
+    QCOMPARE(cmc.timer()->isActive(), true);
+    QCOMPARE(cmc.minimumIntervalSec(), 2 );
+
+    // Wait for 5 seconds, the signal should be fired by then.
+    qDebug("Waiting 5 * 1000 msec");
+    QTest::qWait(5 * 1000);
+
+    QCOMPARE(signalTarget.numSignal, 1);
+
+//    ruleWatch.refreshWatch(now);
+//    QVERIFY(ruleWatch.timer()->isActive() == true);
+//    QCOMPARE(ruleWatch.minimumIntervalSec(), 120 );
+//    QCOMPARE(ruleWatch.targetRule(), item2);
 }

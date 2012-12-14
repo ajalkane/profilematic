@@ -75,7 +75,7 @@ void
 ConditionManagerCaching::ruleUpdated(const Rule &oldRule, const Rule &updatedRule) {
     Q_UNUSED(updatedRule)
 
-    qDebug() << "ConditionManagerCaching::ruleUpdated, invalidating cache for" << oldRule.getRuleName();
+    qDebug() << "ConditionManagerCaching::ruleUpdated, invalidating cache for" << _cacheable << oldRule.getRuleName();
 
     /*
      * Invalidate cache for the rule.
@@ -85,7 +85,7 @@ ConditionManagerCaching::ruleUpdated(const Rule &oldRule, const Rule &updatedRul
 
 void
 ConditionManagerCaching::matchInvalidated() {
-    qDebug() << "ConditionManagerCaching::matchInvalidated";
+    qDebug() << "ConditionManagerCaching::matchInvalidated" << _cacheable->objectName();
     // Clear cache, call refresh
     _matchCache.clear();
     emit refreshNeeded();

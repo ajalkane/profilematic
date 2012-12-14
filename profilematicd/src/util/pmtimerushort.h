@@ -49,6 +49,7 @@ class PmTimer : public QObject
     void _start(int minimumInterval, int maximumInterval);
 public:
     PmTimer();
+    virtual ~PmTimer();
 
     inline void setSingleShot(bool single) {
         _timer.setSingleShot(single);
@@ -78,6 +79,7 @@ public:
 
 private slots:
     void _timeout();
+    void _error(QSystemAlignedTimer::AlignedTimerError);
 
 signals:
     void timeout();

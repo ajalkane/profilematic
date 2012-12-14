@@ -2,5 +2,7 @@
 
 PmTimer::PmTimer()
 {
+    qDebug() << "PmTimer::constructor";
+
     connect(&_timer, SIGNAL(timeout()), this, SIGNAL(timeout()));
 }

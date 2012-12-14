@@ -56,6 +56,8 @@ private slots:
     void match_nextNearestDateTime_multiConditionFirstMatchSecondNearest();
     void match_nextNearestDateTime_multiConditionSecondMatchFirstNearest();
 
+    void matchInvalidated_signalTest();
+
 };
 
 #endif // TESTCONDITIONMANAGERCALENDAR_H
