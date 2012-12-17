@@ -83,7 +83,7 @@ SOURCES += src/main.cpp \
     src/logic/calendar/calendarentrymatcherdatetime.cpp \
     src/platform/calendar/impl/stub/calendarmanagerstub.cpp \
     src/logic/conditionmanagercacheable.cpp \
-    src/logic/conditionmanagercaching.cpp \
+    src/logic/conditionmanagercaching.cpp
 
 HEADERS += \
     src/profileclient.h \

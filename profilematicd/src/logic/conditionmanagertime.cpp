@@ -28,7 +28,7 @@ ConditionManagerTime::ConditionManagerTime(QObject *parent)
 
     _timer.setSingleShot(true);
 
-    connect(&_timer, SIGNAL(timeout()), this, SIGNAL(matchInvalidated()));
+    connect(&_timer, SIGNAL(timeout()), this, SIGNAL(_timeout()));
 
 //    if (!connect(&_timer, SIGNAL(timeout()), this, SIGNAL(matchInvalidated()))) {
 //        qDebug() << "ConditionManagerTime::constructor connecting timeout to matchInvalidated failed";
@@ -61,7 +61,7 @@ ConditionManagerTime::match(const QDateTime &now, const RuleCondition &cond) {
     const QDateTime &nearestFromRule = p.first;
     bool matching = p.second;
 
-    qDebug() << "ConditionManagerTime::refresh match " << matching;
+    qDebug() << "ConditionManagerTime::match " << matching;
 
     _updateNextNearestDateTime(now, nearestFromRule);
     return matching ? Matched : NotMatched;
@@ -170,8 +170,8 @@ ConditionManagerTime::_calculateNextEnd(const QDateTime &dateTimeStart, const QT
     return nextEnd;
 }
 
-//void
-//ConditionManagerTime::_matchInvalidated() {
-//    qDebug() << "ConditionManagerTime::_matchInvalidated, emitting matchInvalidated";
-//    emit matchInvalidated();
-//}
+void
+ConditionManagerTime::_timeout() {
+    _nextNearestDateTime = QDateTime();
+    emit matchInvalidated();
+}

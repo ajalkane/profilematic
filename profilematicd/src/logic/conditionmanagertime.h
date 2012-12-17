@@ -73,8 +73,8 @@ public:
         _timerIntervalMaxAddition = add;
     }
 
-//private slots:
-//    void _matchInvalidated();
+private slots:
+    void _timeout();
 };
 
 #endif // CONDITIONMANAGERTIME_H
