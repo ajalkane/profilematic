@@ -65,7 +65,7 @@ RulesManager::_refresh(bool /*forceActivate*/) {
             if (rule.isDefaultRule()) continue;
 
             if (!rule.getRuleActive()) {
-                qDebug("RulesManager::refresh() rule %s is not active, skipping", qPrintable(rule.getRuleName()));
+                qDebug("\nRulesManager::refresh() rule %s is not active, skipping", qPrintable(rule.getRuleName()));
                 continue;
             }
             qDebug() << "\nRulesManager::refresh() considering rule" << rule.getRuleName();

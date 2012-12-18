@@ -38,7 +38,7 @@ public:
     inline void start(int minimumInterval, int maximumInterval) {
         Q_UNUSED(maximumInterval)
 
-        _timer.start(minimumInterval);
+        _timer.start(minimumInterval * 1000);
     }
 
     inline void stop() {
@@ -55,10 +55,10 @@ public:
     }
 
     inline int minimumInterval() const {
-        return _timer.interval();
+        return _timer.interval() / 1000;
     }
     inline int maximumInterval() const {
-        return _timer.interval();
+        return _timer.interval() / 1000;
     }
 
 signals:

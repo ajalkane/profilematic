@@ -36,6 +36,7 @@ class TestConditionManagerTime : public QObject
     QSet<int> _allDays;
 public:
     TestConditionManagerTime();
+
 private slots:
     void refresh_basicTestsTimer();
     void refresh_basicTestsMatching();
@@ -44,6 +45,9 @@ private slots:
     void refresh_multiRuleTestsMatching();
     void refresh_nextIntervalRoundedUp();
     void refreshNeeded_signalTest();
+
+    void timeoutBeforeShouldBeRescheduledCorrectly();
+
 };
 
 #endif // TESTCONDITIONMANAGERTIME_H

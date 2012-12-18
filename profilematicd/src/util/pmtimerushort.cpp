@@ -40,7 +40,7 @@ PmTimer::_start(int minimumInterval, int maximumInterval) {
 
 void
 PmTimer::start(int minimumInterval, int maximumInterval) {
-    qDebug("%s PmTimerUShort::start() called with with %d/%d", qPrintable(QDateTime::currentDateTime().toString()), minimumInterval, maximumInterval);
+    qDebug("%s PmTimerUShort::start() called with %d/%d", qPrintable(QDateTime::currentDateTime().toString()), minimumInterval, maximumInterval);
     if (_timer.isActive()) {
         qDebug("PmTimerUShort::start() was active, stopping");
         _timer.stop();

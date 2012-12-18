@@ -58,7 +58,7 @@ public:
     // These functions only needed for unit tests
     MatchStatus match(const QDateTime &now, const RuleCondition &cond);
 
-    const PmTimer *timer() const {
+    inline PmTimer *timer() {
         return &_timer;
     }
     // Minimum interval in msecs
@@ -75,6 +75,8 @@ public:
 
 private slots:
     void _timeout();
+
+    friend class TestConditionManagerTime;
 };
 
 #endif // CONDITIONMANAGERTIME_H

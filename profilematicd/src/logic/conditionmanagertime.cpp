@@ -28,7 +28,7 @@ ConditionManagerTime::ConditionManagerTime(QObject *parent)
 
     _timer.setSingleShot(true);
 
-    connect(&_timer, SIGNAL(timeout()), this, SIGNAL(_timeout()));
+    connect(&_timer, SIGNAL(timeout()), this, SLOT(_timeout()));
 
 //    if (!connect(&_timer, SIGNAL(timeout()), this, SIGNAL(matchInvalidated()))) {
 //        qDebug() << "ConditionManagerTime::constructor connecting timeout to matchInvalidated failed";
@@ -172,6 +172,9 @@ ConditionManagerTime::_calculateNextEnd(const QDateTime &dateTimeStart, const QT
 
 void
 ConditionManagerTime::_timeout() {
+    QDateTime now = QDateTime::currentDateTime();
+    qDebug() << now << "ConditionManagerTime::_timeout";
+    qDebug() << "ConditionManagerTime::_timeout msec" << now.time().msec();
     _nextNearestDateTime = QDateTime();
     emit matchInvalidated();
 }

@@ -1,3 +1,5 @@
+#include <QDebug>
+
 #include "pmtimerqt.h"
 
 PmTimer::PmTimer()

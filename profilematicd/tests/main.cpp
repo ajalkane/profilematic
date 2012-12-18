@@ -24,6 +24,7 @@
 #include "logic/testconditionmanagercaching.h"
 #include "logic/testcalendarentrymatchercondition.h"
 #include "logic/testcalendarentrymatcherdatetime.h"
+#include "util/testpmtimer.h"
 
 int main(int argc, char *argv[])
 {
@@ -33,12 +34,13 @@ int main(int argc, char *argv[])
     int retval(0);
 
     QList<QObject *> tests;
-    tests << new TestCalendarEntryMatcherCondition();
-    tests << new TestCalendarEntryMatcherDateTime();
-    tests << new TestConditionManagerCalendar();
-    tests << new TestConditionManagerCaching();
+//    tests << new TestCalendarEntryMatcherCondition();
+//    tests << new TestCalendarEntryMatcherDateTime();
+//    tests << new TestConditionManagerCalendar();
+//    tests << new TestConditionManagerCaching();
     tests << new TestConditionManagerTime();
-    tests << new TestConditionManagerChain();
+//    tests << new TestConditionManagerChain();
+//    tests << new TestPmTimer();
 
     foreach (QObject *test, tests) {
         retval += QTest::qExec(test, argc, argv);

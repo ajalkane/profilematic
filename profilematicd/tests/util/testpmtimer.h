@@ -16,31 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef SIGNALCOUNTER_H
-#define SIGNALCOUNTER_H
+#ifndef TESTPMTIMER_H
+#define TESTPMTIMER_H
 
-#include <QDebug>
-#include <QObject>
-#include <QDateTime>
+#include <QtTest/QtTest>
 
-class SignalCounter : public QObject
+#include "../../src/model/rule.h"
+#include "../../src/util/pmtimer.h"
+
+class TestPmTimer : public QObject
 {
     Q_OBJECT
+
+
 public:
-    int numSignal;
-    QDateTime signalDateTime;
+    TestPmTimer();
 
-    explicit SignalCounter(QObject *parent = 0);
+private slots:
+    void signalTest();
 
-signals:
-
-public slots:
-    void onSignal() {
-        numSignal++;
-        signalDateTime = QDateTime::currentDateTime();
-        qDebug() << "SignalCounter::signalDateTime" << signalDateTime.toString(Qt::ISODate);
-        qDebug() << "SignalCounter::signalDateTime msec" << signalDateTime.time().msec();
-    }
 };
 
-#endif // SIGNALCOUNTER_H
+#endif // TESTPMTIMER_H

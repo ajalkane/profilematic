@@ -39,8 +39,7 @@ ConditionManagerCaching::refresh(const Rule::IdType &ruleId, const RuleCondition
     if (_matchCache.contains(ruleId)) {
         match = _matchCache.value(ruleId);
         qDebug() << "ConditionManagerCaching::refresh" << _cacheable->objectName()
-                 << "returning cached value " << match
-                 << "for" << ruleId;
+                 << "returning cached value " << match;
     } else {
         match = _cacheable->match(ruleId, rule);
         _matchCache.insert(ruleId, match);

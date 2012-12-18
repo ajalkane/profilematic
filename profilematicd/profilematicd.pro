@@ -83,7 +83,7 @@ SOURCES += src/main.cpp \
     src/logic/calendar/calendarentrymatcherdatetime.cpp \
     src/platform/calendar/impl/stub/calendarmanagerstub.cpp \
     src/logic/conditionmanagercacheable.cpp \
-    src/logic/conditionmanagercaching.cpp
+    src/logic/conditionmanagercaching.cpp \
 
 HEADERS += \
     src/profileclient.h \
@@ -133,7 +133,7 @@ HEADERS += \
     src/platform/calendar/impl/stub/calendarmanagerstub.cpp \
     src/logic/conditionmanagercacheable.h \
     src/logic/conditionmanagercaching.h \
-    src/util/pmtimer.h
+    src/util/pmtimer.h \
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     DEFINES += PM_TIMER_USHORT
@@ -181,7 +181,8 @@ qtestlib {
         tests/logic/testcalendarentrymatchercondition.cpp \
         tests/logic/testcalendarentrymatcherdatetime.cpp \
         tests/logic/testconditionmanagercalendar.cpp \
-        tests/logic/testconditionmanagercaching.cpp
+        tests/logic/testconditionmanagercaching.cpp \
+        tests/util/testpmtimer.cpp
 
 
     HEADERS += tests/logic/testconditionmanagerchain.h \
@@ -190,7 +191,8 @@ qtestlib {
         tests/logic/testcalendarentrymatchercondition.h \
         tests/logic/testcalendarentrymatcherdatetime.h \
         tests/logic/testconditionmanagercalendar.h \
-        tests/logic/testconditionmanagercaching.h
+        tests/logic/testconditionmanagercaching.h \
+        tests/util/testpmtimer.h
 }
 
 #!isEmpty(MEEGO_VERSION_MAJOR) {

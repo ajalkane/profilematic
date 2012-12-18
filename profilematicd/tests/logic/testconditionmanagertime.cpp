@@ -351,11 +351,41 @@ TestConditionManagerTime::refreshNeeded_signalTest() {
     QTest::qWait(5 * 1000);
 
     QCOMPARE(signalTarget.numSignal, 1);
+}
 
-//    ruleWatch.refreshWatch(now);
-//    QVERIFY(ruleWatch.timer()->isActive() == true);
-//    QCOMPARE(ruleWatch.minimumIntervalSec(), 120 );
-//    QCOMPARE(ruleWatch.targetRule(), item2);
+void
+TestConditionManagerTime::timeoutBeforeShouldBeRescheduledCorrectly() {
+    QList<Rule> rules;
+    const Rule *match;
+    Rule rule;
+    SignalCounter signalTarget;
+
+    // Tuesday
+    QDateTime now = QDateTime::fromString("27.09.2011 10:00:00", "dd.MM.yyyy hh:mm:ss");
+    ConditionManagerTime cm;
+
+    rule.condition().setDays(_allDays);
+    rule.condition().setTimeStart(now.addSecs(60).time());
+    rule.condition().setTimeEnd(now.addSecs(120).time());
+
+    rules << rule;
+
+    QVERIFY(cm.timer()->isActive() == false);
+
+    connect(&cm, SIGNAL(matchInvalidated()), &signalTarget, SLOT(onSignal()));
+
+    cm.setTimerMaxIntervalAddition(1);
+    match = _refresh(cm, rules, now);
+
+    cm.timer()->start(1, 1);
+    QTest::qWait(5 * 1000);
+    cm.setTimerMaxIntervalAddition(1);
+    match = _refresh(cm, rules, now);
+
+    QCOMPARE(signalTarget.numSignal, 1);
+    QVERIFY(match == false);
+    QCOMPARE(cm.timer()->isActive(), true);
+    QCOMPARE(cm.minimumIntervalSec(), 60);
 }
 
 // IMPROVE: exceptional cases, no days, no startTime, no endTime
