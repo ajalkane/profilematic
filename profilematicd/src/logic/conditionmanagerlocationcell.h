@@ -20,16 +20,18 @@
 #define CONDITIONMANAGERLOCATIONCELL_H
 
 #include <QObject>
+#include <QTimer>
 #include <QSet>
 #include <QSystemNetworkInfo>
 #include <QSystemAlignedTimer>
 
 QTM_USE_NAMESPACE
 
-#include "conditionmanager.h"
+#include "conditionmanagercacheable.h"
 #include "../platform/platformutil.h"
+#include "../util/pmtimer.h"
 
-class ConditionManagerLocationCell : public ConditionManager {
+class ConditionManagerLocationCell  : public ConditionManagerCacheable {
     Q_OBJECT
 
     QSystemNetworkInfo _networkInfo;
@@ -38,20 +40,31 @@ class ConditionManagerLocationCell : public ConditionManager {
     QSet<int> _currentRuleCellIds;
     int _currentTimeout;
     int _currentCellId;
-    QSystemAlignedTimer _cellsTimeout;
+    PmTimer _cellsTimeout;
 
     bool _enteredNonWatchedCell();
+
+    void _clearVars();
+    inline bool _conditionSetForMatching(const RuleCondition &cond) const { return !cond.getLocationCells().isEmpty(); }
 
 public:
     ConditionManagerLocationCell(QObject *parent = 0);
     virtual ~ConditionManagerLocationCell();
 
-    virtual void startRefresh();
-    virtual bool refresh(const Rule::IdType &, const RuleCondition &rule);
-    virtual void matchedRule(const RuleCondition &rule);
-    virtual void endRefresh();
+    virtual bool conditionSetForMatching(const RuleCondition &cond) const;
+    virtual MatchStatus match(const Rule::IdType &ruleId, const RuleCondition &cond);
 
-    void monitorCellId(bool monitor);
+    virtual void startMonitor();
+    virtual void stopMonitor();
+
+    virtual void rulesChanged();
+
+//    virtual void startRefresh();
+//    virtual bool refresh(const Rule::IdType &, const RuleCondition &rule);
+//    virtual void matchedRule(const RuleCondition &rule);
+//    virtual void endRefresh();
+
+//    void monitorCellId(bool monitor);
 
 public slots:
     void cellIdChanged(int cellId);

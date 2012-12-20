@@ -22,79 +22,71 @@
 // not being able to get cell id.
 #define CELL_ID_NOT_QUERIED -2
 
-// TODO: this class need UnitTest
 ConditionManagerLocationCell::ConditionManagerLocationCell(QObject *parent)
-    : ConditionManager(parent), _currentTimeout(-1), _currentCellId(CELL_ID_NOT_QUERIED)
+    : ConditionManagerCacheable(parent), _currentTimeout(-1), _currentCellId(CELL_ID_NOT_QUERIED)
 {
+    setObjectName("ConditionManagerLocationCell");
+
     _cellsTimeout.setSingleShot(true);
     connect(&_cellsTimeout, SIGNAL(timeout()), this, SLOT(onCurrentCellsTimeout()));
 }
 
 ConditionManagerLocationCell::~ConditionManagerLocationCell() {
-    monitorCellId(false);
-}
-
-void
-ConditionManagerLocationCell::startRefresh() {
-    _currentRuleCellIds.clear();
-    _watchedCellIds.clear();
-    _currentTimeout = -1;
+    stopMonitor();
 }
 
 bool
-ConditionManagerLocationCell::refresh(const Rule::IdType &, const RuleCondition &rule) {
-    const QSet<int> &cellIds = rule.getLocationCells();
-    if (cellIds.isEmpty()) {
-        qDebug("ConditionManagerLocationCell::refresh cellIds is empty, matches");
-        return true;
+ConditionManagerLocationCell::conditionSetForMatching(const RuleCondition &cond) const {
+    return _conditionSetForMatching(cond);
+}
+
+ConditionManagerCacheable::MatchStatus
+ConditionManagerLocationCell::match(const Rule::IdType &, const RuleCondition &cond) {
+    if (!_conditionSetForMatching(cond)) {
+        qDebug() << "ConditionManagerLocationCell::match() options not set or invalid, matchNotSet";
+        return MatchNotSet;
     }
+
+    const QSet<int> &cellIds = cond.getLocationCells();
 
     if (_currentCellId == CELL_ID_NOT_QUERIED) {
         _currentCellId = _networkInfo.cellId();
     }
-    qDebug("ConditionManagerLocationCell::refresh currentCellId %d", _currentCellId);
+    qDebug() << "ConditionManagerLocationCell::match() currentCellId" << _currentCellId;
 
     _watchedCellIds.unite(cellIds);
 
     if (cellIds.contains(_currentCellId)) {
-        qDebug("ConditionManagerLocationCell::refresh contains currentCellId");
-        return true;
+        qDebug() << "ConditionManagerLocationCell::match() contains currentCellId";
+        _currentRuleCellIds.unite(cellIds);
+        _currentTimeout = qMax(_currentTimeout, cond.getLocationCellsTimeout());
+        return Matched;
     }
 
-    return false;
+    return NotMatched;
 }
 
-void
-ConditionManagerLocationCell::matchedRule(const RuleCondition &rule) {
-    _currentRuleCellIds.unite(rule.getLocationCells());
-    _currentTimeout = qMax(_currentTimeout, rule.getLocationCellsTimeout());
-}
-
-void
-ConditionManagerLocationCell::endRefresh() {    
-    if (!_watchedCellIds.isEmpty()) {
-        monitorCellId(true);
-    } else {
-        monitorCellId(false);
-        _currentRuleCellIds.clear();
-        _currentCellId = CELL_ID_NOT_QUERIED;
-        if (_cellsTimeout.isActive()) _cellsTimeout.stop();
-    }
-}
+//void
+//ConditionManagerLocationCell::startRefresh() {
+//    _currentRuleCellIds.clear();
+//    _watchedCellIds.clear();
+//    _currentTimeout = -1;
+//}
 
 void
 ConditionManagerLocationCell::onCurrentCellsTimeout() {
-    qDebug("%s ConditionManagerLocationCell:onCurrentCellsRefreshNeeded, refreshing", qPrintable(QDateTime::currentDateTime().toString()));
-    _currentCellId = CELL_ID_NOT_QUERIED;
-    emit refreshNeeded();
+    qDebug() << QDateTime::currentDateTime().toString() << "ConditionManagerLocationCell:onCurrentCellsRefreshNeeded, invalidating";
+    _clearVars();
+    emit matchInvalidated();
 }
 
 bool
 ConditionManagerLocationCell::_enteredNonWatchedCell() {
     if (_currentTimeout > 0) {
         if (!_cellsTimeout.isActive()) {
-            qDebug("%s ConditionManagerLocationCell::_enteredNonWatchedCell() timeout specified, waiting %d seconds before refresh",
-                   qPrintable(QDateTime::currentDateTime().toString()), _currentTimeout);
+            qDebug() << QDateTime::currentDateTime().toString()
+                     << "ConditionManagerLocationCell::_enteredNonWatchedCell() timeout specified,"
+                     << "waiting" << _currentTimeout << "seconds before invalidating";
             _cellsTimeout.start(_currentTimeout, _currentTimeout + 1);
         }
         return false;
@@ -105,47 +97,71 @@ ConditionManagerLocationCell::_enteredNonWatchedCell() {
 
 void
 ConditionManagerLocationCell::cellIdChanged(int cellId) {
-    qDebug("ConditionManagerLocationCell::cellIdChanged to %d", cellId);
+    qDebug() << "ConditionManagerLocationCell::cellIdChanged to" << cellId;
     // 0 comes when no mobile network connection
     if (cellId <= 0) {
-        qDebug("ConditionManagerLocationCell::cellIdChanged ignoring <= 0 cellId");
+        qDebug() << "ConditionManagerLocationCell::cellIdChanged ignoring <= 0 cellId";
         return;
     }
 
-    bool refresh = false;
+    bool invalidate = false;
 
     if (_currentRuleCellIds.contains(cellId)) {
-        qDebug("ConditionManagerLocationCell::cellIdChanged current rule has this cellId");
+        qDebug() << "ConditionManagerLocationCell::cellIdChanged current rule has this cellId";
         if (_cellsTimeout.isActive()) _cellsTimeout.stop();
     }
     else if (_watchedCellIds.contains(cellId)) {
-        qDebug("ConditionManagerLocationCell::cellIdChanged watched contains and is not in current Rule's cellIds, requesting refresh");
+        qDebug() << "ConditionManagerLocationCell::cellIdChanged watched contains and is not in current Rule's cellIds, invalidating";
         if (_cellsTimeout.isActive()) _cellsTimeout.stop();
-        refresh = true;
+        invalidate = true;
     }
     else if (!_currentRuleCellIds.isEmpty()) {
         if (!_enteredNonWatchedCell()) {
-            qDebug("ConditionManagerLocationCell::cellIdChanged, not anymore in current rule's timeout active");
+            qDebug() << "ConditionManagerLocationCell::cellIdChanged, not anymore in current rule's timeout active";
             // If timeout is used, current cell id must not be set
             return;
         } else {
-            qDebug("ConditionManagerLocationCell::cellIdChanged, not anymore in current rule's cells, requesting refresh");
-            refresh = true;
+            qDebug() << "ConditionManagerLocationCell::cellIdChanged, not anymore in current rule's cells, invalidating";
+            invalidate = true;
         }
     }
     else {
-        qDebug("ConditionManagerLocationCell::cellIdChanged but not in active cellIds, no refresh");
+        qDebug() << "ConditionManagerLocationCell::cellIdChanged but not in active cellIds, no need to invalidate";
     }
     _currentCellId = cellId;
-    if (refresh) emit refreshNeeded();
+    if (invalidate) {
+        qDebug() << "ConditionManagerLocationCell::cellIdChanged matchInvalidated";
+        _clearVars();
+        emit matchInvalidated();
+    }
 }
 
 void
-ConditionManagerLocationCell::monitorCellId(bool monitor) {
-    qDebug("ConditionManagerLocationCell::monitorCellId(%d)", monitor);
-    if (monitor) {
-        connect(&_networkInfo, SIGNAL(cellIdChanged(int)), this, SLOT(cellIdChanged(int)), Qt::UniqueConnection);
-    } else {
-        disconnect(&_networkInfo, SIGNAL(cellIdChanged(int)), this, SLOT(cellIdChanged(int)));
-    }
+ConditionManagerLocationCell::startMonitor() {
+    qDebug() << "ConditionManagerLocationCell::startMonitor";
+    connect(&_networkInfo, SIGNAL(cellIdChanged(int)), this, SLOT(cellIdChanged(int)));
+}
+
+void
+ConditionManagerLocationCell::stopMonitor() {
+    qDebug() << "ConditionManagerLocationCell::stopMonitor";
+    disconnect(&_networkInfo, SIGNAL(cellIdChanged(int)), this, SLOT(cellIdChanged(int)));
+
+    _clearVars();
+}
+
+void
+ConditionManagerLocationCell::rulesChanged() {
+    qDebug() << "ConditionManagerLocationCell::rulesChanged";
+
+    _clearVars();
+}
+
+void
+ConditionManagerLocationCell::_clearVars() {
+    _currentRuleCellIds.clear();
+    _watchedCellIds.clear();
+    _currentTimeout = -1;
+    _currentCellId = CELL_ID_NOT_QUERIED;
+    _cellsTimeout.stop();
 }

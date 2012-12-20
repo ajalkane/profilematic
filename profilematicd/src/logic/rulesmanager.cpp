@@ -90,6 +90,8 @@ RulesManager::_refresh(bool /*forceActivate*/) {
 
     // IMPROVE: should emit only if really changed
     emit matchingRuleIdsChanged(_matchingRuleIds.toList());
+
+    qDebug("\n\nEND REFRESH\n\n");
 }
 
 void
