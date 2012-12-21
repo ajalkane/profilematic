@@ -36,8 +36,6 @@ class ConditionManagerBatteryLevel : public ConditionManagerCacheable {
 
     int _latestLevel;
 
-    void _monitorBatteryLevel(bool monitor);
-
     void _clearVars();
     inline bool _conditionSetForMatching(const RuleCondition &cond) const { return cond.batteryLevel().isValid(); }
 

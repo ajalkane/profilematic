@@ -21,7 +21,7 @@ ConditionManager *
 ConditionManagerFactory::create()
 {
     ConditionManagerChain *cm = new ConditionManagerChain();
-    cm->add(new ConditionManagerCharging());
+    cm->add(new ConditionManagerCaching(new ConditionManagerCharging()));
     cm->add(new ConditionManagerCaching(new ConditionManagerTime));
     cm->add(new ConditionManagerCaching(new ConditionManagerLocationCell()));
     cm->add(new ConditionManagerCaching(new ConditionManagerWlan()));

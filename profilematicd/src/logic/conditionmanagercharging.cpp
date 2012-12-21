@@ -1,44 +1,90 @@
+/**********************************************************************
+ * Copyright 2012 Arto Jalkanen
+ *
+ * This file is part of ProfileMatic.
+ *
+ * ProfileMatic is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ProfileMatic is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
+**/
+#include <QDebug>
+
 #include "conditionmanagercharging.h"
 
 ConditionManagerCharging::ConditionManagerCharging(QObject *parent)
-    : ConditionManager(parent), _hasChargingConditions(false)
+    : ConditionManagerCacheable(parent), _currentChargingState(RuleCondition::UndefinedChargingState)
 {
-    qDebug("ConditionManagerCharging::constructor");
-    _currentChargingState = (RuleCondition::ChargingState)PlatformUtil::instance()->batteryChargingState();
+    setObjectName("ConditionManagerCharging");
+}
+
+bool
+ConditionManagerCharging::conditionSetForMatching(const RuleCondition &cond) const {
+    return _conditionSetForMatching(cond);
+}
+
+ConditionManagerCacheable::MatchStatus
+ConditionManagerCharging::match(const Rule::IdType &ruleId, const RuleCondition &cond) {
+    Q_UNUSED(ruleId)
+
+    if (!_conditionSetForMatching(cond)) {
+        qDebug() << "ConditionManagerCharging::match() options not set or invalid, matchNotSet";
+        return MatchNotSet;
+    }
+
+    if (_currentChargingState == RuleCondition::UndefinedChargingState) {
+        _currentChargingState = (RuleCondition::ChargingState)PlatformUtil::instance()->batteryChargingState();
+    }
+
+    RuleCondition::ChargingState chargingState = cond.getChargingState();
+
+    qDebug("ConditionManagerCharging::refresh current %d rule %d", _currentChargingState, chargingState);
+    return _currentChargingState == chargingState ? Matched : NotMatched;
+}
+
+void
+ConditionManagerCharging::startMonitor() {
+    qDebug() << "ConditionManagerCharging::startMonitor";
     connect(PlatformUtil::instance(), SIGNAL(batteryChargingStateChanged(int)), this, SLOT(batteryChargingStateChanged(int)));
 }
 
 void
-ConditionManagerCharging::startRefresh() {
-    _hasChargingConditions = false;
-}
+ConditionManagerCharging::stopMonitor() {
+    qDebug() << "ConditionManagerCharging::stopMonitor";
+    disconnect(PlatformUtil::instance(), SIGNAL(batteryChargingStateChanged(int)), this, SLOT(batteryChargingStateChanged(int)));
 
-bool
-ConditionManagerCharging::refresh(const Rule::IdType &, const RuleCondition &condition) {
-    RuleCondition::ChargingState chargingState = condition.getChargingState();
-    if (chargingState == RuleCondition::UndefinedChargingState) {
-        qDebug("ConditionManagerCharging charging state not set");
-        return true;
-    }
-
-    _hasChargingConditions = true;
-
-    qDebug("ConditionManagerCharging::refresh current %d rule %d", _currentChargingState, chargingState);
-    return _currentChargingState == chargingState;
+    _clearVars();
 }
 
 void
-ConditionManagerCharging::endRefresh() {
+ConditionManagerCharging::rulesChanged() {
+    qDebug() << "ConditionManagerCharging::rulesChanged";
 }
 
 void
 ConditionManagerCharging::batteryChargingStateChanged(int chargingState) {
-    qDebug("%s ConditionManagerCharging::batteryChargingStateChanged(%d) hasChargingConditions %d",
-           qPrintable(QDateTime::currentDateTime().toString()), chargingState, _hasChargingConditions);
+    qDebug() << QDateTime::currentDateTime().toString()
+             << "ConditionManagerCharging::batteryChargingStateChanged"
+             << chargingState
+             << "current charging state"
+             << _currentChargingState
+             << ", invalidating";
 
     _currentChargingState = (RuleCondition::ChargingState)chargingState;
-    if (_hasChargingConditions) {
-        emit refreshNeeded();
-    }
+
+    emit matchInvalidated();
+}
+
+void
+ConditionManagerCharging::_clearVars() {
+    _currentChargingState = RuleCondition::UndefinedChargingState;
 }
 
