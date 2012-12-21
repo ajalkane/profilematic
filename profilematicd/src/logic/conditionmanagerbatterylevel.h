@@ -21,9 +21,9 @@
 
 #include <QList>
 
-#include "conditionmanager.h"
+#include "conditionmanagercacheable.h"
 
-class ConditionManagerBatteryLevel : public ConditionManager {
+class ConditionManagerBatteryLevel : public ConditionManagerCacheable {
     Q_OBJECT
 
     struct Limit {
@@ -36,8 +36,10 @@ class ConditionManagerBatteryLevel : public ConditionManager {
 
     int _latestLevel;
 
-    bool _monitoring;
     void _monitorBatteryLevel(bool monitor);
+
+    void _clearVars();
+    inline bool _conditionSetForMatching(const RuleCondition &cond) const { return cond.batteryLevel().isValid(); }
 
     inline int _distance(int level) {
         return level - _latestLevel;
@@ -79,12 +81,15 @@ class ConditionManagerBatteryLevel : public ConditionManager {
     }
 
 public:
-    ConditionManagerBatteryLevel();
+    ConditionManagerBatteryLevel(QObject *parent = 0);
 
-    virtual void startRefresh();
-    virtual bool refresh(const Rule::IdType &, const RuleCondition &rule);
-    virtual void matchedRule(const RuleCondition &rule);
-    virtual void endRefresh();
+    virtual bool conditionSetForMatching(const RuleCondition &cond) const;
+    virtual MatchStatus match(const Rule::IdType &ruleId, const RuleCondition &cond);
+
+    virtual void startMonitor();
+    virtual void stopMonitor();
+
+    virtual void rulesChanged();
 
 private slots:
     void batteryLevelChanged(int batteryLevel);

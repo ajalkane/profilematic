@@ -28,7 +28,7 @@ ConditionManagerFactory::create()
     cm->add(new ConditionManagerIdle());
     cm->add(new ConditionManagerCaching(new ConditionManagerNFC()));
     cm->add(new ConditionManagerInternetConnectionMode());
-    cm->add(new ConditionManagerBatteryLevel());
+    cm->add(new ConditionManagerCaching(new ConditionManagerBatteryLevel()));
     cm->add(new ConditionManagerCaching(new ConditionManagerCalendar));
 
     return cm;
