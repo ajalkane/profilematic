@@ -25,9 +25,9 @@
 
 QTM_USE_NAMESPACE
 
-#include "conditionmanager.h"
+#include "conditionmanagercacheable.h"
 
-class ConditionManagerNFC : public ConditionManager {
+class ConditionManagerNFC : public ConditionManagerCacheable {
     Q_OBJECT
 
     QNearFieldManager *_nfcManager;
@@ -35,20 +35,29 @@ class ConditionManagerNFC : public ConditionManager {
     // So we have to cache the current nfc uid.
     QByteArray _currentNfcUid;
     QSet<Rule::IdType> _currentToggledRules;
-//    QSet<QByteArray> _currentTogglingNfcUids;
-//    QSet<QByteArray> _currentNonTogglingNfcUids;
     QHash<Rule::IdType, QSet<QByteArray> > _watchedTogglingNfcUidsByRuleId;
     QSet<QByteArray> _watchedNonTogglingNfcUids;
     QSet<QByteArray> _watchedTogglingNfcUids;
 
+    void _clearVars();
+    inline bool _conditionSetForMatching(const RuleCondition &cond) const { return !cond.nfc().getUids().isEmpty(); }
+
     void _monitorNfc(bool monitor);
 public:
-    ConditionManagerNFC();
+    ConditionManagerNFC(QObject *parent = 0);
 
-    virtual void startRefresh();
-    virtual bool refresh(const Rule::IdType &, const RuleCondition &rule);
-    virtual void matchedRule(const RuleCondition &rule);
-    virtual void endRefresh();
+    virtual bool conditionSetForMatching(const RuleCondition &cond) const;
+    virtual MatchStatus match(const Rule::IdType &ruleId, const RuleCondition &cond);
+
+    virtual void startMonitor();
+    virtual void stopMonitor();
+
+    virtual void rulesChanged();
+
+//    virtual void startRefresh();
+//    virtual bool refresh(const Rule::IdType &, const RuleCondition &rule);
+//    virtual void matchedRule(const RuleCondition &rule);
+//    virtual void endRefresh();
 
 private slots:
     void targetDetected(QNearFieldTarget *target);
