@@ -1,3 +1,23 @@
+/**********************************************************************
+ * Copyright 2012 Arto Jalkanen
+ *
+ * This file is part of ProfileMatic.
+ *
+ * ProfileMatic is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ProfileMatic is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
+**/
+#include <QDebug>
+
 #include <limits.h>
 #include "conditionmanageridle.h"
 
@@ -6,36 +26,58 @@
 #define IDLE_MODE 1
 
 ConditionManagerIdle::ConditionManagerIdle(QObject *parent)
-    : ConditionManager(parent),
-      _currentMinIdleSecs(-1),
-      _nextMinWakeupSecs(-1),
+    : ConditionManagerCacheable(parent),
+      _currentMinIdleSecs(INT_MAX),
       _currentIdleMode(IDLE_MODE_UNKNOWN),
-    _hasActive(false)
+      _hasActive(false)
 {
+    setObjectName("ConditionManagerIdle");
     _timer.setSingleShot(true);
-    connect(PlatformUtil::instance(), SIGNAL(userActivityIdleChanged(bool)), this, SLOT(userActivityIdleChanged(bool)));
-    connect(&_timer, SIGNAL(timeout()), this, SIGNAL(refreshNeeded()));
+    connect(&_timer, SIGNAL(timeout()), this, SLOT(_timeout()));
 }
 
 ConditionManagerIdle::~ConditionManagerIdle() {
 }
 
-void
-ConditionManagerIdle::startRefresh() {
-    _currentMinIdleSecs = INT_MAX;
-    _nextMinWakeupSecs = INT_MAX;
-    _refreshTime = QDateTime::currentDateTime();
-    _timer.stop();
-    _hasActive = false;
+bool
+ConditionManagerIdle::conditionSetForMatching(const RuleCondition &cond) const {
+    return _conditionSetForMatching(cond);
 }
 
-bool
-ConditionManagerIdle::refresh(const Rule::IdType &, const RuleCondition &condition) {
-    int idleForSecs = condition.getIdleForSecs();
-    if (idleForSecs < 0) {
-        qDebug("ConditionManagerIdle not set %d", idleForSecs);
-        return true;
+void
+ConditionManagerIdle::startMonitor() {
+    qDebug() << "ConditionManagerIdle::startMonitor";
+    connect(PlatformUtil::instance(), SIGNAL(userActivityIdleChanged(bool)), this, SLOT(userActivityIdleChanged(bool)));
+}
+
+void
+ConditionManagerIdle::stopMonitor() {
+    qDebug() << "ConditionManagerIdle::stopMonitor";
+    disconnect(PlatformUtil::instance(), SIGNAL(userActivityIdleChanged(bool)), this, SLOT(userActivityIdleChanged(bool)));
+
+    _clearVarsForInvalidation();
+    _currentIdleMode = IDLE_MODE_UNKNOWN;
+    _timer.stop();
+    _idleStartTime = QDateTime();
+}
+
+void
+ConditionManagerIdle::rulesChanged() {
+    qDebug() << "ConditionManagerIdle::rulesChanged";
+
+    _clearVarsForInvalidation();
+}
+
+ConditionManagerCacheable::MatchStatus
+ConditionManagerIdle::match(const Rule::IdType &ruleId, const RuleCondition &cond) {
+    Q_UNUSED(ruleId)
+
+    if (!_conditionSetForMatching(cond)) {
+        qDebug() << "ConditionManagerIdle::match() options not set or invalid, matchNotSet";
+        return MatchNotSet;
     }
+
+    int idleForSecs = cond.getIdleForSecs();
 
     _currentMinIdleSecs = qMin(_currentMinIdleSecs, idleForSecs);
 
@@ -44,8 +86,8 @@ ConditionManagerIdle::refresh(const Rule::IdType &, const RuleCondition &conditi
     }
 
     if (_currentIdleMode == IDLE_MODE_NOT) {
-        qDebug("ConditionManagerIdle idle mode not active");
-        return false;
+        qDebug() << "ConditionManagerIdle idle mode not active";
+        return NotMatched;
     }
 
     // This check is needed, otherwise idle is kicked into effect immediately.
@@ -56,62 +98,109 @@ ConditionManagerIdle::refresh(const Rule::IdType &, const RuleCondition &conditi
     // with other rules: Time 21:00 - 06:00 and Idle 30 mins, will mean the earliest
     // activation is 21:30.
     if (_idleStartTime.isNull()) {
-        qDebug("ConditionManagerIdle::refresh idleStartTime is null, initializing to current time");
+        qDebug() << "ConditionManagerIdle::match() idleStartTime is null, initializing to current time";
         _idleStartTime = QDateTime::currentDateTime();
     }
 
-    int secsAfterIdle = _idleStartTime.secsTo(_refreshTime);
-    int secsToActivation = idleForSecs - secsAfterIdle;
+    QDateTime now = QDateTime::currentDateTime();
+
+    int secsToActivation = _secsToIdleWakeup(now, idleForSecs);
     if (secsToActivation <= 0) {
-        qDebug("ConditionManagerIdle::refresh matched, idleForSecs-secsAfterIdle=%d", secsToActivation);
+        qDebug() << "ConditionManagerIdle::match() matched, idleForSecs-secsAfterIdle" << secsToActivation;
         _hasActive = true;
-        return true;
+        return Matched;
     } else {
-        _nextMinWakeupSecs = qMin(_nextMinWakeupSecs, secsToActivation);
+        _scheduleWakeup(now, secsToActivation);
+        // _nextMinWakeupSecs = qMin(_nextMinWakeupSecs, secsToActivation);
     }
-    return false;
+    return NotMatched;
 }
 
 void
-ConditionManagerIdle::endRefresh() {
-    if (_nextMinWakeupSecs != INT_MAX) {
-        _scheduleWakeup(_nextMinWakeupSecs);
-    }
+ConditionManagerIdle::_scheduleWakeup(const QDateTime &now, int secsToWakeUp) {
+    QDateTime targetWakeup = now.addSecs(secsToWakeUp);
+    qDebug() << "ConditionManagerIdle::_scheduleWakeup() _nextMinWakeUpTime"
+             << _nextMinWakeupTime.toString()
+             << "targetWakeup"
+             << targetWakeup.toString();
 
-    if (_currentMinIdleSecs != INT_MAX) {
-        qDebug("ConditionManagerIdle monitorUserActivityIdle");
-        connect(PlatformUtil::instance(), SIGNAL(userActivityIdleChanged(bool)), this, SLOT(userActivityIdleChanged(bool)), Qt::UniqueConnection);
-    } else {
-        qDebug("ConditionManagerIdle not monitorUserActivityIdle");
-        disconnect(PlatformUtil::instance(), SIGNAL(userActivityIdleChanged(bool)), this, SLOT(userActivityIdleChanged(bool)));
-        _currentIdleMode = IDLE_MODE_UNKNOWN;
-    }
-}
+    if (_nextMinWakeupTime.isNull() || (now >= _nextMinWakeupTime || targetWakeup < _nextMinWakeupTime)) {
+        _nextMinWakeupTime = targetWakeup;
+        if (now.time().msec() > 0) secsToWakeUp++;
+        int secsToWakeUpEnd = secsToWakeUp + (secsToWakeUp < 30 ? 1 : 30);
+        qDebug() << now.toString() << "ConditionManagerIdle::_scheduleWakeup startTimer to"
+                 << secsToWakeUp << "-"
+                 << secsToWakeUpEnd;
 
-void
-ConditionManagerIdle::_scheduleWakeup(int secsToWakeUp) {
-    int secsToWakeUpEnd = secsToWakeUp + (secsToWakeUp < 120 ? 1 : 58);
-    _timer.start(secsToWakeUp, secsToWakeUpEnd);
-    qDebug("%s ConditionManagerIdle::_scheduleWakeup startTimer to %d-%d secs",
-           qPrintable(_idleStartTime.toString()), secsToWakeUp, secsToWakeUpEnd);
+        _timer.start(secsToWakeUp, secsToWakeUpEnd);
+        _timerTainted = false;
+    }
 }
 
 void
 ConditionManagerIdle::userActivityIdleChanged(bool isIdle)
 {
-    qDebug("ConditionManagerIdle::userActivityIdleChanged %d", isIdle);
-    if (isIdle && _currentMinIdleSecs >= 0) {
+    // It is typical that device goes in and out of idle.
+    // Normally on the other hand the idle timeout is longish,
+    // 10 minutes or more. So try to do as little as possible
+    // here. This means not touching for example the timer
+    // if possible. Rather allow unnecessary timeout signals
+    // every now and then.
+    qDebug() << "ConditionManagerIdle::userActivityIdleChanged" << isIdle;
+    if (isIdle) {
         _idleStartTime = QDateTime::currentDateTime();
         _currentIdleMode = IDLE_MODE;
-        _scheduleWakeup(_currentMinIdleSecs);
-
-    } else if (!isIdle) {
-        _timer.stop();
-        _idleStartTime = QDateTime();
+        if (!_timer.isActive()) {
+            _nextMinWakeupTime = QDateTime();
+            _scheduleWakeup(_idleStartTime, _currentMinIdleSecs);
+        } else {
+            _timerTainted = true;
+        }
+    } else {
         _currentIdleMode = IDLE_MODE_NOT;
         if (_hasActive) {
-            qDebug("%s ConditionManagerIdle at least one rule was active due to idle, requesting refresh", qPrintable(_refreshTime.toString()));
-            emit refreshNeeded();
+            qDebug() << QDateTime::currentDateTime().toString() << "ConditionManagerIdle at least one rule was active due to idle, matchInvalidated";
+            _clearVarsForInvalidation();
+            emit matchInvalidated();
         }
     }
+}
+
+void
+ConditionManagerIdle::_timeout()
+{
+    QDateTime now = QDateTime::currentDateTime();
+    if (_currentIdleMode == IDLE_MODE) {
+        if (!_timerTainted) {
+            qDebug() << now.toString() << "ConditionManagerIdle::_timeout on target time "
+                     << _nextMinWakeupTime << "when idle, invalidating";
+            // _scheduleWakeup(now, _currentMinIdleSecs);
+            _clearVarsForInvalidation();
+            emit matchInvalidated();
+        } else {
+            qDebug() << now.toString() << "ConditionManagerIdle::_timeout timer marked tainted, schedule new wakeup";
+            int secsToWakeup = _secsToIdleWakeup(now, _currentMinIdleSecs);
+            if (secsToWakeup > 0) {
+                _nextMinWakeupTime = QDateTime();
+                _scheduleWakeup(now, _secsToIdleWakeup(now, _currentMinIdleSecs));
+            } else {
+                // This can happen with tainted timer, because the wake up time can vary between 0-30 secs. So by the
+                // time timeout is called, invalidation should be called instead of scheduling next timeout
+                qDebug() << now.toString() << "ConditionManagerIdle::_timeout tainted timeout with negative secsToWakeup"
+                         << secsToWakeup << ", must invalidate";
+                _clearVarsForInvalidation();
+                emit matchInvalidated();
+            }
+        }
+    } else {
+        qDebug() << now.toString() << "ConditionManagerIdle::_timeout ignored timeout as not idle"
+                 << ", nextMinWakeupTime" << _nextMinWakeupTime.toString();
+    }
+}
+
+void
+ConditionManagerIdle::_clearVarsForInvalidation() {
+    _currentMinIdleSecs = INT_MAX;
+    _hasActive = false;
+    _nextMinWakeupTime = QDateTime();
 }

@@ -35,7 +35,6 @@ class ConditionManagerCharging : public ConditionManagerCacheable
 public:
     ConditionManagerCharging(QObject *parent = 0);
 
-
     virtual bool conditionSetForMatching(const RuleCondition &cond) const;
     virtual MatchStatus match(const Rule::IdType &ruleId, const RuleCondition &cond);
 
