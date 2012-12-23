@@ -20,6 +20,7 @@
 #include <QUuid>
 #include <QDebug>
 
+#include "util/conditionallogging.h"
 #include "configuration.h"
 #include "model/presencerule.h"
 
@@ -29,7 +30,7 @@ Configuration::Configuration()
 
 void
 Configuration::writeRules(const QList<Rule> &rules) {
-    qDebug("Configuration::write()");
+    IFDEBUG(qDebug("Configuration::write()"));
 
     // IMPROVE constants.h
     // So wrong by the API specifications, but so right by the end results (no, I don't like doing it this way)
@@ -229,21 +230,21 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
         } else {
             defaultRule.actionsFrom(r);
         }
-        qDebug("Configuration: index %d, ruleId: %s, ruleName: %s", i, qPrintable(r.getRuleId()), qPrintable(r.getRuleName()));
+        IFDEBUG(qDebug("Configuration: index %d, ruleId: %s, ruleName: %s", i, qPrintable(r.getRuleId()), qPrintable(r.getRuleName())));
     }
     rules << defaultRule;
     s.endArray();
 
     // Write rules to finalize conversion
     if (rules_version < RULES_VERSION) {
-        qDebug("Writing rules after conversion");
+        IFDEBUG(qDebug("Writing rules after conversion"));
         writeRules(rules);
     }
 }
 
 void
 Configuration::writePreferences(const Preferences &p) {
-    qDebug("Configuration::writePreferences()");
+    IFDEBUG(qDebug("Configuration::writePreferences()"));
 
     // IMPROVE constants.h
     // So wrong by the API specifications, but so right by the end results (no, I don't like doing it this way)
@@ -270,7 +271,7 @@ Configuration::_assignRuleId(Rule &r, const QVariant &ruleIdVar) {
     QString ruleId;
     if (ok) {
         ruleId = QUuid::createUuid().toString();
-        qDebug("ruleId was in old format (%d), creating UUID %s", oldIntId, qPrintable(ruleId));
+        IFDEBUG(qDebug("ruleId was in old format (%d), creating UUID %s", oldIntId, qPrintable(ruleId)));
     } else {
         ruleId = ruleIdVar.toString();
     }
@@ -383,10 +384,10 @@ Configuration::_readCalendarCondition(QSettings &s, RuleConditionCalendar &cond)
 
 void
 Configuration::_writeIntList(QSettings &s, const QString &prefix, const QString &key, const QList<int> &values) {
-    qDebug("QSettings:__writeIntList prefix %s, key %s, size %d", qPrintable(prefix), qPrintable(key), values.size());
+    IFDEBUG(qDebug("QSettings:__writeIntList prefix %s, key %s, size %d", qPrintable(prefix), qPrintable(key), values.size()));
     s.beginWriteArray(prefix, values.size());
     for (int i = 0; i < values.size(); ++i) {
-        qDebug("Writing prefix %s, key %s for index %d, size %d", qPrintable(prefix), qPrintable(key), i, values.size());
+        IFDEBUG(qDebug("Writing prefix %s, key %s for index %d, size %d", qPrintable(prefix), qPrintable(key), i, values.size()));
         s.setArrayIndex(i);
         s.setValue(key, values.at(i));
     }
@@ -404,8 +405,8 @@ Configuration::_readIntList(QSettings &s, const QString &prefix, const QString &
         if (ok) {
             values << value;
         } else {
-            qDebug("Configuration: invalid setting (not an int) at %s/%d/%s: %s",
-                   qPrintable(prefix), i, qPrintable(key), qPrintable(valueStr));
+            IFDEBUG(qDebug("Configuration: invalid setting (not an int) at %s/%d/%s: %s",
+                   qPrintable(prefix), i, qPrintable(key), qPrintable(valueStr)));
         }
     }
     s.endArray();
@@ -413,10 +414,10 @@ Configuration::_readIntList(QSettings &s, const QString &prefix, const QString &
 
 void
 Configuration::_writeStringList(QSettings &s, const QString &prefix, const QString &key, const QList<QString> &values) {
-    qDebug("QSettings:__writeStringList prefix %s, key %s, size %d", qPrintable(prefix), qPrintable(key), values.size());
+    IFDEBUG(qDebug("QSettings:__writeStringList prefix %s, key %s, size %d", qPrintable(prefix), qPrintable(key), values.size()));
     s.beginWriteArray(prefix, values.size());
     for (int i = 0; i < values.size(); ++i) {
-        qDebug("Writing prefix %s, key %s for index %d, size %d", qPrintable(prefix), qPrintable(key), i, values.size());
+        IFDEBUG(qDebug("Writing prefix %s, key %s for index %d, size %d", qPrintable(prefix), qPrintable(key), i, values.size()));
         s.setArrayIndex(i);
         s.setValue(key, values.at(i));
     }

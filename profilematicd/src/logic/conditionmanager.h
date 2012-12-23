@@ -22,6 +22,7 @@
 #include <QObject>
 #include <QList>
 
+#include "../util/conditionallogging.h"
 #include "../model/rule.h"
 #include "../model/rulecondition.h"
 

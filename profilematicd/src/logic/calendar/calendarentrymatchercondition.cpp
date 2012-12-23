@@ -18,6 +18,7 @@
 **/
 #include <QDebug>
 
+#include "../../util/conditionallogging.h"
 #include "calendarentrymatchercondition.h"
 
 CalendarEntryMatcherCondition::CalendarEntryMatcherCondition(const RuleConditionCalendar &condition)
@@ -27,7 +28,7 @@ CalendarEntryMatcherCondition::CalendarEntryMatcherCondition(const RuleCondition
     someMatch |= _createRegExpFromKeywords(_regExpLocation, condition.getLocationMatch());
     if (!someMatch) {
         // Create regExp that won't match.
-        qDebug() << "CalendarEntryMatcherCondition::CalendarEntryMatcherCondition creating non matching regexp";
+        IFDEBUG(qDebug() << "CalendarEntryMatcherCondition::CalendarEntryMatcherCondition creating non matching regexp");
         _regExpSummary = QRegExp(" ^");
     }
 }
@@ -43,7 +44,7 @@ CalendarEntryMatcherCondition::_createRegExpFromKeywords(QRegExp &regExp, const 
         regExpStr += QString("%1").arg(QRegExp::escape(keyword));
     }
 
-    qDebug() << "CalendarEntryMatcherSummary::constructor created regexp" << regExpStr;
+    IFDEBUG(qDebug() << "CalendarEntryMatcherSummary::constructor created regexp" << regExpStr);
     if (!regExpStr.isEmpty()) {
         regExp = QRegExp(regExpStr, Qt::CaseInsensitive);
         return true;
