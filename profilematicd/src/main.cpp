@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
+#include <QDebug>
 #include <QtCore/QCoreApplication>
 #include <QDBusMetaType>
 #include <QProcess>
@@ -29,6 +30,7 @@
 #include "logic/actionfactory.h"
 #include "interface/profilematicinterface.h"
 #include "platform/platformutil.h"
+#include "util/conditionallogging.h"
 
 #include <stdio.h>
 
@@ -38,7 +40,7 @@
 
 ConditionManager *
 buildConditionManager() {
-    qDebug("Building conditions");
+    IFDEBUG(qDebug("Building conditions"));
     return ConditionManagerFactory::create();
 }
 
@@ -47,9 +49,9 @@ buildAction(ProfileClient *profileClient) {
     return ActionFactory::create(profileClient);
 }
 
-void noLoggingSink(QtMsgType, const char *) {
-    // NOP
-}
+//void noLoggingSink(QtMsgType, const char *) {
+//    // NOP
+//}
 
 void credentialsCheck(const QList<Rule> &rules) {
     bool hasRulesThatNeedDeviceModeCredential = false;
@@ -62,9 +64,9 @@ void credentialsCheck(const QList<Rule> &rules) {
     }
 
     if (hasRulesThatNeedDeviceModeCredential && !PlatformUtil::instance()->hasDeviceModeCredential()) {
-        qDebug("Launching credential warning");
+        IFDEBUG(qDebug("Launching credential warning"));
         QProcess::startDetached(CREDENTIAL_WARNING_CMDLINE);
-        qDebug("Credential warning launched");
+        IFDEBUG(qDebug("Credential warning launched"));
     }
 }
 
@@ -74,7 +76,8 @@ int main(int argc, char *argv[])
 
     if (argc >= 2 && QLatin1String("-noDebug") == argv[1]) {
         qDebug("Inhibiting logging");
-        qInstallMsgHandler(noLoggingSink);
+        ConditionalLogging::debugEnabled(false);
+        // qInstallMsgHandler(noLoggingSink);
     }
 
     PlatformUtil::initialize();
@@ -97,31 +100,31 @@ int main(int argc, char *argv[])
 
     credentialsCheck(rules);
 
-    qDebug("main: refresh");
+    IFDEBUG(qDebug("main: refresh"));
 
     rulesManager.refresh();
 
     // LATER: this code can be removed a couple of versions down the road I think.
-    qDebug("rules_version: %d", rules_version);
+    IFDEBUG(qDebug("rules_version: %d", rules_version));
     // rules.size > 1 because default rule always exists
     if (rules.size() > 1) {
         switch (rules_version) {
         case 0:
-            qDebug("Launching conversion warning");
+            IFDEBUG(qDebug("Launching conversion warning"));
             QProcess::startDetached(CONVERSION_WARNING_CMDLINE);
-            qDebug("Conversion warning launched");
+            IFDEBUG(qDebug("Conversion warning launched"));
             break;
         case 1:
-            qDebug("Launching multiRule warning");
+            IFDEBUG(qDebug("Launching multiRule warning"));
             QProcess::startDetached(MULTIRULE_WARNING_CMDLINE);
-            qDebug("Multi-rule warning launched");
+            IFDEBUG(qDebug("Multi-rule warning launched"));
             break;
         }
     }
 
-    qDebug("Starting");
+    IFDEBUG(qDebug("main: starting"));
     int ret = a.exec();
-    qDebug("Exiting\n");
+    IFDEBUG(qDebug("main: Exiting\n"));
 
     PlatformUtil::deinitialize();
 
