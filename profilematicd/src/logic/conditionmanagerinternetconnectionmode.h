@@ -21,9 +21,9 @@
 
 #include <QNetworkConfigurationManager>
 
-#include "conditionmanager.h"
+#include "conditionmanagercacheable.h"
 
-class ConditionManagerInternetConnectionMode : public ConditionManager {
+class ConditionManagerInternetConnectionMode : public ConditionManagerCacheable {
     Q_OBJECT
 
     RuleCondition::InternetConnectionMode _currentInternetConnectionMode;
@@ -32,18 +32,25 @@ class ConditionManagerInternetConnectionMode : public ConditionManager {
     QNetworkConfiguration _networkConfigurationNone;
 
     bool _existsRulesWithInternetConnectionMode;
-    bool _monitor;
 
     RuleCondition::InternetConnectionMode _mapNetworkMode(const QNetworkConfiguration &conf);
     QNetworkConfiguration _getCurrentActiveConfiguration() const;
-    void _monitorNetworkMode(bool monitor);
+
+    inline bool _conditionSetForMatching(const RuleCondition &cond) const {
+        return cond.getInternetConnectionMode() != RuleCondition::UndefinedInternetConnectionMode;
+    }
+
+    void _clearVarsForInvalidation();
 public:
     ConditionManagerInternetConnectionMode();
 
-    virtual void startRefresh();
-    virtual bool refresh(const Rule::IdType &, const RuleCondition &rule);
-    virtual void matchedRule(const RuleCondition &rule);
-    virtual void endRefresh();
+    virtual bool conditionSetForMatching(const RuleCondition &cond) const;
+    virtual MatchStatus match(const Rule::IdType &ruleId, const RuleCondition &cond);
+
+    virtual void startMonitor();
+    virtual void stopMonitor();
+
+    virtual void rulesChanged();
 
 private slots:
     void onConfigurationChanged(const QNetworkConfiguration &config);
