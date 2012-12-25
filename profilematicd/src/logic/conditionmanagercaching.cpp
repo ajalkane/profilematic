@@ -38,8 +38,8 @@ ConditionManagerCaching::refresh(const Rule::IdType &ruleId, const RuleCondition
     ConditionManagerCacheable::MatchStatus match;
     if (_matchCache.contains(ruleId)) {
         match = _matchCache.value(ruleId);
-        qDebug() << "ConditionManagerCaching::refresh" << _cacheable->objectName()
-                 << "returning cached value " << match;
+        IFDEBUG(qDebug() << "ConditionManagerCaching::refresh" << _cacheable->objectName()
+                 << "returning cached value " << match);
     } else {
         match = _cacheable->match(ruleId, rule);
         _matchCache.insert(ruleId, match);
@@ -74,7 +74,7 @@ void
 ConditionManagerCaching::ruleUpdated(const Rule &oldRule, const Rule &updatedRule) {
     Q_UNUSED(updatedRule)
 
-    qDebug() << "ConditionManagerCaching::ruleUpdated, invalidating cache for" << _cacheable << oldRule.getRuleName();
+    IFDEBUG(qDebug() << "ConditionManagerCaching::ruleUpdated, invalidating cache for" << _cacheable << oldRule.getRuleName());
 
     /*
      * Invalidate cache for the rule.
@@ -84,7 +84,7 @@ ConditionManagerCaching::ruleUpdated(const Rule &oldRule, const Rule &updatedRul
 
 void
 ConditionManagerCaching::matchInvalidated() {
-    qDebug() << "ConditionManagerCaching::matchInvalidated" << _cacheable->objectName();
+    IFDEBUG(qDebug() << "ConditionManagerCaching::matchInvalidated" << _cacheable->objectName());
     // Clear cache, call refresh
     _matchCache.clear();
     emit refreshNeeded();

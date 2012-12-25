@@ -32,9 +32,9 @@ ActionStandByScreenMode::activateDifferent(const Rule::IdType &ruleId, const Rul
     bool activated = true;
 
     if (useRestoreAction(ruleId, standByScreenMode >= 0, _previousSbsmState >= 0)) {
-        qDebug("ActionStandByScreenMode::activate restore, sbsmState not set or is default rule");
-        qDebug("ActionStandByScreenMode::activate previous rule had restore sbsmState, restoring sbsmState %d",
-               _previousSbsmState);
+        IFDEBUG(qDebug("ActionStandByScreenMode::activate restore, sbsmState not set or is default rule"));
+        IFDEBUG(qDebug("ActionStandByScreenMode::activate previous rule had restore sbsmState, restoring sbsmState %d",
+               _previousSbsmState));
         standByScreenMode = _previousSbsmState;
         PlatformUtil::instance()->setStandByScreenMode(_previousSbsmState);
         _previousSbsmState = -1;
@@ -42,19 +42,19 @@ ActionStandByScreenMode::activateDifferent(const Rule::IdType &ruleId, const Rul
         activated = false;
     }
     else if (standByScreenMode < 0) {
-        qDebug("ActionStandByScreenMode::activate not setting stand-by-screen state");
+        IFDEBUG(qDebug("ActionStandByScreenMode::activate not setting stand-by-screen state"));
         return false;
     }
 
     if (standByScreenMode == 1) {
         _previousSbsmState = PlatformUtil::instance()->standByScreenMode();
         PlatformUtil::instance()->setStandByScreenMode(1);
-        qDebug("ActionStandByScreenMode::activate StandByScreen enabled");
+        IFDEBUG(qDebug("ActionStandByScreenMode::activate StandByScreen enabled"));
         PlatformUtil::instance()->publishNotification("StandByScreen action enabled");
     } else {
         _previousSbsmState = PlatformUtil::instance()->standByScreenMode();
         PlatformUtil::instance()->setStandByScreenMode(0);
-        qDebug("ActionStandByScreenMode::activate StandByScreen disabled");
+        IFDEBUG(qDebug("ActionStandByScreenMode::activate StandByScreen disabled"));
         PlatformUtil::instance()->publishNotification("StandByScreen action disabled");
     }
 

@@ -109,7 +109,7 @@ QList<CalendarEntry>
 CalendarManagerMkCal::loadCalendarEntries(const QDate &startDate, const QDate &endDate) {
     _ensureCalendarInitialized();
 
-    // logNotebooks(_storagePtr);
+    // IFDEBUG(logNotebooks(_storagePtr));
 
     // Ignore load failures as load() simply checks if at least one new entry
     // has been loaded (which must not neccesarily be the case).
@@ -125,7 +125,7 @@ CalendarManagerMkCal::loadCalendarEntries(const QDate &startDate, const QDate &e
             incidenceList = _calendarBackendPtr->expandRecurrences(&incidences,
                                                                    KDateTime(startDate.addDays(-1)),
                                                                    KDateTime(endDate));
-    qDebug() << "Expanded incidences size" << incidences.size();
+    IFDEBUG(qDebug() << "Expanded incidences size" << incidences.size());
     QList<CalendarEntry> calendarEntries;
     foreach(const mKCal::ExtendedCalendar::ExpandedIncidence &expandedIncident,
             incidenceList) {
@@ -135,11 +135,11 @@ CalendarManagerMkCal::loadCalendarEntries(const QDate &startDate, const QDate &e
 
         QDateTime dtStart = incidenceValidity.dtStart;
         QDateTime dtEnd   = incidenceValidity.dtEnd;
-        qDebug() << "Loaded incidence from calendar:"
+        IFDEBUG(qDebug() << "Loaded incidence from calendar:"
                  << dtStart.toString()
                  << dtEnd.toString()
                  << incidence->uid()
-                 << incidence->type();
+                 << incidence->type());
 
         if (incidence->type() != KCalCore::IncidenceBase::TypeEvent)
             continue;
@@ -159,7 +159,7 @@ CalendarManagerMkCal::loadCalendarEntries(const QDate &startDate, const QDate &e
     // Start inactivity timer to clear the loaded calendar to save memory
     if (!_inactivityCalendarCloseTimer.isActive()) {
         _inactivityCalendarCloseTimer.start(SECONDS_PER_DAY * 1000);
-        qDebug() << QDateTime::currentDateTime().toString() << "CalendarManagerMkCal::starting invactivity close timer";
+        IFDEBUG(qDebug() << QDateTime::currentDateTime().toString() << "CalendarManagerMkCal::starting invactivity close timer");
     }
 
     return calendarEntries;
@@ -167,10 +167,10 @@ CalendarManagerMkCal::loadCalendarEntries(const QDate &startDate, const QDate &e
 
 void
 CalendarManagerMkCal::_reopenCalendar() {
-    qDebug() << QDateTime::currentDateTime().toString() << "CalendarManagerMkCal::_reopenCalendar";
+    IFDEBUG(qDebug() << QDateTime::currentDateTime().toString() << "CalendarManagerMkCal::_reopenCalendar");
     // Only reopen if calendar was open
     if (_calendarBackendPtr.isNull()) {
-        qDebug() << "CalendarManagerMkCal::_reopenCalendar calendar is not open, doing nothing";
+        IFDEBUG(qDebug() << "CalendarManagerMkCal::_reopenCalendar calendar is not open, doing nothing");
         return;
     }
 
@@ -190,14 +190,14 @@ CalendarManagerMkCal::_reopenCalendar() {
     if (oldStoragePtr)
         oldStoragePtr->close();
 
-    qDebug() << "CalendarManagerMkCal::_reopenCalendar done";
+    IFDEBUG(qDebug() << "CalendarManagerMkCal::_reopenCalendar done");
 }
 
 void
 CalendarManagerMkCal::closeCalendar() {
-    qDebug() << "CalendarManagerMkCal::closeCalendar";
+    IFDEBUG(qDebug() << "CalendarManagerMkCal::closeCalendar");
     if (!_calendarBackendPtr.isNull()) {
-        qDebug() << "CalendarManagerMkCal::closeCalendar calendar was open, closing";
+        IFDEBUG(qDebug() << "CalendarManagerMkCal::closeCalendar calendar was open, closing");
         _calendarBackendPtr->close();
         _calendarBackendPtr.clear();
         _storagePtr->close();
@@ -215,7 +215,7 @@ CalendarManagerMkCal::storageModified(mKCal::ExtendedStorage *storage,
     Q_UNUSED(info)
     Q_UNUSED(storage)
 
-    qDebug() << QDateTime::currentDateTime().toString() << "CalendarManagerMkCal::storageModified: info" << info;
+    IFDEBUG(qDebug() << QDateTime::currentDateTime().toString() << "CalendarManagerMkCal::storageModified: info" << info);
 
     emit onCalendarChanged();
 }

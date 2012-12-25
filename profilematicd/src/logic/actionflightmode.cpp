@@ -29,7 +29,7 @@ ActionFlightMode::activateDifferent(const Rule::IdType &ruleId, const RuleAction
     bool activated = true;
 
     if (useRestoreAction(ruleId, flightMode >= 0, _previousFlightMode >= 0)) {
-        IFDEBUG( qDebug("ActionFlightMode::activate restore, flightMode not set or is default rule"));
+        IFDEBUG(qDebug("ActionFlightMode::activate restore, flightMode not set or is default rule"));
         IFDEBUG(qDebug("ActionFlightMode::activate previous rule had restore flightMode, restoring flightMode %d",
                _previousFlightMode));
         flightMode = _previousFlightMode;

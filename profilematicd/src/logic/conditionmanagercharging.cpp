@@ -36,7 +36,7 @@ ConditionManagerCharging::match(const Rule::IdType &ruleId, const RuleCondition 
     Q_UNUSED(ruleId)
 
     if (!_conditionSetForMatching(cond)) {
-        qDebug() << "ConditionManagerCharging::match() options not set or invalid, matchNotSet";
+        IFDEBUG(qDebug() << "ConditionManagerCharging::match() options not set or invalid, matchNotSet");
         return MatchNotSet;
     }
 
@@ -46,19 +46,19 @@ ConditionManagerCharging::match(const Rule::IdType &ruleId, const RuleCondition 
 
     RuleCondition::ChargingState chargingState = cond.getChargingState();
 
-    qDebug("ConditionManagerCharging::refresh current %d rule %d", _currentChargingState, chargingState);
+    IFDEBUG(qDebug("ConditionManagerCharging::refresh current %d rule %d", _currentChargingState, chargingState));
     return _currentChargingState == chargingState ? Matched : NotMatched;
 }
 
 void
 ConditionManagerCharging::startMonitor() {
-    qDebug() << "ConditionManagerCharging::startMonitor";
+    IFDEBUG(qDebug() << "ConditionManagerCharging::startMonitor");
     connect(PlatformUtil::instance(), SIGNAL(batteryChargingStateChanged(int)), this, SLOT(batteryChargingStateChanged(int)));
 }
 
 void
 ConditionManagerCharging::stopMonitor() {
-    qDebug() << "ConditionManagerCharging::stopMonitor";
+    IFDEBUG(qDebug() << "ConditionManagerCharging::stopMonitor");
     disconnect(PlatformUtil::instance(), SIGNAL(batteryChargingStateChanged(int)), this, SLOT(batteryChargingStateChanged(int)));
 
     _clearVars();
@@ -66,17 +66,17 @@ ConditionManagerCharging::stopMonitor() {
 
 void
 ConditionManagerCharging::rulesChanged() {
-    qDebug() << "ConditionManagerCharging::rulesChanged";
+    IFDEBUG(qDebug() << "ConditionManagerCharging::rulesChanged");
 }
 
 void
 ConditionManagerCharging::batteryChargingStateChanged(int chargingState) {
-    qDebug() << QDateTime::currentDateTime().toString()
-             << "ConditionManagerCharging::batteryChargingStateChanged"
-             << chargingState
-             << "current charging state"
-             << _currentChargingState
-             << ", invalidating";
+    IFDEBUG(qDebug() << QDateTime::currentDateTime().toString()
+                     << "ConditionManagerCharging::batteryChargingStateChanged"
+                     << chargingState
+                     << "current charging state"
+                     << _currentChargingState
+                     << ", invalidating");
 
     _currentChargingState = (RuleCondition::ChargingState)chargingState;
 

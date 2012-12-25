@@ -19,7 +19,7 @@
 #ifndef CONDITIONALLOGGING_H
 #define CONDITIONALLOGGING_H
 
-#define IFDEBUG(EXPRESSION) { if (ConditionalLogging::debugEnabled()) { (EXPRESSION); } }
+#define IFDEBUG(EXPRESSION) { if (ConditionalLogging::debugEnabled()) { EXPRESSION; } }
 
 class ConditionalLogging
 {

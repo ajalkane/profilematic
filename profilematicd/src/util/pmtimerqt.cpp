@@ -1,10 +1,11 @@
 #include <QDebug>
 
 #include "pmtimerqt.h"
+#include "conditionallogging.h"
 
 PmTimer::PmTimer()
 {
-    qDebug() << "PmTimer::constructor";
+    IFDEBUG(qDebug() << "PmTimer::constructor");
 
     connect(&_timer, SIGNAL(timeout()), this, SIGNAL(timeout()));
 }

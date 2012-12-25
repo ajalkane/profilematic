@@ -53,27 +53,27 @@ RulesManager::refresh() {
 
 void
 RulesManager::_refresh(bool /*forceActivate*/) {
-    qDebug("\n\nREFRESH\n\n");
+    IFDEBUG(qDebug("\n\nREFRESH\n\n"));
     _conditionManager->startRefresh();
     _action->startRefresh();
     _matchingRuleIds.clear();
     if (_preferences->isActive) {
-        qDebug("%s RulesManager::refresh()", qPrintable(QDateTime::currentDateTime().toString()));
+        IFDEBUG(qDebug("%s RulesManager::refresh()", qPrintable(QDateTime::currentDateTime().toString())));
         QList<Rule>::const_iterator ruleI = _rules->constBegin();
         for (; ruleI != _rules->constEnd(); ++ruleI) {
             const Rule &rule = *ruleI;
             if (rule.isDefaultRule()) continue;
 
             if (!rule.getRuleActive()) {
-                qDebug("\nRulesManager::refresh() rule %s is not active, skipping", qPrintable(rule.getRuleName()));
+                IFDEBUG(qDebug("\nRulesManager::refresh() rule %s is not active, skipping", qPrintable(rule.getRuleName())));
                 continue;
             }
-            qDebug() << "\nRulesManager::refresh() considering rule" << rule.getRuleName();
+            IFDEBUG(qDebug() << "\nRulesManager::refresh() considering rule" << rule.getRuleName());
             bool isMatching = _conditionManager->refresh(rule.getRuleId(), rule.condition());
             if (isMatching) {
                 _matchRule(rule);
                 if (rule.getStopIfMatched()) {
-                    qDebug("RulesManager::refresh(), rule has stopIfMatched, skipping rest");
+                    IFDEBUG(qDebug("RulesManager::refresh(), rule has stopIfMatched, skipping rest"));
                     break;
                 }
             }
@@ -83,7 +83,7 @@ RulesManager::_refresh(bool /*forceActivate*/) {
         // Default rule always matches
         _matchRule(defaultRule);
     } else {
-        qDebug("%s RulesManager::refresh(), ProfileMatic not active", qPrintable(QDateTime::currentDateTime().toString()));
+        IFDEBUG(qDebug("%s RulesManager::refresh(), ProfileMatic not active", qPrintable(QDateTime::currentDateTime().toString())));
     }
     _conditionManager->endRefresh();
     _action->endRefresh();
@@ -91,7 +91,7 @@ RulesManager::_refresh(bool /*forceActivate*/) {
     // IMPROVE: should emit only if really changed
     emit matchingRuleIdsChanged(_matchingRuleIds.toList());
 
-    qDebug("\n\nEND REFRESH\n\n");
+    IFDEBUG(qDebug("\n\nEND REFRESH\n\n"));
 }
 
 void
@@ -103,9 +103,9 @@ RulesManager::_matchRule(const Rule &rule) {
 
 void
 RulesManager::_activateRule(const Rule &rule) {
-    qDebug("RulesManager::_activateRule: activatingRule %s/%s",
+    IFDEBUG(qDebug("RulesManager::_activateRule: activatingRule %s/%s",
            qPrintable(rule.getRuleId()),
-           qPrintable(rule.getRuleName()));
+           qPrintable(rule.getRuleName())));
     _action->activate(rule.getRuleId(), rule.action());
 }
 
@@ -114,18 +114,18 @@ RulesManager::_activateRule(const Rule &rule) {
 // if there is changes to that.
 void
 RulesManager::shuttingDown() {
-    qDebug("RulesManager::shuttingDown");
+    IFDEBUG(qDebug("RulesManager::shuttingDown"));
     _conditionManager->startRefresh();
     _action->startRefresh();
     _matchingRuleIds.clear();
     if (_preferences->isActive) {
-        qDebug("%s RulesManager::restoring defaults", qPrintable(QDateTime::currentDateTime().toString()));
+        IFDEBUG(qDebug("%s RulesManager::restoring defaults", qPrintable(QDateTime::currentDateTime().toString())));
         // Assume default rule is the last one
         const Rule &defaultRule = _rules->last();
         _activateRule(defaultRule);
         _conditionManager->matchedRule(defaultRule.condition());
     } else {
-        qDebug("%s RulesManager::refresh(), ProfileMatic not active", qPrintable(QDateTime::currentDateTime().toString()));
+        IFDEBUG(qDebug("%s RulesManager::refresh(), ProfileMatic not active", qPrintable(QDateTime::currentDateTime().toString())));
     }
     _conditionManager->endRefresh();
     _action->endRefresh();

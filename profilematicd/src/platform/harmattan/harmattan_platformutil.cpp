@@ -57,23 +57,23 @@ HarmattanPlatformUtil::flightMode() const {
     case MeeGo::QmDeviceMode::Normal:
         flightMode = 0; break;
     default:
-        qDebug("HarmattanPlatformUtil::flightMode warning unrecognized deviceMode %d", mode);
+        IFDEBUG(qDebug("HarmattanPlatformUtil::flightMode warning unrecognized deviceMode %d", mode));
     }
 
-    qDebug("HarmattanPlatformUtil::flightMode current deviceMode %d", flightMode);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::flightMode current deviceMode %d", flightMode));
     return flightMode;
 }
 
 void
 HarmattanPlatformUtil::setFlightMode(int flightMode) {
-    qDebug("HarmattanPlatformUtil::Setting flightMode to %d", flightMode);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::Setting flightMode to %d", flightMode));
     const char *par = flightMode == 1 ? " flightModeOn" : " flightModeOff";
 
     QString cmd(FLIGHT_MODE_CMD);
     cmd += par;
 
     int ret = QProcess::execute(cmd);
-    qDebug("HarmattanPlatformUtil::setFlightMode() exec return code %d", ret);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::setFlightMode() exec return code %d", ret));
 }
 
 int
@@ -87,10 +87,10 @@ HarmattanPlatformUtil::powerSavingMode() const {
     case MeeGo::QmDeviceMode::PSMStateOff:
         psmState = 0; break;
     default:
-        qDebug("HarmattanPlatformUtil::psmState warning unrecognized psmState %d", state);
+        IFDEBUG(qDebug("HarmattanPlatformUtil::psmState warning unrecognized psmState %d", state));
     }
 
-    qDebug("HarmattanPlatformUtil::psmState current Power Saving State %d", psmState);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::psmState current Power Saving State %d", psmState));
     return psmState;
 }
 
@@ -98,13 +98,13 @@ void
 HarmattanPlatformUtil::setPowerSavingMode(int state) {
     MeeGo::QmDeviceMode deviceMode;
 
-    qDebug("HarmattanPlatformUtil::Setting Power Saving State to %d", state);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::Setting Power Saving State to %d", state));
     if (state == 0 || state == 1) {
         bool return_value = deviceMode.setPSMState(state == 1
                                           ? MeeGo::QmDeviceMode::PSMStateOn
                                           : MeeGo::QmDeviceMode::PSMStateOff);
 
-        qDebug("HarmattanPlatformUtil::Setting Power Saving State, return value %d", return_value);
+        IFDEBUG(qDebug("HarmattanPlatformUtil::Setting Power Saving State, return value %d", return_value));
     }
 }
 
@@ -133,20 +133,20 @@ HarmattanPlatformUtil::cellularMode() const {
     case Cellular::RadioAccess::OnlyThreeG:
         cellularMode = 2; break;
     default:
-        qDebug("HarmattanPlatformUtil::cellularMode warning unrecognized RadioAccess mode %d", cellularMode);
+        IFDEBUG(qDebug("HarmattanPlatformUtil::cellularMode warning unrecognized RadioAccess mode %d", cellularMode));
     }
 
-    qDebug("HarmattanPlatformUtil::cellularMode current cellular mode %d", cellularMode);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::cellularMode current cellular mode %d", cellularMode));
     return cellularMode;
 }
 
 void
 HarmattanPlatformUtil::setCellularMode(int cellularMode) {
-    qDebug("HarmattanPlatformUtil::setCellularMode setting cellular mode %d", cellularMode);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::setCellularMode setting cellular mode %d", cellularMode));
     if (_currentCellularActivity > 0) {
         // Delay changing of cellular mode until no calls or data transfer. Otherwise
         // call/transfer aborts.
-        qDebug("HarmattanPlatformUtil::setCellularMode cellularActivity is %d, pending the change of mode", _currentCellularActivity);
+        IFDEBUG(qDebug("HarmattanPlatformUtil::setCellularMode cellularActivity is %d, pending the change of mode", _currentCellularActivity));
         _pendingCellularMode = cellularMode;
         return;
     }
@@ -154,19 +154,19 @@ HarmattanPlatformUtil::setCellularMode(int cellularMode) {
     Cellular::RadioAccess::Mode mode = Cellular::RadioAccess::Unknown;
     switch (cellularMode) {
     case 0:
-        qDebug("HarmattanPlatformUtil::setCellularMode setting Dual Mode");
+        IFDEBUG(qDebug("HarmattanPlatformUtil::setCellularMode setting Dual Mode"));
         mode = Cellular::RadioAccess::DualMode;
         break;
     case 1:
-        qDebug("HarmattanPlatformUtil::setCellularMode setting 2G Mode");
+        IFDEBUG(qDebug("HarmattanPlatformUtil::setCellularMode setting 2G Mode"));
         mode = Cellular::RadioAccess::OnlyTwoG;
         break;
     case 2:
-        qDebug("HarmattanPlatformUtil::setCellularMode setting 3G Mode");
+        IFDEBUG(qDebug("HarmattanPlatformUtil::setCellularMode setting 3G Mode"));
         mode = Cellular::RadioAccess::OnlyThreeG;
         break;
     default:
-        qDebug("HarmattanPlatformUtil::setCellularMode warning unrecognized mode %d", cellularMode);
+        IFDEBUG(qWarning("HarmattanPlatformUtil::setCellularMode warning unrecognized mode %d", cellularMode));
     }
 
     if (mode != Cellular::RadioAccess::Unknown) {
@@ -177,18 +177,18 @@ HarmattanPlatformUtil::setCellularMode(int cellularMode) {
 int
 HarmattanPlatformUtil::cellularActivity() const {
     int activity = (int)_cellularControl.activity();
-    qDebug("HarmattanPlatformUtil::cellularActivity %d", activity);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::cellularActivity %d", activity));
     return activity;
 }
 
 void
 HarmattanPlatformUtil::setStandByScreenMode(int mode) {
-    qDebug("HarmattanPlatformUtil::setStandByScreenMode %d", mode);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::setStandByScreenMode %d", mode));
     GConfItem gconfItem(GCONF_STAND_BY_SCREEN_KEY);
     if (mode == 0 || mode == 1) {
         gconfItem.set(mode);
     } else {
-        qDebug("HarmattanPlatformUtil::setStandByScreenMode unsupported mode %d", mode);
+        IFDEBUG(qDebug("HarmattanPlatformUtil::setStandByScreenMode unsupported mode %d", mode));
     }
 }
 
@@ -201,12 +201,12 @@ HarmattanPlatformUtil::standByScreenMode() const {
 
 void
 HarmattanPlatformUtil::setBackgroundConnectionsMode(int mode) {
-    qDebug("HarmattanPlatformUtil::setBackgroundConnectionsMode %d", mode);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::setBackgroundConnectionsMode %d", mode));
     GConfItem gconfItem(GCONF_BACKGROUND_CONNECTIONS_DISABLED_KEY);
     if (mode == 0 || mode == 1) {
         gconfItem.set((mode + 1) % 2);
     } else {
-        qDebug("HarmattanPlatformUtil::setBackgroundConnectionsMode unsupported mode %d", mode);
+        IFDEBUG(qDebug("HarmattanPlatformUtil::setBackgroundConnectionsMode unsupported mode %d", mode));
     }
 }
 
@@ -228,7 +228,7 @@ HarmattanPlatformUtil::backgroundConnectionsMode() const {
 
 int
 HarmattanPlatformUtil::batteryChargingState() const {
-    qDebug("HarmattanPlatformUtil::batteryChargingState");
+    IFDEBUG(qDebug("HarmattanPlatformUtil::batteryChargingState"));
     return _qmbattery.getChargingState();
 }
 
@@ -250,7 +250,7 @@ HarmattanPlatformUtil::isUserActivityIdle() {
 
 void
 HarmattanPlatformUtil::_emitRealIdle() {
-    qDebug("HarmattanPlatformUtil::_emitRealIdle: a(%d) c(%d) i(%d)", _currentActivity, _currentCellularActivity, _currentIdle);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::_emitRealIdle: a(%d) c(%d) i(%d)", _currentActivity, _currentCellularActivity, _currentIdle));
 
     // Harmattan PR1.2 claims idle mode if on the phone! That's not nice, so this is a work around for that.
     // Basically not signaling idle if call is in progress.
@@ -282,7 +282,7 @@ void
 HarmattanPlatformUtil::privateCellularActivityChanged(int activity)
 {
     _currentCellularActivity = (Cellular::SystemControl::Activity)activity;
-    qDebug("HarmattanPlatformUtil::cellularActivityChanged %d", activity);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::cellularActivityChanged %d", activity));
     emit cellularActivityChanged(activity);
 
     // Harmattan PR1.2 claims idle mode if on the phone! That's not nice, so this is a work around for that
@@ -291,7 +291,7 @@ HarmattanPlatformUtil::privateCellularActivityChanged(int activity)
     // Note that PR1.2 also seems to return data usage as Cellular::SystemControl::UnknownActivity (-1)
     // and not as Cellular::SystemControl::Data as it should.
     if (_currentCellularActivity == Cellular::SystemControl::Idle && _pendingCellularMode >= 0) {
-        qDebug("HarmattanPlatformUtil::cellularActivityChanged activating pending cellular mode");
+        IFDEBUG(qDebug("HarmattanPlatformUtil::cellularActivityChanged activating pending cellular mode"));
         setCellularMode(_pendingCellularMode);
         _pendingCellularMode = -1;
     }
@@ -300,10 +300,10 @@ HarmattanPlatformUtil::privateCellularActivityChanged(int activity)
 void
 HarmattanPlatformUtil::privateSystemStateChanged(MeeGo::QmSystemState::StateIndication systemState)
 {
-    qDebug("HarmattanPlatformUtil::privateSystemStateChanged %d", systemState);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::privateSystemStateChanged %d", systemState));
     if (systemState == MeeGo::QmSystemState::Shutdown) {
         // Doesn't feel safe to trigger actions in any other case.
-        qDebug("HarmattanPlatformUtil::privateSystemStateChanged emitting shuttingDown signal");
+        IFDEBUG(qDebug("HarmattanPlatformUtil::privateSystemStateChanged emitting shuttingDown signal"));
         emit shuttingDown();
     }
 }
@@ -311,7 +311,7 @@ HarmattanPlatformUtil::privateSystemStateChanged(MeeGo::QmSystemState::StateIndi
 void
 HarmattanPlatformUtil::privateBatteryChargingStateChanged(MeeGo::QmBattery::ChargingState chargingStateEnum)
 {
-    qDebug("HarmattanPlatformUtil::privateChargingStateChanged %d", chargingStateEnum);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::privateChargingStateChanged %d", chargingStateEnum));
     int chargingState = -1;
     switch (chargingStateEnum) {
     case MeeGo::QmBattery::StateNotCharging:
@@ -338,13 +338,13 @@ HarmattanPlatformUtil::createActionPresence()
 int
 HarmattanPlatformUtil::batteryLevel() const {
     int level = _qmbattery.getRemainingCapacityPct();
-    qDebug("HarmattanPlatformUtil::batteryLevel returning %d", level);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::batteryLevel returning %d", level));
     return level;
 }
 
 void
 HarmattanPlatformUtil::monitorBatteryLevel(bool monitor ) {
-    qDebug("HarmattanPlatformUtil::monitorBatteryLevel monitor: %d", monitor);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::monitorBatteryLevel monitor: %d", monitor));
     if (monitor) {
         connect(&_qmbattery, SIGNAL(batteryRemainingCapacityChanged(int,int)), this, SLOT(batteryRemainingCapacityChanged(int,int)), Qt::UniqueConnection);
     } else {
@@ -354,7 +354,7 @@ HarmattanPlatformUtil::monitorBatteryLevel(bool monitor ) {
 
 void
 HarmattanPlatformUtil::batteryRemainingCapacityChanged(int percentage, int bars) {
-    qDebug("HarmattanPlatformUtil::batteryRemainingCapacityChanged pct %d bars %d", percentage, bars);
+    IFDEBUG(qDebug("HarmattanPlatformUtil::batteryRemainingCapacityChanged pct %d bars %d", percentage, bars));
     emit batteryLevelChanged(percentage);
 }
 

@@ -80,85 +80,85 @@ PlatformUtil::_create()
 
 int
 PlatformUtil::flightMode() const {
-    qDebug("PlatformUtil::flightMode default, returning -1");
+    IFDEBUG(qDebug("PlatformUtil::flightMode default, returning -1"));
     return -1;
 }
 
 void
 PlatformUtil::setFlightMode(int flightMode) {
-    qDebug("PlatformUtil::setFlightMode default, doing nothing for value %d", flightMode);
+    IFDEBUG(qDebug("PlatformUtil::setFlightMode default, doing nothing for value %d", flightMode));
 }
 
 int
 PlatformUtil::powerSavingMode() const {
-    qDebug("PlatformUtil::powerSavingMode default, returning -1");
+    IFDEBUG(qDebug("PlatformUtil::powerSavingMode default, returning -1"));
     return -1;
 }
 
 void
 PlatformUtil::setPowerSavingMode(int state) {
-    qDebug("PlatformUtil::setPowerSavingMode default, doing nothing for value %d", state);
+    IFDEBUG(qDebug("PlatformUtil::setPowerSavingMode default, doing nothing for value %d", state));
 }
 
 bool
 PlatformUtil::hasDeviceModeCredential() const {
-    qDebug("PlatformUtil::hasDeviceModeCredential() default");
+    IFDEBUG(qDebug("PlatformUtil::hasDeviceModeCredential() default"));
     return false;
 }
 
 int
 PlatformUtil::cellularMode() const {
-    qDebug("PlatformUtil::cellularMode default, returning -1");
+    IFDEBUG(qDebug("PlatformUtil::cellularMode default, returning -1"));
     return -1;
 }
 
 void
 PlatformUtil::setCellularMode(int state) {
-    qDebug("PlatformUtil::setCellularMode default, doing nothing for value %d", state);
+    IFDEBUG(qDebug("PlatformUtil::setCellularMode default, doing nothing for value %d", state));
 }
 
 int
 PlatformUtil::cellularActivity() const {
-    qDebug("PlatformUtil::cellularActivity default, returning -1");
+    IFDEBUG(qDebug("PlatformUtil::cellularActivity default, returning -1"));
     return -1;
 }
 
 void
 PlatformUtil::setStandByScreenMode(int mode) {
-    qDebug("PlatformUtil::setStandByScreenMode default, doing nothing for value %d", mode);
+    IFDEBUG(qDebug("PlatformUtil::setStandByScreenMode default, doing nothing for value %d", mode));
 }
 
 int
 PlatformUtil::standByScreenMode() const {
-    qDebug("PlatformUtil::standByScreenMode default, returning -1");
+    IFDEBUG(qDebug("PlatformUtil::standByScreenMode default, returning -1"));
     return -1;
 }
 
 void
 PlatformUtil::setBackgroundConnectionsMode(int mode) {
-    qDebug("PlatformUtil::setBackgroundConnectionsMode default, doing nothing for value %d", mode);
+    IFDEBUG(qDebug("PlatformUtil::setBackgroundConnectionsMode default, doing nothing for value %d", mode));
 }
 
 int
 PlatformUtil::backgroundConnectionsMode() const {
-    qDebug("PlatformUtil::backgroundConnectionsMode default, returning -1");
+    IFDEBUG(qDebug("PlatformUtil::backgroundConnectionsMode default, returning -1"));
     return -1;
 }
 
 int
 PlatformUtil::batteryChargingState() const {
-    qDebug("PlatformUtil::batteryChargingState default, returning -1");
+    IFDEBUG(qDebug("PlatformUtil::batteryChargingState default, returning -1"));
     return -1;
 }
 
 void
 PlatformUtil::publishNotification(const QString &message) {
-    qDebug("PlatformUtil::publishNotification default, doing nothing for value %s", qPrintable(message));
+    IFDEBUG(qDebug("PlatformUtil::publishNotification default, doing nothing for value %s", qPrintable(message)));
 }
 
 bool
 PlatformUtil::isUserActivityIdle() {
-    qDebug("PlatformUtil::isUserActivityIdle default, returning false");
+    IFDEBUG(qDebug("PlatformUtil::isUserActivityIdle default, returning false"));
     return false;
 }
 
@@ -173,13 +173,13 @@ ActionPresence *PlatformUtil::createActionPresence()
 
 int
 PlatformUtil::batteryLevel() const {
-    qDebug("PlatformUtil::batteryLevel default, returning -1");
+    IFDEBUG(qDebug("PlatformUtil::batteryLevel default, returning -1"));
     return -1;
 }
 
 void
 PlatformUtil::monitorBatteryLevel(bool monitor) {
-    qDebug("PlatformUtil::monitorBatteryLevel default, monitor: %d", monitor);
+    IFDEBUG(qDebug("PlatformUtil::monitorBatteryLevel default, monitor: %d", monitor));
 }
 
 CalendarManager *
