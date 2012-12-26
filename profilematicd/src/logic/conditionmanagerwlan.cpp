@@ -90,8 +90,6 @@ ConditionManagerWlan::startMonitor() {
 
 void
 ConditionManagerWlan::stopMonitor() {
-    _watchedWlanNames.clear();
-    _currentRuleWlanTimeoutSecs = 0;
     // If not monitoring the configuration, we can't be certain the current Wlan name is known
     _currentWlanName = WLAN_NAME_NEEDS_REFRESH;
     _wlanTimeout.stop();
