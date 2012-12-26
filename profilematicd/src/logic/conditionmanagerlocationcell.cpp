@@ -76,7 +76,8 @@ ConditionManagerLocationCell::match(const Rule::IdType &, const RuleCondition &c
 void
 ConditionManagerLocationCell::onCurrentCellsTimeout() {
     qDebug() << QDateTime::currentDateTime().toString() << "ConditionManagerLocationCell:onCurrentCellsRefreshNeeded, invalidating";
-    _clearVars();
+    _clearVarsForInvalidating();
+    _currentCellId = CELL_ID_NOT_QUERIED;
     emit matchInvalidated();
 }
 
@@ -131,7 +132,7 @@ ConditionManagerLocationCell::cellIdChanged(int cellId) {
     _currentCellId = cellId;
     if (invalidate) {
         qDebug() << "ConditionManagerLocationCell::cellIdChanged matchInvalidated";
-        _clearVars();
+        _clearVarsForInvalidating();
         emit matchInvalidated();
     }
 }
@@ -147,21 +148,21 @@ ConditionManagerLocationCell::stopMonitor() {
     qDebug() << "ConditionManagerLocationCell::stopMonitor";
     disconnect(&_networkInfo, SIGNAL(cellIdChanged(int)), this, SLOT(cellIdChanged(int)));
 
-    _clearVars();
+    _currentCellId = CELL_ID_NOT_QUERIED;
+    _cellsTimeout.stop();
 }
 
 void
 ConditionManagerLocationCell::rulesChanged() {
     qDebug() << "ConditionManagerLocationCell::rulesChanged";
 
-    _clearVars();
+    _clearVarsForInvalidating();
 }
 
 void
-ConditionManagerLocationCell::_clearVars() {
+ConditionManagerLocationCell::_clearVarsForInvalidating() {
     _currentRuleCellIds.clear();
     _watchedCellIds.clear();
     _currentTimeout = -1;
-    _currentCellId = CELL_ID_NOT_QUERIED;
     _cellsTimeout.stop();
 }

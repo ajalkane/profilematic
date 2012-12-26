@@ -44,7 +44,7 @@ class ConditionManagerLocationCell  : public ConditionManagerCacheable {
 
     bool _enteredNonWatchedCell();
 
-    void _clearVars();
+    void _clearVarsForInvalidating();
     inline bool _conditionSetForMatching(const RuleCondition &cond) const { return !cond.getLocationCells().isEmpty(); }
 
 public:
