@@ -96,7 +96,6 @@ ConditionManagerInternetConnectionMode::stopMonitor() {
 
     _currentInternetConnectionMode = RuleCondition::UndefinedInternetConnectionMode;
     _currentInternetConnectionIdentifier.clear();
-    _existsRulesWithInternetConnectionMode = false;
 
     disconnect(&_networkConfigurationManager,
             SIGNAL(configurationChanged(const QNetworkConfiguration &)),
