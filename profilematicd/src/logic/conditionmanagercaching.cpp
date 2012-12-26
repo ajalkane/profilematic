@@ -61,6 +61,8 @@ ConditionManagerCaching::endRefresh() {
         _cacheable->startMonitor();
     } else if (_numPotentialConditionsInPreviousRefresh > 0 && _numPotentialConditionsInRefresh == 0) {
         _cacheable->stopMonitor();
+        // Must invalidate cache in this case
+        // _matchCache.clear();
     }
 }
 

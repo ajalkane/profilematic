@@ -55,7 +55,6 @@ ConditionManagerIdle::stopMonitor() {
     qDebug() << "ConditionManagerIdle::stopMonitor";
     disconnect(PlatformUtil::instance(), SIGNAL(userActivityIdleChanged(bool)), this, SLOT(userActivityIdleChanged(bool)));
 
-    _clearVarsForInvalidation();
     _currentIdleMode = IDLE_MODE_UNKNOWN;
     _timer.stop();
     _idleStartTime = QDateTime();
