@@ -88,7 +88,6 @@ ConditionManagerBatteryLevel::stopMonitor() {
     PlatformUtil::instance()->monitorBatteryLevel(false);
 
     _latestLevel = batteryLevelUnknown;
-    _clearVars();
 }
 
 void
@@ -100,6 +99,7 @@ ConditionManagerBatteryLevel::rulesChanged() {
 
 void
 ConditionManagerBatteryLevel::_clearVars() {
+    _limitDown.closestLevel     = batteryLevelMinUnreachable;
     _limitDown.smallestDistance = smallestDistanceDownNotSet;
     _limitUp.closestLevel       = batteryLevelMaxUnreachable;
     _limitUp.smallestDistance   = smallestDistanceUpNotSet;
