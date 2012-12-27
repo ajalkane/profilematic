@@ -61,8 +61,10 @@ ConditionManagerCaching::endRefresh() {
         _cacheable->startMonitor();
     } else if (_numPotentialConditionsInPreviousRefresh > 0 && _numPotentialConditionsInRefresh == 0) {
         _cacheable->stopMonitor();
-        // Must invalidate cache in this case
-        // _matchCache.clear();
+        // Must invalidate cache in this case. Otherwise it's possible startMonitor will be called
+        // without variables being initialized in implementation, which can result in the monitor
+        // callbacks being operated with undefined values.
+        _matchCache.clear();
     }
 }
 
