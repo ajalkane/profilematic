@@ -17,7 +17,7 @@ ConditionManagerFactory::ConditionManagerFactory()
 {
 }
 
-ConditionManager *
+ConditionManagerChain *
 ConditionManagerFactory::create()
 {
     ConditionManagerChain *cm = new ConditionManagerChain();
@@ -30,6 +30,23 @@ ConditionManagerFactory::create()
     cm->add(new ConditionManagerCaching(new ConditionManagerInternetConnectionMode()));
     cm->add(new ConditionManagerCaching(new ConditionManagerBatteryLevel()));
     cm->add(new ConditionManagerCaching(new ConditionManagerCalendar));
+
+    return cm;
+}
+
+QList<ConditionManager *>
+ConditionManagerFactory::createAsList()
+{
+    QList<ConditionManager *> cm;
+    cm << new ConditionManagerCaching(new ConditionManagerCharging());
+    cm << new ConditionManagerCaching(new ConditionManagerTime);
+    cm << new ConditionManagerCaching(new ConditionManagerLocationCell());
+    cm << new ConditionManagerCaching(new ConditionManagerWlan());
+    cm << new ConditionManagerCaching(new ConditionManagerIdle());
+    cm << new ConditionManagerCaching(new ConditionManagerNFC());
+    cm << new ConditionManagerCaching(new ConditionManagerInternetConnectionMode());
+    cm << new ConditionManagerCaching(new ConditionManagerBatteryLevel());
+    cm << new ConditionManagerCaching(new ConditionManagerCalendar);
 
     return cm;
 }

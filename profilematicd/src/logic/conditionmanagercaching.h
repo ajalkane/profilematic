@@ -40,6 +40,8 @@ public:
      */
     ConditionManagerCaching(ConditionManagerCacheable *cacheable, QObject *parent = 0);
 
+    virtual bool conditionSetForMatching(const RuleCondition &cond) const;
+
     virtual void startRefresh();
     virtual bool refresh(const Rule::IdType &ruleId, const RuleCondition &rule);
     virtual void matchedRule(const RuleCondition &rule);

@@ -32,6 +32,16 @@ ConditionManagerChain::~ConditionManagerChain()
     }
 }
 
+bool
+ConditionManagerChain::conditionSetForMatching(const RuleCondition &cond) const {
+    QList<ConditionManager *>::const_iterator i = _conditionManagers.constBegin();
+    for (; i != _conditionManagers.constEnd(); ++i) {
+        ConditionManager *cm = *i;
+        if (cm->conditionSetForMatching(cond)) return false;
+    }
+    return true;
+}
+
 void
 ConditionManagerChain::startRefresh() {
     QList<ConditionManager *>::const_iterator i = _conditionManagers.constBegin();

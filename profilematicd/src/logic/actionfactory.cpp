@@ -15,7 +15,7 @@ ActionFactory::ActionFactory()
 {
 }
 
-Action *
+ActionChain *
 ActionFactory::create(ProfileClient *profileClient) {
     ActionChain *ac = new ActionChain();
     ac->add(new ActionProfile(profileClient));
@@ -30,3 +30,21 @@ ActionFactory::create(ProfileClient *profileClient) {
     ac->add(PlatformUtil::instance()->createActionPresence());
     return ac;
 }
+
+QList<Action *>
+ActionFactory::createAsList(ProfileClient *profileClient) {
+    QList<Action *> ac;
+    ac << new ActionProfile(profileClient);
+    ac << new ActionFlightMode();
+    ac << new ActionPowerSavingMode();
+    ac << new ActionBlueTooth();
+    ac << new ActionCellularMode();
+    ac << new ActionStandByScreenMode();
+    // Modifying background connections do not work, disable until finding working solutions
+    // ac->add(new ActionBackgroundConnections());
+    ac << new ActionCommandLine();
+    ac << PlatformUtil::instance()->createActionPresence();
+
+    return ac;
+}
+

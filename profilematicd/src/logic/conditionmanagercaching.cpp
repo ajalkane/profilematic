@@ -27,6 +27,11 @@ ConditionManagerCaching::ConditionManagerCaching(ConditionManagerCacheable *cach
     connect(_cacheable, SIGNAL(matchInvalidated()), this, SLOT(matchInvalidated()));
 }
 
+bool
+ConditionManagerCaching::conditionSetForMatching(const RuleCondition &cond) const {
+    return _cacheable->conditionSetForMatching(cond);
+}
+
 void
 ConditionManagerCaching::startRefresh() {
     _numPotentialConditionsInPreviousRefresh = _numPotentialConditionsInRefresh;

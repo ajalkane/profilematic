@@ -84,6 +84,7 @@ SOURCES += src/main.cpp \
     src/platform/calendar/impl/stub/calendarmanagerstub.cpp \
     src/logic/conditionmanagercacheable.cpp \
     src/logic/conditionmanagercaching.cpp \
+    src/logic/rulesholder.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -134,6 +135,7 @@ HEADERS += \
     src/logic/conditionmanagercacheable.h \
     src/logic/conditionmanagercaching.h \
     src/util/pmtimer.h \
+    src/logic/rulesholder.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     DEFINES += PM_TIMER_USHORT

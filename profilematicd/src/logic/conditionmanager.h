@@ -33,6 +33,14 @@ public:
     ConditionManager(QObject *parent = 0);
     virtual ~ConditionManager();
 
+    /**
+     * Returns true if the given condition has any rules that could match
+     * in some potential situation. Practically this means that user
+     * has specified the condition, ie. match returns something else
+     * than "MatchNotSet"
+     */
+    virtual bool conditionSetForMatching(const RuleCondition &cond) const = 0;
+
     virtual void startRefresh();
     // Returns true if rule matches current conditions
     virtual bool refresh(const Rule::IdType &ruleId, const RuleCondition &rule) = 0;
