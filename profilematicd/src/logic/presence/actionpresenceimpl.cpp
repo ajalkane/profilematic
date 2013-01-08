@@ -65,7 +65,7 @@ ActionPresenceImpl::_delayRuleActivation(const Rule::IdType &ruleId, const RuleA
 void
 ActionPresenceImpl::_activatePendingRule() {
     if (!_pendingRule) {
-        qDebug("%s ActionPresence::_activatePendingRule() no pending rule", qPrintable(QDateTime::currentDateTime().toString()));
+        IFDEBUG(qDebug("%s ActionPresence::_activatePendingRule() no pending rule", qPrintable(QDateTime::currentDateTime().toString())));
         return;
     }
 
@@ -83,23 +83,23 @@ ActionPresenceImpl::_activateInternal(const Rule::IdType &ruleId, const RuleActi
     bool hadPreviousPresences = !_previousPresences.isEmpty();
 
     if (!hasPresenceChanges && !hadPreviousPresences) {
-        qDebug() << "ActionPresence::activate rule has no presence changes or previous presences";
+        IFDEBUG(qDebug() << "ActionPresence::activate rule has no presence changes or previous presences");
         return NotActivated;
     }
 
     if (!_accountManager->isReady(Tp::AccountManager::FeatureCore)) {
-        qDebug() << "ActionPresence::activate Rule was activated while Telepathy Account Manager was not ready - will retry as soon as it is ready.";
+        IFDEBUG(qDebug() << "ActionPresence::activate Rule was activated while Telepathy Account Manager was not ready - will retry as soon as it is ready.");
         _delayRuleActivation(ruleId, rule);
         return Delayed;
     }
     if (!_networkConfigurationManager->isOnline()) {
-        qDebug() << "ActionPresence::activate Rule was activated while no connection - will retry as soon as it is ready.";
+        IFDEBUG(qDebug() << "ActionPresence::activate Rule was activated while no connection - will retry as soon as it is ready.");
         _delayRuleActivation(ruleId, rule);
         connect(_networkConfigurationManager, SIGNAL(onlineStateChanged(bool)), this, SLOT(onOnlineStateChanged(bool)));
         return Delayed;
     }
     if (useRestoreAction(ruleId, hasPresenceChanges, hadPreviousPresences)) {
-        qDebug() << "ActionPresence::activate restoring previous presences";
+        IFDEBUG(qDebug() << "ActionPresence::activate restoring previous presences");
         // Restore previous presences if requested by the previous rule
         foreach (const AccountPresence &previousPresence, _previousPresences) {
             Tp::AccountPtr tpAccount
@@ -114,7 +114,7 @@ ActionPresenceImpl::_activateInternal(const Rule::IdType &ruleId, const RuleActi
         // Restore is not returned as activation
         return NotActivated;
     } else if (!hasPresenceChanges) {
-        qDebug() << "ActionPresence::activate not setting presence";
+        IFDEBUG(qDebug() << "ActionPresence::activate not setting presence");
         return NotActivated;
     }
 
@@ -123,7 +123,7 @@ ActionPresenceImpl::_activateInternal(const Rule::IdType &ruleId, const RuleActi
     // It can happen that for example the onOnlineStateChanged signal is received after the
     // refresh() that activated the rule
     if (!isPendingRule && _pendingRule != NULL) {
-        qDebug() << "ActionPresence::activate removing pending rule as another rule activated";
+        IFDEBUG(qDebug() << "ActionPresence::activate removing pending rule as another rule activated");
         delete _pendingRule;
         _pendingRule = NULL;
         _pendingRuleId.clear();
@@ -183,7 +183,7 @@ void ActionPresenceImpl::onPresenceChangeFinished(Tp::PendingOperation *op)
 }
 
 void ActionPresenceImpl::onCurrentPresenceChanged(const Tp::Presence &currentPresence) {
-    qDebug() << "ActionPresenceImpl::onCurrentPresenceChanged called";
+    IFDEBUG(qDebug() << "ActionPresenceImpl::onCurrentPresenceChanged called");
 
     Tp::AccountPtr account = Tp::AccountPtr(qobject_cast<Tp::Account *>(sender()));
 
@@ -203,7 +203,7 @@ void ActionPresenceImpl::onCurrentPresenceChanged(const Tp::Presence &currentPre
     if (currentPresence.type() == requestedPresence.type())
         return;
 
-    qDebug() << "ActionPresenceImpl::onCurrentPresenceChanged setting actually requested presence.";
+    IFDEBUG(qDebug() << "ActionPresenceImpl::onCurrentPresenceChanged setting actually requested presence.");
     Tp::PendingOperation *op = account->setRequestedPresence(requestedPresence);
     connect(op,
             SIGNAL(finished(Tp::PendingOperation*)),
@@ -212,7 +212,7 @@ void ActionPresenceImpl::onCurrentPresenceChanged(const Tp::Presence &currentPre
 
 void ActionPresenceImpl::onAccountManagerReady(Tp::PendingOperation *op)
 {
-    qDebug("%s ActionPresence::onAccountManagerReady()", qPrintable(QDateTime::currentDateTime().toString()));
+    IFDEBUG(qDebug("%s ActionPresence::onAccountManagerReady()", qPrintable(QDateTime::currentDateTime().toString())));
 
     if (op->isError()) {
         qWarning() << "ActionPresence::onAccountManagerReady failed to instantiate account manager.";
@@ -224,7 +224,7 @@ void ActionPresenceImpl::onAccountManagerReady(Tp::PendingOperation *op)
 
 void
 ActionPresenceImpl::onOnlineStateChanged(bool isOnline) {
-    qDebug("%s ActionPresence::onOnlineStateChanged(%d)", qPrintable(QDateTime::currentDateTime().toString()), isOnline);
+    IFDEBUG(qDebug("%s ActionPresence::onOnlineStateChanged(%d)", qPrintable(QDateTime::currentDateTime().toString()), isOnline));
     if (isOnline) {
         disconnect(_networkConfigurationManager, SIGNAL(onlineStateChanged(bool)), this, SLOT(onOnlineStateChanged(bool)));
         _activatePendingRule();
@@ -233,7 +233,7 @@ ActionPresenceImpl::onOnlineStateChanged(bool isOnline) {
 
 void ActionPresenceImpl::changeAccountPresence(Tp::AccountPtr account, const Tp::Presence &presence)
 {
-    qDebug() << "ActionPresenceImpl::changeAccountPresence: Changing account presence to" << presence.status() << "for" << account->uniqueIdentifier();
+    IFDEBUG(qDebug() << "ActionPresenceImpl::changeAccountPresence: Changing account presence to" << presence.status() << "for" << account->uniqueIdentifier());
     Tp::PendingOperation *op;
 
     op = account->setConnectsAutomatically(presence.type() != Tp::ConnectionPresenceTypeOffline);

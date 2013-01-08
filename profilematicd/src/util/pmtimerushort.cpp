@@ -2,12 +2,14 @@
 
 #include <QDebug>
 
+#include "conditionallogging.h"
+
 #include "pmtimerushort.h"
 
 PmTimer::PmTimer()
     : _minimumInterval(-1), _maximumInterval(-1)
 {
-    qDebug() << "PmTimerUShort::constructor";
+    IFDEBUG(qDebug() << "PmTimerUShort::constructor");
     connect(&_timer, SIGNAL(error(QSystemAlignedTimer::AlignedTimerError)), this, SLOT(_error(QSystemAlignedTimer::AlignedTimerError)));
     connect(&_timer, SIGNAL(timeout()), this, SLOT(_timeout()));
 }
@@ -26,13 +28,13 @@ PmTimer::_start(int minimumInterval, int maximumInterval) {
             intermediaryMinimumInterval = intermediaryMaximumInterval;
         }
 
-        qDebug("PmTimerUShort::start(%d, %d): unsigned short overflow, setting intermediary interval %d - %d",
+        IFDEBUG(qDebug("PmTimerUShort::start(%d, %d): unsigned short overflow, setting intermediary interval %d - %d",
                minimumInterval, maximumInterval,
-               intermediaryMinimumInterval, intermediaryMaximumInterval);
+               intermediaryMinimumInterval, intermediaryMaximumInterval));
         _timer.start(intermediaryMinimumInterval,
                      intermediaryMaximumInterval);
     } else {
-        qDebug("%s PmTimerUShort::_start() starting normal timeout with %d/%d", qPrintable(QDateTime::currentDateTime().toString()), minimumInterval, maximumInterval);
+        IFDEBUG(qDebug("%s PmTimerUShort::_start() starting normal timeout with %d/%d", qPrintable(QDateTime::currentDateTime().toString()), minimumInterval, maximumInterval));
         _overflowedMinimumTarget = QDateTime();
         _timer.start(minimumInterval, maximumInterval);
     }
@@ -40,9 +42,9 @@ PmTimer::_start(int minimumInterval, int maximumInterval) {
 
 void
 PmTimer::start(int minimumInterval, int maximumInterval) {
-    qDebug("%s PmTimerUShort::start() called with %d/%d", qPrintable(QDateTime::currentDateTime().toString()), minimumInterval, maximumInterval);
+    IFDEBUG(qDebug("%s PmTimerUShort::start() called with %d/%d", qPrintable(QDateTime::currentDateTime().toString()), minimumInterval, maximumInterval));
     if (_timer.isActive()) {
-        qDebug("PmTimerUShort::start() was active, stopping");
+        IFDEBUG(qDebug("PmTimerUShort::start() was active, stopping"));
         _timer.stop();
     }
     _minimumInterval = minimumInterval;
@@ -53,12 +55,12 @@ PmTimer::start(int minimumInterval, int maximumInterval) {
 void
 PmTimer::_timeout() {
     if (_overflowedMinimumTarget.isNull()) {
-        qDebug("%s PmTimerUShort::_timeout() emitting timeout", qPrintable(QDateTime::currentDateTime().toString()));
+        IFDEBUG(qDebug("%s PmTimerUShort::_timeout() emitting timeout", qPrintable(QDateTime::currentDateTime().toString())));
         emit timeout();
     } else {
         QDateTime now = QDateTime::currentDateTime();
         int minimumInterval = now.secsTo(_overflowedMinimumTarget);
-        qDebug("%s PmTimerUShort::_timeout() delaying timeout, minimumInterval now %d", qPrintable(now.toString()), minimumInterval);
+        IFDEBUG(qDebug("%s PmTimerUShort::_timeout() delaying timeout, minimumInterval now %d", qPrintable(now.toString()), minimumInterval));
         if (minimumInterval <= 0) {
             emit timeout();
         } else {
@@ -69,6 +71,6 @@ PmTimer::_timeout() {
 
 void
 PmTimer::_error(QSystemAlignedTimer::AlignedTimerError err) {
-    qDebug() << QDateTime::currentDateTime().toString() << "PmTimerUShort:_error" << err;
+    IFDEBUG(qDebug() << QDateTime::currentDateTime().toString() << "PmTimerUShort:_error" << err);
     emit error((int)err);
 }

@@ -29,16 +29,16 @@ ActionBackgroundConnections::activateDifferent(const Rule::IdType &ruleId, const
     bool activated = true;
 
     if (useRestoreAction(ruleId, backgroundConnectionsMode >= 0, _previousBackgroundConnectionsMode >= 0)) {
-        qDebug("ActionBackgroundConnections::activate restore, backgroundConnectionsMode not set or is default rule");
-        qDebug("ActionBackgroundConnections::activate previous rule had restore backgroundConnectionsMode, restoring backgroundConnectionsMode %d",
-               _previousBackgroundConnectionsMode);
+        IFDEBUG(qDebug("ActionBackgroundConnections::activate restore, backgroundConnectionsMode not set or is default rule"));
+        IFDEBUG(qDebug("ActionBackgroundConnections::activate previous rule had restore backgroundConnectionsMode, restoring backgroundConnectionsMode %d",
+               _previousBackgroundConnectionsMode));
         backgroundConnectionsMode = _previousBackgroundConnectionsMode;
         _previousBackgroundConnectionsMode = -1;
         // Restore is not returned as activation
         activated = false;
     }
     else if (backgroundConnectionsMode < 0) {
-        qDebug("ActionBackgroundConnections::activate not setting background connections mode");
+        IFDEBUG(qDebug("ActionBackgroundConnections::activate not setting background connections mode"));
         return false;
     }
     if (rule.getRestoreBackgroundConnectionsMode()) {
@@ -47,7 +47,7 @@ ActionBackgroundConnections::activateDifferent(const Rule::IdType &ruleId, const
         _previousBackgroundConnectionsMode = -1;
     }
 
-    qDebug("Setting backgroundConnectionsMode %d", backgroundConnectionsMode);
+    IFDEBUG(qDebug("Setting backgroundConnectionsMode %d", backgroundConnectionsMode));
     PlatformUtil::instance()->setBackgroundConnectionsMode(backgroundConnectionsMode);
     return activated;
 }

@@ -30,6 +30,6 @@ ActionPresenceStub::activateDifferent(const Rule::IdType &, const RuleAction &ru
 {
     Q_UNUSED(rule)
 
-    qDebug() << "Would activate accounts rule here.";
+    IFDEBUG(qDebug() << "Would activate accounts rule here.");
     return true;
 }

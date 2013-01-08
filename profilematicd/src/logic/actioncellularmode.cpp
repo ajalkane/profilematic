@@ -8,20 +8,20 @@ ActionCellularMode::ActionCellularMode()
 bool
 ActionCellularMode::activateDifferent(const Rule::IdType &ruleId, const RuleAction &rule) {
     int cellularMode = rule.getCellularMode();
-    qDebug("ActionCellularMode::activate: %d", cellularMode);
+    IFDEBUG(qDebug("ActionCellularMode::activate: %d", cellularMode));
     bool activated = true;
 
     if (useRestoreAction(ruleId, cellularMode >= 0, _previousCellularMode >= 0)) {
-        qDebug("ActionCellularMode::activate restore");
-        qDebug("ActionCellularMode::activate previous rule had restore cellularMode, restoring cellularMode %d",
-               _previousCellularMode);
+        IFDEBUG(qDebug("ActionCellularMode::activate restore"));
+        IFDEBUG(qDebug("ActionCellularMode::activate previous rule had restore cellularMode, restoring cellularMode %d",
+               _previousCellularMode));
         cellularMode = _previousCellularMode;
         _previousCellularMode = -1;
         // Restore is not returned as activation
         activated = false;
     }
     else if (cellularMode < 0) {
-        qDebug("ActionCellularMode::activate not setting flight mode");
+        IFDEBUG(qDebug("ActionCellularMode::activate not setting flight mode"));
         return false;
     }
 

@@ -53,7 +53,7 @@ ConditionManagerInternetConnectionMode::_mapNetworkMode(const QNetworkConfigurat
 ConditionManagerCacheable::MatchStatus
 ConditionManagerInternetConnectionMode::match(const Rule::IdType &, const RuleCondition &cond) {
     if (!_conditionSetForMatching(cond)) {
-        qDebug() << "ConditionManagerInternetConnectionMode::match() options not set";
+        IFDEBUG(qDebug() << "ConditionManagerInternetConnectionMode::match() options not set");
         return MatchNotSet;
     }
 
@@ -63,27 +63,27 @@ ConditionManagerInternetConnectionMode::match(const Rule::IdType &, const RuleCo
         QNetworkConfiguration conf = _getCurrentActiveConfiguration();
         _currentInternetConnectionMode = _mapNetworkMode(conf);
         _currentInternetConnectionIdentifier = conf.identifier();
-        qDebug() << "ConditionManagerInternetConnectionMode::match() current mode not set,"
+        IFDEBUG(qDebug() << "ConditionManagerInternetConnectionMode::match() current mode not set,"
                  << "mapped to" <<  _currentInternetConnectionMode
-                 << "id" << _currentInternetConnectionIdentifier;
+                 << "id" << _currentInternetConnectionIdentifier);
     }
 
     if (cond.getInternetConnectionMode() == RuleCondition::ConnectionAny
             && _currentInternetConnectionMode != RuleCondition::ConnectionNone) {
-        qDebug() << "ConditionManagerInternetConnectionMode::match() connectionAny and current connection != None (" << _currentInternetConnectionMode << ")";
+        IFDEBUG(qDebug() << "ConditionManagerInternetConnectionMode::match() connectionAny and current connection != None (" << _currentInternetConnectionMode << ")");
         return Matched;
     }
 
-    qDebug() << "ConditionManagerInternetConnectionMode::comparing"
+    IFDEBUG(qDebug() << "ConditionManagerInternetConnectionMode::comparing"
              << _currentInternetConnectionMode
              << "=="
-             << cond.getInternetConnectionMode();
+             << cond.getInternetConnectionMode());
     return _currentInternetConnectionMode == cond.getInternetConnectionMode() ? Matched : NotMatched;
 }
 
 void
 ConditionManagerInternetConnectionMode::startMonitor() {
-    qDebug() << "ConditionManagerInternetConnectionMode::startMonitor()";
+    IFDEBUG(qDebug() << "ConditionManagerInternetConnectionMode::startMonitor()");
 
     connect(&_networkConfigurationManager,
             SIGNAL(configurationChanged(const QNetworkConfiguration &)),
@@ -92,7 +92,7 @@ ConditionManagerInternetConnectionMode::startMonitor() {
 
 void
 ConditionManagerInternetConnectionMode::stopMonitor() {
-    qDebug() << "ConditionManagerInternetConnectionMode::stopMonitor()";
+    IFDEBUG(qDebug() << "ConditionManagerInternetConnectionMode::stopMonitor()");
 
     _currentInternetConnectionMode = RuleCondition::UndefinedInternetConnectionMode;
     _currentInternetConnectionIdentifier.clear();
@@ -104,22 +104,22 @@ ConditionManagerInternetConnectionMode::stopMonitor() {
 
 void
 ConditionManagerInternetConnectionMode::rulesChanged() {
-    qDebug() << "ConditionManagerInternetConnectionMode::rulesChanged";
+    IFDEBUG(qDebug() << "ConditionManagerInternetConnectionMode::rulesChanged");
 
     _existsRulesWithInternetConnectionMode = false;
 }
 
 void _logConfiguration(const QNetworkConfiguration &config) {
-    qDebug() << "ConditionManagerInternetConnectionMode::QNetworkConfiguration::bearerTypeName" << config.bearerTypeName();
+    IFDEBUG(qDebug() << "ConditionManagerInternetConnectionMode::QNetworkConfiguration::bearerTypeName" << config.bearerTypeName();
     qDebug() << "ConditionManagerInternetConnectionMode::QNetworkConfiguration::identifier    " << config.identifier();
     qDebug() << "ConditionManagerInternetConnectionMode::QNetworkConfiguration::name          " << config.name();
     qDebug() << "ConditionManagerInternetConnectionMode::QNetworkConfiguration::state         " << (int)config.state();
-    qDebug() << " ";
+    qDebug() << " ");
 }
 
 QNetworkConfiguration
 ConditionManagerInternetConnectionMode::_getCurrentActiveConfiguration() const {
-    qDebug() << "ConditionManagerInternetConnectionMode::_getCurrentActiveConfiguration";
+    IFDEBUG(qDebug() << "ConditionManagerInternetConnectionMode::_getCurrentActiveConfiguration");
     QList<QNetworkConfiguration> confs = _networkConfigurationManager.allConfigurations(QNetworkConfiguration::Active);
     foreach (const QNetworkConfiguration nc, confs) {
         _logConfiguration(nc);
@@ -128,13 +128,13 @@ ConditionManagerInternetConnectionMode::_getCurrentActiveConfiguration() const {
         }
     }
 
-    qWarning() << "ConditionManagerInternetConnectionMode::_getCurrentActiveConfiguration: no active configuration found, returning None";
+    IFDEBUG(qDebug() << "ConditionManagerInternetConnectionMode::_getCurrentActiveConfiguration: no active configuration found, returning None");
     return _networkConfigurationNone;
 }
 
 void
 ConditionManagerInternetConnectionMode::onConfigurationChanged(const QNetworkConfiguration &config) {
-    qDebug() << QDateTime::currentDateTime().toString() << "ConditionManagerInternetConnectionMode::Network configuration changed";
+    IFDEBUG(qDebug() << QDateTime::currentDateTime().toString() << "ConditionManagerInternetConnectionMode::Network configuration changed");
     _logConfiguration(config);
 
     if (config.state() == QNetworkConfiguration::Active) {
@@ -154,9 +154,9 @@ ConditionManagerInternetConnectionMode::onConfigurationChanged(const QNetworkCon
     // active first, so this is not an issue and works as intended. The intention is that
     // refresh will be requested if there is no internet connection at all.
     else if (_currentInternetConnectionIdentifier == config.identifier() && !_currentInternetConnectionIdentifier.isEmpty()) {
-        qDebug() << "ConditionManagerInternetConnectionMode::onConfigurationChanged"
+        IFDEBUG(qDebug() << "ConditionManagerInternetConnectionMode::onConfigurationChanged"
                  << "current connection" << _currentInternetConnectionIdentifier
-                 << "not active anymore, invalidating";
+                 << "not active anymore, invalidating");
         _currentInternetConnectionMode = RuleCondition::UndefinedInternetConnectionMode;
         _currentInternetConnectionIdentifier.clear();
         _existsRulesWithInternetConnectionMode = false;

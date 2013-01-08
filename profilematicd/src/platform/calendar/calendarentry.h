@@ -22,6 +22,8 @@
 #include <QDateTime>
 #include <QString>
 
+#include "../../util/conditionallogging.h"
+
 class CalendarEntry
 {
     QDateTime _start;

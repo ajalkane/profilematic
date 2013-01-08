@@ -31,16 +31,16 @@ ActionPowerSavingMode::activateDifferent(const Rule::IdType &ruleId, const RuleA
     bool activated = true;
 
     if (useRestoreAction(ruleId, powerSavingMode >= 0, _previousPsmState >= 0)) {
-        qDebug("ActionPsmState::activate restore, psmState not set or is default rule");
-        qDebug("ActionPsmState::activate previous rule had restore psmState, restoring psmState %d",
-               _previousPsmState);
+        IFDEBUG(qDebug("ActionPsmState::activate restore, psmState not set or is default rule"));
+        IFDEBUG(qDebug("ActionPsmState::activate previous rule had restore psmState, restoring psmState %d",
+               _previousPsmState));
         powerSavingMode = _previousPsmState;
         _previousPsmState = -1;
         // Restore is not returned as activation
         activated = false;
     }
     else if (powerSavingMode < 0) {
-        qDebug("ActionPsmState::activate not setting power saving state");
+        IFDEBUG(qDebug("ActionPsmState::activate not setting power saving state"));
         return false;
     }
     if (rule.getRestorePowerSavingMode()) {
@@ -49,7 +49,7 @@ ActionPowerSavingMode::activateDifferent(const Rule::IdType &ruleId, const RuleA
         _previousPsmState = -1;
     }
 
-    qDebug("Setting power saving mode %d", powerSavingMode);
+    IFDEBUG(qDebug("Setting power saving mode %d", powerSavingMode));
     PlatformUtil::instance()->setPowerSavingMode(powerSavingMode);
     return activated;
 }

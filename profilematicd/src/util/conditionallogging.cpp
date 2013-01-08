@@ -16,25 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#ifndef ACTION_H
-#define ACTION_H
+#include "conditionallogging.h"
 
-#include "../util/conditionallogging.h"
-#include "../model/ruleaction.h"
-#include "../model/rule.h"
-
-class Action
-{
-public:
-    Action();
-    virtual ~Action();
-
-    virtual void startRefresh() = 0;
-
-    virtual void activate(const Rule::IdType &ruleId, const RuleAction &rule) = 0;
-
-    virtual void endRefresh() = 0;
-
-};
-
-#endif // ACTION_H
+bool ConditionalLogging::_debugEnabled = true;

@@ -24,7 +24,7 @@ ConditionManagerNFC::ConditionManagerNFC(QObject *parent) : ConditionManagerCach
     setObjectName("ConditionManagerNFC");
     _nfcManager = new QNearFieldManager(this);
 
-    qDebug("ConditionManagerNFC isAvailable: %d", _nfcManager->isAvailable());
+    IFDEBUG(qDebug("ConditionManagerNFC isAvailable: %d", _nfcManager->isAvailable()));
     connect(_nfcManager, SIGNAL(targetDetected(QNearFieldTarget *)), this, SLOT(targetDetected(QNearFieldTarget *)));
     connect(_nfcManager, SIGNAL(targetLost(QNearFieldTarget *)), this, SLOT(targetLost(QNearFieldTarget *)));
 }
@@ -37,42 +37,42 @@ ConditionManagerNFC::conditionSetForMatching(const RuleCondition &cond) const {
 ConditionManagerCacheable::MatchStatus
 ConditionManagerNFC::match(const Rule::IdType &ruleId, const RuleCondition &cond) {
     if (!_conditionSetForMatching(cond)) {
-        qDebug() << "ConditionManagerNFC::match() options not set or invalid, matchNotSet";
+        IFDEBUG(qDebug() << "ConditionManagerNFC::match() options not set or invalid, matchNotSet");
         return MatchNotSet;
     }
     const QSet<QByteArray> &nfcUids = cond.nfc().getUids();
     if (nfcUids.isEmpty()) {
-        qDebug("ConditionManagerNFC::match nfcUids is empty, matches");
+        IFDEBUG(qDebug("ConditionManagerNFC::match nfcUids is empty, matches"));
         return Matched;
 
     }
 
     bool matches = false;
     if (cond.nfc().getToggleCondition()) {
-        qDebug("ConditionManagerNFC::match adding to toggling nfcUids %d ids", nfcUids.size());
+        IFDEBUG(qDebug("ConditionManagerNFC::match adding to toggling nfcUids %d ids", nfcUids.size()));
         matches = _currentToggledRules.contains(ruleId);
         _watchedTogglingNfcUids.unite(nfcUids);
         _watchedTogglingNfcUidsByRuleId[ruleId] = nfcUids;
     } else {
-        qDebug("ConditionManagerNFC::match adding to non-toggling nfcUids %d ids", nfcUids.size());
+        IFDEBUG(qDebug("ConditionManagerNFC::match adding to non-toggling nfcUids %d ids", nfcUids.size()));
         matches = nfcUids.contains(_currentNfcUid);
         _watchedNonTogglingNfcUids.unite(nfcUids);
     }
 
-    qDebug("ConditionManagerNFC::match matches %d", matches);
+    IFDEBUG(qDebug("ConditionManagerNFC::match matches %d", matches));
 
     return matches ? Matched : NotMatched;
 }
 
 void
 ConditionManagerNFC::startMonitor() {
-    qDebug() << "ConditionManagerNFC::startMonitor";
+    IFDEBUG(qDebug() << "ConditionManagerNFC::startMonitor");
     _nfcManager->startTargetDetection();
 }
 
 void
 ConditionManagerNFC::stopMonitor() {
-    qDebug() << "ConditionManagerNFC::stopMonitor";
+    IFDEBUG(qDebug() << "ConditionManagerNFC::stopMonitor");
     _nfcManager->stopTargetDetection();
 
     _currentNfcUid.clear();
@@ -82,39 +82,39 @@ ConditionManagerNFC::stopMonitor() {
 
 void
 ConditionManagerNFC::rulesChanged() {
-    qDebug() << "ConditionManagerNFC::rulesChanged";
+    IFDEBUG(qDebug() << "ConditionManagerNFC::rulesChanged");
 
     _clearVars();
 }
 
 void
 ConditionManagerNFC::targetDetected(QNearFieldTarget *target) {
-    qDebug("%s ConditionManagerNFC::targetDetected()", qPrintable(QDateTime::currentDateTime().toString()));
+    IFDEBUG(qDebug("%s ConditionManagerNFC::targetDetected()", qPrintable(QDateTime::currentDateTime().toString())));
     QByteArray uid = target->uid();
     _currentNfcUid = uid;
     QString uidStr(uid.toHex());
     bool doInvalidate = false;
-    qDebug("ConditionManagerNFC::targetDetected() uid: %s", qPrintable(uidStr));
+    IFDEBUG(qDebug("ConditionManagerNFC::targetDetected() uid: %s", qPrintable(uidStr)));
     if (_watchedTogglingNfcUids.contains(uid)) {        
-        qDebug("ConditionManagerNFC::targetDetected() toggling NFC, invalidating");
+        IFDEBUG(qDebug("ConditionManagerNFC::targetDetected() toggling NFC, invalidating"));
         QHash<Rule::IdType, QSet<QByteArray> >::const_iterator i = _watchedTogglingNfcUidsByRuleId.constBegin();
         for (; i != _watchedTogglingNfcUidsByRuleId.constEnd(); ++i) {
             const QSet<QByteArray> &uids = i.value();
             if (uids.contains(uid)) {
                 const Rule::IdType ruleId = i.key();
                 if (_currentToggledRules.contains(ruleId)) {
-                    qDebug("ConditionManagerNFC::targetDetected() toggling off rule %s", qPrintable(ruleId));
+                    IFDEBUG(qDebug("ConditionManagerNFC::targetDetected() toggling off rule %s", qPrintable(ruleId)));
                     _currentToggledRules.remove(ruleId);
                 } else {
-                    qDebug("ConditionManagerNFC::targetDetected() toggling on rule %s", qPrintable(ruleId));
-                    _currentToggledRules.insert(ruleId);
+                    IFDEBUG(qDebug("ConditionManagerNFC::targetDetected() toggling on rule %s", qPrintable(ruleId));
+                    _currentToggledRules.insert(ruleId));
                 }
                 doInvalidate  = true;
             }
         }
     }
     if (_watchedNonTogglingNfcUids.contains(uid)) {
-        qDebug("ConditionManagerNFC::targetDetected() non-toggling NFC, invalidating");
+        IFDEBUG(qDebug("ConditionManagerNFC::targetDetected() non-toggling NFC, invalidating"));
         doInvalidate  = true;
     }
 
@@ -126,15 +126,15 @@ ConditionManagerNFC::targetDetected(QNearFieldTarget *target) {
 
 void
 ConditionManagerNFC::targetLost(QNearFieldTarget */*target*/) {
-    qDebug("%s ConditionManagerNFC::targetLostDetected()", qPrintable(QDateTime::currentDateTime().toString()));
+    IFDEBUG(qDebug("%s ConditionManagerNFC::targetLostDetected()", qPrintable(QDateTime::currentDateTime().toString())));
     // QtMobility on N9 seems to have a bug (?), target->uid is empty
     QByteArray uid = _currentNfcUid; // target->uid();
     QString uidStr(uid.toHex());
     _currentNfcUid.clear();
-    qDebug("ConditionManagerNFC::targetLostDetected() uid: %s", qPrintable(uidStr));
+    IFDEBUG(qDebug("ConditionManagerNFC::targetLostDetected() uid: %s", qPrintable(uidStr)));
 
     if (_watchedNonTogglingNfcUids.contains(uid)) {
-        qDebug("ConditionManagerNFC::targetLostDetected() was in current non-toggling ids, refresh");
+        IFDEBUG(qDebug("ConditionManagerNFC::targetLostDetected() was in current non-toggling ids, refresh"));
         _clearVars();
         emit matchInvalidated();
     }

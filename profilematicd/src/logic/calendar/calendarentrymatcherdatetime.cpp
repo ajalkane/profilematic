@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
+#include "../../util/conditionallogging.h"
 #include "calendarentrymatcherdatetime.h"
 
 CalendarEntryMatcherDateTime::CalendarEntryMatcherDateTime(const RuleConditionCalendar &condition, const QDateTime &now)
@@ -56,13 +57,13 @@ CalendarEntryMatcherDateTime::nextNearestStartOrEnd(const CalendarEntry &entry) 
     if (_now < useStart) {
         qint64 msecsToEntry = _now.msecsTo(useStart);
         nextNearest = _now.addMSecs(msecsToEntry);
-        qDebug("CalendarEntryMatcherDateTime::next start, _now %s is %s. Entry: %s",
-               qPrintable(_now.toString()), qPrintable(nextNearest.toString()), qPrintable(entry.summary()));
+        IFDEBUG(qDebug("CalendarEntryMatcherDateTime::next start, _now %s is %s. Entry: %s",
+               qPrintable(_now.toString()), qPrintable(nextNearest.toString()), qPrintable(entry.summary())));
     } else if (_now < useEnd) {
         qint64 msecsToEntry = _now.msecsTo(useEnd);
         nextNearest = _now.addMSecs(msecsToEntry);
-        qDebug("CalendarEntryMatcherDateTime::next end, _now %s is %s. Entry: %s",
-               qPrintable(_now.toString()), qPrintable(nextNearest.toString()), qPrintable(entry.summary()));
+        IFDEBUG(qDebug("CalendarEntryMatcherDateTime::next end, _now %s is %s. Entry: %s",
+               qPrintable(_now.toString()), qPrintable(nextNearest.toString()), qPrintable(entry.summary())));
     }
     return nextNearest;
 }

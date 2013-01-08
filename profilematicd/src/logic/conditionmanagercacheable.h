@@ -23,6 +23,7 @@
 
 #include "../model/rule.h"
 #include "../model/rulecondition.h"
+#include "../util/conditionallogging.h"
 
 /**
  * Provides interface for ConditionManagers that can be cached. Classes implementing

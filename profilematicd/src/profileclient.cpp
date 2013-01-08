@@ -20,6 +20,7 @@
 #include <QtDBus/QtDBus>
 
 #include "profileclient.h"
+#include "util/conditionallogging.h"
 
 #define PROFILED_SERVICE "com.nokia.profiled"
 #define PROFILED_PATH "/com/nokia/profiled"
@@ -84,7 +85,7 @@ ProfileClient::getProfile() const {
     if (reply.isValid()) {
         return reply.value();
     } else {
-        qDebug("ProfileClient::getProfile returned invalid reply");
+        qWarning("ProfileClient::getProfile returned invalid reply");
     }
 
     return QString();
@@ -96,14 +97,14 @@ ProfileClient::setProfile(const QString &profileName)
     QDBusInterface dbus_iface(PROFILED_SERVICE, PROFILED_PATH,
                               PROFILED_INTERFACE);
 
-    qDebug("Setting profile to %s", profileName.toLatin1().constData());
+    IFDEBUG(qDebug("Setting profile to %s", profileName.toLatin1().constData()));
     QDBusReply<bool> reply = dbus_iface.call(PROFILED_SET_PROFILE, profileName);
     if (reply.isValid()) {
         bool replyValue = reply.value();
-        qDebug("Return value %d", replyValue == true);
+        IFDEBUG(qDebug("Return value %d", replyValue == true));
         return replyValue;
     } else {
-        qDebug("ProfileClient::getProfileType returned invalid reply for profile %s", qPrintable(profileName));
+        IFDEBUG(qDebug("ProfileClient::getProfileType returned invalid reply for profile %s", qPrintable(profileName)));
     }
     return false;
 }
@@ -122,10 +123,10 @@ ProfileClient::getProfileVolume(const QString &profile) const {
         if (isOk) {
             return volume;
         } else {
-            qDebug("ProfileClient::getProfileVolume returned non-int for profile %s: %s", qPrintable(profile), qPrintable(value));
+            IFDEBUG(qDebug("ProfileClient::getProfileVolume returned non-int for profile %s: %s", qPrintable(profile), qPrintable(value)));
         }
     } else {
-        qDebug("ProfileClient::getProfileVolume returned invalid reply for profile %s", qPrintable(profile));
+        IFDEBUG(qDebug("ProfileClient::getProfileVolume returned invalid reply for profile %s", qPrintable(profile)));
     }
 
     return -1;
@@ -137,15 +138,15 @@ ProfileClient::setProfileVolume(const QString &profileName, int volume)
     QDBusInterface dbus_iface(PROFILED_SERVICE, PROFILED_PATH,
                               PROFILED_INTERFACE);
 
-    qDebug("Setting profile %s to volume %d", profileName.toLatin1().constData(), volume);
+    IFDEBUG(qDebug("Setting profile %s to volume %d", profileName.toLatin1().constData(), volume));
     QDBusReply<bool> reply = dbus_iface.call(PROFILED_SET_VALUE, profileName,
                                              PROFILED_VOLUME_VALUE, QString::number(volume));
     if (reply.isValid()) {
         bool replyValue = reply.value();
-        qDebug("Return value %d", replyValue == true);
+        IFDEBUG(qDebug("Return value %d", replyValue == true));
         return replyValue;
     } else {
-        qDebug("ProfileClient::setProfileVolume returned invalid reply for profile %s", qPrintable(profileName));
+        IFDEBUG(qDebug("ProfileClient::setProfileVolume returned invalid reply for profile %s", qPrintable(profileName)));
     }
     return false;
 }
@@ -160,7 +161,7 @@ ProfileClient::getProfileType(const QString &profile) const {
     if (reply.isValid()) {
         return reply.value();
     } else {
-        qDebug("ProfileClient::getProfileType returned invalid reply for profile %s", qPrintable(profile));
+        IFDEBUG(qDebug("ProfileClient::getProfileType returned invalid reply for profile %s", qPrintable(profile)));
     }
 
 #ifndef __arm__

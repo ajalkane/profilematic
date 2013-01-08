@@ -9,15 +9,15 @@ ActionCommandLine::ActionCommandLine()
 bool
 ActionCommandLine::runCommandLine(const QString &commandLine) const {
     if (!commandLine.isEmpty()) {
-        qDebug("ActionCommandLine::runCommandLine() executing %s", qPrintable(commandLine));
+        IFDEBUG(qDebug("ActionCommandLine::runCommandLine() executing %s", qPrintable(commandLine)));
         bool success = QProcess::startDetached(commandLine);
-        qDebug("ActionCommandLine::success %d", success);
+        IFDEBUG(qDebug("ActionCommandLine::success %d", success));
         if (!success) {
             PlatformUtil::instance()->publishNotification("Custom action failed");
         }
         return true;
     } else {
-        qDebug("ActionCommandLine::runCommandLine() no command line");
+        IFDEBUG(qDebug("ActionCommandLine::runCommandLine() no command line"));
     }
     return false;
 }
