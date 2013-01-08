@@ -24,6 +24,7 @@ ConditionManagerCaching::ConditionManagerCaching(ConditionManagerCacheable *cach
     : ConditionManager(parent), _cacheable(cacheable), _numPotentialConditionsInRefresh(0)
 {
     _cacheable->setParent(this);
+    setObjectName("Cacheable::" + cacheable->objectName());
     connect(_cacheable, SIGNAL(matchInvalidated()), this, SLOT(matchInvalidated()));
 }
 
@@ -53,11 +54,6 @@ ConditionManagerCaching::refresh(const Rule::IdType &ruleId, const RuleCondition
         ++_numPotentialConditionsInRefresh;
     }
     return match != ConditionManagerCacheable::NotMatched;
-}
-
-void
-ConditionManagerCaching::matchedRule(const RuleCondition &rule) {
-    Q_UNUSED(rule)
 }
 
 void

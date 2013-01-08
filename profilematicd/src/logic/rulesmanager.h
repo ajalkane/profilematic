@@ -25,34 +25,26 @@
 
 #include "conditionmanager.h"
 #include "action.h"
+#include "rulesholder.h"
 #include "../preferences.h"
-#include "../model/rule.h"
 
 class RulesManager : public QObject
 {
     Q_OBJECT
 
-    const QList<Rule> *_rules;
+    RulesHolder *_rulesHolder;
     QSet<Rule::IdType> _matchingRuleIds;
 
-    ConditionManager *_conditionManager;
-    Action           *_action;
     const Preferences *_preferences;
 
-    void _activateRule(const Rule &rule);
+    void _activateRule(const RuleHolder &ruleHolder);
     void _refresh(bool forceActivate);
-    void _matchRule(const Rule &rule);
+    void _matchRule(const RuleHolder &ruleHolder);
 
 public:
-    RulesManager(const QList<Rule> *rules,
-                 ConditionManager *conditionManager,
-                 Action *action,
+    RulesManager(RulesHolder *rules,
                  const Preferences *preferences,
                  QObject *parent = 0);
-
-    // Called when rule has been updated. This is just a notification
-    // refreshRules() is called after that.
-    void ruleUpdated(const Rule &oldRule, const Rule &updatedRule);
 
     // Called when rules have changed
     void refreshRules();

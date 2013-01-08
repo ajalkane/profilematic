@@ -33,7 +33,6 @@ public:
     virtual bool conditionSetForMatching(const RuleCondition &cond) const;
     virtual void startRefresh();
     virtual bool refresh(const Rule::IdType &ruleId, const RuleCondition &rule);
-    virtual void matchedRule(const RuleCondition &rule);
     virtual void endRefresh();
     virtual void ruleUpdated(const Rule &oldRule, const Rule &updatedRule);
 

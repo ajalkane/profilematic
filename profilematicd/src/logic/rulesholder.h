@@ -82,9 +82,14 @@ public:
     // Creates a new rule. Returns the new ruleId. If the given rule
     // already has a ruleId, it is not used.
     void appendRule(const Rule &rule);
+    void insertRule(int index, const Rule &rule);
     void updateRule(const Rule &rule);
     void removeRule(const Rule::IdType &ruleId);
-    void moveRule(int fromIndex, int toIndex);
+    void moveRule(const Rule::IdType &ruleId, int toIndex);
+
+    inline int size() const { return _ruleHolders.size(); }
+    inline const Rule &ruleAt(int i) const { return _ruleHolders.at(i).rule(); }
+    inline const RuleHolder &last() const { return _ruleHolders.last()  ; }
 
     bool match(const RuleHolder &ruleHolder) const;
     void activate(const RuleHolder &ruleHolder) const;
@@ -93,8 +98,18 @@ public:
         return _ruleHolders;
     }
 
-signals:
+    // TODO temporary
+    QList<Rule> getRules() const {
+        QList<Rule> rules;
+        foreach (RuleHolder ruleHolder, _ruleHolders) {
+            rules << ruleHolder.rule();
+        }
 
+        return rules;
+    }
+
+signals:
+    void refreshNeeded();
 };
 
 #endif // RULESHOLDER_H

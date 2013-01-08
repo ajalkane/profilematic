@@ -32,8 +32,8 @@
 #define PM_OBJECT_NAME "/org/ajalkane/profilematic"
 #define PM_SERVICE_NAME "org.ajalkane.profilematic"
 
-ProfileMaticInterface::ProfileMaticInterface(RulesManager *rulesManager, QList<Rule> *rules, Preferences *preferences, ProfileClient *profileClient, QObject *parent) :
-    QObject(parent), _rulesManager(rulesManager), _rules(rules), _preferences(preferences), _profileClient(profileClient)
+ProfileMaticInterface::ProfileMaticInterface(RulesManager *rulesManager, RulesHolder *rulesHolder, Preferences *preferences, ProfileClient *profileClient, QObject *parent) :
+    QObject(parent), _rulesManager(rulesManager), _rulesHolder(rulesHolder), _preferences(preferences), _profileClient(profileClient)
 {
     qDBusRegisterMetaType<Rule>();
     qDBusRegisterMetaType<RuleAction>();
@@ -42,6 +42,7 @@ ProfileMaticInterface::ProfileMaticInterface(RulesManager *rulesManager, QList<R
     qDBusRegisterMetaType<PresenceRule>();
 
     connect(_rulesManager, SIGNAL(matchingRuleIdsChanged(QStringList)), this, SIGNAL(matchingRuleIdsChanged(QStringList)));
+
 }
 
 int
@@ -68,7 +69,12 @@ ProfileMaticInterface::~ProfileMaticInterface() {
 
 QList<Rule>
 ProfileMaticInterface::getRules() const {
-    return *_rules;
+    QList<Rule> rules;
+    foreach (RuleHolder ruleHolder, _rulesHolder->ruleHolders()) {
+        rules << ruleHolder.rule();
+    }
+
+    return rules;
 }
 
 
@@ -80,6 +86,10 @@ ProfileMaticInterface::getMatchingRuleIds() const {
 
 void
 ProfileMaticInterface::updateRule(const Rule &rule) {
+    _rulesHolder->updateRule(rule);
+    emit ruleUpdated(rule);
+    _rulesChanged();
+/*
     qDebug("updateRule received %s", qPrintable(rule.getRuleId()));
     int index = _findRuleIndexById(rule.getRuleId());
     if (index < 0) {
@@ -98,7 +108,8 @@ ProfileMaticInterface::updateRule(const Rule &rule) {
     }
     qDebug("updateRule emitting ruleUpdated for %s", qPrintable(rule.getRuleId()));
     emit ruleUpdated(_rules->at(index));
-    _rulesChanged();
+    _rulesChanged();*/
+
 }
 
 QString
@@ -110,14 +121,15 @@ ProfileMaticInterface::appendRule(const Rule &rule) {
     Rule newRule = rule;
     newRule.setRuleId(QUuid::createUuid().toString());
     if (newRule.getRuleName().isEmpty()) {
-        QString ruleName = QString("Rule #") + QString::number(_rules->size() + 1);
+        QString ruleName = QString("Rule #") + QString::number(_rulesHolder->size() + 1);
         newRule.setRuleName(ruleName);
         qDebug("ProfileMaticInterface::appendRule(): setting name to %s", qPrintable(newRule.getRuleName()));
 
     }
     qDebug("ProfileMaticInterface::appendRule(), created ruleId %s", qPrintable(newRule.getRuleId()));
     // Size() - 1 because expecting defaultRule to always be the last rule
-    _rules->insert(_rules->size() - 1, newRule);
+    _rulesHolder->insertRule(_rulesHolder->size() - 1, newRule);
+    // _rules->insert(_rules->size() - 1, newRule);
     emit ruleAppended(newRule);
     _rulesChanged();
     return newRule.getRuleId();
@@ -131,13 +143,14 @@ ProfileMaticInterface::removeRule(const QString &ruleId) {
         return;
     }
 
-    int index = _findRuleIndexById(ruleId);
-    if (index < 0) {
-        qDebug("removeRule: Could not find rule with id %s", qPrintable(ruleId));
-        return;
-    }
+    _rulesHolder->removeRule(ruleId);
+//    int index = _findRuleIndexById(ruleId);
+//    if (index < 0) {
+//        qDebug("removeRule: Could not find rule with id %s", qPrintable(ruleId));
+//        return;
+//    }
 
-    _rules->removeAt(index);
+//    _rules->removeAt(index);
     _rulesChanged();
     emit ruleRemoved(ruleId);
 }
@@ -146,27 +159,37 @@ void
 ProfileMaticInterface::moveRule(const QString &ruleId, int toIndex) {
     qDebug("moveRule received %s -> %d", qPrintable(ruleId), toIndex);
     if (ruleId == DEFAULT_RULE_ID) {
+
         qDebug("ProfileMaticInterface::moveRule(): can not move default rule");
         return;
     }
-    int index = _findRuleIndexById(ruleId);
-    if (index < 0) {
-        qDebug("moveRule: Could not find rule with id %s", qPrintable(ruleId));
-        return;
-    }
     // Assume defaultRule is the last index always, so upper limit size() - 2
-    else if (toIndex < 0 || toIndex > _rules->size() - 2) {
-        qDebug("moveRule: invalid toIndex: %d, allowed range (0 - %d)", toIndex, _rules->size() - 1);
+    if (toIndex < 0 || toIndex > _rulesHolder->size() - 2) {
+        qDebug("moveRule: invalid toIndex: %d, allowed range (0 - %d)", toIndex, _rulesHolder->size() - 1);
         return;
     }
-    // Assume defaultRule is the last index always
-    if (index == _rules->size() - 1) {
-        qDebug("moveRule: can not move defaultRule from last place");
-        return;
-    }
-    _rules->move(index, toIndex);
+    _rulesHolder->moveRule(ruleId, toIndex);
     _rulesChanged();
     emit ruleMoved(ruleId, toIndex);
+
+//    int index = _findRuleIndexById(ruleId);
+//    if (index < 0) {
+//        qDebug("moveRule: Could not find rule with id %s", qPrintable(ruleId));
+//        return;
+//    }
+//    // Assume defaultRule is the last index always, so upper limit size() - 2
+//    else if (toIndex < 0 || toIndex > _rules->size() - 2) {
+//        qDebug("moveRule: invalid toIndex: %d, allowed range (0 - %d)", toIndex, _rules->size() - 1);
+//        return;
+//    }
+//    // Assume defaultRule is the last index always
+//    if (index == _rules->size() - 1) {
+//        qDebug("moveRule: can not move defaultRule from last place");
+//        return;
+//    }
+//    _rules->move(index, toIndex);
+//    _rulesChanged();
+//    emit ruleMoved(ruleId, toIndex);
 }
 
 bool
@@ -192,8 +215,8 @@ ProfileMaticInterface::hasDeviceModeCredential() const {
 
 int
 ProfileMaticInterface::_findRuleIndexById(const Rule::IdType &id) const {
-    for (int i = 0; i < _rules->size(); ++i) {
-        const Rule &r = _rules->at(i);
+    for (int i = 0; i < _rulesHolder->size(); ++i) {
+        const Rule &r = _rulesHolder->ruleAt(i);
         if (id == r.getRuleId()) {
             return i;
         }
@@ -204,7 +227,7 @@ ProfileMaticInterface::_findRuleIndexById(const Rule::IdType &id) const {
 void
 ProfileMaticInterface::_rulesChanged() {
     _rulesManager->refreshRules();
-    Configuration::writeRules(*_rules);
+    Configuration::writeRules(*_rulesHolder);
 }
 
 void
@@ -234,8 +257,8 @@ ProfileMaticInterface::executeAction(const RuleAction &action) const {
 // Some helper methods, not used by ProfileMatic, that may be helpful for D-Bus scripting
 int
 ProfileMaticInterface::_findRuleIndexByName(const QString &name) const {
-    for (int i = 0; i < _rules->size(); ++i) {
-        const Rule &r = _rules->at(i);
+    for (int i = 0; i < _rulesHolder->size(); ++i) {
+        const Rule &r = _rulesHolder->ruleAt(i);
         if (name.trimmed() == r.getRuleName().trimmed()) {
             return i;
         }
@@ -247,8 +270,8 @@ QStringList
 ProfileMaticInterface::getRuleNames() {
     qDebug("ProfileMaticInterface::getRuleNames");
     QStringList ruleNames;
-    foreach (const Rule &r, *_rules) {
-        ruleNames << r.getRuleName();
+    foreach (const RuleHolder &r, _rulesHolder->ruleHolders()) {
+        ruleNames << r.rule().getRuleName();
     }
     return ruleNames;
 }
@@ -258,8 +281,8 @@ ProfileMaticInterface::getRuleIdForName(const QString &ruleName) {
     qDebug("ProfileMaticInterface::getRuleIdForName(%s)", qPrintable(ruleName));
     int i = _findRuleIndexByName(ruleName);
     if (i >= 0) {
-        qDebug("ProfileMaticInterface::getRuleIdForName matched %s", qPrintable(_rules->at(i).getRuleId()));
-        return _rules->at(i).getRuleId();
+        qDebug("ProfileMaticInterface::getRuleIdForName matched %s", qPrintable(_rulesHolder->ruleAt(i).getRuleId()));
+        return _rulesHolder->ruleAt(i).getRuleId();
     }
     qDebug("ProfileMaticInterface::getRuleIdForName(%s) no match", qPrintable(ruleName));
     return "";
@@ -270,10 +293,11 @@ ProfileMaticInterface::executeActionsByRuleName(const QString &ruleName) {
     qDebug("ProfileMaticInterface::executeActionsByRuleName(%s)", qPrintable(ruleName));
     int i = _findRuleIndexByName(ruleName);
     if (i >= 0) {
-        qDebug("ProfileMaticInterface::executeActionsByRuleName matched %s", qPrintable(_rules->at(i).getRuleId()));
-        executeAction(_rules->at(i).action());
+        qDebug("ProfileMaticInterface::executeActionsByRuleName matched %s", qPrintable(_rulesHolder->ruleAt(i).getRuleId()));
+        executeAction(_rulesHolder->ruleAt(i).action());
+    } else {
+        qWarning("ProfileMaticInterface::executeActionsByRuleName(%s) no match", qPrintable(ruleName));
     }
-    qDebug("ProfileMaticInterface::executeActionsByRuleName(%s) no match", qPrintable(ruleName));
 }
 
 //// Returns id of created rule or empty if error. A new rule is always

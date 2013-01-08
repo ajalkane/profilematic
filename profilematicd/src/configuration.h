@@ -23,7 +23,7 @@
 #include <QList>
 #include <QSettings>
 
-#include "model/rule.h"
+#include "logic/rulesholder.h"
 #include "preferences.h"
 
 /**
@@ -52,8 +52,8 @@ class Configuration
 public:
     Configuration();
 
-    static void writeRules(const QList<Rule> &rules);
-    static void readRules(QList<Rule> &rules, int *rules_version = 0);
+    static void writeRules(const RulesHolder &rulesHolder);
+    static void readRules(RulesHolder &rulesHolder, int *rules_version = 0);
 
     static void writePreferences(const Preferences &preferences);
     static void readPreferences(Preferences &preferences);

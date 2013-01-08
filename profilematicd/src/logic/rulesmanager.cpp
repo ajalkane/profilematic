@@ -21,24 +21,15 @@
 #include "rulesmanager.h"
 #include "../platform/platformutil.h"
 
-RulesManager::RulesManager(const QList<Rule> *rules,
-                           ConditionManager *conditionManager,
-                           Action *action,
+RulesManager::RulesManager(RulesHolder *rulesHolder,
                            const Preferences *preferences,
                            QObject *parent)
     : QObject(parent),
-      _rules(rules),
-      _conditionManager(conditionManager),
-      _action(action),
+      _rulesHolder(rulesHolder),
       _preferences(preferences)
 {
-    connect(_conditionManager, SIGNAL(refreshNeeded()), this, SLOT(refresh()));
+    connect(_rulesHolder, SIGNAL(refreshNeeded()), this, SLOT(refresh()));
     connect(PlatformUtil::instance(), SIGNAL(shuttingDown()), SLOT(shuttingDown()));
-}
-
-void
-RulesManager::ruleUpdated(const Rule &oldRule, const Rule &updatedRule) {
-    _conditionManager->ruleUpdated(oldRule, updatedRule);
 }
 
 void
@@ -54,14 +45,16 @@ RulesManager::refresh() {
 void
 RulesManager::_refresh(bool /*forceActivate*/) {
     qDebug("\n\nREFRESH\n\n");
-    _conditionManager->startRefresh();
-    _action->startRefresh();
+    _rulesHolder->startRefresh();
     _matchingRuleIds.clear();
     if (_preferences->isActive) {
         qDebug("%s RulesManager::refresh()", qPrintable(QDateTime::currentDateTime().toString()));
-        QList<Rule>::const_iterator ruleI = _rules->constBegin();
-        for (; ruleI != _rules->constEnd(); ++ruleI) {
-            const Rule &rule = *ruleI;
+        QList<RuleHolder>::const_iterator ruleI = _rulesHolder->ruleHolders().constBegin();
+        QList<RuleHolder>::const_iterator ruleE = _rulesHolder->ruleHolders().constEnd();
+
+        for (; ruleI != ruleE; ++ruleI) {
+            const RuleHolder &ruleHolder = *ruleI;
+            const Rule &rule = ruleHolder.rule();
             if (rule.isDefaultRule()) continue;
 
             if (!rule.getRuleActive()) {
@@ -69,9 +62,9 @@ RulesManager::_refresh(bool /*forceActivate*/) {
                 continue;
             }
             qDebug() << "\nRulesManager::refresh() considering rule" << rule.getRuleName();
-            bool isMatching = _conditionManager->refresh(rule.getRuleId(), rule.condition());
+            bool isMatching = _rulesHolder->match(ruleHolder);
             if (isMatching) {
-                _matchRule(rule);
+                _matchRule(ruleHolder);
                 if (rule.getStopIfMatched()) {
                     qDebug("RulesManager::refresh(), rule has stopIfMatched, skipping rest");
                     break;
@@ -79,14 +72,13 @@ RulesManager::_refresh(bool /*forceActivate*/) {
             }
         }
         // Assume default rule is the last one
-        const Rule &defaultRule = _rules->last();
+        const RuleHolder &defaultRuleHolder = _rulesHolder->last();
         // Default rule always matches
-        _matchRule(defaultRule);
+        _matchRule(defaultRuleHolder);
     } else {
         qDebug("%s RulesManager::refresh(), ProfileMatic not active", qPrintable(QDateTime::currentDateTime().toString()));
     }
-    _conditionManager->endRefresh();
-    _action->endRefresh();
+    _rulesHolder->endRefresh();
 
     // IMPROVE: should emit only if really changed
     emit matchingRuleIdsChanged(_matchingRuleIds.toList());
@@ -95,18 +87,18 @@ RulesManager::_refresh(bool /*forceActivate*/) {
 }
 
 void
-RulesManager::_matchRule(const Rule &rule) {
-    _activateRule(rule);
-    _matchingRuleIds << rule.getRuleId();
-    _conditionManager->matchedRule(rule.condition());
+RulesManager::_matchRule(const RuleHolder &ruleHolder) {
+    _activateRule(ruleHolder);
+    _matchingRuleIds << ruleHolder.rule().getRuleId();
 }
 
 void
-RulesManager::_activateRule(const Rule &rule) {
+RulesManager::_activateRule(const RuleHolder &ruleHolder) {
+    const Rule &rule = ruleHolder.rule();
     qDebug("RulesManager::_activateRule: activatingRule %s/%s",
            qPrintable(rule.getRuleId()),
            qPrintable(rule.getRuleName()));
-    _action->activate(rule.getRuleId(), rule.action());
+    _rulesHolder->activate(ruleHolder);
 }
 
 // Tries upon shutdown to restore the default rule (and restore previous) so that state is not messed up when rebooting the phone.
@@ -115,18 +107,15 @@ RulesManager::_activateRule(const Rule &rule) {
 void
 RulesManager::shuttingDown() {
     qDebug("RulesManager::shuttingDown");
-    _conditionManager->startRefresh();
-    _action->startRefresh();
+    _rulesHolder->startRefresh();
     _matchingRuleIds.clear();
     if (_preferences->isActive) {
         qDebug("%s RulesManager::restoring defaults", qPrintable(QDateTime::currentDateTime().toString()));
         // Assume default rule is the last one
-        const Rule &defaultRule = _rules->last();
+        const RuleHolder &defaultRule = _rulesHolder->last();
         _activateRule(defaultRule);
-        _conditionManager->matchedRule(defaultRule.condition());
     } else {
         qDebug("%s RulesManager::refresh(), ProfileMatic not active", qPrintable(QDateTime::currentDateTime().toString()));
     }
-    _conditionManager->endRefresh();
-    _action->endRefresh();
+    _rulesHolder->endRefresh();
 }

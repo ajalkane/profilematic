@@ -26,13 +26,16 @@
 RuleHolder::RuleHolder(const Rule &rule, const QList<ConditionManager *> cms)
     : _rule(rule)
 {
-    _createConditions(cms);
+    if (!rule.isDefaultRule()) {
+        _createConditions(cms);
+    }
 }
 
 void
 RuleHolder::_createConditions(const QList<ConditionManager *> cms) {
     foreach (ConditionManager *m, cms) {
         if (m->conditionSetForMatching(_rule.condition())) {
+            qDebug() << "RuleHolder::_createCondition" << m->objectName();
             _conditions << m;
         }
     }
@@ -50,6 +53,10 @@ RulesHolder::RulesHolder(ProfileClient *profileClient)
 {
     _allConditionManagers = ConditionManagerFactory::createAsList();
     _allActions = ActionFactory::createAsList(profileClient);
+
+    foreach (ConditionManager *m, _allConditionManagers) {
+        connect(m, SIGNAL(refreshNeeded()), this, SIGNAL(refreshNeeded()));
+    }
 }
 
 RulesHolder::~RulesHolder() {
@@ -63,73 +70,110 @@ RulesHolder::~RulesHolder() {
 
 void
 RulesHolder::startRefresh() {
+    qDebug() << "RulesHolder::startRefresh {";
     foreach (ConditionManager *cm, _allConditionManagers) {
         cm->startRefresh();
     }
     foreach (Action *action, _allActions) {
         action->startRefresh();
     }
+    qDebug() << "} RulesHolder::startRefresh";
 }
 
 void
 RulesHolder::endRefresh() {
+    qDebug() << "RulesHolder::endRefresh {";
     foreach (ConditionManager *cm, _allConditionManagers) {
         cm->endRefresh();
     }
     foreach (Action *action, _allActions) {
         action->endRefresh();
     }
+    qDebug() << "} RulesHolder::endRefresh";
 }
 
 void
 RulesHolder::appendRule(const Rule &rule) {
+    qDebug() << "RulesHolder::appendRule " << rule.getRuleName() << "{";
     _ruleHolders << RuleHolder(rule, _allConditionManagers);
+    qDebug() << "} RulesHolder::appendRule";
+}
+
+void
+RulesHolder::insertRule(int index, const Rule &rule) {
+    qDebug() << "RulesHolder::insertRule " << rule.getRuleName() << "{";
+    _ruleHolders.insert(index, RuleHolder(rule, _allConditionManagers));
+    qDebug() << "} RulesHolder::insertRule";
 }
 
 void
 RulesHolder::updateRule(const Rule &rule) {
+    qDebug() << "RulesHolder::updateRule " << rule.getRuleName() << "{";
     int index = _findRuleIndexById(rule.getRuleId());
     if (index < 0) {
         qWarning() << "RulesHolder::updateRule: Could not find rule with id" << rule.getRuleId();
+        qDebug() << "} RulesHolder::updateRule";
         return;
     }
 
+    RuleHolder &updateRuleHolder =_ruleHolders[index];
+    foreach (ConditionManager *cm, updateRuleHolder.conditions()) {
+        cm->ruleUpdated(updateRuleHolder.rule(), rule);
+    }
+
     _ruleHolders[index] = RuleHolder(rule, _allConditionManagers);
+    qDebug() << "} RulesHolder::updateRule";
 }
 
 void
 RulesHolder::removeRule(const Rule::IdType &ruleId) {
+    qDebug() << "RulesHolder::removeRule id" << ruleId << "{";
     int index = _findRuleIndexById(ruleId);
     if (index < 0) {
-        qWarning() << "RulesHolder::updateRule: Could not find rule with id" << ruleId;
+        qWarning() << "RulesHolder::removeRule: Could not find rule with id" << ruleId;
+        qDebug() << "} RulesHolder::removeRule";
         return;
     }
 
     _ruleHolders.removeAt(index);
+    qDebug() << "} RulesHolder::removeRule";
 }
 
 void
-RulesHolder::moveRule(int fromIndex, int toIndex) {
+RulesHolder::moveRule(const Rule::IdType &ruleId, int toIndex) {
+    qDebug() << "RulesHolder::moveRule id" << ruleId << "{";
+    int fromIndex = _findRuleIndexById(ruleId);
+    if (fromIndex < 0) {
+        qWarning() << "RulesHolder::moveRule: Could not find rule with id" << ruleId;
+        qDebug() << "} RulesHolder::moveRule";
+        return;
+    }
     _ruleHolders.move(fromIndex, toIndex);
+    qDebug() << "} RulesHolder::moveRule";
 }
 
 bool
 RulesHolder::match(const RuleHolder &ruleHolder) const {
+    qDebug() << "RulesHolder::match " << ruleHolder.rule().getRuleName() << "{";
     foreach (ConditionManager *cm, ruleHolder.conditions()) {
         const Rule &rule = ruleHolder.rule();
         if (!cm->refresh(rule.getRuleId(), rule.condition())) {
+            qDebug() << "} RulesHolder::match terminated " << rule.getRuleName();
             return false;
         }
     }
+    qDebug() << "} RulesHolder::match all matched";
     return true;
 }
 
 void
 RulesHolder::activate(const RuleHolder &ruleHolder) const {
+    qDebug() << "RulesHolder::activatte " << ruleHolder.rule().getRuleName() << "{";
     foreach (Action *action, _allActions) {
         const Rule &rule = ruleHolder.rule();
         action->activate(rule.getRuleId(), rule.action());
     }
+    qDebug() << "} RulesHolder::activate";
 }
 
 int

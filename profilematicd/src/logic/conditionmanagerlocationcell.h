@@ -59,13 +59,6 @@ public:
 
     virtual void rulesChanged();
 
-//    virtual void startRefresh();
-//    virtual bool refresh(const Rule::IdType &, const RuleCondition &rule);
-//    virtual void matchedRule(const RuleCondition &rule);
-//    virtual void endRefresh();
-
-//    void monitorCellId(bool monitor);
-
 public slots:
     void cellIdChanged(int cellId);
     void onCurrentCellsTimeout();
