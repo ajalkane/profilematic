@@ -54,11 +54,6 @@ public:
 
     virtual void rulesChanged();
 
-//    virtual void startRefresh();
-//    virtual bool refresh(const Rule::IdType &, const RuleCondition &rule);
-//    virtual void matchedRule(const RuleCondition &rule);
-//    virtual void endRefresh();
-
 private slots:
     void targetDetected(QNearFieldTarget *target);
     void targetLost(QNearFieldTarget *target);

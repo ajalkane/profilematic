@@ -34,20 +34,23 @@ public:
     ConditionManager(QObject *parent = 0);
     virtual ~ConditionManager();
 
+    /**
+     * Returns true if the given condition has any rules that could match
+     * in some potential situation. Practically this means that user
+     * has specified the condition, ie. match returns something else
+     * than "MatchNotSet"
+     */
+    virtual bool conditionSetForMatching(const RuleCondition &cond) const = 0;
+
     virtual void startRefresh();
     // Returns true if rule matches current conditions
     virtual bool refresh(const Rule::IdType &ruleId, const RuleCondition &rule) = 0;
-    // Called after all rules have been processed, with the Rule that matched all conditions.
-    // Called with tthe active rule if:
-    //  - The matching Rule is different than the active rule in previous startRefresh/endRefrech cycle
-    //  - ProfileMatic is not stopped
-    virtual void matchedRule(const RuleCondition &rule);
     virtual void endRefresh();
 
     // Called (before refresh) when a rule has been updated
     virtual void ruleUpdated(const Rule &oldRule, const Rule &updatedRule);
 signals:
-    // Signal sent when condition needs refreshing. When emitting this,
+    // Signal sent when this condition needs refreshing
     void refreshNeeded();
 };
 

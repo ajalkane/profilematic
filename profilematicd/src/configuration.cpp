@@ -37,11 +37,11 @@ Configuration::writeRules(const QList<Rule> &rules) {
     QSettings s("ProfileMatic", "rules");
     s.clear();
     s.setValue("rulesVersion", RULES_VERSION);
-    s.beginWriteArray("rules", rules.size());
-    for (int i = 0; i < rules.size(); ++i) {
+    s.beginWriteArray("rules", rulesHolder.size());
+    for (int i = 0; i < rulesHolder.size(); ++i) {
         s.setArrayIndex(i);
 
-        const Rule &r = rules.at(i);
+        const Rule &r = rulesHolder.ruleAt(i);
         // s.setValue("ruleActive", r.ruleActive);
 
         s.setValue("ruleId", r.getRuleId());
@@ -87,7 +87,7 @@ Configuration::writeRules(const QList<Rule> &rules) {
 }
 
 void
-Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
+Configuration::readRules(RulesHolder &rulesHolder, int *rules_version_return) {
     // IMPROVE constants.h
     // So wrong by the API specifications, but so right by the end results (no, I don't like doing it this way)
     QSettings s("ProfileMatic", "rules");
@@ -226,13 +226,13 @@ Configuration::readRules(QList<Rule> &rules, int *rules_version_return) {
 
         // Make sure default rule is always last, and is created if it does not exist
         if (!r.isDefaultRule()) {
-            rules << r;
+            rulesHolder.appendRule(r);
         } else {
             defaultRule.actionsFrom(r);
         }
         IFDEBUG(qDebug("Configuration: index %d, ruleId: %s, ruleName: %s", i, qPrintable(r.getRuleId()), qPrintable(r.getRuleName())));
     }
-    rules << defaultRule;
+    rulesHolder.appendRule(defaultRule);
     s.endArray();
 
     // Write rules to finalize conversion

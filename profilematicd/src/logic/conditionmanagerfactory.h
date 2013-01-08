@@ -1,13 +1,16 @@
 #ifndef CONDITIONMANAGERFACTORY_H
 #define CONDITIONMANAGERFACTORY_H
 
-#include "conditionmanager.h"
+#include <QList>
+
+#include "conditionmanagerchain.h"
 
 class ConditionManagerFactory
 {
     ConditionManagerFactory();
 public:
-    static ConditionManager *create();
+    static ConditionManagerChain *create();
+    static QList<ConditionManager *> createAsList();
 };
 
 #endif // CONDITIONMANAGERFACTORY_H

@@ -25,6 +25,7 @@
 #include "configuration.h"
 #include "preferences.h"
 #include "model/rule.h"
+#include "logic/rulesholder.h"
 #include "logic/rulesmanager.h"
 #include "logic/conditionmanagerfactory.h"
 #include "logic/actionfactory.h"
@@ -38,24 +39,14 @@
 #define CREDENTIAL_WARNING_CMDLINE "/opt/profilematic/bin/profilematic -credentialWarning"
 #define MULTIRULE_WARNING_CMDLINE "/opt/profilematic/bin/profilematic -multiRuleWarning"
 
-ConditionManager *
-buildConditionManager() {
-    IFDEBUG(qDebug("Building conditions"));
-    return ConditionManagerFactory::create();
+void noLoggingSink(QtMsgType, const char *) {
+    // NOP
 }
 
-Action *
-buildAction(ProfileClient *profileClient) {
-    return ActionFactory::create(profileClient);
-}
-
-//void noLoggingSink(QtMsgType, const char *) {
-//    // NOP
-//}
-
-void credentialsCheck(const QList<Rule> &rules) {
+void credentialsCheck(const RulesHolder &rulesHolder) {
     bool hasRulesThatNeedDeviceModeCredential = false;
-    foreach (const Rule &rule, rules) {
+    foreach (const RuleHolder &ruleHolder, rulesHolder.ruleHolders()) {
+        const Rule &rule = ruleHolder.rule();
         if (rule.action().getFlightMode() >= 0 /* ||
             Seems like power saving mode works even without the credential?
             rule.action().getPowerSavingMode() >= 0 */) {
@@ -84,13 +75,12 @@ int main(int argc, char *argv[])
     ProfileClient profileClient;
     Preferences preferences;
     int rules_version = -1;
-    QList<Rule> rules;
-    Configuration::readRules(rules, &rules_version);
+    // TODO
+    RulesHolder rulesHolder(&profileClient);
+    Configuration::readRules(rulesHolder, &rules_version);
     Configuration::readPreferences(preferences);
-    QScopedPointer<ConditionManager> conditionManager(buildConditionManager());
-    QScopedPointer<Action> action(buildAction(&profileClient));
-    RulesManager rulesManager(&rules, conditionManager.data(), action.data(), &preferences);
-    ProfileMaticInterface interface(&rulesManager, &rules, &preferences, &profileClient);
+    RulesManager rulesManager(&rulesHolder, &preferences);
+    ProfileMaticInterface interface(&rulesManager, &rulesHolder, &preferences, &profileClient);
 
     if (interface.init()) {
         fprintf(stderr, "Exiting\n");
@@ -98,7 +88,7 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    credentialsCheck(rules);
+    credentialsCheck(rulesHolder);
 
     IFDEBUG(qDebug("main: refresh"));
 
@@ -107,7 +97,7 @@ int main(int argc, char *argv[])
     // LATER: this code can be removed a couple of versions down the road I think.
     IFDEBUG(qDebug("rules_version: %d", rules_version));
     // rules.size > 1 because default rule always exists
-    if (rules.size() > 1) {
+    if (rulesHolder.size() > 1) {
         switch (rules_version) {
         case 0:
             IFDEBUG(qDebug("Launching conversion warning"));
