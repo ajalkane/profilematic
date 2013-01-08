@@ -85,8 +85,8 @@ Page {
                 }
             }
             LabelHelp {
-                text: "Changes are always delayed until there is no call. "
-                      + "This is meant to ensure that an ongoing call is not aborted because of the change."
+                text: "Changes are always delayed until there is no call or data transfer. "
+                      + "This is meant to ensure that an ongoing call or file transfer is not aborted because of the change."
             }
 
         }

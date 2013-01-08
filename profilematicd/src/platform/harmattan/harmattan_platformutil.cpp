@@ -143,7 +143,9 @@ HarmattanPlatformUtil::cellularMode() const {
 void
 HarmattanPlatformUtil::setCellularMode(int cellularMode) {
     IFDEBUG(qDebug("HarmattanPlatformUtil::setCellularMode setting cellular mode %d", cellularMode));
-    if (_currentCellularActivity > 0) {
+    // Note that PR1.2 also seems to return data usage as Cellular::SystemControl::UnknownActivity (-1)
+    // and not as Cellular::SystemControl::Data as it should.
+    if (_currentCellularActivity != 0) {
         // Delay changing of cellular mode until no calls or data transfer. Otherwise
         // call/transfer aborts.
         IFDEBUG(qDebug("HarmattanPlatformUtil::setCellularMode cellularActivity is %d, pending the change of mode", _currentCellularActivity));
@@ -168,6 +170,8 @@ HarmattanPlatformUtil::setCellularMode(int cellularMode) {
     default:
         IFDEBUG(qWarning("HarmattanPlatformUtil::setCellularMode warning unrecognized mode %d", cellularMode));
     }
+
+    _pendingCellularMode = -1;
 
     if (mode != Cellular::RadioAccess::Unknown) {
         radioAccess.setMode(mode);
@@ -293,7 +297,6 @@ HarmattanPlatformUtil::privateCellularActivityChanged(int activity)
     if (_currentCellularActivity == Cellular::SystemControl::Idle && _pendingCellularMode >= 0) {
         IFDEBUG(qDebug("HarmattanPlatformUtil::cellularActivityChanged activating pending cellular mode"));
         setCellularMode(_pendingCellularMode);
-        _pendingCellularMode = -1;
     }
 }
 
