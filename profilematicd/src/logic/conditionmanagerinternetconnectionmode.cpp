@@ -111,10 +111,10 @@ ConditionManagerInternetConnectionMode::rulesChanged() {
 
 void _logConfiguration(const QNetworkConfiguration &config) {
     IFDEBUG(qDebug() << "ConditionManagerInternetConnectionMode::QNetworkConfiguration::bearerTypeName" << config.bearerTypeName();
-    qDebug() << "ConditionManagerInternetConnectionMode::QNetworkConfiguration::identifier    " << config.identifier();
-    qDebug() << "ConditionManagerInternetConnectionMode::QNetworkConfiguration::name          " << config.name();
-    qDebug() << "ConditionManagerInternetConnectionMode::QNetworkConfiguration::state         " << (int)config.state();
-    qDebug() << " ");
+            qDebug() << "ConditionManagerInternetConnectionMode::QNetworkConfiguration::identifier    " << config.identifier();
+            qDebug() << "ConditionManagerInternetConnectionMode::QNetworkConfiguration::name          " << config.name();
+            qDebug() << "ConditionManagerInternetConnectionMode::QNetworkConfiguration::state         " << (int)config.state();
+            qDebug() << " ");
 }
 
 QNetworkConfiguration

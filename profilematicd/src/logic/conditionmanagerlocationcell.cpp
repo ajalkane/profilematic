@@ -75,14 +75,9 @@ ConditionManagerLocationCell::match(const Rule::IdType &, const RuleCondition &c
 
 void
 ConditionManagerLocationCell::onCurrentCellsTimeout() {
-<<<<<<< HEAD
-    qDebug() << QDateTime::currentDateTime().toString() << "ConditionManagerLocationCell:onCurrentCellsRefreshNeeded, invalidating";
+    IFDEBUG(qDebug() << QDateTime::currentDateTime().toString() << "ConditionManagerLocationCell:onCurrentCellsRefreshNeeded, invalidating");
     _clearVarsForInvalidating();
     _currentCellId = CELL_ID_NOT_QUERIED;
-=======
-    IFDEBUG(qDebug() << QDateTime::currentDateTime().toString() << "ConditionManagerLocationCell:onCurrentCellsRefreshNeeded, invalidating");
-    _clearVars();
->>>>>>> runtimelogging
     emit matchInvalidated();
 }
 

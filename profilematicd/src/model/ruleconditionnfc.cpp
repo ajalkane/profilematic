@@ -60,11 +60,9 @@ RuleConditionNFC::getUidsQml() const {
 
 void
 RuleConditionNFC::setUidsQml(const QVariantList &uids) {
-    qDebug("RuleConditionNFC::setUidsQml");
     QSet<QByteArray> uidsSet;
     for (QVariantList::const_iterator i = uids.constBegin(); i != uids.constEnd(); ++i) {
         uidsSet << QByteArray::fromHex(i->toByteArray());
-        qDebug("RuleConditionNFC::setUidsQml: adding %s", qPrintable(i->toString()));
     }
     setUids(uidsSet);
 }

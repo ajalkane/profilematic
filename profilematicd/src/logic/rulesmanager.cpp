@@ -48,7 +48,7 @@ RulesManager::_refresh(bool /*forceActivate*/) {
     _rulesHolder->startRefresh();
     _matchingRuleIds.clear();
     if (_preferences->isActive) {
-        qDebug("%s RulesManager::refresh()", qPrintable(QDateTime::currentDateTime().toString()));
+        IFDEBUG(qDebug("%s RulesManager::refresh()", qPrintable(QDateTime::currentDateTime().toString())));
         QList<RuleHolder>::const_iterator ruleI = _rulesHolder->ruleHolders().constBegin();
         QList<RuleHolder>::const_iterator ruleE = _rulesHolder->ruleHolders().constEnd();
 

@@ -108,7 +108,6 @@ public:
     void setTimeEndQml(const QString &timeEnd);
     inline QTime getTimeDuration() const {
         int secsToEnd = _timeStart.secsTo(_timeEnd);
-        qDebug("secsToEnd %d", secsToEnd);
         if (secsToEnd <= 0) {
             secsToEnd += 24 * 60 * 60;
         }

@@ -162,12 +162,12 @@ void
 ProfileMaticInterface::moveRule(const QString &ruleId, int toIndex) {
     IFDEBUG(qDebug("moveRule received %s -> %d", qPrintable(ruleId), toIndex));
     if (ruleId == DEFAULT_RULE_ID) {
-        qDebug("ProfileMaticInterface::moveRule(): can not move default rule");
+        IFDEBUG(qDebug("ProfileMaticInterface::moveRule(): can not move default rule"));
         return;
     }
     // Assume defaultRule is the last index always, so upper limit size() - 2
     if (toIndex < 0 || toIndex > _rulesHolder->size() - 2) {
-        qDebug("moveRule: invalid toIndex: %d, allowed range (0 - %d)", toIndex, _rulesHolder->size() - 1);
+        IFDEBUG(qDebug("moveRule: invalid toIndex: %d, allowed range (0 - %d)", toIndex, _rulesHolder->size() - 1));
         return;
     }
     _rulesHolder->moveRule(ruleId, toIndex);
@@ -283,7 +283,7 @@ ProfileMaticInterface::getRuleIdForName(const QString &ruleName) {
     IFDEBUG(qDebug("ProfileMaticInterface::getRuleIdForName(%s)", qPrintable(ruleName)));
     int i = _findRuleIndexByName(ruleName);
     if (i >= 0) {
-        IFDEBUG(qDebug("ProfileMaticInterface::getRuleIdForName matched %s", qPrintable(_rules->at(i).getRuleId())));
+        IFDEBUG(qDebug("ProfileMaticInterface::getRuleIdForName matched %s", qPrintable(_rulesHolder->ruleAt(i).getRuleId())));
         return _rulesHolder->ruleAt(i).getRuleId();
     }
     IFDEBUG(qDebug("ProfileMaticInterface::getRuleIdForName(%s) no match", qPrintable(ruleName)));

@@ -29,7 +29,7 @@ Configuration::Configuration()
 }
 
 void
-Configuration::writeRules(const QList<Rule> &rules) {
+Configuration::writeRules(const RulesHolder &rulesHolder) {
     IFDEBUG(qDebug("Configuration::write()"));
 
     // IMPROVE constants.h
@@ -238,7 +238,7 @@ Configuration::readRules(RulesHolder &rulesHolder, int *rules_version_return) {
     // Write rules to finalize conversion
     if (rules_version < RULES_VERSION) {
         IFDEBUG(qDebug("Writing rules after conversion"));
-        writeRules(rules);
+        writeRules(rulesHolder);
     }
 }
 
