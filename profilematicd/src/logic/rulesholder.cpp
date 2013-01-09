@@ -158,7 +158,7 @@ RulesHolder::match(const RuleHolder &ruleHolder) const {
     foreach (ConditionManager *cm, ruleHolder.conditions()) {
         const Rule &rule = ruleHolder.rule();
         if (!cm->refresh(rule.getRuleId(), rule.condition())) {
-            IFDEBUG(qDebug() << "} RulesHolder::match terminated " << rule.getRuleName());
+            IFDEBUG(qDebug() << "} RulesHolder::match returned false" << rule.getRuleName());
             return false;
         }
     }
