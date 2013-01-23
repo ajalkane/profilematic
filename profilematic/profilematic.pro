@@ -52,7 +52,9 @@ SOURCES += src/main.cpp \
     src/qmlbackend/qmlbaseruleeditmodel.cpp \
     src/qmlbackend/qmlactioneditmodel.cpp \
     src/qmlbackend/qmlruleutil.cpp \
-    src/qmlbackend/networkinfo/qmlnetworkinfo.cpp
+    src/qmlbackend/networkinfo/qmlnetworkinfo.cpp \
+    ../shared/application/ApplicationScanner.cpp \
+    src/qmlbackend/application/qmlapplicationscannermodel.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -76,7 +78,9 @@ HEADERS += \
     src/qmlbackend/qmlbaseruleeditmodel.h \
     src/qmlbackend/qmlactioneditmodel.h \
     src/qmlbackend/qmlruleutil.h \
-    src/qmlbackend/networkinfo/qmlnetworkinfo.h
+    src/qmlbackend/networkinfo/qmlnetworkinfo.h \
+    ../shared/application/ApplicationScanner.h \
+    src/qmlbackend/application/qmlapplicationscannermodel.h
 
 # To avoid mistakes, do not use the simulated cellId on a device build.
 !profilematic_simulated_cellid|!isEmpty(MEEGO_VERSION_MAJOR) {

@@ -82,6 +82,8 @@ public:
     void standByScreenModeClear(RuleAction *action);
     QString customActionSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
     void customActionClear(RuleAction *action);
+    QString applicationSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
+    void applicationClear(RuleAction *action);
 };
 
 #endif // QMLRULEUTIL_H

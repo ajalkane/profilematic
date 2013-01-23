@@ -607,3 +607,18 @@ QmlRuleUtil::customActionClear(RuleAction *action) {
     action->setCommandLine(QString());
     action->setCommandLineExit(QString());
 }
+
+QString
+QmlRuleUtil::applicationSummary(const RuleAction *action, const QString &nonUsable, bool inListing) {
+    if (action == 0) return nonUsable;
+
+    // TODO
+    return "Application summary placeholder";
+}
+
+void
+QmlRuleUtil::applicationClear(RuleAction *action) {
+    if (action == 0) return;
+
+    // TODO
+}
