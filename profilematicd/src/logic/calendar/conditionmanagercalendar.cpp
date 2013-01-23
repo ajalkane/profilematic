@@ -26,7 +26,9 @@
 // Since DateTime resolution is in milliseconds, and here calculations are done
 // on second resolution, a buffer of one second to get rid of errors due to
 // rounding.
-#define SECS_TO_BUFFER 1
+// Now has buffer of 2, since at least on Harmattan the timer seemed to have triggered
+// between day intervals on 23:59:59. Will see if this corrects it.
+#define SECS_TO_BUFFER 2
 
 ConditionManagerCalendar::ConditionManagerCalendar(QObject *parent)
     : ConditionManagerCacheable(parent)
