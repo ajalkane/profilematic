@@ -151,8 +151,14 @@ ConditionManagerIdle::userActivityIdleChanged(bool isIdle)
         _idleStartTime = QDateTime::currentDateTime();
         _currentIdleMode = IDLE_MODE;
         if (!_timer.isActive()) {
-            _nextMinWakeupTime = QDateTime();
-            _scheduleWakeup(_idleStartTime, _currentMinIdleSecs);
+            if (_currentMinIdleSecs > 0) {
+                _nextMinWakeupTime = QDateTime();
+                _scheduleWakeup(_idleStartTime, _currentMinIdleSecs);
+            } else {
+                IFDEBUG(qDebug() << "ConditionManagerIdle::userActivityIdleChanged min idle secs zero, instant refresh");
+                _clearVarsForInvalidation();
+                emit matchInvalidated();
+            }
         } else {
             _timerTainted = true;
         }
