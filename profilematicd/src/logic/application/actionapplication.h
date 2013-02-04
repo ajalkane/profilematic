@@ -16,19 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
-#include "qmlapplication.h"
+#ifndef ACTIONAPPLICATION_H
+#define ACTIONAPPLICATION_H
 
-QmlApplication::QmlApplication() {
-}
+#include "../actionactivateoncebase.h"
 
-QmlApplication::QmlApplication(const QmlApplication &o) {
-    (*this) = o;
-}
+class ActionApplication: public ActionActivateOnceBase
+{
+    void _launchApplication(const QString &launcher) const;
 
-QmlApplication &
-QmlApplication::operator=(const QmlApplication &o) {
-    this->setApplicationLauncher(o.applicationLauncher());
-    this->setApplicationName(o.applicationName());
-    this->setIconUri(o.iconUri());
-    return *this;
-}
+public:
+    ActionApplication();
+
+    virtual bool activateOnce(const Rule::IdType &ruleId, const RuleAction &rule);
+    virtual void activateOnceExit(const Rule::IdType &ruleId, const RuleAction &rule);
+};
+
+#endif // ACTIONAPPLICATION_H

@@ -44,10 +44,14 @@ Page {
         id: appSelect
         titleText: "Select application"
         model: backendApplicationsSortedModel
-        onItemSelected: {
-            var launchers = action.application.launchers
-            launchers.push(item.launcher)
-            action.application.launchers = launchers
+        onAccepted: {
+            if (selectedItem !== null) {
+                var launchers = action.application.launchers
+                if (launchers.length < root.maxApps) {
+                    launchers.push(selectedItem.launcher)
+                    action.application.launchers = launchers
+                }
+            }
         }
     }
 
@@ -106,13 +110,13 @@ Page {
 
                 Item {
                     width: root.width
-                    height: Math.max(removeArea.height, appName.height) // childrenRect.height // cellId.height // childrenRect.height
+                    height: Math.max(removeArea.height, appName.height, icon.height) // childrenRect.height // cellId.height // childrenRect.height
 
                     Image {
                         id: icon
                         source: iconuri
-                        width: 40
-                        height: 40
+                        width: 80
+                        height: 80
                         anchors.verticalCenter: parent.verticalCenter
                     }
 
@@ -124,7 +128,8 @@ Page {
                         width: parent.width - removeArea.width - icon.width
                         anchors.leftMargin: UIConstants.DEFAULT_MARGIN
                         anchors.rightMargin: UIConstants.DEFAULT_MARGIN
-                        platformStyle: LabelStyleSubtitle {}
+                        color: theme.inverted ? UIConstants.COLOR_INVERTED_FOREGROUND : UIConstants.COLOR_FOREGROUND
+                        // platformStyle: LabelStyleSubtitle {}
                         anchors.verticalCenter: parent.verticalCenter
                     }
 

@@ -30,6 +30,11 @@ Item {
     property alias model: dDialog.model
     property alias titleText: dDialog.titleText
     property alias selectedIndex: dDialog.selectedIndex
+    // TODO this is not correct, should provide selectedItem property.
+    // See ItemSelectionIconDialog. Also most places where
+    // onSelectedIndexChanged is used in ProfileMatic, it is used
+    // wrongly and really onAccepted should be used. These should
+    // be checked
     signal itemSelected(variant item)
 
     function open() {

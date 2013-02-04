@@ -33,7 +33,6 @@ QmlSelectedApplicationsModel::QmlSelectedApplicationsModel(Rule *rule, QmlApplic
     setRoleNames(roleToProperty);
 
     connect(&(_editRule->action()), SIGNAL(applicationChanged()), this, SLOT(_launchersChanged()));
-    // connect(&(_editRule->action().application()), SIGNAL(launchersChanged()), this, SLOT(_launchersChanged()));
 }
 
 QVariant
@@ -50,7 +49,6 @@ QmlSelectedApplicationsModel::data(const QModelIndex &index, int role) const {
         return _nameForLauncher(launcher);
     case IconUri:
         return _iconForLauncher(launcher);
-        // return "file:///usr/share/themes/blanco/meegotouch/icons/icon-l-default-application.png";
     }
     return QVariant();
 }

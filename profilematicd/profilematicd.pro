@@ -86,7 +86,8 @@ SOURCES += src/main.cpp \
     src/logic/conditionmanagercaching.cpp \
     src/util/conditionallogging.cpp \
     src/logic/rulesholder.cpp \
-    src/model/ruleactionapplication.cpp
+    src/model/ruleactionapplication.cpp \
+    src/logic/application/actionapplication.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -139,7 +140,8 @@ HEADERS += \
     src/util/pmtimer.h \
     src/util/conditionallogging.h \
     src/logic/rulesholder.h \
-    src/model/ruleactionapplication.h
+    src/model/ruleactionapplication.h \
+    src/logic/application/actionapplication.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     DEFINES += PM_TIMER_USHORT

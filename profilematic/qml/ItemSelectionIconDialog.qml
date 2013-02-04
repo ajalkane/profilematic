@@ -30,7 +30,10 @@ Item {
     property alias model: dDialog.model
     property alias titleText: dDialog.titleText
     property alias selectedIndex: dDialog.selectedIndex
+    property variant selectedItem
+
     signal itemSelected(variant item)
+    signal accepted
 
     function open() {
         dDialog.open()
@@ -56,8 +59,14 @@ Item {
                 // This is a hack to access from SelectionDialog the roles of the model.
                 // Ugly but works.
                 lModel.currentIndex = selectedIndex
+                root.selectedItem = lModel.currentItem.myModel
                 itemSelected(lModel.currentItem.myModel)
+            } else {
+                root.selectedItem = null
             }
+        }
+        onAccepted: {
+            root.accepted()
         }
     }
 }

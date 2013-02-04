@@ -1,3 +1,21 @@
+/**********************************************************************
+ * Copyright 2013 Arto Jalkanen
+ *
+ * This file is part of ProfileMatic.
+ *
+ * ProfileMatic is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ProfileMatic is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
+**/
 #include <QDebug>
 #include <QFile>
 #include <QDir>
@@ -6,9 +24,9 @@
 
 namespace {
     const char *default_icon_paths[] = {
+        "/usr/share/icons/hicolor/64x64/apps/",
         "/usr/share/themes/blanco/meegotouch/icons/",
         "/usr/share/themes/base/meegotouch/icons/",
-
     };
 }
 #define array_sizeof(a) (int)(sizeof(a) / sizeof(a[0]))
@@ -17,6 +35,7 @@ namespace {
 #define ICON_PATH2 "/usr/share/themes/base/meegotouch/icons/"
 #define DEFAULT_APP_ICON "file:///usr/share/themes/blanco/meegotouch/icons/icon-l-default-application.png"
 #define APP_PATH_GLOBAL "/usr/share/applications/"
+#define APP_PATH_LOCAL "/home/user/.local/share/applications/"
 
 QmlApplicationsScanner::QmlApplicationsScanner(QObject *parent)
     : QObject(parent)
@@ -26,6 +45,7 @@ QmlApplicationsScanner::QmlApplicationsScanner(QObject *parent)
 void
 QmlApplicationsScanner::scan() {
     _scanFolder(APP_PATH_GLOBAL);
+    _scanFolder(APP_PATH_LOCAL);
 }
 
 void
@@ -35,10 +55,14 @@ QmlApplicationsScanner::_scanFolder(const QString &path) {
     QStringList files = dir.entryList(filter);
     for (int i = 0; i < files.count(); i++)
     {
-        QString desktopPath = path + files.at(i);
-        QmlApplication app = applicationFromLauncher(desktopPath);
-        if (app.isUsable()) {
-            emit applicationScanned(app.applicationName(), app.applicationLauncher(), app.iconUri());
+        // Skip harmattan's quicklaunchers
+        QString fileName = files.at(i);
+        if (!fileName.startsWith("quicklaunchbar")) {
+            QString desktopPath = path + files.at(i);
+            QmlApplication app = applicationFromLauncher(desktopPath);
+            if (app.isUsable()) {
+                emit applicationScanned(app.applicationName(), app.applicationLauncher(), app.iconUri());
+            }
         }
     }
 }
@@ -78,14 +102,11 @@ QmlApplicationsScanner::applicationFromLauncher(const QString &launcher) {
                 }
             }
             else {
-                QString icon = "file://" + icon;
-                app.setIconUri(icon);
+                app.setIconUri("file://" + icon);
             }
             //qDebug() << "Parsed icon: " << icon;
         }
-        else if (line.startsWith("NotShowIn=X-MeeGo") ||
-                 line.startsWith("OnlyShownIn=X-MeeGo"))
-        {
+        else if (line.startsWith("NotShowIn=X-MeeGo")) {
             itemShownOnAppGrid = false;
         }
         line = dfile.readLine();
@@ -93,10 +114,8 @@ QmlApplicationsScanner::applicationFromLauncher(const QString &launcher) {
 
     dfile.close();
 
-    if (app.isUsable() && itemShownOnAppGrid)
-    {
-        if (app.iconUri().size() == 0)
-        {
+    if (app.isUsable() && itemShownOnAppGrid) {
+        if (app.iconUri().size() == 0) {
             app.setIconUri(DEFAULT_APP_ICON);
         }
         return app;
