@@ -23,24 +23,9 @@
 #include <QString>
 #include <QAbstractListModel>
 
-class QmlApplication {
-    QString _applicationId;
-    QString _applicationName;
-    QString _iconUri;
+#include "qmlapplication.h"
 
-public:
-    QmlApplication();
-
-    inline const QString& applicationId() const { return _applicationId; }
-    inline const QString& applicationName() const { return _applicationName; }
-    inline const QString& iconUri() const { return _iconUri; }
-
-    inline void setApplicationId(const QString &applicationId) { _applicationId = applicationId; }
-    inline void setApplicationName(const QString &applicationName) { _applicationName = applicationName; }
-    inline void setIconUri(const QString &iconUri) { _iconUri = iconUri; }
-};
-
-class QmlApplicationScannerModel: public QAbstractListModel
+class QmlApplicationsModel: public QAbstractListModel
 {
     Q_OBJECT
 
@@ -52,21 +37,33 @@ class QmlApplicationScannerModel: public QAbstractListModel
     QList<QmlApplication> _apps;
 
 public:
-    // IMPROVE: many of these roles are really not used anymore. Clean-up.
     enum ApplicationScannerRoles {
-        ApplicationId = Qt::UserRole + 1,
+        ApplicationLauncher = Qt::UserRole + 1,
         ApplicationName,
         IconUri
     };
 
-    QmlApplicationScannerModel(QObject *parent = 0);
+    QmlApplicationsModel(QObject *parent = 0);
 
-    inline int rowCount(const QModelIndex &parent = QModelIndex()) const { return _apps.count(); }
+    inline int rowCount(const QModelIndex & = QModelIndex()) const { return _apps.count(); }
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
+    void addApplication(const QmlApplication &app);
+    void clearApplications();
+
+    Q_INVOKABLE inline QString getLauncher(int index) const {
+        if (index >= 0 && index < _apps.count()) {
+            return _apps.at(index).applicationLauncher();
+        }
+        return QString();
+    }
+
 signals:
     void sizeChanged();
+
+private slots:
+    void emitSizeChanged(const QModelIndex & parent, int start, int end);
 };
 
 #endif // QMLAPPLICATIONSCANNERMODEL_H

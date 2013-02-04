@@ -6,6 +6,7 @@
 #include <QDBusArgument>
 
 #include "presencerule.h"
+#include "ruleactionapplication.h"
 
 class RuleAction : public QObject
 {
@@ -38,6 +39,7 @@ private:
     bool    _restoreStandByScreenMode;
     int     _backgroundConnectionsMode;
     bool    _restoreBackgroundConnectionsMode;
+    RuleActionApplication _application;
 
     QList<PresenceRule *> _presenceRules;
     QString _presenceStatusMessage;
@@ -63,6 +65,7 @@ private:
     Q_PROPERTY(bool restoreStandByScreenMode READ getRestoreStandByScreenMode WRITE setRestoreStandByScreenMode NOTIFY restoreStandByScreenModeChanged)
     Q_PROPERTY(int backgroundConnectionsMode READ getBackgroundConnectionsMode WRITE setBackgroundConnectionsMode NOTIFY backgroundConnectionsModeChanged)
     Q_PROPERTY(bool restoreBackgroundConnectionsMode READ getRestoreBackgroundConnectionsMode WRITE setRestoreBackgroundConnectionsMode NOTIFY restoreBackgroundConnectionsModeChanged)
+    Q_PROPERTY(RuleActionApplication *application READ getApplicationQml NOTIFY applicationChanged STORED false)
 
     /**
       * This property gives access to the presence rules associated with this
@@ -108,6 +111,8 @@ signals:
     void backgroundConnectionsModeChanged();
     void restoreBackgroundConnectionsModeChanged();
     void nfcChanged();
+    void applicationChanged();
+
 private slots:
     void onPresenceRuleChanged();
 public:
@@ -193,6 +198,12 @@ public:
     PresenceChangeType getPresenceChangeType() const;
     void setPresenceChangeType(PresenceChangeType presenceChangeType);
 
+    inline const RuleActionApplication &application() const { return _application; }
+    inline RuleActionApplication &application() { return _application; }
+    inline void setApplication(const RuleActionApplication &app) { _application = app; }
+    // For QML
+    inline RuleActionApplication *getApplicationQml() { return &_application; }
+
     inline bool operator==(const RuleAction &o) const {
         return this->_profile   == o._profile
             && this->_restoreProfile == o._restoreProfile
@@ -212,7 +223,8 @@ public:
             && this->_standByScreenMode == o._standByScreenMode
             && this->_restoreStandByScreenMode == o._restoreStandByScreenMode
             && this->_backgroundConnectionsMode == o._backgroundConnectionsMode
-            && this->_restoreBackgroundConnectionsMode == o._restoreBackgroundConnectionsMode;
+            && this->_restoreBackgroundConnectionsMode == o._restoreBackgroundConnectionsMode
+            && this->_application == o._application;
     }
 
 };

@@ -26,8 +26,9 @@ Page {
     tools: commonTools
     anchors.margins: UIConstants.DEFAULT_MARGIN
 
-    property RuleAction action;
-    property int maxApps: 10
+    property RuleAction action
+    property int maxApps: 5
+    property bool _scanDone: false
 
     onStatusChanged: {
         // console.log("Status changed ", status)
@@ -39,26 +40,14 @@ Page {
 //        }
     }
 
-    MyMultiSelectionIconDialog {
+    ItemSelectionIconDialog {
         id: appSelect
-        acceptButtonText: "OK"
-        platformStyle: SelectionDialogStyle {
-            itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
-        }
-
-        model: ListModel {
-            ListElement {
-                name: "Application Name 1"
-                iconuri: "file:///usr/share/icons/asunder.png"
-            }
-            ListElement {
-                name: "Application Name 2"
-                iconuri: "file:///usr/share/icons/cab_extract.png"
-            }
-            ListElement {
-                name: "Application Name 3"
-                iconuri: "file:///usr/share/icons/cab_view.png"
-            }
+        titleText: "Select application"
+        model: backendApplicationsSortedModel
+        onItemSelected: {
+            var launchers = action.application.launchers
+            launchers.push(item.launcher)
+            action.application.launchers = launchers
         }
     }
 
@@ -85,48 +74,35 @@ Page {
 
             Button {
                 id: selectAppButton
-                // TODO
-                // checkable: condition.locationCells.length < maxCells
-                // checked: false
-                // enabled: backendLocation.currentCell >= 0 && condition.locationCells.length < root.maxCells
-                // TODO
-                text: "Select applications"
-//                      (checked ? "Add application"
-//                               : (condition.locationCells.length < root.maxCells
-//                                  ? "Start collecting"
-//                                  : "Max " + root.maxApps + " applications added"))
+                enabled: action.application.launchers.length < root.maxApps
+                text: (action.application.launchers.length < root.maxApps
+                                  ? "Add application"
+                                  : "Max " + root.maxApps + " applications added")
                 onClicked: {
-                    appSelect.open()
-                    if (checked) {
-                        // addCurrentCell()
+                    if (!_scanDone) {
+                        console.log("Start scan")
+                        backendApplicationsScanner.scan();
+                        console.log("Scan done")
+                        _scanDone = true
+                    } else {
+                        console.log("Skip application scan, already done")
                     }
+
+                    appSelect.selectedIndex = -1
+                    appSelect.open()
                 }
             } // Button
 
             SectionHeader {
                 width: parent.width
                 height: 20
-                // TODO
-                section: "Applications"
-                // section: "Applications (" + condition.locationCells.length + ")"
+                visible: action.application.launchers.length > 0
+                section: "Applications (" + action.application.launchers.length + "/" + root.maxApps + ")"
 
             }
 
             Repeater {
-                model: ListModel {
-                    ListElement {
-                        name: "Application Name 1"
-                        iconuri: "file:///usr/share/icons/asunder.png"
-                    }
-                    ListElement {
-                        name: "Application Name 2"
-                        iconuri: "file:///usr/share/icons/cab_extract.png"
-                    }
-                    ListElement {
-                        name: "Application Name 3"
-                        iconuri: "file:///usr/share/icons/cab_view.png"
-                    }
-                }
+                model: backendSelectedApplicationsSortedModel
 
                 Item {
                     width: root.width
@@ -135,17 +111,19 @@ Page {
                     Image {
                         id: icon
                         source: iconuri
-                        width: 80
-                        height: 80
+                        width: 40
+                        height: 40
+                        anchors.verticalCenter: parent.verticalCenter
                     }
 
                     Label {
                         id: appName
                         text: name
+                        elide: Text.ElideRight
                         anchors.left: icon.right
-                        width: parent.width //  - removeButton.width
-                        // TODO
-                        // visible: condition.locationCells.length > index
+                        width: parent.width - removeArea.width - icon.width
+                        anchors.leftMargin: UIConstants.DEFAULT_MARGIN
+                        anchors.rightMargin: UIConstants.DEFAULT_MARGIN
                         platformStyle: LabelStyleSubtitle {}
                         anchors.verticalCenter: parent.verticalCenter
                     }
@@ -153,8 +131,6 @@ Page {
                     Item {
                         id: removeArea
                         anchors.right: parent.right
-                        // TODO
-                        visible: appName.visible
                         height: removeImage.height + UIConstants.PADDING_XXLARGE // Math.min(cellId.height, removeImage.height)
                         width: height
                         anchors.verticalCenter: parent.verticalCenter
@@ -171,11 +147,15 @@ Page {
                             anchors.fill: parent
 
                             onClicked: {
-                                console.log("Cell location Remove clicked")
-                                // TODO
-//                                var cells = condition.locationCells
-//                                cells.splice(index, 1)
-//                                condition.locationCells = cells
+                                console.log("Remove clicked")
+                                var launchers = action.application.launchers
+                                var indexOfLauncher = launchers.indexOf(launcher)
+                                if (indexOfLauncher > -1) {
+                                    launchers.splice(indexOfLauncher, 1)
+                                    action.application.launchers = launchers
+                                } else {
+                                    console.log("No index found for ", launcher)
+                                }
                             }
                         }
 
@@ -198,7 +178,7 @@ Page {
 
             LabelHelp {
                 id: help
-                text: "Help bla bla bla"
+                text: "You can add here applications that are started when the rule becomes active."
             }
 
         } // Column

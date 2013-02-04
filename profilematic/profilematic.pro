@@ -40,6 +40,7 @@ SOURCES += src/main.cpp \
     ../profilematicd/src/model/ruleconditionbatterylevel.cpp \
     ../profilematicd/src/model/ruleconditioncalendar.cpp \
     ../profilematicd/src/model/ruleaction.cpp \
+    ../profilematicd/src/model/ruleactionapplication.cpp \
     ../profilematicd/src/model/presencerule.cpp \
     src/qmlbackend/qmlrulesmodel.cpp \
     src/qmlbackend/qmlprofilesmodel.cpp \
@@ -53,8 +54,12 @@ SOURCES += src/main.cpp \
     src/qmlbackend/qmlactioneditmodel.cpp \
     src/qmlbackend/qmlruleutil.cpp \
     src/qmlbackend/networkinfo/qmlnetworkinfo.cpp \
-    ../shared/application/ApplicationScanner.cpp \
-    src/qmlbackend/application/qmlapplicationscannermodel.cpp
+    src/qmlbackend/application/qmlapplicationsmodel.cpp \
+    src/qmlbackend/application/qmlapplicationsscanner.cpp \
+    src/qmlbackend/application/qmlapplicationscannertomodeladapter.cpp \
+    src/qmlbackend/qmlsortproxymodel.cpp \
+    src/qmlbackend/application/qmlselectedapplicationsmodel.cpp \
+    src/qmlbackend/application/qmlapplication.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -62,6 +67,7 @@ HEADERS += \
     src/qmlbackend/qmldaysmodel.h \
     ../profilematicd/src/model/rule.h \
     ../profilematicd/src/model/ruleaction.h \
+    ../profilematicd/src/model/ruleactionapplication.h \
     ../profilematicd/src/model/ruleconditionnfc.h \
     ../profilematicd/src/model/ruleconditionbatterylevel.h \
     ../profilematicd/src/model/ruleconditioncalendar.h \
@@ -79,8 +85,12 @@ HEADERS += \
     src/qmlbackend/qmlactioneditmodel.h \
     src/qmlbackend/qmlruleutil.h \
     src/qmlbackend/networkinfo/qmlnetworkinfo.h \
-    ../shared/application/ApplicationScanner.h \
-    src/qmlbackend/application/qmlapplicationscannermodel.h
+    src/qmlbackend/application/qmlapplicationsmodel.h \
+    src/qmlbackend/application/qmlapplicationsscanner.h \
+    src/qmlbackend/application/qmlapplicationscannertomodeladapter.h \
+    src/qmlbackend/qmlsortproxymodel.h \
+    src/qmlbackend/application/qmlselectedapplicationsmodel.h \
+    src/qmlbackend/application/qmlapplication.h
 
 # To avoid mistakes, do not use the simulated cellId on a device build.
 !profilematic_simulated_cellid|!isEmpty(MEEGO_VERSION_MAJOR) {

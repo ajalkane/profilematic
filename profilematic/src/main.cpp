@@ -33,11 +33,16 @@
 #include "qmlbackend/qmldaysmodel.h"
 #include "qmlbackend/qmlrulesmodel.h"
 #include "qmlbackend/qmlboolfiltermodel.h"
+#include "qmlbackend/qmlsortproxymodel.h"
 #include "qmlbackend/qmlprofilesmodel.h"
 #include "qmlbackend/qmlruleutil.h"
 #include "qmlbackend/qmllocation.h"
 #include "qmlbackend/nfc/qmlnfcmobility.h"
 #include "qmlbackend/networkinfo/qmlnetworkinfo.h"
+#include "qmlbackend/application/qmlapplicationsmodel.h"
+#include "qmlbackend/application/qmlapplicationsscanner.h"
+#include "qmlbackend/application/qmlapplicationscannertomodeladapter.h"
+#include "qmlbackend/application/qmlselectedapplicationsmodel.h"
 
 #include "qmlapplicationviewer.h"
 
@@ -91,6 +96,13 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QScopedPointer<QmlLocation> qmlLocation(QmlLocation::create());
     QmlNfcMobility qmlNfc;
 
+    QmlApplicationsScanner qmlApplicationsScanner;
+    QmlSelectedApplicationsModel qmlSelectedApplicationsModel(qmlRulesModel.getEditRule(), &qmlApplicationsScanner);
+    QmlSortProxyModel qmlSelectedApplicationsSortedModel(&qmlSelectedApplicationsModel, QmlSelectedApplicationsModel::ApplicationName);
+    QmlApplicationsModel qmlApplicationsModel;
+    QmlApplicationScannerToModelAdapter qmlApplicationScannerToModelAdapter(&qmlApplicationsModel, &qmlApplicationsScanner);
+    QmlSortProxyModel qmlApplicationsSortedModel(&qmlApplicationsModel, QmlApplicationsModel::ApplicationName);
+
     QDeclarativeContext *ctxt = viewer->rootContext();
     QDeclarativeEngine *engine = ctxt->engine();
     engine->connect(engine, SIGNAL(quit()), app.data(), SLOT(quit()));
@@ -98,6 +110,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<Rule>("Rule", 1, 0, "Rule");
     qmlRegisterType<RuleCondition>("Rule", 1, 0, "RuleCondition");
     qmlRegisterType<RuleAction>("Rule", 1, 0, "RuleAction");
+    qmlRegisterType<RuleActionApplication>("Rule", 1, 0, "RuleActionApplication");
     qmlRegisterType<RuleConditionNFC>("Rule", 1, 0, "RuleConditionNFC");
     qmlRegisterType<RuleConditionBatteryLevel>("Rule", 1, 0, "RuleConditionBatteryLevel");
     qmlRegisterType<RuleConditionCalendar>("Rule", 1, 0, "RuleConditionCalendar");
@@ -122,6 +135,11 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     ctxt->setContextProperty("backendLocation", qmlLocation.data());
     ctxt->setContextProperty("backendNfc", &qmlNfc);
     ctxt->setContextProperty("backendRuleUtil", QmlRuleUtil::instance());
+    ctxt->setContextProperty("backendApplicationsModel", &qmlApplicationsModel);
+    ctxt->setContextProperty("backendApplicationsSortedModel", &qmlApplicationsSortedModel);
+    ctxt->setContextProperty("backendApplicationsScanner", &qmlApplicationScannerToModelAdapter);
+    ctxt->setContextProperty("backendSelectedApplicationsModel", &qmlSelectedApplicationsModel);
+    ctxt->setContextProperty("backendSelectedApplicationsSortedModel", &qmlSelectedApplicationsSortedModel);
 
     viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer->setMainQmlFile(mainQmlFile);

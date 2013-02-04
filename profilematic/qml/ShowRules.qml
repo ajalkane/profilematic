@@ -432,6 +432,8 @@ Page {
         }
         backendConditionEditModel.initializeEdit();
         backendActionEditModel.initializeEdit();
+        backendSelectedApplicationsModel.initializeEdit();
+
         editRule = loadEditRule(p)
         console.log("Opening rule");
         pageStack.push(editRule)

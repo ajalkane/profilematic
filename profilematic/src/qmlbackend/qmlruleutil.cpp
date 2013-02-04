@@ -612,13 +612,15 @@ QString
 QmlRuleUtil::applicationSummary(const RuleAction *action, const QString &nonUsable, bool inListing) {
     if (action == 0) return nonUsable;
 
-    // TODO
-    return "Application summary placeholder";
+    if (action->application().getLaunchers().size() > 0) {
+        return "Launch applications";
+    }
+    return nonUsable;
 }
 
 void
 QmlRuleUtil::applicationClear(RuleAction *action) {
     if (action == 0) return;
 
-    // TODO
+    action->application().setLaunchers(QSet<QString>());
 }
