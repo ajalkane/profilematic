@@ -48,6 +48,7 @@ DESCRIPTION(bluetoothMode, "Bluetooth", "ActionBlueToothMode.qml", false)
 DESCRIPTION(cellularMode, "Mobile network mode", "ActionCellularMode.qml", false)
 DESCRIPTION(standByScreenMode, "Stand-by screen mode", "ActionStandByScreen.qml", false)
 DESCRIPTION(customAction, "Custom action", "ActionCommandLine.qml", false)
+DESCRIPTION(application, "Application", "ActionApplication.qml", false)
 
 QmlActionEditModel::QmlActionEditModel(Rule *editRule, QObject *parent)
     : super(editRule, parent)
@@ -59,7 +60,8 @@ QmlActionEditModel::QmlActionEditModel(Rule *editRule, QObject *parent)
                   << &descriptionbluetoothMode
                   << &descriptioncellularMode
                   << &descriptionstandByScreenMode
-                  << &descriptioncustomAction;
+                  << &descriptioncustomAction
+                  << &descriptionapplication;
 
     connect(_editRule, SIGNAL(actionChanged()), this, SLOT(ruleChanged()));
 }

@@ -1,5 +1,5 @@
 /*********************************************************************
- * Copyright 2011 Arto Jalkanen
+ * Copyright 2013 Arto Jalkanen
  *
  * This file is part of ProfileMatic.
  *
@@ -30,12 +30,10 @@ Item {
     property alias model: dDialog.model
     property alias titleText: dDialog.titleText
     property alias selectedIndex: dDialog.selectedIndex
-    // TODO this is not correct, should provide selectedItem property.
-    // See ItemSelectionIconDialog. Also most places where
-    // onSelectedIndexChanged is used in ProfileMatic, it is used
-    // wrongly and really onAccepted should be used. These should
-    // be checked
+    property variant selectedItem
+
     signal itemSelected(variant item)
+    signal accepted
 
     function open() {
         dDialog.open()
@@ -50,7 +48,7 @@ Item {
         }
     }
 
-    MySelectionDialog {
+    MySelectionIconDialog {
         id: dDialog
         platformStyle: SelectionDialogStyle {
             itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
@@ -61,8 +59,14 @@ Item {
                 // This is a hack to access from SelectionDialog the roles of the model.
                 // Ugly but works.
                 lModel.currentIndex = selectedIndex
+                root.selectedItem = lModel.currentItem.myModel
                 itemSelected(lModel.currentItem.myModel)
+            } else {
+                root.selectedItem = null
             }
+        }
+        onAccepted: {
+            root.accepted()
         }
     }
 }

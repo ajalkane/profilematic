@@ -79,6 +79,7 @@ Configuration::writeRules(const RulesHolder &rulesHolder) {
         s.setValue("presenceChangeType", int(r.action().getPresenceChangeType()));
         s.setValue("internetConnectionMode", int(r.condition().getInternetConnectionMode()));
         s.setValue("chargingState", int(r.condition().getChargingState()));
+        _writeApplicationAction(s, r.action().application());
         _writeNfcCondition(s, r.condition().nfc());
         _writeBatteryLevelCondition(s, r.condition().batteryLevel());
         _writeCalendarCondition(s, r.condition().calendar());
@@ -212,6 +213,7 @@ Configuration::readRules(RulesHolder &rulesHolder, int *rules_version_return) {
         r.action().setRestorePresence(s.value("restorePresence", r.action().getRestorePresence()).toBool());
         r.action().setPresenceChangeType((RuleAction::PresenceChangeType) s.value("presenceChangeType", (int) RuleAction::CustomPresenceType).toInt());
 
+        _readApplicationAction(s, r.action().application());
         _readNfcCondition(s, r.condition().nfc());
         _readBatteryLevelCondition(s, r.condition().batteryLevel());
         _readCalendarCondition(s, r.condition().calendar());
@@ -350,6 +352,19 @@ Configuration::_readNfcCondition(QSettings &s, RuleConditionNFC &condNfc) {
     condNfc.setUids(uids);
 
     s.endArray();
+
+}
+
+void
+Configuration::_writeApplicationAction(QSettings &s, const RuleActionApplication &actionApp) {
+    _writeStringList(s, "applications", "launcher", actionApp.getLaunchers().toList());
+}
+
+void
+Configuration::_readApplicationAction(QSettings &s, RuleActionApplication &actionApp) {
+    QList<QString> launchers;
+    _readStringList(s, "applications", "launcher", launchers);
+    actionApp.setLaunchers(QSet<QString>::fromList(launchers));
 
 }
 

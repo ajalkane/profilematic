@@ -7,6 +7,7 @@
 #include "actionpowersavingmode.h"
 #include "actionprofile.h"
 #include "actionbluetooth.h"
+#include "application/actionapplication.h"
 #include "presence/actionpresence.h"
 
 #include "actionfactory.h"
@@ -26,6 +27,7 @@ ActionFactory::create(ProfileClient *profileClient) {
     ac->add(new ActionStandByScreenMode());
     // Modifying background connections do not work, disable until finding working solutions
     // ac->add(new ActionBackgroundConnections());
+    ac->add(new ActionApplication());
     ac->add(new ActionCommandLine());
     ac->add(PlatformUtil::instance()->createActionPresence());
     return ac;
@@ -42,6 +44,7 @@ ActionFactory::createAsList(ProfileClient *profileClient) {
     ac << new ActionStandByScreenMode();
     // Modifying background connections do not work, disable until finding working solutions
     // ac->add(new ActionBackgroundConnections());
+    ac << new ActionApplication();
     ac << new ActionCommandLine();
     ac << PlatformUtil::instance()->createActionPresence();
 
