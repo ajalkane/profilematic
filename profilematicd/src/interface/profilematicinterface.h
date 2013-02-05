@@ -83,6 +83,7 @@ public slots:
     // Some helper methods, not used by ProfileMatic, that may be helpful for D-Bus scripting
     QStringList getRuleNames();
     QString getRuleIdForName(const QString &ruleName);
+    Rule getRule(const QString &ruleId) const;
     void executeActionsByRuleName(const QString &ruleName);
 private:
     int _findRuleIndexById(const Rule::IdType &id) const;

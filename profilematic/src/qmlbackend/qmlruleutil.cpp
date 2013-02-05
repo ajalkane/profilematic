@@ -610,6 +610,8 @@ QmlRuleUtil::customActionClear(RuleAction *action) {
 
 QString
 QmlRuleUtil::applicationSummary(const RuleAction *action, const QString &nonUsable, bool inListing) {
+    Q_UNUSED(inListing)
+
     if (action == 0) return nonUsable;
 
     if (action->application().getLaunchers().size() > 0) {

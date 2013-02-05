@@ -17,6 +17,7 @@
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
 #include <QtDBus/QtDBus>
+#include <QDebug>
 
 #include <stdio.h>
 
@@ -288,6 +289,18 @@ ProfileMaticInterface::getRuleIdForName(const QString &ruleName) {
     }
     IFDEBUG(qDebug("ProfileMaticInterface::getRuleIdForName(%s) no match", qPrintable(ruleName)));
     return "";
+}
+
+Rule
+ProfileMaticInterface::getRule(const QString &ruleId) const {
+    IFDEBUG(qDebug() << "ProfileMaticInterface::getRule for id" << ruleId);
+    int i = _findRuleIndexById(ruleId);
+    if (i >= 0) {
+        IFDEBUG(qDebug() << "ProfileMaticInterface::getRule matched at index " << i);
+        return _rulesHolder->ruleAt(i);
+    }
+    IFDEBUG(qDebug() << "ProfileMaticInterface::getRule for id" << ruleId);
+    return Rule();
 }
 
 void

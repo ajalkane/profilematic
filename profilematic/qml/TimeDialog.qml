@@ -20,9 +20,37 @@ import QtQuick 1.0
 import com.nokia.meego 1.0
 import com.nokia.extras 1.0
 
-TimePickerDialog {
-    fields: DateTime.Hours | DateTime.Minutes
-    hourMode: DateTime.TwentyFourHours
+//TimePickerDialog {
+//    fields: DateTime.Hours | DateTime.Minutes
+//    hourMode: DateTime.TwentyFourHours
+//    acceptButtonText: "Ok"
+//    rejectButtonText: "Cancel"
+//}
+
+Sheet {
     acceptButtonText: "Ok"
     rejectButtonText: "Cancel"
+
+    property alias hour: timePicker.hours
+    property alias minute: timePicker.minutes
+
+    // TODO
+    property string titleText
+
+    content: TimePicker {
+            id: timePicker
+            anchors.centerIn: parent
+
+            function orientationSuffix() {
+                if (screen.currentOrientation === Screen.Portrait || screen.currentOrientation === Screen.PortraitInverted )
+                    return "portrait"
+                else
+                    return "landscape"
+            }
+
+            backgroundImage: "image://theme/meegotouch-timepicker-light-1-" + orientationSuffix()
+            hourDotImage: "image://theme/meegotouch-timepicker-disc-hours-" + orientationSuffix()
+            minutesDotImage: "image://theme/meegotouch-timepicker-disc-minutes-" + orientationSuffix()
+
+    }
 }
