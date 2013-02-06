@@ -91,13 +91,63 @@ Page {
 
     ApplicationHeader {
         id: appHeader
-        title: "ProfileMatic"
+        title: backendRulesModel.active ? "ProfileMatic" : "ProfileMatic" + " " + "(inactive)"
         // This is the same color as in Harmattan pulldown Profile background color
         backgroundColor: UIConstants.COLOR_APP_HEADER
         titleColor: "white"
         anchors.leftMargin: -UIConstants.DEFAULT_MARGIN
         anchors.rightMargin: -UIConstants.DEFAULT_MARGIN
         anchors.topMargin: -UIConstants.DEFAULT_MARGIN
+        z: 100
+
+        states: State {
+            name: "disabled"
+            when: !backendRulesModel.active
+            PropertyChanges {
+                target: appHeader
+                backgroundColor: "black"
+            }
+        }
+        transitions: Transition {
+            from: ""
+            to: "disabled"
+            reversible: true
+            ColorAnimation { duration: 1000 }
+        }
+    }
+
+    Rectangle {
+        id: disabledIndicator
+        width: parent.widht
+        height: 0
+        anchors.rightMargin: -UIConstants.DEFAULT_MARGIN
+        color: "black"
+        anchors.top: appHeader.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: -UIConstants.DEFAULT_MARGIN
+        anchors.topMargin: -height
+        visible: color !== "black"
+        z: 101
+
+        states: State {
+            name: "disabled"
+            when: !backendRulesModel.active
+            PropertyChanges {
+                target: disabledIndicator
+                color: "red"
+                height: 6
+            }
+        }
+        transitions: Transition {
+            from: ""
+            to: "disabled"
+            reversible: true
+            ParallelAnimation {
+                NumberAnimation { properties: "height"; duration: 1000; easing.type: Easing.InCubic }
+                ColorAnimation { duration: 1000; easing.type: Easing.InCubic  }
+            }
+        }
     }
 
     Text {
@@ -171,18 +221,19 @@ Page {
             }
         }
 
-        header: Item {
-            visible: !backendRulesModel.active
-            height: !backendRulesModel.active ? childrenRect.height : 0
-            width: parent.width
-            Text {
-                    wrapMode: Text.WordWrap
-                    width: parent.width
-                    font.pixelSize: UIConstants.FONT_LARGE;
-                    color: "red"
-                    text: "Warning: Rules are not followed! Activate from menu."
-            }
-        }
+// Commented out, as I hope explicit text is not needed after the new visuals
+//        header: Item {
+//            visible: !backendRulesModel.active
+//            height: !backendRulesModel.active ? childrenRect.height : 0
+//            width: parent.width
+//            Text {
+//                    wrapMode: Text.WordWrap
+//                    width: parent.width
+//                    font.pixelSize: UIConstants.FONT_LARGE;
+//                    color: "red"
+//                    text: "Warning: Rules are not followed! Activate from menu."
+//            }
+//        }
 
         delegate: Row {
             id: listItem
