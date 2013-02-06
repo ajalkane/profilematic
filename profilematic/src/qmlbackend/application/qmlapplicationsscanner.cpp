@@ -76,7 +76,7 @@ QmlApplicationsScanner::applicationFromLauncher(const QString &launcher) {
     QFile dfile(launcher);
     dfile.open(QIODevice::ReadOnly);
 
-    QString line = dfile.readLine();
+    QString line = QString::fromUtf8(dfile.readLine());
     bool itemShownOnAppGrid = true;
     QmlApplication app;
     app.setApplicationLauncher(launcher);
@@ -109,7 +109,7 @@ QmlApplicationsScanner::applicationFromLauncher(const QString &launcher) {
         else if (line.startsWith("NotShowIn=X-MeeGo")) {
             itemShownOnAppGrid = false;
         }
-        line = dfile.readLine();
+        line = QString::fromUtf8(dfile.readLine());
     } while (!line.isEmpty());
 
     dfile.close();
