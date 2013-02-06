@@ -51,8 +51,12 @@ Page {
                 text: "Use this action only if you know what you're doing (ie. you're familiar with using N9's developer mode and terminal)! "
             }
 
+            SectionHeader {
+                section: "When rule activates"
+            }
+
             TextFieldWithLabel {
-                labelText: "Custom action on rule activate"
+                labelText: "Command to run"
                 placeholderText: "No custom action"
                 text: action.commandLine
                 // height: UIConstants.LIST_ITEM_HEIGHT_SMALL
@@ -77,8 +81,12 @@ Page {
                 }
             } // Button
 
+            SectionHeader {
+                section: "When rule deactivates"
+            }
+
             TextFieldWithLabel {
-                labelText: "Custom action on rule deactivate"
+                labelText: "Command to run"
                 placeholderText: "No custom action"
                 text: action.commandLineExit
                 // height: UIConstants.LIST_ITEM_HEIGHT_SMALL
