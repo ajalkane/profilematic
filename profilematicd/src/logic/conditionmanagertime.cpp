@@ -68,6 +68,7 @@ void
 ConditionManagerTime::stopMonitor() {
     IFDEBUG(qDebug() << "ConditionManagerTime::stopMonitor stoppingTimer");
     _timer.stop();
+    _nextNearestDateTime = QDateTime();
 }
 
 void
