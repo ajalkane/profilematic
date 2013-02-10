@@ -47,16 +47,22 @@ Sheet {
         contentWidth: parent.width
         contentHeight: childrenRect.height
 
-        PageHeader {
+        Text {
             id: header
-            separator: false
             text: root.titleText + " " + root.formatTime(timePicker.hours, timePicker.minutes)
+
+            anchors.rightMargin: 8 // IMPROVE UIConstants
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.pixelSize: UIConstants.FONT_XLARGE
+            font.weight: Font.Light
+
+            color: theme.inverted ? UIConstants.COLOR_INVERTED_FOREGROUND : UIConstants.COLOR_FOREGROUND
         }
 
         TimePicker {
             id: timePicker
             anchors.top: header.bottom
-            anchors.topMargin: UIConstants.PADDING_LARGE
+            anchors.topMargin: UIConstants.PADDING_XXLARGE
 
             anchors.horizontalCenter: parent.horizontalCenter
             function orientationSuffix() {
