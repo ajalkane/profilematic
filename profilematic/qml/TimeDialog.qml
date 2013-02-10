@@ -20,6 +20,8 @@ import QtQuick 1.0
 import com.nokia.meego 1.0
 import com.nokia.extras 1.0
 
+import "UIConstants.js" as UIConstants
+
 //TimePickerDialog {
 //    fields: DateTime.Hours | DateTime.Minutes
 //    hourMode: DateTime.TwentyFourHours
@@ -28,19 +30,35 @@ import com.nokia.extras 1.0
 //}
 
 Sheet {
+    id: root
     acceptButtonText: "Ok"
     rejectButtonText: "Cancel"
 
     property alias hour: timePicker.hours
     property alias minute: timePicker.minutes
 
-    // TODO
     property string titleText
 
-    content: TimePicker {
-            id: timePicker
-            anchors.centerIn: parent
+    content: Flickable {
+        id: flickable
+        anchors.fill: parent
+        pressDelay: 0 // No delay wanted when hitting TimePicker's area
+        clip: true
+        contentWidth: parent.width
+        contentHeight: childrenRect.height
 
+        PageHeader {
+            id: header
+            separator: false
+            text: root.titleText + " " + root.formatTime(timePicker.hours, timePicker.minutes)
+        }
+
+        TimePicker {
+            id: timePicker
+            anchors.top: header.bottom
+            anchors.topMargin: UIConstants.PADDING_LARGE
+
+            anchors.horizontalCenter: parent.horizontalCenter
             function orientationSuffix() {
                 if (screen.currentOrientation === Screen.Portrait || screen.currentOrientation === Screen.PortraitInverted )
                     return "portrait"
@@ -52,5 +70,12 @@ Sheet {
             hourDotImage: "image://theme/meegotouch-timepicker-disc-hours-" + orientationSuffix()
             minutesDotImage: "image://theme/meegotouch-timepicker-disc-minutes-" + orientationSuffix()
 
+            onStartInteraction: flickable.interactive = false
+            onStopInteraction: flickable.interactive = true
+        }
     }
+    function formatTime(hour, minute) {
+        return (hour < 10 ? "0" : "") + hour + ":" + (minute < 10 ? "0" : "") + minute
+    }
+
 }

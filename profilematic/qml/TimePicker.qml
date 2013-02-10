@@ -56,6 +56,9 @@ Item {
     property int minuteGradDelta: 6
     property int hourGradDelta: 30
 
+    signal startInteraction
+    signal stopInteraction
+
     width: bg.sourceSize.width
     height: bg.sourceSize.height
 
@@ -130,11 +133,13 @@ Item {
         property real previousAlpha: -1
 
         onPressed: {
+            startInteraction()
             currentHandler = chooseHandler(mouseX, mouseY)
             previousAlpha = findAlpha(mouseX, mouseY)
         }
 
         onReleased: {
+            stopInteraction()
             currentHandler = -1
             previousAlpha = -1
         }

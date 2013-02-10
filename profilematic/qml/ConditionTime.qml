@@ -39,7 +39,6 @@ Page {
 
     Flickable {
         anchors.fill: parent
-        anchors.topMargin: header.height
         pressDelay: 140
         clip: true
         contentWidth: parent.width
