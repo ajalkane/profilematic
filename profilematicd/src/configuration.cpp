@@ -77,6 +77,7 @@ Configuration::writeRules(const RulesHolder &rulesHolder) {
         s.setValue("presenceStatusMessage", r.action().getPresenceStatusMessage());
         s.setValue("restorePresence", r.action().getRestorePresence());
         s.setValue("presenceChangeType", int(r.action().getPresenceChangeType()));
+        s.setValue("deviceVolume", r.action().getDeviceVolume());
         s.setValue("internetConnectionMode", int(r.condition().getInternetConnectionMode()));
         s.setValue("chargingState", int(r.condition().getChargingState()));
         _writeApplicationAction(s, r.action().application());
@@ -201,6 +202,13 @@ Configuration::readRules(RulesHolder &rulesHolder, int *rules_version_return) {
                 r.action().setBackgroundConnectionsMode(backgroundConnectionsMode);
             }
             r.action().setRestoreBackgroundConnectionsMode(s.value("restoreBackgroundConnectionsMode", false).toBool());
+        }
+        {
+            bool deviceVolumeOk = false;
+            int deviceVolume = s.value("deviceVolume").toInt(&deviceVolumeOk);
+            if (deviceVolumeOk) {
+                r.action().setDeviceVolume(deviceVolume);
+            }
         }
         QList<PresenceRule *> presenceRules;
         _readPresenceRuleList(s, presenceRules);

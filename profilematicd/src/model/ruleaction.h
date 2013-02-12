@@ -40,6 +40,7 @@ private:
     int     _backgroundConnectionsMode;
     bool    _restoreBackgroundConnectionsMode;
     RuleActionApplication _application;
+    int     _deviceVolume;
 
     QList<PresenceRule *> _presenceRules;
     QString _presenceStatusMessage;
@@ -66,6 +67,7 @@ private:
     Q_PROPERTY(int backgroundConnectionsMode READ getBackgroundConnectionsMode WRITE setBackgroundConnectionsMode NOTIFY backgroundConnectionsModeChanged)
     Q_PROPERTY(bool restoreBackgroundConnectionsMode READ getRestoreBackgroundConnectionsMode WRITE setRestoreBackgroundConnectionsMode NOTIFY restoreBackgroundConnectionsModeChanged)
     Q_PROPERTY(RuleActionApplication *application READ getApplicationQml NOTIFY applicationChanged STORED false)
+    Q_PROPERTY(int deviceVolume READ getDeviceVolume WRITE setDeviceVolume NOTIFY deviceVolumeChanged)
 
     /**
       * This property gives access to the presence rules associated with this
@@ -112,6 +114,7 @@ signals:
     void restoreBackgroundConnectionsModeChanged();
     void nfcChanged();
     void applicationChanged();
+    void deviceVolumeChanged();
 
 private slots:
     void onPresenceRuleChanged();
@@ -204,6 +207,11 @@ public:
     // For QML
     inline RuleActionApplication *getApplicationQml() { return &_application; }
 
+    // Returns -1 if the devcie volume is not to be set
+    int getDeviceVolume() const;
+    // Use -1 if the profile volume is not to be set, otherwise value between 0 to 100
+    void setDeviceVolume(int volume);
+
     inline bool operator==(const RuleAction &o) const {
         return this->_profile   == o._profile
             && this->_restoreProfile == o._restoreProfile
@@ -224,7 +232,8 @@ public:
             && this->_restoreStandByScreenMode == o._restoreStandByScreenMode
             && this->_backgroundConnectionsMode == o._backgroundConnectionsMode
             && this->_restoreBackgroundConnectionsMode == o._restoreBackgroundConnectionsMode
-            && this->_application == o._application;
+            && this->_application == o._application
+            && this->_deviceVolume == o._deviceVolume;
     }
 
 };

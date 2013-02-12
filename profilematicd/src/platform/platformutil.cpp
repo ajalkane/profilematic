@@ -187,3 +187,15 @@ PlatformUtil::createCalendarManager(QObject *parent)
 {
     return new CalendarManagerStub(parent);
 }
+
+int
+PlatformUtil::deviceVolume() const {
+    IFDEBUG(qDebug("PlatformUtil::deviceVolume default, returning -1"));
+    return -1;
+}
+
+void
+PlatformUtil::setDeviceVolume(int deviceVolume) {
+    Q_UNUSED(deviceVolume)
+    IFDEBUG(qDebug("PlatformUtil::setDeviceVolume default, doing nothing"));
+}

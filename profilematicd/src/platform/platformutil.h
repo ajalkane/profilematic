@@ -84,6 +84,10 @@ public:
 
     virtual CalendarManager *createCalendarManager(QObject *parent = 0);
 
+    // Returns the device volume in percents between 0-100
+    virtual int deviceVolume() const;
+    virtual void setDeviceVolume(int deviceVolume);
+
 signals:
     void userActivityIdleChanged(bool isIdle);
     // -1: Unknown, 0: Idle, 1: Signaling, 2: Call, 3: Data

@@ -12,6 +12,7 @@ profilematic (2.0.0) unstable; urgency=low
   * Scripting help: getRule(ruleId) to get a rule that matches the given ruleId
   * Backend changes so that less work is done on activating rules
   * Mobile network mode is not changed until no data transfer (someone requested this, so it's for testing in this version)
+  * Deactivation animation in main view
   * Misc fixes
 
  -- Arto Jalkanen <ajalkane@gmail.com>  Wed, 20 Feb 2013 21:00:00 +0300

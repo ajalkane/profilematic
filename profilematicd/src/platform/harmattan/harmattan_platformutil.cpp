@@ -17,6 +17,7 @@
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
 // #include <MNotification>
+#include <QDebug>
 
 #include "harmattan_platformutil.h"
 #include "../../logic/presence/actionpresenceimpl.h"
@@ -26,6 +27,7 @@
 #include <gconfitem.h>
 
 #include "../calendar/impl/mkcal/calendarmanagermkcal.h"
+#include "volumebarlogic.h"
 
 #define GCONF_STAND_BY_SCREEN_KEY "/system/osso/dsm/display/use_low_power_mode"
 #define GCONF_BACKGROUND_CONNECTIONS_DISABLED_KEY "/system/osso/connectivity/network_type/restricted_mode"
@@ -35,6 +37,11 @@
 HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
     : PlatformUtil(parent), _pendingCellularMode(-1)
 {
+    _volume = new VolumeBarLogic(this);
+
+    qDebug() << "Current volume" << _volume->volume();
+    qDebug() << "MaxVolume" << _volume->maxVolume();
+
     _currentCellularActivity = _cellularControl.activity();
     _currentActivity = _qmActivity.get();
     _currentIdle = _currentActivity == MeeGo::QmActivity::Inactive;
@@ -44,7 +51,8 @@ HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
     connect(&_qmbattery, SIGNAL(chargingStateChanged(MeeGo::QmBattery::ChargingState)), this, SLOT(privateBatteryChargingStateChanged(MeeGo::QmBattery::ChargingState)));
 }
 
-HarmattanPlatformUtil::~HarmattanPlatformUtil() {}
+HarmattanPlatformUtil::~HarmattanPlatformUtil() {
+}
 
 int
 HarmattanPlatformUtil::flightMode() const {
@@ -365,4 +373,31 @@ CalendarManager *
 HarmattanPlatformUtil::createCalendarManager(QObject *parent)
 {
     return new CalendarManagerMkCal(parent);
+}
+
+int
+HarmattanPlatformUtil::deviceVolume() const {
+    quint32 rawVolume = _volume->volume();
+    // Not sure what's up with this, but the actual max settable volume on harmattan is maxVolume - 1
+    quint32 maxVolume = _volume->maxVolume() - 1;
+    IFDEBUG(qDebug() << "HarmattanPlatformUtil::deviceVolume raw" << rawVolume << " max" << maxVolume);
+    // Scale to 0 - 100.
+    int scaledVolume = (100 * rawVolume) / _volume->maxVolume();
+    IFDEBUG(qDebug() << "HarmattanPlatformUtil::deviceVolume scaledVolume" << scaledVolume);
+
+    return scaledVolume;
+}
+
+void
+HarmattanPlatformUtil::setDeviceVolume(int deviceVolume) {
+    IFDEBUG(qDebug() << "HarmattanPlatformUtil::setDeviceVolume " << deviceVolume);
+    // Not sure what's up with this, but the actual max settable volume on harmattan is maxVolume - 1
+    quint32 max = _volume->maxVolume() - 1;
+    quint32 rawVolume = (deviceVolume * max) / 100;
+    IFDEBUG(qDebug() << "HarmattanPlatformUtil::setDeviceVolume raw volume" << rawVolume << " max " << max << " volume pct " << deviceVolume);
+    if (deviceVolume < 0 || rawVolume > max) {
+        IFDEBUG(qWarning() << "HarmattanPlatformUtil::setDeviceVolume unallowed range");
+        return;
+    }
+    _volume->setVolume(rawVolume);
 }

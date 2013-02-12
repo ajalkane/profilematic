@@ -87,7 +87,8 @@ SOURCES += src/main.cpp \
     src/util/conditionallogging.cpp \
     src/logic/rulesholder.cpp \
     src/model/ruleactionapplication.cpp \
-    src/logic/application/actionapplication.cpp
+    src/logic/application/actionapplication.cpp \
+    src/logic/actiondevicevolume.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -141,13 +142,16 @@ HEADERS += \
     src/util/conditionallogging.h \
     src/logic/rulesholder.h \
     src/model/ruleactionapplication.h \
-    src/logic/application/actionapplication.h
+    src/logic/application/actionapplication.h \
+    src/logic/actiondevicevolume.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     DEFINES += PM_TIMER_USHORT
 
-    SOURCES += src/platform/harmattan/harmattan_platformutil.cpp
-    HEADERS += src/platform/harmattan/harmattan_platformutil.h
+    SOURCES += src/platform/harmattan/harmattan_platformutil.cpp \
+               src/platform/harmattan/volumebarlogic.cpp
+    HEADERS += src/platform/harmattan/harmattan_platformutil.h \
+               src/platform/harmattan/volumebarlogic.h
 
 }
 
@@ -162,6 +166,9 @@ HEADERS += \
     # as it loads the whole calendar into memory
     CONFIG += link_pkgconfig
     PKGCONFIG += libmkcal
+    # Device volume
+    PKGCONFIG += dbus-1 \
+                dbus-glib-1
 
     SOURCES += src/logic/presence/actionpresenceimpl.cpp \
                src/platform/calendar/impl/mkcal/calendarmanagermkcal.cpp

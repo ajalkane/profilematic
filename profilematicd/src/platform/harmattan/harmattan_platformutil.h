@@ -26,6 +26,8 @@
 
 #include "../platformutil.h"
 
+class VolumeBarLogic;
+
 class HarmattanPlatformUtil : public PlatformUtil
 {
     Q_OBJECT
@@ -39,6 +41,8 @@ class HarmattanPlatformUtil : public PlatformUtil
 
     Cellular::SystemControl _cellularControl;
     Cellular::SystemControl::Activity _currentCellularActivity;
+    VolumeBarLogic *_volume;
+
     int _pendingCellularMode;
 
     void _emitRealIdle();
@@ -69,6 +73,9 @@ public:
     virtual void monitorBatteryLevel(bool monitor);
 
     virtual CalendarManager *createCalendarManager(QObject *parent = 0);
+
+    virtual int deviceVolume() const;
+    virtual void setDeviceVolume(int deviceVolume);
 
 private slots:
     void activityChanged(MeeGo::QmActivity::Activity activity);

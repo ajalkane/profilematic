@@ -25,6 +25,7 @@ RuleAction::RuleAction(QObject *parent) : QObject(parent),
     _cellularMode(-1), _restoreCellularMode(false),
     _standByScreenMode(-1), _restoreStandByScreenMode(false),
     _backgroundConnectionsMode(-1), _restoreBackgroundConnectionsMode(false),
+    _deviceVolume(-1),
     _restorePresence(false),
     _presenceChangeType(CustomPresenceType)
 {
@@ -51,6 +52,7 @@ RuleAction::RuleAction(const RuleAction &o)
       _backgroundConnectionsMode(o._backgroundConnectionsMode),
       _restoreBackgroundConnectionsMode(o._restoreBackgroundConnectionsMode),
       _application(o._application),
+      _deviceVolume(o._deviceVolume),
       _presenceStatusMessage(o._presenceStatusMessage),
       _restorePresence(o._restorePresence),
       _presenceChangeType(o._presenceChangeType)
@@ -85,6 +87,7 @@ RuleAction::_init() {
     connect(this, SIGNAL(restoreBackgroundConnectionsModeChanged()), this, SIGNAL(changed()));
     connect(&_application, SIGNAL(changed()),     this, SIGNAL(applicationChanged()));
     connect(this, SIGNAL(applicationChanged()),   this, SIGNAL(changed()));
+    connect(this, SIGNAL(deviceVolumeChanged()),          this, SIGNAL(changed()));
 }
 
 RuleAction::~RuleAction() {}
@@ -112,6 +115,7 @@ RuleAction::operator=(const RuleAction &o) {
     _backgroundConnectionsMode = o._backgroundConnectionsMode;
     _restoreBackgroundConnectionsMode = o._restoreBackgroundConnectionsMode;
     _application = o._application;
+    _deviceVolume = o._deviceVolume;
 
     setPresenceRules(o.presenceRules());
     return *this;
@@ -483,6 +487,19 @@ RuleAction::setRestoreBackgroundConnectionsMode(bool restore) {
     }
 }
 
+int
+RuleAction::getDeviceVolume() const {
+    return _deviceVolume;
+}
+
+void
+RuleAction::setDeviceVolume(int volume) {
+    if (_deviceVolume != volume) {
+        _deviceVolume = volume;
+        emit deviceVolumeChanged();
+    }
+}
+
 void RuleAction::onPresenceRuleChanged()
 {
     PresenceRule *presenceRule = qobject_cast<PresenceRule *>(sender());
@@ -526,6 +543,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleAction &ruleAction)
     argument << ruleAction.getRestorePresence();
     argument << int(ruleAction.getPresenceChangeType());
     argument << ruleAction.application();
+    argument << ruleAction.getDeviceVolume();
     argument.endStructure();
     return argument;
 }
@@ -555,6 +573,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     bool restorePresence;
     int presenceChangeType;
     RuleActionApplication application;
+    int     deviceVolume = ruleAction.getDeviceVolume();
 
     argument.beginStructure();
     argument >> profile;
@@ -579,6 +598,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     argument >> restorePresence;
     argument >> presenceChangeType;
     argument >> application;
+    argument >> deviceVolume;
     argument.endStructure();
 
     ruleAction.setProfile(profile);
@@ -599,6 +619,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     ruleAction.setCommandLine(commandLine);
     ruleAction.setCommandLineExit(commandLineExit);
     ruleAction.setApplication(application);
+    ruleAction.setDeviceVolume(deviceVolume);
 
     QList<PresenceRule *> dstPresenceRules;
     foreach(const PresenceRule &presenceRule, presenceRules)

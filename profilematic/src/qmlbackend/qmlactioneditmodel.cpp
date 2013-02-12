@@ -49,6 +49,7 @@ DESCRIPTION(cellularMode, "Mobile network mode", "ActionCellularMode.qml", false
 DESCRIPTION(standByScreenMode, "Stand-by screen mode", "ActionStandByScreen.qml", false)
 DESCRIPTION(customAction, "Custom action", "ActionCommandLine.qml", false)
 DESCRIPTION(application, "Application", "ActionApplication.qml", false)
+DESCRIPTION(deviceVolume, "Device volume", "ActionDeviceVolume.qml", false)
 
 QmlActionEditModel::QmlActionEditModel(Rule *editRule, QObject *parent)
     : super(editRule, parent)
@@ -61,7 +62,8 @@ QmlActionEditModel::QmlActionEditModel(Rule *editRule, QObject *parent)
                   << &descriptioncellularMode
                   << &descriptionstandByScreenMode
                   << &descriptioncustomAction
-                  << &descriptionapplication;
+                  << &descriptionapplication
+                  << &descriptiondeviceVolume;
 
     connect(_editRule, SIGNAL(actionChanged()), this, SLOT(ruleChanged()));
 }

@@ -84,6 +84,9 @@ public:
     void customActionClear(RuleAction *action);
     QString applicationSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
     void applicationClear(RuleAction *action);
+    QString deviceVolumeSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
+    Q_INVOKABLE QString deviceVolumeSummary(RuleAction *action, const QString &nonUsable, bool inListing);
+    Q_INVOKABLE void deviceVolumeClear(RuleAction *action);
 };
 
 #endif // QMLRULEUTIL_H

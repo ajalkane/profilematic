@@ -626,3 +626,29 @@ QmlRuleUtil::applicationClear(RuleAction *action) {
 
     action->application().setLaunchers(QSet<QString>());
 }
+
+QString
+QmlRuleUtil::deviceVolumeSummary(RuleAction *action, const QString &nonUsable, bool inListing) {
+    qDebug("batteryLevelSummary QML version");
+    return deviceVolumeSummary(const_cast<const RuleAction*>(action), nonUsable, inListing);
+}
+
+QString
+QmlRuleUtil::deviceVolumeSummary(const RuleAction *action, const QString &nonUsable, bool inListing) {
+    Q_UNUSED(inListing)
+
+    if (action == 0) return nonUsable;
+
+    if (action->getDeviceVolume() >= 0) {
+        return QString("Device volume %1%").arg(action->getDeviceVolume());
+    }
+
+    return nonUsable;
+}
+
+void
+QmlRuleUtil::deviceVolumeClear(RuleAction *action) {
+    if (action == 0) return;
+
+    action->setDeviceVolume(-1);
+}
