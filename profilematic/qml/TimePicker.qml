@@ -1,7 +1,8 @@
 import QtQuick 1.1
+import QtMobility.feedback 1.1
 
 /*
-Copyright (c) 2011-2012, Vasiliy Sorokin <sorokin.vasiliy@gmail.com>, Aleksey Mikhailichenko <a.v.mich@gmail.com>
+Copyright (c) 2011-2012, Vasiliy Sorokin <sorokin.vasiliy@gmail.com>, Aleksey Mikhailichenko <a.v.mich@gmail.com>, Arto Jalkanen <ajalkane@gmail.com>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -151,11 +152,25 @@ Item {
 
             newAlpha = findAlpha(mouseX, mouseY)
 
+            var doRumble = false
             if (currentHandler > 0) {
-                timePicker.minutes = getNewTime(timePicker.minutes, newAlpha, timePicker.minuteGradDelta, 1)
+                var newMins = getNewTime(timePicker.minutes, newAlpha, timePicker.minuteGradDelta, 1)
+                if (newMins !== timePicker.minutes) {
+                    timePicker.minutes = newMins
+                    doRumble = true
+                }
+            } else {
+                var newHours = getNewTime(timePicker.hours, newAlpha, timePicker.hourGradDelta, 2)
+                if (newHours !== timePicker.hours) {
+                    timePicker.hours = newHours
+                    doRumble = true
+                }
+
             }
-            else
-                timePicker.hours = getNewTime(timePicker.hours, newAlpha, timePicker.hourGradDelta, 2)
+            if (doRumble) {
+                console.log("TimePicker rumble start")
+                rumbleEffect.start()
+            }
         }
 
         function sign(number) {
@@ -205,4 +220,10 @@ Item {
         }
 
     }
+
+    HapticsEffect {
+         id: rumbleEffect
+         intensity: 0.1
+         duration: 1
+     }
 }
