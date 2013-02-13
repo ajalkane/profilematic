@@ -1,3 +1,8 @@
+profilematic (2.0.1) unstable; urgency=low
+  * Idle condition fix
+
+ -- Arto Jalkanen <ajalkane@gmail.com>  Wed, 15 Feb 2013 21:00:00 +0300
+
 profilematic (2.0.0) unstable; urgency=low
   * Action to launch applications
   * Time selection uses N9-styled circular selector

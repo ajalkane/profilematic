@@ -33,6 +33,7 @@ class ConditionManagerIdle : public ConditionManagerCacheable
 
     PmTimer _timer;
     int _currentMinIdleSecs;
+    int _currentIdleSecs;
     // int _nextMinWakeupSecs;
     int _currentIdleMode;
     bool _hasActive;
