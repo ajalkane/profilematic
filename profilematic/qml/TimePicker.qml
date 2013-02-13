@@ -41,6 +41,36 @@ Usage:
         hourDotImage: "image://theme/meegotouch-timepicker-disc-hours-" + orientationSuffix()
         minutesDotImage: "image://theme/meegotouch-timepicker-disc-minutes-" + orientationSuffix()
     }
+
+If you want to use TimePicker within a Flickable, you will need to disable flickable while TimePicker is active. Example:
+
+    Flickable {
+        id: flickable
+        anchors.fill: parent
+        pressDelay: 0 // No delay wanted when hitting TimePicker's area
+        clip: true
+        contentWidth: parent.width
+        contentHeight: childrenRect.height
+
+        TimePicker {
+            id: timePicker
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            function orientationSuffix() {
+                if (screen.currentOrientation === Screen.Portrait || screen.currentOrientation === Screen.PortraitInverted )
+                    return "portrait"
+                else
+                    return "landscape"
+            }
+
+            backgroundImage: "image://theme/meegotouch-timepicker-light-1-" + orientationSuffix()
+            hourDotImage: "image://theme/meegotouch-timepicker-disc-hours-" + orientationSuffix()
+            minutesDotImage: "image://theme/meegotouch-timepicker-disc-minutes-" + orientationSuffix()
+
+            onStartInteraction: flickable.interactive = false
+            onStopInteraction: flickable.interactive = true
+        }
+    }
 */
 
 
