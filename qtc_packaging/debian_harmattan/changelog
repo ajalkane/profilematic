@@ -1,7 +1,8 @@
 profilematic (2.0.1) unstable; urgency=low
   * Idle condition fix
+  * Haptics feedback on time selector
 
- -- Arto Jalkanen <ajalkane@gmail.com>  Wed, 15 Feb 2013 21:00:00 +0300
+ -- Arto Jalkanen <ajalkane@gmail.com>  Thu, 14 Feb 2013 00:35:00 +0300
 
 profilematic (2.0.0) unstable; urgency=low
   * Action to launch applications
