@@ -28,6 +28,7 @@
 ConditionManagerIdle::ConditionManagerIdle(QObject *parent)
     : ConditionManagerCacheable(parent),
       _currentMinIdleSecs(INT_MAX),
+      _currentIdleSecs(INT_MAX),
       _currentIdleMode(IDLE_MODE_UNKNOWN),
       _hasActive(false)
 {
@@ -58,6 +59,7 @@ ConditionManagerIdle::stopMonitor() {
     _currentIdleMode = IDLE_MODE_UNKNOWN;
     _hasActive = false;
     _timer.stop();
+    _currentIdleSecs = INT_MAX;
     _idleStartTime = QDateTime();
 }
 
@@ -125,6 +127,7 @@ ConditionManagerIdle::_scheduleWakeup(const QDateTime &now, int secsToWakeUp) {
              << targetWakeup.toString());
 
     if (_nextMinWakeupTime.isNull() || (now >= _nextMinWakeupTime || targetWakeup < _nextMinWakeupTime)) {
+        _currentIdleSecs = secsToWakeUp;
         _nextMinWakeupTime = targetWakeup;
         if (now.time().msec() > 0) secsToWakeUp++;
         int secsToWakeUpEnd = secsToWakeUp + (secsToWakeUp < 30 ? 1 : 30);
@@ -150,8 +153,11 @@ ConditionManagerIdle::userActivityIdleChanged(bool isIdle)
     if (isIdle) {
         _idleStartTime = QDateTime::currentDateTime();
         _currentIdleMode = IDLE_MODE;
-        if (!_timer.isActive()) {
+        if (!_timer.isActive() || _currentIdleSecs != _currentMinIdleSecs) {
+            IFDEBUG(qDebug() << "ConditionManagerIdle::userActivityIdleChanged _currentIdleSecs"
+                             << _currentIdleSecs << " _currentMinIdleSecs" << _currentMinIdleSecs);
             if (_currentMinIdleSecs > 0) {
+                IFDEBUG(qDebug() << "ConditionManagerIdle::userActivityIdleChanged scheduling new timeout");
                 _nextMinWakeupTime = QDateTime();
                 _scheduleWakeup(_idleStartTime, _currentMinIdleSecs);
             } else {
@@ -160,6 +166,7 @@ ConditionManagerIdle::userActivityIdleChanged(bool isIdle)
                 emit matchInvalidated();
             }
         } else {
+            IFDEBUG(qDebug() << "ConditionManagerIdle::userActivityIdleChanged now idle, tainted timer");
             _timerTainted = true;
         }
     } else {
@@ -207,6 +214,7 @@ ConditionManagerIdle::_timeout()
 void
 ConditionManagerIdle::_clearVarsForInvalidation() {
     _currentMinIdleSecs = INT_MAX;
+    _currentIdleSecs = INT_MAX;
     _hasActive = false;
     _nextMinWakeupTime = QDateTime();
 }
