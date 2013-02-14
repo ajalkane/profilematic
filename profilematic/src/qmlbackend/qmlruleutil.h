@@ -84,6 +84,9 @@ public:
     void customActionClear(RuleAction *action);
     QString applicationSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
     void applicationClear(RuleAction *action);
+    Q_INVOKABLE QString alarmSummary(RuleAction *action, const QString &nonUsable, bool inListing);
+    QString alarmSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
+    void alarmClear(RuleAction *action);
 };
 
 #endif // QMLRULEUTIL_H

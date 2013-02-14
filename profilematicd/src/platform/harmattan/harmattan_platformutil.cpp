@@ -17,6 +17,7 @@
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
 // #include <MNotification>
+#include <QDebug>
 
 #include "harmattan_platformutil.h"
 #include "../../logic/presence/actionpresenceimpl.h"
@@ -32,6 +33,38 @@
 #define PLATFORMUTIL_APP "/opt/profilematic/bin/platformutil"
 #define FLIGHT_MODE_CMD "invoker --type=m " PLATFORMUTIL_APP
 
+#include <timed/interface>
+#include <timed/event>
+
+int testAlarm() {
+    qDebug() << "Testing alarm";
+
+    Maemo::Timed::Event event;
+    event.setAttribute("APPLICATION", "ProfileMatic");
+    event.setAttribute("TITLE", "Get up now!");
+    event.setAttribute("PLUGIN", "libclockalarm");
+    event.setBootFlag();
+    event.setAlarmFlag();
+    event.setReminderFlag();
+    // set the alarm in 10s from now
+    event.setTicker(QDateTime::currentDateTime().toTime_t() + 10);
+
+    // timed interface setup
+    Maemo::Timed::Interface timedIface;
+    if(!timedIface.isValid()) {
+       qDebug() << "Invalid timed interface:" << timedIface.lastError();
+       return 1;
+    }
+    // add the event
+    QDBusReply<uint> reply = timedIface.add_event_sync(event);
+    if(!reply.isValid()) {
+       qDebug() << "Adding event failed:" << reply.error().message();
+       return 1;
+    }
+    qDebug() << "Added event with cookie:" << reply.value();
+    return 0;
+}
+
 HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
     : PlatformUtil(parent), _pendingCellularMode(-1)
 {
@@ -42,6 +75,8 @@ HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
     connect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)));
     connect(&_systemState, SIGNAL(systemStateChanged(MeeGo::QmSystemState::StateIndication)), this, SLOT(privateSystemStateChanged(MeeGo::QmSystemState::StateIndication)));
     connect(&_qmbattery, SIGNAL(chargingStateChanged(MeeGo::QmBattery::ChargingState)), this, SLOT(privateBatteryChargingStateChanged(MeeGo::QmBattery::ChargingState)));
+
+    // testAlarm();
 }
 
 HarmattanPlatformUtil::~HarmattanPlatformUtil() {}
@@ -359,6 +394,41 @@ void
 HarmattanPlatformUtil::batteryRemainingCapacityChanged(int percentage, int bars) {
     IFDEBUG(qDebug("HarmattanPlatformUtil::batteryRemainingCapacityChanged pct %d bars %d", percentage, bars));
     emit batteryLevelChanged(percentage);
+}
+
+void
+HarmattanPlatformUtil::scheduleAlarm(const QString &title, int alarmInSeconds) {
+    // Mostly copied from example given by Cristi Boian here: http://www.cristiboian.com/2012/05/setting-alarms-in-harmattan-nokia-n9.html
+    IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm title"
+            << title << "alarmInSeconds" << alarmInSeconds);
+
+    Maemo::Timed::Event event;
+    event.setAttribute("APPLICATION", "ProfileMatic");
+    event.setAttribute("TITLE", title);
+    event.setAttribute("PLUGIN", "libclockalarm");
+    event.setBootFlag();
+    event.setAlarmFlag();
+    event.setReminderFlag();
+    // Try to hide the snooze button - does not work
+    event.hideSnoozeButton1();
+    // Hard code snooze for 10 minutes - does not work
+    event.setTimeoutSnooze(10 * 60);
+    // set the alarm in given amount of seconds from now - at least this seems to work
+    event.setTicker(QDateTime::currentDateTime().toTime_t() + alarmInSeconds);
+
+    // timed interface setup
+    Maemo::Timed::Interface timedIface;
+    if(!timedIface.isValid()) {
+       IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm Invalid timed interface:" << timedIface.lastError());
+       return;
+    }
+    // add the event
+    QDBusReply<uint> reply = timedIface.add_event_sync(event);
+    if(!reply.isValid()) {
+       IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm Adding event failed:" << reply.error().message());
+       return;
+    }
+    IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm Added event with cookie" << reply.value());
 }
 
 CalendarManager *

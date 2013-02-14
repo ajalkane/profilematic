@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
+#include <QDebug>
+
 #include <cstdio>
 #include <cstdlib>
 #include "qmlruleutil.h"
@@ -625,4 +627,33 @@ QmlRuleUtil::applicationClear(RuleAction *action) {
     if (action == 0) return;
 
     action->application().setLaunchers(QSet<QString>());
+}
+
+QString
+QmlRuleUtil::alarmSummary(RuleAction *action, const QString &nonUsable, bool inListing) {
+    qDebug("alarmSummary QML version");
+    return alarmSummary(const_cast<const RuleAction *>(action), nonUsable, inListing);
+}
+
+QString
+QmlRuleUtil::alarmSummary(const RuleAction *action, const QString &nonUsable, bool inListing) {
+    if (action == 0) return nonUsable;
+
+    const RuleActionAlarm &a = action->alarm();
+    if (!a.isValid()) {
+        return nonUsable;
+    }
+
+    if (!inListing) {
+        return QString("Alarm with title %1 shown in %2 seconds").arg(a.getTitle()).arg(a.getAlarmInSeconds());
+    }
+    return "Alarm";
+}
+
+void
+QmlRuleUtil::alarmClear(RuleAction *action) {
+    if (action == 0) return;
+
+    qDebug() << "QmlRuleUtil::alarmClear";
+    action->alarm().clear();
 }

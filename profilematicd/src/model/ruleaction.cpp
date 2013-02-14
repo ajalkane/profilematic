@@ -51,6 +51,7 @@ RuleAction::RuleAction(const RuleAction &o)
       _backgroundConnectionsMode(o._backgroundConnectionsMode),
       _restoreBackgroundConnectionsMode(o._restoreBackgroundConnectionsMode),
       _application(o._application),
+      _alarm(o._alarm),
       _presenceStatusMessage(o._presenceStatusMessage),
       _restorePresence(o._restorePresence),
       _presenceChangeType(o._presenceChangeType)
@@ -85,6 +86,8 @@ RuleAction::_init() {
     connect(this, SIGNAL(restoreBackgroundConnectionsModeChanged()), this, SIGNAL(changed()));
     connect(&_application, SIGNAL(changed()),     this, SIGNAL(applicationChanged()));
     connect(this, SIGNAL(applicationChanged()),   this, SIGNAL(changed()));
+    connect(&_alarm, SIGNAL(changed()),     this, SIGNAL(alarmChanged()));
+    connect(this, SIGNAL(alarmChanged()),   this, SIGNAL(changed()));
 }
 
 RuleAction::~RuleAction() {}
@@ -112,6 +115,7 @@ RuleAction::operator=(const RuleAction &o) {
     _backgroundConnectionsMode = o._backgroundConnectionsMode;
     _restoreBackgroundConnectionsMode = o._restoreBackgroundConnectionsMode;
     _application = o._application;
+    _alarm = o._alarm;
 
     setPresenceRules(o.presenceRules());
     return *this;
@@ -526,6 +530,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleAction &ruleAction)
     argument << ruleAction.getRestorePresence();
     argument << int(ruleAction.getPresenceChangeType());
     argument << ruleAction.application();
+    argument << ruleAction.alarm();
     argument.endStructure();
     return argument;
 }
@@ -555,6 +560,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     bool restorePresence;
     int presenceChangeType;
     RuleActionApplication application;
+    RuleActionAlarm alarm;
 
     argument.beginStructure();
     argument >> profile;
@@ -579,6 +585,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     argument >> restorePresence;
     argument >> presenceChangeType;
     argument >> application;
+    argument >> alarm;
     argument.endStructure();
 
     ruleAction.setProfile(profile);
@@ -599,6 +606,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     ruleAction.setCommandLine(commandLine);
     ruleAction.setCommandLineExit(commandLineExit);
     ruleAction.setApplication(application);
+    ruleAction.setAlarm(alarm);
 
     QList<PresenceRule *> dstPresenceRules;
     foreach(const PresenceRule &presenceRule, presenceRules)

@@ -7,6 +7,7 @@
 
 #include "presencerule.h"
 #include "ruleactionapplication.h"
+#include "ruleactionalarm.h"
 
 class RuleAction : public QObject
 {
@@ -40,6 +41,7 @@ private:
     int     _backgroundConnectionsMode;
     bool    _restoreBackgroundConnectionsMode;
     RuleActionApplication _application;
+    RuleActionAlarm _alarm;
 
     QList<PresenceRule *> _presenceRules;
     QString _presenceStatusMessage;
@@ -66,6 +68,7 @@ private:
     Q_PROPERTY(int backgroundConnectionsMode READ getBackgroundConnectionsMode WRITE setBackgroundConnectionsMode NOTIFY backgroundConnectionsModeChanged)
     Q_PROPERTY(bool restoreBackgroundConnectionsMode READ getRestoreBackgroundConnectionsMode WRITE setRestoreBackgroundConnectionsMode NOTIFY restoreBackgroundConnectionsModeChanged)
     Q_PROPERTY(RuleActionApplication *application READ getApplicationQml NOTIFY applicationChanged STORED false)
+    Q_PROPERTY(RuleActionAlarm *alarm READ getAlarmQml NOTIFY alarmChanged STORED false)
 
     /**
       * This property gives access to the presence rules associated with this
@@ -112,6 +115,7 @@ signals:
     void restoreBackgroundConnectionsModeChanged();
     void nfcChanged();
     void applicationChanged();
+    void alarmChanged();
 
 private slots:
     void onPresenceRuleChanged();
@@ -204,6 +208,12 @@ public:
     // For QML
     inline RuleActionApplication *getApplicationQml() { return &_application; }
 
+    inline const RuleActionAlarm &alarm() const { return _alarm; }
+    inline RuleActionAlarm &alarm() { return _alarm; }
+    inline void setAlarm(const RuleActionAlarm &alarm) { _alarm = alarm; }
+    // For QML
+    inline RuleActionAlarm *getAlarmQml() { return &_alarm; }
+
     inline bool operator==(const RuleAction &o) const {
         return this->_profile   == o._profile
             && this->_restoreProfile == o._restoreProfile
@@ -224,7 +234,8 @@ public:
             && this->_restoreStandByScreenMode == o._restoreStandByScreenMode
             && this->_backgroundConnectionsMode == o._backgroundConnectionsMode
             && this->_restoreBackgroundConnectionsMode == o._restoreBackgroundConnectionsMode
-            && this->_application == o._application;
+            && this->_application == o._application
+            && this->_alarm == o._alarm;
     }
 
 };

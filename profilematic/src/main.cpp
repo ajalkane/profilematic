@@ -111,6 +111,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<RuleCondition>("Rule", 1, 0, "RuleCondition");
     qmlRegisterType<RuleAction>("Rule", 1, 0, "RuleAction");
     qmlRegisterType<RuleActionApplication>("Rule", 1, 0, "RuleActionApplication");
+    qmlRegisterType<RuleActionAlarm>("Rule", 1, 0, "RuleActionAlarm");
     qmlRegisterType<RuleConditionNFC>("Rule", 1, 0, "RuleConditionNFC");
     qmlRegisterType<RuleConditionBatteryLevel>("Rule", 1, 0, "RuleConditionBatteryLevel");
     qmlRegisterType<RuleConditionCalendar>("Rule", 1, 0, "RuleConditionCalendar");

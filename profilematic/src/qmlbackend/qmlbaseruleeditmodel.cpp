@@ -127,13 +127,13 @@ QmlBaseRuleEditModel::initializeEdit() {
 
 void
 QmlBaseRuleEditModel::clearEditItem(int index) {
-    qDebug("QmlRulesModel::removeRule(%d)", index);
+    qDebug("QmlBaseRuleEditModel::clearEditItem(%d)", index);
     if (index < 0 || index >= _descriptions.count()) {
         qWarning("QmlBaseRuleEditModel::clearEditItem: Invalid index %d/%d", index, _descriptions.size());
         return;
     }
 
     Description *d = _descriptions.at(index);
-    qDebug("QmlRulesModel::clearRule(%d) %s", index, qPrintable(d->topic));
+    qDebug("QmlBaseRuleEditModel::clearEditItem(%d) %s", index, qPrintable(d->topic));
     d->clear(*_editRule);
 }
