@@ -52,11 +52,8 @@ RuleAction::RuleAction(const RuleAction &o)
       _backgroundConnectionsMode(o._backgroundConnectionsMode),
       _restoreBackgroundConnectionsMode(o._restoreBackgroundConnectionsMode),
       _application(o._application),
-<<<<<<< HEAD
       _deviceVolume(o._deviceVolume),
-=======
       _alarm(o._alarm),
->>>>>>> alarm
       _presenceStatusMessage(o._presenceStatusMessage),
       _restorePresence(o._restorePresence),
       _presenceChangeType(o._presenceChangeType)
@@ -91,12 +88,9 @@ RuleAction::_init() {
     connect(this, SIGNAL(restoreBackgroundConnectionsModeChanged()), this, SIGNAL(changed()));
     connect(&_application, SIGNAL(changed()),     this, SIGNAL(applicationChanged()));
     connect(this, SIGNAL(applicationChanged()),   this, SIGNAL(changed()));
-<<<<<<< HEAD
     connect(this, SIGNAL(deviceVolumeChanged()),          this, SIGNAL(changed()));
-=======
     connect(&_alarm, SIGNAL(changed()),     this, SIGNAL(alarmChanged()));
     connect(this, SIGNAL(alarmChanged()),   this, SIGNAL(changed()));
->>>>>>> alarm
 }
 
 RuleAction::~RuleAction() {}
@@ -124,11 +118,8 @@ RuleAction::operator=(const RuleAction &o) {
     _backgroundConnectionsMode = o._backgroundConnectionsMode;
     _restoreBackgroundConnectionsMode = o._restoreBackgroundConnectionsMode;
     _application = o._application;
-<<<<<<< HEAD
     _deviceVolume = o._deviceVolume;
-=======
     _alarm = o._alarm;
->>>>>>> alarm
 
     setPresenceRules(o.presenceRules());
     return *this;
@@ -556,11 +547,8 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleAction &ruleAction)
     argument << ruleAction.getRestorePresence();
     argument << int(ruleAction.getPresenceChangeType());
     argument << ruleAction.application();
-<<<<<<< HEAD
     argument << ruleAction.getDeviceVolume();
-=======
     argument << ruleAction.alarm();
->>>>>>> alarm
     argument.endStructure();
     return argument;
 }
@@ -590,11 +578,8 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     bool restorePresence;
     int presenceChangeType;
     RuleActionApplication application;
-<<<<<<< HEAD
     int     deviceVolume = ruleAction.getDeviceVolume();
-=======
     RuleActionAlarm alarm;
->>>>>>> alarm
 
     argument.beginStructure();
     argument >> profile;
@@ -619,11 +604,8 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     argument >> restorePresence;
     argument >> presenceChangeType;
     argument >> application;
-<<<<<<< HEAD
     argument >> deviceVolume;
-=======
     argument >> alarm;
->>>>>>> alarm
     argument.endStructure();
 
     ruleAction.setProfile(profile);
@@ -644,11 +626,8 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     ruleAction.setCommandLine(commandLine);
     ruleAction.setCommandLineExit(commandLineExit);
     ruleAction.setApplication(application);
-<<<<<<< HEAD
     ruleAction.setDeviceVolume(deviceVolume);
-=======
     ruleAction.setAlarm(alarm);
->>>>>>> alarm
 
     QList<PresenceRule *> dstPresenceRules;
     foreach(const PresenceRule &presenceRule, presenceRules)

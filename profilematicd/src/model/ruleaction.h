@@ -41,11 +41,8 @@ private:
     int     _backgroundConnectionsMode;
     bool    _restoreBackgroundConnectionsMode;
     RuleActionApplication _application;
-<<<<<<< HEAD
     int     _deviceVolume;
-=======
     RuleActionAlarm _alarm;
->>>>>>> alarm
 
     QList<PresenceRule *> _presenceRules;
     QString _presenceStatusMessage;
@@ -72,11 +69,8 @@ private:
     Q_PROPERTY(int backgroundConnectionsMode READ getBackgroundConnectionsMode WRITE setBackgroundConnectionsMode NOTIFY backgroundConnectionsModeChanged)
     Q_PROPERTY(bool restoreBackgroundConnectionsMode READ getRestoreBackgroundConnectionsMode WRITE setRestoreBackgroundConnectionsMode NOTIFY restoreBackgroundConnectionsModeChanged)
     Q_PROPERTY(RuleActionApplication *application READ getApplicationQml NOTIFY applicationChanged STORED false)
-<<<<<<< HEAD
     Q_PROPERTY(int deviceVolume READ getDeviceVolume WRITE setDeviceVolume NOTIFY deviceVolumeChanged)
-=======
     Q_PROPERTY(RuleActionAlarm *alarm READ getAlarmQml NOTIFY alarmChanged STORED false)
->>>>>>> alarm
 
     /**
       * This property gives access to the presence rules associated with this
@@ -123,11 +117,8 @@ signals:
     void restoreBackgroundConnectionsModeChanged();
     void nfcChanged();
     void applicationChanged();
-<<<<<<< HEAD
     void deviceVolumeChanged();
-=======
     void alarmChanged();
->>>>>>> alarm
 
 private slots:
     void onPresenceRuleChanged();
