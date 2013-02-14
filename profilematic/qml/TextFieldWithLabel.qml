@@ -28,6 +28,7 @@ Item {
     property alias inputMask: labelField.inputMask
     property alias inputMethodHints: labelField.inputMethodHints
     property alias validator: labelField.validator
+    property alias maximumLength: labelField.maximumLength
 
     height: childrenRect.height
 

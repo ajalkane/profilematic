@@ -8,6 +8,7 @@
 #include "actionprofile.h"
 #include "actionbluetooth.h"
 #include "actiondevicevolume.h"
+#include "actionalarm.h"
 #include "application/actionapplication.h"
 #include "presence/actionpresence.h"
 
@@ -31,6 +32,7 @@ ActionFactory::create(ProfileClient *profileClient) {
     ac->add(new ActionApplication());
     ac->add(new ActionCommandLine());
     ac->add(new ActionDeviceVolume());
+    ac->add(new ActionAlarm());
     ac->add(PlatformUtil::instance()->createActionPresence());
     return ac;
 }
@@ -49,6 +51,7 @@ ActionFactory::createAsList(ProfileClient *profileClient) {
     ac << new ActionApplication();
     ac << new ActionCommandLine();
     ac << new ActionDeviceVolume();
+    ac << new ActionAlarm();
     ac << PlatformUtil::instance()->createActionPresence();
 
     return ac;

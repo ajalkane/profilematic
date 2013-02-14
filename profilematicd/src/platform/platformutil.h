@@ -82,6 +82,8 @@ public:
     // do this and would make this method unnecessary.
     virtual void monitorBatteryLevel(bool monitor);
 
+    virtual void scheduleAlarm(const QString &title, int alarmInSeconds);
+
     virtual CalendarManager *createCalendarManager(QObject *parent = 0);
 
     // Returns the device volume in percents between 0-100

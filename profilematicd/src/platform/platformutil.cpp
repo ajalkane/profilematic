@@ -19,6 +19,7 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include <QtDebug>
 #include <QtGlobal>
 
 #include "platformutil.h"
@@ -180,6 +181,12 @@ PlatformUtil::batteryLevel() const {
 void
 PlatformUtil::monitorBatteryLevel(bool monitor) {
     IFDEBUG(qDebug("PlatformUtil::monitorBatteryLevel default, monitor: %d", monitor));
+}
+
+void
+PlatformUtil::scheduleAlarm(const QString &title, int alarmInSeconds) {
+    IFDEBUG(qDebug() << "PlatformUtil::scheduleAlarm title"
+            << title << "alarmInSeconds" << alarmInSeconds << "default doing nothing");
 }
 
 CalendarManager *

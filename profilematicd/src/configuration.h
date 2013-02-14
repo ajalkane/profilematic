@@ -42,6 +42,8 @@ class Configuration
     static void _assignRuleId(Rule &r, const QVariant &ruleIdVar);
     static void _writeApplicationAction(QSettings &s, const RuleActionApplication &actionApp);
     static void _readApplicationAction(QSettings &s, RuleActionApplication &actionApp);
+    static void _writeAlarmAction(QSettings &s, const RuleActionAlarm &actionAlarm);
+    static void _readAlarmAction(QSettings &s, RuleActionAlarm &actionAlarm);
     static void _writePresenceRuleList(QSettings &s, const QList<PresenceRule *> &rules);
     static void _readPresenceRuleList(QSettings &s, QList<PresenceRule *> &rules);
     static void _writeNfcCondition(QSettings &s, const RuleConditionNFC &condNfc);

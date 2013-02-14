@@ -50,6 +50,7 @@ DESCRIPTION(standByScreenMode, "Stand-by screen mode", "ActionStandByScreen.qml"
 DESCRIPTION(customAction, "Custom action", "ActionCommandLine.qml", false)
 DESCRIPTION(application, "Application", "ActionApplication.qml", false)
 DESCRIPTION(deviceVolume, "Device volume", "ActionDeviceVolume.qml", false)
+DESCRIPTION(alarm, "Alarm", "ActionAlarm.qml", false)
 
 QmlActionEditModel::QmlActionEditModel(Rule *editRule, QObject *parent)
     : super(editRule, parent)
@@ -63,7 +64,8 @@ QmlActionEditModel::QmlActionEditModel(Rule *editRule, QObject *parent)
                   << &descriptionstandByScreenMode
                   << &descriptioncustomAction
                   << &descriptionapplication
-                  << &descriptiondeviceVolume;
+                  << &descriptiondeviceVolume
+                  << &descriptionalarm;
 
     connect(_editRule, SIGNAL(actionChanged()), this, SLOT(ruleChanged()));
 }

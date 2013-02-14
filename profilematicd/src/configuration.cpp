@@ -81,6 +81,7 @@ Configuration::writeRules(const RulesHolder &rulesHolder) {
         s.setValue("internetConnectionMode", int(r.condition().getInternetConnectionMode()));
         s.setValue("chargingState", int(r.condition().getChargingState()));
         _writeApplicationAction(s, r.action().application());
+        _writeAlarmAction(s, r.action().alarm());
         _writeNfcCondition(s, r.condition().nfc());
         _writeBatteryLevelCondition(s, r.condition().batteryLevel());
         _writeCalendarCondition(s, r.condition().calendar());
@@ -222,6 +223,7 @@ Configuration::readRules(RulesHolder &rulesHolder, int *rules_version_return) {
         r.action().setPresenceChangeType((RuleAction::PresenceChangeType) s.value("presenceChangeType", (int) RuleAction::CustomPresenceType).toInt());
 
         _readApplicationAction(s, r.action().application());
+        _readAlarmAction(s, r.action().alarm());
         _readNfcCondition(s, r.condition().nfc());
         _readBatteryLevelCondition(s, r.condition().batteryLevel());
         _readCalendarCondition(s, r.condition().calendar());
@@ -373,6 +375,19 @@ Configuration::_readApplicationAction(QSettings &s, RuleActionApplication &actio
     QList<QString> launchers;
     _readStringList(s, "applications", "launcher", launchers);
     actionApp.setLaunchers(QSet<QString>::fromList(launchers));
+
+}
+
+void
+Configuration::_writeAlarmAction(QSettings &s, const RuleActionAlarm &actionAlarm) {
+    s.setValue("alarmTitle", actionAlarm.getTitle());
+    s.setValue("alarmInSeconds", actionAlarm.getAlarmInSeconds());
+}
+
+void
+Configuration::_readAlarmAction(QSettings &s, RuleActionAlarm &actionAlarm) {
+    actionAlarm.setTitle(s.value("alarmTitle", "").toString());
+    actionAlarm.setAlarmInSeconds(s.value("alarmInSeconds", "-1").toInt());
 
 }
 

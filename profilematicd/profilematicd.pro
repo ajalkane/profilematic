@@ -88,7 +88,12 @@ SOURCES += src/main.cpp \
     src/logic/rulesholder.cpp \
     src/model/ruleactionapplication.cpp \
     src/logic/application/actionapplication.cpp \
+<<<<<<< HEAD
     src/logic/actiondevicevolume.cpp
+=======
+    src/model/ruleactionalarm.cpp \
+    src/logic/actionalarm.cpp
+>>>>>>> alarm
 
 HEADERS += \
     src/profileclient.h \
@@ -143,7 +148,12 @@ HEADERS += \
     src/logic/rulesholder.h \
     src/model/ruleactionapplication.h \
     src/logic/application/actionapplication.h \
+<<<<<<< HEAD
     src/logic/actiondevicevolume.h
+=======
+    src/model/ruleactionalarm.h \
+    src/logic/actionalarm.h
+>>>>>>> alarm
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     DEFINES += PM_TIMER_USHORT
@@ -158,6 +168,7 @@ HEADERS += \
 !isEmpty(MEEGO_VERSION_MAJOR) {
     message(Building with libaccounts-qt)
     CONFIG += link_pkgconfig
+    CONFIG += timed
     PKGCONFIG += accounts-qt
     PKGCONFIG += TelepathyQt4
 

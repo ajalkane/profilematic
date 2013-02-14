@@ -7,6 +7,7 @@
 
 #include "presencerule.h"
 #include "ruleactionapplication.h"
+#include "ruleactionalarm.h"
 
 class RuleAction : public QObject
 {
@@ -40,7 +41,11 @@ private:
     int     _backgroundConnectionsMode;
     bool    _restoreBackgroundConnectionsMode;
     RuleActionApplication _application;
+<<<<<<< HEAD
     int     _deviceVolume;
+=======
+    RuleActionAlarm _alarm;
+>>>>>>> alarm
 
     QList<PresenceRule *> _presenceRules;
     QString _presenceStatusMessage;
@@ -67,7 +72,11 @@ private:
     Q_PROPERTY(int backgroundConnectionsMode READ getBackgroundConnectionsMode WRITE setBackgroundConnectionsMode NOTIFY backgroundConnectionsModeChanged)
     Q_PROPERTY(bool restoreBackgroundConnectionsMode READ getRestoreBackgroundConnectionsMode WRITE setRestoreBackgroundConnectionsMode NOTIFY restoreBackgroundConnectionsModeChanged)
     Q_PROPERTY(RuleActionApplication *application READ getApplicationQml NOTIFY applicationChanged STORED false)
+<<<<<<< HEAD
     Q_PROPERTY(int deviceVolume READ getDeviceVolume WRITE setDeviceVolume NOTIFY deviceVolumeChanged)
+=======
+    Q_PROPERTY(RuleActionAlarm *alarm READ getAlarmQml NOTIFY alarmChanged STORED false)
+>>>>>>> alarm
 
     /**
       * This property gives access to the presence rules associated with this
@@ -114,7 +123,11 @@ signals:
     void restoreBackgroundConnectionsModeChanged();
     void nfcChanged();
     void applicationChanged();
+<<<<<<< HEAD
     void deviceVolumeChanged();
+=======
+    void alarmChanged();
+>>>>>>> alarm
 
 private slots:
     void onPresenceRuleChanged();
@@ -211,6 +224,11 @@ public:
     int getDeviceVolume() const;
     // Use -1 if the profile volume is not to be set, otherwise value between 0 to 100
     void setDeviceVolume(int volume);
+    inline const RuleActionAlarm &alarm() const { return _alarm; }
+    inline RuleActionAlarm &alarm() { return _alarm; }
+    inline void setAlarm(const RuleActionAlarm &alarm) { _alarm = alarm; }
+    // For QML
+    inline RuleActionAlarm *getAlarmQml() { return &_alarm; }
 
     inline bool operator==(const RuleAction &o) const {
         return this->_profile   == o._profile
@@ -233,7 +251,8 @@ public:
             && this->_backgroundConnectionsMode == o._backgroundConnectionsMode
             && this->_restoreBackgroundConnectionsMode == o._restoreBackgroundConnectionsMode
             && this->_application == o._application
-            && this->_deviceVolume == o._deviceVolume;
+            && this->_deviceVolume == o._deviceVolume
+            && this->_alarm == o._alarm;
     }
 
 };
