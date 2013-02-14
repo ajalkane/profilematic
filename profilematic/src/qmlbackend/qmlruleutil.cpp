@@ -655,6 +655,7 @@ QmlRuleUtil::deviceVolumeClear(RuleAction *action) {
     action->setDeviceVolume(-1);   
 }
 
+QString
 QmlRuleUtil::alarmSummary(RuleAction *action, const QString &nonUsable, bool inListing) {
     qDebug("alarmSummary QML version");
     return alarmSummary(const_cast<const RuleAction *>(action), nonUsable, inListing);
