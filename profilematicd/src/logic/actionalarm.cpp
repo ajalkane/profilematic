@@ -27,13 +27,13 @@ ActionAlarm::ActionAlarm()
 
 bool
 ActionAlarm::activateOnce(const Rule::IdType &, const RuleAction &action) {
-    if (!action.alarm().isValid()) {
+    const RuleActionAlarm &a = action.alarm();
+    if (!a.isValid()) {
         IFDEBUG(qDebug() << "ActionAlarm::activateOnce no alarm action");
         return false;
     }
 
-    const RuleActionAlarm &a = action.alarm();
-    PlatformUtil::instance()->scheduleAlarm(a.getTitle(), a.getAlarmInSeconds());
+    PlatformUtil::instance()->scheduleAlarm(a);
 
     return true;
 }

@@ -29,9 +29,13 @@ class RuleActionAlarm : public QObject
 
     QString _title;
     int _alarmInSeconds;
+    int _snoozeInMinutes;
+    QString _sound;
 
     Q_PROPERTY(QString title READ getTitle WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(int alarmInSeconds READ getAlarmInSeconds WRITE setAlarmInSeconds NOTIFY alarmInSecondsChanged)
+    Q_PROPERTY(int snoozeInMinutes READ getSnoozeInMinutes WRITE setSnoozeInMinutes NOTIFY snoozeInMinutesChanged)
+    Q_PROPERTY(QString sound READ getSound WRITE setSound NOTIFY soundChanged)
 
     void _init();
 signals:
@@ -39,6 +43,8 @@ signals:
 
     void titleChanged();
     void alarmInSecondsChanged();
+    void snoozeInMinutesChanged();
+    void soundChanged();
 
 public:
     explicit RuleActionAlarm(QObject *parent = 0);
@@ -49,21 +55,31 @@ public:
     inline const QString &getTitle() const { return _title; }
     void setTitle(const QString &title);
 
-    inline const int &getAlarmInSeconds() const { return _alarmInSeconds; }
+    inline int getAlarmInSeconds() const { return _alarmInSeconds; }
     void setAlarmInSeconds(int alarmInSeconds);
 
-    inline bool isValid() const {
+    inline int getSnoozeInMinutes() const { return _snoozeInMinutes; }
+    void setSnoozeInMinutes(int snoozeInMinutes);
+
+    inline const QString &getSound() const { return _sound; }
+    void setSound(const QString &sound);
+
+    Q_INVOKABLE inline bool isValid() const {
         return !_title.isEmpty() && _alarmInSeconds >= 0;
     }
 
     inline void clear() {
-        setTitle("");
+        setTitle(QString());
         setAlarmInSeconds(-1);
+        setSnoozeInMinutes(-1);
+        setSound(QString());
     }
 
     inline bool operator==(const RuleActionAlarm &o) const {
         return this->_title == o._title
-            && this->_alarmInSeconds == o._alarmInSeconds;
+            && this->_alarmInSeconds == o._alarmInSeconds
+            && this->_snoozeInMinutes == o._snoozeInMinutes
+            && this->_sound == o._sound;
     }
 
 };

@@ -184,9 +184,10 @@ PlatformUtil::monitorBatteryLevel(bool monitor) {
 }
 
 void
-PlatformUtil::scheduleAlarm(const QString &title, int alarmInSeconds) {
-    IFDEBUG(qDebug() << "PlatformUtil::scheduleAlarm title"
-            << title << "alarmInSeconds" << alarmInSeconds << "default doing nothing");
+PlatformUtil::scheduleAlarm(const RuleActionAlarm &alarm) {
+    IFDEBUG(qDebug() << "PlatformUtil::scheduleAlarm title" << alarm.getTitle()
+            << "alarmInSeconds" << alarm.getAlarmInSeconds()
+            << "snoozeInMinutes" << alarm.getSnoozeInMinutes() << "default doing nothing");
 }
 
 CalendarManager *

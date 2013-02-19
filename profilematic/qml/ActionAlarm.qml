@@ -28,6 +28,41 @@ Page {
 
     property RuleAction action;
 
+    // TODO: should be JS library, used at least in ConditionCalendarAdvanced and ActionAlarmAdvanced and here
+    function timeInSecondsAdjustSummary(adjustInSeconds) {
+        var min = Math.floor(adjustInSeconds / 60)
+        var sec = adjustInSeconds % 60
+
+        if (min === 0) {
+            return sec + " seconds"
+        }
+        if (sec === 0) {
+            return min + " minutes"
+        }
+        return min + " minutes "+sec+" seconds";
+    }
+
+    function alarmDelayEditHandler() {
+        if (action.alarm.alarmInSeconds >= 0) {
+            alarmDelayDialog.minute = Math.floor(action.alarm.alarmInSeconds / 60)
+            alarmDelayDialog.second = action.alarm.alarmInSeconds  % 60
+        } else {
+            alarmDelayDialog.minute = 0
+            alarmDelayDialog.second = 0
+        }
+
+        alarmDelayDialog.open();
+    }
+
+
+    TimeInMinutesAndSecondsDialog {
+        id: alarmDelayDialog
+        titleText: "Alarm delay before shown"
+        onAccepted: {
+            action.alarm.alarmInSeconds = minute * 60 + second
+        }
+    }
+
     Flickable {
         anchors.fill: parent
         pressDelay: 140
@@ -62,19 +97,25 @@ Page {
                 }
             }
 
-            TextFieldWithLabel {
-                labelText: "Alarm delay in seconds"
-                placeholderText: "Not set"
-                text: action.alarm.alarmInSeconds < 0 ? "" : action.alarm.alarmInSeconds
-                inputMethodHints: Qt.ImhDigitsOnly
-                validator: RegExpValidator { regExp: /\d{0,4}/ }
-                width: parent.width
-                onTextChanged: {
-                    if (root.status === PageStatus.Active) {
-                        action.alarm.alarmInSeconds = (text !== "" ? parseInt(text) : -1)
-                    }
+            RuleTopicSummary {
+                topic: "Alarm delay before shown"
+                summary: action.alarm.alarmInSeconds >=0 ? timeInSecondsAdjustSummary(action.alarm.alarmInSeconds) : "Not set"
+                showComboBox: true
+                onTopicClicked: alarmDelayEditHandler()
+            }
+
+            Separator {}
+
+            RuleTopic {
+                topic: "Advanced settings"
+                showDrillDown: true
+                disabled: !action.alarm.isValid()
+                onTopicClicked: {
+                    root.pageStack.push(Qt.resolvedUrl("ActionAlarmAdvanced.qml"), { 'action': action });
                 }
             }
+
+            Separator {}
 
             LabelHelp {
                 id: summary
@@ -84,7 +125,7 @@ Page {
                     onChanged: summary.text = backendRuleUtil.alarmSummary(action, "Alarm action is not currently usable", false)
                 }
 
-            }
+            }                        
         }
     }
 }

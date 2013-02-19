@@ -21,6 +21,7 @@
 
 #include <QObject>
 
+#include "../model/rule.h"
 // IMPROVE it's wrong to have in platform util this... rather platformutil should abstract the QtTelepathy functions for portability between platforms
 #include "../logic/presence/actionpresence.h"
 #include "calendar/calendarmanager.h"
@@ -82,7 +83,8 @@ public:
     // do this and would make this method unnecessary.
     virtual void monitorBatteryLevel(bool monitor);
 
-    virtual void scheduleAlarm(const QString &title, int alarmInSeconds);
+    // If snoozeInMinutes is 0 or less, the platform default snooze time should be used (if makes sense)
+    virtual void scheduleAlarm(const RuleActionAlarm &alarm);
 
     virtual CalendarManager *createCalendarManager(QObject *parent = 0);
 

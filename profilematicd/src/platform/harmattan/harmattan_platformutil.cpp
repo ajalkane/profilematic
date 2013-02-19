@@ -397,27 +397,62 @@ HarmattanPlatformUtil::batteryRemainingCapacityChanged(int percentage, int bars)
 }
 
 void
-HarmattanPlatformUtil::scheduleAlarm(const QString &title, int alarmInSeconds) {
+HarmattanPlatformUtil::scheduleAlarm(const RuleActionAlarm &alarm) {
     // Mostly copied from example given by Cristi Boian here: http://www.cristiboian.com/2012/05/setting-alarms-in-harmattan-nokia-n9.html
-    IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm title"
-            << title << "alarmInSeconds" << alarmInSeconds);
+    IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm title" << alarm.getTitle()
+            << "alarmInSeconds" << alarm.getAlarmInSeconds()
+            << "snoozeInMinutes" << alarm.getSnoozeInMinutes());
 
     Maemo::Timed::Event event;
-    event.setAttribute("APPLICATION", "ProfileMatic");
-    event.setAttribute("TITLE", title);
+    uint ticker = QDateTime::currentDateTime().toTime_t() + alarm.getAlarmInSeconds();
+    int snoozeInMinutes = alarm.getSnoozeInMinutes();
+
+    // event.setAttribute("APPLICATION", "ProfileMatic");
+    // Use clock as application so that the alarm's appear in Harmattan's Clock app
+    // Having this as "clock" allows the alarm to be deleted and disabled from clock.
+    event.setAttribute("APPLICATION", "clock");
+    event.setAttribute("TITLE", alarm.getTitle());
     event.setAttribute("PLUGIN", "libclockalarm");
+    event.setAttribute("alarmtime", QDateTime::fromTime_t(ticker).time().toString("hh:mm"));
+    event.setAttribute("enabled", QString::number(1));
+    // Hardcoded for Harmattan default 10 minutes if not set - this has no effect it seems
+    // event.setAttribute("snooze", QString::number(snoozeInMinutes > 0 ? snoozeInMinutes : 10));
+    event.setAttribute("trigger", QString::number(ticker));
+    if (!alarm.getSound().trimmed().isEmpty()) {
+        IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm setting alarm sound to" << alarm.getSound());
+        event.setAttribute("sound", alarm.getSound().trimmed());
+    } else {
+        IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm not setting alarm sound")
+    }
+
+    // Keeps the alarm in Clock application so that user can modify it. This creates multiple entries
+    // unless specifically deleted, so won't be used. It'd be optimal if we could query if an alarm
+    // with specified title is already there and use it. But the API does not allow that, even though
+    // you could probably do it with DBus calls.
+    // event.setKeepAliveFlag();
+
+    // These are needed anyway, even as we set the "snooze" flag above. The first
+    // button is snooze, so that's what the addButton seems to be attached to.
+    // Not too intuitive, but seems to work.
+    Maemo::Timed::Event::Button &b1 = event.addButton() ;
+
+    if (snoozeInMinutes > 0) {
+        b1.setSnooze(snoozeInMinutes * 60);
+    } else {
+        b1.setSnoozeDefault();
+    }
+
     event.setBootFlag();
     event.setAlarmFlag();
     event.setReminderFlag();
+
     // Try to hide the snooze button - does not work
-    event.hideSnoozeButton1();
-    // Hard code snooze for 10 minutes - does not work
-    event.setTimeoutSnooze(10 * 60);
+    //event.hideSnoozeButton1();
     // set the alarm in given amount of seconds from now - at least this seems to work
-    event.setTicker(QDateTime::currentDateTime().toTime_t() + alarmInSeconds);
+    event.setTicker(ticker);
 
     // timed interface setup
-    Maemo::Timed::Interface timedIface;
+    Maemo::Timed::Interface timedIface;    
     if(!timedIface.isValid()) {
        IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm Invalid timed interface:" << timedIface.lastError());
        return;
@@ -428,7 +463,7 @@ HarmattanPlatformUtil::scheduleAlarm(const QString &title, int alarmInSeconds) {
        IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm Adding event failed:" << reply.error().message());
        return;
     }
-    IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm Added event with cookie" << reply.value());
+    IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm Added event with cookie15" << reply.value());
 }
 
 CalendarManager *
