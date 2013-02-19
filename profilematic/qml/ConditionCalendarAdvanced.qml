@@ -65,14 +65,14 @@ Page {
     }
 
     function timeCalendarBeforeEditHandler() {
-        timeBeforeDialog.minute = condition.calendar.timePrepend / 60
+        timeBeforeDialog.minute = Math.floor(condition.calendar.timePrepend / 60)
         timeBeforeDialog.second = condition.calendar.timePrepend % 60
 
         timeBeforeDialog.open();
     }
 
     function timeCalendarAfterEditHandler() {
-        timeBeforeDialog.minute = condition.calendar.timePrepend / 60
+        timeBeforeDialog.minute = Math.floor(condition.calendar.timePrepend / 60)
         timeBeforeDialog.second = condition.calendar.timePrepend % 60
 
         timeAfterDialog.open();

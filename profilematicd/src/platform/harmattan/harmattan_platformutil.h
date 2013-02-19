@@ -72,7 +72,7 @@ public:
     virtual int batteryLevel() const;
     virtual void monitorBatteryLevel(bool monitor);
 
-    virtual void scheduleAlarm(const QString &title, int alarmInSeconds);
+    virtual void scheduleAlarm(const RuleActionAlarm &alarm);
 
     virtual CalendarManager *createCalendarManager(QObject *parent = 0);
 

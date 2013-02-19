@@ -382,13 +382,16 @@ void
 Configuration::_writeAlarmAction(QSettings &s, const RuleActionAlarm &actionAlarm) {
     s.setValue("alarmTitle", actionAlarm.getTitle());
     s.setValue("alarmInSeconds", actionAlarm.getAlarmInSeconds());
+    s.setValue("alarmSnoozeInMinutes", actionAlarm.getSnoozeInMinutes());
+    s.setValue("alarmSound", actionAlarm.getSound());
 }
 
 void
 Configuration::_readAlarmAction(QSettings &s, RuleActionAlarm &actionAlarm) {
     actionAlarm.setTitle(s.value("alarmTitle", "").toString());
     actionAlarm.setAlarmInSeconds(s.value("alarmInSeconds", "-1").toInt());
-
+    actionAlarm.setSnoozeInMinutes(s.value("alarmSnoozeInMinutes", "-1").toInt());
+    actionAlarm.setSound(s.value("alarmSound", "").toString());
 }
 
 void
