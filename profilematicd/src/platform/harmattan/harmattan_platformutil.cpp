@@ -405,7 +405,9 @@ HarmattanPlatformUtil::scheduleAlarm(const RuleActionAlarm &alarm) {
 
     Maemo::Timed::Event event;
     uint ticker = QDateTime::currentDateTime().toTime_t() + alarm.getAlarmInSeconds();
-    int snoozeInMinutes = alarm.getSnoozeInMinutes();
+    // Hardcoded for Harmattan default 10 minutes default - seems like the real default is hard
+    // to get and hart to set by user. So settle for 10 minutes
+    int snoozeInMinutes = alarm.getSnoozeInMinutes() > 0 ? alarm.getSnoozeInMinutes() : 10;
 
     // event.setAttribute("APPLICATION", "ProfileMatic");
     // Use clock as application so that the alarm's appear in Harmattan's Clock app
@@ -416,13 +418,17 @@ HarmattanPlatformUtil::scheduleAlarm(const RuleActionAlarm &alarm) {
     event.setAttribute("alarmtime", QDateTime::fromTime_t(ticker).time().toString("hh:mm"));
     event.setAttribute("enabled", QString::number(1));
     // Hardcoded for Harmattan default 10 minutes if not set - this has no effect it seems
-    // event.setAttribute("snooze", QString::number(snoozeInMinutes > 0 ? snoozeInMinutes : 10));
+    event.setAttribute("snooze", QString::number(snoozeInMinutes));
     event.setAttribute("trigger", QString::number(ticker));
     if (!alarm.getSound().trimmed().isEmpty()) {
         IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm setting alarm sound to" << alarm.getSound());
         event.setAttribute("sound", alarm.getSound().trimmed());
     } else {
-        IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm not setting alarm sound")
+        IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm not setting alarm sound");
+        // Seems like the clock application doesn't like missing attributes - without settings something
+        // here you can't disable the alarm from clock application. Empty is also not allowed, but
+        // using an unexisting sound file will result in default sound.
+        event.setAttribute("sound", QString("UNDEFINED"));
     }
 
     // Keeps the alarm in Clock application so that user can modify it. This creates multiple entries
@@ -463,7 +469,7 @@ HarmattanPlatformUtil::scheduleAlarm(const RuleActionAlarm &alarm) {
        IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm Adding event failed:" << reply.error().message());
        return;
     }
-    IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm Added event with cookie15" << reply.value());
+    IFDEBUG(qDebug() << "HarmattanPlatformUtil::scheduleAlarm Added event with cookie18" << reply.value());
 }
 
 CalendarManager *
