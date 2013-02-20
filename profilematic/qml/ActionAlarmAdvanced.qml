@@ -98,6 +98,10 @@ Page {
                     }
                 }
             }
+
+            LabelHelp {
+                text: "Hint: ringtones reside in /usr/share/sounds/ring-tones. You can use a file manager of your choise to find the exact file name to use for sound."
+            }
         }
     }
 }
