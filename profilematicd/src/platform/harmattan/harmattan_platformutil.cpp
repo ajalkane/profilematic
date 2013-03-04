@@ -454,7 +454,7 @@ HarmattanPlatformUtil::scheduleAlarm(const RuleActionAlarm &alarm) {
     } else {
         b1.setSnoozeDefault();
     }
-
+    event.setTimeoutSnooze(snoozeInMinutes * 60);
     event.setBootFlag();
     event.setAlarmFlag();
     event.setReminderFlag();
