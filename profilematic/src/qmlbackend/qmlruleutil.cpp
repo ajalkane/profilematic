@@ -108,7 +108,7 @@ QmlRuleUtil::daysSummaryText(const QSet<int> &days, bool /*inListing*/) {
     // qDebug("QmlRulesModel::getDaysSummaryText(), days size %d", days.size());
 
     if (days.size() == 7) {
-        return "All days";
+        return tr("All days");
     }
     if (days.size() == 0) {
         return "No days";

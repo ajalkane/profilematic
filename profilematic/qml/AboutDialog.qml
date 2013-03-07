@@ -22,9 +22,10 @@ import com.nokia.meego 1.0
 MyQueryDialog {
     titleText: "ProfileMatic v2.1.0"
     message: "<b>(c) Arto Jalkanen 2011-2013</b><br>"
-             + "UX design by Dina & Arto Jalkanen<br>"
+             + qsTr("UX design by Dina & Arto Jalkanen")
              + "<br>"
-             + "Contributors:"
+             + "<br>"
+             + qsTr("Contributors:")
              + "<br>"
              + "Philip Lorenz (Availability)"
              + "<br>"

@@ -1,7 +1,10 @@
 # Add more folders to ship with the application, here
 qml_harmattan.source = qml
 qml_harmattan.target =
+# translations.source = i18n
+# translations.target =
 DEPLOYMENTFOLDERS = qml_harmattan
+# translations
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
@@ -124,6 +127,11 @@ HEADERS += \
     SOURCES += src/qmlbackend/presence/qmlpresencemodelstub.cpp
     HEADERS += src/qmlbackend/presence/qmlpresencemodelstub.h
 }
+
+TRANSLATIONS = i18n/tr_en.ts \
+               i18n/tr_fi.ts
+
+RESOURCES += resources.qrc
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)

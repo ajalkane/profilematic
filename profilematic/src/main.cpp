@@ -19,6 +19,7 @@
 
 #include <QtGui/QApplication>
 #include <QtDeclarative>
+#include <QTranslator>
 
 #include <QtCore/QStringList>
 
@@ -54,7 +55,9 @@
 #endif
 
 void setupEditModel(const QmlBaseRuleEditModel *qmlEditModel, QmlBoolFilterModel *qmlFilterModel);
+void setupTranslations(QApplication *app, QTranslator *translator);
 
+// IMPROVE: Too long and messy main function. Should chop it up in logical pieces.
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QString mainQmlFile(QLatin1String("qml/main.qml"));
@@ -72,6 +75,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     }
 
     QScopedPointer<QApplication> app(createApplication(argc, argv));
+
+    QTranslator translator;
+    setupTranslations(app.data(), &translator);
+
     QScopedPointer<QmlApplicationViewer> viewer(QmlApplicationViewer::create());
 
     ProfileClient profileClient;
@@ -146,10 +153,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     viewer->setMainQmlFile(mainQmlFile);
     viewer->showExpanded();
 
-//    MeeGo::QmDeviceMode device;
-//    qDebug("main: setting flight mode on");
-//    device.setMode(MeeGo::QmDeviceMode::Flight);
-
     int retVal = app->exec();
     qDebug("Exiting with return value %d", retVal);
     QmlRuleUtil::deinitialize();
@@ -163,4 +166,23 @@ void setupEditModel(const QmlBaseRuleEditModel *qmlEditModel, QmlBoolFilterModel
 
     qmlFilterModel->setSortRole(QmlBaseRuleEditModel::TopicRole);
     qmlFilterModel->sort(0);
+}
+
+void setupTranslations(QApplication *app, QTranslator *translator) {
+    QString locale = QLocale::system().name();
+    qDebug() << "Locale:" << locale;
+    // fall back to using English translation, if one specific to the current
+    // setting of the device is not available.
+    if (!(translator->load("i18n/tr_"+locale, ":/"))) {
+        qDebug() << "Translation for locale " << locale << " not found, loading default english";
+        if (!translator->load("i18n/tr_en", ":/")) {
+            qWarning() << "Translation for default english not found either. Annoying.";
+        } else {
+            qDebug() << "Default english translation used for locale " << locale;
+        }
+    } else {
+        qDebug() << "Found translation used for locale " << locale;
+    }
+    app->installTranslator(translator);
+
 }
