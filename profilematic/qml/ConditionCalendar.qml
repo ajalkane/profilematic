@@ -44,24 +44,24 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Calendar condition"
+                text: qsTr("Calendar condition")
             }
 
             LabelHelp {
-                text: "Keywords in the fields are used to match calendar entries. "
+                text: qsTr("Keywords in the fields are used to match calendar entries. "
                       + "Condition matches a calendar entry if all fields set here match it. "
                       + "At least one field must be set for the condition to be usable."
                       + "\n\n"
                       + "Comma (,) is used to separate keywords in a field. Any keyword separated by comma "
-                      + "that is found in the calendar field will match. Matching is case insensitive."
+                      + "that is found in the calendar field will match. Matching is case insensitive.")
             }
 
             Separator {}
 
             TextFieldWithLabel {
                 id: summaryMatch
-                labelText: "Match summary in calendar entry"
-                placeholderText: "Not set"
+                labelText: qsTr("Match summary in calendar entry")
+                placeholderText: qsTr("Not set")
                 text: condition.calendar.summaryMatch
                 width: parent.width
                 onTextChanged: {
@@ -73,8 +73,8 @@ Page {
 
             TextFieldWithLabel {
                 id: locationMatch
-                labelText: "Match location in calendar entry"
-                placeholderText: "Not set"
+                labelText: qsTr("Match location in calendar entry")
+                placeholderText: qsTr("Not set")
                 text: condition.calendar.locationMatch
                 width: parent.width
                 onTextChanged: {
@@ -87,7 +87,7 @@ Page {
             Separator {}
 
             RuleTopic {
-                topic: "Advanced settings"
+                topic: qsTr("Advanced settings")
                 showDrillDown: true
                 disabled: !condition.calendar.isValid()
                 onTopicClicked: {

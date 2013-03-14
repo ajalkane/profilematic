@@ -45,12 +45,12 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Battery level condition"
+                text: qsTr("Battery level condition")
             }
 
             RuleTopicSummary {
                 id: summary
-                topic: "Battery level"
+                topic: qsTr("Battery level")
                 summary: batteryLevelSummary()
                 showComboBox: true
                 onTopicClicked: batteryLevelEditHandler()
@@ -73,8 +73,8 @@ Page {
             }
 
             LabelHelp {
-                text: "This condition can be used to activate actions when battery "
-                    + "level of the device is within specified range."
+                text: qsTr("This condition can be used to activate actions when battery "
+                    + "level of the device is within specified range.")
             }
         }
     }
@@ -82,9 +82,9 @@ Page {
     QueryDialog {
         id: dRuleWarning
 
-        titleText: "Invalid battery level range"
-        acceptButtonText: "Ok"
-        message: "Battery level minimum must be less or equal than maximum to be usable"
+        titleText: qsTr("Invalid battery level range")
+        acceptButtonText: qsTr("Ok")
+        message: qsTr("Battery level minimum must be less or equal than maximum to be usable")
     }
 
     DialogBatteryLevel {
