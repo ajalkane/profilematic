@@ -42,7 +42,7 @@ Page {
 
     ItemSelectionIconDialog {
         id: appSelect
-        titleText: "Select application"
+        titleText: qsTr("Select application")
         model: backendApplicationsSortedModel
         onAccepted: {
             if (selectedItem !== null) {
@@ -73,15 +73,15 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Application action"
+                text: qsTr("Application action")
             }
 
             Button {
                 id: selectAppButton
                 enabled: action.application.launchers.length < root.maxApps
                 text: (action.application.launchers.length < root.maxApps
-                                  ? "Add application"
-                                  : "Max " + root.maxApps + " applications added")
+                       ? qsTr("Add application")
+                       : qsTr("Max %1 applications added").arg(root.maxApps))
                 onClicked: {
                     if (!_scanDone) {
                         console.log("Start scan")

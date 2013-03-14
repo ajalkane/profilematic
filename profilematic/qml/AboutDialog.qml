@@ -27,12 +27,12 @@ MyQueryDialog {
              + "<br>"
              + qsTr("Contributors:")
              + "<br>"
-             + "Philip Lorenz (Availability)"
+             + "Philip Lorenz (" + qsTr("Availability") + ")"
              + "<br>"
-             + "Ferdinand Mayet (Stand-by screen)"
+             + "Ferdinand Mayet (" + qsTr("Stand-by screen") + ")"
              + "<br>"
              + "<br>"
-             + "See <a href=\"http://www.kolumbus.fi/~ks2877/profilematic/\">homepage</a> for more tips, sources, donation information, and more."
+             + qsTr("See <a href=\"http://www.kolumbus.fi/~ks2877/profilematic/\">homepage</a> for more tips, sources, donation information, and more.")
              + "<br>"
              + "<br>"
              + "<small>This application is free sofware licenced under the GNU Public License version 3</small>"

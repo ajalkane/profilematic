@@ -33,12 +33,12 @@ Page {
         var min = adjustInMinutes % 60
 
         if (hour === 0) {
-            return min + " minutes"
+            return qsTr("%1 minutes").arg(min)
         }
         if (min === 0) {
-            return hour + " hours"
+            return qsTr("%1 hours").arg(hour)
         }
-        return hour + " hours "+min+" minutes";
+        return qsTr("%1 hours %2 minutes").arg(hour).arg(min)
     }
 
     function snoozeEditHandler() {
@@ -55,7 +55,7 @@ Page {
 
     TimeDialog {
         id: snoozeDialog
-        titleText: "Alarm snooze time"
+        titleText: qsTr("Alarm snooze time")
         onAccepted: {
             action.alarm.snoozeInMinutes = hour * 60 + minute
         }
@@ -77,19 +77,19 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Alarm action advanced"
+                text: qsTr("Alarm action advanced")
             }
 
             RuleTopicSummary {
-                topic: "Alarm snooze time"
+                topic: qsTr("Alarm snooze time")
                 summary: action.alarm.snoozeInMinutes > 0 ? timeInMinutesAdjustSummary(action.alarm.snoozeInMinutes) : "Default snooze"
                 showComboBox: true
                 onTopicClicked: snoozeEditHandler()
             }
 
             TextFieldWithLabel {
-                labelText: "Alarm sound file (full path)"
-                placeholderText: "Default sound"
+                labelText: qsTr("Alarm sound file (full path)")
+                placeholderText: qsTr("Default sound")
                 text: action.alarm.sound
                 width: parent.width
                 onTextChanged: {
@@ -100,7 +100,8 @@ Page {
             }
 
             LabelHelp {
-                text: "Hint: ringtones reside in /usr/share/sounds/ring-tones. You can use a file manager of your choise to find the exact file name to use for sound."
+                text: qsTr("Hint: harmattan ringtones found in /usr/share/sounds/ring-tones")
+                // text: "Hint: ringtones reside in /usr/share/sounds/ring-tones. You can use a file manager of your choise to find the exact file name to use for sound."
             }
         }
     }

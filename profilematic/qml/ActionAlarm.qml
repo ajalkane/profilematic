@@ -34,12 +34,12 @@ Page {
         var sec = adjustInSeconds % 60
 
         if (min === 0) {
-            return sec + " seconds"
+            return qsTr("%1 seconds").arg(sec)
         }
         if (sec === 0) {
-            return min + " minutes"
+            return qsTr("%1 minutes").arg(min)
         }
-        return min + " minutes "+sec+" seconds";
+        return qsTr("%1 minutes %2 seconds").arg(min).arg(sec)
     }
 
     function alarmDelayEditHandler() {
@@ -57,7 +57,7 @@ Page {
 
     TimeInMinutesAndSecondsDialog {
         id: alarmDelayDialog
-        titleText: "Alarm delay before shown"
+        titleText: qsTr("Alarm delay before shown")
         onAccepted: {
             action.alarm.alarmInSeconds = minute * 60 + second
         }
@@ -79,16 +79,16 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Alarm action"
+                text: qsTr("Alarm action")
             }
 
             LabelHelp {
-                text: "Schedule alarm to be shown after specified time with title of your choosing. Both title and alarm must be set for alarm to be used."
+                text: qsTr("Schedule alarm to be shown after specified time with title of your choosing. Both title and alarm must be set for alarm to be used.")
             }
 
             TextFieldWithLabel {
-                labelText: "Alarm title"
-                placeholderText: "Set alarm title"
+                labelText: qsTr("Alarm title")
+                placeholderText: qsTr("Set alarm title")
                 text: action.alarm.title
                 width: parent.width
                 maximumLength: 70
@@ -98,7 +98,7 @@ Page {
             }
 
             RuleTopicSummary {
-                topic: "Alarm delay before shown"
+                topic: qsTr("Alarm delay before shown")
                 summary: action.alarm.alarmInSeconds >=0 ? timeInSecondsAdjustSummary(action.alarm.alarmInSeconds) : "Not set"
                 showComboBox: true
                 onTopicClicked: alarmDelayEditHandler()
@@ -107,7 +107,7 @@ Page {
             Separator {}
 
             RuleTopic {
-                topic: "Advanced settings"
+                topic: qsTr("Advanced settings")
                 showDrillDown: true
                 disabled: !action.alarm.isValid()
                 onTopicClicked: {
@@ -119,10 +119,10 @@ Page {
 
             LabelHelp {
                 id: summary
-                text: backendRuleUtil.alarmSummary(action, "Alarm action is not currently usable", false)
+                text: backendRuleUtil.alarmSummary(action, qsTr("Alarm action is not currently usable"), false)
                 Connections {
                     target: action !== null ? action.alarm : null
-                    onChanged: summary.text = backendRuleUtil.alarmSummary(action, "Alarm action is not currently usable", false)
+                    onChanged: summary.text = backendRuleUtil.alarmSummary(action, qsTr("Alarm action is not currently usable"), false)
                 }
 
             }                        

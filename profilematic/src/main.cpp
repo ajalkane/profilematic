@@ -168,14 +168,34 @@ void setupEditModel(const QmlBaseRuleEditModel *qmlEditModel, QmlBoolFilterModel
     qmlFilterModel->sort(0);
 }
 
+QString adjustPath(const QString &path)
+{
+#ifdef Q_OS_UNIX
+#ifdef Q_OS_MAC
+    if (!QDir::isAbsolutePath(path))
+        return QString::fromLatin1("%1/../Resources/%2")
+                .arg(QCoreApplication::applicationDirPath(), path);
+#else
+    const QString pathInInstallDir =
+            QString::fromLatin1("%1/../%2").arg(QCoreApplication::applicationDirPath(), path);
+    qDebug() << Q_FUNC_INFO << "got candidate" << pathInInstallDir;
+    if (QFileInfo(pathInInstallDir).exists())
+        return pathInInstallDir;
+#endif
+#endif
+    qDebug() << Q_FUNC_INFO << "returning default" << path;
+    return path;
+}
 void setupTranslations(QApplication *app, QTranslator *translator) {
     QString locale = QLocale::system().name();
-    qDebug() << "Locale:" << locale;
+    QString translationsDir = adjustPath("i18n");
+    qDebug() << "Locale:" << locale << " translationsDir:" << translationsDir;
+
     // fall back to using English translation, if one specific to the current
     // setting of the device is not available.
-    if (!(translator->load("i18n/tr_"+locale, ":/"))) {
+    if (!(translator->load("tr_"+locale, translationsDir))) {
         qDebug() << "Translation for locale " << locale << " not found, loading default english";
-        if (!translator->load("i18n/tr_en", ":/")) {
+        if (!translator->load("tr_en", translationsDir)) {
             qWarning() << "Translation for default english not found either. Annoying.";
         } else {
             qDebug() << "Default english translation used for locale " << locale;
@@ -184,5 +204,4 @@ void setupTranslations(QApplication *app, QTranslator *translator) {
         qDebug() << "Found translation used for locale " << locale;
     }
     app->installTranslator(translator);
-
 }
