@@ -44,11 +44,11 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Flight mode"
+                text: qsTr("Flight mode")
             }
 
             RuleTopicSummary {
-                topic: "Select flight mode"
+                topic: qsTr("Select flight mode")
                 summary: flightModeSummary();
                 showComboBox: true
                 onTopicClicked: flightModeEditHandler()
@@ -65,11 +65,11 @@ Page {
                 }
                 RuleTopicSummary {
                     id: restore
-                    topic: "Restore previous flight mode"
+                    topic: qsTr("Restore previous flight mode")
                     topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
                     topicWidth: parent.width - restoreSwitch.width
-                    summary: restoreSwitch.checked ? "The previous flight mode will be restored."
-                                                   : "Previous flight mode will not be restored."
+                    summary: restoreSwitch.checked ? qsTr("The previous flight mode will be restored.")
+                                                   : qsTr("Previous flight mode will not be restored.")
                     onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
                 }
                 Switch {
@@ -85,8 +85,8 @@ Page {
             }
 
             LabelHelp {
-                text: "Warning: in Flight mode connections are not used. Therefore using conditions that rely on WLAN "
-                      + "or location can not work to switch flight mode off. Instead, use time based conditions."
+                text: qsTr("Warning: in Flight mode connections are not used. Therefore using conditions that rely on WLAN "
+                      + "or location can not work to switch flight mode off. Instead, use time based conditions.")
             }
 
         }

@@ -44,11 +44,11 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Profile action"
+                text: qsTr("Profile action")
             }
 
             RuleTopicSummary {
-                topic: "Select profile"
+                topic: qsTr("Select profile")
                 summary: profileSummary();
                 showComboBox: true
                 onTopicClicked: profileEditHandler()
@@ -65,11 +65,11 @@ Page {
                 }
                 RuleTopicSummary {
                     id: restoreProfile
-                    topic: "Restore previous profile"
+                    topic: qsTr("Restore previous profile")
                     topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
                     topicWidth: parent.width - restoreSwitch.width
-                    summary: restoreSwitch.checked ? "The previous profile will be restored."
-                                                   : "Previous profile will not be restored."
+                    summary: restoreSwitch.checked ? qsTr("The previous profile will be restored.")
+                                                   : qsTr("Previous profile will not be restored.")
                     // visible: action.profile !== ''
                     onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
                 }
@@ -96,7 +96,7 @@ Page {
 
                 RuleTopicSummary {
                     id: volume
-                    topic: "Set ringing volume"
+                    topic: qsTr("Set ringing volume")
                     summary: volumeSummary();
                     showComboBox: true
                     visible: isVolumeVisible();
@@ -110,11 +110,11 @@ Page {
                 width: parent.width
                 font.pixelSize: UIConstants.FONT_SMALL;
                 color: !theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND
-                text: "If you activate restore previous profile, ProfileMatic will set back the profile "
+                text: qsTr("If you activate restore previous profile, ProfileMatic will set back the profile "
                       + "that was selected before this rule was activated. If you don't activate "
                       + "restore previous profile, the latest profile will run. "
                       + "E.g. phone set to silent by this rule will remain silent until you decide to make "
-                      + "changes or another rule that sets profile becomes valid."
+                      + "changes or another rule that sets profile becomes valid.")
             }
 
         }
@@ -159,9 +159,9 @@ Page {
     QueryDialog {
         id: dVolume
 
-        titleText: "Choose ringing volume"
-        acceptButtonText: "OK"
-        rejectButtonText: "Cancel"
+        titleText: qsTr("Choose ringing volume")
+        acceptButtonText: qsTr("OK")
+        rejectButtonText: qsTr("Cancel")
         property alias volumeValue: volumeSlider.value
 
         content: Item {
@@ -189,7 +189,7 @@ Page {
     // Profile volume functions
     function volumeSummary() {
         if (action.profileVolume < 0) {
-            return "Volume has not been selected yet"
+            return qsTr("Volume has not been selected yet")
         }
 
         return action.profileVolume + " %"

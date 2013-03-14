@@ -44,20 +44,20 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Custom action"
+                text: qsTr("Custom action")
             }
 
             LabelHelp {
-                text: "Use this action only if you know what you're doing (ie. you're familiar with using N9's developer mode and terminal)! "
+                text: qsTr("Use this action only if you know what you're doing (ie. you're familiar with using terminal)!")
             }
 
             SectionHeader {
-                section: "When rule activates"
+                section: qsTr("When rule activates")
             }
 
             TextFieldWithLabel {
-                labelText: "Command to run"
-                placeholderText: "No custom action"
+                labelText: qsTr("Command to run")
+                placeholderText: qsTr("No custom action")
                 text: action.commandLine
                 // height: UIConstants.LIST_ITEM_HEIGHT_SMALL
                 width: parent.width
@@ -67,14 +67,14 @@ Page {
             }
 
             LabelHelp {
-                text: "Enter into the text box the shell command you want to run when this rule is activated. "
-                      + "Always use full paths for file paths."
+                text: qsTr("Enter into the text box the shell command you want to run when this rule is activated. "
+                      + "Always use full paths for file paths.")
             }
 
             Button {
                 enabled: action.commandLine !== ""
                 // enabled: backendLocation.currentCell >= 0 && conditiong.locationCells.length < root.maxCells
-                text: "Test"
+                text: qsTr("Test")
                 onClicked: {
                     console.log("Testing command line")
                     backendRulesModel.testCommandLine(action.commandLine)
@@ -86,8 +86,8 @@ Page {
             }
 
             TextFieldWithLabel {
-                labelText: "Command to run"
-                placeholderText: "No custom action"
+                labelText: qsTr("Command to run")
+                placeholderText: qsTr("No custom action")
                 text: action.commandLineExit
                 // height: UIConstants.LIST_ITEM_HEIGHT_SMALL
                 width: parent.width
@@ -97,14 +97,14 @@ Page {
             }
 
             LabelHelp {
-                text: "Enter into the text box the shell command you want to run when this rule is deactivated. "
-                      + "Always use full paths for file paths."
+                text: qsTr("Enter into the text box the shell command you want to run when this rule is deactivated. "
+                      + "Always use full paths for file paths.")
             }
 
             Button {
                 enabled: action.commandLineExit !== ""
                 // enabled: backendLocation.currentCell >= 0 && conditiong.locationCells.length < root.maxCells
-                text: "Test"
+                text: qsTr("Test")
                 onClicked: {
                     console.log("Testing command line exit")
                     backendRulesModel.testCommandLine(action.commandLineExit)

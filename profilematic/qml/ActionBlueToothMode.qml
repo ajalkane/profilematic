@@ -44,11 +44,11 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "BlueTooth action"
+                text: qsTr("Bluetooth action")
             }
 
             RuleTopicSummary {
-                topic: "Select Bluetooth mode"
+                topic: qsTr("Select Bluetooth mode")
                 summary: blueToothModeSummary();
                 showComboBox: true
                 onTopicClicked: blueToothModeEditHandler()
@@ -65,11 +65,11 @@ Page {
                 }
                 RuleTopicSummary {
                     id: restore
-                    topic: "Restore previous Bluetooth mode"
+                    topic: qsTr("Restore previous Bluetooth mode")
                     topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
                     topicWidth: parent.width - restoreSwitch.width
-                    summary: restoreSwitch.checked ? "The previous Bluetooth mode will be restored."
-                                                   : "Previous Bluetooth mode will not be restored."
+                    summary: restoreSwitch.checked ? qsTr("The previous Bluetooth mode will be restored.")
+                                                   : qsTr("Previous Bluetooth mode will not be restored.")
                     onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
                 }
                 Switch {

@@ -33,7 +33,7 @@ Page {
 
     PageHeader {
         id: header
-        text: "Account availability action"
+        text: qsTr("Account availability action")
     }
 
     TextField {
@@ -58,7 +58,7 @@ Page {
             paddingRight: clearButton.width
         }
 
-        placeholderText: "Status message"
+        placeholderText: qsTr("Status message")
         text: action.presenceStatusMessage
 
         Image {
@@ -103,7 +103,7 @@ Page {
 
             property bool shouldBeChecked: root.action.presenceChangeType === RuleAction.AllOnlinePresenceType
 
-            text: "All online"
+            text: qsTr("All online")
             width: (parent.width - parent.spacing) / 2
             checkable: true
             checked: shouldBeChecked
@@ -121,7 +121,7 @@ Page {
 
             property bool shouldBeChecked: root.action.presenceChangeType === RuleAction.AllOfflinePresenceType
 
-            text: "All offline"
+            text: qsTr("All offline")
             width: (parent.width - parent.spacing) / 2
             checkable: true
             checked: shouldBeChecked
@@ -175,19 +175,19 @@ Page {
                             text: {
                                 switch (presenceRule.action) {
                                 case PresenceRule.SetOffline:
-                                    return "Set to offline";
+                                    return qsTr("Set to offline")
                                 case PresenceRule.SetOnline:
-                                    return "Set to online";
+                                    return qsTr("Set to online")
                                 case PresenceRule.SetAway:
-                                    return "Set to away";
+                                    return qsTr("Set to away")
                                 case PresenceRule.SetBusy:
-                                    return "Set to busy";
+                                    return qsTr("Set to busy")
                                 case PresenceRule.SetHidden:
-                                    return "Set to invisible";
+                                    return qsTr("Set to invisible");
                                 case PresenceRule.SetXa:
-                                    return "Set to extended away";
+                                    return qsTr("Set to extended away");
                                 case PresenceRule.Retain:
-                                    return "Do not change";
+                                    return qsTr("Do not change");
                                 }
                             }
                             style: LabelStyleSubtitle {}
@@ -219,7 +219,7 @@ Page {
             anchors.centerIn: parent
             visible: listView.count == 0
 
-            text: "No accounts found"
+            text: qsTr("No accounts found")
             style: LabelStyle {
                 textColor: UIConstants.TITLE_INVERTED_COLOR
                 fontPixelSize: UIConstants.FONT_XLARGE
@@ -247,11 +247,11 @@ Page {
         RuleTopicSummary {
             id: restorePresences
 
-            topic: "Restore previous availability"
+            topic: qsTr("Restore previous availability")
             topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
             topicWidth: parent.width - restoreSwitch.width
-            summary: restoreSwitch.checked ? "Previous availability will be restored."
-                                           : "Previous availability will not be restored."
+            summary: restoreSwitch.checked ? qsTr("Previous availability will be restored.")
+                                           : qsTr("Previous availability will not be restored.")
             onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
         }
 
@@ -269,12 +269,12 @@ Page {
         property PresenceRule rule
         property variant supportedPresences
         property variant __presenceModelList: ListModel {
-            ListElement { name: "Online"; value: PresenceRule.SetOnline }
-            ListElement { name: "Offline"; value: PresenceRule.SetOffline }
-            ListElement { name: "Away"; value: PresenceRule.SetAway }
-            ListElement { name: "Extended away"; value: PresenceRule.SetXa }
-            ListElement { name: "Busy"; value: PresenceRule.SetBusy }
-            ListElement { name: "Invisible"; value: PresenceRule.SetHidden }
+            ListElement { name: qsTr("Online"); value: PresenceRule.SetOnline }
+            ListElement { name: qsTr("Offline"); value: PresenceRule.SetOffline }
+            ListElement { name: qsTr("Away"); value: PresenceRule.SetAway }
+            ListElement { name: qsTr("Extended away"); value: PresenceRule.SetXa }
+            ListElement { name: qsTr("Busy"); value: PresenceRule.SetBusy }
+            ListElement { name: qsTr("Invisible"); value: PresenceRule.SetHidden }
         }
 
         function __updateSelectedIndex() {
@@ -293,7 +293,7 @@ Page {
         }
 
         model: ListModel {}
-        titleText: "Availability changed to"
+        titleText: qsTr("Availability changed to")
         platformStyle: SelectionDialogStyle {
            itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
         }
@@ -316,7 +316,7 @@ Page {
                 }
             }
 
-            model.append({ name: "Do not change", value: PresenceRule.Retain })
+            model.append({ name: qsTr("Do not change"), value: PresenceRule.Retain })
 
             presenceSelectionDialog.selectedIndex = -1
             presenceSelectionDialog.model = model

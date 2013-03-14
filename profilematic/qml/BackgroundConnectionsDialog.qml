@@ -23,7 +23,7 @@ import "UIConstants.js" as UIConstants
 
 MySelectionDialog {
     id: root
-    titleText: "Set background connections"
+    titleText: qsTr("Set background connections")
     model: backgroundConnectionsModel
     platformStyle: SelectionDialogStyle {
        itemSelectedBackgroundColor: UIConstants.COLOR_SELECT

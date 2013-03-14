@@ -44,11 +44,11 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Power saving action"
+                text: qsTr("Power saving action")
             }
 
             RuleTopicSummary {
-                topic: "Select power saving mode"
+                topic: qsTr("Select power saving mode")
                 summary: powerSavingModeSummary();
                 showComboBox: true
                 onTopicClicked: powerSavingModeEditHandler()
@@ -65,11 +65,11 @@ Page {
                 }
                 RuleTopicSummary {
                     id: restore
-                    topic: "Restore previous power saving mode"
+                    topic: qsTr("Restore previous power saving mode")
                     topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
                     topicWidth: parent.width - restoreSwitch.width
-                    summary: restoreSwitch.checked ? "The previous power saving mode will be restored."
-                                                   : "Previous power saving mode will not be restored."
+                    summary: restoreSwitch.checked ? qsTr("The previous power saving mode will be restored.")
+                                                   : qsTr("Previous power saving mode will not be restored.")
                     onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
                 }
                 Switch {

@@ -101,7 +101,7 @@ Page {
                 width: parent.width
                 height: 20
                 visible: action.application.launchers.length > 0
-                section: "Applications (" + action.application.launchers.length + "/" + root.maxApps + ")"
+                section: qsTr("Applications (%1/%2)").arg(action.application.launchers.length).arg(root.maxApps)
 
             }
 
@@ -183,7 +183,7 @@ Page {
 
             LabelHelp {
                 id: help
-                text: "You can add here applications that are started when the rule becomes active."
+                text: qsTr("You can add here applications that are started when the rule becomes active.")
             }
 
         } // Column

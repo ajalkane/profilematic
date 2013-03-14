@@ -44,12 +44,12 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Mobile network mode"
+                text: qsTr("Mobile network mode")
             }
 
             RuleTopicSummary {
                 id: cellularMode
-                topic: "Select mobile network connection mode"
+                topic: qsTr("Select mobile network connection mode")
                 summary: cellularModeSummary();
                 showComboBox: true
                 onTopicClicked: cellularModeEditHandler()
@@ -66,11 +66,11 @@ Page {
                 }
                 RuleTopicSummary {
                     id: restore
-                    topic: "Restore previous mobile network mode"
+                    topic: qsTr("Restore previous mobile network mode")
                     topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
                     topicWidth: parent.width - restoreSwitch.width
-                    summary: restoreSwitch.checked ? "The mobile network mode will be restored."
-                                                   : "Previous mobile network mode will not be restored."
+                    summary: restoreSwitch.checked ? qsTr("The mobile network mode will be restored.")
+                                                   : qsTr("Previous mobile network mode will not be restored.")
                     onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
                 }
                 Switch {
@@ -84,9 +84,9 @@ Page {
                     }
                 }
             }
-            LabelHelp {
-                text: "Changes are always delayed until there is no call or data transfer. "
-                      + "This is meant to ensure that an ongoing call or file transfer is not aborted because of the change."
+            LabelHelp {               
+               text: qsTr("Changes are always delayed until there is no call or data transfer."
+                      + "This is meant to ensure that an ongoing call or file transfer is not aborted because of the change.")
             }
 
         }

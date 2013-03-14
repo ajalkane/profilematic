@@ -44,12 +44,12 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Background connections action"
+                text: qsTr("Background connections action")
             }
 
             RuleTopicSummary {
                 id: backgroundConnections
-                topic: "Select background connections mode"
+                topic: qsTr("Select background connections mode")
                 summary: backgroundConnectionsModeSummary();
                 showComboBox: true
                 onTopicClicked: backgroundConnectionsModeEditHandler()
@@ -66,11 +66,11 @@ Page {
                 }
                 RuleTopicSummary {
                     id: restore
-                    topic: "Restore previous background connections mode"
+                    topic: qsTr("Restore previous background connections mode")
                     topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
                     topicWidth: parent.width - restoreSwitch.width
-                    summary: restoreSwitch.checked ? "The previous background connections mode will be restored."
-                                                   : "Previous background connections mode will not be restored."
+                    summary: restoreSwitch.checked ? qsTr("The previous background connections mode will be restored.")
+                                                   : qsTr("Previous background connections mode will not be restored.")
                     onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
                 }
                 Switch {

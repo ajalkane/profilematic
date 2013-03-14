@@ -45,12 +45,12 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Stand-by screen action"
+                text: qsTr("Stand-by screen action")
             }
 
             RuleTopicSummary {
                 id: standByScreen
-                topic: "Select stand-by screen mode"
+                topic: qsTr("Select stand-by screen mode")
                 summary: standByScreenModeSummary();
                 showComboBox: true
                 onTopicClicked: standByScreenModeEditHandler()
@@ -67,11 +67,11 @@ Page {
                 }
                 RuleTopicSummary {
                     id: restore
-                    topic: "Restore previous stand-by screen mode"
+                    topic: qsTr("Restore previous stand-by screen mode")
                     topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
                     topicWidth: parent.width - restoreSwitch.width
-                    summary: restoreSwitch.checked ? "The previous stand-by screen mode will be restored."
-                                                   : "Previous stand-by screen mode will not be restored."
+                    summary: restoreSwitch.checked ? qsTr("The previous stand-by screen mode will be restored.")
+                                                   : qsTr("Previous stand-by screen mode will not be restored.")
                     onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
                 }
                 Switch {

@@ -44,12 +44,12 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Device volume action"
+                text: qsTr("Device volume action")
             }
 
             RuleTopicSummary {
                 id: summary
-                topic: "Select device volume"
+                topic: qsTr("Select device volume")
                 summary: deviceVolumeSummary();
                 showComboBox: true
                 onTopicClicked: deviceVolumeEditHandler()
@@ -64,7 +64,7 @@ Page {
             }
 
             Button {
-                text: "Clear"
+                text: qsTr("Clear")
                 onClicked: dConfirmDelete.open()
             }
 
@@ -103,7 +103,7 @@ Page {
     }
 
     function deviceVolumeSummary() {
-        return backendRuleUtil.deviceVolumeSummary(action, "Not used", false);
+        return backendRuleUtil.deviceVolumeSummary(action, qsTr("Not used"), false);
     }
 
     function deviceVolumeEditHandler() {
@@ -113,9 +113,9 @@ Page {
     QueryDialog {
         id: dVolume
 
-        titleText: "Choose volume"
-        acceptButtonText: "OK"
-        rejectButtonText: "Cancel"
+        titleText: qsTr("Choose volume")
+        acceptButtonText: qsTr("OK")
+        rejectButtonText: qsTr("Cancel")
         property alias volumeValue: volumeSlider.value
 
         content: Item {
@@ -144,10 +144,10 @@ Page {
     QueryDialog {
         id: dConfirmDelete
 
-        titleText: "Clear device volume"
-        message: "Are you sure you want to clear device volume?"
-        acceptButtonText: "Yes"
-        rejectButtonText: "Cancel"
+        titleText: qsTr("Clear device volume")
+        message: qsTr("Are you sure you want to clear device volume?")
+        acceptButtonText: qsTr("Yes")
+        rejectButtonText: qsTr("Cancel")
 
         onAccepted: {
             backendRuleUtil.deviceVolumeClear(action)
