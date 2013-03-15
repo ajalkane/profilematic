@@ -44,11 +44,11 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Calendar condition advanced"
+                text: qsTr("Calendar condition advanced")
             }
 
             RuleTopicSummary {
-                topic: "Match before calendar entry start"
+                topic: qsTr("Match before calendar entry start")
                 summary: timeCalendarAdjustSummary(condition.calendar.timePrepend)
                 showComboBox: true
                 onTopicClicked: timeCalendarBeforeEditHandler()
@@ -56,7 +56,7 @@ Page {
 
 
             RuleTopicSummary {
-                topic: "Match after calendar entry end"
+                topic: qsTr("Match after calendar entry end")
                 summary: timeCalendarAdjustSummary(condition.calendar.timeAppend)
                 showComboBox: true
                 onTopicClicked: timeCalendarAfterEditHandler()
@@ -83,17 +83,17 @@ Page {
         var sec = adjustInSeconds % 60
 
         if (min === 0) {
-            return sec + " seconds"
+            return qsTr("%1 seconds").arg(sec)
         }
         if (sec === 0) {
-            return min + " minutes"
+            return qsTr("%1 minutes").arg(min)
         }
-        return min + " minutes "+sec+" seconds";
+        return qsTr("%1 minutes %2 seconds").arg(min).arg(sec)
     }
 
     TimeInMinutesAndSecondsDialog {
         id: timeBeforeDialog
-        titleText: "Before calendar entry"
+        titleText: qsTr("Before calendar entry")
         onAccepted: {
             condition.calendar.timePrepend = minute * 60 + second
         }
@@ -101,7 +101,7 @@ Page {
 
     TimeInMinutesAndSecondsDialog {
         id: timeAfterDialog
-        titleText: "After calendar entry"
+        titleText: qsTr("After calendar entry")
         onAccepted: {
             condition.calendar.timeAppend = minute * 60 + second
         }
