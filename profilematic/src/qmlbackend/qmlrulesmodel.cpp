@@ -295,13 +295,13 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
     }
 
     if (rule->isDefaultRule()) {
-        condition += "other rules don't apply";
+        condition += tr("other rules don't apply");
         ++numCondition;
     } else {
         foreach (const QmlBaseRuleEditModel::Description *d, _conditionEditModel->getDescriptions()) {
             QString summary = d->summary(*rule, emptyString, true);
             if (!summary.isEmpty()) {
-                if (numCondition > 0) condition.append(" and ");
+                if (numCondition > 0) condition.append(tr(" and "));
                 formatListingSummary(summary);
                 condition += summary;
                 ++numCondition;
@@ -318,7 +318,7 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
         summary.append(action);
     }
     if (numCondition > 0) {
-        summary.append(numAction > 0 ? " when " : "When ");
+        summary.append(numAction > 0 ? tr(" when ") : tr("When "));
         summary.append(condition);
     }
     return summary;

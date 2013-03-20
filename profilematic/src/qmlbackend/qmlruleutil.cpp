@@ -67,7 +67,7 @@ QmlRuleUtil::timeSummary(const RuleCondition *cond, const QString &nonUsableTime
     summary += cond->getTimeEndQml();
     if (cond->getTimeStart() == cond->getTimeEnd()) {
         summary += " (";
-        summary += "24h";
+        summary += tr("24h");
         summary += ")";
     }
     // I don't think this length clarification is needed otherwise
@@ -111,7 +111,7 @@ QmlRuleUtil::daysSummaryText(const QSet<int> &days, bool /*inListing*/) {
         return tr("All days");
     }
     if (days.size() == 0) {
-        return "No days";
+        return tr("No days");
     }
     // If only one day selected, display full name
     if (days.size() == 1) {
@@ -133,12 +133,12 @@ QmlRuleUtil::daysSummaryText(const QSet<int> &days, bool /*inListing*/) {
         } else {
             if (rangeStart > -1) {
                 if (!daysStr.isEmpty()) {
-                    daysStr += ", ";
+                    daysStr += tr(", ");
                 }
 
                 daysStr += QDate::shortDayName(rangeStart + 1, QDate::StandaloneFormat);
                 if (rangeStart < i - 1) {
-                    daysStr += " - ";
+                    daysStr += tr(" - ");
                     daysStr += QDate::shortDayName((i - 1) + 1, QDate::StandaloneFormat);
                 }
                 rangeStart = -1;
@@ -158,11 +158,11 @@ QmlRuleUtil::cellLocationSummary(const RuleCondition *cond, const QString &nonUs
         s.append(nonUsable);
     } else {
         if (inListing) {
-            s.append("on location");
+            s.append(tr("on location"));
         } else {
-            s.append("Cell ids set");
+            s.append(tr("Cell ids set"));
             if (cond->getLocationCellsTimeout() > 0) {
-                s.append(QString(" (%1 timeout)").arg(cond->getLocationCellsTimeout()));
+                s.append(tr(" (%1 timeout)").arg(cond->getLocationCellsTimeout()));
             }
         }
     }
@@ -184,13 +184,13 @@ QmlRuleUtil::internetConnectionModeSummary(const RuleCondition *cond, const QStr
 
     switch (cond->getInternetConnectionMode()) {
     case RuleCondition::Gsm:
-        return "Mobile net connection";
+        return tr("Mobile net connection");
     case RuleCondition::Wlan:
-        return "WLAN net connection";
+        return tr("WLAN net connection");
     case RuleCondition::ConnectionAny:
-        return "Any net connection";
+        return tr("Any net connection");
     case RuleCondition::ConnectionNone:
-        return "No net connection";
+        return tr("No net connection");
     default:
         return nonUsable;
     }
@@ -214,11 +214,11 @@ QmlRuleUtil::wlanSummary(const RuleCondition *cond, const QString &nonUsable, bo
         s.append(nonUsable);
     } else {
         if (inListing) {
-            s.append("on WLAN");
+            s.append(tr("on WLAN"));
         } else {
-            s.append("In use");
+            s.append(tr("In use"));
             if (cond->getWlanTimeout() > 0) {
-                s.append(QString(" (%1 timeout)").arg(cond->getWlanTimeout()));
+                s.append(tr(" (%1 timeout)").arg(cond->getWlanTimeout()));
             }
         }
     }
@@ -244,9 +244,9 @@ QmlRuleUtil::idleSummary(const RuleCondition *cond, const QString &nonUsable, bo
         s.append(nonUsable);
     } else {
         if (inListing) {
-            s.append("Idle");
+            s.append(tr("Idle"));
         } else {
-            s.append(QString("At least for %1 minutes").arg(idleForSecs / 60));
+            s.append(tr("At least for %1 minutes").arg(idleForSecs / 60));
         }
     }
     return s;
@@ -269,11 +269,11 @@ QmlRuleUtil::nfcSummary(const RuleCondition *cond, const QString &nonUsable, boo
         s.append(nonUsable);
     } else {
         if (inListing) {
-            s.append("NFC");
+            s.append(tr("NFC"));
         } else {
-            s.append("NFC detections set");
+            s.append(tr("NFC detections set"));
             if (cond->nfc().getToggleCondition()) {
-                s.append(" (toggles)");
+                s.append(tr(" (toggles)"));
             }
         }
     }
@@ -298,10 +298,10 @@ QmlRuleUtil::chargingSummary(const RuleCondition *cond, const QString &nonUsable
     QString s;
     switch (chargingState) {
     case RuleCondition::NotCharging:
-        s.append(inListing ? "not charging" : "Not charging power");
+        s.append(inListing ? tr("not charging") : tr("Not charging power"));
         break;
     case RuleCondition::Charging:
-        s.append(inListing ? "charging" : "Charging power");
+        s.append(inListing ? tr("charging") : tr("Charging power"));
         break;
     default:
         s.append(nonUsable);
@@ -335,14 +335,14 @@ QmlRuleUtil::batteryLevelSummary(const RuleCondition *cond, const QString &nonUs
     qDebug("QmlRuleUtil::Battery level %d - %d", bl.getLevelMin(), bl.getLevelMax());
 
     if (bl.getLevelMax() == bl.getLevelMin()) {
-        return QString("Battery level exactly %1%").arg(bl.getLevelMin());
+        return tr("Battery level exactly %1%").arg(bl.getLevelMin());
     }
     else if (bl.getLevelMax() == 100) {
-        return QString("Battery level at least %1%").arg(bl.getLevelMin());
+        return tr("Battery level at least %1%").arg(bl.getLevelMin());
     } else if (bl.getLevelMin() == 0) {
-        return QString("Battery level at most %1%").arg(bl.getLevelMax());
+        return tr("Battery level at most %1%").arg(bl.getLevelMax());
     }
-    return QString("Battery level between %1% - %2%").arg(bl.getLevelMin()).arg(bl.getLevelMax());
+    return tr("Battery level between %1% - %2%").arg(bl.getLevelMin()).arg(bl.getLevelMax());
 }
 
 void
@@ -360,7 +360,7 @@ QmlRuleUtil::calendarSummary(const RuleCondition *cond, const QString &nonUsable
 
     const RuleConditionCalendar &calendar = cond->calendar();
     if (calendar.isValid()) {
-        return "Calendar entries";
+        return tr("Calendar entries");
     }
     return nonUsable;
 }
@@ -383,10 +383,10 @@ QmlRuleUtil::profileSummary(const RuleAction *action, const QString &nonUsable, 
 
         if (!inListing) {
             if (_profilesModel->profileHasVolume(profile) && action->getProfileVolume() > -1) {
-                summary += QString(" (%1%)").arg(action->getProfileVolume());
+                summary += tr(" (%1%)").arg(action->getProfileVolume());
             }
             if (action->getRestoreProfile()) {
-                summary += ". Restores previous profile.";
+                summary += tr(". Restores previous profile.");
             }
         }
         return summary;
@@ -418,10 +418,10 @@ QmlRuleUtil::presenceSummary(const RuleAction *action, const QString &nonUsable,
     }
 
     if (atLeastOneChange)
-        summary = "Availability change";
+        summary = tr("Availability change");
 
     if (!inListing && action->getRestorePresence())
-        summary += ". Restores previous availability";
+        summary += tr(". Restores previous availability");
 
     return summary;
 }
@@ -441,15 +441,15 @@ QmlRuleUtil::flightModeSummary(const RuleAction *action, const QString &nonUsabl
     QString summary;
     switch (action->getFlightMode()) {
     case 0:
-        summary = "Flight mode off"; break;
+        summary = tr("Flight mode off"); break;
     case 1:
-        summary = "Flight mode on"; break;
+        summary = tr("Flight mode on"); break;
     default:
         return nonUsable;
     }
 
     if (!inListing && action->getRestoreFlightMode()) {
-        summary += ". Restores previous mode.";
+        summary += tr(". Restores previous mode.");
     }
     return summary;
 }
@@ -469,15 +469,15 @@ QmlRuleUtil::powerSavingModeSummary(const RuleAction *action, const QString &non
     QString summary;
     switch (action->getPowerSavingMode()) {
     case 0:
-        summary = "Power saving off"; break;
+        summary = tr("Power saving off"); break;
     case 1:
-        summary = "Power saving on"; break;
+        summary = tr("Power saving on"); break;
     default:
         return nonUsable;
     }
 
     if (!inListing && action->getRestorePowerSavingMode()) {
-        summary += ". Restores previous mode.";
+        summary += tr(". Restores previous mode.");
     }
     return summary;
 }
@@ -497,17 +497,17 @@ QmlRuleUtil::bluetoothModeSummary(const RuleAction *action, const QString &nonUs
     QString summary;
     switch (action->getBlueToothMode()) {
     case 0:
-        summary = "Bluetooth off"; break;
+        summary = tr("Bluetooth off"); break;
     case 1:
-        summary = "Bluetooth on"; break;
+        summary = tr("Bluetooth on"); break;
     case 2:
-        summary = inListing ? "Bluetooth on" : "Bluetooth on and visible"; break;
+        summary = inListing ? tr("Bluetooth on") : tr("Bluetooth on and visible"); break;
     default:
         return nonUsable;
     }
 
     if (!inListing && action->getRestoreBlueToothMode()) {
-        summary += ". Restores previous mode.";
+        summary += tr(". Restores previous mode.");
     }
     return summary;
 }
@@ -527,17 +527,17 @@ QmlRuleUtil::cellularModeSummary(const RuleAction *action, const QString &nonUsa
     QString summary;
     switch (action->getCellularMode()) {
     case 0:
-        summary = "Dual GSM/3G"; break;
+        summary = tr("Dual GSM/3G"); break;
     case 1:
-        summary = "GSM"; break;
+        summary = tr("GSM"); break;
     case 2:
-        summary = "3G"; break;
+        summary = tr("3G"); break;
     default:
         return nonUsable;
     }
 
     if (!inListing && action->getRestoreCellularMode()) {
-        summary += ". Restores previous mode.";
+        summary += tr(". Restores previous mode.");
     }
 
     return summary;
@@ -557,15 +557,15 @@ QmlRuleUtil::standByScreenModeSummary(const RuleAction *action, const QString &n
     QString summary;
     switch (action->getStandByScreenMode()) {
     case 0:
-        summary = "Stand-by screen off"; break;
+        summary = tr("Stand-by screen off"); break;
     case 1:
-        summary = "Stand-by screen on"; break;
+        summary = tr("Stand-by screen on"); break;
     default:
         return nonUsable;
     }
 
     if (!inListing && action->getRestoreStandByScreenMode()) {
-        summary += ". Restores previous mode.";
+        summary += tr(". Restores previous mode.");
     }
 
     return summary;
@@ -586,17 +586,17 @@ QmlRuleUtil::customActionSummary(const RuleAction *action, const QString &nonUsa
     QString commandLine = action->getCommandLine().trimmed();
     QString commandLineExit = action->getCommandLineExit().trimmed();
     if (inListing) {
-        return (!commandLine.isEmpty() || !commandLineExit.isEmpty() ? "Command line" : nonUsable);
+        return (!commandLine.isEmpty() || !commandLineExit.isEmpty() ? tr("Command line") : nonUsable);
     } else {
         if (!commandLine.isEmpty() &&
                 !commandLineExit.isEmpty()) {
-            return "Custom action on activate and deactivate has been set";
+            return tr("Custom action on activate and deactivate has been set");
         }
         else if (!commandLine.isEmpty()) {
-            return "Custom action on activate has been set";
+            return tr("Custom action on activate has been set");
         }
         else if (!commandLineExit.isEmpty()) {
-            return "Custom action on deactivate has been set";
+            return tr("Custom action on deactivate has been set");
         }
     }
     return nonUsable;
@@ -617,7 +617,7 @@ QmlRuleUtil::applicationSummary(const RuleAction *action, const QString &nonUsab
     if (action == 0) return nonUsable;
 
     if (action->application().getLaunchers().size() > 0) {
-        return "Launch applications";
+        return tr("Launch applications");
     }
     return nonUsable;
 }
@@ -642,7 +642,7 @@ QmlRuleUtil::deviceVolumeSummary(const RuleAction *action, const QString &nonUsa
     if (action == 0) return nonUsable;
 
     if (action->getDeviceVolume() >= 0) {
-        return QString("Device volume %1%").arg(action->getDeviceVolume());
+        return tr("Device volume %1%").arg(action->getDeviceVolume());
     }
 
     return nonUsable;
@@ -671,9 +671,9 @@ QmlRuleUtil::alarmSummary(const RuleAction *action, const QString &nonUsable, bo
     }
 
     if (!inListing) {
-        return QString("Alarm with title %1 shown in %2 seconds").arg(a.getTitle()).arg(a.getAlarmInSeconds());
+        return tr("Alarm with title %1 shown in %2 seconds").arg(a.getTitle()).arg(a.getAlarmInSeconds());
     }
-    return "Alarm";
+    return tr("Alarm");
 }
 
 void
