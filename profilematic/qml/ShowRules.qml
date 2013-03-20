@@ -79,19 +79,19 @@ Page {
         id: mainMenu
         MenuLayout {
             MenuItem {
-                text: backendRulesModel.active ? "Deactivate rules" : "Activate rules"
+                text: backendRulesModel.active ? qsTr("Deactivate rules") : qsTr("Activate rules")
                 onClicked: {
                     console.log("Switching rule watching to", !backendRulesModel.active)
                     backendRulesModel.active = !backendRulesModel.active
                 }
             }
-            MenuItem { text: "About"; onClicked: loadAboutDialog().open() }
+            MenuItem { text: qsTr("About"); onClicked: loadAboutDialog().open() }
         }
     }
 
     ApplicationHeader {
         id: appHeader
-        title: backendRulesModel.active ? "ProfileMatic" : "ProfileMatic" + " " + "(inactive)"
+        title: backendRulesModel.active ? "ProfileMatic" : "ProfileMatic" + " " + qsTr("(inactive)")
         // This is the same color as in Harmattan pulldown Profile background color
         backgroundColor: UIConstants.COLOR_APP_HEADER
         titleColor: "white"
@@ -161,7 +161,7 @@ Page {
         font.pixelSize: UIConstants.FONT_XXXLARGE;
         color: mouseAreaFirstRule.containsMouse ? (!theme.inverted ? UIConstants.COLOR_FOREGROUND : UIConstants.COLOR_INVERTED_FOREGROUND)
                                  : (!theme.inverted ? UIConstants.COLOR_SECONDARY_FOREGROUND : UIConstants.COLOR_INVERTED_SECONDARY_FOREGROUND)
-        text: "Start using automatic profiles by creating the first rule"
+        text: qsTr("Start using automatic profiles by creating the first rule")
 
         MouseArea {
             id: mouseAreaFirstRule
@@ -183,7 +183,7 @@ Page {
         visible: backendRulesModel.backendError
         font.pixelSize: UIConstants.FONT_XLARGE;
         color: "red"
-        text: "Oops. Still starting my engines. I'll be up and running soon, close me and come back in 2 minutes. If problem persists, reboot the phone or reinstall ProfileMatic."
+        text: qsTr("Oops. Still starting my engines. I'll be up and running soon, close me and come back in 2 minutes. If problem persists, reboot the phone or reinstall ProfileMatic.")
     }
 
     ListView {
@@ -409,14 +409,14 @@ Page {
 
             LabelHelp {
                 visible: backendRulesModel.count > 1
-                text: "Blue bar is shown on rules whose conditions match currently. First matching rule is preferred for an action if there are conflicts. "
-                    + "Use arrows to change the order of the rules.";
+                text: qsTr("Blue bar is shown on rules whose conditions match currently. First matching rule is preferred for an action if there are conflicts. "
+                    + "Use arrows to change the order of the rules.")
             }
             LabelHelp {
                 width: parent.width
                 // No rules are displayed when only default rule (without user specified rules)
                 visible: backendRulesModel.count > 1
-                text: backendRulesModel.active ? "Rules are followed even if application is closed or device is rebooted" : ""
+                text: backendRulesModel.active ? qsTr("Rules are followed even if application is closed or device is rebooted") : ""
             }
         }
     }
@@ -430,9 +430,9 @@ Page {
     QueryDialog {
         id: dConfirmDelete
 
-        titleText: "Delete this rule?"
-        acceptButtonText: "Delete"
-        rejectButtonText: "Cancel"
+        titleText: qsTr("Delete this rule?")
+        acceptButtonText: qsTr("Delete")
+        rejectButtonText: qsTr("Cancel")
 
         onAccepted: {
             deleteRule(contextMenu.selectedRuleIndex)
@@ -447,20 +447,20 @@ Page {
 
         MenuLayout {
             MenuItem {
-                text: "Copy as new"
+                text: qsTr("Copy as new")
                 onClicked: copyAsNewRule(contextMenu.selectedRuleIndex)
             }
             MenuItem {
-                text: "Delete"
+                text: qsTr("Delete")
                 onClicked: dConfirmDelete.open()
                 enabled: !contextMenu.isDefaultRule
             }
             MenuItem {
-                text: "Run rule's actions"
+                text: qsTr("Run rule's actions")
                 onClicked: backendRulesModel.executeAction(contextMenu.selectedRuleIndex)
             }
             MenuItem {
-                text: contextMenu.ruleActive ? "Deactivate rule" : "Activate rule"
+                text: contextMenu.ruleActive ? qsTr("Deactivate rule") : qsTr("Activate rule")
                 onClicked: backendRulesModel.toggleRuleActive(contextMenu.selectedRuleIndex)
                 enabled: !contextMenu.isDefaultRule
             }

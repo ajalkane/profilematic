@@ -61,10 +61,10 @@ Page {
     function ruleNeedsWarning() {
         var warnings = []
         if (rule.action.flightMode === 0 && (rule.condition.wlan.length > 0 || rule.condition.locationCells.length > 0)){
-            warnings.push('Your condition on turning flight mode off is based on WLAN connection or Cell location. If flight mode is on, WLAN and Cell location are not usually usable.')
+            warnings.push(qsTr('Your condition on turning flight mode off is based on WLAN connection or Cell location. If flight mode is on, WLAN and Cell location are not usually usable.'))
         }
         if (rule.action.powerSavingMode === 0 && (rule.condition.wlan.length > 0 || rule.condition.locationCells.length > 0)){
-            warnings.push('Your condition on turning power saving mode off is based on WLAN connection. If power saving mode is on, WLAN connection is not usually active.')
+            warnings.push(qsTr('Your condition on turning power saving mode off is based on WLAN connection. If power saving mode is on, WLAN connection is not usually active.'))
         }
 
         if (warnings.length > 0) {
@@ -85,17 +85,17 @@ Page {
     QueryDialog {
         id: dInvalidRule
 
-        titleText: "This rule can not be used"
-        message: "A rule must have at least one condition, and one action selected"
-        acceptButtonText: "Ok"
+        titleText: qsTr("This rule can not be used")
+        message: qsTr("A rule must have at least one condition, and one action selected")
+        acceptButtonText: qsTr("Ok")
     }
 
     QueryDialog {
         id: dConfirmDelete
 
-        titleText: "Delete this rule?"
-        acceptButtonText: "Delete"
-        rejectButtonText: "Cancel"
+        titleText: qsTr("Delete this rule?")
+        acceptButtonText: qsTr("Delete")
+        rejectButtonText: qsTr("Cancel")
 
         onAccepted: {
             deleted()
@@ -106,9 +106,9 @@ Page {
     QueryDialog {
         id: dRuleWarning
 
-        titleText: "Warning: this rule might not make sense"
-        acceptButtonText: "Save anyway"
-        rejectButtonText: "Cancel"
+        titleText: qsTr("Warning: this rule might not make sense")
+        acceptButtonText: qsTr("Save anyway")
+        rejectButtonText: qsTr("Cancel")
 
         onAccepted: {
             saveRule()
@@ -121,7 +121,7 @@ Page {
         ToolButton {
             anchors.left: parent.left
             anchors.leftMargin: UIConstants.PADDING_XLARGE
-            text: "Save"
+            text: qsTr("Save")
             onClicked: {
                 if (isValidRule()) {
                     if (!ruleNeedsWarning()) {
@@ -133,7 +133,7 @@ Page {
             }
         }
         ToolButton {
-            text: "Cancel"
+            text: qsTr("Cancel")
             onClicked: {
                 editRuleMenu.close();
                 cancelled()
@@ -154,7 +154,7 @@ Page {
 
         MenuLayout {
             MenuItem {
-                text: "Delete"
+                text: qsTr("Delete")
                 enabled: rule.ruleId !== '' && !rule.isDefaultRule
                 onClicked: {
                     console.log("Delete menu item clicked")
@@ -162,14 +162,14 @@ Page {
                 }
             }
             MenuItem {
-                text: rule.ruleActive ? "Deactivate rule" : "Activate rule"
+                text: rule.ruleActive ? qsTr("Deactivate rule") : qsTr("Activate rule")
                 enabled: rule.ruleId !== '' && !rule.isDefaultRule
                 onClicked: {
                     rule.ruleActive = !rule.ruleActive
                 }
             }
             MenuItem {
-                text: "Advanced options"
+                text: qsTr("Advanced options")
                 enabled: !rule.isDefaultRule
                 onClicked: {
                     root.pageStack.push(Qt.resolvedUrl("EditRuleAdvanced.qml"), { 'rule': rule });
@@ -181,7 +181,7 @@ Page {
 
     ItemSelectionDialog {
         id: dMoreConditions
-        titleText: "Select condition"
+        titleText: qsTr("Select condition")
         model: backendConditionEditNonVisibleModel
         onItemSelected: {
             console.log("on item selected called ", item.qmlEditFile)
@@ -191,7 +191,7 @@ Page {
 
     ItemSelectionDialog {
         id: dMoreActions
-        titleText: "Select action"
+        titleText: qsTr("Select action")
         model: backendActionEditNonVisibleModel
         onItemSelected: {
             console.log("on item selected called ", item.qmlEditFile)
@@ -217,7 +217,7 @@ Page {
 
             PageHeader {
                 id: header
-                text: rule.ruleId === '' ? "New rule" : (rule.isDefaultRule ? "Default rule" : "Edit rule");
+                text: rule.ruleId === '' ? qsTr("New rule") : (rule.isDefaultRule ? qsTr("Default rule") : qsTr("Edit rule"));
             }
 
 //            Label {
@@ -228,24 +228,24 @@ Page {
 //            }
             LabelHelp {
                 visible: rule.isDefaultRule
-                text: "Activates specified actions if no other rule with matching conditions has the action specified. "
-                      + "Note: if a regular rule has 'restore previous' in its action, it overrides default rules action."
+                text: qsTr("Activates specified actions if no other rule with matching conditions has the action specified. "
+                      + "Note: if a regular rule has 'restore previous' in its action, it overrides default rules action.")
             }
             LabelHelp {
                 visible: !rule.ruleActive
                 color: "orange" // IMPROVE to UIConstants
-                text: "This rule is not active. You can reactivate this rule from menu. Changes won't be activated before saving."
+                text: qsTr("This rule is not active. You can reactivate this rule from menu. Changes won't be activated before saving.")
             }
 
             LabelHelp {
                 visible: rule.stopIfMatched
                 color: "orange" // IMPROVE to UIConstants
-                text: "If this rule matches, following rules are skipped."
+                text: qsTr("If this rule matches, following rules are skipped.")
             }
 
             TextFieldWithLabel {
-                labelText: "Rule name"
-                placeholderText: "Auto-generated"
+                labelText: qsTr("Rule name")
+                placeholderText: qsTr("Auto-generated")
                 text: rule.ruleName
                 // height: UIConstants.LIST_ITEM_HEIGHT_SMALL
                 width: parent.width
@@ -256,7 +256,7 @@ Page {
             }
 
             SectionHeader {
-                section: "Condition"
+                section: qsTr("Condition")
                 visible: !rule.isDefaultRule
             }
 
@@ -286,7 +286,7 @@ Page {
             }
 
             Button {
-                text: "More conditions"
+                text: qsTr("More conditions")
                 visible: !rule.isDefaultRule && backendConditionEditNonVisibleModel.count > 0
                 onClicked: {
                     console.log("More conditions clicked")
@@ -298,7 +298,7 @@ Page {
 
 
             SectionHeader {
-                section: "Action"
+                section: qsTr("Action")
             }
 
             Repeater {
@@ -327,7 +327,7 @@ Page {
             }
 
             Button {
-                text: "More actions"
+                text: qsTr("More actions")
                 visible: backendActionEditNonVisibleModel.count > 0
                 onClicked: {
                     console.log("More actions clicked")
@@ -358,7 +358,7 @@ Page {
 
         MenuLayout {
             MenuItem {
-                text: "Clear " + contextMenu.topic
+                text: qsTr("Clear %1").arg(contextMenu.topic)
                 onClicked: {
                     var index = contextMenu.usedVisibleEditModel.mapToSourceIndex(contextMenu.selectedIndex)
                     console.log("Clear condition index ", index)
@@ -386,6 +386,6 @@ Page {
     }
 
     function ruleSummary() {
-        return backendRulesModel.getRuleSummaryText(rule, "Can't be used as a rule yet. Specify at least one condition, and an action.");
+        return backendRulesModel.getRuleSummaryText(rule, qsTr("Can't be used as a rule yet. Specify at least one condition, and an action."));
     }
 }

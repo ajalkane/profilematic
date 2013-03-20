@@ -44,11 +44,11 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Charging state condition"
+                text: qsTr("Charging state condition")
             }
 
             RuleTopicSummary {
-                topic: "Charging state"
+                topic: qsTr("Charging state")
                 summary: chargingStateSummary()
                 showComboBox: true
                 onTopicClicked: chargingStateEditHandler()

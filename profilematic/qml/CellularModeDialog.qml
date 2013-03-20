@@ -23,7 +23,7 @@ import "UIConstants.js" as UIConstants
 
 MySelectionDialog {
     id: root
-    titleText: "Set cellular mode"
+    titleText: qsTr("Set cellular mode")
     model: cellularModel
     platformStyle: SelectionDialogStyle {
        itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
@@ -60,30 +60,33 @@ MySelectionDialog {
     ListModel {
         id: cellularModel;
 
-        ListElement{
-            mode: 0
-            name: "Dual"
-            description: "Set network mode to Dual"
+        function addElement(mode, name, description) {
+            append({
+                       "mode" : mode,
+                       "name" : name,
+                       "description" : description
+                   })
         }
-        ListElement {
-            mode: 1
-            name: "GSM"
-            description: "Set network mode to GSM"
+
+        function initialize() {
+            // ListElement can't have JavaScript (ie. qsTr), so have to create the model like this
+            if (count === 0) {
+                addElement(0,  qsTr("Dual"),         qsTr("Set network mode to Dual"))
+                addElement(1,  qsTr("GSM"),          qsTr("Set network mode to GSM"))
+                addElement(2,  qsTr("3G"),           qsTr("Set network mode to 3G"))
+                addElement(-1, qsTr("Don't change"), qsTr("Don't change"))
+            }
         }
-        ListElement {
-            mode: 2
-            name: "3G"
-            description: "Set network mode to 3G"
+
+        Component.onCompleted: {
+            initialize()
         }
-        // CellularModelSummary depends on "Don't change" to be be index 3.
-        ListElement {
-            mode: -1
-            name: "Don't change"
-            description: "Don't change"
-        }
+
     }
 
     function cellularModeToText(mode) {
+        initialize()
+
         switch (mode) {
         case 0:
         case 1:

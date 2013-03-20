@@ -23,6 +23,7 @@ PageStackWindow {
     id: root
     QueryDialog {
         id: dQuery
+        // NOTE: no need to translate, this is ancient
         titleText: "ProfileMatic update information"
         message: "ProfileMatic now activates all matching rules instead "
                  + "of only the first matching rule. In some rare cases "

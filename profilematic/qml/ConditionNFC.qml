@@ -32,11 +32,11 @@ Page {
     QueryDialog {
         id: dNfcNotActive
 
-        titleText: "NFC is not enabled"
-        message: "You have not enabled NFC. To use NFC rules you must enable "
+        titleText: qsTr("NFC is not enabled")
+        message: qsTr("You have not enabled NFC. To use NFC rules you must enable "
                  + "NFC from device settings. Also you can't collect NFC tags here "
-                 + "without enabling NFC tags from the settings."
-        acceptButtonText: "Ok"
+                 + "without enabling NFC tags from the settings.")
+        acceptButtonText: qsTr("Ok")
     }
 
 
@@ -90,11 +90,11 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "NFC condition"
+                text: qsTr("NFC condition")
             }
 
             LabelHelp {
-                text: "Bring NFC tag close to the phone to add it to tags that are matched by this rule"
+                text: qsTr("Bring NFC tag close to the phone to add it to tags that are matched by this rule")
             }
 
             Label {
@@ -108,7 +108,7 @@ Page {
                 Connections {
                     target: backendNfc
                     onCurrentNfcUidChanged: {
-                        summary.text = "Last detected NFC id: " + uid;
+                        summary.text = qsTr("Last detected NFC id: %1").arg(uid)
                         addNfcUid(uid)
                     }
                 }
@@ -118,7 +118,7 @@ Page {
                 width: parent.width
                 height: 20
                 visible: condition.nfc.uids.length > 0
-                section: "NFC tags (" + condition.nfc.uids.length + "/" + maxUids + ")"
+                section: qsTr("NFC tags (%1/%2)").arg(condition.nfc.uids.length).arg(maxUids)
 
             }
 
@@ -194,7 +194,7 @@ Page {
             SectionHeader {
                 width: parent.width
                 height: 20
-                section: "Condition behaviour"
+                section: qsTr("Condition behaviour")
             }
 
             Item {
@@ -204,10 +204,10 @@ Page {
 
                 RuleTopicSummary {
                     id: toggleCondition
-                    topic: "Toggle condition"
+                    topic: qsTr("Toggle condition")
                     topicWidth: parent.width - toggleSwitch.width
-                    summary: toggleSwitch.checked ? "Condition active toggled on/off with NFC tag"
-                                                  : "Condition active only when NFC tag detected"
+                    summary: toggleSwitch.checked ? qsTr("Condition active toggled on/off with NFC tag")
+                                                  : qsTr("Condition active only when NFC tag detected")
                     onTopicClicked: toggleSwitch.checked = !toggleSwitch.checked
                 }
                 Switch {

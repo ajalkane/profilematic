@@ -58,36 +58,26 @@ MySelectionDialog {
         open()
     }
 
-    ChoiseModel {
+    // BackgroundConnections mode
+    ListModel {
         id: backgroundConnectionsModel;
 
-        Component.onCompleted: {
-            add(0, qsTr("Disable"), "Background connections disabled")
-            add(1, qsTr("Enable"), "Background connections enabled")
-            add(-1, qsTr("Don't change"), "Don't change")
+        ListElement{
+            mode: 0
+            name: "Disable"
+            description: "Background connections disabled"
+        }
+        ListElement {
+            mode: 1
+            name: "Enable"
+            description: "Background connections enabled"
+        }
+        ListElement {
+            mode: -1
+            name: "Don't change"
+            description: "Don't change"
         }
     }
-
-    // BackgroundConnections mode
-//    ListModel {
-//        id: backgroundConnectionsModel;
-
-//        ListElement{
-//            mode: 0
-//            name: "Disable"
-//            description: "Background connections disabled"
-//        }
-//        ListElement {
-//            mode: 1
-//            name: "Enable"
-//            description: "Background connections enabled"
-//        }
-//        ListElement {
-//            mode: -1
-//            name: "Don't change"
-//            description: "Don't change"
-//        }
-//    }
 
     function backgroundConnectionsModeToText(mode) {
         switch (mode) {

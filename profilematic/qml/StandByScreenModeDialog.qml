@@ -23,7 +23,7 @@ import "UIConstants.js" as UIConstants
 
 MySelectionDialog {
     id: root
-    titleText: "Set stand-by-screen mode"
+    titleText: qsTr("Set stand-by-screen mode")
     model: standByScreenModel
     platformStyle: SelectionDialogStyle {
        itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
@@ -61,24 +61,25 @@ MySelectionDialog {
     ListModel {
         id: standByScreenModel;
 
-        ListElement{
-            mode: 0
-            name: "Disable"
-            description: "Stand-by-screen disabled"
+        function initialize() {
+            // ListElement can't have JavaScript (ie. qsTr), so have to create the model like this
+            if (count === 0) {
+                addElement(0,  qsTr("Disable"),            qsTr("Stand-by-screen disabled"))
+                addElement(1,  qsTr("Enable"),             qsTr("Stand-by-screen enabled"))
+                addElement(-1, qsTr("Don't change"),   qsTr("Don't change"))
+            }
         }
-        ListElement {
-            mode: 1
-            name: "Enable"
-            description: "Stand-by-screen enabled"
+
+        Component.onCompleted: {
+            initialize()
         }
-        ListElement {
-            mode: -1
-            name: "Don't change"
-            description: "Don't change"
-        }
+
+
     }
 
     function standByScreenModeToText(mode) {
+        standByScreenModel.initialize();
+
         switch (mode) {
         case 0:
         case 1:

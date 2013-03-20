@@ -75,7 +75,7 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Cell id location condition"
+                text: qsTr("Cell id location condition")
             }
 
             Button {
@@ -83,10 +83,10 @@ Page {
                 checkable: condition.locationCells.length < maxCells
                 checked: false
                 // enabled: backendLocation.currentCell >= 0 && condition.locationCells.length < root.maxCells
-                text: (checked ? "Stop collecting"
+                text: (checked ? qsTr("Stop collecting")
                                : (condition.locationCells.length < root.maxCells
-                                  ? "Start collecting"
-                                  : "Max " + root.maxCells + " cells reached"))
+                                  ? qsTr("Start collecting")
+                                  : qsTr("Max %1 cells reached").arg(root.maxCells)))
                 onClicked: {
                     if (checked) {
                         addCurrentCell()
@@ -106,7 +106,7 @@ Page {
 
             Label {
                 id: summary
-                text: backendLocation.currentCell >= 0 ? "Current cell id " + backendLocation.currentCell + "."
+                text: backendLocation.currentCell >= 0 ? qsTr("Current cell id %1.").arg(backendLocation.currentCell)
                                                        : "Mobile network unreachable"
                 width: parent.width
 
@@ -116,7 +116,7 @@ Page {
             SectionHeader {
                 width: parent.width
                 height: 20
-                section: "Cell ids (" + condition.locationCells.length + ")"
+                section: qsTr("Cell ids (%1)".arg(condition.locationCells.length)
 
             }
 
@@ -176,8 +176,8 @@ Page {
             } // Repeater
 
             TextFieldWithLabel {
-                labelText: "Timeout in seconds"
-                placeholderText: "No timeout"
+                labelText: qsTr("Timeout in seconds")
+                placeholderText: qsTr("No timeout")
                 text: condition.locationCellsTimeout !== 0 ? condition.locationCellsTimeout : ""
                 inputMethodHints: Qt.ImhDigitsOnly
                 validator: RegExpValidator { regExp: /\d{0,3}/ }
@@ -190,8 +190,8 @@ Page {
             }
 
             LabelHelp {
-                text: "Rule is kept valid for specified seconds after getting into cell id not in the list. Useful in "
-                      + "areas where it's hard to collect all possible cell ids."
+                text: qsTr("Rule is kept valid for specified seconds after getting into cell id not in the list. Useful in "
+                      + "areas where it's hard to collect all possible cell ids.")
             }
 
             SectionHeader {
@@ -202,7 +202,7 @@ Page {
 
             LabelHelp {
                 id: help
-                text: "<b>Did you know?</b>"
+                text: qsTr("<b>Did you know?</b>"
                       + "<p>"
                       + "Location by mobile cell ids comes free from your operator and "
                       + "does not drain battery, unlike GPS."
@@ -230,7 +230,7 @@ Page {
                       + "you should collect the cell ids using both mobile network modes. "
                       + "When 'collecting' is on, switch between the networks or select a dual mode. "
                       +"<li>Cell id technology can't be used for a very exact location."
-                      + "</ul>"
+                      + "</ul>")
             }
 
         } // Column

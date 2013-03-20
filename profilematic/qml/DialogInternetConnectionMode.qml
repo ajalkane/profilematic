@@ -23,7 +23,7 @@ import "UIConstants.js" as UIConstants
 
 MySelectionDialog {
     id: root
-    titleText: "Internet connection mode"
+    titleText: qsTr("Internet connection mode")
     model: internetConnectionModeModel
     platformStyle: SelectionDialogStyle {
        itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
@@ -60,34 +60,34 @@ MySelectionDialog {
     ListModel {
         id: internetConnectionModeModel;
 
-        ListElement{
-            mode: 0
-            name: "Not in use"
-            description: "Not in use"
+        function addElement(mode, name, description) {
+            append({
+                       "mode" : mode,
+                       "name" : name,
+                       "description" : description
+                   })
         }
-        ListElement {
-            mode: 1
-            name: "WLAN"
-            description: "When using internet over WLAN connection"
+
+        function initialize() {
+            // ListElement can't have JavaScript (ie. qsTr), so have to create the model like this
+            if (count === 0) {
+                addElement(0,  qsTr("Not in use"),             qsTr("Not in use"))
+                addElement(1,  qsTr("WLAN"),                   qsTr("When using internet over WLAN connection"))
+                addElement(2,  qsTr("Mobile"),                 qsTr("When using internet over mobile connection"))
+                addElement(3,  qsTr("Any"),                    qsTr("When any internet connection is in use"))
+                addElement(4,  qsTr("No internet connection"), qsTr("When internet connection is disabled or unavailable"))
+            }
         }
-        ListElement {
-            mode: 2
-            name: "Mobile"
-            description: "When using internet over mobile connection"
+
+        Component.onCompleted: {
+            initialize()
         }
-        ListElement {
-            mode: 3
-            name: "Any"
-            description: "When any internet connection is in use"
-        }
-        ListElement {
-            mode: 4
-            name: "No internet connection"
-            description: "When internet connection is disabled or unavailable"
-        }
+
     }
 
     function internetConnectionModeSummary(internetConnectionMode) {
+        internetConnectionModeModel.initialize()
+
         switch (internetConnectionMode) {
         case 1:
         case 2:

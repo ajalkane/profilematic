@@ -46,18 +46,18 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Idle condition"
+                text: qsTr("Idle condition")
             }
 
             LabelHelp {
-                text: "Specify the amount of time in minutes that the device has to be in idle mode until this "
+                text: qsTr("Specify the amount of time in minutes that the device has to be in idle mode until this "
                       + "rule is activated. Device goes into idle if user does not do anything for a while (about 30 seconds). "
-                      + "Idle mode is exited when lock screen is deactivated."
+                      + "Idle mode is exited when lock screen is deactivated.")
             }
 
             TextFieldWithLabel {
-                labelText: "Idle in minutes"
-                placeholderText: "Not set"
+                labelText: qsTr("Idle in minutes")
+                placeholderText: qsTr("Not set")
                 text: condition.idleForSecs < 0 ? "" : condition.idleForSecs / 60
                 inputMethodHints: Qt.ImhDigitsOnly
                 validator: RegExpValidator { regExp: /\d{0,4}/ }

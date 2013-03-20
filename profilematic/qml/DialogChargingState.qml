@@ -23,7 +23,7 @@ import "UIConstants.js" as UIConstants
 
 MySelectionDialog {
     id: root
-    titleText: "Charging state"
+    titleText: qsTr("Charging state")
     model: chargingStateModel
     platformStyle: SelectionDialogStyle {
        itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
@@ -62,24 +62,31 @@ MySelectionDialog {
     ListModel {
         id: chargingStateModel;
 
-        ListElement{
-            mode: -1
-            name: "Not in use"
-            description: "Not in use"
+        function addElement(mode, name, description) {
+            append({
+                       "mode" : mode,
+                       "name" : name,
+                       "description" : description
+                   })
         }
-        ListElement {
-            mode: 0
-            name: "Not charging"
-            description: "When device is not charging power"
+
+        function initialize() {
+            // ListElement can't have JavaScript (ie. qsTr), so have to create the model like this
+            if (count === 0) {
+                addElement(-1, qsTr("Not in use"),   qsTr("Not in use"))
+                addElement(0,  qsTr("Not charging"), qsTr("When device is not charging power"))
+                addElement(1,  qsTr("Charging"),     qsTr("When device is charging power"))
+            }
         }
-        ListElement {
-            mode: 1
-            name: "Charging"
-            description: "When device is charging power"
+
+        Component.onCompleted: {
+            initialize()
         }
     }
 
     function chargingStateSummary(chargingState) {
+        chargingStateModel.initialize();
+
         switch (chargingState) {
         case 0:
         case 1:

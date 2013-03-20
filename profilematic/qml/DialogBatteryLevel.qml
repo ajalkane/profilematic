@@ -24,7 +24,7 @@ import "UIConstants.js" as UIConstants
 
 TumblerDialog {
     id: root
-    titleText: "Battery level range"
+    titleText: qsTr("Battery level range")
     anchors.margins: UIConstants.DEFAULT_MARGIN
     property alias selectedMin: minColumn.selectedIndex
     property alias selectedMax: maxColumn.selectedIndex
@@ -42,14 +42,14 @@ TumblerDialog {
 
     TumblerColumn {
         id: minColumn
-        label: "Min"
+        label: qsTr("Min")
         selectedIndex: 101
         items: percentageList
     }
 
     TumblerColumn {
         id: maxColumn
-        label: "Max"
+        label: qsTr("Max")
         selectedIndex: 0
         items: percentageList
     }

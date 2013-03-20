@@ -23,12 +23,12 @@ PageStackWindow {
     id: root
     QueryDialog {
         id: dQuery
-        titleText: "Warning"
-        message: "ProfileMatic lacks credentials that are needed to "
+        titleText: qsTr("Warning")
+        message: qsTr("ProfileMatic lacks credentials that are needed to "
                  + "change flight mode, and you "
                  + "have such rules."
                  + "\n\n"
-                 + "You can try to reinstall ProfileMatic to restore the credentials."
+                 + "You can try to reinstall ProfileMatic to restore the credentials.")
         onAccepted: Qt.quit();
         onRejected: Qt.quit();
     }

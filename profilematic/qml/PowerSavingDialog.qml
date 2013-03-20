@@ -23,7 +23,7 @@ import "UIConstants.js" as UIConstants
 
 MySelectionDialog {
     id: root
-    titleText: "Set power saving mode"
+    titleText: qsTr("Set power saving mode")
     model: powerSavingModel
     platformStyle: SelectionDialogStyle {
        itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
@@ -59,25 +59,32 @@ MySelectionDialog {
     ListModel {
         id: powerSavingModel;
 
-        ListElement{
-            mode: 0
-            name: "Off"
-            description: "Set power saving off"
+        function addElement(mode, name, description) {
+            append({
+                       "mode" : mode,
+                       "name" : name,
+                       "description" : description
+                   })
         }
-        ListElement {
-            mode: 1
-            name: "On"
-            description: "Set power saving on"
+
+        function initialize() {
+            // ListElement can't have JavaScript (ie. qsTr), so have to create the model like this
+            if (count === 0) {
+                addElement(0,  qsTr("Off"),            qsTr("Set power saving off"))
+                addElement(1,  qsTr("On"),             qsTr("Set power saving on"))
+                addElement(-1, qsTr("Don't change"),   qsTr("Don't change"))
+            }
         }
-        // powerSavingModelSummary depends on "Don't change" to be be index 2.
-        ListElement {
-            mode: -1
-            name: "Don't change"
-            description: "Don't change"
+
+        Component.onCompleted: {
+            initialize()
         }
+
     }
 
     function powerSavingModeToText(mode) {
+        powerSavingModel.initialize();
+
         switch (mode) {
         case 0:
         case 1:

@@ -44,11 +44,11 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Internet connection condition"
+                text: qsTr("Internet connection condition")
             }
 
             RuleTopicSummary {
-                topic: "Internet connection mode"
+                topic: qsTr("Internet connection mode")
                 summary: internetConnectionModeSummary()
                 showComboBox: true
                 onTopicClicked: internetConnectionModeEditHandler()

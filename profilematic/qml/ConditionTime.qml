@@ -53,32 +53,32 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "Time condition"
+                text: qsTr("Time condition")
             }
 
             RuleTopicSummary {
-                topic: "Weekdays"
+                topic: qsTr("Weekdays")
                 summary: daysSummary()
                 showComboBox: true
                 onTopicClicked: daysEditHandler()
             }
 
             RuleTopicSummary {
-                topic: "Start time"
+                topic: qsTr("Start time")
                 summary: timeStartSummary()
                 showComboBox: true
                 onTopicClicked: timeStartEditHandler()
             }
 
             RuleTopicSummary {
-                topic: "End time"
+                topic: qsTr("End time")
                 summary: timeEndSummary()
                 showComboBox: true
                 onTopicClicked: timeEndEditHandler()
             }
 
             Button {
-                text: "Clear"
+                text: qsTr("Clear")
                 onClicked: dConfirmDelete.open()
             }
 
@@ -106,10 +106,10 @@ Page {
     QueryDialog {
         id: dConfirmDelete
 
-        titleText: "Clear time conditions"
-        message: "Are you sure you want to clear time conditions?"
-        acceptButtonText: "Yes"
-        rejectButtonText: "Cancel"
+        titleText: qsTr("Clear time conditions")
+        message: qsTr("Are you sure you want to clear time conditions?")
+        acceptButtonText: qsTr("Yes")
+        rejectButtonText: qsTr("Cancel")
 
         onAccepted: {
             condition.timeStart = ""
@@ -121,18 +121,20 @@ Page {
     QueryDialog {
         id: dInvalidRule
 
-        titleText: "Invalid time condition"
-        message: "Either set all time and day fields, or clear them.\n\n"
-                 + "Missing:\n\n"
-                 + (condition.timeStart   === '' ? "Start time\n" : "")
-                 + (condition.timeEnd     === '' ? "End time\n"   : "")
-                 + (condition.days.length === 0  ? "Weekdays"     : "")
+        titleText: qsTr("Invalid time condition")
+        message: qsTr("Either set all time and day fields, or clear them.")
+                 + "\n\n"
+                 + qsTr("Missing:")
+                 + "\n\n"
+                 + (condition.timeStart   === '' ? qsTr("Start time\n") : "")
+                 + (condition.timeEnd     === '' ? qsTr("End time\n")   : "")
+                 + (condition.days.length === 0  ? qsTr("Weekdays")     : "")
         acceptButtonText: "Ok"
     }
 
     // Profile functions
     function timeSummary() {
-        return backendRulesModel.getTimeSummaryText(condition, "") === "" ? "All time and day fields must be set. This condition is not yet usable." : "";
+        return backendRulesModel.getTimeSummaryText(condition, "") === "" ? qsTr("All time and day fields must be set. This condition is not yet usable.") : "";
     }
 
     function formatTime(hour, minute) {
@@ -141,7 +143,7 @@ Page {
 
     TimeDialog {
         id: timeStartDialog
-        titleText: "Start time"
+        titleText: qsTr("Start time")
         onAccepted: condition.timeStart = formatTime(hour, minute)
     }
 
@@ -158,14 +160,14 @@ Page {
 
     function timeStartSummary() {
         if (condition.timeStart === '') {
-            return "Click to set time"
+            return qsTr("Click to set time")
         }
         return condition.timeStart
     }
 
     TimeDialog {
         id: timeEndDialog
-        titleText: "End time"
+        titleText: qsTr("End time")
         onAccepted: condition.timeEnd = formatTime(hour, minute)
     }
 
@@ -182,7 +184,7 @@ Page {
 
     function timeEndSummary() {
         if (condition.timeEnd=== '') {
-            return "Click to set time"
+            return qsTr("Click to set time")
         }
         return condition.timeEnd
     }
@@ -190,12 +192,12 @@ Page {
 
     MyMultiSelectionDialog {
         id: daysDialog
-        titleText: "Weekdays"
+        titleText: qsTr("Weekdays")
         platformStyle: SelectionDialogStyle {
             itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
         }
         model: backendDaysModel
-        acceptButtonText: "OK"
+        acceptButtonText: qsTr("OK")
         onAccepted: condition.days = selectedIndexes
     }
 

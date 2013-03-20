@@ -109,21 +109,21 @@ Page {
             height: childrenRect.height
 
             PageHeader {
-                text: "WLAN condition"
+                text: qsTr("WLAN condition")
             }
 
             LabelHelp {
-                text: "This condition can be used to activate a rule when connected to WLAN. Add the desired WLAN when connected to it."
+                text: qsTr("This condition can be used to activate a rule when connected to WLAN. Add the desired WLAN when connected to it.")
             }
 
             Button {
                 id: collectingButton
                 enabled: condition.wlan.length < maxWlans && wlaninfo.nameIfUsable !== ""
                 // enabled: backendLocation.currentCell >= 0 && conditiong.locationCells.length < root.maxCells
-                text: (enabled ? "Add current WLAN"
+                text: (enabled ? qsTr("Add current WLAN")
                                : (condition.wlan.length < root.maxWlans
-                                  ? "No WLAN"
-                                  : "Max " + root.maxWlans + " WLANs added"))
+                                  ? qsTr("No WLAN")
+                                  : qsTr("Max %1 WLANs added").arg(root.maxWlans)))
                 onClicked: {
                     addCurrentWlan()
                 }
@@ -131,7 +131,7 @@ Page {
 
             Label {
                 id: summary
-                text: wlaninfo.nameIfUsable !== "" ? "Current WLAN '" + wlaninfo.nameIfUsable + "'": "Not connected to WLAN"
+                text: wlaninfo.nameIfUsable !== "" ? qsTr("Current WLAN '%1'").arg(wlaninfo.nameIfUsable) : qsTr("Not connected to WLAN")
                 width: parent.width
 
                 platformStyle: LabelStyleSubtitle {}
@@ -140,7 +140,7 @@ Page {
             SectionHeader {
                 width: parent.width
                 height: 20
-                section: "WLAN access points (" + condition.wlan.length + ")"
+                section: qsTr("WLAN access points (%1)").arg(condition.wlan.length)
             }
 
             Repeater {
@@ -197,8 +197,8 @@ Page {
             } // Repeater
 
             TextFieldWithLabel {
-                labelText: "WLAN timeout in seconds"
-                placeholderText: "No timeout"
+                labelText: qsTr("WLAN timeout in seconds")
+                placeholderText: qsTr("No timeout")
                 text: condition.wlanTimeout !== 0 ? condition.wlanTimeout : ""
                 inputMethodHints: Qt.ImhDigitsOnly
                 validator: RegExpValidator { regExp: /\d{0,3}/ }

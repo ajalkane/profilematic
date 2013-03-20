@@ -22,6 +22,6 @@ import com.nokia.extras 1.0
 
 TimePickerDialog {
     fields: DateTime.Minutes | DateTime.Seconds
-    acceptButtonText: "Ok"
-    rejectButtonText: "Cancel"
+    acceptButtonText: qTr("Ok")
+    rejectButtonText: qTr("Cancel")
 }

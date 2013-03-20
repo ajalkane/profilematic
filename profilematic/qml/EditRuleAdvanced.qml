@@ -49,13 +49,13 @@ Page {
 
             PageHeader {
                 id: header
-                text: "Rule advanced options"
+                text: qsTr("Rule advanced options")
             }
 
             RuleTopicSummarySwitch {
-                topic: "Stop rule processing if matches"
-                summary: checked ? "No more rules processed if this rule matches."
-                                 : "Normal rule matching."
+                topic: qsTr("Stop rule processing if matches")
+                summary: checked ? qsTr("No more rules processed if this rule matches.")
+                                 : qsTr("Normal rule matching.")
                 checked: rule.stopIfMatched
                 onCheckedChanged: {
                     rule.stopIfMatched = checked;
@@ -63,9 +63,9 @@ Page {
             }
 
             LabelHelp {
-                text: "ProfileMatic processes rules from top to bottom. Normally all rules are processed. If this "
-                      + "option is set on, whenever this rules matches, the following rules are not processed anymore. "
-                      + "Default rule is a special case, which is always processed even if this option is set on."
+                text: qsTr("ProfileMatic processes rules from top to bottom. Normally all rules are processed. If this "
+                        + "option is set on, whenever this rules matches, the following rules are not processed anymore. "
+                        + "Default rule is a special case, which is always processed even if this option is set on.")
             }
 
         } // Column

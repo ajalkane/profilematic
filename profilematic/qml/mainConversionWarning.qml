@@ -23,6 +23,7 @@ PageStackWindow {
     id: root
     QueryDialog {
         id: dQuery
+        // Note: no need to translate... this is ancient
         titleText: "ProfileMatic update information"
         message: "Your rules have been converted to new format. "
                  + "The rules should work after conversion roughly as before, "
