@@ -62,7 +62,8 @@ SOURCES += src/main.cpp \
     src/qmlbackend/application/qmlapplicationscannertomodeladapter.cpp \
     src/qmlbackend/qmlsortproxymodel.cpp \
     src/qmlbackend/application/qmlselectedapplicationsmodel.cpp \
-    src/qmlbackend/application/qmlapplication.cpp
+    src/qmlbackend/application/qmlapplication.cpp \
+    src/qmlbackend/qmlchoisemodel.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -94,7 +95,8 @@ HEADERS += \
     src/qmlbackend/application/qmlapplicationscannertomodeladapter.h \
     src/qmlbackend/qmlsortproxymodel.h \
     src/qmlbackend/application/qmlselectedapplicationsmodel.h \
-    src/qmlbackend/application/qmlapplication.h
+    src/qmlbackend/application/qmlapplication.h \
+    src/qmlbackend/qmlchoisemodel.h
 
 # To avoid mistakes, do not use the simulated cellId on a device build.
 !profilematic_simulated_cellid|!isEmpty(MEEGO_VERSION_MAJOR) {

@@ -18,6 +18,7 @@
 **/
 import QtQuick 1.1
 import com.nokia.meego 1.0
+import profilematic 1.0
 
 import "UIConstants.js" as UIConstants
 
@@ -57,34 +58,49 @@ MySelectionDialog {
         open()
     }
 
+//    ChoiseModel {
+//        id: blueToothModel;
+
+//        Component.onCompleted: {
+//            add(0, qsTr("Off"), qsTr("Bluetooth off"))
+//            add(1, qsTr("On"), qsTr("Bluetooth on"))
+//            add(2, qsTr("On and visible"), qsTr("Bluetooth on and visible"))
+//            add(-1, qsTr("Don't change"), qsTr("Don't change"))
+//        }
+//    }
+
     // BlueTooth mode
     ListModel {
         id: blueToothModel;
 
-        ListElement{
-            mode: 0
-            name: "Off"
-            description: "Bluetooth off"
+        function addElement(mode, name, description) {
+            append({
+                       "mode" : mode,
+                       "name" : name,
+                       "description" : description
+                   })
         }
-        ListElement {
-            mode: 1
-            name: "On"
-            description: "Bluetooth on"
+
+        function initialize() {
+            // ListElement can't have JavaScript (ie. qsTr), so have to create the model like this
+            if (count === 0) {
+                addElement(0,  qsTr("Off"),            qsTr("Bluetooth off"))
+                addElement(1,  qsTr("On"),             qsTr("Bluetooth on"))
+                addElement(2,  qsTr("On and visible"), qsTr("Bluetooth on and visible"))
+                addElement(-1, qsTr("Don't change"),   qsTr("Don't change"))
+            }
         }
-        ListElement {
-            mode: 2
-            name: "On and visible"
-            description: "Bluetooth on and visible"
-        }
-        // BlueToothModelSummary depends on "Don't change" to be be index 3.
-        ListElement {
-            mode: -1
-            name: "Don't change"
-            description: "Don't change"
+
+        Component.onCompleted: {
+            initialize()
         }
     }
 
     function blueToothModeToText(mode) {
+        // This function seems to be able to be called before ListModel's onCompleted,
+        // so try initialize here also.
+        blueToothModel.initialize()
+
         switch (mode) {
         case 0:
         case 1:

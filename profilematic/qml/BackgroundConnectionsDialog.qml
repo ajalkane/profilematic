@@ -18,6 +18,7 @@
 **/
 import QtQuick 1.1
 import com.nokia.meego 1.0
+import profilematic 1.0
 
 import "UIConstants.js" as UIConstants
 
@@ -57,26 +58,36 @@ MySelectionDialog {
         open()
     }
 
-    // BackgroundConnections mode
-    ListModel {
+    ChoiseModel {
         id: backgroundConnectionsModel;
 
-        ListElement{
-            mode: 0
-            name: "Disable"
-            description: "Background connections disabled"
-        }
-        ListElement {
-            mode: 1
-            name: "Enable"
-            description: "Background connections enabled"
-        }
-        ListElement {
-            mode: -1
-            name: "Don't change"
-            description: "Don't change"
+        Component.onCompleted: {
+            add(0, qsTr("Disable"), "Background connections disabled")
+            add(1, qsTr("Enable"), "Background connections enabled")
+            add(-1, qsTr("Don't change"), "Don't change")
         }
     }
+
+    // BackgroundConnections mode
+//    ListModel {
+//        id: backgroundConnectionsModel;
+
+//        ListElement{
+//            mode: 0
+//            name: "Disable"
+//            description: "Background connections disabled"
+//        }
+//        ListElement {
+//            mode: 1
+//            name: "Enable"
+//            description: "Background connections enabled"
+//        }
+//        ListElement {
+//            mode: -1
+//            name: "Don't change"
+//            description: "Don't change"
+//        }
+//    }
 
     function backgroundConnectionsModeToText(mode) {
         switch (mode) {

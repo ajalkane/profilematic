@@ -95,6 +95,7 @@ Page {
     }
 
     function blueToothModeSummary() {
+        console.log("blueTOothmodesummary", action.blueToothMode)
         return dBlueToothMode.blueToothModeToText(action.blueToothMode)
     }
 
