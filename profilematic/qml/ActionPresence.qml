@@ -268,20 +268,39 @@ Page {
 
         property PresenceRule rule
         property variant supportedPresences
-        property variant __presenceModelList: ListModel {
-            ListElement { name: qsTr("Online"); value: PresenceRule.SetOnline }
-            ListElement { name: qsTr("Offline"); value: PresenceRule.SetOffline }
-            ListElement { name: qsTr("Away"); value: PresenceRule.SetAway }
-            ListElement { name: qsTr("Extended away"); value: PresenceRule.SetXa }
-            ListElement { name: qsTr("Busy"); value: PresenceRule.SetBusy }
-            ListElement { name: qsTr("Invisible"); value: PresenceRule.SetHidden }
+        property variant __presenceModelList: ListModel {            
+            function addElement(name, value) {
+                append({
+                           "name"  : name,
+                           "value" : value
+                       })
+            }
+
+            function initialize() {
+                // ListElement can't have JavaScript (ie. qsTr), so have to create the model like this
+                if (count === 0) {
+                    addElement(qsTr("Online"),        PresenceRule.SetOnline)
+                    addElement(qsTr("Offline"),       PresenceRule.SetOffline )
+                    addElement(qsTr("Away"),          PresenceRule.SetAway)
+                    addElement(qsTr("Extended away"), PresenceRule.SetXa )
+                    addElement(qsTr("Busy"),          PresenceRule.SetBusy )
+                    addElement(qsTr("Invisible"),     PresenceRule.SetHidden)
+                }
+            }
+
+            Component.onCompleted: {
+                initialize()
+            }
+
         }
 
         function __updateSelectedIndex() {
             presenceSelectionDialog.selectedIndex = -1
-
+            console.log("__updateSelectedIndex, rule", rule)
             if (!rule)
                 return;
+
+            console.log("__updateSelectedIndex, model.count", model.count)
 
             for (var row = 0; row < model.count; row++) {
                 if (model.get(row).value !== rule.action)

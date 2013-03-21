@@ -107,7 +107,7 @@ Page {
             Label {
                 id: summary
                 text: backendLocation.currentCell >= 0 ? qsTr("Current cell id %1.").arg(backendLocation.currentCell)
-                                                       : "Mobile network unreachable"
+                                                       : qsTr("Mobile network unreachable")
                 width: parent.width
 
                 platformStyle: LabelStyleSubtitle {}
@@ -116,7 +116,7 @@ Page {
             SectionHeader {
                 width: parent.width
                 height: 20
-                section: qsTr("Cell ids (%1)".arg(condition.locationCells.length)
+                section: qsTr("Cell ids (%1)").arg(condition.locationCells.length)
 
             }
 

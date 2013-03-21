@@ -38,23 +38,24 @@
         virtual void clear(Rule &rule) const { \
             QmlRuleUtil::instance()->name##Clear(&(rule.action())); \
         } \
-    } description##name;
-
-DESCRIPTION(profile, "Profile", "ActionProfile.qml", true)
-DESCRIPTION(presence, "Account availability", "ActionPresence.qml", false)
-DESCRIPTION(flightMode, "Flight mode", "ActionFlightMode.qml", false)
-DESCRIPTION(powerSavingMode, "Power saving mode", "ActionPowerSavingMode.qml", false)
-DESCRIPTION(bluetoothMode, "Bluetooth", "ActionBlueToothMode.qml", false)
-DESCRIPTION(cellularMode, "Mobile network mode", "ActionCellularMode.qml", false)
-DESCRIPTION(standByScreenMode, "Stand-by screen mode", "ActionStandByScreen.qml", false)
-DESCRIPTION(customAction, "Custom action", "ActionCommandLine.qml", false)
-DESCRIPTION(application, "Application", "ActionApplication.qml", false)
-DESCRIPTION(deviceVolume, "Device volume", "ActionDeviceVolume.qml", false)
-DESCRIPTION(alarm, "Alarm", "ActionAlarm.qml", false)
+    }; \
+    static Description##name description##name;
 
 QmlActionEditModel::QmlActionEditModel(Rule *editRule, QObject *parent)
     : super(editRule, parent)
 {
+    DESCRIPTION(profile, tr("Profile"), "ActionProfile.qml", true)
+    DESCRIPTION(presence, tr("Account availability"), "ActionPresence.qml", false)
+    DESCRIPTION(flightMode, "Flight mode", "ActionFlightMode.qml", false)
+    DESCRIPTION(powerSavingMode, "Power saving mode", "ActionPowerSavingMode.qml", false)
+    DESCRIPTION(bluetoothMode, "Bluetooth", "ActionBlueToothMode.qml", false)
+    DESCRIPTION(cellularMode, "Mobile network mode", "ActionCellularMode.qml", false)
+    DESCRIPTION(standByScreenMode, "Stand-by screen mode", "ActionStandByScreen.qml", false)
+    DESCRIPTION(customAction, "Custom action", "ActionCommandLine.qml", false)
+    DESCRIPTION(application, "Application", "ActionApplication.qml", false)
+    DESCRIPTION(deviceVolume, "Device volume", "ActionDeviceVolume.qml", false)
+    DESCRIPTION(alarm, "Alarm", "ActionAlarm.qml", false)
+
     _descriptions << &descriptionprofile
                   << &descriptionpresence
                   << &descriptionflightMode

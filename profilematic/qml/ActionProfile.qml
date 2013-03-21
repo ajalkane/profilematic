@@ -123,7 +123,7 @@ Page {
     // Profile functions
     MySelectionDialog {
         id: profilesDialog
-        titleText: "Set profile"
+        titleText: qsTr("Set profile")
         platformStyle: SelectionDialogStyle {
             itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
         }
@@ -149,7 +149,7 @@ Page {
     }
 
     function profileSummary() {
-        return action.profile !== "" ? backendProfilesModel.getProfileToName(action.profile) : "Click to set"
+        return action.profile !== "" ? backendProfilesModel.getProfileToName(action.profile) : qsTr("Click to set")
     }
 
     function profileEditHandler() {

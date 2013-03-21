@@ -34,10 +34,15 @@ void
 QmlProfilesModel::_init(Role /*nameRole*/) {
     Q_ASSERT_X(nameRole == ProfileType, "QmlProfileModel", "Only ProfileType role supported at the moment");
 
+    // Default Harmattan profile types for translators
+    QT_TR_NOOP("Ringing");
+    QT_TR_NOOP("Silent");
+    QT_TR_NOOP("Beep");
+
     QString dontChangeProfileType = tr("Don't change");
     _nameToProfile[dontChangeProfileType] = "";
     _profileToName[""] = "";
-    _names.append(tr(dontChangeProfileType));
+    _names.append(dontChangeProfileType);
 
     QStringList profiles = _profileClient->getProfiles();
     QString profile;
@@ -72,7 +77,7 @@ QmlProfilesModel::data(const QModelIndex & index, int role) const {
     case Profile:
         return _nameToProfile[name];
     case ProfileType:
-        return name;
+        return tr(name.toLatin1());
     }
 
     return QVariant();
