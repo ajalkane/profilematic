@@ -38,21 +38,22 @@
         virtual void clear(Rule &rule) const { \
             QmlRuleUtil::instance()->name##Clear(&(rule.condition())); \
         } \
-    } description##name;
-
-DESCRIPTION(time, "Time", "ConditionTime.qml", true)
-DESCRIPTION(cellLocation, "Cell id location", "ConditionLocation.qml", false)
-DESCRIPTION(internetConnectionMode, "Internet connection", "ConditionInternetConnectionMode.qml", false)
-DESCRIPTION(wlan, "WLAN", "ConditionWlan.qml", false)
-DESCRIPTION(idle, "Idle", "ConditionIdle.qml", false)
-DESCRIPTION(nfc,  "NFC", "ConditionNFC.qml", false)
-DESCRIPTION(charging,  "Charging state", "ConditionChargingState.qml", false)
-DESCRIPTION(batteryLevel,  "Battery level", "ConditionBatteryLevel.qml", false)
-DESCRIPTION(calendar,  "Calendar", "ConditionCalendar.qml", false)
+    }; \
+    static Description##name description##name;description##name;
 
 QmlConditionEditModel::QmlConditionEditModel(Rule *editRule, QObject *parent)
     : super(editRule, parent)
 {
+    DESCRIPTION(time, tr("Time"), "ConditionTime.qml", true)
+    DESCRIPTION(cellLocation, tr("Cell id location"), "ConditionLocation.qml", false)
+    DESCRIPTION(internetConnectionMode, tr("Internet connection"), "ConditionInternetConnectionMode.qml", false)
+    DESCRIPTION(wlan, tr("WLAN"), "ConditionWlan.qml", false)
+    DESCRIPTION(idle, tr("Idle"), "ConditionIdle.qml", false)
+    DESCRIPTION(nfc,  tr("NFC"), "ConditionNFC.qml", false)
+    DESCRIPTION(charging,  tr("Charging state"), "ConditionChargingState.qml", false)
+    DESCRIPTION(batteryLevel,  tr("Battery level"), "ConditionBatteryLevel.qml", false)
+    DESCRIPTION(calendar,  tr("Calendar"), "ConditionCalendar.qml", false)
+
     _descriptions << &descriptiontime
                   << &descriptioncellLocation
                   << &descriptioninternetConnectionMode
