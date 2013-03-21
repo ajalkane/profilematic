@@ -196,6 +196,7 @@ Page {
                 }
 
                 onClicked: {
+                    console.log("onClicked presenceRule", presenceRule)
                     presenceSelectionDialog.supportedPresences = supportedPresences
                     presenceSelectionDialog.rule = presenceRule
                     presenceSelectionDialog.open()
@@ -268,7 +269,9 @@ Page {
 
         property PresenceRule rule
         property variant supportedPresences
-        property variant __presenceModelList: ListModel {            
+        property variant __presenceModelList: ListModel {
+             id: presenceModel
+
             function addElement(name, value) {
                 append({
                            "name"  : name,
@@ -303,6 +306,7 @@ Page {
             console.log("__updateSelectedIndex, model.count", model.count)
 
             for (var row = 0; row < model.count; row++) {
+                console.log("Row " + row + " value " + model.get(row).value + " rule.action " + rule.action)
                 if (model.get(row).value !== rule.action)
                     continue;
 
@@ -326,6 +330,8 @@ Page {
             // Create a new model rather than clearing the existing one:
             // There are some redraw issues if the current model is cleared
             // and filled with new values.
+            presenceModel.initialize()
+
             var model = Qt.createQmlObject("import QtQuick 1.1; ListModel {}", presenceSelectionDialog)
             for (var i = 0; i < __presenceModelList.count; i++) {
                 for (var j = 0; j < supportedPresences.length; j++) {
@@ -340,6 +346,8 @@ Page {
             presenceSelectionDialog.selectedIndex = -1
             presenceSelectionDialog.model = model
         }
+
+        onRuleChanged: presenceSelectionDialog.__updateSelectedIndex()
 
         Connections {
             target: presenceSelectionDialog.rule

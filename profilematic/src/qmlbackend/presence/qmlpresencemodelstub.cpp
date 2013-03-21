@@ -31,9 +31,9 @@ QmlPresenceModelStub::QmlPresenceModelStub(QObject *parent) :
     appendRow(3, "Change to remove random");
     appendRow(4, "Change to add random");
 
-    onRuleChanged();
+    onActionChanged();
 
-    connect(this, SIGNAL(ruleChanged()), SLOT(onRuleChanged()));
+    connect(this, SIGNAL(actionChanged()), SLOT(onActionChanged()));
 }
 
 QVariant QmlPresenceModelStub::data(const QModelIndex &index, int role) const
@@ -64,7 +64,7 @@ QVariant QmlPresenceModelStub::data(const QModelIndex &index, int role) const
     }
 }
 
-void QmlPresenceModelStub::onRuleChanged() {
+void QmlPresenceModelStub::onActionChanged() {
     connect(_rows[2]->rule, SIGNAL(actionChanged()), SLOT(removeRandom()));
     connect(_rows[3]->rule, SIGNAL(actionChanged()), SLOT(addRandom()));
 }

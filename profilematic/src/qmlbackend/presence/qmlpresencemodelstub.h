@@ -43,7 +43,7 @@ private:
         bool enabled;
     };
 private slots:
-    void onRuleChanged();
+    void onActionChanged();
     void addRandom();
     void removeRandom();
 private:
