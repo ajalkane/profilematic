@@ -39,7 +39,7 @@
             QmlRuleUtil::instance()->name##Clear(&(rule.condition())); \
         } \
     }; \
-    static Description##name description##name;description##name;
+    static Description##name description##name;
 
 QmlConditionEditModel::QmlConditionEditModel(Rule *editRule, QObject *parent)
     : super(editRule, parent)

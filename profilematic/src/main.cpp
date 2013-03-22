@@ -125,7 +125,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<RuleConditionCalendar>("Rule", 1, 0, "RuleConditionCalendar");
     qmlRegisterType<PresenceRule>("profilematic", 1, 0, "PresenceRule");
     qmlRegisterType<QmlNetworkInfo>("profilematic", 1, 0, "NetworkInfo");
-    qmlRegisterType<QmlPresenceModelStub>("profilematic", 1, 0, "AccountsModel");
     qmlRegisterType<QmlChoiseModel>("profilematic", 1, 0, "ChoiseModel");
 #ifdef MEEGO_EDITION_HARMATTAN
     qmlRegisterType<QmlPresenceModelImpl>("profilematic", 1, 0, "AccountsModel");

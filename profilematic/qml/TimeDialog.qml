@@ -31,8 +31,8 @@ import "UIConstants.js" as UIConstants
 
 Sheet {
     id: root
-    acceptButtonText: qTr("Ok")
-    rejectButtonText: qTr("Cancel")
+    acceptButtonText: qsTr("Ok")
+    rejectButtonText: qsTr("Cancel")
 
     property alias hour: timePicker.hours
     property alias minute: timePicker.minutes
