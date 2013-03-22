@@ -25,7 +25,7 @@
     struct Description##name : public QmlBaseRuleEditModel::Description { \
         Description##name() : QmlConditionEditModel::Description(topic, qmlFile, isDefault) {} \
         virtual QString summary(const Rule &rule, bool inListing) const { \
-            return summary(rule, "Not in use", inListing); \
+            return summary(rule, tr(QT_TRANSLATE_NOOP("QmlConditionEditModel", "Not in use")), inListing); \
         } \
 \
         virtual QString summary(const Rule &rule, const QString &notUsed, bool inListing) const { \

@@ -1245,6 +1245,10 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <source>Alarm</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Don&apos;t change</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QmlConditionEditModel</name>
@@ -1282,6 +1286,10 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     </message>
     <message>
         <source>Calendar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not in use</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1629,6 +1637,28 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     </message>
 </context>
 <context>
+    <name>TimeDialog</name>
+    <message>
+        <source>Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TimeInMinutesAndSecondsDialog</name>
+    <message>
+        <source>Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>mainCredentialWarning</name>
     <message>
         <source>Warning</source>
@@ -1638,13 +1668,6 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <source>ProfileMatic lacks credentials that are needed to change flight mode, and you have such rules.
 
 You can try to reinstall ProfileMatic to restore the credentials.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>name</name>
-    <message>
-        <source>Don&apos;t change</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
