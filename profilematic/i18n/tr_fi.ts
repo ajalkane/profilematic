@@ -1335,6 +1335,10 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <source>Don&apos;t change</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unrecognized %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QmlRuleUtil</name>

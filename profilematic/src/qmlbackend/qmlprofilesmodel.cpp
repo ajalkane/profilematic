@@ -17,11 +17,17 @@
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
 #include <QtGlobal>
+#include <QDebug>
 #include "qmlprofilesmodel.h"
 
 QmlProfilesModel::QmlProfilesModel(ProfileClient *profileClient, Role nameRole, QObject *parent)
     : QAbstractListModel(parent), _profileClient(profileClient)
 {
+    // Default Harmattan profile types for translators
+    QT_TR_NOOP("Ringing");
+    QT_TR_NOOP("Silent");
+    QT_TR_NOOP("Beep");
+
     _roleToProperty[Profile] = "profile";
     _roleToProperty[ProfileType] = "profileType";
     _roleToProperty[nameRole]    = "name";
@@ -33,11 +39,6 @@ QmlProfilesModel::QmlProfilesModel(ProfileClient *profileClient, Role nameRole, 
 void
 QmlProfilesModel::_init(Role /*nameRole*/) {
     Q_ASSERT_X(nameRole == ProfileType, "QmlProfileModel", "Only ProfileType role supported at the moment");
-
-    // Default Harmattan profile types for translators
-    QT_TR_NOOP("Ringing");
-    QT_TR_NOOP("Silent");
-    QT_TR_NOOP("Beep");
 
     QString dontChangeProfileType = tr("Don't change");
     _nameToProfile[dontChangeProfileType] = "";
@@ -100,17 +101,24 @@ QmlProfilesModel::getProfileToName(const QString &profile) const {
     // qDebug("QmlProfilesModel::getProfileToName(%s)", qPrintable(profile));
     if (_profileToName.contains(profile)) {
         // qDebug("QmlProfilesModel::getProfileToName returning from _profileToName");
-        return _profileToName[profile];
+        QString profileName = _profileToName[profile];
+
+        return tr(profileName.toLatin1());
     }
     // qDebug("QmlProfilesModel::getProfileToName returning unrecognized");
-    return "Unrecognized " + profile;
+
+    return tr("Unrecognized %1").arg(profile);
 }
 
 bool
 QmlProfilesModel::profileHasVolume(const QString &profile) const {
     // qDebug("QmlProfilesModel::profileHasVolume(%s)", qPrintable(profile));
     // Hard-coded to be the Ringing profile type for now, maybe there could be a more dynamic way?
-    QString profileType = getProfileToName(profile);
+    // QString profileType = getProfileToName(profile);
     // qDebug("QmlProfilesModel::profileHasVolume: profileType %s", qPrintable(profileType));
-    return profileType.toLower() == "ringing";
+    // return profileType.toLower() == "ringing";
+
+    // Now like this, as it faciliates translations
+    qDebug() << Q_FUNC_INFO << "profile" << profile;
+    return profile.toLower() == "general";
 }

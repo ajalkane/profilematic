@@ -1638,23 +1638,28 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
 <context>
     <name>QmlProfilesModel</name>
     <message>
-        <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="38"/>
+        <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="27"/>
         <source>Ringing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="39"/>
+        <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="28"/>
         <source>Silent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="40"/>
+        <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="29"/>
         <source>Beep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="42"/>
+        <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="43"/>
         <source>Don&apos;t change</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="110"/>
+        <source>Unrecognized %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
