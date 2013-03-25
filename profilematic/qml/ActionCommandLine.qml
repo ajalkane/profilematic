@@ -82,7 +82,7 @@ Page {
             } // Button
 
             SectionHeader {
-                section: "When rule deactivates"
+                section: qsTr("When rule deactivates")
             }
 
             TextFieldWithLabel {

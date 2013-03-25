@@ -210,8 +210,8 @@ Page {
                 }
             }
             LabelHelp {
-                text: "Use WLAN timeout if your connection to the WLAN is weak. When timeout is set, "
-                      + "WLAN is considered active after losing connection for as many seconds as specified. "
+                text: qsTr("Use WLAN timeout if your connection to the WLAN is weak. When timeout is set, "
+                      + "WLAN is considered active after losing connection for as many seconds as specified. ")
             }
         } // Column
     } // Flickable

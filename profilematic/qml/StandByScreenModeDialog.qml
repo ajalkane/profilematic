@@ -61,6 +61,15 @@ MySelectionDialog {
     ListModel {
         id: standByScreenModel;
 
+        function addElement(mode, name, description) {
+            append({
+                       "mode" : mode,
+                       "name" : name,
+                       "description" : description
+                   })
+        }
+
+
         function initialize() {
             // ListElement can't have JavaScript (ie. qsTr), so have to create the model like this
             if (count === 0) {

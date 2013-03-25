@@ -66,7 +66,7 @@ Page {
             }
 
             Button {
-                text: "Clear"
+                text: qsTr("Clear")
                 onClicked: {
                     condition.batteryLevel.clear()
                 }

@@ -178,7 +178,7 @@ Page {
             SectionHeader {
                 width: parent.width
                 height: 20
-                section: "Help"
+                section: qsTr("Help")
             }
 
             LabelHelp {

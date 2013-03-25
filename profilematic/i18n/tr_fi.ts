@@ -128,6 +128,10 @@
         <source>You can add here applications that are started when the rule becomes active.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ActionBackgroundConnections</name>
@@ -234,6 +238,10 @@
     </message>
     <message>
         <source>Enter into the text box the shell command you want to run when this rule is deactivated. Always use full paths for file paths.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When rule deactivates</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -598,6 +606,10 @@
         <source>Battery level minimum must be less or equal than maximum to be usable</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConditionCalendar</name>
@@ -913,6 +925,10 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <source>No timeout</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Use WLAN timeout if your connection to the WLAN is weak. When timeout is set, WLAN is considered active after losing connection for as many seconds as specified. </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DialogBatteryLevel</name>
@@ -926,6 +942,14 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     </message>
     <message>
         <source>Max</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accept</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -85,7 +85,7 @@ MySelectionDialog {
     }
 
     function cellularModeToText(mode) {
-        initialize()
+        cellularModel.initialize()
 
         switch (mode) {
         case 0:

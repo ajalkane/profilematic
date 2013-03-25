@@ -26,6 +26,9 @@ TumblerDialog {
     id: root
     titleText: qsTr("Battery level range")
     anchors.margins: UIConstants.DEFAULT_MARGIN
+    acceptButtonText: qsTr("Accept")
+    rejectButtonText: qsTr("Cancel")
+
     property alias selectedMin: minColumn.selectedIndex
     property alias selectedMax: maxColumn.selectedIndex
 
