@@ -86,10 +86,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Hint: harmattan ringtones found in /usr/share/sounds/ring-tones</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%1 minutes</source>
         <translation type="unfinished"></translation>
     </message>
@@ -99,6 +95,10 @@
     </message>
     <message>
         <source>%1 hours %2 minutes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hint: ringtones reside in %1. You can use a file manager of your choise to find the exact file name to use for sound.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -100,8 +100,7 @@ Page {
             }
 
             LabelHelp {
-                text: qsTr("Hint: harmattan ringtones found in /usr/share/sounds/ring-tones")
-                // text: "Hint: ringtones reside in /usr/share/sounds/ring-tones. You can use a file manager of your choise to find the exact file name to use for sound."
+                text: qsTr("Hint: ringtones reside in %1. You can use a file manager of your choise to find the exact file name to use for sound.").arg("/usr/share/sounds/ring-tones")
             }
         }
     }
