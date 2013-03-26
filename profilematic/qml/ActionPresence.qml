@@ -29,7 +29,8 @@ Page {
 
     tools: commonTools
 
-    anchors.margins: UIConstants.DEFAULT_MARGIN
+    anchors.leftMargin: UIConstants.DEFAULT_MARGIN // UiConstants.DefaultMargin
+    anchors.rightMargin: UIConstants.DEFAULT_MARGIN // UiConstants.DefaultMargin
 
     PageHeader {
         id: header

@@ -26,7 +26,8 @@ import "UIConstants.js" as UIConstants
 Page {
     id: root
     tools: commonTools
-    anchors.margins: UIConstants.DEFAULT_MARGIN
+    anchors.leftMargin: UIConstants.DEFAULT_MARGIN // UiConstants.DefaultMargin
+    anchors.rightMargin: UIConstants.DEFAULT_MARGIN // UiConstants.DefaultMargin
 
     property RuleCondition condition;
     property int maxWlans: 5

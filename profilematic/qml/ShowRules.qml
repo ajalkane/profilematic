@@ -24,7 +24,8 @@ import "UIConstants.js" as UIConstants
 Page {
     id: showRules
     tools: !backendRulesModel.backendError ? showRuleTools : null
-    anchors.margins: UIConstants.DEFAULT_MARGIN // UiConstants.DefaultMargin
+    anchors.leftMargin: UIConstants.DEFAULT_MARGIN // UiConstants.DefaultMargin
+    anchors.rightMargin: UIConstants.DEFAULT_MARGIN // UiConstants.DefaultMargin
 
     property Item editRule
     property int  editRuleModelIndex: -1
