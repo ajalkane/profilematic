@@ -25,6 +25,7 @@ MyQueryDialog {
              + qsTr("UX design by Dina & Arto Jalkanen")
              + "<br>"
              + "<br>"
+             + "<small>"
              + qsTr("Contributors:")
              + "<br>"
              + "Philip Lorenz (" + qsTr("Availability") + ")"
@@ -32,11 +33,18 @@ MyQueryDialog {
              + "Ferdinand Mayet (" + qsTr("Stand-by screen") + ")"
              + "<br>"
              + "<br>"
+             + qsTr("Translators:")
+             + "<li>Russian - Placeholder"
+             + "<li>Polish - Placeholder"
+             + "<li>Italian - Placeholder"
+             + "<br>"
+             + "<br>"
              + qsTr("See <a href=\"http://www.kolumbus.fi/~ks2877/profilematic/\">homepage</a> for more tips, sources, donation information, and more.")
              + "<br>"
              + "<br>"
-             + "<small>This application is free sofware licenced under the GNU Public License version 3</small>"
+             + "This application is free sofware licenced under the GNU Public License version 3"
              + "<br>"
+             + "</small>"
              + "<small align=\"left\">"
              + "<p>"
              + "The time choosing dialog used in ProfileMatic is used under BSD licence:"
