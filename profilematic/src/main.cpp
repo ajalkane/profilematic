@@ -82,6 +82,13 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     QScopedPointer<QmlApplicationViewer> viewer(QmlApplicationViewer::create());
 
+    // Reduce flicker - maybe. I couldn't see any difference, but it didn't hurt
+    // either. See http://blog.rburchell.com/2011/11/avoiding-graphics-flicker-in-qt-qml.html
+    viewer->setAttribute(Qt::WA_OpaquePaintEvent);
+    viewer->setAttribute(Qt::WA_NoSystemBackground);
+    viewer->viewport()->setAttribute(Qt::WA_OpaquePaintEvent);
+    viewer->viewport()->setAttribute(Qt::WA_NoSystemBackground);
+
     ProfileClient profileClient;
     ProfileMaticClient profileMaticClient;
 
