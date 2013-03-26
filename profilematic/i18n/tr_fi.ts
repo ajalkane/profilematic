@@ -23,6 +23,10 @@
         <source>See &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;homepage&lt;/a&gt; for more tips, sources, donation information, and more.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Translators:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ActionAlarm</name>
@@ -1683,6 +1687,14 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     </message>
     <message>
         <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MIN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SEC</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

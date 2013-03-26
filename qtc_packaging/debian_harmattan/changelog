@@ -1,3 +1,8 @@
+profilematic (2.2.0) unstable; urgency=low
+  * Translations
+
+ -- Arto Jalkanen <ajalkane@gmail.com>  Thu, 26 Mar 2013 22:00:00 +0300
+
 profilematic (2.1.0) unstable; urgency=low
   * Device volume action
   * Alarm action

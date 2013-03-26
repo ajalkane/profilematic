@@ -63,6 +63,8 @@ var FONT_XXXLARGE  = 48
 var FONT_FAMILY = "Nokia Pure Text";
 var FONT_FAMILY_LIGHT = "Nokia Pure Text Light";
 var FONT_DEFAULT_SIZE = 24; // DEPRECATED
+// Needed by MyTimePickerDialog
+var FONT_FAMILY_BOLD = "Nokia Pure Text Bold";
 
 var FONT_XLARGE  = 32;
 var FONT_LARGE   = 28;

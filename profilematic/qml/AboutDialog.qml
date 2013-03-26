@@ -20,7 +20,7 @@ import QtQuick 1.1
 import com.nokia.meego 1.0
 
 MyQueryDialog {
-    titleText: "ProfileMatic v2.1.0"
+    titleText: "ProfileMatic v2.2.0-beta"
     message: "<b>(c) Arto Jalkanen 2011-2013</b><br>"
              + qsTr("UX design by Dina & Arto Jalkanen")
              + "<br>"

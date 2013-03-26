@@ -20,8 +20,10 @@ import QtQuick 1.0
 import com.nokia.meego 1.0
 import com.nokia.extras 1.0
 
-TimePickerDialog {
+MyTimePickerDialog {
     fields: DateTime.Minutes | DateTime.Seconds
     acceptButtonText: qsTr("Ok")
     rejectButtonText: qsTr("Cancel")
+    minuteLabel: qsTr("MIN")
+    secondLabel: qsTr("SEC")
 }
