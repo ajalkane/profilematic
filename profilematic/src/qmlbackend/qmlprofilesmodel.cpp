@@ -27,6 +27,7 @@ QmlProfilesModel::QmlProfilesModel(ProfileClient *profileClient, Role nameRole, 
     QT_TR_NOOP("Ringing");
     QT_TR_NOOP("Silent");
     QT_TR_NOOP("Beep");
+    QT_TR_NOOP("Don't change");
 
     _roleToProperty[Profile] = "profile";
     _roleToProperty[ProfileType] = "profileType";
@@ -40,7 +41,7 @@ void
 QmlProfilesModel::_init(Role /*nameRole*/) {
     Q_ASSERT_X(nameRole == ProfileType, "QmlProfileModel", "Only ProfileType role supported at the moment");
 
-    QString dontChangeProfileType = tr("Don't change");
+    QString dontChangeProfileType = "Don't change";
     _nameToProfile[dontChangeProfileType] = "";
     _profileToName[""] = "";
     _names.append(dontChangeProfileType);
