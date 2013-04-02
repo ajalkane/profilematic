@@ -647,6 +647,11 @@
 <context>
     <name>BlueToothModeDialog</name>
     <message>
+        <location filename="../qml/BlueToothModeDialog.qml" line="27"/>
+        <source>Set Bluetooth mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/BlueToothModeDialog.qml" line="87"/>
         <source>Off</source>
         <translation type="unfinished"></translation>

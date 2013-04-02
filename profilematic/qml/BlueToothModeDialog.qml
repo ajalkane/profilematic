@@ -24,7 +24,7 @@ import "UIConstants.js" as UIConstants
 
 MySelectionDialog {
     id: root
-    titleText: "Set Bluetooth mode"
+    titleText: qsTr("Set Bluetooth mode")
     model: blueToothModel
     platformStyle: SelectionDialogStyle {
        itemSelectedBackgroundColor: UIConstants.COLOR_SELECT
