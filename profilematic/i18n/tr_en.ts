@@ -118,6 +118,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/ActionAlarmAdvanced.qml" line="86"/>
+        <source>Default snooze</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/ActionAlarmAdvanced.qml" line="92"/>
         <source>Alarm sound file (full path)</source>
         <translation type="unfinished"></translation>
@@ -2011,6 +2016,11 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../qml/ShowRules.qml" line="186"/>
         <source>Oops. Still starting my engines. I&apos;ll be up and running soon, close me and come back in 2 minutes. If problem persists, reboot the phone or reinstall ProfileMatic.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/ShowRules.qml" line="312"/>
+        <source>Default rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

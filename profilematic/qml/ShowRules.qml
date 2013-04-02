@@ -309,7 +309,7 @@ Page {
 
                     Label {
                         id: mainText
-                        text: model.ruleName
+                        text: isDefaultRule ? qsTr("Default rule") : model.ruleName
                         width: parent.width
                         platformStyle: LabelStyleTitle {
                             disabled: !ruleActive
