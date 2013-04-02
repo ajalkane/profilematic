@@ -1719,10 +1719,15 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>Solujen id:t määritetty</translation>
     </message>
     <message>
+        <source> (%1 timeout)</source>
+        <translation type="obsolete">(%1 viive)</translation>
+    </message>
+    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="165"/>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="221"/>
-        <source> (%1 timeout)</source>
-        <translation>(%1 viive)</translation>
+        <source> (%1s timeout)</source>
+        <comment> (number of seconds timeout, please preserve the space before the translated string)</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="187"/>

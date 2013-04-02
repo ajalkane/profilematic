@@ -162,7 +162,7 @@ QmlRuleUtil::cellLocationSummary(const RuleCondition *cond, const QString &nonUs
         } else {
             s.append(tr("Cell ids set"));
             if (cond->getLocationCellsTimeout() > 0) {
-                s.append(tr(" (%1 timeout)").arg(cond->getLocationCellsTimeout()));
+                s.append(tr(" (%1s timeout)", " (number of seconds timeout, please preserve the space before the translated string)").arg(cond->getLocationCellsTimeout()));
             }
         }
     }
@@ -218,7 +218,7 @@ QmlRuleUtil::wlanSummary(const RuleCondition *cond, const QString &nonUsable, bo
         } else {
             s.append(tr("In use"));
             if (cond->getWlanTimeout() > 0) {
-                s.append(tr(" (%1 timeout)").arg(cond->getWlanTimeout()));
+                s.append(tr(" (%1s timeout)", " (number of seconds timeout, please preserve the space before the translated string)").arg(cond->getWlanTimeout()));
             }
         }
     }
