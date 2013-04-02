@@ -83,7 +83,7 @@ Page {
 
             RuleTopicSummary {
                 topic: qsTr("Alarm snooze time")
-                summary: action.alarm.snoozeInMinutes > 0 ? timeInMinutesAdjustSummary(action.alarm.snoozeInMinutes) : "Default snooze"
+                summary: action.alarm.snoozeInMinutes > 0 ? timeInMinutesAdjustSummary(action.alarm.snoozeInMinutes) : qsTr("Default snooze")
                 showComboBox: true
                 onTopicClicked: snoozeEditHandler()
             }
