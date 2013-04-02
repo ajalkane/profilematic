@@ -949,6 +949,11 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/ConditionLocation.qml" line="201"/>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/ConditionLocation.qml" line="206"/>
         <source>&lt;b&gt;Did you know?&lt;/b&gt;&lt;p&gt;Location by mobile cell ids comes free from your operator and does not drain battery, unlike GPS.&lt;p&gt;&lt;b&gt;How does it work?&lt;/b&gt;&lt;p&gt;Let&apos;s say you want to silence your phone in - and near - your office. First, go to the office and press &apos;start collecting&apos;. If it&apos;s a larger area, walk around the office a bit. Five minutes or so should do it. Press &apos;Stop collecting&apos;. Now we have the desired location. &lt;p&gt;The program saves and stores the location only if you save the rule. If you delete the rule or press &apos;Cancel&apos;, all the location info will be discarded.&lt;p&gt;&lt;b&gt;Several different settings at the same location?&lt;/b&gt;&lt;p&gt;Create a new rule by copying an existing one from the main menu (long press on a rule), so the location info will be copied as well. Then change rest of the conditions and actions as you want, and Bob&apos;s your uncle.&lt;p&gt;&lt;b&gt;Please note:&lt;/b&gt;&lt;ul&gt;&lt;li&gt; The cell id depends on the network your phone uses. For example, if you use both GSM and 3G,you should collect the cell ids using both mobile network modes. When &apos;collecting&apos; is on, switch between the networks or select a dual mode. &lt;li&gt;Cell id technology can&apos;t be used for a very exact location.&lt;/ul&gt;</source>
         <translation type="unfinished"></translation>
