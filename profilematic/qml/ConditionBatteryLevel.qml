@@ -101,7 +101,7 @@ Page {
 
     function batteryLevelSummary() {
         console.debug("BatteryLevelSummary called")
-        var summary = backendRuleUtil.batteryLevelSummary(condition, "Not used", false);
+        var summary = backendRuleUtil.batteryLevelSummary(condition, qsTr("Not used"), false);
         return summary
     }
 

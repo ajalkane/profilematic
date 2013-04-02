@@ -614,6 +614,10 @@
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Not used</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConditionCalendar</name>

@@ -762,6 +762,11 @@
         <source>Battery level minimum must be less or equal than maximum to be usable</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../qml/ConditionBatteryLevel.qml" line="104"/>
+        <source>Not used</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConditionCalendar</name>
@@ -1658,12 +1663,12 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="43"/>
+        <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="30"/>
         <source>Don&apos;t change</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="110"/>
+        <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="111"/>
         <source>Unrecognized %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1968,78 +1973,78 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
 <context>
     <name>ShowRules</name>
     <message>
-        <location filename="../qml/ShowRules.qml" line="83"/>
+        <location filename="../qml/ShowRules.qml" line="82"/>
         <source>Deactivate rules</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ShowRules.qml" line="83"/>
+        <location filename="../qml/ShowRules.qml" line="82"/>
         <source>Activate rules</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ShowRules.qml" line="89"/>
+        <location filename="../qml/ShowRules.qml" line="88"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ShowRules.qml" line="95"/>
+        <location filename="../qml/ShowRules.qml" line="94"/>
         <source>(inactive)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ShowRules.qml" line="165"/>
+        <location filename="../qml/ShowRules.qml" line="164"/>
         <source>Start using automatic profiles by creating the first rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ShowRules.qml" line="187"/>
+        <location filename="../qml/ShowRules.qml" line="186"/>
         <source>Oops. Still starting my engines. I&apos;ll be up and running soon, close me and come back in 2 minutes. If problem persists, reboot the phone or reinstall ProfileMatic.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ShowRules.qml" line="413"/>
+        <location filename="../qml/ShowRules.qml" line="412"/>
         <source>Blue bar is shown on rules whose conditions match currently. First matching rule is preferred for an action if there are conflicts. Use arrows to change the order of the rules.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ShowRules.qml" line="420"/>
+        <location filename="../qml/ShowRules.qml" line="419"/>
         <source>Rules are followed even if application is closed or device is rebooted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ShowRules.qml" line="434"/>
+        <location filename="../qml/ShowRules.qml" line="433"/>
         <source>Delete this rule?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ShowRules.qml" line="435"/>
-        <location filename="../qml/ShowRules.qml" line="455"/>
+        <location filename="../qml/ShowRules.qml" line="434"/>
+        <location filename="../qml/ShowRules.qml" line="454"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ShowRules.qml" line="436"/>
+        <location filename="../qml/ShowRules.qml" line="435"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ShowRules.qml" line="451"/>
+        <location filename="../qml/ShowRules.qml" line="450"/>
         <source>Copy as new</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ShowRules.qml" line="460"/>
+        <location filename="../qml/ShowRules.qml" line="459"/>
         <source>Run rule&apos;s actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ShowRules.qml" line="464"/>
+        <location filename="../qml/ShowRules.qml" line="463"/>
         <source>Deactivate rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ShowRules.qml" line="464"/>
+        <location filename="../qml/ShowRules.qml" line="463"/>
         <source>Activate rule</source>
         <translation type="unfinished"></translation>
     </message>
