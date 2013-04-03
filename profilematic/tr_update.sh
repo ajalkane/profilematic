@@ -1,7 +1,6 @@
 #!/bin/sh
 
-lupdate src qml -ts i18n/tr_en.ts
-lupdate src qml -ts i18n/tr_fi.ts
-# This is for testing
-lupdate src qml -ts i18n/tr_ts.ts
+for i in i18n.source/tr_*.ts; do 
+	lupdate src qml -ts $i
+done
 

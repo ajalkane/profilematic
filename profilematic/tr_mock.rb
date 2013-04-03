@@ -2,7 +2,7 @@
 #
 # Used to create test translation to check that each string is translated.
 #
-# Usage example: ./tr_mock.rb i18n/tr_en.ts "TEST " > i18n/tr_ts.ts
+# Usage example: ./tr_mock.rb i18n.source/tr_en.ts "TEST " > i18n.source/tr_ts.ts
 # ./tr_release.sh
 # LANG=tz ./profilematic
 
