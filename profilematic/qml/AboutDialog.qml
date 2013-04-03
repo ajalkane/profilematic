@@ -74,6 +74,6 @@ MyQueryDialog {
     + "WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
     + "</small>"
 
-    acceptButtonText: "Close"
+    acceptButtonText: qsTr("Close")
     onLinkActivated: Qt.openUrlExternally(link)
 }
