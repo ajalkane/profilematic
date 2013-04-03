@@ -100,7 +100,7 @@ Page {
 
             RuleTopicSummary {
                 topic: qsTr("Alarm delay before shown")
-                summary: action.alarm.alarmInSeconds >=0 ? timeInSecondsAdjustSummary(action.alarm.alarmInSeconds) : "Not set"
+                summary: action.alarm.alarmInSeconds >=0 ? timeInSecondsAdjustSummary(action.alarm.alarmInSeconds) : qsTr("Not set")
                 showComboBox: true
                 onTopicClicked: alarmDelayEditHandler()
             }
