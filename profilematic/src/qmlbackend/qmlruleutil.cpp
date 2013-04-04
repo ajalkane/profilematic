@@ -133,7 +133,7 @@ QmlRuleUtil::daysSummaryText(const QSet<int> &days, bool /*inListing*/) {
         } else {
             if (rangeStart > -1) {
                 if (!daysStr.isEmpty()) {
-                    daysStr += tr(", ");
+                    daysStr += tr(", ", "This a between days. Notice space separator at end of the translation. Preserve it for translation.");
                 }
 
                 daysStr += QDate::shortDayName(rangeStart + 1, QDate::StandaloneFormat);

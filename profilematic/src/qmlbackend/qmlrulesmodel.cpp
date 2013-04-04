@@ -286,7 +286,7 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
         if (!summary.isEmpty()) {
             if (numAction > 0) {
                 formatListingSummary(summary);
-                action.append(", ");
+                action.append(tr(", ", "This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.");
             }
 
             action += summary;
