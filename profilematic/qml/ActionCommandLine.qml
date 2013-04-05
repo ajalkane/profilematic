@@ -56,7 +56,7 @@ Page {
                 section: qsTr("When rule activates")
             }
 
-            TextFieldWithLabel {
+            TextAreaWithLabel {
                 labelText: qsTr("Command to run")
                 placeholderText: qsTr("No custom action")
                 text: action.commandLine
@@ -86,7 +86,7 @@ Page {
                 section: qsTr("When rule deactivates")
             }
 
-            TextFieldWithLabel {
+            TextAreaWithLabel {
                 labelText: qsTr("Command to run")
                 placeholderText: qsTr("No custom action")
                 text: action.commandLineExit
