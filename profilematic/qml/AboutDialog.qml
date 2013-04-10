@@ -18,40 +18,57 @@
 **/
 import QtQuick 1.1
 import com.nokia.meego 1.0
+import "UIConstants.js" as UIConstants
 
 MyQueryDialog {
     titleText: "ProfileMatic v2.2.0-beta"
     message: "<b>(c) Arto Jalkanen 2011-2013</b><br>"
              + qsTr("UX design by Dina & Arto Jalkanen")
-             + "<br>"
-             + "<br>"
-             + "<small>"
-             + qsTr("Contributors:")
-             + "<br>"
-             + "Philip Lorenz (" + qsTr("Availability") + ")"
-             + "<br>"
-             + "Ferdinand Mayet (" + qsTr("Stand-by screen") + ")"
-             + "<br>"
-             + "<br>"
-             + qsTr("Translators:")
-             + "<li>Russian - Placeholder"
-             + "<li>Polish - Placeholder"
-             + "<li>Italian - Placeholder"
-             + "<br>"
-             + "<br>"
+             + "<p>"
              + qsTr("See <a href=\"http://www.kolumbus.fi/~ks2877/profilematic/\">homepage</a> for more tips, sources, donation information, and more.")
-             + "<br>"
-             + "<br>"
+             + "<p>"
+             + "<small>"
              + "This application is free sofware licenced under the GNU Public License version 3"
-             + "<br>"
              + "</small>"
+             + "<hr>"
+             + '<div align="left">'
+             + '<span style="color: ' + UIConstants.GROUP_HEADER_COLOR + '">'
+             + qsTr("Contributors:")
+             + '</span>'
+             + '<dl>'
+             + '  <dt>Philip Lorenz</dt>'
+             + '  <dd>' + qsTr("Availability") + '</dd>'
+             + '  <dt>Ferdinand Mayet </dt>'
+             + '  <dd>' + qsTr("Stand-by screen") + '</dd>'
+             + '</dl>'
+             + '<span style="color: ' + UIConstants.GROUP_HEADER_COLOR + '">'
+             + qsTr("Translators:")
+             + '</span>'
+             + '<dl>'
+             + '  <dt>Catalan</dt>'
+             + '  <dd>Agustí Clara</dd>'
+
+             + '  <dt>Chinese</dt>'
+             + '  <dd>xzw5200, luxary, Gwmgdemj, mdbxh</dd>'
+
+             + '  <dt>Finnish</dt>'
+             + '  <dd>Timo Vikman</dd>'
+
+             + '  <dt>Italian</dt>'
+             + '  <dd>Lorenzo Facca</dd>'
+
+             + '  <dt>Spanish</dt>'
+             + '  <dd>Ricardo Formoso-Rafferty</dd>'
+             + '</dl>'
+             + "</div>"
+             + "<hr>"
              + "<small align=\"left\">"
-             + "<p>"
              + "The time choosing dialog used in ProfileMatic is used under BSD licence:"
-             + "<p>"
+             + "<br>"
     + "Copyright (c) 2011-2012, Vasiliy Sorokin <sorokin.vasiliy@gmail.com>, Aleksey Mikhailichenko <a.v.mich@gmail.com>"
     + "All rights reserved."
-    + "<p>"
+    + "<br>"
+    + "<br>"
     + "Redistribution and use in source and binary forms, with or without modification,"
     + "are permitted provided that the following conditions are met:"
     + "<br>"
@@ -63,7 +80,8 @@ MyQueryDialog {
     + "<br>"
     + "* Neither the name of the vsorokin nor the names of its contributors may be used to endorse or"
     + "promote products derived from this software without specific prior written permission."
-    + "<p>"
+    + "<br>"
+    + "<br>"
     + "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND"
     + "ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND"
     + "FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS"
