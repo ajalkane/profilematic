@@ -1,38 +1,40 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.0">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0" language="es">
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="25"/>
+        <location filename="../qml/AboutDialog.qml" line="26"/>
         <source>UX design by Dina &amp; Arto Jalkanen</source>
         <translation>UX diseñado por Dina &amp; Arto Jalkanen</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="29"/>
+        <location filename="../qml/AboutDialog.qml" line="36"/>
         <source>Contributors:</source>
         <translation>Colaboradores:</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="31"/>
+        <location filename="../qml/AboutDialog.qml" line="40"/>
         <source>Availability</source>
         <translation>Disponibilidad</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="33"/>
+        <location filename="../qml/AboutDialog.qml" line="42"/>
         <source>Stand-by screen</source>
         <translation>Pantalla de espera</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="36"/>
+        <location filename="../qml/AboutDialog.qml" line="45"/>
         <source>Translators:</source>
         <translation>Traductores:</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="42"/>
+        <location filename="../qml/AboutDialog.qml" line="28"/>
         <source>See &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;homepage&lt;/a&gt; for more tips, sources, donation information, and more.</source>
         <translation>Para mas informacion, trucos, codigo fuente, donaciones y más diríjase &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;la página del proyecto&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="77"/>
+        <location filename="../qml/AboutDialog.qml" line="95"/>
         <source>Close</source>
         <translation>Cerrar</translation>
     </message>
@@ -1827,7 +1829,7 @@ Puede separar palabras clave mediante comas (,). Cualquier palabra clave separad
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="66"/>
         <source> - </source>
-        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
+        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
         <translation> - </translation>
     </message>
     <message>
@@ -1845,7 +1847,7 @@ Puede separar palabras clave mediante comas (,). Cualquier palabra clave separad
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="141"/>
         <source> - </source>
-        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
+        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
         <translation> - </translation>
     </message>
     <message>

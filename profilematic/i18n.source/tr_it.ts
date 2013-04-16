@@ -4,39 +4,39 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="25"/>
+        <location filename="../qml/AboutDialog.qml" line="26"/>
         <source>UX design by Dina &amp; Arto Jalkanen</source>
         <translation>Design UX di Dina &amp; Arto Jalkanen</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="29"/>
+        <location filename="../qml/AboutDialog.qml" line="36"/>
         <source>Contributors:</source>
         <translation>Collaboratori:</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="31"/>
+        <location filename="../qml/AboutDialog.qml" line="40"/>
         <source>Availability</source>
         <translation>Disponibilità</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="33"/>
+        <location filename="../qml/AboutDialog.qml" line="42"/>
         <source>Stand-by screen</source>
         <translation>Stand-by screen</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="36"/>
+        <location filename="../qml/AboutDialog.qml" line="45"/>
         <source>Translators:</source>
         <translation>Traduttori:</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="42"/>
+        <location filename="../qml/AboutDialog.qml" line="28"/>
         <source>See &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;homepage&lt;/a&gt; for more tips, sources, donation information, and more.</source>
         <translation>Vai su &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;homepage&lt;/a&gt; per consigli, fonti, donazioni, informazioni, e altro.</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="77"/>
+        <location filename="../qml/AboutDialog.qml" line="95"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiudi</translation>
     </message>
 </context>
 <context>
@@ -85,7 +85,7 @@
     <message>
         <location filename="../qml/ActionAlarm.qml" line="103"/>
         <source>Not set</source>
-        <translation type="unfinished">Non impostato</translation>
+        <translation>Non impostato</translation>
     </message>
     <message>
         <location filename="../qml/ActionAlarm.qml" line="111"/>
@@ -130,7 +130,7 @@
     <message>
         <location filename="../qml/ActionAlarmAdvanced.qml" line="86"/>
         <source>Default snooze</source>
-        <translation type="unfinished"></translation>
+        <translation>Allarme predefinito</translation>
     </message>
     <message>
         <location filename="../qml/ActionAlarmAdvanced.qml" line="92"/>
@@ -168,7 +168,7 @@
     <message>
         <location filename="../qml/ActionApplication.qml" line="85"/>
         <source>Max %1 applications added</source>
-        <translation>Numero massimo %1 Applicazioni aggiunte</translation>
+        <translation>Num max %1 App aggiunte</translation>
     </message>
     <message>
         <location filename="../qml/ActionApplication.qml" line="105"/>
@@ -590,7 +590,7 @@
     <message>
         <location filename="../qml/ActionProfile.qml" line="114"/>
         <source>If you activate restore previous profile, ProfileMatic will set back the profile that was selected before this rule was activated. If you don&apos;t activate restore previous profile, the latest profile will run. E.g. phone set to silent by this rule will remain silent until you decide to make changes or another rule that sets profile becomes valid.</source>
-        <translation>Se selezioni &apos;ripristina Profilo precedente&apos;, ProfileMatic ripristinerà il Profilo selezionato prima dell&apos;attivazione di questa Regola. Se non selezioni &apos;ripristina Profilo precedente&apos;,l&apos;ultimo profilo selezionato sarà quello usato. Per esmpio, N9 viene messo in Silenzioso da questa Regola e tale rimarrà fino a che non lo modificherai manualmente o un&apos;altra Regola non ne imposterà uno diverso.</translation>
+        <translation>Se selezioni &apos;ripristina Profilo precedente&apos;, ProfileMatic ripristinerà il Profilo selezionato prima dell&apos;attivazione di questa Regola. Se non selezioni &apos;ripristina Profilo precedente&apos;, l&apos;ultimo profilo selezionato sarà quello usato. Per esmpio, N9 viene messo in Silenzioso da questa Regola e tale rimarrà fino a che non lo modificherai manualmente o un&apos;altra Regola non ne imposterà uno diverso.</translation>
     </message>
     <message>
         <location filename="../qml/ActionProfile.qml" line="127"/>
@@ -664,7 +664,7 @@
     <message>
         <location filename="../qml/BlueToothModeDialog.qml" line="27"/>
         <source>Set Bluetooth mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta stato Bluetooth</translation>
     </message>
     <message>
         <location filename="../qml/BlueToothModeDialog.qml" line="87"/>
@@ -785,7 +785,7 @@
     <message>
         <location filename="../qml/ConditionBatteryLevel.qml" line="104"/>
         <source>Not used</source>
-        <translation type="unfinished">Non in uso</translation>
+        <translation>Non in uso</translation>
     </message>
 </context>
 <context>
@@ -973,7 +973,7 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
     <message>
         <location filename="../qml/ConditionLocation.qml" line="201"/>
         <source>Help</source>
-        <translation type="unfinished">Aiuto</translation>
+        <translation>Aiuto</translation>
     </message>
     <message>
         <location filename="../qml/ConditionLocation.qml" line="206"/>
@@ -1502,7 +1502,7 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
     <message>
         <location filename="../qml/FlightModeDialog.qml" line="74"/>
         <source>Off</source>
-        <translation>[ǾĶ ı靐]</translation>
+        <translation>Disattiva</translation>
     </message>
     <message>
         <location filename="../qml/FlightModeDialog.qml" line="74"/>
@@ -1705,10 +1705,6 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
 <context>
     <name>QmlRuleUtil</name>
     <message>
-        <source>24h</source>
-        <translation type="obsolete">24h</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="111"/>
         <source>All days</source>
         <translation>Tutti i giorni</translation>
@@ -1717,14 +1713,6 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="114"/>
         <source>No days</source>
         <translation>Nessun giorno</translation>
-    </message>
-    <message>
-        <source>, </source>
-        <translation type="obsolete">, </translation>
-    </message>
-    <message>
-        <source> - </source>
-        <translation type="obsolete"> - </translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="161"/>
@@ -1737,15 +1725,11 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <translation>ID cella impostati</translation>
     </message>
     <message>
-        <source> (%1 timeout)</source>
-        <translation type="obsolete"> (%1 timeout)</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="165"/>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="221"/>
         <source> (%1s timeout)</source>
         <comment> (number of seconds timeout, please preserve the space before the translated string)</comment>
-        <translation type="unfinished"></translation>
+        <translation> (%1s timeout)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="187"/>
@@ -1798,10 +1782,6 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <translation>Rilevamento NFC impostato</translation>
     </message>
     <message>
-        <source> (toggles)</source>
-        <translation type="obsolete"> (interruttori)</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="301"/>
         <source>not charging</source>
         <translation>non in carica</translation>
@@ -1847,44 +1827,40 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <translation>Voci Calendario</translation>
     </message>
     <message>
-        <source> (%1%)</source>
-        <translation type="obsolete"> (%1%)</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="66"/>
         <source> - </source>
         <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation type="unfinished"> - </translation>
+        <translation> - </translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="70"/>
         <source>24h</source>
         <comment>Time condition length</comment>
-        <translation type="unfinished">24h</translation>
+        <translation>24h</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="136"/>
         <source>, </source>
         <comment>This a between days. Notice space separator at end of the translation. Preserve it for translation.</comment>
-        <translation type="unfinished">, </translation>
+        <translation>, </translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="141"/>
         <source> - </source>
         <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation type="unfinished"> - </translation>
+        <translation> - </translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="276"/>
         <source> (toggles)</source>
         <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation type="unfinished"> (interruttori)</translation>
+        <translation> (interruttori)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="386"/>
         <source> (%1%)</source>
         <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation type="unfinished"> (%1%)</translation>
+        <translation> (%1%)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="389"/>
@@ -2018,7 +1994,7 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="289"/>
         <source>, </source>
         <comment>This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.</comment>
-        <translation type="unfinished">, </translation>
+        <translation>, </translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="298"/>
@@ -2076,12 +2052,12 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
     <message>
         <location filename="../qml/ShowRules.qml" line="312"/>
         <source>Default rule</source>
-        <translation type="unfinished">Regola base</translation>
+        <translation>Regola base</translation>
     </message>
     <message>
         <location filename="../qml/ShowRules.qml" line="412"/>
         <source>Blue bar is shown on rules whose conditions match currently. First matching rule is preferred for an action if there are conflicts. Use arrows to change the order of the rules.</source>
-        <translation>Le Regole in funzione presenteranno una barra blu a lato. La Regola che per prima corrisponde (numero d&apos;ordine minore) è preferita alle altre se ci sono conflitti Usare le frecce per modificare l&apos;ordine delle Regole.</translation>
+        <translation>Le Regole in funzione presenteranno una barra blu a lato. La Regola che per prima corrisponde (numero d&apos;ordine minore) è preferita alle altre se ci sono conflitti. Usare le frecce per modificare l&apos;ordine delle Regole.</translation>
     </message>
     <message>
         <location filename="../qml/ShowRules.qml" line="419"/>
