@@ -54,8 +54,9 @@ public:
     void internetConnectionModeClear(RuleCondition *rule);
     QString wlanSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
     void wlanClear(RuleCondition *rule);
-    QString idleSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
-    void idleClear(RuleCondition *rule);
+    QString idleSummary(const RuleCondition *cond, const QString &nonUsable, bool inListing = false);
+    Q_INVOKABLE QString idleSummary(RuleCondition *cond, const QString &nonUsable, bool inListing);
+    Q_INVOKABLE void idleClear(RuleCondition *cond);
     QString nfcSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
     void nfcClear(RuleCondition *rule);
     QString chargingSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);

@@ -56,19 +56,54 @@ Page {
                       + "Idle mode is exited when lock screen is deactivated.")
             }
 
-            TextFieldWithLabel {
-                labelText: qsTr("Idle in minutes")
-                placeholderText: qsTr("Not set")
-                text: condition.idleForSecs < 0 ? "" : condition.idleForSecs / 60
-                inputMethodHints: Qt.ImhDigitsOnly
-                validator: RegExpValidator { regExp: /\d{0,4}/ }
-                width: parent.width
-                onTextChanged: {
-                    if (root.status === PageStatus.Active) {
-                        condition.idleForSecs = (text !== "" ? parseInt(text) * 60 : -1)
-                    }
+            RuleTopicSummary {
+                id: summary
+                topic: qsTr("Idle in minutes")
+                summary: idleSummary()
+                showComboBox: true
+                onTopicClicked: idleEditHandler()
+            }
+
+            Connections {
+                target: condition
+                onIdleForSecsChanged: {
+                    console.debug("ConditionIdleForSecs onChanged")
+                    summary.summary = idleSummary()
+                }
+
+            }
+
+            Button {
+                text: qsTr("Clear")
+                onClicked: {
+                    backendRuleUtil.idleClear(condition)
                 }
             }
+
         } // Column
     } // Flickable
+
+    TimeDialog {
+        id: idleDialog
+        titleText: qsTr("Idle time")
+        onAccepted: {
+            condition.idleForSecs = (hour * 60 + minute) * 60
+        }
+    }
+
+    function idleEditHandler() {
+        if (condition.idleForSecs > 0) {
+            idleDialog.hour = Math.floor(condition.idleForSecs / 3600)
+            idleDialog.minute = (condition.idleForSecs / 60) % 60
+        } else {
+            idleDialog.hour = 0
+            idleDialog.minute = 0
+        }
+
+        idleDialog.open();
+    }
+
+    function idleSummary() {
+        return backendRuleUtil.idleSummary(condition, qsTr("Not used"), false);
+    }
 }

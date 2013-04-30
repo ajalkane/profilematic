@@ -235,6 +235,12 @@ QmlRuleUtil::wlanClear(RuleCondition *cond) {
 }
 
 QString
+QmlRuleUtil::idleSummary(RuleCondition *cond, const QString &nonUsable, bool inListing) {
+    qDebug("idleSummary QML version");
+    return idleSummary(const_cast<const RuleCondition *>(cond), nonUsable, inListing);
+}
+
+QString
 QmlRuleUtil::idleSummary(const RuleCondition *cond, const QString &nonUsable, bool inListing) {
     if (cond == 0) return nonUsable;
 
@@ -246,7 +252,15 @@ QmlRuleUtil::idleSummary(const RuleCondition *cond, const QString &nonUsable, bo
         if (inListing) {
             s.append(tr("Idle"));
         } else {
-            s.append(tr("At least for %1 minutes").arg(idleForSecs / 60));
+            int hours = idleForSecs / 3600;
+            int mins = (idleForSecs / 60) % 60;
+            if (hours == 0) {
+                s.append(tr("At least for %1 minutes").arg(mins));
+            } else if (mins == 0) {
+                s.append(tr("At least for %1 hours").arg(hours));
+            } else {
+                s.append(tr("At least for %1 hours %2 minutes").arg(hours).arg(mins));
+            }
         }
     }
     return s;
