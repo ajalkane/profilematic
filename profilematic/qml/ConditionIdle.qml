@@ -58,7 +58,7 @@ Page {
 
             RuleTopicSummary {
                 id: summary
-                topic: qsTr("Idle in minutes")
+                topic: qsTr("Idle time")
                 summary: idleSummary()
                 showComboBox: true
                 onTopicClicked: idleEditHandler()

@@ -894,14 +894,28 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>Valitse kuinka kauan laitteen on oltava joutilaana tämän ehdon täyttämiseen. Laite on joutilas kun sillä ei ole tehty mitään noin 30 sekuntiin. Laite poistuu joutilas-tilasta kun lukitusruutu avataan.</translation>
     </message>
     <message>
-        <location filename="../qml/ConditionIdle.qml" line="60"/>
         <source>Idle in minutes</source>
-        <translation>Joutilaana minuutteina</translation>
+        <translation type="obsolete">Joutilaana minuutteina</translation>
+    </message>
+    <message>
+        <location filename="../qml/ConditionIdle.qml" line="77"/>
+        <source>Clear</source>
+        <translation type="unfinished">Tyhjennä</translation>
     </message>
     <message>
         <location filename="../qml/ConditionIdle.qml" line="61"/>
+        <location filename="../qml/ConditionIdle.qml" line="88"/>
+        <source>Idle time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/ConditionIdle.qml" line="107"/>
+        <source>Not used</source>
+        <translation type="unfinished">Ei käytössä</translation>
+    </message>
+    <message>
         <source>Not set</source>
-        <translation>Ei asetettu</translation>
+        <translation type="obsolete">Ei asetettu</translation>
     </message>
 </context>
 <context>
@@ -1761,67 +1775,67 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>Käytössä</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="247"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="253"/>
         <source>Idle</source>
         <translation>Joutilas</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="249"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="258"/>
         <source>At least for %1 minutes</source>
         <translation>Vähintään %1 minuuttia</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="272"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="286"/>
         <source>NFC</source>
         <translation>NFC</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="274"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="288"/>
         <source>NFC detections set</source>
         <translation>NFC tunnisteet määritetty</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="301"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="315"/>
         <source>not charging</source>
         <translation>ei latauksessa</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="301"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="315"/>
         <source>Not charging power</source>
         <translation>Ei latauksessa</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="304"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="318"/>
         <source>charging</source>
         <translation>latauksessa</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="304"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="318"/>
         <source>Charging power</source>
         <translation>Latauksessa</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="338"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="352"/>
         <source>Battery level exactly %1%</source>
         <translation>Akun varaustaso tarkalleen %1%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="341"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="355"/>
         <source>Battery level at least %1%</source>
         <translation>Akun varaustaso vähintään %1%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="343"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="357"/>
         <source>Battery level at most %1%</source>
         <translation>Akun varaustaso enintään %1%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="345"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="359"/>
         <source>Battery level between %1% - %2%</source>
         <translation>Akun varaustaso välillä %1%-%2%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="363"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="377"/>
         <source>Calendar entries</source>
         <translation>Kalenterimerkinnät</translation>
     </message>
@@ -1850,139 +1864,149 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation> - </translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="276"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="260"/>
+        <source>At least for %1 hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="262"/>
+        <source>At least for %1 hours %2 minutes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="290"/>
         <source> (toggles)</source>
         <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
         <translation> (vaihtaa tilaa)</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="386"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="400"/>
         <source> (%1%)</source>
         <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
         <translation> (%1%)</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="389"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="403"/>
         <source>. Restores previous profile.</source>
         <translation>. Palauttaa edellisen profiilin.</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="421"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="435"/>
         <source>Availability change</source>
         <translation>Tavoitettavuuden muutos</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="424"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="438"/>
         <source>. Restores previous availability</source>
         <translation>. Palauttaa edellisen tavoitettavuuden</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="444"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="458"/>
         <source>Flight mode off</source>
         <translation>Lentotila pois</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="446"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="460"/>
         <source>Flight mode on</source>
         <translation>Lentotila päälle</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="452"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="480"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="510"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="540"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="568"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="466"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="494"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="524"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="554"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="582"/>
         <source>. Restores previous mode.</source>
         <translation>. Palauttaa edellisen tilan.</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="472"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="486"/>
         <source>Power saving off</source>
         <translation>Virransäästötila pois</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="474"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="488"/>
         <source>Power saving on</source>
         <translation>Virransäästötila päälle</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="500"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="514"/>
         <source>Bluetooth off</source>
         <translation>Bluetooth pois</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="502"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="504"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="516"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="518"/>
         <source>Bluetooth on</source>
         <translation>Bluetooth päälle</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="504"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="518"/>
         <source>Bluetooth on and visible</source>
         <translation>Bluetooth päälle ja näkyvä</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="530"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="544"/>
         <source>Dual GSM/3G</source>
         <translation>Kaksitoimisuus GSM/3G</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="532"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="546"/>
         <source>GSM</source>
         <translation>GSM</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="534"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="548"/>
         <source>3G</source>
         <translation>3G</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="560"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="574"/>
         <source>Stand-by screen off</source>
         <translation>Valmiusnäyttö pois</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="562"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="576"/>
         <source>Stand-by screen on</source>
         <translation>Valmiusnäyttö päälle</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="589"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="603"/>
         <source>Command line</source>
         <translation>Komentorivi</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="593"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="607"/>
         <source>Custom action on activate and deactivate has been set</source>
         <translation>Oma komento säännön tullessa voimaan ja poistuessa voimasta</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="596"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="610"/>
         <source>Custom action on activate has been set</source>
         <translation>Oma komento säännön tullessa voimaan</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="599"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="613"/>
         <source>Custom action on deactivate has been set</source>
         <translation>Oma komento säännön poistuessa voimasta</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="620"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="634"/>
         <source>Launch applications</source>
         <translation>Avaa ohjelmia</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="645"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="659"/>
         <source>Device volume %1%</source>
         <translation>Laitteen äänenvoimakkuus %1%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="674"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="688"/>
         <source>Alarm with title %1 shown in %2 seconds</source>
         <translation>Hälytys nimellä %1 %2 sekunnin kuluttua</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="676"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="690"/>
         <source>Alarm</source>
         <translation>Hälytys</translation>
     </message>

@@ -894,14 +894,28 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>提示：手机在指定时间长度内都处于待机状态则任务被激活。一般情况下，如果用户没有对手机做任何操作，默认30秒后进入待机状态(解锁屏幕即退出待机状态)。</translation>
     </message>
     <message>
-        <location filename="../qml/ConditionIdle.qml" line="60"/>
         <source>Idle in minutes</source>
-        <translation>处于待机状态（分钟）</translation>
+        <translation type="obsolete">处于待机状态（分钟）</translation>
+    </message>
+    <message>
+        <location filename="../qml/ConditionIdle.qml" line="77"/>
+        <source>Clear</source>
+        <translation type="unfinished">清除</translation>
     </message>
     <message>
         <location filename="../qml/ConditionIdle.qml" line="61"/>
+        <location filename="../qml/ConditionIdle.qml" line="88"/>
+        <source>Idle time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/ConditionIdle.qml" line="107"/>
+        <source>Not used</source>
+        <translation type="unfinished">还没设置</translation>
+    </message>
+    <message>
         <source>Not set</source>
-        <translation>还没设置时长</translation>
+        <translation type="obsolete">还没设置时长</translation>
     </message>
 </context>
 <context>
@@ -1759,67 +1773,67 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>使用中</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="247"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="253"/>
         <source>Idle</source>
         <translation>待机状态</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="249"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="258"/>
         <source>At least for %1 minutes</source>
         <translation>至少 %1分钟</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="272"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="286"/>
         <source>NFC</source>
         <translation>NFC</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="274"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="288"/>
         <source>NFC detections set</source>
         <translation>NFC扫描设置</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="301"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="315"/>
         <source>not charging</source>
         <translation>未充电</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="301"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="315"/>
         <source>Not charging power</source>
         <translation>未接通电源</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="304"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="318"/>
         <source>charging</source>
         <translation>充电中</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="304"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="318"/>
         <source>Charging power</source>
         <translation>接通电源</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="338"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="352"/>
         <source>Battery level exactly %1%</source>
         <translation>电量为%1%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="341"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="355"/>
         <source>Battery level at least %1%</source>
         <translation>电量高于 %1%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="343"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="357"/>
         <source>Battery level at most %1%</source>
         <translation>电量低于 %1%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="345"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="359"/>
         <source>Battery level between %1% - %2%</source>
         <translation>电量范围为 %1% - %2%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="363"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="377"/>
         <source>Calendar entries</source>
         <translation>日历条目</translation>
     </message>
@@ -1848,139 +1862,149 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="276"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="260"/>
+        <source>At least for %1 hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="262"/>
+        <source>At least for %1 hours %2 minutes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="290"/>
         <source> (toggles)</source>
         <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
         <translation>(开关)</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="386"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="400"/>
         <source> (%1%)</source>
         <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
         <translation>(%1%)</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="389"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="403"/>
         <source>. Restores previous profile.</source>
         <translation>. 恢复历史情景模式。</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="421"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="435"/>
         <source>Availability change</source>
         <translation>更改状态</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="424"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="438"/>
         <source>. Restores previous availability</source>
         <translation>. 恢复历史状态</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="444"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="458"/>
         <source>Flight mode off</source>
         <translation>关闭飞行模式</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="446"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="460"/>
         <source>Flight mode on</source>
         <translation>开启飞行模式</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="452"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="480"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="510"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="540"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="568"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="466"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="494"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="524"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="554"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="582"/>
         <source>. Restores previous mode.</source>
         <translation>.恢复历史模式。</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="472"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="486"/>
         <source>Power saving off</source>
         <translation>关闭节电模式</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="474"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="488"/>
         <source>Power saving on</source>
         <translation>开启节电模式</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="500"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="514"/>
         <source>Bluetooth off</source>
         <translation>关闭蓝牙</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="502"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="504"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="516"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="518"/>
         <source>Bluetooth on</source>
         <translation>开启蓝牙</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="504"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="518"/>
         <source>Bluetooth on and visible</source>
         <translation>开启蓝牙并可见</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="530"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="544"/>
         <source>Dual GSM/3G</source>
         <translation>双模式 GSM/3G</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="532"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="546"/>
         <source>GSM</source>
         <translation>GSM模式</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="534"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="548"/>
         <source>3G</source>
         <translation>3G模式</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="560"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="574"/>
         <source>Stand-by screen off</source>
         <translation>关闭待机屏幕</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="562"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="576"/>
         <source>Stand-by screen on</source>
         <translation>开启待机屏幕</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="589"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="603"/>
         <source>Command line</source>
         <translation>命令行</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="593"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="607"/>
         <source>Custom action on activate and deactivate has been set</source>
         <translation>任务开始/结束时的自定义操作已设置</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="596"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="610"/>
         <source>Custom action on activate has been set</source>
         <translation>任务启动时的自定义操作已设置 </translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="599"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="613"/>
         <source>Custom action on deactivate has been set</source>
         <translation>任务结束时的自定义操作已设置</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="620"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="634"/>
         <source>Launch applications</source>
         <translation>启动程序</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="645"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="659"/>
         <source>Device volume %1%</source>
         <translation>设备音量 %1%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="674"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="688"/>
         <source>Alarm with title %1 shown in %2 seconds</source>
         <translation>闹铃标题 %1 在 %2 秒内显示</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="676"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="690"/>
         <source>Alarm</source>
         <translation>闹铃</translation>
     </message>
