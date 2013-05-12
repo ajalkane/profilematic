@@ -1,9 +1,6 @@
 # Add more folders to ship with the application, here
-qml_harmattan.source = qml/harmattan/qml
-qml_harmattan.target =
 translations.source = i18n
 translations.target =
-DEPLOYMENTFOLDERS = qml_harmattan translations
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
@@ -124,15 +121,27 @@ HEADERS += \
     splash.path = /opt/profilematic/
 
     INSTALLS += splash
+
+    qml_item.source = qml/harmattan/qml
+    qml_item.target =
+
 } else {
     SOURCES += src/qmlbackend/presence/qmlpresencemodelstub.cpp
     HEADERS += src/qmlbackend/presence/qmlpresencemodelstub.h
+
+    # By default use Harmattan's QML files. For this to work as expected,
+    # the theme must be installed. For example see the theme part of:
+    # http://meegoharmattandev.blogspot.fi/2011/07/setting-up-qt-sdk-for-meego-harmattan.html
+    qml_item.source = qml/harmattan/qml
+    qml_item.target =
 }
 
 # TRANSLATIONS = i18n/tr_en.ts \
 #               i18n/tr_fi.ts
 
 # RESOURCES += resources.qrc
+
+DEPLOYMENTFOLDERS = qml_item translations
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
