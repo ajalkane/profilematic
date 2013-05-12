@@ -1,5 +1,5 @@
 # Add more folders to ship with the application, here
-qml_harmattan.source = qml
+qml_harmattan.source = qml/harmattan/qml
 qml_harmattan.target =
 translations.source = i18n
 translations.target =
