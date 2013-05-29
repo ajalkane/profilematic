@@ -21,7 +21,7 @@
 
 #include <QObject>
 
-#include <QNearFieldManager>
+#include <QtConnectivity/QNearFieldManager>
 
 QTM_USE_NAMESPACE
 

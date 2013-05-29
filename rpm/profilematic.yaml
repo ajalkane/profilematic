@@ -1,0 +1,33 @@
+Name: profilematic
+Summary: Automatic Profile changer
+Version: 2.2.2
+Release: 1
+Group: Applications/System
+License: GPL v3
+URL: https://github.com/ajalkane/profilematic
+Sources:
+    - "%{name}-%{version}.tar.bz2"
+Description: |
+    Changes phone's profile according to rules specified by user. At the moment supports rules based on time, location, and connected WLAN.
+
+PkgConfigBR:
+    - x11
+    - QtDeclarative
+    - QtGui
+    - qdeclarative-boostable
+    - qmsystem2
+    - QtConnectivity
+    - QtSystemInfo
+
+Requires:
+    - qt-components
+    - mapplauncherd-booster-qtcomponents
+    - qt-mobility
+    - qmsystem
+
+Configure: none
+Builder: qmake
+Files:
+    - "%{_bindir}/profilematic"
+    - "%{_datadir}/applications/profilematic.desktop"
+
