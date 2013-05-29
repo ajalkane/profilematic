@@ -1,12 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="it">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="it" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../qml/AboutDialog.qml" line="26"/>
         <source>UX design by Dina &amp; Arto Jalkanen</source>
         <translation>Design UX di Dina &amp; Arto Jalkanen</translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="28"/>
+        <source>See &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;homepage&lt;/a&gt; for more tips, sources, donation information, and more.</source>
+        <translation>Vai su &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;homepage&lt;/a&gt; per consigli, fonti, donazioni, informazioni, e altro.</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="36"/>
@@ -27,11 +30,6 @@
         <location filename="../qml/AboutDialog.qml" line="45"/>
         <source>Translators:</source>
         <translation>Traduttori:</translation>
-    </message>
-    <message>
-        <location filename="../qml/AboutDialog.qml" line="28"/>
-        <source>See &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;homepage&lt;/a&gt; for more tips, sources, donation information, and more.</source>
-        <translation>Vai su &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;homepage&lt;/a&gt; per consigli, fonti, donazioni, informazioni, e altro.</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="95"/>
@@ -895,28 +893,20 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <translation>Specifica il tempo (in minuti) di regime in Riposo del dispositivo dopo il quale la regola diventa attiva. N9 entra in regime di Riposo se non si eseguono operazioni per un certo tempo (circa 30 secondi). Si esce dal regime di Riposo quando si sblocca il dispositivo.</translation>
     </message>
     <message>
-        <source>Idle in minutes</source>
-        <translation type="obsolete">Tempo di Riposo</translation>
+        <location filename="../qml/ConditionIdle.qml" line="61"/>
+        <location filename="../qml/ConditionIdle.qml" line="88"/>
+        <source>Idle time</source>
+        <translation>Tempo di Riposo</translation>
     </message>
     <message>
         <location filename="../qml/ConditionIdle.qml" line="77"/>
         <source>Clear</source>
-        <translation type="unfinished">Pulisci</translation>
-    </message>
-    <message>
-        <location filename="../qml/ConditionIdle.qml" line="61"/>
-        <location filename="../qml/ConditionIdle.qml" line="88"/>
-        <source>Idle time</source>
-        <translation type="unfinished"></translation>
+        <translation>Pulisci</translation>
     </message>
     <message>
         <location filename="../qml/ConditionIdle.qml" line="107"/>
         <source>Not used</source>
-        <translation type="unfinished">Non in uso</translation>
-    </message>
-    <message>
-        <source>Not set</source>
-        <translation type="obsolete">Non impostato</translation>
+        <translation>Non in uso</translation>
     </message>
 </context>
 <context>
@@ -1719,6 +1709,18 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
 <context>
     <name>QmlRuleUtil</name>
     <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="66"/>
+        <source> - </source>
+        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
+        <translation> - </translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="70"/>
+        <source>24h</source>
+        <comment>Time condition length</comment>
+        <translation>24h</translation>
+    </message>
+    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="111"/>
         <source>All days</source>
         <translation>Tutti i giorni</translation>
@@ -1727,6 +1729,18 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="114"/>
         <source>No days</source>
         <translation>Nessun giorno</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="136"/>
+        <source>, </source>
+        <comment>This a between days. Notice space separator at end of the translation. Preserve it for translation.</comment>
+        <translation>, </translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="141"/>
+        <source> - </source>
+        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
+        <translation> - </translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="161"/>
@@ -1786,6 +1800,16 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <translation>Almeno per %1 minuti</translation>
     </message>
     <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="260"/>
+        <source>At least for %1 hours</source>
+        <translation>Almeno per %1 ore</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="262"/>
+        <source>At least for %1 hours %2 minutes</source>
+        <translation>Almeno per %1 ore %2 minuti</translation>
+    </message>
+    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="286"/>
         <source>NFC</source>
         <translation>NFC</translation>
@@ -1794,6 +1818,12 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="288"/>
         <source>NFC detections set</source>
         <translation>Rilevamento NFC impostato</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="290"/>
+        <source> (toggles)</source>
+        <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
+        <translation> (interruttori)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="315"/>
@@ -1839,46 +1869,6 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="377"/>
         <source>Calendar entries</source>
         <translation>Voci Calendario</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="66"/>
-        <source> - </source>
-        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation> - </translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="70"/>
-        <source>24h</source>
-        <comment>Time condition length</comment>
-        <translation>24h</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="136"/>
-        <source>, </source>
-        <comment>This a between days. Notice space separator at end of the translation. Preserve it for translation.</comment>
-        <translation>, </translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="141"/>
-        <source> - </source>
-        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation> - </translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="260"/>
-        <source>At least for %1 hours</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="262"/>
-        <source>At least for %1 hours %2 minutes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="290"/>
-        <source> (toggles)</source>
-        <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation> (interruttori)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="400"/>

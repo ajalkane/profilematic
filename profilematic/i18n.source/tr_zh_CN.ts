@@ -1,12 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../qml/AboutDialog.qml" line="26"/>
         <source>UX design by Dina &amp; Arto Jalkanen</source>
         <translation>UX设计：Dina &amp; Arto Jalkanen</translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="28"/>
+        <source>See &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;homepage&lt;/a&gt; for more tips, sources, donation information, and more.</source>
+        <translation>更多软件使用技巧、源码、项目捐赠以及其他。请访问&lt;a href=\&quot;http://www.kolumbus.fi/~ks2877/profilematic/\&quot;&gt;项目主页&lt;/a&gt;。</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="36"/>
@@ -27,11 +30,6 @@
         <location filename="../qml/AboutDialog.qml" line="45"/>
         <source>Translators:</source>
         <translation>翻译：</translation>
-    </message>
-    <message>
-        <location filename="../qml/AboutDialog.qml" line="28"/>
-        <source>See &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;homepage&lt;/a&gt; for more tips, sources, donation information, and more.</source>
-        <translation>更多软件使用技巧、源码、项目捐赠以及其他。请访问&lt;a href=\&quot;http://www.kolumbus.fi/~ks2877/profilematic/\&quot;&gt;项目主页&lt;/a&gt;。</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="95"/>
@@ -894,28 +892,20 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>提示：手机在指定时间长度内都处于待机状态则任务被激活。一般情况下，如果用户没有对手机做任何操作，默认30秒后进入待机状态(解锁屏幕即退出待机状态)。</translation>
     </message>
     <message>
-        <source>Idle in minutes</source>
-        <translation type="obsolete">处于待机状态（分钟）</translation>
+        <location filename="../qml/ConditionIdle.qml" line="61"/>
+        <location filename="../qml/ConditionIdle.qml" line="88"/>
+        <source>Idle time</source>
+        <translation>待机时间</translation>
     </message>
     <message>
         <location filename="../qml/ConditionIdle.qml" line="77"/>
         <source>Clear</source>
-        <translation type="unfinished">清除</translation>
-    </message>
-    <message>
-        <location filename="../qml/ConditionIdle.qml" line="61"/>
-        <location filename="../qml/ConditionIdle.qml" line="88"/>
-        <source>Idle time</source>
-        <translation type="unfinished"></translation>
+        <translation>清除</translation>
     </message>
     <message>
         <location filename="../qml/ConditionIdle.qml" line="107"/>
         <source>Not used</source>
-        <translation type="unfinished">还没设置</translation>
-    </message>
-    <message>
-        <source>Not set</source>
-        <translation type="obsolete">还没设置时长</translation>
+        <translation>未使用</translation>
     </message>
 </context>
 <context>
@@ -1716,6 +1706,18 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
 <context>
     <name>QmlRuleUtil</name>
     <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="66"/>
+        <source> - </source>
+        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
+        <translation>-</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="70"/>
+        <source>24h</source>
+        <comment>Time condition length</comment>
+        <translation>24小时</translation>
+    </message>
+    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="111"/>
         <source>All days</source>
         <translation>每天</translation>
@@ -1724,6 +1726,18 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="114"/>
         <source>No days</source>
         <translation>无日期</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="136"/>
+        <source>, </source>
+        <comment>This a between days. Notice space separator at end of the translation. Preserve it for translation.</comment>
+        <translation>,</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="141"/>
+        <source> - </source>
+        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
+        <translation>-</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="161"/>
@@ -1783,6 +1797,16 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>至少 %1分钟</translation>
     </message>
     <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="260"/>
+        <source>At least for %1 hours</source>
+        <translation>至少%1小时</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="262"/>
+        <source>At least for %1 hours %2 minutes</source>
+        <translation>至少%1时%2分</translation>
+    </message>
+    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="286"/>
         <source>NFC</source>
         <translation>NFC</translation>
@@ -1791,6 +1815,12 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="288"/>
         <source>NFC detections set</source>
         <translation>NFC扫描设置</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="290"/>
+        <source> (toggles)</source>
+        <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
+        <translation>(开关)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="315"/>
@@ -1836,46 +1866,6 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="377"/>
         <source>Calendar entries</source>
         <translation>日历条目</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="66"/>
-        <source> - </source>
-        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation>-</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="70"/>
-        <source>24h</source>
-        <comment>Time condition length</comment>
-        <translation>24小时</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="136"/>
-        <source>, </source>
-        <comment>This a between days. Notice space separator at end of the translation. Preserve it for translation.</comment>
-        <translation>,</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="141"/>
-        <source> - </source>
-        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation>-</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="260"/>
-        <source>At least for %1 hours</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="262"/>
-        <source>At least for %1 hours %2 minutes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="290"/>
-        <source> (toggles)</source>
-        <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation>(开关)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="400"/>
