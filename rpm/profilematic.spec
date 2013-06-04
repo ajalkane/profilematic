@@ -20,6 +20,10 @@ Requires:   qt-components
 Requires:   mapplauncherd-booster-qtcomponents
 Requires:   qt-mobility
 Requires:   qmsystem
+Requires:   libaccounts-qt
+Requires:   dbus
+Requires:   dbus-glib
+Requires:   telepathy-qt4
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(QtDeclarative)
 BuildRequires:  pkgconfig(QtGui)
@@ -27,6 +31,11 @@ BuildRequires:  pkgconfig(qdeclarative-boostable)
 BuildRequires:  pkgconfig(qmsystem2)
 BuildRequires:  pkgconfig(QtConnectivity)
 BuildRequires:  pkgconfig(QtSystemInfo)
+BuildRequires:  pkgconfig(accounts-qt)
+BuildRequires:  pkgconfig(TelepathyQt4)
+BuildRequires:  pkgconfig(libmkcal)
+BuildRequires:  pkgconfig(dbus-1)
+BuildRequires:  pkgconfig(dbus-glib-1)
 BuildRequires:  desktop-file-utils
 
 %description
@@ -43,7 +52,8 @@ Changes phone's profile according to rules specified by user. At the moment supp
 # >> build pre
 # << build pre
 
-%qmake 
+%qmake  \
+    MEEGO_VERSION_MAJOR=1 \ MEEGO_VERSION_MINOR=2 \ MEEGO_VERSION_PATCH=0 \ MEEGO_EDITION=harmattan \ MEEGO_SUBEDITION=nemo \ DEFINES+=MEEGO_EDITION_HARMATTAN \ DEFINES+=CELLULAR_NOT_SUPPORTED \ DEFINES+=MEEGO_SUBEDITION_NEMO
 
 make %{?jobs:-j%jobs}
 

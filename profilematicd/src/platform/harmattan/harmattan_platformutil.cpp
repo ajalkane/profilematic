@@ -74,10 +74,17 @@ HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
     qDebug() << "Current volume" << _volume->volume();
     qDebug() << "MaxVolume" << _volume->maxVolume();
 
+#ifdef CELLULAR_NOT_SUPPORTED
     _currentCellularActivity = _cellularControl.activity();
+#else
+    _currentCellularActivity = -1;
+#endif
+
     _currentActivity = _qmActivity.get();
     _currentIdle = _currentActivity == MeeGo::QmActivity::Inactive;
+#ifdef CELLULAR_NOT_SUPPORTED
     connect(&_cellularControl, SIGNAL(activityChanged(int)), this, SLOT(privateCellularActivityChanged(int)));
+#endif
     connect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)));
     connect(&_systemState, SIGNAL(systemStateChanged(MeeGo::QmSystemState::StateIndication)), this, SLOT(privateSystemStateChanged(MeeGo::QmSystemState::StateIndication)));
     connect(&_qmbattery, SIGNAL(chargingStateChanged(MeeGo::QmBattery::ChargingState)), this, SLOT(privateBatteryChargingStateChanged(MeeGo::QmBattery::ChargingState)));
@@ -164,6 +171,7 @@ HarmattanPlatformUtil::hasDeviceModeCredential() const {
 
 int
 HarmattanPlatformUtil::cellularMode() const {
+#ifndef CELLULAR_NOT_SUPPORTED
     Cellular::RadioAccess radioAccess;
     Cellular::RadioAccess::Mode mode = radioAccess.mode();
     int cellularMode = -1;
@@ -180,10 +188,14 @@ HarmattanPlatformUtil::cellularMode() const {
 
     IFDEBUG(qDebug("HarmattanPlatformUtil::cellularMode current cellular mode %d", cellularMode));
     return cellularMode;
+#else
+    return -1;
+#endif
 }
 
 void
 HarmattanPlatformUtil::setCellularMode(int cellularMode) {
+#ifndef CELLULAR_NOT_SUPPORTED
     IFDEBUG(qDebug("HarmattanPlatformUtil::setCellularMode setting cellular mode %d", cellularMode));
     // Note that PR1.2 also seems to return data usage as Cellular::SystemControl::UnknownActivity (-1)
     // and not as Cellular::SystemControl::Data as it should.
@@ -218,13 +230,18 @@ HarmattanPlatformUtil::setCellularMode(int cellularMode) {
     if (mode != Cellular::RadioAccess::Unknown) {
         radioAccess.setMode(mode);
     }
+#endif
 }
 
 int
 HarmattanPlatformUtil::cellularActivity() const {
+#ifndef CELLULAR_NOT_SUPPORTED
     int activity = (int)_cellularControl.activity();
     IFDEBUG(qDebug("HarmattanPlatformUtil::cellularActivity %d", activity));
     return activity;
+#else
+    return -1;
+#endif
 }
 
 void
@@ -296,6 +313,7 @@ HarmattanPlatformUtil::isUserActivityIdle() {
 
 void
 HarmattanPlatformUtil::_emitRealIdle() {
+#ifndef CELLULAR_NOT_SUPPORTED
     IFDEBUG(qDebug("HarmattanPlatformUtil::_emitRealIdle: a(%d) c(%d) i(%d)", _currentActivity, _currentCellularActivity, _currentIdle));
 
     // Harmattan PR1.2 claims idle mode if on the phone! That's not nice, so this is a work around for that.
@@ -313,6 +331,10 @@ HarmattanPlatformUtil::_emitRealIdle() {
         _currentIdle = false;
         emit userActivityIdleChanged(false);
     }
+#else
+    _currentIdle = true;
+    emit userActivityIdleChanged(true);
+#endif
 }
 
 void
@@ -327,6 +349,7 @@ HarmattanPlatformUtil::activityChanged(MeeGo::QmActivity::Activity activity)
 void
 HarmattanPlatformUtil::privateCellularActivityChanged(int activity)
 {
+ #ifndef CELLULAR_NOT_SUPPORTED
     _currentCellularActivity = (Cellular::SystemControl::Activity)activity;
     IFDEBUG(qDebug("HarmattanPlatformUtil::cellularActivityChanged %d", activity));
     emit cellularActivityChanged(activity);
@@ -340,6 +363,7 @@ HarmattanPlatformUtil::privateCellularActivityChanged(int activity)
         IFDEBUG(qDebug("HarmattanPlatformUtil::cellularActivityChanged activating pending cellular mode"));
         setCellularMode(_pendingCellularMode);
     }
+#endif
 }
 
 void

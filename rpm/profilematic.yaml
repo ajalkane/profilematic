@@ -18,15 +18,33 @@ PkgConfigBR:
     - qmsystem2
     - QtConnectivity
     - QtSystemInfo
+    - accounts-qt
+    - TelepathyQt4
+    - libmkcal
+    - dbus-1
+    - dbus-glib-1
 
 Requires:
     - qt-components
     - mapplauncherd-booster-qtcomponents
     - qt-mobility
     - qmsystem
+    - libaccounts-qt
+    - dbus
+    - dbus-glib
+    - telepathy-qt4
 
 Configure: none
 Builder: qmake
+QMakeOptions: MEEGO_VERSION_MAJOR=1 \
+    MEEGO_VERSION_MINOR=2 \
+    MEEGO_VERSION_PATCH=0 \
+    MEEGO_EDITION=harmattan \
+    MEEGO_SUBEDITION=nemo \
+    DEFINES+=MEEGO_EDITION_HARMATTAN \
+    DEFINES+=CELLULAR_NOT_SUPPORTED \
+    DEFINES+=MEEGO_SUBEDITION_NEMO 
+
 Files:
     - "%{_bindir}/profilematic"
     - "%{_datadir}/applications/profilematic.desktop"

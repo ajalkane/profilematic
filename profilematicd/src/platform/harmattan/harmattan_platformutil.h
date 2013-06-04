@@ -22,7 +22,9 @@
 #include <qmactivity.h>
 #include <qmbattery.h>
 #include <qmsystemstate.h>
+#ifndef CELLULAR_NOT_SUPPORTED
 #include <SystemControl>
+#endif
 
 #include "../platformutil.h"
 
@@ -39,8 +41,11 @@ class HarmattanPlatformUtil : public PlatformUtil
 
     bool _currentIdle;
 
+#ifndef CELLULAR_NOT_SUPPORTED
     Cellular::SystemControl _cellularControl;
     Cellular::SystemControl::Activity _currentCellularActivity;
+#endif
+
     VolumeBarLogic *_volume;
 
     int _pendingCellularMode;

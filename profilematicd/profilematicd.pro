@@ -18,7 +18,10 @@ CONFIG += cellular-qt
 # For notifications
 # CONFIG += meegotouch
 
-PKGCONFIG += gq-gconf
+isEmpty(MEEGO_SUBEDITION) {
+    message(Adding gq-qconf)
+    PKGCONFIG += gq-gconf
+}
 
 MOBILITY += systeminfo
 MOBILITY += connectivity
@@ -150,7 +153,9 @@ HEADERS += \
     src/logic/actionalarm.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
-    DEFINES += PM_TIMER_USHORT
+    isEmpty(MEEGO_SUBEDITION) {
+        DEFINES += PM_TIMER_USHORT
+    }
 
     SOURCES += src/platform/harmattan/harmattan_platformutil.cpp \
                src/platform/harmattan/volumebarlogic.cpp
@@ -169,7 +174,6 @@ HEADERS += \
     # Live and learn from OrganizerFeed:
     # Add gq-gconf and libmkcal - we're not using QtMobility's organizer module
     # as it loads the whole calendar into memory
-    CONFIG += link_pkgconfig
     PKGCONFIG += libmkcal
     # Device volume
     PKGCONFIG += dbus-1 \
