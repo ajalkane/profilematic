@@ -19,7 +19,11 @@
 
 #include "actionpresenceimpl.h"
 
+#ifdef MEEGO_SUBEDITION_NEMO
+#include <TelepathyQt/PendingReady>
+#else
 #include <TelepathyQt4/PendingReady>
+#endif
 #include <Accounts/Manager>
 
 ActionPresenceImpl::ActionPresenceImpl() :
@@ -132,9 +136,12 @@ ActionPresenceImpl::_activateInternal(const Rule::IdType &ruleId, const RuleActi
     if (rule.getRestorePresence()) {
         foreach(Accounts::AccountId accountId, _manager->accountList()) {
             Accounts::Account *account = _manager->account(accountId);
+#ifdef MEEGO_SUBEDITION_NEMO
+            foreach (const Accounts::Service service, account->services()) {
+#else
             foreach (const Accounts::Service *service, account->services()) {
+#endif
                 account->selectService(service);
-
                 QString uid = account->valueAsString("tmc-uid");
 
                 if (uid.isEmpty())
@@ -279,7 +286,11 @@ void ActionPresenceImpl::changeAccountPresences(const RuleAction &rule)
 
     foreach(Accounts::AccountId accountId, _manager->accountList()) {
         Accounts::Account *account = _manager->account(accountId);
+#ifdef MEEGO_SUBEDITION_NEMO
+        foreach (const Accounts::Service service, account->services()) {
+#else
         foreach (const Accounts::Service *service, account->services()) {
+#endif
             account->selectService(service);
 
             QString uid = account->valueAsString("tmc-uid");
@@ -300,7 +311,11 @@ void ActionPresenceImpl::changeAccountPresences(const RuleAction &rule)
             switch (rule.getPresenceChangeType()) {
             case RuleAction::AllOnlinePresenceType:
             case RuleAction::CustomPresenceType:
+#ifdef MEEGO_SUBEDITION_NEMO
+                presence = accountPresence(rule, account, &service, defaultPresence);
+#else
                 presence = accountPresence(rule, account, service, defaultPresence);
+#endif
                 break;
             default:
                 break;

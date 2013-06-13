@@ -22,9 +22,13 @@
 #include "harmattan_platformutil.h"
 #include "../../logic/presence/actionpresenceimpl.h"
 #include <qmdevicemode.h>
+#ifndef CELLULAR_NOT_SUPPORTED
 #include <RadioAccess>
+#endif
 #include <QProcess>
+#ifndef MEEGO_SUBEDITION_NEMO
 #include <gconfitem.h>
+#endif
 
 #include "../calendar/impl/mkcal/calendarmanagermkcal.h"
 #include "volumebarlogic.h"
@@ -74,15 +78,13 @@ HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
     qDebug() << "Current volume" << _volume->volume();
     qDebug() << "MaxVolume" << _volume->maxVolume();
 
-#ifdef CELLULAR_NOT_SUPPORTED
+#ifndef CELLULAR_NOT_SUPPORTED
     _currentCellularActivity = _cellularControl.activity();
-#else
-    _currentCellularActivity = -1;
 #endif
 
     _currentActivity = _qmActivity.get();
     _currentIdle = _currentActivity == MeeGo::QmActivity::Inactive;
-#ifdef CELLULAR_NOT_SUPPORTED
+#ifndef CELLULAR_NOT_SUPPORTED
     connect(&_cellularControl, SIGNAL(activityChanged(int)), this, SLOT(privateCellularActivityChanged(int)));
 #endif
     connect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)));
@@ -246,6 +248,7 @@ HarmattanPlatformUtil::cellularActivity() const {
 
 void
 HarmattanPlatformUtil::setStandByScreenMode(int mode) {
+#ifndef MEEGO_SUBEDITION_NEMO
     IFDEBUG(qDebug("HarmattanPlatformUtil::setStandByScreenMode %d", mode));
     GConfItem gconfItem(GCONF_STAND_BY_SCREEN_KEY);
     if (mode == 0 || mode == 1) {
@@ -253,17 +256,23 @@ HarmattanPlatformUtil::setStandByScreenMode(int mode) {
     } else {
         IFDEBUG(qDebug("HarmattanPlatformUtil::setStandByScreenMode unsupported mode %d", mode));
     }
+#endif
 }
 
 int
 HarmattanPlatformUtil::standByScreenMode() const {
+#ifndef MEEGO_SUBEDITION_NEMO
     GConfItem gconfItem(GCONF_STAND_BY_SCREEN_KEY);
     return gconfItem.value().toInt();
+#else
+    return -1;
+#endif
 }
 
 
 void
 HarmattanPlatformUtil::setBackgroundConnectionsMode(int mode) {
+#ifndef MEEGO_SUBEDITION_NEMO
     IFDEBUG(qDebug("HarmattanPlatformUtil::setBackgroundConnectionsMode %d", mode));
     GConfItem gconfItem(GCONF_BACKGROUND_CONNECTIONS_DISABLED_KEY);
     if (mode == 0 || mode == 1) {
@@ -271,10 +280,12 @@ HarmattanPlatformUtil::setBackgroundConnectionsMode(int mode) {
     } else {
         IFDEBUG(qDebug("HarmattanPlatformUtil::setBackgroundConnectionsMode unsupported mode %d", mode));
     }
+#endif
 }
 
 int
 HarmattanPlatformUtil::backgroundConnectionsMode() const {
+#ifndef MEEGO_SUBEDITION_NEMO
     GConfItem gconfItem(GCONF_BACKGROUND_CONNECTIONS_DISABLED_KEY);
     int disabled = gconfItem.value().toInt();
     switch (disabled) {
@@ -286,6 +297,7 @@ HarmattanPlatformUtil::backgroundConnectionsMode() const {
         return 0;
     }
     qWarning("HarmattanPlatformUtil::backgroundConnectionsMode() unrecognized value %d, returning -1", disabled);
+#endif
     return -1;
 }
 

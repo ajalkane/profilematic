@@ -22,7 +22,11 @@
 
 #include "actionpresence.h"
 
+#ifdef MEEGO_SUBEDITION_NEMO
+#include <TelepathyQt/AccountManager>
+#else
 #include <TelepathyQt4/AccountManager>
+#endif
 #include <QNetworkConfigurationManager>
 
 namespace Accounts {

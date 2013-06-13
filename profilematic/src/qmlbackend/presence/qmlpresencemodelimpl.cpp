@@ -73,7 +73,12 @@ void QmlPresenceModelImpl::onAccountCreated(Accounts::AccountId id)
 {
     Accounts::Account *account = _manager->account(id);
 
+#ifdef MEEGO_SUBEDITION_NEMO
+    foreach(Accounts::Service serviceObj, account->services()) {
+        Accounts::Service *service = &serviceObj;
+#else
     foreach(Accounts::Service *service, account->services()) {
+#endif
         if (!supportedService(account, service))
             continue;
 
@@ -105,7 +110,12 @@ void QmlPresenceModelImpl::buildAccountList()
     foreach(Accounts::AccountId accountId, _manager->accountList()) {
         Accounts::Account *account = _manager->account(accountId);
 
+#ifdef MEEGO_SUBEDITION_NEMO
+        foreach (Accounts::Service serviceObj, account->services("IM")) {
+            Accounts::Service *service = &serviceObj;
+#else
         foreach (Accounts::Service *service, account->services("IM")) {
+#endif
             // Determine whether it is a Telepathy based account if not skip it as
             // its presence cannot be changed.
             if (!supportedService(account, service))
@@ -121,7 +131,11 @@ void QmlPresenceModelImpl::buildAccountList()
 bool QmlPresenceModelImpl::supportedService(Accounts::Account *account,
                                             Accounts::Service *service)
 {
+#ifdef MEEGO_SUBEDITION_NEMO
+    account->selectService(const_cast<const Accounts::Service &>(*service));
+#else
     account->selectService(service);
+#endif
     return !account->valueAsString("tmc-uid").isEmpty();
 }
 
