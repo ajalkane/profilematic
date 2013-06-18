@@ -53,7 +53,7 @@ Changes phone's profile according to rules specified by user. At the moment supp
 # << build pre
 
 %qmake  \
-    MEEGO_VERSION_MAJOR=1 \ MEEGO_VERSION_MINOR=2 \ MEEGO_VERSION_PATCH=0 \ MEEGO_EDITION=harmattan \ MEEGO_SUBEDITION=nemo \ DEFINES+=MEEGO_EDITION_HARMATTAN \ DEFINES+=CELLULAR_NOT_SUPPORTED \ DEFINES+=MEEGO_SUBEDITION_NEMO
+    MEEGO_VERSION_MAJOR=1 \ MEEGO_VERSION_MINOR=2 \ MEEGO_VERSION_PATCH=0 \ MEEGO_EDITION=harmattan \ MEEGO_SUBEDITION=nemo \ CONFIG+=platform_nemo DEFINES+=MEEGO_EDITION_HARMATTAN \ DEFINES+=CELLULAR_NOT_SUPPORTED \ DEFINES+=MEEGO_SUBEDITION_NEMO
 
 make %{?jobs:-j%jobs}
 
@@ -75,7 +75,8 @@ desktop-file-install --delete-original       \
 
 %files
 %defattr(-,root,root,-)
-%{_bindir}/profilematic
-%{_datadir}/applications/profilematic.desktop
+/usr/share/applications/%{name}_harmattan.desktop
+/opt/%{name}
+/usr/share/icons/hicolor/*/apps/%{name}80.png
 # >> files
 # << files

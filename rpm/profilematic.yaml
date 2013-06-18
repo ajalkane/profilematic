@@ -41,11 +41,13 @@ QMakeOptions: MEEGO_VERSION_MAJOR=1 \
     MEEGO_VERSION_PATCH=0 \
     MEEGO_EDITION=harmattan \
     MEEGO_SUBEDITION=nemo \
+    CONFIG+=platform_nemo
     DEFINES+=MEEGO_EDITION_HARMATTAN \
     DEFINES+=CELLULAR_NOT_SUPPORTED \
     DEFINES+=MEEGO_SUBEDITION_NEMO 
 
 Files:
-    - "%{_bindir}/profilematic"
-    - "%{_datadir}/applications/profilematic.desktop"
+   - "/usr/share/applications/%{name}_harmattan.desktop"
+   - "/opt/%{name}"
+   - "/usr/share/icons/hicolor/*/apps/%{name}80.png"
 

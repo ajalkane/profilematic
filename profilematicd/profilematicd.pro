@@ -224,7 +224,9 @@ qtestlib {
     INSTALLS += target
 #}
 
-daemonconf.path = /etc/init/apps
-daemonconf.files = profilematicd.conf
+!platform_nemo {
+    daemonconf.path = /etc/init/apps
+    daemonconf.files = profilematicd.conf
 
-INSTALLS += daemonconf
+    INSTALLS += daemonconf
+}
