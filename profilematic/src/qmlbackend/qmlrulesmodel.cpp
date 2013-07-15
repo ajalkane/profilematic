@@ -383,6 +383,14 @@ QmlRulesModel::setNewEditRuleFrom(int index) {
 
 void
 QmlRulesModel::saveEditRule() {
+    if (_editRule.getRuleName().isEmpty()) {
+        QString ruleName = tr("Rule #%1", "This is for assigning automatic rule name if user left " \
+                              "rule name field empty when saving the rule. The number is simply " \
+                              "the amount of rules already existing").arg(_rules.size() + 1);
+        _editRule.setRuleName(ruleName);
+        qDebug() << Q_FUNC_INFO << "rule name empty, setting name to" << _editRule.getRuleName();
+    }
+
     if (_editRule.getRuleId().isEmpty()) {
         _client->appendRule(_editRule);
     } else {
