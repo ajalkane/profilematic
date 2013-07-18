@@ -51,17 +51,29 @@ MyQueryDialog {
              + '  <dt>Chinese</dt>'
              + '  <dd>xzw5200, luxary, Gwmgdemj, mdbxh</dd>'
 
+             + '  <dt>Czech</dt>'
+             + '  <dd>Pavel (sanmob)</dd>'
+
              + '  <dt>Finnish</dt>'
              + '  <dd>Timo Vikman</dd>'
 
              + '  <dt>Italian</dt>'
              + '  <dd>Lorenzo Facca</dd>'
 
+             + '  <dt>Polish</dt>'
+             + '  <dd>Jędrzej Blak</dd>'
+
+             + '  <dt>Russian</dt>'
+             + '  <dd>Ancelad</dd>'
+
              + '  <dt>Spanish</dt>'
              + '  <dd>Ricardo Formoso-Rafferty</dd>'
 
-             + '  <dt>Czech</dt>'
-             + '  <dd>Pavel (sanmob)</dd>'
+             + '  <dt>Swedish</dt>'
+             + '  <dd>Andreas Lindström</dd>'
+
+             + '  <dt>Taiwanese</dt>'
+             + '  <dd>osk2</dd>'
 
              + '</dl>'
              + "</div>"
