@@ -64,7 +64,7 @@ MyQueryDialog {
              + '  <dd>Jędrzej Blak</dd>'
 
              + '  <dt>Russian</dt>'
-             + '  <dd>Ancelad</dd>'
+             + '  <dd>Юрий (Ancelad)</dd>'
 
              + '  <dt>Spanish</dt>'
              + '  <dd>Ricardo Formoso-Rafferty</dd>'
