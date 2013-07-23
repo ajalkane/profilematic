@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -34,7 +32,7 @@
         <translation>翻译：</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="114"/>
+        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="99"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
@@ -1710,7 +1708,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="66"/>
         <source> - </source>
-        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
+        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
         <translation>-</translation>
     </message>
     <message>
@@ -1738,7 +1736,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="141"/>
         <source> - </source>
-        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
+        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
         <translation>-</translation>
     </message>
     <message>
@@ -2033,7 +2031,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="387"/>
         <source>Rule #%1</source>
         <comment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</comment>
-        <translation type="unfinished"></translation>
+        <translation>任务#%1</translation>
     </message>
 </context>
 <context>

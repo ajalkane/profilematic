@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="ru">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ru" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -11,7 +9,7 @@
     <message>
         <location filename="../qml/harmattan/qml/AboutDialog.qml" line="28"/>
         <source>See &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;homepage&lt;/a&gt; for more tips, sources, donation information, and more.</source>
-        <translation>Зайдите на &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;домашнюю страницу&lt;/a&gt; для просмотра советов, исходного кода, информации о пожертвованиях и прочего</translation>
+        <translation>Посетите &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;домашнюю страницу&lt;/a&gt; для просмотра советов, исходного кода, информации о пожертвованиях и прочего</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/AboutDialog.qml" line="36"/>
@@ -34,7 +32,7 @@
         <translation>Переводчики:</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="114"/>
+        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="99"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
@@ -96,7 +94,7 @@
         <location filename="../qml/harmattan/qml/ActionAlarm.qml" line="123"/>
         <location filename="../qml/harmattan/qml/ActionAlarm.qml" line="126"/>
         <source>Alarm action is not currently usable</source>
-        <translation>Действие для будильника в данный момент невозможно использовать</translation>
+        <translation>В данный момент невозможно использовать настройки будильника</translation>
     </message>
 </context>
 <context>
@@ -191,7 +189,7 @@
     <message>
         <location filename="../qml/harmattan/qml/ActionBackgroundConnections.qml" line="48"/>
         <source>Background connections action</source>
-        <translation>Фоновые подключения</translation>
+        <translation>Настроить фоновые подключения</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionBackgroundConnections.qml" line="53"/>
@@ -323,7 +321,7 @@
     <message>
         <location filename="../qml/harmattan/qml/ActionCommandLine.qml" line="101"/>
         <source>Enter into the text box the shell command you want to run when this rule is deactivated. Always use full paths for file paths.</source>
-        <translation>Введите в текстовое поле команду, которая должна запуститься при активации правила. Всегда используйте полные пути к файлам и директориям.</translation>
+        <translation>Введите в текстовое поле команду, которая должна запуститься при деактивации правила. Всегда используйте полные пути к файлам и директориям.</translation>
     </message>
 </context>
 <context>
@@ -410,7 +408,7 @@
     <message>
         <location filename="../qml/harmattan/qml/ActionFlightMode.qml" line="89"/>
         <source>Warning: in Flight mode connections are not used. Therefore using conditions that rely on WLAN or location can not work to switch flight mode off. Instead, use time based conditions.</source>
-        <translation>Внимание: в автономном режиме соединения не используются. Поэтому условия, основанные на состоянии WLAN или местоположении, могут не отключить автономный режим. Вместо этого используйте условия, основанные на времени.</translation>
+        <translation>Внимание: в автономном режиме не ипользуются соединения. Поэтому условия, основанные на состоянии WLAN или местоположении, могут не отключить автономный режим. Вместо этого используйте условия, основанные на времени.</translation>
     </message>
 </context>
 <context>
@@ -476,22 +474,22 @@
     <message>
         <location filename="../qml/harmattan/qml/ActionPresence.qml" line="183"/>
         <source>Set to away</source>
-        <translation>Переключить на: Отошел</translation>
+        <translation>Переключить на &quot;Отошел&quot;</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionPresence.qml" line="185"/>
         <source>Set to busy</source>
-        <translation>Переключить на: Занят</translation>
+        <translation>Переключить на &quot;Занят&quot;</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionPresence.qml" line="187"/>
         <source>Set to invisible</source>
-        <translation>Переключить на: Невидимый</translation>
+        <translation>Переключить на &quot;Невидимый&quot;</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionPresence.qml" line="189"/>
         <source>Set to extended away</source>
-        <translation>Переключить на: Недоступен</translation>
+        <translation>Переключить на &quot;Недоступен&quot;</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionPresence.qml" line="191"/>
@@ -800,7 +798,7 @@
         <source>Keywords in the fields are used to match calendar entries. Condition matches a calendar entry if all fields set here match it. At least one field must be set for the condition to be usable.
 
 Comma (,) is used to separate keywords in a field. Any keyword separated by comma that is found in the calendar field will match. Matching is case insensitive.</source>
-        <translation>Ключевые слова в поле используются для сопоставления календарных записей. Условие соответствует записи в календаре, если все настроенные поля соответствую ему. По крайней мере, одно поле должно быть настроено, чтобы условие было рабочим.
+        <translation>Ключевые слова в поле используются для сопоставления календарных записей. Условие соответствует записи в календаре, если все настроенные поля соответствуют ему. По крайней мере, одно поле должно быть настроено, чтобы условие было рабочим.
 
 Запятая (,) используется для разделения ключевых слов в поле. Сопоставляться будет любое ключевое слово, отделенное запятой, которое будет найдено в календаре. Настройка не чувствительна к регистру.</translation>
     </message>
@@ -887,18 +885,18 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../qml/harmattan/qml/ConditionIdle.qml" line="50"/>
         <source>Idle condition</source>
-        <translation>Состояние режима ожидания</translation>
+        <translation>Настройка режима ожидания</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionIdle.qml" line="54"/>
         <source>Specify the amount of time in minutes that the device has to be in idle mode until this rule is activated. Device goes into idle if user does not do anything for a while (about 30 seconds). Idle mode is exited when lock screen is deactivated.</source>
-        <translation>Определите время в минутах, которое устройство должно быть в режиме ожидания, пока не активируется правило. Устройство переходит в режим ожидания, если пользователь ничего не делает некоторое время (приблизительно 30 секунд). Режим ожидания отключается, когда не активен экран блокировки.</translation>
+        <translation>Определите время в минутах, которое устройство должно быть в режиме ожидания, пока не активируется правило. Устройство переходит в режим ожидания, если пользователь ничего не делает некоторое время (приблизительно 30 секунд). Режим ожидания отключается, когда неактивен экран блокировки.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionIdle.qml" line="61"/>
         <location filename="../qml/harmattan/qml/ConditionIdle.qml" line="88"/>
         <source>Idle time</source>
-        <translation>Время ожидания</translation>
+        <translation>Продолжительность режима ожидания</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionIdle.qml" line="77"/>
@@ -984,7 +982,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../qml/harmattan/qml/ConditionLocation.qml" line="206"/>
         <source>&lt;b&gt;Did you know?&lt;/b&gt;&lt;p&gt;Location by mobile cell ids comes free from your operator and does not drain battery, unlike GPS.&lt;p&gt;&lt;b&gt;How does it work?&lt;/b&gt;&lt;p&gt;Let&apos;s say you want to silence your phone in - and near - your office. First, go to the office and press &apos;start collecting&apos;. If it&apos;s a larger area, walk around the office a bit. Five minutes or so should do it. Press &apos;Stop collecting&apos;. Now we have the desired location. &lt;p&gt;The program saves and stores the location only if you save the rule. If you delete the rule or press &apos;Cancel&apos;, all the location info will be discarded.&lt;p&gt;&lt;b&gt;Several different settings at the same location?&lt;/b&gt;&lt;p&gt;Create a new rule by copying an existing one from the main menu (long press on a rule), so the location info will be copied as well. Then change rest of the conditions and actions as you want, and Bob&apos;s your uncle.&lt;p&gt;&lt;b&gt;Please note:&lt;/b&gt;&lt;ul&gt;&lt;li&gt; The cell id depends on the network your phone uses. For example, if you use both GSM and 3G,you should collect the cell ids using both mobile network modes. When &apos;collecting&apos; is on, switch between the networks or select a dual mode. &lt;li&gt;Cell id technology can&apos;t be used for a very exact location.&lt;/ul&gt;</source>
-        <translation>&lt;b&gt; Знаете ли вы?&lt;/b&gt;&lt;p&gt; Определение местоположения по ID мобильной сети бесплатно и не так сильно разряжает аккумулятор, в отличии от GPS.&lt;p&gt;&lt;b&gt; Как это работает?&lt;/b&gt;&lt;p&gt; Допустим, вы хотите перевести телефон в беззвучный режим в офисе. Для начала, войдите в офис и нажмите &quot;Начать сбор&quot;. Если речь идет о большой площади, то нужно немного походить по офису. Это нужно делать около пяти минут. Затем нажмите &quot;Остановить сбор&quot;. Теперь у нас есть нужное местоположение. &lt;p&gt; Программа сохранит местоположение только если вы сохраните правило. Если вы удалите это правило или нажмете &quot;Отмена&quot;, то вся информация о местоположении будет уничтожена. &lt;p&gt;&lt;b&gt; Нужно несколько различных настроек для одного и того же местоположения? &lt;/b&gt;&lt;p&gt; Создайте новое правило путем копирования существующего из главного меню (долгое нажатие на правило), и информация о местоположении скопируется. Затем измените остальные условия и действия, которые вам нужны. &lt;p&gt;&lt;b&gt;Обратите внимание:&lt;/b&gt;&lt;ul&gt;&lt;li&gt; идентификатор сети зависит от режима сети, в котором работает ваш телефон. Например, если вы используете двойной режим 3G/GSM, то вам следует собирать идентификаторы обоих режимов. Когда активен сбор, просто переключитесь между сетями или выберите двойной режим. &lt;li&gt;Данная технология не может быть использована для очень точного определения местоположения.&lt;/ul&gt; </translation>
+        <translation>&lt;b&gt; Знаете ли вы?&lt;/b&gt;&lt;p&gt; Определение местоположения по ID мобильной сети является бесплатным и не так сильно разряжает аккумулятор, в отличии от GPS.&lt;p&gt;&lt;b&gt; Как это работает?&lt;/b&gt;&lt;p&gt; Допустим, вы хотите перевести телефон в беззвучный режим в офисе. Для начала, войдите в офис и нажмите &quot;Начать сбор&quot;. Если речь идет о большой площади, то нужно немного походить по офису. Это нужно делать около пяти минут. Затем нажмите &quot;Остановить сбор&quot;. Теперь у нас есть нужное местоположение. &lt;p&gt; Программа сохранит местоположение только если вы сохраните правило. Если вы удалите это правило или нажмете &quot;Отмена&quot;, то вся информация о местоположении будет уничтожена. &lt;p&gt;&lt;b&gt; Нужно несколько различных настроек для одного и того же местоположения? &lt;/b&gt;&lt;p&gt; Создайте новое правило путем копирования существующего из главного меню (долгое нажатие на правило), и информация о местоположении скопируется. Затем измените остальные условия и действия, которые вам нужны. &lt;p&gt;&lt;b&gt;Обратите внимание:&lt;/b&gt;&lt;ul&gt;&lt;li&gt; Идентификатор сети зависит от режима сети, в котором работает ваш телефон. Например, если вы используете двойной режим 3G/GSM, то вам следует собирать идентификаторы обоих режимов. Когда активен сбор, просто переключитесь между сетями или выберите двойной режим. &lt;li&gt;Данная технология не может быть использована для очень точного определения местоположения.&lt;/ul&gt; </translation>
     </message>
 </context>
 <context>
@@ -1074,7 +1072,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../qml/harmattan/qml/ConditionTime.qml" line="82"/>
         <source>Clear</source>
-        <translation>Очистить</translation>
+        <translation>Сбросить</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTime.qml" line="110"/>
@@ -1417,7 +1415,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../qml/harmattan/qml/EditRule.qml" line="232"/>
         <source>Activates specified actions if no other rule with matching conditions has the action specified. Note: if a regular rule has &apos;restore previous&apos; in its action, it overrides default rules action.</source>
-        <translation>Включение указанных действий, если никакое другое правило с соответствующими условиями не имеет указанного действия. Примечание: если в действиях правила указано &quot;Восстановить предыдущий&quot;, то это отменяет действия правила по умочанию.</translation>
+        <translation>Правило по умолчанию применяется, когда неактивны все остальные правила. Примечание: если в действиях правила указано &quot;Восстановить предыдущий&quot;, то это отменяет действия правила по умолчанию.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/EditRule.qml" line="238"/>
@@ -1657,7 +1655,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlconditioneditmodel.cpp" line="51"/>
         <source>Idle</source>
-        <translation>Ожидание</translation>
+        <translation>Режим ожидания</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlconditioneditmodel.cpp" line="52"/>
@@ -1685,17 +1683,17 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="27"/>
         <source>Ringing</source>
-        <translation>Обычный</translation>
+        <translation>Режим: обычный</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="28"/>
         <source>Silent</source>
-        <translation>Тихий</translation>
+        <translation>Режим: без звука</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="29"/>
         <source>Beep</source>
-        <translation>Без звука</translation>
+        <translation>Режим: тихий</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlprofilesmodel.cpp" line="30"/>
@@ -1713,7 +1711,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="66"/>
         <source> - </source>
-        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
+        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
         <translation>-</translation>
     </message>
     <message>
@@ -1736,12 +1734,12 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="136"/>
         <source>, </source>
         <comment>This a between days. Notice space separator at end of the translation. Preserve it for translation.</comment>
-        <translation>,</translation>
+        <translation>, </translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="141"/>
         <source> - </source>
-        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
+        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
         <translation>-</translation>
     </message>
     <message>
@@ -1794,7 +1792,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="253"/>
         <source>Idle</source>
-        <translation>Ожидание</translation>
+        <translation>Режим ожидания</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="258"/>
@@ -2010,7 +2008,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="289"/>
         <source>, </source>
         <comment>This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.</comment>
-        <translation>,</translation>
+        <translation>, </translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="298"/>
@@ -2025,7 +2023,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="321"/>
         <source>when</source>
-        <translation> когда</translation>
+        <translation>| Условия:</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="321"/>
@@ -2036,7 +2034,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="387"/>
         <source>Rule #%1</source>
         <comment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</comment>
-        <translation type="unfinished"></translation>
+        <translation>Правило #%1</translation>
     </message>
 </context>
 <context>
@@ -2059,7 +2057,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../qml/harmattan/qml/ShowRules.qml" line="94"/>
         <source>(inactive)</source>
-        <translation>(неактивно)</translation>
+        <translation>(неактивен)</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ShowRules.qml" line="164"/>
@@ -2079,7 +2077,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../qml/harmattan/qml/ShowRules.qml" line="412"/>
         <source>Blue bar is shown on rules whose conditions match currently. First matching rule is preferred for an action if there are conflicts. Use arrows to change the order of the rules.</source>
-        <translation>Голубая полоса рядом с правилом показывает, какое правило применено в данный момент. При конфликтах предпочтительным будет верхнее правило. Используйте стрелки для изменения приоритета правил.</translation>
+        <translation>Голубая полоска рядом с правилом показывает, какое правило применено в данный момент. При конфликтах предпочтительным будет верхнее правило. Используйте стрелки для изменения приоритета правил.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ShowRules.qml" line="419"/>

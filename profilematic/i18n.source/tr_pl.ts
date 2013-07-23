@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="pl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -34,7 +32,7 @@
         <translation>Tłumacze:</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="114"/>
+        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="99"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
@@ -1713,7 +1711,7 @@ Możesz użyć przecinka (,), aby oddzielić słowa kluczowe w polu tekstowym. W
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="66"/>
         <source> - </source>
-        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
+        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
         <translation>-</translation>
     </message>
     <message>
@@ -1741,7 +1739,7 @@ Możesz użyć przecinka (,), aby oddzielić słowa kluczowe w polu tekstowym. W
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="141"/>
         <source> - </source>
-        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
+        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
         <translation>-</translation>
     </message>
     <message>
@@ -2036,7 +2034,7 @@ Możesz użyć przecinka (,), aby oddzielić słowa kluczowe w polu tekstowym. W
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="387"/>
         <source>Rule #%1</source>
         <comment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</comment>
-        <translation type="unfinished"></translation>
+        <translation>Reguła #%1</translation>
     </message>
 </context>
 <context>
@@ -2069,7 +2067,7 @@ Możesz użyć przecinka (,), aby oddzielić słowa kluczowe w polu tekstowym. W
     <message>
         <location filename="../qml/harmattan/qml/ShowRules.qml" line="186"/>
         <source>Oops. Still starting my engines. I&apos;ll be up and running soon, close me and come back in 2 minutes. If problem persists, reboot the phone or reinstall ProfileMatic.</source>
-        <translation>Ups... Daj mi jeszcze chwilę. Uruchamiam niezbędne funkcje i już wkrótce (ok. 2 minuty) będzie można używać moich funkcji. Jeśli problem będzie występował w dalszym ciągu, spróbuj uruchomić ponownie telefon lub zainstalować ponownie ProfileMatic.</translation>
+        <translation>Ups... Daj mi jeszcze chwilę. Uruchamiam niezbędne funkcje i już wkrótce (ok. 2 minuty), po ponownym uruchomieniu programu, będzie można ich używać. Jeśli problem będzie występował w dalszym ciągu, spróbuj uruchomić ponownie telefon lub zainstalować ponownie ProfileMatic.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ShowRules.qml" line="312"/>

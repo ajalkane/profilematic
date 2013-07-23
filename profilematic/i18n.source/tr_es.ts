@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="es">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -34,7 +32,7 @@
         <translation>Traductores:</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="114"/>
+        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="99"/>
         <source>Close</source>
         <translation>Cerrar</translation>
     </message>
@@ -898,17 +896,17 @@ Puede separar palabras clave mediante comas (,). Cualquier palabra clave separad
         <location filename="../qml/harmattan/qml/ConditionIdle.qml" line="61"/>
         <location filename="../qml/harmattan/qml/ConditionIdle.qml" line="88"/>
         <source>Idle time</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionIdle.qml" line="77"/>
         <source>Clear</source>
-        <translation type="unfinished">Quitar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionIdle.qml" line="107"/>
         <source>Not used</source>
-        <translation type="unfinished">Sin utilizar</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1713,7 +1711,7 @@ Puede separar palabras clave mediante comas (,). Cualquier palabra clave separad
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="66"/>
         <source> - </source>
-        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
+        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
         <translation> - </translation>
     </message>
     <message>
@@ -1741,7 +1739,7 @@ Puede separar palabras clave mediante comas (,). Cualquier palabra clave separad
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="141"/>
         <source> - </source>
-        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
+        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
         <translation> - </translation>
     </message>
     <message>
@@ -1804,12 +1802,12 @@ Puede separar palabras clave mediante comas (,). Cualquier palabra clave separad
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="260"/>
         <source>At least for %1 hours</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="262"/>
         <source>At least for %1 hours %2 minutes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="286"/>
@@ -2036,7 +2034,7 @@ Puede separar palabras clave mediante comas (,). Cualquier palabra clave separad
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="387"/>
         <source>Rule #%1</source>
         <comment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
