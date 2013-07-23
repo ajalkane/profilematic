@@ -34,7 +34,7 @@
         <translation>翻譯</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="99"/>
+        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="114"/>
         <source>Close</source>
         <translation>關閉</translation>
     </message>

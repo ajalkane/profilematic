@@ -57,6 +57,9 @@ MyQueryDialog {
              + '  <dt>Finnish</dt>'
              + '  <dd>Timo Vikman</dd>'
 
+             + '  <dt>German</dt>'
+             + '  <dd>Hauke Schade, Theobald Tankwart</dd>'
+
              + '  <dt>Italian</dt>'
              + '  <dd>Lorenzo Facca</dd>'
 

@@ -34,7 +34,7 @@
         <translation>Překladatelé:</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="99"/>
+        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="114"/>
         <source>Close</source>
         <translation>Zavřít</translation>
     </message>
