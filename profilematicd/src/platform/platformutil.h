@@ -92,6 +92,10 @@ public:
     virtual int deviceVolume() const;
     virtual void setDeviceVolume(int deviceVolume);
 
+    // Returns the device brightness in percents between 0-100
+    virtual int deviceBrightness() const;
+    virtual void setDeviceBrightness(int brightness);
+
 signals:
     void userActivityIdleChanged(bool isIdle);
     // -1: Unknown, 0: Idle, 1: Signaling, 2: Call, 3: Data

@@ -207,3 +207,15 @@ PlatformUtil::setDeviceVolume(int deviceVolume) {
     Q_UNUSED(deviceVolume)
     IFDEBUG(qDebug("PlatformUtil::setDeviceVolume default, doing nothing"));
 }
+
+int
+PlatformUtil::deviceBrightness() const {
+    IFDEBUG(qDebug("PlatformUtil::deviceBrightness default, returning -1"));
+    return -1;
+}
+
+void
+PlatformUtil::setDeviceBrightness(int deviceVolume) {
+    Q_UNUSED(deviceVolume)
+    IFDEBUG(qDebug("PlatformUtil::setDeviceBrightness default, doing nothing"));
+}

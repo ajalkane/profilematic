@@ -22,6 +22,7 @@
 #include "harmattan_platformutil.h"
 #include "../../logic/presence/actionpresenceimpl.h"
 #include <qmdevicemode.h>
+#include <qmdisplaystate.h>
 #include <RadioAccess>
 #include <QProcess>
 #include <gconfitem.h>
@@ -63,6 +64,7 @@ int testAlarm() {
        return 1;
     }
     qDebug() << "Added event with cookie:" << reply.value();
+
     return 0;
 }
 
@@ -81,6 +83,15 @@ HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
     connect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)));
     connect(&_systemState, SIGNAL(systemStateChanged(MeeGo::QmSystemState::StateIndication)), this, SLOT(privateSystemStateChanged(MeeGo::QmSystemState::StateIndication)));
     connect(&_qmbattery, SIGNAL(chargingStateChanged(MeeGo::QmBattery::ChargingState)), this, SLOT(privateBatteryChargingStateChanged(MeeGo::QmBattery::ChargingState)));
+
+    // Test brightness
+    MeeGo::QmDisplayState displayState;
+    qDebug() << "Current brightness:" << displayState.getDisplayBrightnessValue();
+    qDebug() << "Max brightness:" << displayState.getMaxDisplayBrightnessValue();
+
+    displayState.setDisplayBrightnessValue(5);
+
+    qDebug() << "Current brightness after setting:" << displayState.getDisplayBrightnessValue();
 
     // testAlarm();
 }
@@ -510,4 +521,38 @@ HarmattanPlatformUtil::setDeviceVolume(int deviceVolume) {
         return;
     }
     _volume->setVolume(rawVolume);
+}
+
+int
+HarmattanPlatformUtil::deviceBrightness() const {
+    MeeGo::QmDisplayState displayState;
+    // Returns -1 in case of an error, otherwise value between 1 - 5
+    int b = displayState.getDisplayBrightnessValue();
+    if (b < 0) {
+        qWarning() << Q_FUNC_INFO << "negative value, error getting current brightness" << b;
+        return -1;
+    }
+    // MeeGo min brighness is 1
+    int min = 1;
+    // This is on N9 5. If module 100 is not 0 then the below computation will not work. Platform dependent.
+    int max = displayState.getMaxDisplayBrightnessValue();
+
+    int scaled = (b - min) * (100 / max);
+    IFDEBUG(qDebug() << Q_FUNC_INFO << "scaled value" << scaled);
+    return scaled;
+}
+
+void
+HarmattanPlatformUtil::setDeviceBrightness(int deviceVolume) {
+    MeeGo::QmDisplayState displayState;
+    // MeeGo min brighness is 1
+    int min = 1;
+    // This is on N9 5. If module 100 is not 0 then the below computation will not work. Platform dependent.
+    int max = displayState.getMaxDisplayBrightnessValue();
+
+    int bPlatform = min + (((max - min) * deviceVolume) / 100);
+    IFDEBUG(qDebug() << Q_FUNC_INFO << "setting value from raw" << deviceVolume);
+    IFDEBUG(qDebug() << Q_FUNC_INFO << "setting value for platform (should be between 1 - 5)" << bPlatform);
+    displayState.setDisplayBrightnessValue(bPlatform);
+    IFDEBUG(qDebug() << Q_FUNC_INFO << "after setting " << displayState.getDisplayBrightnessValue());
 }

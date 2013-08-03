@@ -79,6 +79,9 @@ public:
     virtual int deviceVolume() const;
     virtual void setDeviceVolume(int deviceVolume);
 
+    virtual int deviceBrightness() const;
+    virtual void setDeviceBrightness(int brightness);
+
 private slots:
     void activityChanged(MeeGo::QmActivity::Activity activity);
     void privateCellularActivityChanged(int activity);
