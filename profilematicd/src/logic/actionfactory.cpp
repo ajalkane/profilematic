@@ -10,6 +10,7 @@
 #include "actiondevicevolume.h"
 #include "actionalarm.h"
 #include "application/actionapplication.h"
+#include "actiondevicebrightness.h"
 #include "presence/actionpresence.h"
 
 #include "actionfactory.h"
@@ -33,6 +34,7 @@ ActionFactory::create(ProfileClient *profileClient) {
     ac->add(new ActionCommandLine());
     ac->add(new ActionDeviceVolume());
     ac->add(new ActionAlarm());
+    ac->add(new ActionDeviceBrightness());
     ac->add(PlatformUtil::instance()->createActionPresence());
     return ac;
 }
@@ -52,6 +54,7 @@ ActionFactory::createAsList(ProfileClient *profileClient) {
     ac << new ActionCommandLine();
     ac << new ActionDeviceVolume();
     ac << new ActionAlarm();
+    ac << new ActionDeviceBrightness();
     ac << PlatformUtil::instance()->createActionPresence();
 
     return ac;
