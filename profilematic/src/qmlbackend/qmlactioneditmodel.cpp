@@ -55,6 +55,7 @@ QmlActionEditModel::QmlActionEditModel(Rule *editRule, QObject *parent)
     DESCRIPTION(application, tr("Application"), "ActionApplication.qml", false)
     DESCRIPTION(deviceVolume, tr("Device volume"), "ActionDeviceVolume.qml", false)
     DESCRIPTION(alarm, tr("Alarm"), "ActionAlarm.qml", false)
+    DESCRIPTION(deviceBrightness, tr("Device brightness"), "ActionDeviceBrightness.qml", false)
 
     _descriptions << &descriptionprofile
                   << &descriptionpresence
@@ -66,7 +67,9 @@ QmlActionEditModel::QmlActionEditModel(Rule *editRule, QObject *parent)
                   << &descriptioncustomAction
                   << &descriptionapplication
                   << &descriptiondeviceVolume
-                  << &descriptionalarm;
+                  << &descriptionalarm
+                  << &descriptiondeviceBrightness;
+
 
     connect(_editRule, SIGNAL(actionChanged()), this, SLOT(ruleChanged()));
 }

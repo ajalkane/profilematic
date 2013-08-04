@@ -697,3 +697,35 @@ QmlRuleUtil::alarmClear(RuleAction *action) {
     qDebug() << "QmlRuleUtil::alarmClear";
     action->alarm().clear();
 }
+
+QString
+QmlRuleUtil::deviceBrightnessSummary(RuleAction *action, const QString &nonUsable, bool inListing) {
+    qDebug() << Q_FUNC_INFO;
+    return deviceBrightnessSummary(const_cast<const RuleAction*>(action), nonUsable, inListing);
+}
+
+QString
+QmlRuleUtil::deviceBrightnessSummary(const RuleAction *action, const QString &nonUsable, bool inListing) {
+    Q_UNUSED(inListing)
+
+    if (action == 0) return nonUsable;
+
+    QString summary;
+
+    if (action->getDeviceBrightness() >= 0) {
+        summary = tr("Device brightness %1%").arg(action->getDeviceBrightness());
+    }
+
+    if (!inListing && action->getRestorePresence()) {
+        summary += tr(". Restores previous brightness");
+    }
+    return nonUsable;
+}
+
+void
+QmlRuleUtil::deviceBrightnessClear(RuleAction *action) {
+    if (action == 0) return;
+
+    action->setDeviceBrightness(-1);
+    action->setRestoreDeviceBrightness(false);
+}

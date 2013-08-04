@@ -90,7 +90,11 @@ public:
     Q_INVOKABLE void deviceVolumeClear(RuleAction *action);
     Q_INVOKABLE QString alarmSummary(RuleAction *action, const QString &nonUsable, bool inListing);
     QString alarmSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
-    void alarmClear(RuleAction *action);
+    void alarmClear(RuleAction *action);    
+    QString deviceBrightnessSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
+    Q_INVOKABLE QString deviceBrightnessSummary(RuleAction *action, const QString &nonUsable, bool inListing);
+    Q_INVOKABLE void deviceBrightnessClear(RuleAction *action);
+
 };
 
 #endif // QMLRULEUTIL_H
