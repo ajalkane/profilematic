@@ -90,7 +90,8 @@ SOURCES += src/main.cpp \
     src/logic/application/actionapplication.cpp \
     src/logic/actiondevicevolume.cpp \
     src/model/ruleactionalarm.cpp \
-    src/logic/actionalarm.cpp
+    src/logic/actionalarm.cpp \
+    src/logic/actiondevicebrightness.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -147,7 +148,8 @@ HEADERS += \
     src/logic/application/actionapplication.h \
     src/logic/actiondevicevolume.h \
     src/model/ruleactionalarm.h \
-    src/logic/actionalarm.h
+    src/logic/actionalarm.h \
+    src/logic/actiondevicebrightness.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     DEFINES += PM_TIMER_USHORT
