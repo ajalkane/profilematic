@@ -27,7 +27,8 @@ RuleAction::RuleAction(QObject *parent) : QObject(parent),
     _backgroundConnectionsMode(-1), _restoreBackgroundConnectionsMode(false),
     _deviceVolume(-1),
     _restorePresence(false),
-    _presenceChangeType(CustomPresenceType)
+    _presenceChangeType(CustomPresenceType),
+    _deviceBrightness(-1), _restoreDeviceBrightness(false)
 {
     _init();
 }
@@ -56,7 +57,9 @@ RuleAction::RuleAction(const RuleAction &o)
       _alarm(o._alarm),
       _presenceStatusMessage(o._presenceStatusMessage),
       _restorePresence(o._restorePresence),
-      _presenceChangeType(o._presenceChangeType)
+      _presenceChangeType(o._presenceChangeType),
+      _deviceBrightness(o._deviceBrightness), _restoreDeviceBrightness(o._restoreDeviceBrightness)
+
 {
     _init();
     // Copy the account rules
@@ -91,6 +94,8 @@ RuleAction::_init() {
     connect(this, SIGNAL(deviceVolumeChanged()),          this, SIGNAL(changed()));
     connect(&_alarm, SIGNAL(changed()),     this, SIGNAL(alarmChanged()));
     connect(this, SIGNAL(alarmChanged()),   this, SIGNAL(changed()));
+    connect(this, SIGNAL(deviceBrightnessChanged()), this, SIGNAL(changed()));
+    connect(this, SIGNAL(restoreDeviceBrightnessChanged()), this, SIGNAL(changed()));
 }
 
 RuleAction::~RuleAction() {}
@@ -120,6 +125,8 @@ RuleAction::operator=(const RuleAction &o) {
     _application = o._application;
     _deviceVolume = o._deviceVolume;
     _alarm = o._alarm;
+    _deviceBrightness = o._deviceBrightness;
+    _restoreDeviceBrightness = o._restoreDeviceBrightness;
 
     setPresenceRules(o.presenceRules());
     return *this;
@@ -480,14 +487,30 @@ RuleAction::setBackgroundConnectionsMode(int mode) {
 
 bool
 RuleAction::getRestoreBackgroundConnectionsMode() const {
-    return _restoreBackgroundConnectionsMode;
+   return _restoreBackgroundConnectionsMode;
 }
 
 void
 RuleAction::setRestoreBackgroundConnectionsMode(bool restore) {
-    if (_restoreBackgroundConnectionsMode != restore) {
+   if (_restoreBackgroundConnectionsMode != restore) {
         _restoreBackgroundConnectionsMode = restore;
         emit restoreBackgroundConnectionsModeChanged();
+    }
+}
+
+void
+RuleAction::setDeviceBrightness(int value) {
+    if (_deviceBrightness != value) {
+        _deviceBrightness = value;
+        emit deviceBrightnessChanged();
+    }
+}
+
+void
+RuleAction::setRestoreDeviceBrightness(bool restore) {
+    if (_restoreDeviceBrightness != restore) {
+        _restoreDeviceBrightness = restore;
+        emit restoreDeviceBrightnessChanged();
     }
 }
 
@@ -549,6 +572,8 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleAction &ruleAction)
     argument << ruleAction.application();
     argument << ruleAction.getDeviceVolume();
     argument << ruleAction.alarm();
+    argument << ruleAction.getDeviceBrightness();
+    argument << ruleAction.getRestoreDeviceBrightness();
     argument.endStructure();
     return argument;
 }
@@ -580,6 +605,8 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     RuleActionApplication application;
     int     deviceVolume = ruleAction.getDeviceVolume();
     RuleActionAlarm alarm;
+    int     deviceBrightness = ruleAction.getDeviceBrightness();
+    bool    restoreDeviceBrightness = ruleAction.getRestoreDeviceBrightness();
 
     argument.beginStructure();
     argument >> profile;
@@ -606,6 +633,8 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     argument >> application;
     argument >> deviceVolume;
     argument >> alarm;
+    argument >> deviceBrightness;
+    argument >> restoreDeviceBrightness;
     argument.endStructure();
 
     ruleAction.setProfile(profile);
@@ -628,6 +657,8 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     ruleAction.setApplication(application);
     ruleAction.setDeviceVolume(deviceVolume);
     ruleAction.setAlarm(alarm);
+    ruleAction.setDeviceBrightness(deviceBrightness);
+    ruleAction.setRestoreDeviceBrightness(restoreDeviceBrightness);
 
     QList<PresenceRule *> dstPresenceRules;
     foreach(const PresenceRule &presenceRule, presenceRules)

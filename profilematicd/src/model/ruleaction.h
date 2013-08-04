@@ -49,6 +49,9 @@ private:
     bool    _restorePresence;
     PresenceChangeType _presenceChangeType;
 
+    int     _deviceBrightness;
+    bool    _restoreDeviceBrightness;
+
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
     Q_PROPERTY(QString profile READ getProfile WRITE setProfile NOTIFY profileChanged)
@@ -71,6 +74,8 @@ private:
     Q_PROPERTY(RuleActionApplication *application READ getApplicationQml NOTIFY applicationChanged STORED false)
     Q_PROPERTY(int deviceVolume READ getDeviceVolume WRITE setDeviceVolume NOTIFY deviceVolumeChanged)
     Q_PROPERTY(RuleActionAlarm *alarm READ getAlarmQml NOTIFY alarmChanged STORED false)
+    Q_PROPERTY(int deviceBrightness READ getDeviceBrightness WRITE setDeviceBrightness NOTIFY deviceBrightnessChanged)
+    Q_PROPERTY(bool restoreDeviceBrightness READ getRestoreDeviceBrightness WRITE setRestoreDeviceBrightness NOTIFY restoreDeviceBrightnessChanged)
 
     /**
       * This property gives access to the presence rules associated with this
@@ -119,6 +124,8 @@ signals:
     void applicationChanged();
     void deviceVolumeChanged();
     void alarmChanged();
+    void deviceBrightnessChanged();
+    void restoreDeviceBrightnessChanged();
 
 private slots:
     void onPresenceRuleChanged();
@@ -221,6 +228,12 @@ public:
     // For QML
     inline RuleActionAlarm *getAlarmQml() { return &_alarm; }
 
+    // -1 don't set, 0 -  100 (min - max depending on platform in percents)
+    inline int getDeviceBrightness() const { return _deviceBrightness; }
+    void setDeviceBrightness(int brightness);
+    inline bool getRestoreDeviceBrightness() const { return _restoreDeviceBrightness; }
+    void setRestoreDeviceBrightness(bool restore);
+
     inline bool operator==(const RuleAction &o) const {
         return this->_profile   == o._profile
             && this->_restoreProfile == o._restoreProfile
@@ -243,7 +256,10 @@ public:
             && this->_restoreBackgroundConnectionsMode == o._restoreBackgroundConnectionsMode
             && this->_application == o._application
             && this->_deviceVolume == o._deviceVolume
-            && this->_alarm == o._alarm;
+            && this->_alarm == o._alarm
+            && this->_deviceBrightness == o._deviceBrightness
+            && this->_restoreDeviceBrightness == o._restoreDeviceBrightness;
+
     }
 
 };

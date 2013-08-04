@@ -83,17 +83,6 @@ HarmattanPlatformUtil::HarmattanPlatformUtil(QObject *parent)
     connect(&_qmActivity, SIGNAL(activityChanged(MeeGo::QmActivity::Activity)), this, SLOT(activityChanged(MeeGo::QmActivity::Activity)));
     connect(&_systemState, SIGNAL(systemStateChanged(MeeGo::QmSystemState::StateIndication)), this, SLOT(privateSystemStateChanged(MeeGo::QmSystemState::StateIndication)));
     connect(&_qmbattery, SIGNAL(chargingStateChanged(MeeGo::QmBattery::ChargingState)), this, SLOT(privateBatteryChargingStateChanged(MeeGo::QmBattery::ChargingState)));
-
-    // Test brightness
-    MeeGo::QmDisplayState displayState;
-    qDebug() << "Current brightness:" << displayState.getDisplayBrightnessValue();
-    qDebug() << "Max brightness:" << displayState.getMaxDisplayBrightnessValue();
-
-    displayState.setDisplayBrightnessValue(5);
-
-    qDebug() << "Current brightness after setting:" << displayState.getDisplayBrightnessValue();
-
-    // testAlarm();
 }
 
 HarmattanPlatformUtil::~HarmattanPlatformUtil() {
