@@ -80,6 +80,8 @@ Configuration::writeRules(const RulesHolder &rulesHolder) {
         s.setValue("deviceVolume", r.action().getDeviceVolume());
         s.setValue("internetConnectionMode", int(r.condition().getInternetConnectionMode()));
         s.setValue("chargingState", int(r.condition().getChargingState()));
+        s.setValue("backgroundDeviceBrightness", r.action().getDeviceBrightness());
+        s.setValue("restoreDeviceBrightness", r.action().getRestoreDeviceBrightness());
         _writeApplicationAction(s, r.action().application());
         _writeAlarmAction(s, r.action().alarm());
         _writeNfcCondition(s, r.condition().nfc());
@@ -210,7 +212,23 @@ Configuration::readRules(RulesHolder &rulesHolder, int *rules_version_return) {
             if (deviceVolumeOk) {
                 r.action().setDeviceVolume(deviceVolume);
             }
+        }        
+        {
+            bool deviceBrightnessOk = false;
+            int deviceBrightness = s.value("deviceBrightness").toInt(&deviceBrightnessOk);
+            if (deviceBrightnessOk) {
+                r.action().setDeviceBrightness(deviceBrightness);
+            }
+            r.action().setRestoreDeviceBrightness(s.value("restoreDeviceBrightness", false).toBool());
         }
+        {
+            bool deviceVolumeOk = false;
+            int deviceVolume = s.value("deviceVolume").toInt(&deviceVolumeOk);
+            if (deviceVolumeOk) {
+                r.action().setDeviceVolume(deviceVolume);
+            }
+        }
+
         QList<PresenceRule *> presenceRules;
         _readPresenceRuleList(s, presenceRules);
         r.action().setPresenceRules(presenceRules);
