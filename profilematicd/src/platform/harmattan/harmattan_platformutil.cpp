@@ -523,10 +523,10 @@ HarmattanPlatformUtil::deviceBrightness() const {
     }
     // MeeGo min brighness is 1
     int min = 1;
-    // This is on N9 5. If module 100 is not 0 then the below computation will not work. Platform dependent.
+    // This is on N9 5. If modulo 100 is not 0 then the below computation will not work. Platform dependent.
     int max = displayState.getMaxDisplayBrightnessValue();
 
-    int scaled = (b - min) * (100 / max);
+    int scaled = (b - min) * (100 / (max - min));
     IFDEBUG(qDebug() << Q_FUNC_INFO << "scaled value" << scaled);
     return scaled;
 }
@@ -536,7 +536,7 @@ HarmattanPlatformUtil::setDeviceBrightness(int deviceVolume) {
     MeeGo::QmDisplayState displayState;
     // MeeGo min brighness is 1
     int min = 1;
-    // This is on N9 5. If module 100 is not 0 then the below computation will not work. Platform dependent.
+    // This is on N9 5. If modulo 100 is not 0 then the below computation will not work. Platform dependent.
     int max = displayState.getMaxDisplayBrightnessValue();
 
     int bPlatform = min + (((max - min) * deviceVolume) / 100);

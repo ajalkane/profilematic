@@ -123,10 +123,10 @@ Page {
             Slider {
                 id: slider
                 // Device brightness is always for ProfileMatic in percentages. Harmattan's brightness is between 1-5, so
-                // step size is 100 / ((5 - 1) + 1) = 20
+                // step size is 25 to give 5 steps (0, 25, 50, 75, 100)
                 minimumValue: 0;
                 maximumValue: 100;
-                stepSize: 20
+                stepSize: 25
                 valueIndicatorVisible: true
                 width: dBrightness.width
             }
