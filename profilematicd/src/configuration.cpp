@@ -78,6 +78,7 @@ Configuration::writeRules(const RulesHolder &rulesHolder) {
         s.setValue("restorePresence", r.action().getRestorePresence());
         s.setValue("presenceChangeType", int(r.action().getPresenceChangeType()));
         s.setValue("deviceVolume", r.action().getDeviceVolume());
+        s.setValue("restoreDeviceVolume", r.action().getRestoreDeviceVolume());
         s.setValue("internetConnectionMode", int(r.condition().getInternetConnectionMode()));
         s.setValue("chargingState", int(r.condition().getChargingState()));
         s.setValue("deviceBrightness", r.action().getDeviceBrightness());
@@ -227,6 +228,7 @@ Configuration::readRules(RulesHolder &rulesHolder, int *rules_version_return) {
             if (deviceVolumeOk) {
                 r.action().setDeviceVolume(deviceVolume);
             }
+            r.action().setRestoreDeviceVolume(s.value("restoreDeviceVolume", false).toBool());
         }
 
         QList<PresenceRule *> presenceRules;

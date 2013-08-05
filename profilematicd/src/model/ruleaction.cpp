@@ -25,7 +25,7 @@ RuleAction::RuleAction(QObject *parent) : QObject(parent),
     _cellularMode(-1), _restoreCellularMode(false),
     _standByScreenMode(-1), _restoreStandByScreenMode(false),
     _backgroundConnectionsMode(-1), _restoreBackgroundConnectionsMode(false),
-    _deviceVolume(-1),
+    _deviceVolume(-1), _restoreDeviceVolume(false),
     _restorePresence(false),
     _presenceChangeType(CustomPresenceType),
     _deviceBrightness(-1), _restoreDeviceBrightness(false)
@@ -53,7 +53,7 @@ RuleAction::RuleAction(const RuleAction &o)
       _backgroundConnectionsMode(o._backgroundConnectionsMode),
       _restoreBackgroundConnectionsMode(o._restoreBackgroundConnectionsMode),
       _application(o._application),
-      _deviceVolume(o._deviceVolume),
+      _deviceVolume(o._deviceVolume), _restoreDeviceVolume(o._restoreDeviceVolume),
       _alarm(o._alarm),
       _presenceStatusMessage(o._presenceStatusMessage),
       _restorePresence(o._restorePresence),
@@ -92,6 +92,7 @@ RuleAction::_init() {
     connect(&_application, SIGNAL(changed()),     this, SIGNAL(applicationChanged()));
     connect(this, SIGNAL(applicationChanged()),   this, SIGNAL(changed()));
     connect(this, SIGNAL(deviceVolumeChanged()),          this, SIGNAL(changed()));
+    connect(this, SIGNAL(restoreDeviceVolumeChanged()),   this, SIGNAL(changed()));
     connect(&_alarm, SIGNAL(changed()),     this, SIGNAL(alarmChanged()));
     connect(this, SIGNAL(alarmChanged()),   this, SIGNAL(changed()));
     connect(this, SIGNAL(deviceBrightnessChanged()), this, SIGNAL(changed()));
@@ -124,6 +125,7 @@ RuleAction::operator=(const RuleAction &o) {
     _restoreBackgroundConnectionsMode = o._restoreBackgroundConnectionsMode;
     _application = o._application;
     _deviceVolume = o._deviceVolume;
+    _restoreDeviceVolume = o._restoreDeviceVolume;
     _alarm = o._alarm;
     _deviceBrightness = o._deviceBrightness;
     _restoreDeviceBrightness = o._restoreDeviceBrightness;
@@ -527,6 +529,14 @@ RuleAction::setDeviceVolume(int volume) {
     }
 }
 
+void
+RuleAction::setRestoreDeviceVolume(bool restore) {
+    if (_restoreDeviceVolume != restore) {
+        _restoreDeviceVolume = restore;
+        emit restoreDeviceVolumeChanged();
+    }
+}
+
 void RuleAction::onPresenceRuleChanged()
 {
     PresenceRule *presenceRule = qobject_cast<PresenceRule *>(sender());
@@ -571,6 +581,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleAction &ruleAction)
     argument << int(ruleAction.getPresenceChangeType());
     argument << ruleAction.application();
     argument << ruleAction.getDeviceVolume();
+    argument << ruleAction.getRestoreDeviceVolume();
     argument << ruleAction.alarm();
     argument << ruleAction.getDeviceBrightness();
     argument << ruleAction.getRestoreDeviceBrightness();
@@ -604,6 +615,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     int presenceChangeType;
     RuleActionApplication application;
     int     deviceVolume = ruleAction.getDeviceVolume();
+    bool    restoreDeviceVolume = ruleAction.getRestoreDeviceVolume();
     RuleActionAlarm alarm;
     int     deviceBrightness = ruleAction.getDeviceBrightness();
     bool    restoreDeviceBrightness = ruleAction.getRestoreDeviceBrightness();
@@ -632,6 +644,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     argument >> presenceChangeType;
     argument >> application;
     argument >> deviceVolume;
+    argument >> restoreDeviceVolume;
     argument >> alarm;
     argument >> deviceBrightness;
     argument >> restoreDeviceBrightness;
@@ -656,6 +669,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleAction &ruleA
     ruleAction.setCommandLineExit(commandLineExit);
     ruleAction.setApplication(application);
     ruleAction.setDeviceVolume(deviceVolume);
+    ruleAction.setRestoreDeviceVolume(restoreDeviceVolume);
     ruleAction.setAlarm(alarm);
     ruleAction.setDeviceBrightness(deviceBrightness);
     ruleAction.setRestoreDeviceBrightness(restoreDeviceBrightness);

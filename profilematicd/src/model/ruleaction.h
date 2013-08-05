@@ -42,6 +42,7 @@ private:
     bool    _restoreBackgroundConnectionsMode;
     RuleActionApplication _application;
     int     _deviceVolume;
+    bool    _restoreDeviceVolume;
     RuleActionAlarm _alarm;
 
     QList<PresenceRule *> _presenceRules;
@@ -73,6 +74,7 @@ private:
     Q_PROPERTY(bool restoreBackgroundConnectionsMode READ getRestoreBackgroundConnectionsMode WRITE setRestoreBackgroundConnectionsMode NOTIFY restoreBackgroundConnectionsModeChanged)
     Q_PROPERTY(RuleActionApplication *application READ getApplicationQml NOTIFY applicationChanged STORED false)
     Q_PROPERTY(int deviceVolume READ getDeviceVolume WRITE setDeviceVolume NOTIFY deviceVolumeChanged)
+    Q_PROPERTY(bool restoreDeviceVolume READ getRestoreDeviceVolume WRITE setRestoreDeviceVolume NOTIFY restoreDeviceVolumeChanged)
     Q_PROPERTY(RuleActionAlarm *alarm READ getAlarmQml NOTIFY alarmChanged STORED false)
     Q_PROPERTY(int deviceBrightness READ getDeviceBrightness WRITE setDeviceBrightness NOTIFY deviceBrightnessChanged)
     Q_PROPERTY(bool restoreDeviceBrightness READ getRestoreDeviceBrightness WRITE setRestoreDeviceBrightness NOTIFY restoreDeviceBrightnessChanged)
@@ -123,6 +125,7 @@ signals:
     void nfcChanged();
     void applicationChanged();
     void deviceVolumeChanged();
+    void restoreDeviceVolumeChanged();
     void alarmChanged();
     void deviceBrightnessChanged();
     void restoreDeviceBrightnessChanged();
@@ -222,6 +225,9 @@ public:
     int getDeviceVolume() const;
     // Use -1 if the profile volume is not to be set, otherwise value between 0 to 100
     void setDeviceVolume(int volume);
+    inline bool getRestoreDeviceVolume() const { return _restoreDeviceVolume; }
+    void setRestoreDeviceVolume(bool restore);
+
     inline const RuleActionAlarm &alarm() const { return _alarm; }
     inline RuleActionAlarm &alarm() { return _alarm; }
     inline void setAlarm(const RuleActionAlarm &alarm) { _alarm = alarm; }
@@ -256,6 +262,7 @@ public:
             && this->_restoreBackgroundConnectionsMode == o._restoreBackgroundConnectionsMode
             && this->_application == o._application
             && this->_deviceVolume == o._deviceVolume
+            && this->_restoreDeviceVolume == o._restoreDeviceVolume
             && this->_alarm == o._alarm
             && this->_deviceBrightness == o._deviceBrightness
             && this->_restoreDeviceBrightness == o._restoreDeviceBrightness;

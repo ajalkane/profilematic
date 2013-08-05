@@ -23,6 +23,8 @@
 
 class ActionDeviceVolume: public ActionStatefulBase
 {
+    int _previousDeviceVolume;
+
 public:
     ActionDeviceVolume();
 

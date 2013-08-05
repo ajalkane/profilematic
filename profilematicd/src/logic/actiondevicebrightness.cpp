@@ -42,7 +42,7 @@ ActionDeviceBrightness::activateDifferent(const Rule::IdType &ruleId, const Rule
         activated = false;
     }
     else if (deviceBrightness < 0) {
-        IFDEBUG(qDebug() << Q_FUNC_INFO << "not setting background connections mode");
+        IFDEBUG(qDebug() << Q_FUNC_INFO << "not setting device brightness");
         return false;
     }
     if (rule.getRestoreDeviceBrightness()) {
