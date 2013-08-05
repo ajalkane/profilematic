@@ -104,7 +104,7 @@ Page {
     }
 
     function deviceBrightnessSummary() {
-        return backendRuleUtil.deviceBrightnessSummary(action, qsTr("Not used"), false);
+        return backendRuleUtil.deviceBrightnessSummary(action, qsTr("Not used"), true);
     }
 
     function deviceBrightnessEditHandler() {

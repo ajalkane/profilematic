@@ -706,8 +706,6 @@ QmlRuleUtil::deviceBrightnessSummary(RuleAction *action, const QString &nonUsabl
 
 QString
 QmlRuleUtil::deviceBrightnessSummary(const RuleAction *action, const QString &nonUsable, bool inListing) {
-    Q_UNUSED(inListing)
-
     if (action == 0) return nonUsable;
 
     QString summary = nonUsable;
