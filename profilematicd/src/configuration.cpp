@@ -80,7 +80,7 @@ Configuration::writeRules(const RulesHolder &rulesHolder) {
         s.setValue("deviceVolume", r.action().getDeviceVolume());
         s.setValue("internetConnectionMode", int(r.condition().getInternetConnectionMode()));
         s.setValue("chargingState", int(r.condition().getChargingState()));
-        s.setValue("backgroundDeviceBrightness", r.action().getDeviceBrightness());
+        s.setValue("deviceBrightness", r.action().getDeviceBrightness());
         s.setValue("restoreDeviceBrightness", r.action().getRestoreDeviceBrightness());
         _writeApplicationAction(s, r.action().application());
         _writeAlarmAction(s, r.action().alarm());
