@@ -714,7 +714,7 @@ QmlRuleUtil::deviceBrightnessSummary(const RuleAction *action, const QString &no
 
     if (action->getDeviceBrightness() >= 0) {
         summary = tr("Device brightness %1%").arg(action->getDeviceBrightness());
-        if (!inListing && action->getRestorePresence()) {
+        if (!inListing && action->getRestoreDeviceBrightness()) {
             summary += tr(". Restores previous brightness");
         }
     }
