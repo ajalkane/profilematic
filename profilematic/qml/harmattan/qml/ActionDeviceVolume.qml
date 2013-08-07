@@ -69,42 +69,42 @@ Page {
                 onClicked: dConfirmDelete.open()
             }
 
-//            Item {
-//                id: restoreContainer
-//                width: parent.width
-//                height: action.profile !== '' ? restoreProfile.height : 0
-//                clip: true
+            Item {
+                id: restoreContainer
+                width: parent.width
+                height: action.deviceVolume >= 0 ? restoreValue.height : 0
+                clip: true
 
-//                Behavior on height {
-//                    NumberAnimation { duration: 300 }
-//                }
-//                RuleTopicSummary {
-//                    id: restoreProfile
-//                    topic: "Restore previous profile"
-//                    topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
-//                    topicWidth: parent.width - restoreSwitch.width
-//                    summary: restoreSwitch.checked ? "The previous profile will be restored."
-//                                                   : "Previous profile will not be restored."
-//                    // visible: action.profile !== ''
-//                    onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
-//                }
-//                Switch {
-//                    id: restoreSwitch
-//                    checked: action.restoreProfile
-//                    anchors.right: restoreProfileContainer.right // container.right
-//                    anchors.top: parent.top
-//                    anchors.verticalCenter: parent.top
-//                    onCheckedChanged: {
-//                        action.restoreProfile = checked
-//                    }
-//                }
-//            }
+                Behavior on height {
+                    NumberAnimation { duration: 300 }
+                }
+                RuleTopicSummary {
+                    id: restoreValue
+                    topic: "Restore previous volume"
+                    topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
+                    topicWidth: parent.width - restoreSwitch.width
+                    summary: restoreSwitch.checked ? "The previous volume will be restored."
+                                                   : "Previous volume will not be restored."
+                    // visible: action.profile !== ''
+                    onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
+                }
+                Switch {
+                    id: restoreSwitch
+                    checked: action.restoreDeviceVolume
+                    anchors.right: restoreContainer.right // container.right
+                    anchors.top: parent.top
+                    anchors.verticalCenter: parent.top
+                    onCheckedChanged: {
+                        action.restoreDeviceVolume = checked
+                    }
+                }
+            }
 
         }
     }
 
     function deviceVolumeSummary() {
-        return backendRuleUtil.deviceVolumeSummary(action, qsTr("Not used"), false);
+        return backendRuleUtil.deviceVolumeSummary(action, qsTr("Not used"), true);
     }
 
     function deviceVolumeEditHandler() {
@@ -122,8 +122,8 @@ Page {
         content: Item {
             Slider {
                 id: volumeSlider
-                // Device volume is always for ProfileMatic in percentages. Harmattan's volume is between 0-22, so
-                // that doesn't fit all that well to discreet values between 0-100. Let's just use a stepsize of 4, close enough.
+                // Device volume is always for ProfileMatic in percentages. Harmattan's volume is between 0-21 (ie. 22 selectable values), so
+                // that doesn't fit all that well to discreet values between 0-100. Let's just use a stepsize of 4.
                 minimumValue: 0;
                 maximumValue: 100;
                 stepSize: 4

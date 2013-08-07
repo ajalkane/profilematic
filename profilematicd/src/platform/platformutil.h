@@ -88,7 +88,7 @@ public:
 
     virtual CalendarManager *createCalendarManager(QObject *parent = 0);
 
-    // Returns the device volume in percents between 0-100
+    // Returns the device volume. The returned value min-max is platform dependent, but less than zero means always error getting value.
     virtual int deviceVolume() const;
     virtual void setDeviceVolume(int deviceVolume);
 

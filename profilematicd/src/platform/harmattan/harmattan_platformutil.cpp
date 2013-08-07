@@ -487,29 +487,34 @@ HarmattanPlatformUtil::createCalendarManager(QObject *parent)
 
 int
 HarmattanPlatformUtil::deviceVolume() const {
-    quint32 rawVolume = _volume->volume();
+    quint32 platformVolume = _volume->volume();
     // Not sure what's up with this, but the actual max settable volume on harmattan is maxVolume - 1
-    quint32 maxVolume = _volume->maxVolume() - 1;
-    IFDEBUG(qDebug() << "HarmattanPlatformUtil::deviceVolume raw" << rawVolume << " max" << maxVolume);
-    // Scale to 0 - 100.
-    int scaledVolume = (100 * rawVolume) / _volume->maxVolume();
-    IFDEBUG(qDebug() << "HarmattanPlatformUtil::deviceVolume scaledVolume" << scaledVolume);
+    quint32 maxVolume = _volume->maxVolume()  -  1;
+    IFDEBUG(qDebug() << "HarmattanPlatformUtil::deviceVolume raw" << platformVolume << " max" << maxVolume);
+    qreal volumePct = (100 * (qreal)platformVolume) / maxVolume;
+    // Mapping values of 0-21 to 0-100 can not be done with 1-to-1 mapping, so round up
+    int volumePctInt = qRound(volumePct);
+    IFDEBUG(qDebug() << "HarmattanPlatformUtil::deviceVolume volumePctInt" << volumePctInt);
 
-    return scaledVolume;
+    return volumePctInt;
 }
 
 void
-HarmattanPlatformUtil::setDeviceVolume(int deviceVolume) {
-    IFDEBUG(qDebug() << "HarmattanPlatformUtil::setDeviceVolume " << deviceVolume);
+HarmattanPlatformUtil::setDeviceVolume(int volumePct) {
+    IFDEBUG(qDebug() << "HarmattanPlatformUtil::setDeviceVolume " << volumePct);
     // Not sure what's up with this, but the actual max settable volume on harmattan is maxVolume - 1
-    quint32 max = _volume->maxVolume() - 1;
-    quint32 rawVolume = (deviceVolume * max) / 100;
-    IFDEBUG(qDebug() << "HarmattanPlatformUtil::setDeviceVolume raw volume" << rawVolume << " max " << max << " volume pct " << deviceVolume);
-    if (deviceVolume < 0 || rawVolume > max) {
+    quint32 maxVolume = _volume->maxVolume() - 1;
+    qreal platformVolume = ((qreal)volumePct * maxVolume) / 100;
+    // Mapping values of 0-21 to 0-100 can not be done with 1-to-1 mapping, so round up
+    quint32 platformVolumeInt = qRound(platformVolume);
+
+    IFDEBUG(qDebug() << "HarmattanPlatformUtil::setDeviceVolume platform volume" << platformVolume << " max " << maxVolume << " volume pct " << volumePct);
+
+    if (volumePct < 0) {
         IFDEBUG(qWarning() << "HarmattanPlatformUtil::setDeviceVolume unallowed range");
         return;
     }
-    _volume->setVolume(rawVolume);
+    _volume->setVolume(platformVolumeInt);
 }
 
 int

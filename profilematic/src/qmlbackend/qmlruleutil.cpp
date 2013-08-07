@@ -651,15 +651,18 @@ QmlRuleUtil::deviceVolumeSummary(RuleAction *action, const QString &nonUsable, b
 
 QString
 QmlRuleUtil::deviceVolumeSummary(const RuleAction *action, const QString &nonUsable, bool inListing) {
-    Q_UNUSED(inListing)
-
     if (action == 0) return nonUsable;
 
+    QString summary = nonUsable;
+
     if (action->getDeviceVolume() >= 0) {
-        return tr("Device volume %1%").arg(action->getDeviceVolume());
+        summary = tr("Device volume %1%").arg(action->getDeviceVolume());
+        if (!inListing && action->getRestoreDeviceVolume()) {
+            summary += tr(". Restores previous volume");
+        }
     }
 
-    return nonUsable;
+    return summary;
 }
 
 void
@@ -667,6 +670,7 @@ QmlRuleUtil::deviceVolumeClear(RuleAction *action) {
     if (action == 0) return;
 
     action->setDeviceVolume(-1);   
+    action->setRestoreDeviceVolume(false);
 }
 
 QString
