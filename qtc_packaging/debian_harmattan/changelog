@@ -1,7 +1,9 @@
 profilematic (2.2.4) unstable; urgency=low
   * Brightness action
+  * Action volume has restore previous
+  * Fixes to aciton volume to more closely follow what is settable in harmattan UI
 
- -- Arto Jalkanen <ajalkane@gmail.com>  Wed, 5 Aug 2013 23:30:00 +0300
+ -- Arto Jalkanen <ajalkane@gmail.com>  Wed, 8 Aug 2013 02:00:00 +0300
 
 profilematic (2.2.3) unstable; urgency=low
   * New translations: German, Polish, Russian, Swedish, Taiwanese
