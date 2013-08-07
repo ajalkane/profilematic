@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.0">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0" language="zh_CN">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -32,7 +34,7 @@
         <translation>翻译：</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="99"/>
+        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="114"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
@@ -322,6 +324,60 @@
         <location filename="../qml/harmattan/qml/ActionCommandLine.qml" line="101"/>
         <source>Enter into the text box the shell command you want to run when this rule is deactivated. Always use full paths for file paths.</source>
         <translation>在文本框中输入这个任务停用时运行的shell命令&lt;br&gt;提示：如果是文件，则需要绝对路径。</translation>
+    </message>
+</context>
+<context>
+    <name>ActionDeviceBrightness</name>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="48"/>
+        <source>Device brightness action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="53"/>
+        <source>Select device brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="68"/>
+        <source>Clear</source>
+        <translation type="unfinished">清除</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="107"/>
+        <source>Not used</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="117"/>
+        <source>Choose brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="118"/>
+        <source>OK</source>
+        <translation type="unfinished">确定</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="119"/>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="151"/>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="148"/>
+        <source>Clear device brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="149"/>
+        <source>Are you sure you want to clear device brightness?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="150"/>
+        <source>Yes</source>
+        <translation type="unfinished">确定</translation>
     </message>
 </context>
 <context>
@@ -1621,6 +1677,11 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <source>Alarm</source>
         <translation>闹铃</translation>
     </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlactioneditmodel.cpp" line="58"/>
+        <source>Device brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QmlConditionEditModel</name>
@@ -1708,7 +1769,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="66"/>
         <source> - </source>
-        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
+        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
         <translation>-</translation>
     </message>
     <message>
@@ -1736,7 +1797,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="141"/>
         <source> - </source>
-        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
+        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
         <translation>-</translation>
     </message>
     <message>
@@ -1989,14 +2050,29 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>设备音量 %1%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="688"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="661"/>
+        <source>. Restores previous volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="692"/>
         <source>Alarm with title %1 shown in %2 seconds</source>
         <translation>闹铃标题 %1 在 %2 秒内显示</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="690"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="694"/>
         <source>Alarm</source>
         <translation>闹铃</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="718"/>
+        <source>Device brightness %1%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="720"/>
+        <source>. Restores previous brightness</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

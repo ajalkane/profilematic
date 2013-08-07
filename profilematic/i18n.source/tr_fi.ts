@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.0">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0" language="fi">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -32,7 +34,7 @@
         <translation>Kääntäjät:</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="99"/>
+        <location filename="../qml/harmattan/qml/AboutDialog.qml" line="114"/>
         <source>Close</source>
         <translation>Sulje</translation>
     </message>
@@ -323,6 +325,60 @@ Hälytyksen nimi ja aika on annettava.</translation>
         <location filename="../qml/harmattan/qml/ActionCommandLine.qml" line="101"/>
         <source>Enter into the text box the shell command you want to run when this rule is deactivated. Always use full paths for file paths.</source>
         <translation>Syötä tähän komento jonka haluat ajaa kun tämä sääntö ei ole enää voimassa. Käytä aina koko polkua tiedostoille.</translation>
+    </message>
+</context>
+<context>
+    <name>ActionDeviceBrightness</name>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="48"/>
+        <source>Device brightness action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="53"/>
+        <source>Select device brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="68"/>
+        <source>Clear</source>
+        <translation type="unfinished">Tyhjennä</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="107"/>
+        <source>Not used</source>
+        <translation type="unfinished">Ei käytössä</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="117"/>
+        <source>Choose brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="118"/>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="119"/>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="151"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Peruuta</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="148"/>
+        <source>Clear device brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="149"/>
+        <source>Are you sure you want to clear device brightness?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="150"/>
+        <source>Yes</source>
+        <translation type="unfinished">Kyllä</translation>
     </message>
 </context>
 <context>
@@ -1623,6 +1679,11 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <source>Alarm</source>
         <translation>Hälytys</translation>
     </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlactioneditmodel.cpp" line="58"/>
+        <source>Device brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QmlConditionEditModel</name>
@@ -1710,7 +1771,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="66"/>
         <source> - </source>
-        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
+        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
         <translation> - </translation>
     </message>
     <message>
@@ -1738,7 +1799,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="141"/>
         <source> - </source>
-        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason</comment>
+        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
         <translation> - </translation>
     </message>
     <message>
@@ -1991,14 +2052,29 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>Laitteen äänenvoimakkuus %1%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="688"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="661"/>
+        <source>. Restores previous volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="692"/>
         <source>Alarm with title %1 shown in %2 seconds</source>
         <translation>Hälytys nimellä %1 %2 sekunnin kuluttua</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="690"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="694"/>
         <source>Alarm</source>
         <translation>Hälytys</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="718"/>
+        <source>Device brightness %1%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="720"/>
+        <source>. Restores previous brightness</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

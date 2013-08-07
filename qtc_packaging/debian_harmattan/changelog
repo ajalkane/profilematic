@@ -1,4 +1,4 @@
-profilematic (2.2.4) unstable; urgency=low
+profilematic (2.3.0) unstable; urgency=low
   * Brightness action
   * Action volume has restore previous
   * Fixes to aciton volume to more closely follow what is settable in harmattan UI
