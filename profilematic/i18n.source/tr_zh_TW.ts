@@ -31,7 +31,7 @@
     <message>
         <location filename="../qml/harmattan/qml/AboutDialog.qml" line="45"/>
         <source>Translators:</source>
-        <translation>翻譯</translation>
+        <translation>翻譯者：</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/AboutDialog.qml" line="114"/>
@@ -331,53 +331,68 @@
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="48"/>
         <source>Device brightness action</source>
-        <translation type="unfinished"></translation>
+        <translation>裝置亮度</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="53"/>
         <source>Select device brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>選擇裝置亮度</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="68"/>
         <source>Clear</source>
-        <translation type="unfinished">清除</translation>
+        <translation>清除</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="83"/>
+        <source>Restore previous brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="86"/>
+        <source>The previous brightness will be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="87"/>
+        <source>Previous brightness will not be restored.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="107"/>
         <source>Not used</source>
-        <translation type="unfinished">未設定</translation>
+        <translation>未設定</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="117"/>
         <source>Choose brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>選擇亮度</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="118"/>
         <source>OK</source>
-        <translation type="unfinished">確定</translation>
+        <translation>確定</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="119"/>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="151"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="148"/>
         <source>Clear device brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>清除裝置亮度設定</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="149"/>
         <source>Are you sure you want to clear device brightness?</source>
-        <translation type="unfinished"></translation>
+        <translation>你確定要清除裝置亮度設定？</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="150"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>確定</translation>
     </message>
 </context>
 <context>
@@ -396,6 +411,21 @@
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="68"/>
         <source>Clear</source>
         <translation>清除</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="83"/>
+        <source>Restore previous volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="86"/>
+        <source>The previous volume will be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="87"/>
+        <source>Previous volume will not be restored.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="107"/>
@@ -1686,7 +1716,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlactioneditmodel.cpp" line="58"/>
         <source>Device brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>裝置亮度</translation>
     </message>
 </context>
 <context>
@@ -2058,7 +2088,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="661"/>
         <source>. Restores previous volume</source>
-        <translation type="unfinished"></translation>
+        <translation>. 還原先前的音量設定</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="692"/>
@@ -2073,12 +2103,12 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="718"/>
         <source>Device brightness %1%</source>
-        <translation type="unfinished"></translation>
+        <translation>裝置亮度 %1%</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="720"/>
         <source>. Restores previous brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>. 還原先前的亮度設定</translation>
     </message>
 </context>
 <context>
@@ -2113,7 +2143,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="387"/>
         <source>Rule #%1</source>
         <comment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</comment>
-        <translation type="unfinished"></translation>
+        <translation>規則 #%1</translation>
     </message>
 </context>
 <context>

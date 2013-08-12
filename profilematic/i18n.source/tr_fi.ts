@@ -345,6 +345,21 @@ Hälytyksen nimi ja aika on annettava.</translation>
         <translation type="unfinished">Tyhjennä</translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="83"/>
+        <source>Restore previous brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="86"/>
+        <source>The previous brightness will be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="87"/>
+        <source>Previous brightness will not be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="107"/>
         <source>Not used</source>
         <translation type="unfinished">Ei käytössä</translation>
@@ -397,6 +412,21 @@ Hälytyksen nimi ja aika on annettava.</translation>
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="68"/>
         <source>Clear</source>
         <translation>Tyhjennä</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="83"/>
+        <source>Restore previous volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="86"/>
+        <source>The previous volume will be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="87"/>
+        <source>Previous volume will not be restored.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="107"/>

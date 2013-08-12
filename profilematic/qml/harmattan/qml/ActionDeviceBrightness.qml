@@ -80,11 +80,11 @@ Page {
                 }
                 RuleTopicSummary {
                     id: restoreValue
-                    topic: "Restore previous brightness"
+                    topic: qsTr("Restore previous brightness")
                     topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
                     topicWidth: parent.width - restoreSwitch.width
-                    summary: restoreSwitch.checked ? "The previous brightness will be restored."
-                                                   : "Previous brightness will not be restored."
+                    summary: restoreSwitch.checked ? qsTr("The previous brightness will be restored.")
+                                                   : qsTr("Previous brightness will not be restored.")
                     // visible: action.profile !== ''
                     onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
                 }

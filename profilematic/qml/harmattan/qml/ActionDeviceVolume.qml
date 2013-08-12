@@ -80,11 +80,11 @@ Page {
                 }
                 RuleTopicSummary {
                     id: restoreValue
-                    topic: "Restore previous volume"
+                    topic: qsTr("Restore previous volume")
                     topicHeight: Math.max(topicImplicitHeight, restoreSwitch.height)
                     topicWidth: parent.width - restoreSwitch.width
-                    summary: restoreSwitch.checked ? "The previous volume will be restored."
-                                                   : "Previous volume will not be restored."
+                    summary: restoreSwitch.checked ? qsTr("The previous volume will be restored.")
+                                                   : qsTr("Previous volume will not be restored.")
                     // visible: action.profile !== ''
                     onTopicClicked: restoreSwitch.checked = !restoreSwitch.checked
                 }

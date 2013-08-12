@@ -331,53 +331,68 @@
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="48"/>
         <source>Device brightness action</source>
-        <translation type="unfinished"></translation>
+        <translation>设备亮度</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="53"/>
         <source>Select device brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>调整亮度</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="68"/>
         <source>Clear</source>
-        <translation type="unfinished">清除</translation>
+        <translation>清除</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="83"/>
+        <source>Restore previous brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="86"/>
+        <source>The previous brightness will be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="87"/>
+        <source>Previous brightness will not be restored.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="107"/>
         <source>Not used</source>
-        <translation type="unfinished"></translation>
+        <translation>未激活</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="117"/>
         <source>Choose brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>选择亮度值</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="118"/>
         <source>OK</source>
-        <translation type="unfinished">确定</translation>
+        <translation>确定</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="119"/>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="151"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="148"/>
         <source>Clear device brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>清除调整</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="149"/>
         <source>Are you sure you want to clear device brightness?</source>
-        <translation type="unfinished"></translation>
+        <translation>确定清除已调整的亮度值?</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="150"/>
         <source>Yes</source>
-        <translation type="unfinished">确定</translation>
+        <translation>确定</translation>
     </message>
 </context>
 <context>
@@ -396,6 +411,21 @@
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="68"/>
         <source>Clear</source>
         <translation>清除</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="83"/>
+        <source>Restore previous volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="86"/>
+        <source>The previous volume will be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="87"/>
+        <source>Previous volume will not be restored.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="107"/>
@@ -1680,7 +1710,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlactioneditmodel.cpp" line="58"/>
         <source>Device brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>设备亮度</translation>
     </message>
 </context>
 <context>
@@ -2052,7 +2082,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="661"/>
         <source>. Restores previous volume</source>
-        <translation type="unfinished"></translation>
+        <translation>. 恢复以前的量</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="692"/>
@@ -2067,12 +2097,12 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="718"/>
         <source>Device brightness %1%</source>
-        <translation type="unfinished"></translation>
+        <translation>设备亮度%1%</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="720"/>
         <source>. Restores previous brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>. 恢复以前的亮度</translation>
     </message>
 </context>
 <context>

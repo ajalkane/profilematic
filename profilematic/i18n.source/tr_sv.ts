@@ -11,7 +11,7 @@
     <message>
         <location filename="../qml/harmattan/qml/AboutDialog.qml" line="28"/>
         <source>See &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;homepage&lt;/a&gt; for more tips, sources, donation information, and more.</source>
-        <translation>Se &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;homepage&lt;/a&gt; för mera tips, källor, donations information och mer.</translation>
+        <translation>Se &lt;a href=&quot;http://www.kolumbus.fi/~ks2877/profilematic/&quot;&gt;homepage&lt;/a&gt; för mera tips, källor, donations information och mera.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/AboutDialog.qml" line="36"/>
@@ -331,53 +331,68 @@
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="48"/>
         <source>Device brightness action</source>
-        <translation type="unfinished"></translation>
+        <translation>Åtgärder för enhetens ljusstyrka</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="53"/>
         <source>Select device brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj ljusstyrka för enheten</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="68"/>
         <source>Clear</source>
-        <translation type="unfinished">Rensa</translation>
+        <translation>Rensa</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="83"/>
+        <source>Restore previous brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="86"/>
+        <source>The previous brightness will be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="87"/>
+        <source>Previous brightness will not be restored.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="107"/>
         <source>Not used</source>
-        <translation type="unfinished"></translation>
+        <translation>Används inte</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="117"/>
         <source>Choose brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj ljusstyrka</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="118"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="119"/>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="151"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="148"/>
         <source>Clear device brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Rensa ljusstyrka för enheten</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="149"/>
         <source>Are you sure you want to clear device brightness?</source>
-        <translation type="unfinished"></translation>
+        <translation>Är du säker på att du vill rensa ljusstyrkan för enheten?</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="150"/>
         <source>Yes</source>
-        <translation type="unfinished">Ja</translation>
+        <translation>Ja</translation>
     </message>
 </context>
 <context>
@@ -396,6 +411,21 @@
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="68"/>
         <source>Clear</source>
         <translation>Rensa</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="83"/>
+        <source>Restore previous volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="86"/>
+        <source>The previous volume will be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="87"/>
+        <source>Previous volume will not be restored.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="107"/>
@@ -839,7 +869,7 @@
     <message>
         <location filename="../qml/harmattan/qml/ConditionBatteryLevel.qml" line="104"/>
         <source>Not used</source>
-        <translation>Inte använd</translation>
+        <translation>Används inte</translation>
     </message>
 </context>
 <context>
@@ -854,9 +884,9 @@
         <source>Keywords in the fields are used to match calendar entries. Condition matches a calendar entry if all fields set here match it. At least one field must be set for the condition to be usable.
 
 Comma (,) is used to separate keywords in a field. Any keyword separated by comma that is found in the calendar field will match. Matching is case insensitive.</source>
-        <translation>Nyckelord i fälten används för att matcha kalenderposter. Tillstånd matchar en kalenderpost om alla fält som här matchar det. Minst ett fält måste ställas in för att villkor ska vara användbar. ⏎
-⏎
-Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord separeras med kommatecken som finns i kalendern fältet kommer att matcha. Matchning är inte skiftlägeskänslig.</translation>
+        <translation>Nyckelord i fälten används för att matcha kalenderposter. Villkor matchar en kalenderpost om alla fält nedan matchar det. Minst ett fält måste ställas in för att villkoret ska vara användbar. 
+
+Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord separeras med kommatecken som finns i kalenderfältet kommer att matcha. Matchning är inte skiftlägeskänslig.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionCalendar.qml" line="64"/>
@@ -962,7 +992,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord sepa
     <message>
         <location filename="../qml/harmattan/qml/ConditionIdle.qml" line="107"/>
         <source>Not used</source>
-        <translation>Inte använd</translation>
+        <translation>Används inte</translation>
     </message>
 </context>
 <context>
@@ -1028,7 +1058,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord sepa
     <message>
         <location filename="../qml/harmattan/qml/ConditionLocation.qml" line="194"/>
         <source>Rule is kept valid for specified seconds after getting into cell id not in the list. Useful in areas where it&apos;s hard to collect all possible cell ids.</source>
-        <translation>Regeln hålls giltig i specificerade sekunder efter att du anslutit till ett cell-id som inte finns i listan. Användbart i områden där det är svårt att samla alla möjliga cell id:n.</translation>
+        <translation>Regeln hålls giltig i specificerat antal sekunder efter att du anslutit till ett cell-id som inte finns med i listan. Användbart i områden där det är svårt att samla alla cell id:n.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionLocation.qml" line="201"/>
@@ -1038,7 +1068,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord sepa
     <message>
         <location filename="../qml/harmattan/qml/ConditionLocation.qml" line="206"/>
         <source>&lt;b&gt;Did you know?&lt;/b&gt;&lt;p&gt;Location by mobile cell ids comes free from your operator and does not drain battery, unlike GPS.&lt;p&gt;&lt;b&gt;How does it work?&lt;/b&gt;&lt;p&gt;Let&apos;s say you want to silence your phone in - and near - your office. First, go to the office and press &apos;start collecting&apos;. If it&apos;s a larger area, walk around the office a bit. Five minutes or so should do it. Press &apos;Stop collecting&apos;. Now we have the desired location. &lt;p&gt;The program saves and stores the location only if you save the rule. If you delete the rule or press &apos;Cancel&apos;, all the location info will be discarded.&lt;p&gt;&lt;b&gt;Several different settings at the same location?&lt;/b&gt;&lt;p&gt;Create a new rule by copying an existing one from the main menu (long press on a rule), so the location info will be copied as well. Then change rest of the conditions and actions as you want, and Bob&apos;s your uncle.&lt;p&gt;&lt;b&gt;Please note:&lt;/b&gt;&lt;ul&gt;&lt;li&gt; The cell id depends on the network your phone uses. For example, if you use both GSM and 3G,you should collect the cell ids using both mobile network modes. When &apos;collecting&apos; is on, switch between the networks or select a dual mode. &lt;li&gt;Cell id technology can&apos;t be used for a very exact location.&lt;/ul&gt;</source>
-        <translation>&lt;b&gt; Visste du? &lt;/ b&gt; &lt;p&gt; Platsdata från mobilens cell-id kommer gratis från din operatör och tömmer inte batteriet, till skillnad från GPS. &lt;p&gt; &lt;b&gt; Hur fungerar det? &lt;/ b&gt; &lt;p &gt; Låt oss säga att du vill tysta telefonen på - och nära - ditt kontor. Först, gå till kontoret och tryck på &quot;börja samla&quot;. Om det är ett större område, gå runt på kontoret lite. Fem minuter eller så borde räcka. Tryck på &quot;sluta samla&quot;. Nu har vi önskad plats. &lt;p&gt; Programmet sparar och lagrar platsen endast om du sparar regeln. Om du tar bort regeln eller trycker &quot;Avbryt&quot;, kommer all plats info att kasseras. &lt;p&gt; &lt;b&gt; Flera olika inställningar på samma plats? &lt;/ B&gt; &lt;p&gt; Skapa en ny regel genom att kopiera en befintlig från huvudmenyn (tryck länge på en regel), så kommer plats-infon att kopieras. Ändra sedan resten av de villkor och åtgärder som du vill, och även din farbror Bob´s &lt;p&gt; &lt;b&gt; Observera:. &lt;/ B&gt; &lt;ul&gt; &lt;li&gt; cell id beror på nätet telefonen använder. Till exempel, om du använder både GSM och 3G, bör du samla cell ids med båda mobilnäts lägena. När &quot;samlande&quot; är på, växla mellan näten eller välj dual mode. &lt;li&gt; cell-ID-teknik kan inte användas för en mycket exakt plats. &lt;/ ul&gt;</translation>
+        <translation>&lt;b&gt; Visste du? &lt;/ b&gt; &lt;p&gt; Platsdata från mobilens cell-id kommer gratis från din operatör och tömmer inte batteriet, till skillnad från GPS. &lt;p&gt; &lt;b&gt; Hur fungerar det? &lt;/ b&gt; &lt;p &gt; Låt oss säga att du vill tysta telefonen på - och nära - ditt kontor. Först, gå till kontoret och tryck på &quot;starta insamling&quot;. Om det är ett större område, gå runt på kontoret lite. Fem minuter eller så borde räcka. Tryck på &quot;sluta insamling&quot;. Nu har vi önskad position. &lt;p&gt; Programmet sparar och lagrar positionen endast om du sparar regeln. Om du tar bort regeln eller trycker &quot;Avbryt&quot;, kommer all positions information att kasseras. &lt;p&gt; &lt;b&gt; Flera olika inställningar på samma plats? &lt;/ B&gt; &lt;p&gt; Skapa en ny regel genom att kopiera en befintlig från huvudmenyn (tryck länge på en regel), så kommer plats-infon att kopieras. Ändra sedan resten av de villkor och åtgärder som du vill, och även din farbror Bob´s &lt;p&gt; &lt;b&gt; Observera: &lt;/ B&gt; &lt;ul&gt; &lt;li&gt; cell id beror på nätet telefonen använder. Till exempel, om du använder både GSM och 3G, bör du samla cell ids med båda mobilnäts lägena. När &quot;samlande&quot; är på, växla mellan näten eller välj dual mode. &lt;li&gt; cell-ID-teknik kan inte användas för att få en mycket exakt plats. &lt;/ ul&gt;</translation>
     </message>
 </context>
 <context>
@@ -1133,12 +1163,12 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord sepa
     <message>
         <location filename="../qml/harmattan/qml/ConditionTime.qml" line="110"/>
         <source>Clear time conditions</source>
-        <translation>Rensa tids villkor</translation>
+        <translation>Rensa tidsvillkor</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTime.qml" line="111"/>
         <source>Are you sure you want to clear time conditions?</source>
-        <translation>Är du säker på att du vill rensa tids villkor?</translation>
+        <translation>Är du säker på att du vill rensa tidsvillkoren?</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTime.qml" line="112"/>
@@ -1683,7 +1713,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord sepa
     <message>
         <location filename="../src/qmlbackend/qmlactioneditmodel.cpp" line="58"/>
         <source>Device brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Enhetens ljusstyrka</translation>
     </message>
 </context>
 <context>
@@ -1731,7 +1761,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord sepa
     <message>
         <location filename="../src/qmlbackend/qmlconditioneditmodel.cpp" line="54"/>
         <source>Battery level</source>
-        <translation>Batteri nivå</translation>
+        <translation>Batterinivå</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlconditioneditmodel.cpp" line="55"/>
@@ -2055,7 +2085,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord sepa
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="661"/>
         <source>. Restores previous volume</source>
-        <translation type="unfinished"></translation>
+        <translation>. Återställ tidigare volym</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="692"/>
@@ -2070,12 +2100,12 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord sepa
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="718"/>
         <source>Device brightness %1%</source>
-        <translation type="unfinished"></translation>
+        <translation>Enhetens ljusstyrka %1%</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="720"/>
         <source>. Restores previous brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>. Återställ tidigare ljusstyrka</translation>
     </message>
 </context>
 <context>
@@ -2110,7 +2140,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord sepa
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="387"/>
         <source>Rule #%1</source>
         <comment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</comment>
-        <translation type="unfinished"></translation>
+        <translation>Regel #%1</translation>
     </message>
 </context>
 <context>

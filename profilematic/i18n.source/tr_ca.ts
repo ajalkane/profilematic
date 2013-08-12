@@ -331,53 +331,68 @@
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="48"/>
         <source>Device brightness action</source>
-        <translation type="unfinished"></translation>
+        <translation>Acció de brillantor del dispositiu</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="53"/>
         <source>Select device brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccioneu la brillantor del dispositiu</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="68"/>
         <source>Clear</source>
-        <translation type="unfinished">Neteja</translation>
+        <translation>Neteja</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="83"/>
+        <source>Restore previous brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="86"/>
+        <source>The previous brightness will be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="87"/>
+        <source>Previous brightness will not be restored.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="107"/>
         <source>Not used</source>
-        <translation type="unfinished">No s&apos;utilitza</translation>
+        <translation>No s&apos;utilitza</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="117"/>
         <source>Choose brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Trieu la brillantor</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="118"/>
         <source>OK</source>
-        <translation type="unfinished">D&apos;acord</translation>
+        <translation>D&apos;acord</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="119"/>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="151"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancel·la</translation>
+        <translation>Cancel·la</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="148"/>
         <source>Clear device brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Neteja la brillantor del dispositiu</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="149"/>
         <source>Are you sure you want to clear device brightness?</source>
-        <translation type="unfinished"></translation>
+        <translation>Esteu segur de voler netejar la brillantor del dispositiu?</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="150"/>
         <source>Yes</source>
-        <translation type="unfinished">Sí</translation>
+        <translation>Sí</translation>
     </message>
 </context>
 <context>
@@ -396,6 +411,21 @@
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="68"/>
         <source>Clear</source>
         <translation>Neteja</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="83"/>
+        <source>Restore previous volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="86"/>
+        <source>The previous volume will be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="87"/>
+        <source>Previous volume will not be restored.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="107"/>
@@ -1683,7 +1713,7 @@ Utilitzeu la coma (,) per separar les paraules claus en un camp. Qualsevol parau
     <message>
         <location filename="../src/qmlbackend/qmlactioneditmodel.cpp" line="58"/>
         <source>Device brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Brillantor del dispositiu</translation>
     </message>
 </context>
 <context>
@@ -2055,7 +2085,7 @@ Utilitzeu la coma (,) per separar les paraules claus en un camp. Qualsevol parau
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="661"/>
         <source>. Restores previous volume</source>
-        <translation type="unfinished"></translation>
+        <translation>. Restableix el volum anterior</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="692"/>
@@ -2070,12 +2100,12 @@ Utilitzeu la coma (,) per separar les paraules claus en un camp. Qualsevol parau
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="718"/>
         <source>Device brightness %1%</source>
-        <translation type="unfinished"></translation>
+        <translation>Brillantor del dispositiu %1%</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="720"/>
         <source>. Restores previous brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>. Restableix la brillantor anterior</translation>
     </message>
 </context>
 <context>
@@ -2110,7 +2140,7 @@ Utilitzeu la coma (,) per separar les paraules claus en un camp. Qualsevol parau
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="387"/>
         <source>Rule #%1</source>
         <comment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</comment>
-        <translation type="unfinished"></translation>
+        <translation>Regla #%1</translation>
     </message>
 </context>
 <context>
