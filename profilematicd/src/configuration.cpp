@@ -88,6 +88,7 @@ Configuration::writeRules(const RulesHolder &rulesHolder) {
         _writeNfcCondition(s, r.condition().nfc());
         _writeBatteryLevelCondition(s, r.condition().batteryLevel());
         _writeCalendarCondition(s, r.condition().calendar());
+        _writeTimeIntervalCondition(s, r.condition().timeInterval());
     }
     s.endArray();
 }
@@ -247,6 +248,7 @@ Configuration::readRules(RulesHolder &rulesHolder, int *rules_version_return) {
         _readNfcCondition(s, r.condition().nfc());
         _readBatteryLevelCondition(s, r.condition().batteryLevel());
         _readCalendarCondition(s, r.condition().calendar());
+        _readTimeIntervalCondition(s, r.condition().timeInterval());
 
         RuleCondition::InternetConnectionMode internetConnectionMode
                 = (RuleCondition::InternetConnectionMode) s.value("internetConnectionMode", 0).toInt();
@@ -441,6 +443,19 @@ Configuration::_readCalendarCondition(QSettings &s, RuleConditionCalendar &cond)
     cond.setLocationMatch(s.value("calendarLocationMatch", "").toString());
     cond.setTimePrepend(s.value("calendarTimePrepend", "0").toInt());
     cond.setTimeAppend(s.value("calendarTimeAppend", "0").toInt());
+}
+
+void
+Configuration::_writeTimeIntervalCondition(QSettings &s, const RuleConditionTimeInterval &cond) {
+    s.setValue("timeIntervalActiceForSecs", cond.getActiveForSecs());
+    s.setValue("timeIntervalInacticeForSecs", cond.getInactiveForSecs());
+
+}
+
+void
+Configuration::_readTimeIntervalCondition(QSettings &s, RuleConditionTimeInterval &cond) {
+    cond.setActiveForSecs(s.value("timeIntervalActiceForSecs", -1).toInt());
+    cond.setInactiveForSecs(s.value("timeIntervalInacticeForSecs", -1).toInt());
 }
 
 void

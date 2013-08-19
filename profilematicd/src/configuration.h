@@ -52,6 +52,8 @@ class Configuration
     static void _readBatteryLevelCondition(QSettings &s, RuleConditionBatteryLevel &cond);
     static void _writeCalendarCondition(QSettings &s, const RuleConditionCalendar &cond);
     static void _readCalendarCondition(QSettings &s, RuleConditionCalendar &cond);
+    static void _writeTimeIntervalCondition(QSettings &s, const RuleConditionTimeInterval &cond);
+    static void _readTimeIntervalCondition(QSettings &s, RuleConditionTimeInterval &cond);
 
 public:
     Configuration();
