@@ -38,6 +38,7 @@ SOURCES += src/main.cpp \
     ../profilematicd/src/model/ruleconditionnfc.cpp \
     ../profilematicd/src/model/ruleconditionbatterylevel.cpp \
     ../profilematicd/src/model/ruleconditioncalendar.cpp \
+    ../profilematicd/src/model/ruleconditiontimeinterval.cpp \
     ../profilematicd/src/model/ruleaction.cpp \
     ../profilematicd/src/model/ruleactionapplication.cpp \
     ../profilematicd/src/model/ruleactionalarm.cpp \
@@ -73,6 +74,7 @@ HEADERS += \
     ../profilematicd/src/model/ruleconditionnfc.h \
     ../profilematicd/src/model/ruleconditionbatterylevel.h \
     ../profilematicd/src/model/ruleconditioncalendar.h \
+    ../profilematicd/src/model/ruleconditiontimeinterval.h \
     ../profilematicd/src/model/rulecondition.h \
     ../profilematicd/src/model/presencerule.h \
     src/qmlbackend/qmlrulesmodel.h \

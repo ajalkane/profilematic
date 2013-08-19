@@ -11,6 +11,7 @@
 #include "ruleconditionnfc.h"
 #include "ruleconditionbatterylevel.h"
 #include "ruleconditioncalendar.h"
+#include "ruleconditiontimeinterval.h"
 
 class RuleCondition : public QObject
 {
@@ -48,6 +49,7 @@ private:
     ChargingState _chargingState;
     RuleConditionBatteryLevel _batteryLevel;
     RuleConditionCalendar _calendar;
+    RuleConditionTimeInterval _timeInterval;
 
     // IMPROVE: maybe the QML specifics could be in inheriting class, keeping this
     // class "pure" plain Qt object?
@@ -64,6 +66,7 @@ private:
     Q_PROPERTY(enum ChargingState chargingState READ getChargingState WRITE setChargingState NOTIFY chargingStateChanged)
     Q_PROPERTY(RuleConditionBatteryLevel *batteryLevel READ getBatteryLevelQml NOTIFY batteryLevelChanged STORED false)
     Q_PROPERTY(RuleConditionCalendar *calendar READ getCalendarQml NOTIFY calendarChanged STORED false)
+    Q_PROPERTY(RuleConditionTimeInterval *timeInterval READ getTimeIntervalQml NOTIFY timeIntervalChanged STORED false)
 
     QString _getTimeQml(const QTime &time) const;
 
@@ -88,6 +91,7 @@ signals:
     void chargingStateChanged();
     void batteryLevelChanged();
     void calendarChanged();
+    void timeIntervalChanged();
 
 public:
     RuleCondition(QObject *parent = 0);
@@ -167,6 +171,12 @@ public:
     inline ChargingState getChargingState() const { return _chargingState; }
     void setChargingState(ChargingState);
 
+    inline const RuleConditionTimeInterval &timeInterval() const { return _timeInterval; }
+    inline RuleConditionTimeInterval &timeInterval() { return _timeInterval; }
+    inline void setTimeInterval(const RuleConditionTimeInterval &timeInterval) { _timeInterval = timeInterval; }
+    // For QML
+    inline RuleConditionTimeInterval *getTimeIntervalQml() { return &_timeInterval; }
+
     inline bool operator==(const RuleCondition &o) const {
         return this->_timeStart == o._timeStart
             && this->_timeEnd   == o._timeEnd
@@ -180,7 +190,8 @@ public:
             && this->_internetConnectionMode == o._internetConnectionMode
             && this->_chargingState == o._chargingState
             && this->_batteryLevel == o._batteryLevel
-            && this->_calendar == o._calendar;
+            && this->_calendar == o._calendar
+            && this->_timeInterval == o._timeInterval;
     }
 
     inline bool isTimeStartRuleUsable() const {

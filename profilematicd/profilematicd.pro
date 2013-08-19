@@ -91,7 +91,8 @@ SOURCES += src/main.cpp \
     src/logic/actiondevicevolume.cpp \
     src/model/ruleactionalarm.cpp \
     src/logic/actionalarm.cpp \
-    src/logic/actiondevicebrightness.cpp
+    src/logic/actiondevicebrightness.cpp \
+    src/model/ruleconditiontimeinterval.cpp
 
 HEADERS += \
     src/profileclient.h \
@@ -149,7 +150,8 @@ HEADERS += \
     src/logic/actiondevicevolume.h \
     src/model/ruleactionalarm.h \
     src/logic/actionalarm.h \
-    src/logic/actiondevicebrightness.h
+    src/logic/actiondevicebrightness.h \
+    src/model/ruleconditiontimeinterval.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {
     DEFINES += PM_TIMER_USHORT

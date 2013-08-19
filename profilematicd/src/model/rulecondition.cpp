@@ -47,6 +47,8 @@ RuleCondition::_init() {
     connect(this, SIGNAL(batteryLevelChanged()), this, SIGNAL(changed()));
     connect(&_calendar,     SIGNAL(changed()),   this, SIGNAL(calendarChanged()));
     connect(this, SIGNAL(calendarChanged()), this, SIGNAL(changed()));
+    connect(&_timeInterval, SIGNAL(changed()),   this, SIGNAL(timeIntervalChanged()));
+    connect(this, SIGNAL(timeIntervalChanged()), this, SIGNAL(changed()));
 }
 
 
@@ -66,6 +68,7 @@ RuleCondition::operator=(const RuleCondition &o)
     _chargingState = o._chargingState;
     _batteryLevel = o._batteryLevel;
     _calendar = o._calendar;
+    _timeInterval = o._timeInterval;
 
     return *this;
 }
@@ -329,6 +332,7 @@ QDBusArgument &operator<<(QDBusArgument &argument, const RuleCondition &rule)
     argument << int(rule.getChargingState());
     argument << rule.batteryLevel();
     argument << rule.calendar();
+    argument << rule.timeInterval();
     argument.endStructure();
     return argument;
 }
@@ -349,6 +353,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     int chargingState;
     RuleConditionBatteryLevel batteryLevel;
     RuleConditionCalendar calendar;
+    RuleConditionTimeInterval timeInterval;
 
     argument.beginStructure();
     argument >> timeStart;
@@ -364,6 +369,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     argument >> chargingState;
     argument >> batteryLevel;
     argument >> calendar;
+    argument >> timeInterval;
     argument.endStructure();
 
     rule.setTimeStart(timeStart);
@@ -379,6 +385,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, RuleCondition &ru
     rule.setChargingState((RuleCondition::ChargingState)chargingState);
     rule.setBatteryLevel(batteryLevel);
     rule.setCalendar(calendar);
+    rule.setTimeInterval(timeInterval);
 
     return argument;
 }
