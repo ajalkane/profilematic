@@ -36,6 +36,7 @@ class QmlRuleUtil : public QObject
 
     QmlRuleUtil(QmlProfilesModel *profilesModel);
 
+    QString _secsToShortString(int secsInput);
 
 public:
     static void initialize(QmlProfilesModel *profilesModel);
@@ -66,6 +67,11 @@ public:
     Q_INVOKABLE void batteryLevelClear(RuleCondition *cond);
     QString calendarSummary(const RuleCondition *rule, const QString &nonUsable, bool inListing = false);
     void calendarClear(RuleCondition *rule);
+    QString timeIntervalSummary(const RuleCondition *cond, const QString &nonUsable, bool inListing = false);
+    Q_INVOKABLE QString timeIntervalActiveSummary(RuleCondition *cond, const QString &nonUsable);
+    Q_INVOKABLE QString timeIntervalInactiveSummary(RuleCondition *cond, const QString &nonUsable);
+    Q_INVOKABLE QString timeIntervalSummary(RuleCondition *cond, const QString &nonUsable, bool inListing);
+    Q_INVOKABLE void timeIntervalClear(RuleCondition *cond);
 
     QString profileSummary(const RuleAction *action, const QString &nonUsable, bool inListing = false);
     void profileClear(RuleAction *action);
