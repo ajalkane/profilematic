@@ -9,7 +9,6 @@ class ConditionManagerFactory
 {
     ConditionManagerFactory();
 public:
-    static ConditionManagerChain *create();
     static QList<ConditionManager *> createAsList();
 };
 
