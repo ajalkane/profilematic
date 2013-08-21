@@ -1,3 +1,8 @@
+profilematic (2.4.0) unstable; urgency=low
+  * Time interval condition
+
+ -- Arto Jalkanen <ajalkane@gmail.com>  Wed, 22 Aug 2013 00:08:00 +0300
+
 profilematic (2.3.0) unstable; urgency=low
   * Brightness action
   * Action volume has restore previous
