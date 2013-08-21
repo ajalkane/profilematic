@@ -28,7 +28,6 @@ Page {
     anchors.rightMargin: UIConstants.DEFAULT_MARGIN // UiConstants.DefaultMargin
 
     property RuleCondition condition;
-    property int maxCells: 50
 
     Flickable {
         anchors.fill: parent

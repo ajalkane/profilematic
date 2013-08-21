@@ -36,7 +36,7 @@ class QmlRuleUtil : public QObject
 
     QmlRuleUtil(QmlProfilesModel *profilesModel);
 
-    QString _secsToShortString(int secsInput);
+    QString _secsToShortString(int secsInput, bool shorter);
 
 public:
     static void initialize(QmlProfilesModel *profilesModel);

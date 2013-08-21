@@ -29,8 +29,8 @@ class RuleConditionTimeInterval : public QObject
     int _activeForSecs;
     int _inactiveForSecs;
 
-    Q_PROPERTY(int inactiveForSecs READ getInactiveForSecs WRITE setInactiveForSecs NOTIFY inactiveForSecsChanged)
     Q_PROPERTY(int activeForSecs READ getActiveForSecs WRITE setActiveForSecs NOTIFY activeForSecsChanged)
+    Q_PROPERTY(int inactiveForSecs READ getInactiveForSecs WRITE setInactiveForSecs NOTIFY inactiveForSecsChanged)
 
     void _init();
 signals:
@@ -49,7 +49,7 @@ public:
     inline int getInactiveForSecs() const { return _inactiveForSecs; }
 
     // Both must be set, and at least one of them must be non-zero or a busy loop is possible
-    Q_INVOKABLE inline bool isValid() const { return (getActiveForSecs() > -1 && getInactiveForSecs() > -1) && (getActiveForSecs() > 0 || getInactiveForSecs() > 0); }
+    Q_INVOKABLE inline bool isValid() const { return (getActiveForSecs() > 0 && getInactiveForSecs() > 0); }
 
     void setActiveForSecs(int secs);
     void setInactiveForSecs(int secs);

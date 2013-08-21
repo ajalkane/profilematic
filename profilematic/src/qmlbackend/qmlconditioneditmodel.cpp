@@ -53,6 +53,7 @@ QmlConditionEditModel::QmlConditionEditModel(Rule *editRule, QObject *parent)
     DESCRIPTION(charging,  tr("Charging state"), "ConditionChargingState.qml", false)
     DESCRIPTION(batteryLevel,  tr("Battery level"), "ConditionBatteryLevel.qml", false)
     DESCRIPTION(calendar,  tr("Calendar"), "ConditionCalendar.qml", false)
+    DESCRIPTION(timeInterval,  tr("Time interval"), "ConditionTimeInterval.qml", false)
 
     _descriptions << &descriptiontime
                   << &descriptioncellLocation
@@ -62,7 +63,8 @@ QmlConditionEditModel::QmlConditionEditModel(Rule *editRule, QObject *parent)
                   << &descriptionnfc
                   << &descriptioncharging
                   << &descriptionbatteryLevel
-                  << &descriptioncalendar;
+                  << &descriptioncalendar
+                  << &descriptiontimeInterval;
 
     connect(_editRule, SIGNAL(conditionChanged()), this, SLOT(ruleChanged()));
 }

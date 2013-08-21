@@ -23,7 +23,8 @@ RuleCondition::RuleCondition(const RuleCondition &o)
       _internetConnectionMode(o._internetConnectionMode),
       _chargingState(o._chargingState),
       _batteryLevel(o._batteryLevel),
-      _calendar(o._calendar)
+      _calendar(o._calendar),
+      _timeInterval(o._timeInterval)
 {
     _init();
 }

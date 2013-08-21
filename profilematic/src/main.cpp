@@ -130,6 +130,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<RuleConditionNFC>("Rule", 1, 0, "RuleConditionNFC");
     qmlRegisterType<RuleConditionBatteryLevel>("Rule", 1, 0, "RuleConditionBatteryLevel");
     qmlRegisterType<RuleConditionCalendar>("Rule", 1, 0, "RuleConditionCalendar");
+    qmlRegisterType<RuleConditionTimeInterval>("Rule", 1, 0, "RuleConditionTimeInterval");
     qmlRegisterType<PresenceRule>("profilematic", 1, 0, "PresenceRule");
     qmlRegisterType<QmlNetworkInfo>("profilematic", 1, 0, "NetworkInfo");
     qmlRegisterType<QmlChoiseModel>("profilematic", 1, 0, "ChoiseModel");

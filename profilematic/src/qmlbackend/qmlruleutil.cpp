@@ -28,20 +28,25 @@ QmlRuleUtil *QmlRuleUtil::_instance = 0;
  * Generic internal utilities                                   *
  ****************************************************************/
 QString
-QmlRuleUtil::_secsToShortString(int secsInput) {
+QmlRuleUtil::_secsToShortString(int secsInput, bool shorter) {
     QString s;
 
     int hours = secsInput / 3600;
     int mins = (secsInput / 60) % 60;
     int secs = secsInput % 60;
 
-    if (hours != 0) {
+    if (hours != 0) {        
+        //: Number of hours
         s.append(tr("%1h").arg(hours));
     }
     if (mins != 0 || (!s.isEmpty() && secs != 0)) {
-        s.append(tr("%1m").arg(mins));
+        if (!shorter && !s.isEmpty()) s.append(" ");
+        //: Number of minutes
+        s.append(tr("%1min").arg(mins));
     }
     if (secs != 0) {
+        if (!shorter && !s.isEmpty()) s.append(" ");
+        //: Number of seconds
         s.append(tr("%1s").arg(mins));
     }
 
@@ -423,7 +428,7 @@ QmlRuleUtil::timeIntervalActiveSummary(RuleCondition *cond, const QString &nonUs
     }
     qDebug() << Q_FUNC_INFO << "secs: " << secs;
 
-    return _secsToShortString(secs);
+    return _secsToShortString(secs, false);
 }
 
 QString
@@ -436,34 +441,34 @@ QmlRuleUtil::timeIntervalInactiveSummary(RuleCondition *cond, const QString &non
     }
     qDebug() << Q_FUNC_INFO << "secs: " << secs;
 
-    return _secsToShortString(secs);
+    return _secsToShortString(secs, false);
 }
 
 QString
 QmlRuleUtil::timeIntervalSummary(RuleCondition *cond, const QString &nonUsable, bool inListing) {
     qDebug() << Q_FUNC_INFO;
-    return batteryLevelSummary(const_cast<const RuleCondition *>(cond), nonUsable, inListing);
+    return timeIntervalSummary(const_cast<const RuleCondition *>(cond), nonUsable, inListing);
 }
 
 QString
-QmlRuleUtil::timeIntervalSummary(const RuleCondition *cond, const QString &nonUsable, bool shortForm) {
+QmlRuleUtil::timeIntervalSummary(const RuleCondition *cond, const QString &nonUsable, bool inListing) {
     if (cond == 0) return nonUsable;
 
     const RuleConditionTimeInterval &ti = cond->timeInterval();
     if (!ti.isValid()) {
         return nonUsable;
     }
-    qDebug() << Q_FUNC_INFO << "activeForSecs: " << ti.getActiveForSecs() << "inactiveForSecs:" << ti.getInactiveForSecs();
 
     QString s;
-    QString activeInterval = _secsToShortString(ti.getActiveForSecs());
-    QString inactiveInterval = _secsToShortString(ti.getInactiveForSecs());
+    QString activeInterval = _secsToShortString(ti.getActiveForSecs(), inListing);
+    QString inactiveInterval = _secsToShortString(ti.getInactiveForSecs(), inListing);
 
-    if (shortForm) {
-        s.append(tr("Time interval: active for %1, inactive for %2").arg(activeInterval, inactiveInterval));
-    } else {
-        s.append(tr("Time interval %1/%2").arg(activeInterval, inactiveInterval));
+    if (inListing) {
+        s.append(tr("Time interval "));
     }
+    //: Time interval. First argument is active period, second argument is inactive period
+    s.append(tr("%1/%2").arg(activeInterval, inactiveInterval));
+
     return s;
 }
 
