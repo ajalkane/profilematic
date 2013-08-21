@@ -7,6 +7,7 @@
 #include "conditionmanagernfc.h"
 #include "conditionmanagerinternetconnectionmode.h"
 #include "conditionmanagerbatterylevel.h"
+#include "conditionmanagertimeinterval.h"
 
 #include "conditionmanagercaching.h"
 #include "calendar/conditionmanagercalendar.h"
@@ -30,6 +31,7 @@ ConditionManagerFactory::createAsList()
     cm << new ConditionManagerCaching(new ConditionManagerInternetConnectionMode());
     cm << new ConditionManagerCaching(new ConditionManagerBatteryLevel());
     cm << new ConditionManagerCaching(new ConditionManagerCalendar);
+    cm << new ConditionManagerCaching(new ConditionManagerTimeInterval);
 
     return cm;
 }
