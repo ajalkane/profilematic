@@ -56,10 +56,13 @@ class QmlRulesModel: public QAbstractListModel
     QmlActionEditModel    *_actionEditModel;
 
     bool _isMissingDeviceModeCredential;
+    bool _noFormatToLower;
 
     QHash<int, QByteArray> _roleToProperty;
     QSet<Rule::IdType> _matchingRuleIds;
     mutable QHash<Rule::IdType, QString> _ruleSummaryCache;
+
+    void _initializeNoFormatToLower();
 
     int _findRole(const QHash<int, QByteArray> &from, const QString &property);
 

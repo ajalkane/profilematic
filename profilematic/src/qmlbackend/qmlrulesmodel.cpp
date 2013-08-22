@@ -26,7 +26,7 @@
 
 QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profilesModel, QObject *parent)
     : QAbstractListModel(parent), _isActive(false), _backendError(false), _client(client), _profilesModel(profilesModel),
-      _isMissingDeviceModeCredential(false)
+      _isMissingDeviceModeCredential(false), _noFormatToLower(false)
 {    
     _roleToProperty[IsDefaultRuleRole]   = "isDefaultRule";
     _roleToProperty[RuleActiveRole]      = "ruleActive";
@@ -62,6 +62,23 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profi
 
     connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(emitSizeChanged(QModelIndex,int,int)));
     connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(emitSizeChanged(QModelIndex,int,int)));
+
+    _initializeNoFormatToLower();
+}
+
+void
+QmlRulesModel::_initializeNoFormatToLower() {
+    _noFormatToLower = false;
+    QString noFormatDirective = tr("toLowerDirective",
+                                   "This translation is not shown in UI. It is only used internally to direct whether ProfileMatic " \
+                                   "lower-case formats summary in the main view where rules are listed. This is 99% of the time " \
+                                   "what's wanted. But some languages, such as Germany require some words to always be in upper-case, " \
+                                   "even if they're in middle of sentence (nouns). For such languages you can disable lower casing " \
+                                   "in summaries by translating this value exactly to 'noLowerFormat'. For other languages you can " \
+                                   "put anything else here to mark it as translated.");
+    if (noFormatDirective == "noLowerFormat") {
+        _noFormatToLower = true;
+    }
 }
 
 //Qt::ItemFlags
@@ -285,7 +302,7 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
         QString summary = d->summary(*rule, emptyString, true);
         if (!summary.isEmpty()) {
             if (numAction > 0) {
-                formatListingSummary(summary);
+                if (!_noFormatToLower) formatListingSummary(summary);
                 action.append(tr(", ", "This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string."));
             }
 
@@ -302,7 +319,7 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
             QString summary = d->summary(*rule, emptyString, true);
             if (!summary.isEmpty()) {
                 if (numCondition > 0) condition.append(" " + tr("and") + " ");
-                formatListingSummary(summary);
+                if (!_noFormatToLower) formatListingSummary(summary);
                 condition += summary;
                 ++numCondition;
             }
