@@ -21,7 +21,7 @@ import com.nokia.meego 1.0
 import "UIConstants.js" as UIConstants
 
 MyQueryDialog {
-    titleText: "ProfileMatic v2.4.0-beta1"
+    titleText: "ProfileMatic v2.4.0-beta2"
     message: "<b>(c) Arto Jalkanen 2011-2013</b><br>"
              + qsTr("UX design by Dina & Arto Jalkanen")
              + "<p>"

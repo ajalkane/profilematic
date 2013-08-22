@@ -30,26 +30,30 @@ class ConditionManagerTimeInterval : public ConditionManagerCacheable
 {
     Q_OBJECT
 
-    QHash<Rule::IdType, QDateTime> _baseTimeByRuleId;
+    QDateTime _baseTime;
+    // Having baseTimes by ruleId is unnecessary complication as long as
+    // ProfileMatic has no support for cleaning it when rule deactivates
+    // QHash<Rule::IdType, QDateTime> _baseTimeByRuleId;
     PmTimer _timer;
     QDateTime _nextMinWakeupTime;
 
     inline bool _conditionSetForMatching(const RuleCondition &cond) const { return cond.timeInterval().isValid(); }
+
+    const QDateTime &_baseTimeForRule(const QDateTime &now, const Rule::IdType &ruleId);
     void _clearVarsForInvalidation();
-    QDateTime _baseTimeForRule(const QDateTime &now, const Rule::IdType &ruleId);
     void _scheduleWakeUpIfNearest(const QDateTime &now, int wakeUpInSecs);
     void _startNextNearestTimer(const QDateTime &now);
 
-    inline int _relativeTimeWithinPeriod(const QDateTime &now, const RuleConditionTimeInterval &ti, const QDateTime &baseTime) {
+    inline int _relativeTimeWithinPeriod(const QDateTime &now, const RuleConditionTimeInterval &ti, const QDateTime &baseTime) const {
         int periodWindow = ti.getActiveForSecs() + ti.getInactiveForSecs();
         return baseTime.secsTo(now) % periodWindow;
     }
 
-    inline int _relativeTimeForNextActivation(const RuleConditionTimeInterval &ti, int relativeTime) {
+    inline int _relativeTimeForNextActivation(const RuleConditionTimeInterval &ti, int relativeTime) const {
         return (ti.getActiveForSecs() + ti.getInactiveForSecs()) - relativeTime;
     }
 
-    inline int _relativeTimeForNextInactivation(const RuleConditionTimeInterval &ti, int relativeTime) {
+    inline int _relativeTimeForNextInactivation(const RuleConditionTimeInterval &ti, int relativeTime) const {
         return ti.getActiveForSecs() - relativeTime;
     }
 

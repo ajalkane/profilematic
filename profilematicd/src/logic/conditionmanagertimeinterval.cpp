@@ -43,7 +43,8 @@ ConditionManagerTimeInterval::stopMonitor() {
     IFDEBUG(qDebug() << Q_FUNC_INFO);
 
     _clearVarsForInvalidation();
-    _baseTimeByRuleId.clear();
+    //_baseTimeByRuleId.clear();
+    _baseTime = QDateTime();
 }
 
 void
@@ -61,7 +62,7 @@ ConditionManagerTimeInterval::match(const Rule::IdType &ruleId, const RuleCondit
     }
 
     QDateTime now = QDateTime::currentDateTime();
-    QDateTime baseTime = _baseTimeForRule(now, ruleId);
+    const QDateTime &baseTime = _baseTimeForRule(now, ruleId);
     const RuleConditionTimeInterval &ti = cond.timeInterval();
     int relativeTime = _relativeTimeWithinPeriod(now, ti, baseTime);
 
@@ -81,14 +82,18 @@ ConditionManagerTimeInterval::match(const Rule::IdType &ruleId, const RuleCondit
     return NotMatched;
 }
 
-QDateTime
-ConditionManagerTimeInterval::_baseTimeForRule(const QDateTime &now, const Rule::IdType &ruleId) {
-    if (_baseTimeByRuleId.contains(ruleId)) {
-        return _baseTimeByRuleId.value(ruleId);
-    }
-    _baseTimeByRuleId.insert(ruleId, now);
+const QDateTime &
+ConditionManagerTimeInterval::_baseTimeForRule(const QDateTime &now, const Rule::IdType &ruleId) {    
+    Q_UNUSED(ruleId)
 
-    return now;
+    if (_baseTime.isNull()) _baseTime = now;
+    return _baseTime;
+//    if (_baseTimeByRuleId.contains(ruleId)) {
+//        return _baseTimeByRuleId.value(ruleId);
+//    }
+//    _baseTimeByRuleId.insert(ruleId, now);
+//
+//    return now;
 }
 
 void
