@@ -95,11 +95,13 @@ QmlRuleUtil::timeSummary(const RuleCondition *cond, const QString &nonUsableTime
 
     QString summary;
     summary += cond->getTimeStartQml();
-    summary += tr(" - ", "This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason");
+    //: This is a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason to omit them
+    summary += tr(" - ");
     summary += cond->getTimeEndQml();
     if (cond->getTimeStart() == cond->getTimeEnd()) {
         summary += " (";
-        summary += tr("24h", "Time condition length");
+        //: Time condition length
+        summary += tr("24h");
         summary += ")";
     }
     // I don't think this length clarification is needed otherwise
@@ -165,12 +167,14 @@ QmlRuleUtil::daysSummaryText(const QSet<int> &days, bool /*inListing*/) {
         } else {
             if (rangeStart > -1) {
                 if (!daysStr.isEmpty()) {
-                    daysStr += tr(", ", "This a between days. Notice space separator at end of the translation. Preserve it for translation.");
+                    //: Separator between days. Notice space separator at end of the translation. Preserve it in translation.
+                    daysStr += tr(", ");
                 }
 
                 daysStr += QDate::shortDayName(rangeStart + 1, QDate::StandaloneFormat);
                 if (rangeStart < i - 1) {
-                    daysStr += tr(" - ", "This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason");
+                    //: Range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there's good reason to omit them
+                    daysStr += tr(" - ");
                     daysStr += QDate::shortDayName((i - 1) + 1, QDate::StandaloneFormat);
                 }
                 rangeStart = -1;
@@ -194,7 +198,8 @@ QmlRuleUtil::cellLocationSummary(const RuleCondition *cond, const QString &nonUs
         } else {
             s.append(tr("Cell ids set"));
             if (cond->getLocationCellsTimeout() > 0) {
-                s.append(tr(" (%1s timeout)", " (number of seconds timeout, please preserve the space before the translated string)").arg(cond->getLocationCellsTimeout()));
+                //: (number of seconds timeout, please preserve the space before the translated string)
+                s.append(tr(" (%1s timeout)").arg(cond->getLocationCellsTimeout()));
             }
         }
     }
@@ -250,7 +255,8 @@ QmlRuleUtil::wlanSummary(const RuleCondition *cond, const QString &nonUsable, bo
         } else {
             s.append(tr("In use"));
             if (cond->getWlanTimeout() > 0) {
-                s.append(tr(" (%1s timeout)", " (number of seconds timeout, please preserve the space before the translated string)").arg(cond->getWlanTimeout()));
+                //: (number of seconds timeout, please preserve the space before the translated string)
+                s.append(tr(" (%1s timeout)").arg(cond->getWlanTimeout()));
             }
         }
     }
@@ -319,7 +325,8 @@ QmlRuleUtil::nfcSummary(const RuleCondition *cond, const QString &nonUsable, boo
         } else {
             s.append(tr("NFC detections set"));
             if (cond->nfc().getToggleCondition()) {
-                s.append(tr(" (toggles)", "Please notice the space in the beginning of translation, and use appropriate separator character in translation"));
+                //: Please notice the space in the beginning of translation, and use appropriate separator character in translation
+                s.append(tr(" (toggles)"));
             }
         }
     }
@@ -493,7 +500,8 @@ QmlRuleUtil::profileSummary(const RuleAction *action, const QString &nonUsable, 
 
         if (!inListing) {
             if (_profilesModel->profileHasVolume(profile) && action->getProfileVolume() > -1) {
-                summary += tr(" (%1%)", "Please notice the space in the beginning of translation, and use appropriate separator character in translation").arg(action->getProfileVolume());
+                //: Please notice the space in the beginning of translation, and use appropriate separator character in translation
+                summary += tr(" (%1%)").arg(action->getProfileVolume());
             }
             if (action->getRestoreProfile()) {
                 summary += tr(". Restores previous profile.");

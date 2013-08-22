@@ -1901,321 +1901,355 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="98"/>
         <source> - </source>
         <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation> - </translation>
+        <translation type="obsolete"> - </translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="102"/>
         <source>24h</source>
         <comment>Time condition length</comment>
-        <translation>24h</translation>
+        <translation type="obsolete">24h</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="143"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="145"/>
         <source>All days</source>
         <translation>Tutti i giorni</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="146"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="148"/>
         <source>No days</source>
         <translation>Nessun giorno</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="168"/>
         <source>, </source>
         <comment>This a between days. Notice space separator at end of the translation. Preserve it for translation.</comment>
-        <translation>, </translation>
+        <translation type="obsolete">, </translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="173"/>
         <source> - </source>
         <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation> - </translation>
+        <translation type="obsolete"> - </translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="193"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="197"/>
         <source>on location</source>
         <translation>presso luogo</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="195"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="199"/>
         <source>Cell ids set</source>
         <translation>ID cella impostati</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="197"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="253"/>
         <source> (%1s timeout)</source>
         <comment> (number of seconds timeout, please preserve the space before the translated string)</comment>
-        <translation> (%1s timeout)</translation>
+        <translation type="obsolete"> (%1s timeout)</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="219"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="224"/>
         <source>Mobile net connection</source>
         <translation>Connessione dati mobile</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="221"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="226"/>
         <source>WLAN net connection</source>
         <translation>Connessionae WLAN</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="223"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="228"/>
         <source>Any net connection</source>
         <translation>Qualsiasi connessione</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="225"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="230"/>
         <source>No net connection</source>
         <translation>Nessuna connessione</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="249"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="254"/>
         <source>on WLAN</source>
         <translation>con WLAN</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="251"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="256"/>
         <source>In use</source>
         <translation>In uso</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="285"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="291"/>
         <source>Idle</source>
         <translation>Riposo</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="290"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="296"/>
         <source>At least for %1 minutes</source>
         <translation>Almeno per %1 minuti</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="292"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="298"/>
         <source>At least for %1 hours</source>
         <translation>Almeno per %1 ore</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="294"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="300"/>
         <source>At least for %1 hours %2 minutes</source>
         <translation>Almeno per %1 ore %2 minuti</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="318"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="324"/>
         <source>NFC</source>
         <translation>NFC</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="320"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="326"/>
         <source>NFC detections set</source>
         <translation>Rilevamento NFC impostato</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="322"/>
         <source> (toggles)</source>
         <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation> (interruttori)</translation>
+        <translation type="obsolete"> (interruttori)</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="347"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="354"/>
         <source>not charging</source>
         <translation>non in carica</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="347"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="354"/>
         <source>Not charging power</source>
         <translation>Nessun alimentazione</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="350"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="357"/>
         <source>charging</source>
         <translation>In carica</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="350"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="357"/>
         <source>Charging power</source>
         <translation>Alimentazione</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="384"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="391"/>
         <source>Battery level exactly %1%</source>
         <translation>Livello esatto Batteria %1%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="387"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="394"/>
         <source>Battery level at least %1%</source>
         <translation>Livello minimo Batteria %1%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="389"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="396"/>
         <source>Battery level at most %1%</source>
         <translation>LIvello massimo Batteria %1%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="391"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="398"/>
         <source>Battery level between %1% - %2%</source>
         <translation>Livello Batteria tra %1% e %2%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="409"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="416"/>
         <source>Calendar entries</source>
         <translation>Voci Calendario</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="467"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="474"/>
         <source>Time interval </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="470"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="477"/>
         <source>%1/%2</source>
         <extracomment>Time interval. First argument is active period, second argument is inactive period</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="496"/>
         <source> (%1%)</source>
         <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation> (%1%)</translation>
+        <translation type="obsolete"> (%1%)</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="499"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="99"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="177"/>
+        <source> - </source>
+        <extracomment>This is a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them
+----------
+Range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them</extracomment>
+        <translation type="unfinished"> - </translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="104"/>
+        <source>24h</source>
+        <extracomment>Time condition length</extracomment>
+        <translation type="unfinished">24h</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="171"/>
+        <source>, </source>
+        <extracomment>Separator between days. Notice space separator at end of the translation. Preserve it in translation.</extracomment>
+        <translation type="unfinished">, </translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="202"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="259"/>
+        <source> (%1s timeout)</source>
+        <extracomment>(number of seconds timeout, please preserve the space before the translated string)
+----------
+(number of seconds timeout, please preserve the space before the translated string)</extracomment>
+        <translation type="unfinished"> (%1s timeout)</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="329"/>
+        <source> (toggles)</source>
+        <extracomment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</extracomment>
+        <translation type="unfinished"> (interruttori)</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="504"/>
+        <source> (%1%)</source>
+        <extracomment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</extracomment>
+        <translation type="unfinished"> (%1%)</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="507"/>
         <source>. Restores previous profile.</source>
         <translation>. Ripristina il profilo precedente.</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="531"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="539"/>
         <source>Availability change</source>
         <translation>Modifica Disponibilità</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="534"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="542"/>
         <source>. Restores previous availability</source>
         <translation>. Ripristina la Disponibilità precedente</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="554"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="562"/>
         <source>Flight mode off</source>
         <translation>Modalità Aereo disattiva</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="556"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="564"/>
         <source>Flight mode on</source>
         <translation>Modalità Aereo attiva</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="562"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="590"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="620"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="650"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="678"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="570"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="598"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="628"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="658"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="686"/>
         <source>. Restores previous mode.</source>
         <translation>. Ripristina il precedente stato.</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="582"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="590"/>
         <source>Power saving off</source>
         <translation>Risparmio Energetico disattivo</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="584"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="592"/>
         <source>Power saving on</source>
         <translation>Risparmio Energetico attivo</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="610"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="618"/>
         <source>Bluetooth off</source>
         <translation>Bluetooth disattivo</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="612"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="614"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="620"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="622"/>
         <source>Bluetooth on</source>
         <translation>Bluetooth attivo</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="614"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="622"/>
         <source>Bluetooth on and visible</source>
         <translation>Bluetooth attivo e visibile</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="640"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="648"/>
         <source>Dual GSM/3G</source>
         <translation>Duale GSM/3G</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="642"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="650"/>
         <source>GSM</source>
         <translation>GSM</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="644"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="652"/>
         <source>3G</source>
         <translation>3G</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="670"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="678"/>
         <source>Stand-by screen off</source>
         <translation>Stand-by screen disattivo</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="672"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="680"/>
         <source>Stand-by screen on</source>
         <translation>Stand-by screen attivo</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="699"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="707"/>
         <source>Command line</source>
         <translation>Riga di comando</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="703"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="711"/>
         <source>Custom action on activate and deactivate has been set</source>
         <translation>Azione personalizzata ad attivazione e disattivazione impostate</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="706"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="714"/>
         <source>Custom action on activate has been set</source>
         <translation>Impostare Azione Personalizzata all&apos;attivazione</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="709"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="717"/>
         <source>Custom action on deactivate has been set</source>
         <translation>Impostare Azione Personalizzata alla disattivazione</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="730"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="738"/>
         <source>Launch applications</source>
         <translation>Lancia Applicazione</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="755"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="763"/>
         <source>Device volume %1%</source>
         <translation>Volume dispositivo %1%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="757"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="765"/>
         <source>. Restores previous volume</source>
         <translation>. Ripristina il precedente Volume.</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="788"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="796"/>
         <source>Alarm with title %1 shown in %2 seconds</source>
         <translation>Sveglia con titolo %1 mostrato in %2 secondi</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="790"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="798"/>
         <source>Alarm</source>
         <translation>Sveglia</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="814"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="822"/>
         <source>Device brightness %1%</source>
         <translation>Luminosità dispositivo %1%</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="816"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="824"/>
         <source>. Restores previous brightness</source>
         <translation>. Ripristina la precedente Luminosità</translation>
     </message>
@@ -2223,42 +2257,52 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
 <context>
     <name>QmlRulesModel</name>
     <message>
-        <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="72"/>
+        <source>, </source>
+        <comment>This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.</comment>
+        <translation type="obsolete">, </translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="73"/>
         <source>toLowerDirective</source>
-        <comment>This translation is not shown in UI. It is only used internally to direct whether ProfileMatic lower-case formats summary in the main view where rules are listed. This is 99% of the time what&apos;s wanted. But some languages, such as Germany require some words to always be in upper-case, even if they&apos;re in middle of sentence (nouns). For such languages you can disable lower casing in summaries by translating this value exactly to &apos;noLowerFormat&apos;. For other languages you can put anything else here to mark it as translated.</comment>
+        <extracomment>This translation is not shown in UI. It is only used internally to direct whether ProfileMatic lower-case formats summary in the main view where rules are listed. This is 99% of the time what&apos;s wanted. But some languages, such as Germany require some words to always be in upper-case, even if they&apos;re in middle of sentence (nouns). For such languages you can disable lower casing in summaries by translating this value exactly to &apos;noLowerFormat&apos;. For other languages you can put anything else here to mark it as translated.</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="306"/>
+        <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="302"/>
         <source>, </source>
-        <comment>This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.</comment>
-        <translation>, </translation>
+        <extracomment>This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.</extracomment>
+        <translation type="unfinished">, </translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="315"/>
+        <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="311"/>
         <source>other rules don&apos;t apply</source>
         <translation>non sono attive altre regole</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="321"/>
+        <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="317"/>
         <source>and</source>
         <translation>e</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="338"/>
+        <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="334"/>
         <source>when</source>
         <translation>quando</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="338"/>
+        <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="334"/>
         <source>When</source>
         <translation>Quando</translation>
     </message>
     <message>
-        <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="404"/>
+        <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="401"/>
+        <source>Rule #%1</source>
+        <extracomment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</extracomment>
+        <translation type="unfinished">Regola #%1</translation>
+    </message>
+    <message>
         <source>Rule #%1</source>
         <comment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</comment>
-        <translation>Regola #%1</translation>
+        <translation type="obsolete">Regola #%1</translation>
     </message>
 </context>
 <context>

@@ -69,13 +69,8 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profi
 void
 QmlRulesModel::_initializeNoFormatToLower() {
     _noFormatToLower = false;
-    QString noFormatDirective = tr("toLowerDirective",
-                                   "This translation is not shown in UI. It is only used internally to direct whether ProfileMatic " \
-                                   "lower-case formats summary in the main view where rules are listed. This is 99% of the time " \
-                                   "what's wanted. But some languages, such as Germany require some words to always be in upper-case, " \
-                                   "even if they're in middle of sentence (nouns). For such languages you can disable lower casing " \
-                                   "in summaries by translating this value exactly to 'noLowerFormat'. For other languages you can " \
-                                   "put anything else here to mark it as translated.");
+    //: This translation is not shown in UI. It is only used internally to direct whether ProfileMatic lower-case formats summary in the main view where rules are listed. This is 99% of the time what's wanted. But some languages, such as Germany require some words to always be in upper-case, even if they're in middle of sentence (nouns). For such languages you can disable lower casing in summaries by translating this value exactly to 'noLowerFormat'. For other languages you can put anything else here to mark it as translated.
+    QString noFormatDirective = tr("toLowerDirective");
     if (noFormatDirective == "noLowerFormat") {
         _noFormatToLower = true;
     }
@@ -303,7 +298,8 @@ QmlRulesModel::_createRuleSummaryText(const Rule *rule, const QString &nonUsable
         if (!summary.isEmpty()) {
             if (numAction > 0) {
                 if (!_noFormatToLower) formatListingSummary(summary);
-                action.append(tr(", ", "This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string."));
+                //: This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.
+                action.append(tr(", "));
             }
 
             action += summary;
@@ -401,9 +397,8 @@ QmlRulesModel::setNewEditRuleFrom(int index) {
 void
 QmlRulesModel::saveEditRule() {
     if (_editRule.getRuleName().isEmpty()) {
-        QString ruleName = tr("Rule #%1", "This is for assigning automatic rule name if user left " \
-                              "rule name field empty when saving the rule. The number is simply " \
-                              "the amount of rules already existing").arg(_rules.size() + 1);
+        //: This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing
+        QString ruleName = tr("Rule #%1").arg(_rules.size() + 1);
         _editRule.setRuleName(ruleName);
         qDebug() << Q_FUNC_INFO << "rule name empty, setting name to" << _editRule.getRuleName();
     }
