@@ -1,7 +1,9 @@
 profilematic (2.4.0) unstable; urgency=low
   * Time interval condition
+  * Comments for translators modified to be usable in transifex
+  * Up-to-date translations: Chinese, Czech, German, Italian, Swedish
 
- -- Arto Jalkanen <ajalkane@gmail.com>  Wed, 22 Aug 2013 00:08:00 +0300
+ -- Arto Jalkanen <ajalkane@gmail.com>  Wed, 25 Aug 2013 23:45:00 +0300
 
 profilematic (2.3.0) unstable; urgency=low
   * Brightness action

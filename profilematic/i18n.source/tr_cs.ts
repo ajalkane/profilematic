@@ -1231,77 +1231,77 @@ Znak čárky (,) je použit k oddělení klíčových slov v rámci jednoho pole
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="52"/>
         <source>Invalid time interval condition</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná časová podmínka </translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="53"/>
         <source>Both active and inactive duration must be set as at least 1 minute, or you can clear them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Oba časy, aktivní i neaktivní, musí být nastaveny nejméně na 1 minutu nebo je můžete vymazat.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="55"/>
         <source>Invalid values:</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatné hodnoty:</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="57"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="95"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="136"/>
         <source>Active duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Trvání aktivity</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="58"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="103"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="144"/>
         <source>Inactive duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Trvání nečinnosti</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="65"/>
         <source>Clear time interval conditions</source>
-        <translation type="unfinished"></translation>
+        <translation>Vymazat podmínky časového intervalu</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="66"/>
         <source>Are you sure you want to clear time interval conditions?</source>
-        <translation type="unfinished"></translation>
+        <translation>Opravdu chcete vymazat podmínky časového intervalu?</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="67"/>
         <source>Yes</source>
-        <translation type="unfinished">Ano</translation>
+        <translation>Ano</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="68"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="90"/>
         <source>Time interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Časový interval</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="116"/>
         <source>Clear</source>
-        <translation type="unfinished">Vymazat</translation>
+        <translation>Vymazat</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="121"/>
         <source>Can be used to activate some actions periodically. Active duration specifies the time period that the rule is active, inactive duration specifies the time period the rule is inactive after being active. The rule alternates between active and inactive states according to these parameters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Může být použito k provádění nějakých akcí opakovaně. Čas aktivity udává časové období, po které je pravidlo aktivní, čas nečinnosti udává jak dlouho bude pravidlo neaktivní, poté co bylo aktivní. Pravidlo přechází mezi stavy aktivní a neaktivní podle těchto parametrů.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="127"/>
         <source>Tip: You can add for example &apos;Time condition&apos; with this rule to specify that the time interval is only active within specified time/days.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tip: tímto pravidlem můžete přidat například &apos;Časovou podmínku&apos;, aby jste tak specifikovali, že časové období je aktivní pouze v daném čase/dnech.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="167"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="176"/>
         <source>Not set</source>
-        <translation type="unfinished"></translation>
+        <translation>Není nastaveno</translation>
     </message>
 </context>
 <context>
@@ -1849,7 +1849,7 @@ Znak čárky (,) je použit k oddělení klíčových slov v rámci jednoho pole
     <message>
         <location filename="../src/qmlbackend/qmlconditioneditmodel.cpp" line="56"/>
         <source>Time interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Časový interval</translation>
     </message>
 </context>
 <context>
@@ -1886,29 +1886,19 @@ Znak čárky (,) je použit k oddělení klíčových slov v rámci jednoho pole
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="40"/>
         <source>%1h</source>
         <extracomment>Number of hours</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>%1h</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="45"/>
         <source>%1min</source>
         <extracomment>Number of minutes</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>%1min</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="50"/>
         <source>%1s</source>
         <extracomment>Number of seconds</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> - </source>
-        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation type="obsolete"> - </translation>
-    </message>
-    <message>
-        <source>24h</source>
-        <comment>Time condition length</comment>
-        <translation type="obsolete">24h</translation>
+        <translation>%1s</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="145"/>
@@ -1921,16 +1911,6 @@ Znak čárky (,) je použit k oddělení klíčových slov v rámci jednoho pole
         <translation>Žádné dny</translation>
     </message>
     <message>
-        <source>, </source>
-        <comment>This a between days. Notice space separator at end of the translation. Preserve it for translation.</comment>
-        <translation type="obsolete">, </translation>
-    </message>
-    <message>
-        <source> - </source>
-        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation type="obsolete"> - </translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="197"/>
         <source>on location</source>
         <translation>v umístění</translation>
@@ -1941,14 +1921,39 @@ Znak čárky (,) je použit k oddělení klíčových slov v rámci jednoho pole
         <translation>Nastaveny id buněk mobilní sítě</translation>
     </message>
     <message>
-        <source> (%1s timeout)</source>
-        <comment> (number of seconds timeout, please preserve the space before the translated string)</comment>
-        <translation type="obsolete"> (%1 s časový limit)</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="224"/>
         <source>Mobile net connection</source>
         <translation>Mobilní připojení k internetu</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="99"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="177"/>
+        <source> - </source>
+        <extracomment>This is a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them
+----------
+Range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them</extracomment>
+        <translation> - </translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="104"/>
+        <source>24h</source>
+        <extracomment>Time condition length</extracomment>
+        <translation>24h</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="171"/>
+        <source>, </source>
+        <extracomment>Separator between days. Notice space separator at end of the translation. Preserve it in translation.</extracomment>
+        <translation>, </translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="202"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="259"/>
+        <source> (%1s timeout)</source>
+        <extracomment>(number of seconds timeout, please preserve the space before the translated string)
+----------
+(number of seconds timeout, please preserve the space before the translated string)</extracomment>
+        <translation> (%1s časový limit)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="226"/>
@@ -2006,11 +2011,6 @@ Znak čárky (,) je použit k oddělení klíčových slov v rámci jednoho pole
         <translation>Nastavené NFC tagy</translation>
     </message>
     <message>
-        <source> (toggles)</source>
-        <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation type="obsolete"> (přepíná)</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="354"/>
         <source>not charging</source>
         <translation>nenabíjí se</translation>
@@ -2058,60 +2058,25 @@ Znak čárky (,) je použit k oddělení klíčových slov v rámci jednoho pole
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="474"/>
         <source>Time interval </source>
-        <translation type="unfinished"></translation>
+        <translation>Časový interval</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="477"/>
         <source>%1/%2</source>
         <extracomment>Time interval. First argument is active period, second argument is inactive period</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> (%1%)</source>
-        <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation type="obsolete"> (%1%)</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="99"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="177"/>
-        <source> - </source>
-        <extracomment>This is a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them
-----------
-Range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them</extracomment>
-        <translation type="unfinished"> - </translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="104"/>
-        <source>24h</source>
-        <extracomment>Time condition length</extracomment>
-        <translation type="unfinished">24h</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="171"/>
-        <source>, </source>
-        <extracomment>Separator between days. Notice space separator at end of the translation. Preserve it in translation.</extracomment>
-        <translation type="unfinished">, </translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="202"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="259"/>
-        <source> (%1s timeout)</source>
-        <extracomment>(number of seconds timeout, please preserve the space before the translated string)
-----------
-(number of seconds timeout, please preserve the space before the translated string)</extracomment>
-        <translation type="unfinished"> (%1 s časový limit)</translation>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="329"/>
         <source> (toggles)</source>
         <extracomment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</extracomment>
-        <translation type="unfinished"> (přepíná)</translation>
+        <translation>(přepíná)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="504"/>
         <source> (%1%)</source>
         <extracomment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</extracomment>
-        <translation type="unfinished"> (%1%)</translation>
+        <translation> (%1%)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="507"/>
@@ -2257,21 +2222,16 @@ Range separator between day start and day end. Notice space separators before an
 <context>
     <name>QmlRulesModel</name>
     <message>
-        <source>, </source>
-        <comment>This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.</comment>
-        <translation type="obsolete">, </translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="73"/>
         <source>toLowerDirective</source>
         <extracomment>This translation is not shown in UI. It is only used internally to direct whether ProfileMatic lower-case formats summary in the main view where rules are listed. This is 99% of the time what&apos;s wanted. But some languages, such as Germany require some words to always be in upper-case, even if they&apos;re in middle of sentence (nouns). For such languages you can disable lower casing in summaries by translating this value exactly to &apos;noLowerFormat&apos;. For other languages you can put anything else here to mark it as translated.</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>toLowerDirective</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="302"/>
         <source>, </source>
         <extracomment>This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.</extracomment>
-        <translation type="unfinished">, </translation>
+        <translation>, </translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="311"/>
@@ -2297,12 +2257,7 @@ Range separator between day start and day end. Notice space separators before an
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="401"/>
         <source>Rule #%1</source>
         <extracomment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</extracomment>
-        <translation type="unfinished">Pravidlo #%1</translation>
-    </message>
-    <message>
-        <source>Rule #%1</source>
-        <comment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</comment>
-        <translation type="obsolete">Pravidlo #%1</translation>
+        <translation>Pravidlo #%1</translation>
     </message>
 </context>
 <context>

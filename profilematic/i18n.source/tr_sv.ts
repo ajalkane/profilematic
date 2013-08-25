@@ -1081,7 +1081,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/ConditionNFC.qml" line="37"/>
         <source>You have not enabled NFC. To use NFC rules you must enable NFC from device settings. Also you can&apos;t collect NFC tags here without enabling NFC tags from the settings.</source>
-        <translation>Du har inte aktiverat NFC. För att använda NFC regler du måste aktivera NFC från enhetens inställningar. Även kan du inte samla NFC-taggar utan att aktivera NFC-taggar från inställningarna.</translation>
+        <translation>Du har inte aktiverat NFC. För att använda NFC regler måste du aktivera NFC från enhetens inställningar. Du kan inte heller samla NFC-taggar utan att aktivera NFC från inställningarna.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionNFC.qml" line="40"/>
@@ -1096,7 +1096,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/ConditionNFC.qml" line="98"/>
         <source>Bring NFC tag close to the phone to add it to tags that are matched by this rule</source>
-        <translation>För en NFC-tagg nära telefonen för att lägga till taggen som matchas av denna regel</translation>
+        <translation>För en NFC-tagg nära telefonen för att lägga till den för taggar som matchas av denna regel</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionNFC.qml" line="112"/>
@@ -1188,7 +1188,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/ConditionTime.qml" line="126"/>
         <source>Either set all time and day fields, or clear them.</source>
-        <translation>Antingen ställ in alla tid och dag fält, eller ta bort dem.</translation>
+        <translation>Antingen ställ in alla tid och dag fält, eller rensa dem.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTime.qml" line="128"/>
@@ -1200,7 +1200,6 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
         <source>Start time
 </source>
         <translation>Start tid
-
 </translation>
     </message>
     <message>
@@ -1232,77 +1231,77 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="52"/>
         <source>Invalid time interval condition</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogiltigt tidsintervall</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="53"/>
         <source>Both active and inactive duration must be set as at least 1 minute, or you can clear them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Både aktiv och inaktiv varaktighet måste ställas till minst 1 minut, annars kan du lämna de tomma.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="55"/>
         <source>Invalid values:</source>
-        <translation type="unfinished"></translation>
+        <translation>Otillåtna värden:</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="57"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="95"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="136"/>
         <source>Active duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiv varaktighet</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="58"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="103"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="144"/>
         <source>Inactive duration</source>
-        <translation type="unfinished"></translation>
+        <translation>inaktiv varaktighet</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="65"/>
         <source>Clear time interval conditions</source>
-        <translation type="unfinished"></translation>
+        <translation>Rensa tidsintervallets villkor</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="66"/>
         <source>Are you sure you want to clear time interval conditions?</source>
-        <translation type="unfinished"></translation>
+        <translation>Är du säker på att du vill rensa tidsintervalls villkor?</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="67"/>
         <source>Yes</source>
-        <translation type="unfinished">Ja</translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="68"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="90"/>
         <source>Time interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidsintervall</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="116"/>
         <source>Clear</source>
-        <translation type="unfinished">Rensa</translation>
+        <translation>Rensa</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="121"/>
         <source>Can be used to activate some actions periodically. Active duration specifies the time period that the rule is active, inactive duration specifies the time period the rule is inactive after being active. The rule alternates between active and inactive states according to these parameters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan användas för att aktivera periodiska åtgärder. Aktiv varaktighet är den tid som regeln är aktiv, inaktiv varaktighet är tiden som regeln är inaktiv efter att den aktiveras. Regeln växlar mellan aktiv och inaktiv enligt dessa parametrar.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="127"/>
         <source>Tip: You can add for example &apos;Time condition&apos; with this rule to specify that the time interval is only active within specified time/days.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tips: Du kan till exempel lägga till &apos;Tidsvillkor&apos; med denna regel för att specificera att tidsintervall endast är aktivt mellan valda tider/dagar.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="167"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="176"/>
         <source>Not set</source>
-        <translation type="unfinished">Ej inställt</translation>
+        <translation>Inte inställt</translation>
     </message>
 </context>
 <context>
@@ -1315,7 +1314,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/ConditionWlan.qml" line="117"/>
         <source>This condition can be used to activate a rule when connected to WLAN. Add the desired WLAN when connected to it.</source>
-        <translation>Detta villkor kan användas för att aktivera en regel vid anslutning till WLAN. Lägg till önskad WLAN när du är ansluten till det.</translation>
+        <translation>Detta villkor kan användas för att aktivera en regel vid anslutning till WLAN. Lägg till önskat WLAN när du är ansluten till det.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionWlan.qml" line="124"/>
@@ -1360,7 +1359,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/ConditionWlan.qml" line="214"/>
         <source>Use WLAN timeout if your connection to the WLAN is weak. When timeout is set, WLAN is considered active after losing connection for as many seconds as specified. </source>
-        <translation>Använd WLAN-timeout om din anslutningssignal till WLAN är svag. När tidsgränsen är vald, WLAN anses vara aktivt efter att ha förlorat anslutning för så många sekunder som anges.</translation>
+        <translation>Använd WLAN-timeout om din anslutningssignal till WLAN är svag. När tidsgränsen är vald så kommer WLAN anses vara aktivt efter att ha förlorat anslutningen för så många sekunder som angetts.</translation>
     </message>
 </context>
 <context>
@@ -1383,7 +1382,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/DialogBatteryLevel.qml" line="48"/>
         <source>Min</source>
-        <translation>Min.</translation>
+        <translation>Min</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/DialogBatteryLevel.qml" line="55"/>
@@ -1580,7 +1579,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/EditRule.qml" line="232"/>
         <source>Activates specified actions if no other rule with matching conditions has the action specified. Note: if a regular rule has &apos;restore previous&apos; in its action, it overrides default rules action.</source>
-        <translation>Aktiverar specificerade åtgärder om ingen annan regel med matchande villkor har den åtgärd som angetts. Obs: Om en vanlig regel har &quot;återställa tidigare&quot; som sin åtgärd, åsidosätter den standardreglernas åtgärder.</translation>
+        <translation>Aktiverar specificerade åtgärder om ingen annan regel med matchande villkor har den åtgärd som angetts. Obs: Om en vanlig regel har &quot;återställ föregående&quot; som sin åtgärd, åsidosätter den standardreglernas åtgärder.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/EditRule.qml" line="238"/>
@@ -1600,7 +1599,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/EditRule.qml" line="249"/>
         <source>Auto-generated</source>
-        <translation>Auto-generera</translation>
+        <translation>Ange automatiskt</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/EditRule.qml" line="260"/>
@@ -1643,7 +1642,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/EditRuleAdvanced.qml" line="57"/>
         <source>Stop rule processing if matches</source>
-        <translation>Stoppa villkors aktivering om detta matchar</translation>
+        <translation>Stoppa villkorsaktivering om detta matchar</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/EditRuleAdvanced.qml" line="58"/>
@@ -1658,7 +1657,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/EditRuleAdvanced.qml" line="67"/>
         <source>ProfileMatic processes rules from top to bottom. Normally all rules are processed. If this option is set on, whenever this rules matches, the following rules are not processed anymore. Default rule is a special case, which is always processed even if this option is set on.</source>
-        <translation>ProfileMatic aktiverar regler från topp till botten. Normalt behandlas alla regler. Om det här alternativet är aktiverat, när detta regler matcher är följande regler behandlas inte längre. Default regeln är ett specialfall, som alltid behandlas även om detta alternativ är inställt på.</translation>
+        <translation>ProfileMatic aktiverar regler från topp till botten. Normalt behandlas alla regler. Om detta alternativ är aktiverat och om dessa regler matchar behandlas inte följande regler. Standardregeln är ett specialfall, som alltid behandlas även om detta alternativ är aktiverat.</translation>
     </message>
 </context>
 <context>
@@ -1676,7 +1675,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/FlightModeDialog.qml" line="74"/>
         <source>Set flight mode off</source>
-        <translation>Sätt av flygplansläge </translation>
+        <translation>Stäng av flygplansläge </translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/FlightModeDialog.qml" line="75"/>
@@ -1686,7 +1685,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/FlightModeDialog.qml" line="75"/>
         <source>Set flight mode on</source>
-        <translation>Sätt på flygplansläge</translation>
+        <translation>Aktivera flygplansläge</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/FlightModeDialog.qml" line="76"/>
@@ -1699,7 +1698,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/PowerSavingDialog.qml" line="26"/>
         <source>Set power saving mode</source>
-        <translation>Sätt energisparläge</translation>
+        <translation>Ställ in energisparläge</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/PowerSavingDialog.qml" line="73"/>
@@ -1709,7 +1708,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/PowerSavingDialog.qml" line="73"/>
         <source>Set power saving off</source>
-        <translation>Sätt av energisparläge </translation>
+        <translation>Stäng av energisparläge </translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/PowerSavingDialog.qml" line="74"/>
@@ -1719,7 +1718,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../qml/harmattan/qml/PowerSavingDialog.qml" line="74"/>
         <source>Set power saving on</source>
-        <translation>Sätt på energisparläge</translation>
+        <translation>Aktivera energisparläge</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/PowerSavingDialog.qml" line="75"/>
@@ -1850,7 +1849,7 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../src/qmlbackend/qmlconditioneditmodel.cpp" line="56"/>
         <source>Time interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidsintervall</translation>
     </message>
 </context>
 <context>
@@ -1887,29 +1886,19 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="40"/>
         <source>%1h</source>
         <extracomment>Number of hours</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>%1 tim</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="45"/>
         <source>%1min</source>
         <extracomment>Number of minutes</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>%1 min</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="50"/>
         <source>%1s</source>
         <extracomment>Number of seconds</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> - </source>
-        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation type="obsolete">-</translation>
-    </message>
-    <message>
-        <source>24h</source>
-        <comment>Time condition length</comment>
-        <translation type="obsolete">24h</translation>
+        <translation>%1sek</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="145"/>
@@ -1922,16 +1911,6 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
         <translation>Inga dagar</translation>
     </message>
     <message>
-        <source>, </source>
-        <comment>This a between days. Notice space separator at end of the translation. Preserve it for translation.</comment>
-        <translation type="obsolete">,</translation>
-    </message>
-    <message>
-        <source> - </source>
-        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation type="obsolete">-</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="197"/>
         <source>on location</source>
         <translation>på position</translation>
@@ -1942,14 +1921,39 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
         <translation>Cell id inställt</translation>
     </message>
     <message>
-        <source> (%1s timeout)</source>
-        <comment> (number of seconds timeout, please preserve the space before the translated string)</comment>
-        <translation type="obsolete">(%1s tidsgräns)</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="224"/>
         <source>Mobile net connection</source>
         <translation>Mobiltnätverksanslutning</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="99"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="177"/>
+        <source> - </source>
+        <extracomment>This is a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them
+----------
+Range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them</extracomment>
+        <translation> - </translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="104"/>
+        <source>24h</source>
+        <extracomment>Time condition length</extracomment>
+        <translation>24 tim</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="171"/>
+        <source>, </source>
+        <extracomment>Separator between days. Notice space separator at end of the translation. Preserve it in translation.</extracomment>
+        <translation>, </translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="202"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="259"/>
+        <source> (%1s timeout)</source>
+        <extracomment>(number of seconds timeout, please preserve the space before the translated string)
+----------
+(number of seconds timeout, please preserve the space before the translated string)</extracomment>
+        <translation> (%1s timeout)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="226"/>
@@ -2007,11 +2011,6 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
         <translation>NFC upptäckning inställd</translation>
     </message>
     <message>
-        <source> (toggles)</source>
-        <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation type="obsolete">(växlare)</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="354"/>
         <source>not charging</source>
         <translation>Laddas inte</translation>
@@ -2059,60 +2058,25 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="474"/>
         <source>Time interval </source>
-        <translation type="unfinished"></translation>
+        <translation>Tidsintervall</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="477"/>
         <source>%1/%2</source>
         <extracomment>Time interval. First argument is active period, second argument is inactive period</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> (%1%)</source>
-        <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation type="obsolete">(%1%)</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="99"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="177"/>
-        <source> - </source>
-        <extracomment>This is a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them
-----------
-Range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them</extracomment>
-        <translation type="unfinished">-</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="104"/>
-        <source>24h</source>
-        <extracomment>Time condition length</extracomment>
-        <translation type="unfinished">24h</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="171"/>
-        <source>, </source>
-        <extracomment>Separator between days. Notice space separator at end of the translation. Preserve it in translation.</extracomment>
-        <translation type="unfinished">,</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="202"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="259"/>
-        <source> (%1s timeout)</source>
-        <extracomment>(number of seconds timeout, please preserve the space before the translated string)
-----------
-(number of seconds timeout, please preserve the space before the translated string)</extracomment>
-        <translation type="unfinished">(%1s tidsgräns)</translation>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="329"/>
         <source> (toggles)</source>
         <extracomment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</extracomment>
-        <translation type="unfinished">(växlare)</translation>
+        <translation> (växlare)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="504"/>
         <source> (%1%)</source>
         <extracomment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</extracomment>
-        <translation type="unfinished">(%1%)</translation>
+        <translation> (%1%)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="507"/>
@@ -2258,21 +2222,16 @@ Range separator between day start and day end. Notice space separators before an
 <context>
     <name>QmlRulesModel</name>
     <message>
-        <source>, </source>
-        <comment>This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.</comment>
-        <translation type="obsolete">,</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="73"/>
         <source>toLowerDirective</source>
         <extracomment>This translation is not shown in UI. It is only used internally to direct whether ProfileMatic lower-case formats summary in the main view where rules are listed. This is 99% of the time what&apos;s wanted. But some languages, such as Germany require some words to always be in upper-case, even if they&apos;re in middle of sentence (nouns). For such languages you can disable lower casing in summaries by translating this value exactly to &apos;noLowerFormat&apos;. For other languages you can put anything else here to mark it as translated.</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>toLowerDirective</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="302"/>
         <source>, </source>
         <extracomment>This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.</extracomment>
-        <translation type="unfinished">,</translation>
+        <translation>, </translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="311"/>
@@ -2298,12 +2257,7 @@ Range separator between day start and day end. Notice space separators before an
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="401"/>
         <source>Rule #%1</source>
         <extracomment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</extracomment>
-        <translation type="unfinished">Regel #%1</translation>
-    </message>
-    <message>
-        <source>Rule #%1</source>
-        <comment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</comment>
-        <translation type="obsolete">Regel #%1</translation>
+        <translation>Regel #%1</translation>
     </message>
 </context>
 <context>

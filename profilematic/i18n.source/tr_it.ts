@@ -70,7 +70,7 @@
     <message>
         <location filename="../qml/harmattan/qml/ActionAlarm.qml" line="87"/>
         <source>Schedule alarm to be shown after specified time with title of your choosing. Both title and alarm must be set for alarm to be used.</source>
-        <translation>Programma di Sveglia da visualizzare dopo il tempo specificato con il titolo a scelta. Sia il titolo che il ritardo devono essere impostati per poter utilizzare la Sveglia.</translation>
+        <translation>Programma di Sveglia con titolo personalizzabile e possibilità di posticipare l&apos;allarme dal momento dell&apos;attivazione della Regola. Sia il titolo che il ritardo devono essere impostati per poter utilizzare la Sveglia (imposta 00:00 se vuoi che suoni immediatamente con l&apos;attivazione).</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionAlarm.qml" line="91"/>
@@ -96,7 +96,7 @@
         <location filename="../qml/harmattan/qml/ActionAlarm.qml" line="123"/>
         <location filename="../qml/harmattan/qml/ActionAlarm.qml" line="126"/>
         <source>Alarm action is not currently usable</source>
-        <translation>L&apos;azione Sveglia non è attualmente disponibile</translation>
+        <translation>L&apos;azione Sveglia non è attualmente fruibile</translation>
     </message>
 </context>
 <context>
@@ -120,17 +120,17 @@
         <location filename="../qml/harmattan/qml/ActionAlarmAdvanced.qml" line="59"/>
         <location filename="../qml/harmattan/qml/ActionAlarmAdvanced.qml" line="85"/>
         <source>Alarm snooze time</source>
-        <translation>Ripeti Allarme</translation>
+        <translation>Ripeti Sveglia ogni</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionAlarmAdvanced.qml" line="81"/>
         <source>Alarm action advanced</source>
-        <translation>Azione: Allarme Avanzato</translation>
+        <translation>Azione: Sveglia Avanzata</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionAlarmAdvanced.qml" line="86"/>
         <source>Default snooze</source>
-        <translation>Allarme predefinito</translation>
+        <translation>Tono predefinito</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionAlarmAdvanced.qml" line="92"/>
@@ -1000,7 +1000,7 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
     <message>
         <location filename="../qml/harmattan/qml/ConditionInternetConnectionMode.qml" line="48"/>
         <source>Internet connection condition</source>
-        <translation>Condizione: Connessione Internet</translation>
+        <translation>Condizione: Conn. Internet</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionInternetConnectionMode.qml" line="52"/>
@@ -1013,7 +1013,7 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
     <message>
         <location filename="../qml/harmattan/qml/ConditionLocation.qml" line="79"/>
         <source>Cell id location condition</source>
-        <translation>Condizione: Localizzazione da ID cella</translation>
+        <translation>Condizione: Localizz. da ID cella</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionLocation.qml" line="87"/>
@@ -1212,13 +1212,13 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
     <message>
         <location filename="../qml/harmattan/qml/ConditionTime.qml" line="138"/>
         <source>All time and day fields must be set. This condition is not yet usable.</source>
-        <translation>Devi riempire i campi &apos;Giorni&apos; e &apos;Orario&apos;. Questa Condizione non è attualmente disponibile.</translation>
+        <translation>Devi riempire i campi &apos;Giorni&apos; e &apos;Orario&apos;. Questa Condizione non è attualmente fruibile.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTime.qml" line="164"/>
         <location filename="../qml/harmattan/qml/ConditionTime.qml" line="188"/>
         <source>Click to set time</source>
-        <translation>Click per impostare Orario</translation>
+        <translation>Click per impostare l&apos;ora</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTime.qml" line="201"/>
@@ -1231,77 +1231,77 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="52"/>
         <source>Invalid time interval condition</source>
-        <translation type="unfinished"></translation>
+        <translation>Condizione Intervallo non valida</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="53"/>
         <source>Both active and inactive duration must be set as at least 1 minute, or you can clear them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrambe le durate, attività ed inattività, devono essere impostate, oppure pulisci la Condizione.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="55"/>
         <source>Invalid values:</source>
-        <translation type="unfinished"></translation>
+        <translation>Valori da correggere:</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="57"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="95"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="136"/>
         <source>Active duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Durata attività</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="58"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="103"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="144"/>
         <source>Inactive duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Durata inattività</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="65"/>
         <source>Clear time interval conditions</source>
-        <translation type="unfinished"></translation>
+        <translation>Pulisci Condizione Intervallo</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="66"/>
         <source>Are you sure you want to clear time interval conditions?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sei sicuro di pulire la Condizione Intervallo?</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="67"/>
         <source>Yes</source>
-        <translation type="unfinished">Si</translation>
+        <translation>Si</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="68"/>
         <source>Cancel</source>
-        <translation type="unfinished">Annulla</translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="90"/>
         <source>Time interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Condizione: Intervallo</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="116"/>
         <source>Clear</source>
-        <translation type="unfinished">Pulisci</translation>
+        <translation>Pulisci</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="121"/>
         <source>Can be used to activate some actions periodically. Active duration specifies the time period that the rule is active, inactive duration specifies the time period the rule is inactive after being active. The rule alternates between active and inactive states according to these parameters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Puoi usarle la Condizione Intervallo per attivare alcune azioni periodicamente. Con durata attività specifichi il tempo durante il quale la regola rimane attiva, mentre con durata inattività specifichi il periodo di riposo prima che vengano eseguite nuovamente le Azioni. La Regola si alterna tra stato di Attività e Inattività in base ai parametri impostati.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="127"/>
         <source>Tip: You can add for example &apos;Time condition&apos; with this rule to specify that the time interval is only active within specified time/days.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consiglio: Puoi usare la Condizione Intervallo combinata, per esempio, con la Condizione Orario, im modo che sia attiva solo nei giorni e durante le ore specificate.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="167"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="176"/>
         <source>Not set</source>
-        <translation type="unfinished">Non impostato</translation>
+        <translation>Non impostato</translation>
     </message>
 </context>
 <context>
@@ -1849,7 +1849,7 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
     <message>
         <location filename="../src/qmlbackend/qmlconditioneditmodel.cpp" line="56"/>
         <source>Time interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Intervallo</translation>
     </message>
 </context>
 <context>
@@ -1886,29 +1886,19 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="40"/>
         <source>%1h</source>
         <extracomment>Number of hours</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>%1h</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="45"/>
         <source>%1min</source>
         <extracomment>Number of minutes</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>%1min</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="50"/>
         <source>%1s</source>
         <extracomment>Number of seconds</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> - </source>
-        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation type="obsolete"> - </translation>
-    </message>
-    <message>
-        <source>24h</source>
-        <comment>Time condition length</comment>
-        <translation type="obsolete">24h</translation>
+        <translation>%1s</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="145"/>
@@ -1921,16 +1911,6 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <translation>Nessun giorno</translation>
     </message>
     <message>
-        <source>, </source>
-        <comment>This a between days. Notice space separator at end of the translation. Preserve it for translation.</comment>
-        <translation type="obsolete">, </translation>
-    </message>
-    <message>
-        <source> - </source>
-        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation type="obsolete"> - </translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="197"/>
         <source>on location</source>
         <translation>presso luogo</translation>
@@ -1941,14 +1921,39 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <translation>ID cella impostati</translation>
     </message>
     <message>
-        <source> (%1s timeout)</source>
-        <comment> (number of seconds timeout, please preserve the space before the translated string)</comment>
-        <translation type="obsolete"> (%1s timeout)</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="224"/>
         <source>Mobile net connection</source>
         <translation>Connessione dati mobile</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="99"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="177"/>
+        <source> - </source>
+        <extracomment>This is a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them
+----------
+Range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them</extracomment>
+        <translation> - </translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="104"/>
+        <source>24h</source>
+        <extracomment>Time condition length</extracomment>
+        <translation>24h</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="171"/>
+        <source>, </source>
+        <extracomment>Separator between days. Notice space separator at end of the translation. Preserve it in translation.</extracomment>
+        <translation>, </translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="202"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="259"/>
+        <source> (%1s timeout)</source>
+        <extracomment>(number of seconds timeout, please preserve the space before the translated string)
+----------
+(number of seconds timeout, please preserve the space before the translated string)</extracomment>
+        <translation> (%1s timeout)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="226"/>
@@ -2006,11 +2011,6 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <translation>Rilevamento NFC impostato</translation>
     </message>
     <message>
-        <source> (toggles)</source>
-        <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation type="obsolete"> (interruttori)</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="354"/>
         <source>not charging</source>
         <translation>non in carica</translation>
@@ -2058,60 +2058,25 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="474"/>
         <source>Time interval </source>
-        <translation type="unfinished"></translation>
+        <translation>Intervallo</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="477"/>
         <source>%1/%2</source>
         <extracomment>Time interval. First argument is active period, second argument is inactive period</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> (%1%)</source>
-        <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation type="obsolete"> (%1%)</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="99"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="177"/>
-        <source> - </source>
-        <extracomment>This is a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them
-----------
-Range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them</extracomment>
-        <translation type="unfinished"> - </translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="104"/>
-        <source>24h</source>
-        <extracomment>Time condition length</extracomment>
-        <translation type="unfinished">24h</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="171"/>
-        <source>, </source>
-        <extracomment>Separator between days. Notice space separator at end of the translation. Preserve it in translation.</extracomment>
-        <translation type="unfinished">, </translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="202"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="259"/>
-        <source> (%1s timeout)</source>
-        <extracomment>(number of seconds timeout, please preserve the space before the translated string)
-----------
-(number of seconds timeout, please preserve the space before the translated string)</extracomment>
-        <translation type="unfinished"> (%1s timeout)</translation>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="329"/>
         <source> (toggles)</source>
         <extracomment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</extracomment>
-        <translation type="unfinished"> (interruttori)</translation>
+        <translation> (interruttori)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="504"/>
         <source> (%1%)</source>
         <extracomment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</extracomment>
-        <translation type="unfinished"> (%1%)</translation>
+        <translation> (%1%)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="507"/>
@@ -2231,12 +2196,12 @@ Range separator between day start and day end. Notice space separators before an
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="765"/>
         <source>. Restores previous volume</source>
-        <translation>. Ripristina il precedente Volume.</translation>
+        <translation>. Ripristina il precedente Volume</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="796"/>
         <source>Alarm with title %1 shown in %2 seconds</source>
-        <translation>Sveglia con titolo %1 mostrato in %2 secondi</translation>
+        <translation>Sveglia con titolo %1 e ritardo di %2 secondi</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="798"/>
@@ -2257,21 +2222,16 @@ Range separator between day start and day end. Notice space separators before an
 <context>
     <name>QmlRulesModel</name>
     <message>
-        <source>, </source>
-        <comment>This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.</comment>
-        <translation type="obsolete">, </translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="73"/>
         <source>toLowerDirective</source>
         <extracomment>This translation is not shown in UI. It is only used internally to direct whether ProfileMatic lower-case formats summary in the main view where rules are listed. This is 99% of the time what&apos;s wanted. But some languages, such as Germany require some words to always be in upper-case, even if they&apos;re in middle of sentence (nouns). For such languages you can disable lower casing in summaries by translating this value exactly to &apos;noLowerFormat&apos;. For other languages you can put anything else here to mark it as translated.</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>toLowerDirective</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="302"/>
         <source>, </source>
         <extracomment>This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.</extracomment>
-        <translation type="unfinished">, </translation>
+        <translation>, </translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="311"/>
@@ -2297,12 +2257,7 @@ Range separator between day start and day end. Notice space separators before an
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="401"/>
         <source>Rule #%1</source>
         <extracomment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</extracomment>
-        <translation type="unfinished">Regola #%1</translation>
-    </message>
-    <message>
-        <source>Rule #%1</source>
-        <comment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</comment>
-        <translation type="obsolete">Regola #%1</translation>
+        <translation>Regola #%1</translation>
     </message>
 </context>
 <context>

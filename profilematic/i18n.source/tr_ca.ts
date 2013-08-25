@@ -346,17 +346,17 @@
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="83"/>
         <source>Restore previous brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Restableix la brillantor anterior</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="86"/>
         <source>The previous brightness will be restored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es restablirà la brillantor anterior</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="87"/>
         <source>Previous brightness will not be restored.</source>
-        <translation type="unfinished"></translation>
+        <translation>No es restablirà la brillantor anterior</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="107"/>
@@ -415,17 +415,17 @@
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="83"/>
         <source>Restore previous volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Restableix el volum anterior</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="86"/>
         <source>The previous volume will be restored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es restablirà el volum anterior</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="87"/>
         <source>Previous volume will not be restored.</source>
-        <translation type="unfinished"></translation>
+        <translation>No es restablirà el volum anterior</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="107"/>
@@ -1901,16 +1901,6 @@ Utilitzeu la coma (,) per separar les paraules claus en un camp. Qualsevol parau
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> - </source>
-        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation type="obsolete">-</translation>
-    </message>
-    <message>
-        <source>24h</source>
-        <comment>Time condition length</comment>
-        <translation type="obsolete">24h</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="145"/>
         <source>All days</source>
         <translation>Cada dia</translation>
@@ -1919,16 +1909,6 @@ Utilitzeu la coma (,) per separar les paraules claus en un camp. Qualsevol parau
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="148"/>
         <source>No days</source>
         <translation>Cap dia</translation>
-    </message>
-    <message>
-        <source>, </source>
-        <comment>This a between days. Notice space separator at end of the translation. Preserve it for translation.</comment>
-        <translation type="obsolete">,</translation>
-    </message>
-    <message>
-        <source> - </source>
-        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation type="obsolete"> - </translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="197"/>
@@ -1941,14 +1921,39 @@ Utilitzeu la coma (,) per separar les paraules claus en un camp. Qualsevol parau
         <translation>Identificacions de cel·les establertes</translation>
     </message>
     <message>
-        <source> (%1s timeout)</source>
-        <comment> (number of seconds timeout, please preserve the space before the translated string)</comment>
-        <translation type="obsolete">(temps d&apos;espera %1s)</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="224"/>
         <source>Mobile net connection</source>
         <translation>Connexió de xarxa mòbil</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="99"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="177"/>
+        <source> - </source>
+        <extracomment>This is a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them
+----------
+Range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="104"/>
+        <source>24h</source>
+        <extracomment>Time condition length</extracomment>
+        <translation type="unfinished">3G {24h?}</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="171"/>
+        <source>, </source>
+        <extracomment>Separator between days. Notice space separator at end of the translation. Preserve it in translation.</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="202"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="259"/>
+        <source> (%1s timeout)</source>
+        <extracomment>(number of seconds timeout, please preserve the space before the translated string)
+----------
+(number of seconds timeout, please preserve the space before the translated string)</extracomment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="226"/>
@@ -2004,11 +2009,6 @@ Utilitzeu la coma (,) per separar les paraules claus en un camp. Qualsevol parau
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="326"/>
         <source>NFC detections set</source>
         <translation>Deteccions d&apos;NFC establertes</translation>
-    </message>
-    <message>
-        <source> (toggles)</source>
-        <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation type="obsolete">(commutadors)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="354"/>
@@ -2067,51 +2067,16 @@ Utilitzeu la coma (,) per separar les paraules claus en un camp. Qualsevol parau
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> (%1%)</source>
-        <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation type="obsolete">(%1%)</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="99"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="177"/>
-        <source> - </source>
-        <extracomment>This is a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them
-----------
-Range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="104"/>
-        <source>24h</source>
-        <extracomment>Time condition length</extracomment>
-        <translation type="unfinished">24h</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="171"/>
-        <source>, </source>
-        <extracomment>Separator between days. Notice space separator at end of the translation. Preserve it in translation.</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="202"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="259"/>
-        <source> (%1s timeout)</source>
-        <extracomment>(number of seconds timeout, please preserve the space before the translated string)
-----------
-(number of seconds timeout, please preserve the space before the translated string)</extracomment>
-        <translation type="unfinished">(temps d&apos;espera %1s)</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="329"/>
         <source> (toggles)</source>
         <extracomment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</extracomment>
-        <translation type="unfinished">(commutadors)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="504"/>
         <source> (%1%)</source>
         <extracomment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</extracomment>
-        <translation type="unfinished">(%1%)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="507"/>
@@ -2145,7 +2110,7 @@ Range separator between day start and day end. Notice space separators before an
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="658"/>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="686"/>
         <source>. Restores previous mode.</source>
-        <translation>. Restableix el mode anterior</translation>
+        <translation>. Restableix el mode anterior.</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="590"/>
@@ -2257,11 +2222,6 @@ Range separator between day start and day end. Notice space separators before an
 <context>
     <name>QmlRulesModel</name>
     <message>
-        <source>, </source>
-        <comment>This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.</comment>
-        <translation type="obsolete">, </translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="73"/>
         <source>toLowerDirective</source>
         <extracomment>This translation is not shown in UI. It is only used internally to direct whether ProfileMatic lower-case formats summary in the main view where rules are listed. This is 99% of the time what&apos;s wanted. But some languages, such as Germany require some words to always be in upper-case, even if they&apos;re in middle of sentence (nouns). For such languages you can disable lower casing in summaries by translating this value exactly to &apos;noLowerFormat&apos;. For other languages you can put anything else here to mark it as translated.</extracomment>
@@ -2297,12 +2257,7 @@ Range separator between day start and day end. Notice space separators before an
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="401"/>
         <source>Rule #%1</source>
         <extracomment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</extracomment>
-        <translation type="unfinished">Regla #%1</translation>
-    </message>
-    <message>
-        <source>Rule #%1</source>
-        <comment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</comment>
-        <translation type="obsolete">Regla #%1</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
