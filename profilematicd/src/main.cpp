@@ -21,10 +21,11 @@
 #include <QDBusMetaType>
 #include <QProcess>
 
+#include "model/rule.h"
+
 #include "profileclient.h"
 #include "configuration.h"
 #include "preferences.h"
-#include "model/rule.h"
 #include "logic/rulesholder.h"
 #include "logic/rulesmanager.h"
 #include "logic/conditionmanagerfactory.h"

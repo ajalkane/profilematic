@@ -25,10 +25,10 @@
 #include <QHash>
 #include <QDebug>
 
+#include "model/rule.h"
+
 #include "qmlapplication.h"
 #include "qmlapplicationsscanner.h"
-// IMPROVE need to have the Rule object in common sources or library.
-#include "../../profilematicd/src/model/rule.h"
 
 class QmlSelectedApplicationsModel : public QAbstractListModel
 {

@@ -21,7 +21,8 @@
 
 #include <QtTest/QtTest>
 
-#include "../../src/model/rule.h"
+#include "model/rule.h"
+
 #include "../../src/logic/calendar/calendarentrymatchercondition.h"
 
 class TestCalendarEntryMatcherCondition : public QObject

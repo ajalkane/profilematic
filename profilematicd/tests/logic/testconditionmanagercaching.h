@@ -22,8 +22,9 @@
 #include <QObject>
 #include <QtTest/QtTest>
 
+#include "model/rule.h"
+
 #include "../../src/logic/conditionmanagercaching.h"
-#include "../../src/model/rule.h"
 
 class TestConditionManagerCaching : public QObject
 {

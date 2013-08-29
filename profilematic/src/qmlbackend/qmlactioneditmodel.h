@@ -21,8 +21,8 @@
 
 #include <QObject>
 
-// IMPROVE need to have the Rule object in common sources or library.
-#include "../../profilematicd/src/model/rule.h"
+#include "model/rule.h"
+
 #include "qmlbaseruleeditmodel.h"
 
 class QmlActionEditModel: public QmlBaseRuleEditModel

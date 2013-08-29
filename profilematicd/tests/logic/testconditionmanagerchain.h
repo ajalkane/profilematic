@@ -22,8 +22,9 @@
 #include <QList>
 #include <QtTest/QtTest>
 
+#include "model/rule.h"
+
 #include "../../src/logic/conditionmanagerchain.h"
-#include "../../src/model/rule.h"
 
 class TestConditionManagerChain: public QObject
 {

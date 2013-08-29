@@ -19,7 +19,8 @@
 #ifndef CALENDARENTRYMATCHER_H
 #define CALENDARENTRYMATCHER_H
 
-#include "../../model/ruleconditioncalendar.h"
+#include "model/ruleconditioncalendar.h"
+
 #include "../../platform/calendar/calendarentry.h"
 
 class CalendarEntryMatcher

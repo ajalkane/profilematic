@@ -19,9 +19,10 @@
 #ifndef ACTION_H
 #define ACTION_H
 
+#include "model/ruleaction.h"
+#include "model/rule.h"
+
 #include "../util/conditionallogging.h"
-#include "../model/ruleaction.h"
-#include "../model/rule.h"
 
 class Action
 {

@@ -24,8 +24,7 @@
 #include <QVariantList>
 #include <QVariantMap>
 
-// IMPROVE need to have the Rule object in common sources or library.
-#include "../../profilematicd/src/model/rule.h"
+#include "model/rule.h"
 
 class QmlBaseRuleEditModel: public QAbstractListModel
 {

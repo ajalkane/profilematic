@@ -20,7 +20,7 @@
 #ifndef QMLACCOUNTSMODEL_H
 #define QMLACCOUNTSMODEL_H
 
-#include "../../profilematicd/src/model/ruleaction.h"
+#include "model/ruleaction.h"
 
 #include <QAbstractListModel>
 #include <QDeclarativeListProperty>

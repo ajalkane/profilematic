@@ -4,6 +4,9 @@
 #
 #-------------------------------------------------
 
+LIBS += ../shared/libshared.a
+INCLUDEPATH += ../shared/src
+
 QT       += core dbus
 
 QT       -= gui
@@ -36,13 +39,9 @@ MOBILITY += connectivity
 
 TEMPLATE = app
 
-
 SOURCES += src/main.cpp \
     src/profileclient.cpp \
     src/configuration.cpp \
-    src/model/rule.cpp \
-    src/model/ruleaction.cpp \
-    src/model/presencerule.cpp \
     src/interface/profilematicinterface.cpp \
     src/preferences.cpp \
     src/platform/platformutil.cpp \
@@ -61,23 +60,19 @@ SOURCES += src/main.cpp \
     src/logic/actioncellularmode.cpp \
     src/logic/actioncommandline.cpp \
     src/logic/actionstandbyscreenmode.cpp \
-    src/model/rulecondition.cpp \
     src/logic/actionstatefulbase.cpp \
     src/logic/actionactivateoncebase.cpp \
     src/logic/actionbackgroundconnections.cpp \
     src/logic/conditionmanageridle.cpp \
-    src/model/ruleconditionnfc.cpp \
     src/logic/conditionmanagernfc.cpp \
     src/logic/conditionmanagerinternetconnectionmode.cpp \
     src/logic/conditionmanagercharging.cpp \
     src/logic/conditionmanagerfactory.cpp \
     src/logic/actionfactory.cpp \
-    src/model/ruleconditionbatterylevel.cpp \
     src/logic/conditionmanagerbatterylevel.cpp \
     src/logic/calendar/conditionmanagercalendar.cpp \
     src/platform/calendar/calendarmanager.cpp \
     src/platform/calendar/calendarentry.cpp \
-    src/model/ruleconditioncalendar.cpp \
     src/logic/calendar/calendarentrymatchercondition.cpp \
     src/logic/calendar/calendarentrymatcher.cpp \
     src/logic/calendar/calendarentrymatcherdatetime.cpp \
@@ -86,21 +81,15 @@ SOURCES += src/main.cpp \
     src/logic/conditionmanagercaching.cpp \
     src/util/conditionallogging.cpp \
     src/logic/rulesholder.cpp \
-    src/model/ruleactionapplication.cpp \
     src/logic/application/actionapplication.cpp \
     src/logic/actiondevicevolume.cpp \
-    src/model/ruleactionalarm.cpp \
     src/logic/actionalarm.cpp \
     src/logic/actiondevicebrightness.cpp \
-    src/model/ruleconditiontimeinterval.cpp \
     src/logic/conditionmanagertimeinterval.cpp
 
 HEADERS += \
     src/profileclient.h \
     src/configuration.h \
-    src/model/rule.h \
-    src/model/ruleaction.h \
-    src/model/presencerule.h \
     src/interface/profilematicinterface.h \
     src/preferences.h \
     src/platform/platformutil.h \
@@ -120,23 +109,19 @@ HEADERS += \
     src/logic/actioncellularmode.h \
     src/logic/actioncommandline.h \
     src/logic/actionstandbyscreenmode.h \
-    src/model/rulecondition.h \
     src/logic/actionstatefulbase.h \
     src/logic/actionactivateoncebase.h \
     src/logic/actionbackgroundconnections.h \
     src/logic/conditionmanageridle.h \
-    src/model/ruleconditionnfc.h \
     src/logic/conditionmanagernfc.h \
     src/logic/conditionmanagerinternetconnectionmode.h \
     src/logic/conditionmanagercharging.h \
     src/logic/conditionmanagerfactory.h \
     src/logic/actionfactory.h \
-    src/model/ruleconditionbatterylevel.h \
     src/logic/conditionmanagerbatterylevel.h \
     src/logic/calendar/conditionmanagercalendar.h \
     src/platform/calendar/calendarmanager.h \
     src/platform/calendar/calendarentry.h \
-    src/model/ruleconditioncalendar.h \
     src/logic/calendar/calendarentrymatchercondition.h \
     src/logic/calendar/calendarentrymatcher.h \
     src/logic/calendar/calendarentrymatcherdatetime.h \
@@ -146,13 +131,10 @@ HEADERS += \
     src/util/pmtimer.h \
     src/util/conditionallogging.h \
     src/logic/rulesholder.h \
-    src/model/ruleactionapplication.h \
     src/logic/application/actionapplication.h \
     src/logic/actiondevicevolume.h \
-    src/model/ruleactionalarm.h \
     src/logic/actionalarm.h \
     src/logic/actiondevicebrightness.h \
-    src/model/ruleconditiontimeinterval.h \
     src/logic/conditionmanagertimeinterval.h
 
 !isEmpty(MEEGO_VERSION_MAJOR) {

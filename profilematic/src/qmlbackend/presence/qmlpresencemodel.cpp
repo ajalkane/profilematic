@@ -17,8 +17,9 @@
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
 
+#include "model/ruleaction.h"
+
 #include "qmlpresencemodel.h"
-#include "../../profilematicd/src/model/ruleaction.h"
 
 QmlPresenceModel::QmlPresenceModel(QObject *parent) :
     QAbstractListModel(parent), _action(NULL)

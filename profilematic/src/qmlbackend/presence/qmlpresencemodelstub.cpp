@@ -17,9 +17,10 @@
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
 
+#include "model/rule.h"
+#include "model/presencerule.h"
+
 #include "qmlpresencemodelstub.h"
-#include "../../profilematicd/src/model/rule.h"
-#include "../../profilematicd/src/model/presencerule.h"
 
 #include <QDebug>
 

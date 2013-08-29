@@ -22,8 +22,7 @@
 #include <QObject>
 #include <QString>
 
-// IMPROVE need to have the Rule object in common sources or library.
-#include "../../profilematicd/src/model/rule.h"
+#include "model/rule.h"
 
 #include "qmlprofilesmodel.h"
 

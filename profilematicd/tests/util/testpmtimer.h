@@ -21,7 +21,8 @@
 
 #include <QtTest/QtTest>
 
-#include "../../src/model/rule.h"
+#include "model/rule.h"
+
 #include "../../src/util/pmtimer.h"
 
 class TestPmTimer : public QObject

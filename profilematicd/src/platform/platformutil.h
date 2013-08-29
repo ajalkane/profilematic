@@ -21,7 +21,8 @@
 
 #include <QObject>
 
-#include "../model/rule.h"
+#include "model/rule.h"
+
 // IMPROVE it's wrong to have in platform util this... rather platformutil should abstract the QtTelepathy functions for portability between platforms
 #include "../logic/presence/actionpresence.h"
 #include "calendar/calendarmanager.h"

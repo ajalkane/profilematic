@@ -23,8 +23,9 @@
 #include <QSet>
 #include <QtTest/QtTest>
 
+#include "model/rule.h"
+
 #include "../../src/logic/conditionmanagertime.h"
-#include "../../src/model/rule.h"
 
 class TestConditionManagerTime : public QObject
 {

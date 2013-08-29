@@ -21,9 +21,9 @@
 
 #include <stdio.h>
 
+#include "model/rule.h"
+#include "model/presencerule.h"
 #include "../util/conditionallogging.h"
-#include "../model/rule.h"
-#include "../model/presencerule.h"
 #include "../configuration.h"
 #include "../logic/actioncommandline.h"
 #include "../logic/actionfactory.h"

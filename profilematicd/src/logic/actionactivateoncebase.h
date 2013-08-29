@@ -22,8 +22,9 @@
 #include <QSet>
 #include <QMap>
 
+#include "model/rule.h"
+
 #include "action.h"
-#include "../model/rule.h"
 
 /**
  * Base class for actions that are activated only once

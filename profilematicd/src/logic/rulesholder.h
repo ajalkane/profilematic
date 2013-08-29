@@ -23,13 +23,13 @@
 #include <QList>
 #include <QString>
 
+#include "model/rule.h"
+
 #include "conditionmanagerchain.h"
 #include "conditionmanagercacheable.h"
 #include "actionchain.h"
 
 #include "../profileclient.h"
-
-#include "../model/rule.h"
 
 /**
  * Contains the rule data and the objects needed for handling it

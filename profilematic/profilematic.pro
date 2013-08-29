@@ -1,3 +1,6 @@
+LIBS += ../shared/libshared.a
+INCLUDEPATH += ../shared/src
+
 # Add more folders to ship with the application, here
 translations.source = i18n
 translations.target =
@@ -33,16 +36,6 @@ SOURCES += src/main.cpp \
     src/profileclient.cpp \
     src/qmlbackend/qmlbackend.cpp \
     src/qmlbackend/qmldaysmodel.cpp \
-    ../profilematicd/src/model/rule.cpp \
-    ../profilematicd/src/model/rulecondition.cpp \
-    ../profilematicd/src/model/ruleconditionnfc.cpp \
-    ../profilematicd/src/model/ruleconditionbatterylevel.cpp \
-    ../profilematicd/src/model/ruleconditioncalendar.cpp \
-    ../profilematicd/src/model/ruleconditiontimeinterval.cpp \
-    ../profilematicd/src/model/ruleaction.cpp \
-    ../profilematicd/src/model/ruleactionapplication.cpp \
-    ../profilematicd/src/model/ruleactionalarm.cpp \
-    ../profilematicd/src/model/presencerule.cpp \
     src/qmlbackend/qmlrulesmodel.cpp \
     src/qmlbackend/qmlprofilesmodel.cpp \
     src/profilematicclient.cpp \
@@ -67,16 +60,6 @@ HEADERS += \
     src/profileclient.h \
     src/qmlbackend/qmlbackend.h \
     src/qmlbackend/qmldaysmodel.h \
-    ../profilematicd/src/model/rule.h \
-    ../profilematicd/src/model/ruleaction.h \
-    ../profilematicd/src/model/ruleactionapplication.h \
-    ../profilematicd/src/model/ruleactionalarm.h \
-    ../profilematicd/src/model/ruleconditionnfc.h \
-    ../profilematicd/src/model/ruleconditionbatterylevel.h \
-    ../profilematicd/src/model/ruleconditioncalendar.h \
-    ../profilematicd/src/model/ruleconditiontimeinterval.h \
-    ../profilematicd/src/model/rulecondition.h \
-    ../profilematicd/src/model/presencerule.h \
     src/qmlbackend/qmlrulesmodel.h \
     src/qmlbackend/qmlprofilesmodel.h \
     src/profilematicclient.h \

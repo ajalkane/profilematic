@@ -21,8 +21,9 @@
 
 #include <QString>
 
+#include "model/rule.h"
+
 #include "action.h"
-#include "../model/rule.h"
 
 /**
  * Only calls implementation if ruleId is different than in previous call

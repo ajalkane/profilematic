@@ -24,14 +24,14 @@
 #include <QVariantList>
 #include <QVariantMap>
 
+#include "model/rule.h"
+
 #include "qmlconditioneditmodel.h"
 #include "qmlactioneditmodel.h"
 
 #include "qmlprofilesmodel.h"
 #include "../profilematicclient.h"
 
-// IMPROVE need to have the Rule object in common sources or library.
-#include "../../profilematicd/src/model/rule.h"
 
 class QmlRulesModel: public QAbstractListModel
 {

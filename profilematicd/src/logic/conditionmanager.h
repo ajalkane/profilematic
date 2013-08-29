@@ -22,9 +22,10 @@
 #include <QObject>
 #include <QList>
 
+#include "model/rule.h"
+#include "model/rulecondition.h"
+
 #include "../util/conditionallogging.h"
-#include "../model/rule.h"
-#include "../model/rulecondition.h"
 
 class ConditionManager : public QObject
 {

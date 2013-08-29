@@ -24,8 +24,9 @@
 #include <QString>
 #include <QStringList>
 
+#include "model/rule.h"
+
 #include "../logic/rulesholder.h"
-#include "../model/rule.h"
 #include "../configuration.h"
 #include "../preferences.h"
 #include "../profileclient.h"

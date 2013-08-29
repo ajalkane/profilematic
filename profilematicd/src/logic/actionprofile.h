@@ -19,9 +19,10 @@
 #ifndef ACTIONPROFILE_H
 #define ACTIONPROFILE_H
 
+#include "model/rule.h"
+
 #include "actionstatefulbase.h"
 #include "../profileclient.h"
-#include "../model/rule.h"
 
 class ActionProfile: public ActionStatefulBase
 {

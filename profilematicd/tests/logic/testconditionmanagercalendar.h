@@ -22,8 +22,9 @@
 #include <QObject>
 #include <QtTest/QtTest>
 
+#include "model/rule.h"
+
 #include "../../src/logic/calendar/conditionmanagercalendar.h"
-#include "../../src/model/rule.h"
 
 class MockCalendarManager;
 class MockPlatformUtil;

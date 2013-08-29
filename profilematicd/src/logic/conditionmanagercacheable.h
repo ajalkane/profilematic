@@ -21,8 +21,9 @@
 
 #include <QObject>
 
-#include "../model/rule.h"
-#include "../model/rulecondition.h"
+#include "model/rule.h"
+#include "model/rulecondition.h"
+
 #include "../util/conditionallogging.h"
 
 /**
