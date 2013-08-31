@@ -27,6 +27,10 @@ namespace {
         bool refreshCalled;
         bool emitRefreshNeeded;
 
+        virtual bool conditionSetForMatching(const RuleCondition &cond) const {
+            return true;
+        }
+
         virtual void startRefresh() {
             if (emitRefreshNeeded) {
                 emit refreshNeeded();
