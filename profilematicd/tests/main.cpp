@@ -19,7 +19,6 @@
 #include <QtCore/QCoreApplication>
 
 #include "logic/testconditionmanagertime.h"
-#include "logic/testconditionmanagerchain.h"
 #include "logic/testconditionmanagercalendar.h"
 #include "logic/testconditionmanagercaching.h"
 #include "logic/testcalendarentrymatchercondition.h"
@@ -39,7 +38,6 @@ int main(int argc, char *argv[])
 //    tests << new TestConditionManagerCalendar();
 //    tests << new TestConditionManagerCaching();
     tests << new TestConditionManagerTime();
-//    tests << new TestConditionManagerChain();
 //    tests << new TestPmTimer();
 
     foreach (QObject *test, tests) {

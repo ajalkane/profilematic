@@ -24,6 +24,7 @@
 #include "model/rule.h"
 #include "model/rulecondition.h"
 
+#include "conditionmanager.h"
 #include "../util/conditionallogging.h"
 
 /**

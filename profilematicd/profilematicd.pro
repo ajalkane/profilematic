@@ -52,7 +52,6 @@ SOURCES += src/main.cpp \
     src/logic/actionprofile.cpp \
     src/logic/actionflightmode.cpp \
     src/logic/actionchain.cpp \
-    src/logic/conditionmanagerchain.cpp \
     src/logic/conditionmanagerlocationcell.cpp \
     src/logic/conditionmanagerwlan.cpp \
     src/logic/actionbluetooth.cpp \
@@ -100,7 +99,6 @@ HEADERS += \
     src/logic/actionprofile.h \
     src/logic/actionflightmode.h \
     src/logic/actionchain.h \
-    src/logic/conditionmanagerchain.h \
     src/logic/conditionmanagerlocationcell.h \
     src/logic/conditionmanagerwlan.h \
     src/logic/actionbluetooth.h \

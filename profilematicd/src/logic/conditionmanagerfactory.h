@@ -3,8 +3,6 @@
 
 #include <QList>
 
-#include "conditionmanagerchain.h"
-
 class ConditionManagerFactory
 {
     ConditionManagerFactory();

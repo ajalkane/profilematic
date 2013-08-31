@@ -25,7 +25,6 @@
 
 #include "model/rule.h"
 
-#include "conditionmanagerchain.h"
 #include "conditionmanagercacheable.h"
 #include "actionchain.h"
 
