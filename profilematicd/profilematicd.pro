@@ -181,7 +181,6 @@ contains(DEFINES, PM_TIMER_USHORT) {
 qtestlib {
     SOURCES -= src/main.cpp
     SOURCES += tests/main.cpp \
-        tests/logic/testconditionmanagerchain.cpp \
         tests/logic/testconditionmanagertime.cpp \
         tests/logic/signalcounter.cpp \
         tests/logic/testcalendarentrymatchercondition.cpp \
@@ -191,8 +190,7 @@ qtestlib {
         tests/util/testpmtimer.cpp
 
 
-    HEADERS += tests/logic/testconditionmanagerchain.h \
-        tests/logic/testconditionmanagertime.h \
+    HEADERS += tests/logic/testconditionmanagertime.h \
         tests/logic/signalcounter.h \
         tests/logic/testcalendarentrymatchercondition.h \
         tests/logic/testcalendarentrymatcherdatetime.h \
