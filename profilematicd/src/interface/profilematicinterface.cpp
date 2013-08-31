@@ -249,11 +249,26 @@ ProfileMaticInterface::runCommandLine(const QString &commandLine) const {
 void
 ProfileMaticInterface::executeAction(const RuleAction &action) const {
     IFDEBUG(qDebug("ProfileMaticInterface::executeAction"));
-    QScopedPointer<Action> actionGuard(ActionFactory::create(_profileClient));
-    Action *actionRunner = actionGuard.data();
-    actionRunner->startRefresh();
-    actionRunner->activate("temporary", action);
-    actionRunner->endRefresh();
+
+    // IMPROVE: should be done through RulesHolder
+    QList<Action *> actions = ActionFactory::createAsList(_profileClient);
+    foreach (Action *actionI, actions) {
+        actionI->startRefresh();
+    }
+
+    foreach (Action *actionI, actions) {
+        actionI->activate("temporary", action);
+    }
+
+    foreach (Action *actionI, actions) {
+        actionI->endRefresh();
+    }
+
+    while (!actions.isEmpty()) {
+        Action *actionI = actions.back();
+        actions.pop_back();
+        delete actionI;
+    }
 }
 
 

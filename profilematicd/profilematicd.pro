@@ -35,7 +35,7 @@ MOBILITY += connectivity
 #  - If UnitTests fail, no deployment/running of the executable
 #  - UnitTest code must not be included in the final executable.
 # Uncomment if just unit tests are to be ran:
-# CONFIG += qtestlib
+CONFIG += qtestlib
 
 TEMPLATE = app
 
@@ -51,7 +51,6 @@ SOURCES += src/main.cpp \
     src/logic/conditionmanagertime.cpp \
     src/logic/actionprofile.cpp \
     src/logic/actionflightmode.cpp \
-    src/logic/actionchain.cpp \
     src/logic/conditionmanagerlocationcell.cpp \
     src/logic/conditionmanagerwlan.cpp \
     src/logic/actionbluetooth.cpp \
@@ -98,7 +97,6 @@ HEADERS += \
     src/logic/conditionmanagertime.h \
     src/logic/actionprofile.h \
     src/logic/actionflightmode.h \
-    src/logic/actionchain.h \
     src/logic/conditionmanagerlocationcell.h \
     src/logic/conditionmanagerwlan.h \
     src/logic/actionbluetooth.h \

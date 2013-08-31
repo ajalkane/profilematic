@@ -25,8 +25,8 @@
 
 #include "model/rule.h"
 
-#include "conditionmanagercacheable.h"
-#include "actionchain.h"
+#include "conditionmanager.h"
+#include "action.h"
 
 #include "../profileclient.h"
 

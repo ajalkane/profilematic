@@ -1,4 +1,21 @@
-#include "actionchain.h"
+/**********************************************************************
+ * Copyright 2012 Arto Jalkanen
+ *
+ * This file is part of ProfileMatic.
+ *
+ * ProfileMatic is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ProfileMatic is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
+**/
 #include "actioncellularmode.h"
 #include "actioncommandline.h"
 #include "actionstandbyscreenmode.h"
@@ -17,26 +34,6 @@
 
 ActionFactory::ActionFactory()
 {
-}
-
-ActionChain *
-ActionFactory::create(ProfileClient *profileClient) {
-    ActionChain *ac = new ActionChain();
-    ac->add(new ActionProfile(profileClient));
-    ac->add(new ActionFlightMode());
-    ac->add(new ActionPowerSavingMode());
-    ac->add(new ActionBlueTooth());
-    ac->add(new ActionCellularMode());
-    ac->add(new ActionStandByScreenMode());
-    // Modifying background connections do not work, disable until finding working solutions
-    // ac->add(new ActionBackgroundConnections());
-    ac->add(new ActionApplication());
-    ac->add(new ActionCommandLine());
-    ac->add(new ActionDeviceVolume());
-    ac->add(new ActionAlarm());
-    ac->add(new ActionDeviceBrightness());
-    ac->add(PlatformUtil::instance()->createActionPresence());
-    return ac;
 }
 
 QList<Action *>
