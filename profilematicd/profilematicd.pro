@@ -35,7 +35,7 @@ MOBILITY += connectivity
 #  - If UnitTests fail, no deployment/running of the executable
 #  - UnitTest code must not be included in the final executable.
 # Uncomment if just unit tests are to be ran:
-CONFIG += qtestlib
+# CONFIG += qtestlib
 
 TEMPLATE = app
 

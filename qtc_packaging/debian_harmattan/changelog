@@ -1,3 +1,8 @@
+profilematic (2.4.1) unstable; urgency=low
+  * Up-to-date translations: Russian
+
+ -- Arto Jalkanen <ajalkane@gmail.com>  Wed, 25 Aug 2013 23:45:00 +0300
+
 profilematic (2.4.0) unstable; urgency=low
   * Time interval condition
   * Comments for translators modified to be usable in transifex
