@@ -119,6 +119,10 @@ HEADERS += \
     # http://meegoharmattandev.blogspot.fi/2011/07/setting-up-qt-sdk-for-meego-harmattan.html
     qml_item.source = qml/harmattan/qml
     qml_item.target =
+
+    # Add QML files that are needed to override harmattan ones on desktop.
+    qml_desktop.source = qml/desktop/qml
+    qml_desktop.target =
 }
 
 # TRANSLATIONS = i18n/tr_en.ts \
@@ -126,7 +130,7 @@ HEADERS += \
 
 # RESOURCES += resources.qrc
 
-DEPLOYMENTFOLDERS = qml_item translations
+DEPLOYMENTFOLDERS = qml_item qml_desktop translations
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
