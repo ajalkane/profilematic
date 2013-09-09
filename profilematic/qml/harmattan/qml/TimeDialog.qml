@@ -51,6 +51,10 @@ Sheet {
             id: header
             text: root.titleText + " " + root.formatTime(timePicker.hours, timePicker.minutes)
 
+            wrapMode: Text.Wrap
+            width: parent.width
+            horizontalAlignment: Text.AlignHCenter
+
             anchors.rightMargin: 8 // IMPROVE UIConstants
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: UIConstants.FONT_XLARGE
