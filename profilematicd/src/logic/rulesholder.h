@@ -97,16 +97,6 @@ public:
         return _ruleHolders;
     }
 
-    // TODO temporary
-    QList<Rule> getRules() const {
-        QList<Rule> rules;
-        foreach (RuleHolder ruleHolder, _ruleHolders) {
-            rules << ruleHolder.rule();
-        }
-
-        return rules;
-    }
-
 signals:
     void refreshNeeded();
 };
