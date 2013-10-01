@@ -184,19 +184,24 @@ Page {
         id: dMoreConditions
         titleText: qsTr("Select condition")
         model: backendConditionEditNonVisibleModel
-        onItemSelected: {
-            console.log("on item selected called ", item.qmlEditFile)
-            conditionEditHandler(item.qmlEditFile)
+        onAccepted: {
+            if (selectedItem !== null) {
+                console.log("Condition: on item selected called ", selectedItem.qmlEditFile)
+                conditionEditHandler(selectedItem.qmlEditFile)
+            }
         }
+
     }
 
     ItemSelectionDialog {
         id: dMoreActions
         titleText: qsTr("Select action")
         model: backendActionEditNonVisibleModel
-        onItemSelected: {
-            console.log("on item selected called ", item.qmlEditFile)
-            actionEditHandler(item.qmlEditFile)
+        onAccepted: {
+            if (selectedItem !== null) {
+                console.log("Action: on item selected called ", selectedItem.qmlEditFile)
+                actionEditHandler(selectedItem.qmlEditFile)
+            }
         }
     }
 
