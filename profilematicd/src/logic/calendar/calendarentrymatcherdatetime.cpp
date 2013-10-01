@@ -27,7 +27,6 @@ CalendarEntryMatcherDateTime::CalendarEntryMatcherDateTime(const RuleConditionCa
 QDateTime
 CalendarEntryMatcherDateTime::_useEndTime(const CalendarEntry &entry) const {
     QDateTime endTime = entry.end().addSecs(_append);
-    QDateTime startTime = _useStartTime(entry);
 
     if (entry.start() == entry.end()) {
         // If they start and end time are the same, then set end of time as minute _now start

@@ -82,32 +82,32 @@ TestCalendarEntryMatcherDateTime::matchDateTime_append() {
 
 void
 TestCalendarEntryMatcherDateTime::matchDateTime_prepend() {
-    // TODO
-//    int prependSecs = 10;
-//    RuleConditionCalendar cond;
-//    cond.setTimeAppend(prependSecs);
+    int prependSecs = 10;
+    RuleConditionCalendar cond;
+    cond.setTimePrepend(prependSecs);
 
-//    QDateTime now = QDateTime::fromString("27.09.2011 22:00", "dd.MM.yyyy hh:mm");
+    QDateTime now = QDateTime::fromString("27.09.2011 22:00", "dd.MM.yyyy hh:mm");
 
-//    CalendarEntryMatcherDateTime matcher(cond, now);
-//    CalendarEntry matchStartLimit(now, now.addSecs(60*10), QString(), QString());
-//    CalendarEntry matchEndLimit(now.addSecs(-60*10), now, QString(), QString());
-//    CalendarEntry nomatchStartAfterNow(now.addSecs(1), now.addSecs(2), QString(), QString());
-//    CalendarEntry nomatchEndBeforeNow(now.addSecs(-200), now.addSecs(-100), QString(), QString());
-//    // If start and end are same, end is used as start + 1min, so this should match
-//    CalendarEntry matchStartAndEndSame(now.addSecs(-1), now.addSecs(-1), QString(), QString());
+    CalendarEntryMatcherDateTime matcher(cond, now);
+    CalendarEntry matchStartLimit(now.addSecs(prependSecs), now.addSecs(prependSecs).addMSecs(1), QString(), QString());
+    CalendarEntry matchEndLimit(now.addSecs(-prependSecs), now, QString(), QString());
+    CalendarEntry nomatchStartAfterNow(now.addSecs(prependSecs).addMSecs(1), now, QString(), QString());
+    CalendarEntry nomatchEndBeforeNow(now.addSecs(-200), now.addSecs(-100), QString(), QString());
+    // If start and end are same, end is used as start + 1min, so this should match
+    CalendarEntry matchStartAndEndSame(now.addSecs(-prependSecs), now.addSecs(-prependSecs), QString(), QString());
 
-//    QCOMPARE(matcher.match(matchStartLimit), true);
-//    QCOMPARE(matcher.match(matchStartLimit), true);
-//    QCOMPARE(matcher.match(matchEndLimit), true);
-//    QCOMPARE(matcher.match(nomatchStartAfterNow), false);
-//    QCOMPARE(matcher.match(nomatchEndBeforeNow), false);
-//    QCOMPARE(matcher.match(matchStartAndEndSame), true);
+    QCOMPARE(matcher.match(matchStartLimit), true);
+    QCOMPARE(matcher.match(matchStartLimit), true);
+    QCOMPARE(matcher.match(matchEndLimit), true);
+    QCOMPARE(matcher.match(nomatchStartAfterNow), false);
+    QCOMPARE(matcher.match(nomatchEndBeforeNow), false);
+    QCOMPARE(matcher.match(matchStartAndEndSame), true);
 
-//    // Check nextNearest values
-//    QCOMPARE(matcher.nextNearestStartOrEnd(matchStartLimit), matchStartLimit.end());
-//    QCOMPARE(matcher.nextNearestStartOrEnd(matchEndLimit), now);
-//    QCOMPARE(matcher.nextNearestStartOrEnd(nomatchStartAfterNow), nomatchStartAfterNow.start());
-//    QCOMPARE(matcher.nextNearestStartOrEnd(nomatchEndBeforeNow), QDateTime());
-//    QCOMPARE(matcher.nextNearestStartOrEnd(matchStartAndEndSame), matchStartAndEndSame.start().addSecs(60).addSecs(prependSecs));
+    // Check nextNearest values
+    QCOMPARE(matcher.nextNearestStartOrEnd(matchStartLimit), matchStartLimit.end());
+    QCOMPARE(matcher.nextNearestStartOrEnd(matchEndLimit), QDateTime());
+    QCOMPARE(matcher.nextNearestStartOrEnd(nomatchStartAfterNow), now.addMSecs(1));
+    QCOMPARE(matcher.nextNearestStartOrEnd(nomatchEndBeforeNow), QDateTime());
+    // If start and end are same, end is used as start + 1min, so this should match
+    QCOMPARE(matcher.nextNearestStartOrEnd(matchStartAndEndSame), matchStartAndEndSame.end().addSecs(60));
 }

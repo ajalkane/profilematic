@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
     QList<QObject *> tests;
 //    tests << new TestCalendarEntryMatcherCondition();
-//    tests << new TestCalendarEntryMatcherDateTime();
+     tests << new TestCalendarEntryMatcherDateTime();
 //    tests << new TestConditionManagerCalendar();
 //    tests << new TestConditionManagerCaching();
     tests << new TestConditionManagerTime();
