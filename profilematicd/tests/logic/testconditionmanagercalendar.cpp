@@ -4,6 +4,14 @@
 
 #include "../../src/platform/platformutil.h"
 
+// Since DateTime resolution is in milliseconds, and here calculations are done
+// on second resolution, a buffer of one second to get rid of errors due to
+// rounding.
+// Now has buffer of 2, since at least on Harmattan the timer seemed to have triggered
+// between day intervals on 23:59:59. Will see if this corrects it.
+// TODO: this depends on value in conditionmanagercalendar.cpp. Make it usable from test.
+#define SECS_TO_BUFFER 2
+
 class MockCalendarManager : public CalendarManager {
 public:
     QList<CalendarEntry> returnEntries;
@@ -135,13 +143,13 @@ TestConditionManagerCalendar::match_nextNearestDateTime_emptyCalendar_nextSetToN
 
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::NotMatched);
-    QCOMPARE(cmc.minimumIntervalSec(), (14*60/*mins/h*/)*60+1);
+    QCOMPARE(cmc.minimumIntervalSec(), (14*60/*mins/h*/)*60+SECS_TO_BUFFER);
 
     // Next day set for reload when reached
     now = now.addSecs((14*60/*mins/h*/)*60+1);
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::NotMatched);
-    QCOMPARE(cmc.minimumIntervalSec(), (24*60*60-1)+1);
+    QCOMPARE(cmc.minimumIntervalSec(), (24*60*60-1)+SECS_TO_BUFFER);
 }
 
 void
@@ -168,10 +176,10 @@ TestConditionManagerCalendar::match_nextNearestDateTime_afterNoMoreConditionsMat
     now = now.addSecs(5*60);
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::Matched);
-    QCOMPARE(cmc.minimumIntervalSec(), 120+1);
+    QCOMPARE(cmc.minimumIntervalSec(), 120+SECS_TO_BUFFER);
 
     // Trigger at end time (not matching anymore), next interval in the next day
-    now = now.addSecs(120+1);
+    now = now.addSecs(120+SECS_TO_BUFFER);
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::NotMatched);
     // Time now 10:07:01, time until next day 13:52:59 (round up + 1)
@@ -201,13 +209,13 @@ TestConditionManagerCalendar::match_nextNearestDateTime_oneConditionBefore() {
 
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::NotMatched);
-    QCOMPARE(cmc.minimumIntervalSec(), 5*60+1);
+    QCOMPARE(cmc.minimumIntervalSec(), 5*60+SECS_TO_BUFFER);
 
     // When reaching calendar start time, the next timer is to endTime
     now = now.addSecs(5*60);
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::Matched);
-    QCOMPARE(cmc.minimumIntervalSec(), 120+1);
+    QCOMPARE(cmc.minimumIntervalSec(), 120+SECS_TO_BUFFER);
 }
 
 void
@@ -233,13 +241,13 @@ TestConditionManagerCalendar::match_nextNearestDateTime_oneConditionBeforeAndThe
 
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::NotMatched);
-    QCOMPARE(cmc.minimumIntervalSec(), 5*60+1);
+    QCOMPARE(cmc.minimumIntervalSec(), 5*60+SECS_TO_BUFFER);
 
     // The old timer is kept if time advances within the current watched range
     now = now.addSecs(5*60 - 1);
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::NotMatched);
-    QCOMPARE(cmc.minimumIntervalSec(), 5*60+1);
+    QCOMPARE(cmc.minimumIntervalSec(), 5*60+SECS_TO_BUFFER);
 
     // After the timeout trigger has been called, the interval will be updated. Since now = startTime, next stop is endTime
     now = now.addSecs(1);
@@ -247,7 +255,7 @@ TestConditionManagerCalendar::match_nextNearestDateTime_oneConditionBeforeAndThe
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::Matched);
     // Since rounding is 1 second
-    QCOMPARE(cmc.minimumIntervalSec(), 120+1);
+    QCOMPARE(cmc.minimumIntervalSec(), 120+SECS_TO_BUFFER);
 }
 
 void
@@ -273,13 +281,13 @@ TestConditionManagerCalendar::match_nextNearestDateTime_oneConditionBeforeRoundT
 
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::NotMatched);
-    QCOMPARE(cmc.minimumIntervalSec(), 5*60 + 2);
+    QCOMPARE(cmc.minimumIntervalSec(), 5*60 + 1 + SECS_TO_BUFFER);
 
     // Timer is updated even if it has not been triggered, if time advances past it
     now = dateTimeBase.addSecs(5*60 + 2);
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::Matched);
-    QCOMPARE(cmc.minimumIntervalSec(), 120 - 2 + 1);
+    QCOMPARE(cmc.minimumIntervalSec(), 120 - 2 + SECS_TO_BUFFER);
 }
 
 void
@@ -303,7 +311,7 @@ TestConditionManagerCalendar::match_nextNearestDateTime_oneConditionAtStart() {
     now = dateTimeBase.addSecs(5*60);
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::Matched);
-    QCOMPARE(cmc.minimumIntervalSec(), 120 + 1);
+    QCOMPARE(cmc.minimumIntervalSec(), 120 + SECS_TO_BUFFER);
 }
 
 void
@@ -327,7 +335,7 @@ TestConditionManagerCalendar::match_nextNearestDateTime_oneConditionAtEnd() {
     now = dateTimeBase.addSecs(5*60+120);
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::Matched);
-    QCOMPARE(cmc.minimumIntervalSec(), (10*60 - (5*60+120)) + 1);
+    QCOMPARE(cmc.minimumIntervalSec(), (10*60 - (5*60+120)) + SECS_TO_BUFFER);
 }
 
 void
@@ -351,7 +359,7 @@ TestConditionManagerCalendar::match_nextNearestDateTime_oneConditionInMiddle() {
     now = dateTimeBase.addSecs(5*60+120+1);
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::NotMatched);
-    QCOMPARE(cmc.minimumIntervalSec(), (10*60 - (5*60+120+1)) + 1);
+    QCOMPARE(cmc.minimumIntervalSec(), (10*60 - (5*60+120+1)) + SECS_TO_BUFFER);
 }
 
 void
@@ -375,7 +383,7 @@ TestConditionManagerCalendar::match_nextNearestDateTime_oneConditionBothMatchLat
     now = dateTimeBase.addSecs(10*60);
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::Matched);
-    QCOMPARE(cmc.minimumIntervalSec(), 60 + 1);
+    QCOMPARE(cmc.minimumIntervalSec(), 60 + SECS_TO_BUFFER);
 }
 
 void
@@ -399,7 +407,7 @@ TestConditionManagerCalendar::match_nextNearestDateTime_oneConditionBothMatchEar
     now = dateTimeBase.addSecs(10*60);
     match = cmc.match(now, condCal);
     QCOMPARE(match, ConditionManagerCacheable::Matched);
-    QCOMPARE(cmc.minimumIntervalSec(), 60 + 1);
+    QCOMPARE(cmc.minimumIntervalSec(), 60 + SECS_TO_BUFFER);
 }
 
 void
@@ -425,11 +433,11 @@ TestConditionManagerCalendar::match_nextNearestDateTime_multiConditionFirstMatch
     now = dateTimeBase.addSecs(10*60);
     match = cmc.match(now, condCal1);
     QCOMPARE(match, ConditionManagerCacheable::Matched);
-    QCOMPARE(cmc.minimumIntervalSec(), 120 + 1);
+    QCOMPARE(cmc.minimumIntervalSec(), 120 + SECS_TO_BUFFER);
 
     match = cmc.match(now, condCal2);
     QCOMPARE(match, ConditionManagerCacheable::NotMatched);
-    QCOMPARE(cmc.minimumIntervalSec(), 60 + 1);
+    QCOMPARE(cmc.minimumIntervalSec(), 60 + SECS_TO_BUFFER);
 }
 
 void
@@ -455,11 +463,11 @@ TestConditionManagerCalendar::match_nextNearestDateTime_multiConditionSecondMatc
     now = dateTimeBase.addSecs(10*60);
     match = cmc.match(now, condCal1);
     QCOMPARE(match, ConditionManagerCacheable::NotMatched);
-    QCOMPARE(cmc.minimumIntervalSec(), 60 + 1);
+    QCOMPARE(cmc.minimumIntervalSec(), 60 + SECS_TO_BUFFER);
 
     match = cmc.match(now, condCal2);
     QCOMPARE(match, ConditionManagerCacheable::Matched);
-    QCOMPARE(cmc.minimumIntervalSec(), 60 + 1);
+    QCOMPARE(cmc.minimumIntervalSec(), 60 + SECS_TO_BUFFER);
 }
 
 void
@@ -492,7 +500,7 @@ TestConditionManagerCalendar::matchInvalidated_signalTest() {
     QCOMPARE(signalTarget.numSignal, 0);
     QVERIFY(match == 0);
     QCOMPARE(cmc.timer()->isActive(), true);
-    QCOMPARE(cmc.minimumIntervalSec(), 2 );
+    QCOMPARE(cmc.minimumIntervalSec(), 1 + SECS_TO_BUFFER);
 
     // Wait for 5 seconds, the signal should be fired by then.
     qDebug("Waiting 5 * 1000 msec");
