@@ -1,3 +1,8 @@
+profilematic (2.4.3) unstable; urgency=low
+  * Updated translations: German, Finnish, Italian, Polish, Taiwanese
+
+ -- Arto Jalkanen <ajalkane@gmail.com>  Wed, 11 Dec 2013 23:50:00 +0300
+
 profilematic (2.4.2) unstable; urgency=low
   * Wrapping of topic in time dialog (some translations need this)
   * Up-to-date translations: Catalan
