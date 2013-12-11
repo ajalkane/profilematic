@@ -1557,77 +1557,77 @@ Komma (,) används för att separera nyckelord i ett fält. Varje nyckelord som 
         <translation>Välj villkor</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="195"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="198"/>
         <source>Select action</source>
         <translation>Välj åtgärd</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>New rule</source>
         <translation>Ny regel</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>Default rule</source>
         <translation>Standardregel</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>Edit rule</source>
         <translation>Ändra regel</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="232"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="237"/>
         <source>Activates specified actions if no other rule with matching conditions has the action specified. Note: if a regular rule has &apos;restore previous&apos; in its action, it overrides default rules action.</source>
         <translation>Aktiverar specificerade åtgärder om ingen annan regel med matchande villkor har den åtgärd som angetts. Obs: Om en vanlig regel har &quot;återställ föregående&quot; som sin åtgärd, åsidosätter den standardreglernas åtgärder.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="238"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="243"/>
         <source>This rule is not active. You can reactivate this rule from menu. Changes won&apos;t be activated before saving.</source>
         <translation>Denna regel är inte aktiv. Du kan aktivera denna regel från menyn. Förändringar kommer inte att aktiveras innan du sparar.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="244"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="249"/>
         <source>If this rule matches, following rules are skipped.</source>
         <translation>Om denna regel gäller, skippas följande regler.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="248"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="253"/>
         <source>Rule name</source>
         <translation>Regelnamn</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="249"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="254"/>
         <source>Auto-generated</source>
         <translation>Ange automatiskt</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="260"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="265"/>
         <source>Condition</source>
         <translation>Villkor</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="290"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="295"/>
         <source>More conditions</source>
         <translation>Mera villkor</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="302"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="307"/>
         <source>Action</source>
         <translation>Åtgärd</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="331"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="336"/>
         <source>More actions</source>
         <translation>Mera åtgärder</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="362"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="367"/>
         <source>Clear %1</source>
         <translation>Rensa %1</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="390"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="395"/>
         <source>Can&apos;t be used as a rule yet. Specify at least one condition, and an action.</source>
         <translation>Kan inte användas som en regel än. Ange minst ett villkor och en åtgärd.</translation>
     </message>

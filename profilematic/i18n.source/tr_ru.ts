@@ -1557,77 +1557,77 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>Выберите условия</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="195"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="198"/>
         <source>Select action</source>
         <translation>Выберите действие</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>New rule</source>
         <translation>Новое правило</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>Default rule</source>
         <translation>Правило по умолчанию</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>Edit rule</source>
         <translation>Изменить правило</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="232"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="237"/>
         <source>Activates specified actions if no other rule with matching conditions has the action specified. Note: if a regular rule has &apos;restore previous&apos; in its action, it overrides default rules action.</source>
         <translation>Правило по умолчанию применяется, когда неактивны все остальные правила. Примечание: если в действиях правила указано &quot;Восстановить предыдущий&quot;, то это отменяет действия правила по умолчанию.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="238"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="243"/>
         <source>This rule is not active. You can reactivate this rule from menu. Changes won&apos;t be activated before saving.</source>
         <translation>Это правило неактивно. Вы можете активировать это правило через меню. Изменения не применятся до сохранения.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="244"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="249"/>
         <source>If this rule matches, following rules are skipped.</source>
         <translation>Следующие правила пропускаются, если это правило применено.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="248"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="253"/>
         <source>Rule name</source>
         <translation>Название правила</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="249"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="254"/>
         <source>Auto-generated</source>
         <translation>Автоматически</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="260"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="265"/>
         <source>Condition</source>
         <translation>Условие</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="290"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="295"/>
         <source>More conditions</source>
         <translation>Больше условий</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="302"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="307"/>
         <source>Action</source>
         <translation>Действие</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="331"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="336"/>
         <source>More actions</source>
         <translation>Больше действий</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="362"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="367"/>
         <source>Clear %1</source>
         <translation>Сброс %1</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="390"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="395"/>
         <source>Can&apos;t be used as a rule yet. Specify at least one condition, and an action.</source>
         <translation>Еще не может быть использовано как правило. Укажите хотя бы одно условие, и действие.</translation>
     </message>

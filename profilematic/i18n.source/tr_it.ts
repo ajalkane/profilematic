@@ -120,7 +120,7 @@
         <location filename="../qml/harmattan/qml/ActionAlarmAdvanced.qml" line="59"/>
         <location filename="../qml/harmattan/qml/ActionAlarmAdvanced.qml" line="85"/>
         <source>Alarm snooze time</source>
-        <translation>Ripeti Sveglia ogni</translation>
+        <translation>Posponi Sveglia</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionAlarmAdvanced.qml" line="81"/>
@@ -130,7 +130,7 @@
     <message>
         <location filename="../qml/harmattan/qml/ActionAlarmAdvanced.qml" line="86"/>
         <source>Default snooze</source>
-        <translation>Tono predefinito</translation>
+        <translation>Tempo predefinito</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionAlarmAdvanced.qml" line="92"/>
@@ -1557,77 +1557,77 @@ Usa la virgola (,) per separare le parole all&apos;interno di un campo.Ogni paro
         <translation>Seleziona Condizione</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="195"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="198"/>
         <source>Select action</source>
         <translation>Seleziona Azione</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>New rule</source>
         <translation>Nouva Regola</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>Default rule</source>
         <translation>Regola base</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>Edit rule</source>
         <translation>Modifica Regola</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="232"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="237"/>
         <source>Activates specified actions if no other rule with matching conditions has the action specified. Note: if a regular rule has &apos;restore previous&apos; in its action, it overrides default rules action.</source>
         <translation>Attiva specificate Azioni se non ci sono altre Regole combacianti con la stessa Azione. Nota: se una Regola (non base) ha selezionato &apos;ripristina stato precedente&apos;, questa prevale sulla Regola base.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="238"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="243"/>
         <source>This rule is not active. You can reactivate this rule from menu. Changes won&apos;t be activated before saving.</source>
         <translation>Questa Regola non è operativa. Puoi riattivarla dal menu.Le modifiche non saranno efficaci fino al salvataggio.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="244"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="249"/>
         <source>If this rule matches, following rules are skipped.</source>
         <translation>Se questa Regola è attiva, le successive verranno tralasciate.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="248"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="253"/>
         <source>Rule name</source>
         <translation>Nome Regola</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="249"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="254"/>
         <source>Auto-generated</source>
         <translation>Auto generato</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="260"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="265"/>
         <source>Condition</source>
         <translation>Condizione</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="290"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="295"/>
         <source>More conditions</source>
         <translation>Altre Condizioni</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="302"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="307"/>
         <source>Action</source>
         <translation>Azione</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="331"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="336"/>
         <source>More actions</source>
         <translation>Altre Azioni</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="362"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="367"/>
         <source>Clear %1</source>
         <translation>Pulisci %1</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="390"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="395"/>
         <source>Can&apos;t be used as a rule yet. Specify at least one condition, and an action.</source>
         <translation>Regola attualmente non attivabile. Imposta almeno una Condizione e un&apos;Azione.</translation>
     </message>

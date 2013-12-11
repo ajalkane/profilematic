@@ -332,68 +332,68 @@ Hälytyksen nimi ja aika on annettava.</translation>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="48"/>
         <source>Device brightness action</source>
-        <translation type="unfinished"></translation>
+        <translation>Kirkkaus</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="53"/>
         <source>Select device brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Valitse kirkkaus</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="68"/>
         <source>Clear</source>
-        <translation type="unfinished">Tyhjennä</translation>
+        <translation>Tyhjennä</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="83"/>
         <source>Restore previous brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Palauta edellinen kirkkaus</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="86"/>
         <source>The previous brightness will be restored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Edellinen kirkkaus palautetaan.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="87"/>
         <source>Previous brightness will not be restored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Edellistä kirkkautta ei palauteta.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="107"/>
         <source>Not used</source>
-        <translation type="unfinished">Ei käytössä</translation>
+        <translation>Ei käytössä</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="117"/>
         <source>Choose brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Valitse kirkkaus</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="118"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="119"/>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="151"/>
         <source>Cancel</source>
-        <translation type="unfinished">Peruuta</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="148"/>
         <source>Clear device brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Tyhjennä kirkkaus</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="149"/>
         <source>Are you sure you want to clear device brightness?</source>
-        <translation type="unfinished"></translation>
+        <translation>Haluatko varmasti tyhjentää kirkkauden?</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceBrightness.qml" line="150"/>
         <source>Yes</source>
-        <translation type="unfinished">Kyllä</translation>
+        <translation>Kyllä</translation>
     </message>
 </context>
 <context>
@@ -416,17 +416,17 @@ Hälytyksen nimi ja aika on annettava.</translation>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="83"/>
         <source>Restore previous volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Palauta edellinen äänenvoimakkuus</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="86"/>
         <source>The previous volume will be restored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Edellinen äänenvoimakkuus palautetaan.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="87"/>
         <source>Previous volume will not be restored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Edellistä äänenvoimakkuutta ei palauteta.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionDeviceVolume.qml" line="107"/>
@@ -1230,77 +1230,77 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="52"/>
         <source>Invalid time interval condition</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajanjaksoehto ei kelpaa</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="53"/>
         <source>Both active and inactive duration must be set as at least 1 minute, or you can clear them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Molempien ajanjaksojen tulee olla vähintään 1 minuutin mittaisia. Voit myös tyhjentää ne.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="55"/>
         <source>Invalid values:</source>
-        <translation type="unfinished"></translation>
+        <translation>Virheelliset arvot:</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="57"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="95"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="136"/>
         <source>Active duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiivinen jakso</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="58"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="103"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="144"/>
         <source>Inactive duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Passiivinen jakso</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="65"/>
         <source>Clear time interval conditions</source>
-        <translation type="unfinished"></translation>
+        <translation>Tyhjennä ajanjaksoehdot</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="66"/>
         <source>Are you sure you want to clear time interval conditions?</source>
-        <translation type="unfinished"></translation>
+        <translation>Haluatko varmasti tyhjentää ajanjaksoehdot?</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="67"/>
         <source>Yes</source>
-        <translation type="unfinished">Kyllä</translation>
+        <translation>Kyllä</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="68"/>
         <source>Cancel</source>
-        <translation type="unfinished">Peruuta</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="90"/>
         <source>Time interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajanjakso</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="116"/>
         <source>Clear</source>
-        <translation type="unfinished">Tyhjennä</translation>
+        <translation>Tyhjennä</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="121"/>
         <source>Can be used to activate some actions periodically. Active duration specifies the time period that the rule is active, inactive duration specifies the time period the rule is inactive after being active. The rule alternates between active and inactive states according to these parameters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voidaan käyttää sääntöjen aktivoimiseen tietyin ajanjaksoin. Aktiivinen jakso määrittää ajan jonka sääntö on voimassa ja passiivinen jakso ajan jonka sääntö ei ole voimassa sen jälkeen. Ehto vuorottelee näiden välillä.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="127"/>
         <source>Tip: You can add for example &apos;Time condition&apos; with this rule to specify that the time interval is only active within specified time/days.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vihje: Voit tehdä samaan sääntöön esimerkiksi aikaehdon joka määrittelee milloin ajanjaksoehto on käytössä.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="167"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="176"/>
         <source>Not set</source>
-        <translation type="unfinished">Ei asetettu</translation>
+        <translation>Ei asetettu</translation>
     </message>
 </context>
 <context>
@@ -1556,77 +1556,77 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>Valitse ehto</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="195"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="198"/>
         <source>Select action</source>
         <translation>Valitse toiminto</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>New rule</source>
         <translation>Uusi sääntö</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>Default rule</source>
         <translation>Oletussääntö</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>Edit rule</source>
         <translation>Muokkaa sääntöä</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="232"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="237"/>
         <source>Activates specified actions if no other rule with matching conditions has the action specified. Note: if a regular rule has &apos;restore previous&apos; in its action, it overrides default rules action.</source>
         <translation>Suorittaa valitut toiminnot jos millään muulla voimassaolevalla säännöllä ei ole vastaavia toimintoja käytössä. Huomaa: jos tavallisella säännöllä on toiminnossa valittuna &apos;palauta edellinen&apos;, se menee oletussäännön vastaavan toiminnon edelle.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="238"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="243"/>
         <source>This rule is not active. You can reactivate this rule from menu. Changes won&apos;t be activated before saving.</source>
         <translation>Tämä sääntö ei ole käytössä. Voit ottaa sen käyttöön valikosta. Muutokset eivät tule voimaan ennen tallennusta.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="244"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="249"/>
         <source>If this rule matches, following rules are skipped.</source>
         <translation>Jos tämä sääntö tulee voimaan, seuraavat säännöt jätetään huomiotta.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="248"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="253"/>
         <source>Rule name</source>
         <translation>Säännön nimi</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="249"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="254"/>
         <source>Auto-generated</source>
         <translation>Täytetään automaattisesti</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="260"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="265"/>
         <source>Condition</source>
         <translation>Ehto</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="290"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="295"/>
         <source>More conditions</source>
         <translation>Lisää ehtoja</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="302"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="307"/>
         <source>Action</source>
         <translation>Toiminto</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="331"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="336"/>
         <source>More actions</source>
         <translation>Lisää toimintoja</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="362"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="367"/>
         <source>Clear %1</source>
         <translation>Tyhjennä %1</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="390"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="395"/>
         <source>Can&apos;t be used as a rule yet. Specify at least one condition, and an action.</source>
         <translation>Ei voi käyttää vielä sääntönä. Määritä vähintään yksi ehto ja yksi toiminto.</translation>
     </message>
@@ -1790,7 +1790,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlactioneditmodel.cpp" line="58"/>
         <source>Device brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Kirkkaus</translation>
     </message>
 </context>
 <context>
@@ -1848,7 +1848,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlconditioneditmodel.cpp" line="56"/>
         <source>Time interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajanjakso</translation>
     </message>
 </context>
 <context>
@@ -1885,29 +1885,19 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="40"/>
         <source>%1h</source>
         <extracomment>Number of hours</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>%1h</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="45"/>
         <source>%1min</source>
         <extracomment>Number of minutes</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>%1min</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="50"/>
         <source>%1s</source>
         <extracomment>Number of seconds</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> - </source>
-        <comment>This a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation type="obsolete"> - </translation>
-    </message>
-    <message>
-        <source>24h</source>
-        <comment>Time condition length</comment>
-        <translation type="obsolete">24h</translation>
+        <translation>%1s</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="145"/>
@@ -1920,16 +1910,6 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>Ei päiviä</translation>
     </message>
     <message>
-        <source>, </source>
-        <comment>This a between days. Notice space separator at end of the translation. Preserve it for translation.</comment>
-        <translation type="obsolete">, </translation>
-    </message>
-    <message>
-        <source> - </source>
-        <comment>This a range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason</comment>
-        <translation type="obsolete"> - </translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="197"/>
         <source>on location</source>
         <translation>sijainnissa</translation>
@@ -1940,14 +1920,39 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>Solujen id:t määritetty</translation>
     </message>
     <message>
-        <source> (%1s timeout)</source>
-        <comment> (number of seconds timeout, please preserve the space before the translated string)</comment>
-        <translation type="obsolete"> (%1s viive)</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="224"/>
         <source>Mobile net connection</source>
         <translation>Mobiilidatayhteys</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="99"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="177"/>
+        <source> - </source>
+        <extracomment>This is a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them
+----------
+Range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them</extracomment>
+        <translation> - </translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="104"/>
+        <source>24h</source>
+        <extracomment>Time condition length</extracomment>
+        <translation>24h</translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="171"/>
+        <source>, </source>
+        <extracomment>Separator between days. Notice space separator at end of the translation. Preserve it in translation.</extracomment>
+        <translation>, </translation>
+    </message>
+    <message>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="202"/>
+        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="259"/>
+        <source> (%1s timeout)</source>
+        <extracomment>(number of seconds timeout, please preserve the space before the translated string)
+----------
+(number of seconds timeout, please preserve the space before the translated string)</extracomment>
+        <translation>(%1s viive)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="226"/>
@@ -2005,11 +2010,6 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>NFC tunnisteet määritetty</translation>
     </message>
     <message>
-        <source> (toggles)</source>
-        <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation type="obsolete"> (vaihtaa tilaa)</translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="354"/>
         <source>not charging</source>
         <translation>ei latauksessa</translation>
@@ -2057,60 +2057,25 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="474"/>
         <source>Time interval </source>
-        <translation type="unfinished"></translation>
+        <translation>Ajanjakso </translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="477"/>
         <source>%1/%2</source>
         <extracomment>Time interval. First argument is active period, second argument is inactive period</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> (%1%)</source>
-        <comment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</comment>
-        <translation type="obsolete"> (%1%)</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="99"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="177"/>
-        <source> - </source>
-        <extracomment>This is a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them
-----------
-Range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them</extracomment>
-        <translation type="unfinished"> - </translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="104"/>
-        <source>24h</source>
-        <extracomment>Time condition length</extracomment>
-        <translation type="unfinished">24h</translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="171"/>
-        <source>, </source>
-        <extracomment>Separator between days. Notice space separator at end of the translation. Preserve it in translation.</extracomment>
-        <translation type="unfinished">, </translation>
-    </message>
-    <message>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="202"/>
-        <location filename="../src/qmlbackend/qmlruleutil.cpp" line="259"/>
-        <source> (%1s timeout)</source>
-        <extracomment>(number of seconds timeout, please preserve the space before the translated string)
-----------
-(number of seconds timeout, please preserve the space before the translated string)</extracomment>
-        <translation type="unfinished"> (%1s viive)</translation>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="329"/>
         <source> (toggles)</source>
         <extracomment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</extracomment>
-        <translation type="unfinished"> (vaihtaa tilaa)</translation>
+        <translation>(vaihtaa tilaa)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="504"/>
         <source> (%1%)</source>
         <extracomment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</extracomment>
-        <translation type="unfinished"> (%1%)</translation>
+        <translation> (%1%)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="507"/>
@@ -2230,7 +2195,7 @@ Range separator between day start and day end. Notice space separators before an
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="765"/>
         <source>. Restores previous volume</source>
-        <translation type="unfinished"></translation>
+        <translation>. Palauttaa edellisen äänenvoimakkuuden</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="796"/>
@@ -2245,32 +2210,27 @@ Range separator between day start and day end. Notice space separators before an
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="822"/>
         <source>Device brightness %1%</source>
-        <translation type="unfinished"></translation>
+        <translation>Kirkkaus %1%</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="824"/>
         <source>. Restores previous brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>. Palauttaa edellisen kirkkauden</translation>
     </message>
 </context>
 <context>
     <name>QmlRulesModel</name>
     <message>
-        <source>, </source>
-        <comment>This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.</comment>
-        <translation type="obsolete">, </translation>
-    </message>
-    <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="73"/>
         <source>toLowerDirective</source>
         <extracomment>This translation is not shown in UI. It is only used internally to direct whether ProfileMatic lower-case formats summary in the main view where rules are listed. This is 99% of the time what&apos;s wanted. But some languages, such as Germany require some words to always be in upper-case, even if they&apos;re in middle of sentence (nouns). For such languages you can disable lower casing in summaries by translating this value exactly to &apos;noLowerFormat&apos;. For other languages you can put anything else here to mark it as translated.</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>toLowerDirective</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="302"/>
         <source>, </source>
         <extracomment>This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.</extracomment>
-        <translation type="unfinished">, </translation>
+        <translation>, </translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="311"/>
@@ -2296,12 +2256,7 @@ Range separator between day start and day end. Notice space separators before an
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="401"/>
         <source>Rule #%1</source>
         <extracomment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</extracomment>
-        <translation type="unfinished">Sääntö #%1</translation>
-    </message>
-    <message>
-        <source>Rule #%1</source>
-        <comment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</comment>
-        <translation type="obsolete">Sääntö #%1</translation>
+        <translation>Sääntö #%1</translation>
     </message>
 </context>
 <context>

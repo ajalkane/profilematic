@@ -1233,77 +1233,78 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="52"/>
         <source>Invalid time interval condition</source>
-        <translation type="unfinished"></translation>
+        <translation>間隔時間設定無效</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="53"/>
         <source>Both active and inactive duration must be set as at least 1 minute, or you can clear them.</source>
-        <translation type="unfinished"></translation>
+        <translation>啟用和未啟用持續時間最少必須為 1 分鐘，或者你可以選擇清除設定。</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="55"/>
         <source>Invalid values:</source>
-        <translation type="unfinished"></translation>
+        <translation>設定值無效</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="57"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="95"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="136"/>
         <source>Active duration</source>
-        <translation type="unfinished"></translation>
+        <translation>啟用持續時間</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="58"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="103"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="144"/>
         <source>Inactive duration</source>
-        <translation type="unfinished"></translation>
+        <translation>未啟用持續時間</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="65"/>
         <source>Clear time interval conditions</source>
-        <translation type="unfinished"></translation>
+        <translation>清除間隔時間設定</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="66"/>
         <source>Are you sure you want to clear time interval conditions?</source>
-        <translation type="unfinished"></translation>
+        <translation>你定要清除間隔時間設定？</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="67"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>確定</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="68"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="90"/>
         <source>Time interval</source>
-        <translation type="unfinished"></translation>
+        <translation>間隔時間</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="116"/>
         <source>Clear</source>
-        <translation type="unfinished">清除</translation>
+        <translation>清除</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="121"/>
         <source>Can be used to activate some actions periodically. Active duration specifies the time period that the rule is active, inactive duration specifies the time period the rule is inactive after being active. The rule alternates between active and inactive states according to these parameters.</source>
-        <translation type="unfinished"></translation>
+        <translation>可用來定期啟用某些動作。啟用持續時間表示規則啟用的連續時間；未啟用用持續時間表示規則未啟用的連續時間。
+並依據這些參數來決定啟用與否。</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="127"/>
         <source>Tip: You can add for example &apos;Time condition&apos; with this rule to specify that the time interval is only active within specified time/days.</source>
-        <translation type="unfinished"></translation>
+        <translation>提示︰</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="167"/>
         <location filename="../qml/harmattan/qml/ConditionTimeInterval.qml" line="176"/>
         <source>Not set</source>
-        <translation type="unfinished">尚未設定</translation>
+        <translation>尚未設定</translation>
     </message>
 </context>
 <context>
@@ -1559,78 +1560,78 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <translation>選擇觸發條件</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="195"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="198"/>
         <source>Select action</source>
         <translation>選擇執行的動作</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>New rule</source>
         <translation>新增規則</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>Default rule</source>
         <translation>預設規則</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>Edit rule</source>
         <translation>編輯規則</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="232"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="237"/>
         <source>Activates specified actions if no other rule with matching conditions has the action specified. Note: if a regular rule has &apos;restore previous&apos; in its action, it overrides default rules action.</source>
         <translation>當沒有任何規則啟用時執行本預設規則。
 注意︰當其他規則啟用「還原設定」時，將會被此規則的動作覆蓋。</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="238"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="243"/>
         <source>This rule is not active. You can reactivate this rule from menu. Changes won&apos;t be activated before saving.</source>
         <translation>本規則已被停用，你可以從選單中恢復。未儲存之前所有的變更都不會生效。</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="244"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="249"/>
         <source>If this rule matches, following rules are skipped.</source>
         <translation>如果此規則啟用，下列的規則將會被略過。</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="248"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="253"/>
         <source>Rule name</source>
         <translation>規則名稱</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="249"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="254"/>
         <source>Auto-generated</source>
         <translation>自動產生</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="260"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="265"/>
         <source>Condition</source>
         <translation>觸發條件</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="290"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="295"/>
         <source>More conditions</source>
         <translation>更多觸發條件</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="302"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="307"/>
         <source>Action</source>
         <translation>執行動作</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="331"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="336"/>
         <source>More actions</source>
         <translation>更多執行動作</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="362"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="367"/>
         <source>Clear %1</source>
         <translation>清除 %1</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="390"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="395"/>
         <source>Can&apos;t be used as a rule yet. Specify at least one condition, and an action.</source>
         <translation>規則還不可使用。必須至少有一項觸發條件及一項動作才能成立。</translation>
     </message>
@@ -1852,7 +1853,7 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="../src/qmlbackend/qmlconditioneditmodel.cpp" line="56"/>
         <source>Time interval</source>
-        <translation type="unfinished"></translation>
+        <translation>間隔時間</translation>
     </message>
 </context>
 <context>
@@ -1889,19 +1890,19 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="40"/>
         <source>%1h</source>
         <extracomment>Number of hours</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>%1 時</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="45"/>
         <source>%1min</source>
         <extracomment>Number of minutes</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>%1 分</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="50"/>
         <source>%1s</source>
         <extracomment>Number of seconds</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1／%2 {1s?}</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="145"/>
@@ -1935,19 +1936,19 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
         <extracomment>This is a range separator between time start and time end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them
 ----------
 Range separator between day start and day end. Notice space separators before and after the - sign, they should be in translation too unless there&apos;s good reason to omit them</extracomment>
-        <translation type="unfinished"></translation>
+        <translation> - </translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="104"/>
         <source>24h</source>
         <extracomment>Time condition length</extracomment>
-        <translation type="unfinished">3G {24h?}</translation>
+        <translation>24小時</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="171"/>
         <source>, </source>
         <extracomment>Separator between days. Notice space separator at end of the translation. Preserve it in translation.</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>，</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="202"/>
@@ -1956,7 +1957,7 @@ Range separator between day start and day end. Notice space separators before an
         <extracomment>(number of seconds timeout, please preserve the space before the translated string)
 ----------
 (number of seconds timeout, please preserve the space before the translated string)</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>（逾時 %1s 秒）</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="226"/>
@@ -2061,25 +2062,25 @@ Range separator between day start and day end. Notice space separators before an
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="474"/>
         <source>Time interval </source>
-        <translation type="unfinished"></translation>
+        <translation>間隔時間</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="477"/>
         <source>%1/%2</source>
         <extracomment>Time interval. First argument is active period, second argument is inactive period</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>%1／%2</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="329"/>
         <source> (toggles)</source>
         <extracomment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</extracomment>
-        <translation type="unfinished"></translation>
+        <translation> (開關)</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="504"/>
         <source> (%1%)</source>
         <extracomment>Please notice the space in the beginning of translation, and use appropriate separator character in translation</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>（%1%）</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlruleutil.cpp" line="507"/>
@@ -2228,13 +2229,13 @@ Range separator between day start and day end. Notice space separators before an
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="73"/>
         <source>toLowerDirective</source>
         <extracomment>This translation is not shown in UI. It is only used internally to direct whether ProfileMatic lower-case formats summary in the main view where rules are listed. This is 99% of the time what&apos;s wanted. But some languages, such as Germany require some words to always be in upper-case, even if they&apos;re in middle of sentence (nouns). For such languages you can disable lower casing in summaries by translating this value exactly to &apos;noLowerFormat&apos;. For other languages you can put anything else here to mark it as translated.</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>moo</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="302"/>
         <source>, </source>
         <extracomment>This is for separating actions when displaying in main view summary. Please note the space separator at end of translation string.</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>，</translation>
     </message>
     <message>
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="311"/>
@@ -2260,7 +2261,7 @@ Range separator between day start and day end. Notice space separators before an
         <location filename="../src/qmlbackend/qmlrulesmodel.cpp" line="401"/>
         <source>Rule #%1</source>
         <extracomment>This is for assigning automatic rule name if user left rule name field empty when saving the rule. The number is simply the amount of rules already existing</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>規則 #%1</translation>
     </message>
 </context>
 <context>

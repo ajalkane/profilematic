@@ -6,7 +6,7 @@
     <message>
         <location filename="../qml/harmattan/qml/AboutDialog.qml" line="26"/>
         <source>UX design by Dina &amp; Arto Jalkanen</source>
-        <translation>Gestaltung der Oberfläche durch Dina &amp; Arto Jalkanen</translation>
+        <translation>Gestaltung der Benutzeroberfläche durch Dina &amp; Arto Jalkanen</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/AboutDialog.qml" line="28"/>
@@ -145,7 +145,7 @@
     <message>
         <location filename="../qml/harmattan/qml/ActionAlarmAdvanced.qml" line="104"/>
         <source>Hint: ringtones reside in %1. You can use a file manager of your choise to find the exact file name to use for sound.</source>
-        <translation>Hinweis: Töne liegen in %1. Du kannst einen Datei Manager deiner Wahl nutzen um den exakten Namen einer Datei heraus zu finden.</translation>
+        <translation>Hinweis: Töne liegen in %1. Du kannst einen Datei-Manager deiner Wahl nutzen um den exakten Namen einer Datei herauszufinden.</translation>
     </message>
 </context>
 <context>
@@ -272,7 +272,7 @@
     <message>
         <location filename="../qml/harmattan/qml/ActionCellularMode.qml" line="89"/>
         <source>Changes are always delayed until there is no call or data transfer.This is meant to ensure that an ongoing call or file transfer is not aborted because of the change.</source>
-        <translation>Änderungen des Netzmodus werden immer verzögert solange Telefonate oder Datenverbindungen bestehen um diese nicht zu unterbrechen.</translation>
+        <translation>Änderungen des Netzmodus werden immer verzögert solange Telefonate oder Datenverbindungen bestehen, um diese nicht zu unterbrechen.</translation>
     </message>
 </context>
 <context>
@@ -495,7 +495,7 @@
         <location filename="../qml/harmattan/qml/ActionFlightMode.qml" line="89"/>
         <source>Warning: in Flight mode connections are not used. Therefore using conditions that rely on WLAN or location can not work to switch flight mode off. Instead, use time based conditions.</source>
         <translation>Hinweis: im Flugmodus werden alle Verbindungen abgebaut. 
-Deshalb funktionieren Bedingungen zur Ortsermittlung per WLAN nicht, bis der  Flugmodus wieder deaktiviert wird. Nutze stattdessen besser zeitgebundene Bedingungen.</translation>
+Deshalb funktionieren Bedingungen zur Ortsermittlung per WLAN nicht, bis der  Flugmodus wieder deaktiviert wird.  Stattdessen besser zeitgebundene Bedingungen nutzen.</translation>
     </message>
 </context>
 <context>
@@ -675,7 +675,7 @@ Deshalb funktionieren Bedingungen zur Ortsermittlung per WLAN nicht, bis der  Fl
     <message>
         <location filename="../qml/harmattan/qml/ActionProfile.qml" line="114"/>
         <source>If you activate restore previous profile, ProfileMatic will set back the profile that was selected before this rule was activated. If you don&apos;t activate restore previous profile, the latest profile will run. E.g. phone set to silent by this rule will remain silent until you decide to make changes or another rule that sets profile becomes valid.</source>
-        <translation>Wenn du &apos;Profil wiederherstellen&apos; aktivierst wird ProfileMatic beim Deaktivieren der Regel auf die Einstellungen z.B. des vorher aktiven Profils zurückstellen. Ansonsten bleiben die Einstellungen dieses Profils erhalten. D.h. wenn Lautlos durch diese Regel gesetzt wurde, wird das Profil auf Lautlos bleiben, bis du oder eine andere Regel dies ändern.</translation>
+        <translation>Aktiviert man &apos;Profil wiederherstellen&apos;  wird ProfileMatic beim Deaktivieren der Regel auf die Einstellungen z.B. des vorher aktiven Profils zurückstellen. Ansonsten bleiben die Einstellungen dieses Profils erhalten. D.h. wenn Lautlos durch diese Regel gesetzt wurde, wird das Profil auf Lautlos bleiben, bis eine andere Regel oder der Benutzer selbst dies ändern.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ActionProfile.qml" line="127"/>
@@ -850,7 +850,7 @@ Deshalb funktionieren Bedingungen zur Ortsermittlung per WLAN nicht, bis der  Fl
     <message>
         <location filename="../qml/harmattan/qml/ConditionBatteryLevel.qml" line="76"/>
         <source>This condition can be used to activate actions when battery level of the device is within specified range.</source>
-        <translation>Diese Bedingung kann genutzt werden um Aktionen beim erreichen eines gewählten Ladezustands auszuführen.</translation>
+        <translation>Diese Bedingung kann genutzt werden um Aktionen beim Erreichen eines gewählten Ladezustands auszuführen.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionBatteryLevel.qml" line="85"/>
@@ -885,9 +885,9 @@ Deshalb funktionieren Bedingungen zur Ortsermittlung per WLAN nicht, bis der  Fl
         <source>Keywords in the fields are used to match calendar entries. Condition matches a calendar entry if all fields set here match it. At least one field must be set for the condition to be usable.
 
 Comma (,) is used to separate keywords in a field. Any keyword separated by comma that is found in the calendar field will match. Matching is case insensitive.</source>
-        <translation>Die Stichwörter in den Feldern werden mit Kalendereinträgen verglichen. Die Bedingung wird positiv gewertet, falls alle hier gesetzten Felder übereinstimmen. Mindestens eines der Felder muss gesetzt sein, damit die Bedingung gespeichert werden kann.⏎
+        <translation>Die Stichwörter in den Feldern werden mit Kalendereinträgen verglichen. Die Bedingung trifft zu, falls alle hier gesetzten Felder übereinstimmen. Mindestens eines der Felder muss gesetzt sein, damit die Bedingung gespeichert werden kann.⏎
 ⏎
-Trenne mehrere Stichwörter mit Komma (,). Es reicht wenn eines übereinstimmt. Vergleiche werden unabhängig von der Groß-/Kleinschreibung getätigt.</translation>
+Mehrere Stichwörter sind durch Kommata (,) zu trennen, eine Übereinstimmung genügt. Vergleiche werden unabhängig von der Groß-/Kleinschreibung getätigt.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionCalendar.qml" line="64"/>
@@ -977,7 +977,7 @@ Trenne mehrere Stichwörter mit Komma (,). Es reicht wenn eines übereinstimmt. 
     <message>
         <location filename="../qml/harmattan/qml/ConditionIdle.qml" line="53"/>
         <source>Specify the amount of time in minutes that the device has to be in idle mode until this rule is activated. Device goes into idle if user does not do anything for a while (about 30 seconds). Idle mode is exited when lock screen is deactivated.</source>
-        <translation>Gib die Zeitspanne in Minuten an, die das Gerät im Leerlauf verbringen muß, bis die Regel aktiviert wird. Das  Gerät verfällt in den Leerlauf wenn der Benutzer ca. 30 s keine Eingaben tätigt. Der Leerlauf endet wenn der Sperrbildschirm deaktiviert wird.</translation>
+        <translation>Gibt die Zeitspanne in Minuten an, die das Gerät im Leerlauf verbringen muß, bis die Regel aktiviert wird. Das  Gerät verfällt in den Leerlauf, wenn der Benutzer ca. 30 s keine Eingaben tätigt. Der Leerlauf endet, wenn der Sperrbildschirm deaktiviert wird.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionIdle.qml" line="60"/>
@@ -1069,7 +1069,7 @@ Trenne mehrere Stichwörter mit Komma (,). Es reicht wenn eines übereinstimmt. 
     <message>
         <location filename="../qml/harmattan/qml/ConditionLocation.qml" line="206"/>
         <source>&lt;b&gt;Did you know?&lt;/b&gt;&lt;p&gt;Location by mobile cell ids comes free from your operator and does not drain battery, unlike GPS.&lt;p&gt;&lt;b&gt;How does it work?&lt;/b&gt;&lt;p&gt;Let&apos;s say you want to silence your phone in - and near - your office. First, go to the office and press &apos;start collecting&apos;. If it&apos;s a larger area, walk around the office a bit. Five minutes or so should do it. Press &apos;Stop collecting&apos;. Now we have the desired location. &lt;p&gt;The program saves and stores the location only if you save the rule. If you delete the rule or press &apos;Cancel&apos;, all the location info will be discarded.&lt;p&gt;&lt;b&gt;Several different settings at the same location?&lt;/b&gt;&lt;p&gt;Create a new rule by copying an existing one from the main menu (long press on a rule), so the location info will be copied as well. Then change rest of the conditions and actions as you want, and Bob&apos;s your uncle.&lt;p&gt;&lt;b&gt;Please note:&lt;/b&gt;&lt;ul&gt;&lt;li&gt; The cell id depends on the network your phone uses. For example, if you use both GSM and 3G,you should collect the cell ids using both mobile network modes. When &apos;collecting&apos; is on, switch between the networks or select a dual mode. &lt;li&gt;Cell id technology can&apos;t be used for a very exact location.&lt;/ul&gt;</source>
-        <translation>&lt;b&gt;Wusstest du?&lt;/b&gt;&lt;p&gt;Ortsdetektierung durch Cell Ids wird durch den Betreiber des Mobilfunnetzes bereitgestellt und verschwendet  im Gegensatz zu GPS nicht die Batterie.&lt;/p&gt;&lt;b&gt;Wie funktioniert das?&lt;/b&gt;&lt;p&gt;Wir wollen z.B. im Büro und in dessen Nähe das Telefon leise stellen. Dazu drückst du wenn du im Büro bist &apos;Sammeln starten&apos;. Ist dein Büro ein größerer Bereich, so gehe mit dem Telefon darin umher. Fünf Minuten sollten dafür ausreichen. Drücke danach &apos;Sammeln beenden&apos;. Damit ist der gewünschte Ort festgelegt.&lt;/p&gt;&lt;p&gt;Das Programm speichert diesen neuen Ort nur zusammen mit dieser Regel. Wenn du die Regel löschst oder &apos;Abbrechen&apos; drückst, werden alle neuen Ortsinformationen verworfen.&lt;/p&gt;&lt;b&gt;Verschiedene Aktionen am selben Ort?&lt;/b&gt;&lt;p&gt;Erzeuge eine neue Regel durch Kopieren einer bestehenden aus dem Hauptmenü heraus (lange auf die Regel drücken), damit die Ortskoordinaten dupliziert werden. Ändere dann die restlichen nötigen Bedigungen und voila.&lt;/p&gt;&lt;b&gt;Bitte beachte:&lt;/b&gt;&lt;ul&gt;&lt;li&gt; Die Cell Id bekommt das Telefon vom gerade genutzten Netz. Nutzt du z.B. immer GSM and 3G gleichzeitig (Dual), solltest du auch für beide Netze Cell Ids sammeln. When das Sammeln aktiv ist, wechsle zwischen beiden Netzen (besser) oder verwende den Dual-Modus (braucht länger dafür). &lt;li&gt;Die Ortung per Cell Id ist zur exakten Positionierung ungeeignet.&lt;/ul&gt;</translation>
+        <translation>&lt;b&gt;Schon bekannt?&lt;/b&gt;&lt;p&gt;Ortsdetektierung durch Cell Ids wird durch den Betreiber des Mobilfunnetzes bereitgestellt und schont  im Gegensatz zu GPS die Batterie.&lt;/p&gt;&lt;b&gt;Funktionsweise&lt;/b&gt;&lt;p&gt;Z.B. soll sich im Büro und in dessen Nähe das Telefon leise stellen. Dazu wählt man vorort im Büro &apos;Sammeln starten&apos;. Ist das Büro ein größerer Bereich, so geht man mit dem Telefon darin umher. Fünf Minuten sollten dafür ausreichen.  Zum Abschluß drückt man &apos;Sammeln beenden&apos;. Damit ist der gewünschte Ort festgelegt.&lt;/p&gt;&lt;p&gt;Das Programm speichert diesen neuen Ort nur zusammen mit dieser Regel. Wird jedoch die Regel gelöscht oder &apos;Abbrechen&apos; ausgewählt, so werden alle neuen Ortsinformationen verworfen.&lt;/p&gt;&lt;b&gt;Verschiedene Aktionen am selben Ort?&lt;/b&gt;&lt;p&gt; Einfach aus dem Hauptmenü heraus (lange auf die Regel drücken) eine neue Regel durch Kopieren einer bestehenden erzeugen , damit die Ortskoordinaten dupliziert werden. Dann die restlichen nötigen Bedigungen ändern und voila.&lt;/p&gt;&lt;b&gt;Bitte beachten:&lt;/b&gt;&lt;ul&gt;&lt;li&gt; Die Cell Id bekommt das Telefon vom gerade genutzten Netz. Nutzt man z.B. immer GSM and 3G gleichzeitig (Dual), sollte man auch für beide Netze Cell Ids sammeln. Um aktiv zu sammeln, wechselt man zwischen beiden Netzen (besser) oder verwendet den Dual-Modus (benötigt länger dafür). &lt;li&gt;Die Ortung per Cell Id ist zur exakten Positionierung ungeeignet.&lt;/ul&gt;</translation>
     </message>
 </context>
 <context>
@@ -1082,7 +1082,7 @@ Trenne mehrere Stichwörter mit Komma (,). Es reicht wenn eines übereinstimmt. 
     <message>
         <location filename="../qml/harmattan/qml/ConditionNFC.qml" line="37"/>
         <source>You have not enabled NFC. To use NFC rules you must enable NFC from device settings. Also you can&apos;t collect NFC tags here without enabling NFC tags from the settings.</source>
-        <translation>Du hast NFC nicht aktiviert. Um NFC basierte Regeln zu verwenden musst du NFC in den Geräte Einstellungen einschalten. </translation>
+        <translation>NFC ist nicht aktiviert. Um NFC basierte Regeln zu verwenden muss NFC in den Geräte- Einstellungen aktiviert werden. </translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionNFC.qml" line="40"/>
@@ -1097,7 +1097,7 @@ Trenne mehrere Stichwörter mit Komma (,). Es reicht wenn eines übereinstimmt. 
     <message>
         <location filename="../qml/harmattan/qml/ConditionNFC.qml" line="98"/>
         <source>Bring NFC tag close to the phone to add it to tags that are matched by this rule</source>
-        <translation>Berühre einen NFC Tag mit dem Telefon um ihn hinzuzufügen.</translation>
+        <translation>NFC Tag auf Telefon auflegen um ihn der Regel hinzuzufügen.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionNFC.qml" line="112"/>
@@ -1314,7 +1314,7 @@ Die Regel wird alternierend aktiv/inaktiv, abhängig von den spezifizierten Para
     <message>
         <location filename="../qml/harmattan/qml/ConditionWlan.qml" line="117"/>
         <source>This condition can be used to activate a rule when connected to WLAN. Add the desired WLAN when connected to it.</source>
-        <translation>Diese Bedingung kann genutzt werden um eine Regel zu aktivieren, wenn das Telefon in ein bestimmtes WLAN eingewählt ist. Gewünschte WLAN Netze eintragen wenn mit ihnen verbunden. </translation>
+        <translation>Diese Bedingung kann genutzt werden um eine Regel zu aktivieren, wenn das Telefon in ein bestimmtes WLAN eingewählt ist. Gewünschtes WLAN Netz eintragen wenn gerade mit ihm verbunden. </translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ConditionWlan.qml" line="124"/>
@@ -1359,7 +1359,7 @@ Die Regel wird alternierend aktiv/inaktiv, abhängig von den spezifizierten Para
     <message>
         <location filename="../qml/harmattan/qml/ConditionWlan.qml" line="214"/>
         <source>Use WLAN timeout if your connection to the WLAN is weak. When timeout is set, WLAN is considered active after losing connection for as many seconds as specified. </source>
-        <translation>Nutze das Zeitlimit um die Regel für eine gewählte Zeit nach verlassen des WLANs aktiv zu halten. Nützlich wenn das WLAN schwach ist und die Verbindung teilweise abbricht.</translation>
+        <translation>Zeitspanne eintragen, um die Regel für die gewählte Zeit ungeachtet  schwachen WLAN-Empfangs oder abbrechender Verbindung aktiv zu halten.</translation>
     </message>
 </context>
 <context>
@@ -1557,78 +1557,78 @@ Die Regel wird alternierend aktiv/inaktiv, abhängig von den spezifizierten Para
         <translation>Wähle Bedingung</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="195"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="198"/>
         <source>Select action</source>
         <translation>Wähle Aktion</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>New rule</source>
         <translation>Neue Regel</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>Default rule</source>
         <translation>Standard Regel</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="221"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="226"/>
         <source>Edit rule</source>
         <translation>Regel bearbeiten</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="232"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="237"/>
         <source>Activates specified actions if no other rule with matching conditions has the action specified. Note: if a regular rule has &apos;restore previous&apos; in its action, it overrides default rules action.</source>
         <translation>Aktiviert die gewählten Aktionen wenn keine andere Regel zutrifft.
 Hinweis: wenn eine &apos;normale&apos; Regel &apos;Vorherige wiederherstellen&apos; aktiviert hat wird dies die hier gewählte Aktion überschreiben.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="238"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="243"/>
         <source>This rule is not active. You can reactivate this rule from menu. Changes won&apos;t be activated before saving.</source>
         <translation>Diese Regel ist deaktiviert. Du kannst sie im Menü reaktivieren. Änderungen werden vor dem Speichern nicht aktiviert.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="244"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="249"/>
         <source>If this rule matches, following rules are skipped.</source>
         <translation>Wenn diese Regel aktiviert wird werden die folgenden Regeln übersprungen.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="248"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="253"/>
         <source>Rule name</source>
         <translation>Regelname</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="249"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="254"/>
         <source>Auto-generated</source>
         <translation>Automatisch generiert</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="260"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="265"/>
         <source>Condition</source>
         <translation>Bedingung</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="290"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="295"/>
         <source>More conditions</source>
         <translation>Mehr Bedingungen</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="302"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="307"/>
         <source>Action</source>
         <translation>Aktion</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="331"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="336"/>
         <source>More actions</source>
         <translation>Mehr Aktionen</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="362"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="367"/>
         <source>Clear %1</source>
         <translation>Lösche %1</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/qml/EditRule.qml" line="390"/>
+        <location filename="../qml/harmattan/qml/EditRule.qml" line="395"/>
         <source>Can&apos;t be used as a rule yet. Specify at least one condition, and an action.</source>
         <translation>Kann noch nicht als Regel verwendet werden. Füge mindestens eine Aktion und eine Bedingung hinzu.</translation>
     </message>
@@ -2303,7 +2303,7 @@ Wenn das Problem weiterhin besteht, versuche es mit einem Neustart oder einer Ne
     <message>
         <location filename="../qml/harmattan/qml/ShowRules.qml" line="412"/>
         <source>Blue bar is shown on rules whose conditions match currently. First matching rule is preferred for an action if there are conflicts. Use arrows to change the order of the rules.</source>
-        <translation>Ein blauer Balken wird für momentan aktive Regeln angezeigt. Bei Konflikten zwischen mehreren aktiven Regeln wird die oberste gewählt. Nutze die Pfeile um die Reihenfolge zu ändern.</translation>
+        <translation>Alle momentan aktiven Regeln sind  links mit einem blauen Rand versehen. Bei Konflikten zwischen mehreren aktiven Regeln gewinnt die Anweisung der obersten.  Die Reihenfolge läßt sich mit den Auf- und Ab-Pfeilen  ändern.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/qml/ShowRules.qml" line="419"/>
