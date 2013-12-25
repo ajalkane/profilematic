@@ -72,6 +72,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
         } else if (QLatin1String("-credentialWarning") == argv[1]) {
             qDebug("Displaying credential warning");
             mainQmlFile = QLatin1String("qml/mainCredentialWarning.qml");
+        } else if (QLatin1String("-nokiaStoreWarning") == argv[1]) {
+            qDebug("Displaying credential warning");
+            mainQmlFile = QLatin1String("qml/mainNokiaStoreWarning.qml");
         }
     }
 

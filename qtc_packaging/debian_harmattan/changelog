@@ -1,5 +1,6 @@
 profilematic (2.4.4) unstable; urgency=low
   * Updated translations: German, Italian, Taiwanese
+  * Added warning about Nokia Store updates ending
 
  -- Arto Jalkanen <ajalkane@gmail.com>  Wed, 26 Dec 2013 01:00:00 +0300
 
