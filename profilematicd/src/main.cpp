@@ -39,7 +39,6 @@
 #define CONVERSION_WARNING_CMDLINE "/opt/profilematic/bin/profilematic -conversionWarning"
 #define CREDENTIAL_WARNING_CMDLINE "/opt/profilematic/bin/profilematic -credentialWarning"
 #define MULTIRULE_WARNING_CMDLINE "/opt/profilematic/bin/profilematic -multiRuleWarning"
-#define NOKIASTORE_WARNING_CMDLINE "/opt/profilematic/bin/profilematic -nokiaStoreWarning"
 
 void noLoggingSink(QtMsgType, const char *) {
     // NOP
@@ -111,11 +110,6 @@ int main(int argc, char *argv[])
             QProcess::startDetached(MULTIRULE_WARNING_CMDLINE);
             IFDEBUG(qDebug("Multi-rule warning launched"));
             break;
-        }
-        if (rules_version < 3) {
-            IFDEBUG(qDebug("Launching Nokia Store warning"));
-            QProcess::startDetached(NOKIASTORE_WARNING_CMDLINE);
-            IFDEBUG(qDebug("Nokia Store warning launched"));            ;
         }
     }
 

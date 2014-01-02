@@ -30,9 +30,8 @@
   * 0 <= 1.1.1, before timeEnd
   * 1 = 1.2.0, endTime, default rule, cell tower based location
   * 2 = 1.6.0, multi-rule
-  * 3 = 2.4.4, Last Nokia Store version before updates not allowed
   */
-#define RULES_VERSION 3
+#define RULES_VERSION 2
 
 class Configuration
 {

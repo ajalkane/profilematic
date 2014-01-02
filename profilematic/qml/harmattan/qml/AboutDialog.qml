@@ -27,9 +27,6 @@ MyQueryDialog {
              + "<p>"
              + qsTr("See <a href=\"http://www.kolumbus.fi/~ks2877/profilematic/\">homepage</a> for more tips, sources, donation information, and more.")
              + "<p>"
-             + "<b>Note: Nokia Store stops accepting updates for N9 software after January 1st 2014. All future updates available from "
-             + "<a href=\"https://openrepos.net/content/ajalkane/profilematic\">OpenRepos.net</a></b>"
-             + "<p>"
              + "<small>"
              + "This application is free sofware licenced under the GNU Public License version 3"
              + "</small>"
