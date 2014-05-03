@@ -19,7 +19,7 @@ CONFIG += mobility
 # For switching Dual/2g/3g
 CONFIG += cellular-qt
 # For notifications
-# CONFIG += meegotouch
+CONFIG += meegotouch
 
 PKGCONFIG += gq-gconf
 

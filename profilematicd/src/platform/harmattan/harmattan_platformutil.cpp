@@ -25,6 +25,7 @@
 #include <qmdisplaystate.h>
 #include <RadioAccess>
 #include <QProcess>
+#include <MNotification>
 #include <gconfitem.h>
 
 #include "../calendar/impl/mkcal/calendarmanagermkcal.h"
@@ -279,14 +280,14 @@ HarmattanPlatformUtil::batteryChargingState() const {
 }
 
 void
-HarmattanPlatformUtil::publishNotification(const QString &) {
+HarmattanPlatformUtil::publishNotification(const QString &message) {
 // Forget about this for now... requires libraries that I'm not sure I want to link into for daemon.
 // At least as long as it's only used for "Custom action" which is intended for "advanced usage".
-//    qDebug("HarmattanPlatformUtil::publishNotification publishing notification '%s'", qPrintable(message));
-//    MNotification notification(MNotification::DeviceEvent);
-//    notification.setImage("/usr/share/icons/hicolor/80x80/apps/profilematic80.png");
-//    notification.setBody("message");
-//    notification.publish();
+    qDebug("HarmattanPlatformUtil::publishNotification publishing notification '%s'", qPrintable(message));
+    MNotification notification(MNotification::DeviceEvent, message);
+    notification.setImage("/usr/share/icons/hicolor/80x80/apps/profilematic80.png");
+    notification.setBody("message");
+    notification.publish();
 }
 
 bool
