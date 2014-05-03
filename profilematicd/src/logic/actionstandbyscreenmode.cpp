@@ -50,12 +50,10 @@ ActionStandByScreenMode::activateDifferent(const Rule::IdType &ruleId, const Rul
         _previousSbsmState = PlatformUtil::instance()->standByScreenMode();
         PlatformUtil::instance()->setStandByScreenMode(1);
         IFDEBUG(qDebug("ActionStandByScreenMode::activate StandByScreen enabled"));
-        PlatformUtil::instance()->publishNotification("StandByScreen action enabled");
     } else {
         _previousSbsmState = PlatformUtil::instance()->standByScreenMode();
         PlatformUtil::instance()->setStandByScreenMode(0);
         IFDEBUG(qDebug("ActionStandByScreenMode::activate StandByScreen disabled"));
-        PlatformUtil::instance()->publishNotification("StandByScreen action disabled");
     }
 
     return activated;
