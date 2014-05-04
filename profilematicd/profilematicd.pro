@@ -163,6 +163,13 @@ HEADERS += \
                src/platform/calendar/impl/mkcal/calendarmanagermkcal.cpp
     HEADERS += src/logic/presence/actionpresenceimpl.h \
                src/platform/calendar/impl/mkcal/calendarmanagermkcal.h
+
+    # Notification icon
+    data.files = data/profilematic40.png
+    data.path = /opt/profilematic/data
+
+    INSTALLS += data
+
 } else {
     SOURCES += src/logic/presence/actionpresencestub.cpp
     HEADERS += src/logic/presence/actionpresencestub.h

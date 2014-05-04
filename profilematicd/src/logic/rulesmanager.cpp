@@ -46,6 +46,7 @@ void
 RulesManager::_refresh(bool /*forceActivate*/) {
     IFDEBUG(qDebug("\n\nREFRESH\n\n"));
     _rulesHolder->startRefresh();
+    const QSet<Rule::IdType> previouslyMatchingRuleIds(_matchingRuleIds);
     _matchingRuleIds.clear();
     if (_preferences->isActive) {
         IFDEBUG(qDebug("%s RulesManager::refresh()", qPrintable(QDateTime::currentDateTime().toString())));
@@ -64,7 +65,7 @@ RulesManager::_refresh(bool /*forceActivate*/) {
             IFDEBUG(qDebug() << "\nRulesManager::refresh() considering rule" << rule.getRuleName());
             bool isMatching = _rulesHolder->match(ruleHolder);
             if (isMatching) {
-                _matchRule(ruleHolder);
+                _matchRule(ruleHolder, previouslyMatchingRuleIds);
                 if (rule.getStopIfMatched()) {
                     IFDEBUG(qDebug("RulesManager::refresh(), rule has stopIfMatched, skipping rest"));
                     break;
@@ -74,22 +75,37 @@ RulesManager::_refresh(bool /*forceActivate*/) {
         // Assume default rule is the last one
         const RuleHolder &defaultRuleHolder = _rulesHolder->last();
         // Default rule always matches
-        _matchRule(defaultRuleHolder);
+        _matchRule(defaultRuleHolder, previouslyMatchingRuleIds);
     } else {
         IFDEBUG(qDebug("%s RulesManager::refresh(), ProfileMatic not active", qPrintable(QDateTime::currentDateTime().toString())));
     }
     _rulesHolder->endRefresh();
 
-    // IMPROVE: should emit only if really changed
-    emit matchingRuleIdsChanged(_matchingRuleIds.toList());
+    // Conditionally if has been set in preferences
+    // _notifyOfNewMatchingRules(previouslyMatchingRuleIds);
+
+    if (previouslyMatchingRuleIds != _matchingRuleIds) {
+        emit matchingRuleIdsChanged(_matchingRuleIds.toList());
+    }
 
     IFDEBUG(qDebug("\n\nEND REFRESH\n\n"));
 }
 
 void
-RulesManager::_matchRule(const RuleHolder &ruleHolder) {
+RulesManager::_notifyOfNewMatchingRule(const Rule &rule) {
+    // TODO: translations
+    PlatformUtil::instance()->publishNotification(rule.getRuleName() + " activated");
+}
+
+void
+RulesManager::_matchRule(const RuleHolder &ruleHolder, const QSet<Rule::IdType> &previouslyMatchingRuleIds) {
     _activateRule(ruleHolder);
     _matchingRuleIds << ruleHolder.rule().getRuleId();
+
+    const Rule &rule = ruleHolder.rule();
+    if (!previouslyMatchingRuleIds.contains(rule.getRuleId())) {
+        _notifyOfNewMatchingRule(rule);
+    }
 }
 
 void

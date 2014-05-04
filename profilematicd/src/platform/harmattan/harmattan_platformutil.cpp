@@ -284,9 +284,12 @@ HarmattanPlatformUtil::publishNotification(const QString &message) {
 // Forget about this for now... requires libraries that I'm not sure I want to link into for daemon.
 // At least as long as it's only used for "Custom action" which is intended for "advanced usage".
     qDebug("HarmattanPlatformUtil::publishNotification publishing notification '%s'", qPrintable(message));
-    MNotification notification(MNotification::DeviceEvent, message);
-    notification.setImage("/usr/share/icons/hicolor/80x80/apps/profilematic80.png");
-    notification.setBody("message");
+    MNotification notification(MNotification::DeviceEvent, message, message);
+    // notification.setImage("/usr/share/icons/hicolor/80x80/apps/profilematic80.png");
+    notification.setImage("/opt/profilematic/data/profilematic40.png");
+    // notification.setImage("icon-m-bootloader-warning");
+    // notification.setImage("/usr/share/themes/blanco/meegotouch/icons/icon-m-bootloader-warning");
+    // notification.setBody("message");
     notification.publish();
 }
 

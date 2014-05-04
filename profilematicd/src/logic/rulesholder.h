@@ -88,7 +88,8 @@ public:
 
     inline int size() const { return _ruleHolders.size(); }
     inline const Rule &ruleAt(int i) const { return _ruleHolders.at(i).rule(); }
-    inline const RuleHolder &last() const { return _ruleHolders.last()  ; }
+    inline const RuleHolder &last() const { return _ruleHolders.last() ; }
+    inline int findRuleIndexById(const Rule::IdType &ruleId) const { return _findRuleIndexById(ruleId); }
 
     bool match(const RuleHolder &ruleHolder) const;
     void activate(const RuleHolder &ruleHolder) const;

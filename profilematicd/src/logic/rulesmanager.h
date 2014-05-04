@@ -39,7 +39,8 @@ class RulesManager : public QObject
 
     void _activateRule(const RuleHolder &ruleHolder);
     void _refresh(bool forceActivate);
-    void _matchRule(const RuleHolder &ruleHolder);
+    void _matchRule(const RuleHolder &ruleHolder, const QSet<Rule::IdType> &previouslyMatchingRuleIds);
+    void _notifyOfNewMatchingRule(const Rule &rule);
 
 public:
     RulesManager(RulesHolder *rules,
