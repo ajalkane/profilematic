@@ -41,6 +41,11 @@ Page {
         return instantiateComponent("AboutDialog.qml", {})
     }
 
+    function showPreferences() {
+        var preferencesComponent = instantiateComponent("Preferences.qml", {})
+        pageStack.push(preferencesComponent)
+    }
+
     function instantiateComponent(file, properties) {
         console.log("createComponent", file)
         var component = Qt.createComponent(file)        
@@ -52,9 +57,9 @@ Page {
             console.log("/createObject")
             return comp
         }
-        else
+        else {
             console.log("Error loading component:", component.errorString());
-
+        }
     }
 
     ToolBarLayout {
@@ -85,6 +90,7 @@ Page {
                     backendRulesModel.active = !backendRulesModel.active
                 }
             }
+            MenuItem { text: qsTr("Preferences"); onClicked: showPreferences() }
             MenuItem { text: qsTr("About"); onClicked: loadAboutDialog().open() }
         }
     }
