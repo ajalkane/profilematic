@@ -165,7 +165,7 @@ HEADERS += \
                src/platform/calendar/impl/mkcal/calendarmanagermkcal.h
 
     # Notification icon
-    data.files = data/profilematic40.png
+    data.files = data/profilematic64.png
     data.path = /opt/profilematic/data
 
     INSTALLS += data
