@@ -55,6 +55,7 @@ signals:
     void ruleRemoved(const QString &ruleId);
     void ruleMoved(const QString &ruleId, int toIndex);
     void activeChanged(bool isActive);
+    void notifyOnActivationChanged(bool isActive);
 
     void matchingRuleIdsChanged(const QStringList &ruleIds);
 public slots:
@@ -71,6 +72,8 @@ public slots:
     // Returns true if rules are watched
     bool isActive() const;
     void setActive(bool active);
+    bool isNotifyOnActivation() const;
+    void setNotifyOnActivation(bool active);
 
     bool hasDeviceModeCredential() const;
 

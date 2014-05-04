@@ -43,11 +43,13 @@ class QmlRulesModel: public QAbstractListModel
     Q_PROPERTY(int count READ rowCount NOTIFY sizeChanged)
 
     Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
+    Q_PROPERTY(bool notifyOnActivation READ isNotifyOnActivation WRITE setNotifyOnActivation NOTIFY notifyOnActivationChanged)
     Q_PROPERTY(bool backendError READ backendError NOTIFY backendErrorChanged)
 
     QList<Rule> _rules;
     Rule _editRule;
     bool _isActive;
+    bool _isNotifyOnActivation;
     bool _backendError;
 
     ProfileMaticClient    *_client;
@@ -106,9 +108,14 @@ public:
     Q_INVOKABLE void executeAction(int index) const;
     Q_INVOKABLE inline bool isMissingDeviceModeCredential() const { return _isMissingDeviceModeCredential; }
 
+    // Preferences. IMPROVE: separate class would be better for Preferences
     bool isActive() const;
     void setActive(bool isActive);
+    bool isNotifyOnActivation() const;
+    void setNotifyOnActivation(bool isNotifyOnActivation);
+
     bool backendError() const;
+
     inline QmlConditionEditModel *getConditionEditModel() const { return _conditionEditModel; }
     inline QmlActionEditModel    *getActionEditModel() const { return _actionEditModel; }
 public slots:
@@ -120,9 +127,11 @@ public slots:
     void ruleRemoved(const QString &);
     void ruleMoved(const QString &, int);
     void activeChangedBackend(bool isActive);
+    void notifyOnActivationChangedBackend(bool isActive);
 signals:
     void sizeChanged();
     void activeChanged();
+    void notifyOnActivationChanged();
     void backendErrorChanged();
 };
 

@@ -23,6 +23,7 @@ class Preferences
 {    
 public:
     bool isActive;
+    bool isNotifyOnActivation;
 
     Preferences();
 };

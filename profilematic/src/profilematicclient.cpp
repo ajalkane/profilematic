@@ -40,6 +40,7 @@ ProfileMaticClient::ProfileMaticClient(QObject *parent) :
     connect(dbus_iface, SIGNAL(ruleRemoved(const QString &)), this, SIGNAL(ruleRemoved(const QString &)));
     connect(dbus_iface, SIGNAL(ruleMoved(const QString &, int)), this, SIGNAL(ruleMoved(const QString &, int)));
     connect(dbus_iface, SIGNAL(activeChanged(bool)), this, SIGNAL(activeChanged(bool)));
+    connect(dbus_iface, SIGNAL(notifyOnActivationChanged(bool)), this, SIGNAL(notifyOnActivationChanged(bool)));
 }
 
 ProfileMaticClient::~ProfileMaticClient() {
@@ -132,6 +133,26 @@ ProfileMaticClient::isActive() const {
 void
 ProfileMaticClient::setActive(bool isActive) {
     /*QDBusReply<QList<Rule> > reply = */ dbus_iface->call("setActive", QVariant::fromValue(isActive));
+    /*if (!reply.isValid()) {
+        QDBusError e = reply.error();
+        qDebug("updateRule error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());
+    }*/
+}
+
+bool
+ProfileMaticClient::isNotifyOnAcitvation() const {
+    QDBusReply<bool> reply = dbus_iface->call("isNotifyOnActivation");
+    if (!reply.isValid()) {
+        QDBusError e = reply.error();
+        qDebug("isNotifyOnActivation error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());
+    }
+    return reply.value();
+}
+
+
+void
+ProfileMaticClient::setNotifyOnActivation(bool isNotifyOnActivation) {
+    /*QDBusReply<QList<Rule> > reply = */ dbus_iface->call("setNotifyOnActivation", QVariant::fromValue(isNotifyOnActivation));
     /*if (!reply.isValid()) {
         QDBusError e = reply.error();
         qDebug("updateRule error %s %s %d", qPrintable(e.message()), qPrintable(e.name()), e.type());

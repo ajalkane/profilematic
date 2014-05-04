@@ -212,6 +212,21 @@ ProfileMaticInterface::setActive(bool isActive) {
 }
 
 bool
+ProfileMaticInterface::isNotifyOnActivation() const {
+    return _preferences->isNotifyOnActivation;
+}
+
+void
+ProfileMaticInterface::setNotifyOnActivation(bool isNotifyOnActivation) {
+    if (isNotifyOnActivation != _preferences->isNotifyOnActivation) {
+        IFDEBUG(qDebug("Notify on activation changed to %d", isNotifyOnActivation));
+          _preferences->isNotifyOnActivation = isNotifyOnActivation;
+        emit notifyOnActivationChanged(isNotifyOnActivation);
+        _preferencesChanged();
+    }
+}
+
+bool
 ProfileMaticInterface::hasDeviceModeCredential() const {
     return PlatformUtil::instance()->hasDeviceModeCredential();
 }

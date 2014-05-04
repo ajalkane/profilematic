@@ -42,8 +42,11 @@ public:
     void removeRule(const QString &ruleId);
     void moveRule(const QString &ruleId, int toIndex);
 
+    // Settings: IMPROVE: one method call interface for settings. There's a shared lib in ProfileMatic that could be used for key identifiers for example
     bool isActive() const;
     void setActive(bool isActive);
+    bool isNotifyOnAcitvation() const;
+    void setNotifyOnActivation(bool isActive);
 
     bool hasDeviceModeCredential() const;
 
@@ -58,6 +61,7 @@ signals:
     void ruleRemoved(const QString &ruleId);
     void ruleMoved(const QString &ruleId, int toIndex);
     void activeChanged(bool);
+    void notifyOnActivationChanged(bool);
 
     void matchingRuleIdsChanged(const QStringList &matchingRuleIds);
 public slots:

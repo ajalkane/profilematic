@@ -285,6 +285,7 @@ Configuration::writePreferences(const Preferences &p) {
     QSettings s("ProfileMatic", "preferences");
     s.clear();
     s.setValue("isActive", p.isActive);
+    s.setValue("isNotifyOnActivation", p.isNotifyOnActivation);
 }
 
 void
@@ -293,6 +294,7 @@ Configuration::readPreferences(Preferences &p) {
     // So wrong by the API specifications, but so right by the end results (no, I don't like doing it this way)
     QSettings s("ProfileMatic", "preferences");
     p.isActive = s.value("isActive", true).toBool();
+    p.isNotifyOnActivation = s.value("isNotifyOnActivation", false).toBool();
 }
 
 void

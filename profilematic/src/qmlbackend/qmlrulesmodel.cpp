@@ -25,7 +25,7 @@
 #include "qmlruleutil.h"
 
 QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profilesModel, QObject *parent)
-    : QAbstractListModel(parent), _isActive(false), _backendError(false), _client(client), _profilesModel(profilesModel),
+    : QAbstractListModel(parent), _isActive(false), _isNotifyOnActivation(false), _backendError(false), _client(client), _profilesModel(profilesModel),
       _isMissingDeviceModeCredential(false), _noFormatToLower(false)
 {    
     _roleToProperty[IsDefaultRuleRole]   = "isDefaultRule";
@@ -474,6 +474,25 @@ QmlRulesModel::activeChangedBackend(bool isActive) {
     if (isActive != _isActive) {
         _isActive = isActive;
         emit activeChanged();
+    }
+}
+
+bool
+QmlRulesModel::isNotifyOnActivation() const {
+    return _isNotifyOnActivation;
+}
+
+void
+QmlRulesModel::setNotifyOnActivation(bool isNotifyOnActivation) {
+    // TODO
+    // _client->setActive(isActive);
+}
+
+void
+QmlRulesModel::notifyOnActivationChangedBackend(bool isNotifyOnActivation) {
+    if (isNotifyOnActivation != _isNotifyOnActivation) {
+        _isNotifyOnActivation = isNotifyOnActivation;
+        emit notifyOnActivationChanged();
     }
 }
 

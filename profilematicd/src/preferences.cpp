@@ -19,6 +19,6 @@
 #include "preferences.h"
 
 Preferences::Preferences()
-    : isActive(true)
+    : isActive(true), isNotifyOnActivation(false)
 {
 }
