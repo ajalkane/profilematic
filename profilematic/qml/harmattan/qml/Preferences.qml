@@ -63,13 +63,13 @@ Page {
                 Switch {
                     id: restoreSwitch
                     // TODO
-                    // checked: action.restoreProfile
+                    checked: backendRulesModel.notifyOnActivation
                     anchors.right: ruleActivatedNotificationContainer.right // container.right
                     anchors.top: parent.top
                     anchors.verticalCenter: parent.top
                     onCheckedChanged: {
-                        // TODO
-                        // action.restoreProfile = checked
+                        backendRulesModel.notifyOnActivation = checked
+                        console.debug("notifyOnActivation", backendRulesModel.notifyOnActivation)
                     }
                 }
             }

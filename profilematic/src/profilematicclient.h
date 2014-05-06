@@ -45,7 +45,7 @@ public:
     // Settings: IMPROVE: one method call interface for settings. There's a shared lib in ProfileMatic that could be used for key identifiers for example
     bool isActive() const;
     void setActive(bool isActive);
-    bool isNotifyOnAcitvation() const;
+    bool isNotifyOnActivation() const;
     void setNotifyOnActivation(bool isActive);
 
     bool hasDeviceModeCredential() const;

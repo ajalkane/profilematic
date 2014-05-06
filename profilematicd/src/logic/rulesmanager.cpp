@@ -102,9 +102,11 @@ RulesManager::_matchRule(const RuleHolder &ruleHolder, const QSet<Rule::IdType> 
     _activateRule(ruleHolder);
     _matchingRuleIds << ruleHolder.rule().getRuleId();
 
-    const Rule &rule = ruleHolder.rule();
-    if (!previouslyMatchingRuleIds.contains(rule.getRuleId())) {
-        _notifyOfNewMatchingRule(rule);
+    if (_preferences->isNotifyOnActivation) {
+        const Rule &rule = ruleHolder.rule();
+        if (!previouslyMatchingRuleIds.contains(rule.getRuleId())) {
+            _notifyOfNewMatchingRule(rule);
+        }
     }
 }
 

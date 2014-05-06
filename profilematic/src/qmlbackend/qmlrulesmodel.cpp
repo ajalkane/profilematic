@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProfileMatic.  If not, see <http://www.gnu.org/licenses/>
 **/
+#include <QDebug>
 #include <QVariant>
 #include <QTime>
 #include <QMap>
@@ -45,6 +46,7 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profi
     connect(_client, SIGNAL(ruleRemoved(const QString &)), this, SLOT(ruleRemoved(const QString &)));
     connect(_client, SIGNAL(ruleMoved(const QString &, int)), this, SLOT(ruleMoved(const QString &, int)));
     connect(_client, SIGNAL(activeChanged(bool)), this, SLOT(activeChangedBackend(bool)));
+    connect(_client, SIGNAL(notifyOnActivationChanged(bool)), this, SLOT(notifyOnActivationChangedBackend(bool)));
     connect(_client, SIGNAL(matchingRuleIdsChanged(const QStringList &)), this, SLOT(matchingRuleIdsChanged(const QStringList &)));
 
     _rules = _client->getRules();
@@ -57,6 +59,7 @@ QmlRulesModel::QmlRulesModel(ProfileMaticClient *client, QmlProfilesModel *profi
         _backendError = true;
     }
     _isActive = _client->isActive();
+    _isNotifyOnActivation = _client->isNotifyOnActivation();
     _isMissingDeviceModeCredential = !_client->hasDeviceModeCredential();
     _matchingRuleIds = QSet<Rule::IdType>::fromList(_client->getMatchingRuleIds());
 
@@ -484,12 +487,13 @@ QmlRulesModel::isNotifyOnActivation() const {
 
 void
 QmlRulesModel::setNotifyOnActivation(bool isNotifyOnActivation) {
-    // TODO
-    // _client->setActive(isActive);
+    qDebug() << Q_FUNC_INFO;
+    _client->setNotifyOnActivation(isNotifyOnActivation);
 }
 
 void
 QmlRulesModel::notifyOnActivationChangedBackend(bool isNotifyOnActivation) {
+    qDebug() << Q_FUNC_INFO << isNotifyOnActivation;
     if (isNotifyOnActivation != _isNotifyOnActivation) {
         _isNotifyOnActivation = isNotifyOnActivation;
         emit notifyOnActivationChanged();

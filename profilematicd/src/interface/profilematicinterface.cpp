@@ -218,9 +218,10 @@ ProfileMaticInterface::isNotifyOnActivation() const {
 
 void
 ProfileMaticInterface::setNotifyOnActivation(bool isNotifyOnActivation) {
+    IFDEBUG(qDebug() << Q_FUNC_INFO);
     if (isNotifyOnActivation != _preferences->isNotifyOnActivation) {
         IFDEBUG(qDebug("Notify on activation changed to %d", isNotifyOnActivation));
-          _preferences->isNotifyOnActivation = isNotifyOnActivation;
+        _preferences->isNotifyOnActivation = isNotifyOnActivation;
         emit notifyOnActivationChanged(isNotifyOnActivation);
         _preferencesChanged();
     }

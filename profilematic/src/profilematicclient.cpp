@@ -140,7 +140,7 @@ ProfileMaticClient::setActive(bool isActive) {
 }
 
 bool
-ProfileMaticClient::isNotifyOnAcitvation() const {
+ProfileMaticClient::isNotifyOnActivation() const {
     QDBusReply<bool> reply = dbus_iface->call("isNotifyOnActivation");
     if (!reply.isValid()) {
         QDBusError e = reply.error();
@@ -152,6 +152,7 @@ ProfileMaticClient::isNotifyOnAcitvation() const {
 
 void
 ProfileMaticClient::setNotifyOnActivation(bool isNotifyOnActivation) {
+    qDebug() << Q_FUNC_INFO;
     /*QDBusReply<QList<Rule> > reply = */ dbus_iface->call("setNotifyOnActivation", QVariant::fromValue(isNotifyOnActivation));
     /*if (!reply.isValid()) {
         QDBusError e = reply.error();
