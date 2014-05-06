@@ -93,8 +93,8 @@ RulesManager::_refresh(bool /*forceActivate*/) {
 
 void
 RulesManager::_notifyOfNewMatchingRule(const Rule &rule) {
-    // TODO: translations
-    PlatformUtil::instance()->publishNotification(rule.getRuleName() + " activated");
+    //: Used to show when rule is activated, ie. when rule's conditions match
+    PlatformUtil::instance()->publishNotification(tr("%1 activated").arg(rule.getRuleName()));
 }
 
 void

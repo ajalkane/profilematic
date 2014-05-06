@@ -196,6 +196,7 @@ QString adjustPath(const QString &path)
     qDebug() << Q_FUNC_INFO << "returning default" << path;
     return path;
 }
+
 void setupTranslations(QApplication *app, QTranslator *translator) {
     QString locale = QLocale::system().name();
     QString translationsDir = adjustPath("i18n");

@@ -9,7 +9,7 @@
 // rounding.
 // Now has buffer of 2, since at least on Harmattan the timer seemed to have triggered
 // between day intervals on 23:59:59. Will see if this corrects it.
-// TODO: this depends on value in conditionmanagercalendar.cpp. Make it usable from test.
+// IMPROVE: this depends on value in conditionmanagercalendar.cpp. Make it usable from test.
 #define SECS_TO_BUFFER 2
 
 class MockCalendarManager : public CalendarManager {
