@@ -120,15 +120,15 @@ Item {
 
         Text {
             id: hourText
-            property int hourRadius: parent.width * 0.055
-            property int hourTrackRadius: parent.width * 0.16
+            property int hourRadius: parent.width * 0.0535
+            property int hourTrackRadius: parent.width * 0.168
 
             x: (parent.centerX - hourRadius) + hourTrackRadius
                * Math.cos(timePicker.hours * timePicker.hourGradDelta * (Math.PI / 180) - (Math.PI / 2));
             y: (parent.centerY - hourRadius) + hourTrackRadius
                * Math.sin(timePicker.hours * timePicker.hourGradDelta * (Math.PI / 180) - (Math.PI / 2));
 
-            font.pixelSize: timePicker.width * 0.1
+            font.pixelSize: timePicker.width * 0.09
 
             text: (timePicker.hours < 10 ? "0" : "") + timePicker.hours
         }
@@ -142,7 +142,7 @@ Item {
 
         Text {
             id: minuteText
-            property int minuteRadius: parent.width * 0.055
+            property int minuteRadius: parent.width * 0.0535
             property int minuteTrackRadius: parent.width * 0.38
 
             x: parent.centerX - minuteRadius + minuteTrackRadius
@@ -150,7 +150,7 @@ Item {
             y: parent.centerY - minuteRadius + minuteTrackRadius
                 * Math.sin(timePicker.minutes * timePicker.minuteGradDelta * (Math.PI / 180) - (Math.PI / 2));
 
-            font.pixelSize: timePicker.width * 0.1
+            font.pixelSize: timePicker.width * 0.09
             color: "#CCCCCC"
             text: (timePicker.minutes < 10 ? "0" : "") + timePicker.minutes
         }
