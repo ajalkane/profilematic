@@ -54,6 +54,9 @@ MyQueryDialog {
              + '  <dt>Czech</dt>'
              + '  <dd>Pavel (sanmob)</dd>'
 
+             + '  <dt>Dutch</dt>'
+             + '  <dd>André Koot</dd>'
+
              + '  <dt>Finnish</dt>'
              + '  <dd>Timo Vikman</dd>'
 
