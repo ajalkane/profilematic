@@ -1,4 +1,4 @@
-profilematic (2.4.5) unstable; urgency=low
+profilematic (2.5.0) unstable; urgency=low
   * Option to send notifications when rule is activated
   * Thanks to Lorenzo: tweaks to time picker so that the digits are better in center and font size more like in standard harmattan time picker
   * New translation: Dutch
