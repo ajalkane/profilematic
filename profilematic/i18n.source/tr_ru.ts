@@ -1729,22 +1729,22 @@ Comma (,) is used to separate keywords in a field. Any keyword separated by comm
     <message>
         <location filename="qml/harmattan/qml/Preferences.qml" line="45"/>
         <source>Preferences</source>
-        <translation type="unfinished"/>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="qml/harmattan/qml/Preferences.qml" line="56"/>
         <source>Notification when rule activated</source>
-        <translation type="unfinished"/>
+        <translation>Уведомление при активации правила</translation>
     </message>
     <message>
         <location filename="qml/harmattan/qml/Preferences.qml" line="59"/>
         <source>Notification displayed when rule becomes active.</source>
-        <translation type="unfinished"/>
+        <translation>Показать уведомление при активации правила.</translation>
     </message>
     <message>
         <location filename="qml/harmattan/qml/Preferences.qml" line="60"/>
         <source>Do not show notification when rule is activated.</source>
-        <translation type="unfinished"/>
+        <translation>Не показывать уведомление при активации правила.</translation>
     </message>
 </context>
 <context>
@@ -2287,7 +2287,7 @@ Range separator between day start and day end. Notice space separators before an
         <location filename="../profilematicd/src/logic/rulesmanager.cpp" line="97"/>
         <source>%1 activated</source>
         <extracomment>Used to show when rule is activated, ie. when rule's conditions match</extracomment>
-        <translation type="unfinished"/>
+        <translation>%1 включено.</translation>
     </message>
 </context>
 <context>
@@ -2305,7 +2305,7 @@ Range separator between day start and day end. Notice space separators before an
     <message>
         <location filename="qml/harmattan/qml/ShowRules.qml" line="93"/>
         <source>Preferences</source>
-        <translation type="unfinished"/>
+        <translation>Настройки.</translation>
     </message>
     <message>
         <location filename="qml/harmattan/qml/ShowRules.qml" line="94"/>
